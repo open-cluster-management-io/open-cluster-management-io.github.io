@@ -31,7 +31,12 @@ The managed cluster receives and applies requests, then returns the results.
 
 _application lifecycle_ defines the processes that are used to manage application resources on your managed clusters.
 A multi-cluster application uses a Kubernetes specification, but with additional automation of the deployment and lifecycle management of resources to individual clusters.
-A multi-cluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application.
+A multi-cluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application. The application model and deployment capabilities are designed to unify and simplify the deployment experience for creating and managing your application across all your managed clusters. These are the components to help manage the application:
+- Channel - Resource representing a source repository. Github repository, Helm chart repository, Objectstore with YAML or namespace containing Kubernetes resource templates (deployables)
+- Subscription - Subscribes a repository and delivers kubernetes resources.
+- Placement Rule - Referenced by subscriptions, and supplies the target managed clusters that must subscribe to a channel.
+- HelmRelease - Resource representing a Helm chart deployment.
+
 
 
 ## Governance and risk
