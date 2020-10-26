@@ -1,0 +1,10 @@
+---
+    more:
+      - name: "Github"
+        ref: "https://github.com/open-cluster-management"
+        external: true
+        icon: "github"
+      - name: "Slack"
+        ref: "https://github.com/open-cluster-management"
+        external: true
+        icon: "slack"
