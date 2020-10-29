@@ -17,7 +17,7 @@ Ensure `kubectl` and `kustomize` are installed
 
 Prepare one Kubernetes cluster to function as the hub. 
 
-For example, use `kind` to create a hub cluster. Since by default kind does not expose external accessible address, create a `config.yaml` as below and create the cluster
+For example, use `kind` to create a hub cluster. Since by default kind does not expose external accessible address, create a `config.yaml` as below
 
 ```yaml
 kind: Cluster
@@ -25,6 +25,8 @@ apiVersion: kind.x-k8s.io/v1alpha4
 networking:
   apiServerAddress: <an external accessible address rather than 127.0.0.1>
 ```
+
+Use the config file to create the kind cluster
 
 ```Shell
 kind create cluster --name hub --config config.yaml
