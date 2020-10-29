@@ -53,7 +53,7 @@ If you are using Openshift or have `OLM` installed in your cluster, you are able
 After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will
 be created on the hub.
 
-```
+```Shell
 kubectl config use-context kind-hub
 kubectl get csr
 kubectl get managedcluster
@@ -61,14 +61,50 @@ kubectl get managedcluster
 
 Next approve the csr and set managecluster to be accepted by hub with the following command
 
-```
-kubectl certificate approve {csr name}
-kubectl patch managedcluster {cluster name} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
+```Shell
+kubectl certificate approve {csr name} # or kubectl certificate approve `kubectl get csr | grep cluster1 | awk -F' ' {'print $1'}`
+kubectl patch managedcluster cluster1 -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
 ```
 
 By running `kubectl get managedcluster` on hub cluster, you should be able to see that the cluster is registered
 
-```
+```Shell
 NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 cluster1   true           https://localhost      True     True        7m58s
+```
+
+Create a `manifest-work.yaml` as below
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  name: mw-01
+  namespace: cluster1
+spec:
+  workload:
+    manifests:
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: sample-cm
+          namespace: default
+        data:
+          database: mongodb
+```
+
+Apply the yaml file to the hub
+
+```Shell
+kubectl config use-context kind-hub
+kubectl apply -f manifest-work.yaml
+```
+
+Check on the managed cluster1 and see the _sample-cm_ ConfigMap has been deployed from the hub
+
+```Shell
+$ kubectl config use-context kind-cluster1
+$ kubectl -n default get cm
+NAME        DATA   AGE
+sample-cm   1      13m
 ```
