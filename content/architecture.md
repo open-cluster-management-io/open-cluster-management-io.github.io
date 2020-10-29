@@ -3,7 +3,7 @@ title: Architecture
 weight: -20
 ---
 
-This page tells you the arhitecture and baisc concepts in open-cluster-management.
+This page tells you the architecture and baisc concepts in open-cluster-management.
 
 <!-- spellchecker-disable -->
 
