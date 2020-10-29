@@ -11,11 +11,11 @@ After hub is installed, you could install the klusterlet on another cluster that
 
 <!-- spellchecker-enable -->
 
-## Prerequsite
+## Prerequisite
 
-Ensure kubectl and kustomize are installed
+Ensure `kubectl` and `kustomize` are installed
 
-Prepare another kubernetes clusters working as the managed clusterr. For example, use `kind` to create another clusters as below:
+Prepare another Kubernetes cluster to function as the managed cluster. For example, use `kind` to create another cluster as below:
 
 ```Shell
 kind create cluster --name cluster1
@@ -29,7 +29,7 @@ Clone the `registration-operator`
 git clone https://github.com/open-cluster-management/registration-operator
 ```
 
-Export Kube Config as an environment variable
+Export kubeconfig as an environment variable
 
 ```
 export KUBECONFIG=<home>/.kube/config
@@ -46,11 +46,11 @@ make deploy-spoke
 ```
 
 ## Install from OperatorHub
-If you are using Openshift or have `OLM` installed in your cluster, you are able to install the klusterlet with a released version from operartorhub. Details can be found [here](https://operatorhub.io/operator/klusterlet)
+If you are using Openshift or have `OLM` installed in your cluster, you are able to install the klusterlet with a released version from operator hub. Details can be found [here](https://operatorhub.io/operator/klusterlet)
 
 ## What is next
 
-After a successfull deployment, a `certificatesigningrequest` and a `managedcluster` will
+After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will
 be created on the hub.
 
 ```
@@ -59,7 +59,7 @@ kubectl get csr
 kubectl get managedcluster
 ```
 
-Next approve the csr and set managecluster to be accepcted by hub with the following command
+Next approve the csr and set managecluster to be accepted by hub with the following command
 
 ```
 kubectl certificate approve {csr name}
