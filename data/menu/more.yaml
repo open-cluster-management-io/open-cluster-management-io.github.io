@@ -5,6 +5,6 @@
         external: true
         icon: "github"
       - name: "Slack"
-        ref: "https://github.com/open-cluster-management"
+        ref: "https://coreos.slack.com"
         external: true
         icon: "slack"
