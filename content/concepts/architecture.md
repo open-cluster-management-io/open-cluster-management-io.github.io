@@ -3,7 +3,7 @@ title: Architecture
 weight: -20
 ---
 
-This page tells you the arhitecture and baisc concepts in open-cluster-management.
+This page tells you the architecture and basic concepts in open-cluster-management.
 
 <!-- spellchecker-disable -->
 
@@ -13,7 +13,7 @@ This page tells you the arhitecture and baisc concepts in open-cluster-managemen
 
 ## Hub cluster
 
-The _hub_ cluster is the common term that is used to define the central controller that runs in a kubernetes cluster,
+The _hub_ cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster,
 The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
 
 

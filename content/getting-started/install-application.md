@@ -11,6 +11,13 @@ After hub is installed, you could install the application management components 
 
 <!-- spellchecker-enable -->
 
+## Prerequisite
+
+Ensure `kubectl` and `kustomize` are installed
+
+Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
+
+
 ## Install from source
 Clone the `multicloud-operators-subscription`
 
@@ -26,7 +33,7 @@ kubectl apply -f deploy/standalone
 ```
 
 ## Install from OperatorHub
-If you are using Openshift or have `OLM` installed in your cluster, you are able to install the multicluster subscription operator with a released version from operartorhub. Details can be found [here](https://operatorhub.io/operator/multicluster-operators-subscription)
+If you are using Openshift or have `OLM` installed in your cluster, you are able to install the multicluster subscription operator with a released version from the operator hub. Details can be found [here](https://operatorhub.io/operator/multicluster-operators-subscription)
 
 ## What is next
 
