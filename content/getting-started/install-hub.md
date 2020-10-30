@@ -13,23 +13,13 @@ The are two ways to install the core control plane of open cluster management th
 
 ## Prerequisite
 
-Ensure `kubectl` and `kustomize` are installed
+Ensure `kubectl` and `kustomize` are installed.
 
-Prepare one Kubernetes cluster to function as the hub. 
-
-For example, use `kind` to create a hub cluster. Since by default kind does not expose external accessible address, create a `config.yaml` as below
-
-```yaml
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-networking:
-  apiServerAddress: <an external accessible address rather than 127.0.0.1>
-```
-
-Use the config file to create the kind cluster
+Prepare one Kubernetes cluster to function as the hub. For example, use `kind` to create a hub cluster.
 
 ```Shell
-kind create cluster --name hub --config config.yaml
+kind create cluster --name hub
+kind get kubeconfig --name hub --internal > ~/hub-kubeconfig
 ```
 
 ## Install from source
@@ -44,7 +34,7 @@ Deploy hub
 
 ```Shell
 cd registration-operator
-make deploy-hub
+make deploy-hub # or make deploy-hub GO_REQUIRED_MIN_VERSION:=
 ```
 
 ## Install from OperatorHub

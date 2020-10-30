@@ -13,17 +13,20 @@ After hub is installed, you could install the klusterlet on another cluster that
 
 ## Prerequisite
 
-Ensure `kubectl` and `kustomize` are installed
+Ensure `kubectl` and `kustomize` are installed.
+
+Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
 
 Prepare another Kubernetes cluster to function as the managed cluster. For example, use `kind` to create another cluster as below:
 
 ```Shell
 kind create cluster --name cluster1
+kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 ```
 
 ## Install from source
 
-Clone the `registration-operator`
+If you have not already done so, clone the `registration-operator`.
 
 ```Shell
 git clone https://github.com/open-cluster-management/registration-operator
@@ -32,7 +35,7 @@ git clone https://github.com/open-cluster-management/registration-operator
 Export kubeconfig as an environment variable
 
 ```
-export KUBECONFIG=<home>/.kube/config
+export KUBECONFIG=~/cluster1-kubeconfig
 ```
 
 Deploy agent on managed cluster
@@ -40,9 +43,9 @@ Deploy agent on managed cluster
 ```Shell
 cd registration-operator
 export KIND_CLUSTER=cluster1
-export KLUSTERLET_KUBECONFIG_CONTEXT=kind-cluster1
-kubectl config use-context kind-hub
-make deploy-spoke
+export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
+export KLUSTERLET_KIND_KUBECONFIG=$KUBECONFIG
+make deploy-spoke-kind # or make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:=
 ```
 
 ## Install from OperatorHub
@@ -54,9 +57,15 @@ After a successful deployment, a `certificatesigningrequest` and a `managedclust
 be created on the hub.
 
 ```Shell
-kubectl config use-context kind-hub
-kubectl get csr
-kubectl get managedcluster
+$ export KUBECONFIG=~/.kube/config
+$ kubectl config use-context kind-hub
+$ kubectl get csr
+NAME             AGE   REQUESTOR                       CONDITION
+cluster1-zw6cb   41s   kubernetes-admin                Pending
+csr-vqhnb        76m   system:node:hub-control-plane   Approved,Issued
+$ kubectl get managedcluster
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+cluster1   false          https://localhost                           57s
 ```
 
 Next approve the csr and set managecluster to be accepted by hub with the following command
