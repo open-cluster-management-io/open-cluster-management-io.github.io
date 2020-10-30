@@ -5,6 +5,6 @@
         external: true
         icon: "github"
       - name: "Slack"
-        ref: "https://coreos.slack.com"
+        ref: "TBA"
         external: true
         icon: "slack"
