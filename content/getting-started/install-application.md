@@ -13,7 +13,7 @@ After hub is installed, you could install the application management components 
 
 ## Prerequisite
 
-Ensure `kubectl` and `kustomize` are installed
+Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation/) are installed.
 
 Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
 

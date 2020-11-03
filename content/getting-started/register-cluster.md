@@ -3,7 +3,7 @@ title: Install Klusterlet
 weight: 2
 ---
 
-After hub is installed, you could install the klusterlet on another cluster that registers to the hub.
+After the hub is installed, you need to install the klusterlet on another cluster so that it can be registered and managed by the hub.
 
 <!-- spellchecker-disable -->
 
@@ -13,17 +13,21 @@ After hub is installed, you could install the klusterlet on another cluster that
 
 ## Prerequisite
 
-Ensure `kubectl` and `kustomize` are installed
+Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation/) are installed.
 
-Prepare another Kubernetes cluster to function as the managed cluster. For example, use `kind` to create another cluster as below:
+Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
+
+Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) to create another cluster as below:
 
 ```Shell
+# kind delete cluster --name cluster1 # if the kind cluster is previously created and can be safely deleted
 kind create cluster --name cluster1
+kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 ```
 
 ## Install from source
 
-Clone the `registration-operator`
+If you have not already done so, clone the `registration-operator`.
 
 ```Shell
 git clone https://github.com/open-cluster-management/registration-operator
@@ -32,7 +36,7 @@ git clone https://github.com/open-cluster-management/registration-operator
 Export kubeconfig as an environment variable
 
 ```
-export KUBECONFIG=<home>/.kube/config
+export KUBECONFIG=~/cluster1-kubeconfig
 ```
 
 Deploy agent on managed cluster
@@ -40,9 +44,9 @@ Deploy agent on managed cluster
 ```Shell
 cd registration-operator
 export KIND_CLUSTER=cluster1
-export KLUSTERLET_KUBECONFIG_CONTEXT=kind-cluster1
-kubectl config use-context kind-hub
-make deploy-spoke
+export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
+export KLUSTERLET_KIND_KUBECONFIG=$KUBECONFIG
+make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
 ## Install from OperatorHub
@@ -54,15 +58,21 @@ After a successful deployment, a `certificatesigningrequest` and a `managedclust
 be created on the hub.
 
 ```Shell
-kubectl config use-context kind-hub
-kubectl get csr
-kubectl get managedcluster
+$ export KUBECONFIG=~/.kube/config
+$ kubectl config use-context kind-hub
+$ kubectl get csr
+NAME             AGE   REQUESTOR                       CONDITION
+cluster1-zw6cb   41s   kubernetes-admin                Pending
+csr-vqhnb        76m   system:node:hub-control-plane   Approved,Issued
+$ kubectl get managedcluster
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+cluster1   false          https://localhost                           57s
 ```
 
 Next approve the csr and set managecluster to be accepted by hub with the following command
 
 ```Shell
-kubectl certificate approve {csr name} # or kubectl certificate approve `kubectl get csr | grep cluster1 | awk -F' ' {'print $1'}`
+kubectl certificate approve {csr name} # kubectl certificate approve `kubectl get csr | grep cluster1 | awk -F' ' {'print $1'}` # if you have trouble determining the csr name
 kubectl patch managedcluster cluster1 -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
 ```
 
@@ -84,13 +94,17 @@ metadata:
 spec:
   workload:
     manifests:
-      - apiVersion: v1
-        kind: ConfigMap
-        metadata:
-          name: sample-cm
-          namespace: default
-        data:
-          database: mongodb
+    - apiVersion: v1
+      kind: Pod
+      metadata:
+        name: hello
+        namespace: default
+      spec:
+        containers:
+        - name: hello
+          image: busybox
+          command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 3600']
+        restartPolicy: OnFailure
 ```
 
 Apply the yaml file to the hub
@@ -98,13 +112,14 @@ Apply the yaml file to the hub
 ```Shell
 kubectl config use-context kind-hub
 kubectl apply -f manifest-work.yaml
+kubectl -n cluster1 get manifestwork/mw-01 -o yaml
 ```
 
-Check on the managed cluster1 and see the _sample-cm_ ConfigMap has been deployed from the hub
+Check on the managed _cluster1_ and see the _hello_ Pod has been deployed from the hub
 
 ```Shell
 $ kubectl config use-context kind-cluster1
-$ kubectl -n default get cm
-NAME        DATA   AGE
-sample-cm   1      13m
+$ kubectl -n default get pod
+NAME    READY   STATUS    RESTARTS   AGE
+hello   1/1     Running   0          108s
 ```
