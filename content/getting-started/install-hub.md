@@ -13,9 +13,11 @@ The are two ways to install the core control plane of open cluster management th
 
 ## Prerequisite
 
-Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation/) are installed.
+Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) to create a hub cluster.
+Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. 
+
+For `kind`, you must use version [v0.7.0](https://github.com/kubernetes-sigs/kind/releases/tag/v0.7.0) and you must have [docker](https://docs.docker.com/get-started) installed and running.
 
 ```Shell
 # kind delete cluster --name hub # if the kind cluster is previously created and can be safely deleted
@@ -29,6 +31,12 @@ Clone the `registration-operator`
 
 ```Shell
 git clone https://github.com/open-cluster-management/registration-operator
+```
+
+Export kubeconfig as an environment variable
+
+```
+export KUBECONFIG=~/hub-kubeconfig
 ```
 
 Deploy hub
