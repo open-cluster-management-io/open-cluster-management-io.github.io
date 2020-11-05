@@ -15,6 +15,8 @@ After the hub is installed, you need to install the klusterlet on another cluste
 
 Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
+Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
+
 Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
 
 Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as below.
