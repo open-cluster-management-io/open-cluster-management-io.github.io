@@ -35,10 +35,10 @@ Clone the `registration-operator`
 git clone https://github.com/open-cluster-management/registration-operator
 ```
 
-Export kubeconfig as an environment variable
+Export the soon-to-be hub kube config as an environment variable
 
-```
-export KUBECONFIG=~/hub-kubeconfig
+```Shell
+export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
 ```
 
 Deploy hub

@@ -37,18 +37,18 @@ If you have not already done so, clone the `registration-operator`.
 git clone https://github.com/open-cluster-management/registration-operator
 ```
 
-Export kubeconfig as an environment variable
+Export the soon-to-be managed cluster kube config as an environment variable
 
-```
-export KUBECONFIG=~/cluster1-kubeconfig
+```Shell
+export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
 ```
 
-Deploy agent on managed cluster
+Deploy agent on a managed `kind` cluster
 
 ```Shell
 cd registration-operator
-export KIND_CLUSTER=cluster1
-export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
+export KIND_CLUSTER=<managed cluster name> # export KIND_CLUSTER=cluster1
+export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
 export KLUSTERLET_KIND_KUBECONFIG=$KUBECONFIG
 make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
@@ -62,29 +62,28 @@ After a successful deployment, a `certificatesigningrequest` and a `managedclust
 be created on the hub.
 
 ```Shell
-$ export KUBECONFIG=~/.kube/config
-$ kubectl config use-context kind-hub
+$ export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
 $ kubectl get csr
-NAME             AGE   REQUESTOR                       CONDITION
-cluster1-zw6cb   41s   kubernetes-admin                Pending
-csr-vqhnb        76m   system:node:hub-control-plane   Approved,Issued
+NAME                              AGE   REQUESTOR                       CONDITION
+<managed cluster name>-<suffix>   41s   kubernetes-admin                Pending
+csr-<suffix>                      76m   system:node:hub-control-plane   Approved,Issued
 $ kubectl get managedcluster
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-cluster1   false          https://localhost                           57s
+NAME                    HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+<managed cluster name>  false          https://localhost                           57s
 ```
 
-Next approve the csr and set managecluster to be accepted by hub with the following command
+Next approve the certificate and set managecluster to be accepted by hub with following commands
 
 ```Shell
-kubectl certificate approve {csr name} # kubectl certificate approve `kubectl get csr | grep cluster1 | awk -F' ' {'print $1'}` # if you have trouble determining the csr name
-kubectl patch managedcluster cluster1 -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
+kubectl certificate approve {csr name}
+kubectl patch managedcluster {managed cluster name} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
 ```
 
-By running `kubectl get managedcluster` on hub cluster, you should be able to see that the cluster is registered
+Run `kubectl get managedcluster` again on hub cluster, you should be able to see that the cluster is registered
 
 ```Shell
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-cluster1   true           https://localhost      True     True        7m58s
+NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+<managed cluster name>   true           https://localhost      True     True        7m58s
 ```
 
 Create a `manifest-work.yaml` as below
@@ -94,7 +93,7 @@ apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
 metadata:
   name: mw-01
-  namespace: cluster1
+  namespace: <managed cluster name> # cluster1
 spec:
   workload:
     manifests:
@@ -114,15 +113,14 @@ spec:
 Apply the yaml file to the hub
 
 ```Shell
-kubectl config use-context kind-hub
 kubectl apply -f manifest-work.yaml
-kubectl -n cluster1 get manifestwork/mw-01 -o yaml
+kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cluster1 get manifestwork/mw-01 -o yaml
 ```
 
-Check on the managed _cluster1_ and see the _hello_ Pod has been deployed from the hub
+Check on the managed cluster and see the _hello_ Pod has been deployed from the hub
 
 ```Shell
-$ kubectl config use-context kind-cluster1
+$ export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
 $ kubectl -n default get pod
 NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   0          108s
