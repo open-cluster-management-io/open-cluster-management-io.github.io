@@ -23,13 +23,13 @@ The _klusterlet_ is an agent running on the cluster managed by the hub.
 
 ## Managed cluster
 
-The managed cluster is the term that is used to define additional clusters with the Klusterlet, which is the agent that initiates a connection to hub cluster.
+The _managed cluster_ is the term that is used to define additional clusters with the Klusterlet, which is the agent that initiates a connection to hub cluster.
 The managed cluster receives and applies requests, then returns the results.
 
 
-## Application lifecycle
+## Application lifecycle (work in progress)
 
-_application lifecycle_ defines the processes that are used to manage application resources on your managed clusters.
+The _application lifecycle_ defines the processes that are used to manage application resources on your managed clusters.
 A multi-cluster application uses a Kubernetes specification, but with additional automation of the deployment and lifecycle management of resources to individual clusters.
 A multi-cluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application. The application model and deployment capabilities are designed to unify and simplify the deployment experience for creating and managing your application across all your managed clusters. These are the components to help manage the application:
 - Channel - Resource representing a source repository. Github repository, Helm chart repository, Objectstore with YAML or namespace containing Kubernetes resource templates (deployables)
@@ -38,7 +38,7 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 - HelmRelease - Resource representing a Helm chart deployment.
 
 
-## Governance and risk
+## Governance and risk (work in progress)
 
-Governance and risk is the term used to define the processes that are used to manage security and compliance from a central interface page.
+The _governance and risk_ is the term used to define the processes that are used to manage security and compliance from a central interface page.
 After you configure a hub cluster and a managed cluster, you can create, modify and delete policies on the hub and have them applied to the managed cluster.
