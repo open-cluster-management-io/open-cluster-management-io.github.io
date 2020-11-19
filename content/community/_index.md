@@ -28,4 +28,4 @@ TBD
 
 # Mailing group
 
-Joing the community [mailing group](https://groups.google.com/forum/#!forum/open-cluster-management@googlegroups.com)
+Joing the community [mailing group](open-cluster-management@googlegroup.com )
