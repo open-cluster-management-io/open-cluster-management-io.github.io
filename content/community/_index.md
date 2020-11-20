@@ -3,7 +3,7 @@ title: Community
 weight: 3
 ---
 
-Welcome to the Open Cluster Management community. We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the [Community repo](https://github.com/open-cluster-management/community).
+Welcome to the Open Cluster Management community! We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the [Community repo](https://github.com/open-cluster-management/community).
 
 # [Github Project](https://github.com/open-cluster-management)
 
@@ -28,4 +28,4 @@ Look for more information here soon.
 
 # Mailing group
 
-Joing the community [mailing group](open-cluster-management@googlegroup.com )
+Joing the community [mailing group](open-cluster-management@googlegroup.com).
