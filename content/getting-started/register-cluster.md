@@ -47,9 +47,9 @@ Deploy agent on a managed `kind` cluster
 
 ```Shell
 cd registration-operator
-export KIND_CLUSTER=<managed cluster name> # export KIND_CLUSTER=cluster1
-export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
 export KLUSTERLET_KIND_KUBECONFIG=$KUBECONFIG
+export KIND_CLUSTER=<managed cluster name> # export KIND_CLUSTER=cluster1
+export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
 make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
