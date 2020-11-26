@@ -1,25 +1,23 @@
 #!/bin/sh
+set -e -x
 
-# If a command fails then the deploy stops
-set -e
+OUTPUT=/tmp/open-cluster-management.github.io
 
-printf "Deploying updates to open-cluster-management.github.io"
+COMMIT_ID=$(git rev-parse --short HEAD)
 
-# Build the project.
-hugo # if using a theme, replace with `hugo -t <YOURTHEME>`
+rm -rf $OUTPUT 
 
-# Go To Public folder
-cd public
+git clone ssh://git@github.com/open-cluster-management/open-cluster-management.github.io $OUTPUT 
 
-# Add changes to git.
-git add .
+# prune old stuff (remove files which may go out)
+rm -rf $OUTPUT/*
 
-# Commit changes.
-msg="rebuilding site $(date)"
-if [ -n "$*" ]; then
-	msg="$*"
-fi
-git commit -m "$msg"
+# copy new content
+cp -rf output/* $OUTPUT
 
-# Push source and build repos.
-git push origin main
+echo "open-cluster-management.github.io" > ${OUTPUT}/CNAME
+
+cd $OUTPUT
+git add **
+git commit -a -m "Updated website from open-cluster-management/website ${COMMIT_ID}"
+git push

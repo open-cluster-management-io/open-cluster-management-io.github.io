@@ -1,4 +1,0 @@
-[submodule "public"]
-	path = public
-	url = git@github.com:open-cluster-management/open-cluster-management.github.io.git
-	branch = main
