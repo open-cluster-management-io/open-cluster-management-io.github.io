@@ -27,11 +27,21 @@ Clone the `multicloud-operators-subscription`
 git clone https://github.com/open-cluster-management/multicloud-operators-subscription
 ```
 
-Deploy a stand-alone subscription operator
+Deploy subscription operators to the hub
 
 ```Shell
+export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
 cd multicloud-operators-subscription
-kubectl apply -f deploy/standalone
+make deploy-community-hub
+```
+
+Deploy subscription operators to managed cluster(s)
+
+```Shell
+export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
+export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
+export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+make deploy-community-managed
 ```
 
 ## Install from OperatorHub
@@ -42,8 +52,19 @@ If you are using Openshift or have `OLM` installed in your cluster, you are able
 After a successfull deployment, test the subscription operator with a `helm` subscription
 
 ```Shell
-kubectl apply -f examples/helmrepo-channel
-kubectl patch subscriptions.apps.open-cluster-management.io simple --type='json' -p='[{"op": "replace", "path": "/spec/placement/local", "value": true}]'
-kubectl get appsub/simple -o yaml
+export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
+cd multicloud-operators-subscription
+kubectl apply -f examples/helmrepo-hub-channel
+```
 
+After a while, you should see the subscription propagated to the managed cluster and the helm app installed.
+```Shell
+$ export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
+$ kubectl get appsub 
+NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
+nginx-sub   Subscribed   107m   true  
+$ kubectl get pod
+NAME                                                   READY   STATUS      RESTARTS   AGE
+nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     0          108m
+nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     0          108m
 ```
