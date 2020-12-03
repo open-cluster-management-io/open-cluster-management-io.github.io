@@ -27,7 +27,7 @@ Clone the `multicloud-operators-subscription`
 git clone https://github.com/open-cluster-management/multicloud-operators-subscription
 ```
 
-Deploy subscription operators to the hub
+Deploy subscription operators to the hub cluster.
 
 ```Shell
 export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
@@ -35,7 +35,7 @@ cd multicloud-operators-subscription
 make deploy-community-hub
 ```
 
-Deploy subscription operators to managed cluster(s)
+Deploy subscription operators to managed cluster(s).
 
 ```Shell
 export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
@@ -49,7 +49,7 @@ If you are using Openshift or have `OLM` installed in your cluster, you are able
 
 ## What is next
 
-After a successfull deployment, test the subscription operator with a `helm` subscription
+After a successfull deployment, test the subscription operator with a `helm` subscription. Run the following command:
 
 ```Shell
 export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
@@ -57,7 +57,8 @@ cd multicloud-operators-subscription
 kubectl apply -f examples/helmrepo-hub-channel
 ```
 
-After a while, you should see the subscription propagated to the managed cluster and the helm app installed.
+After a while, you should see the subscription propagated to the managed cluster and the Helm app installed. To confirm, run the following command:
+
 ```Shell
 $ export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
 $ kubectl get appsub 
