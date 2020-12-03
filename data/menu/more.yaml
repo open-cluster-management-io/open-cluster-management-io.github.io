@@ -4,7 +4,3 @@
         ref: "https://github.com/open-cluster-management"
         external: true
         icon: "github"
-      - name: "Slack"
-        ref: "TBA"
-        external: true
-        icon: "slack"
