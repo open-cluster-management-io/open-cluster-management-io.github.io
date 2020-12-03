@@ -7,13 +7,15 @@ Join conversations with the other people who are involved in the creation, maint
 
 ## Get Connected
 
+See the following options to connect with the community:
+
 [GitHub](https://github.com/open-cluster-management)
 
 [Mailing group](open-cluster-management@googlegroup.com)
 
-[Slack](TBA)
+[Slack](Coming soon)
 
-[Community calender](TBA)
+[Community calender](Coming soon)
 
 
 ## Get Involved
