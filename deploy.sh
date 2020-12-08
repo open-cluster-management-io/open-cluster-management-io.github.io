@@ -15,7 +15,7 @@ rm -rf $OUTPUT/*
 # copy new content
 cp -rf output/* $OUTPUT
 
-echo "open-cluster-management.github.io" > ${OUTPUT}/CNAME
+echo "open-cluster-management.io" > ${OUTPUT}/CNAME
 
 cd $OUTPUT
 git add **
