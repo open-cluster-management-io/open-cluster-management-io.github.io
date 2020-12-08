@@ -11,7 +11,7 @@ See the following options to connect with the community:
 
 [GitHub](https://github.com/open-cluster-management)
 
-[Mailing group](open-cluster-management@googlegroup.com)
+[Mailing group](https://groups.google.com/g/open-cluster-management)
 
 [Slack](Coming soon)
 
