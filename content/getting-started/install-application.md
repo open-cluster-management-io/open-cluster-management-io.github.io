@@ -45,7 +45,7 @@ make deploy-community-managed
 ```
 
 ## Install from OperatorHub
-If you are using Openshift or have `OLM` installed in your cluster, you are able to install the multicluster subscription operator with a released version from the operator hub. Details can be found [here](https://operatorhub.io/operator/multicluster-operators-subscription)
+If you are using OpenShift or have `OLM` installed in your cluster, you are able to install the multicluster subscription operator with a released version from the OperatorHub. Details can be found [here](https://operatorhub.io/operator/multicluster-operators-subscription).
 
 ## What is next
 
