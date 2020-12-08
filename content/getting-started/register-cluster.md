@@ -43,7 +43,7 @@ Export the soon-to-be managed cluster kube config as an environment variable
 export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
 ```
 
-Deploy agent on a managed `kind` cluster
+Deploy agent on a managed `kind` cluster.
 
 ```Shell
 cd registration-operator
@@ -54,7 +54,7 @@ make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if y
 ```
 
 ## Install from OperatorHub
-If you are using Openshift or have `OLM` installed in your cluster, you are able to install the klusterlet with a released version from operator hub. Details can be found [here](https://operatorhub.io/operator/klusterlet)
+If you are using OpenShift or have `OLM` installed in your cluster, you are able to install the klusterlet with a released version from OperatorHub. Details can be found [here](https://operatorhub.io/operator/klusterlet).
 
 ## What is next
 
@@ -72,21 +72,21 @@ NAME                    HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE
 <managed cluster name>  false          https://localhost                           57s
 ```
 
-Next approve the certificate and set managecluster to be accepted by hub with following commands
+Next approve the certificate and set managecluster to be accepted by hub with following commands:
 
 ```Shell
 kubectl certificate approve {csr name}
 kubectl patch managedcluster {managed cluster name} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
 ```
 
-Run `kubectl get managedcluster` again on hub cluster, you should be able to see that the cluster is registered
+Run `kubectl get managedcluster` again on hub cluster, you should be able to see that the cluster is registered.
 
 ```Shell
 NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 <managed cluster name>   true           https://localhost      True     True        7m58s
 ```
 
-Create a `manifest-work.yaml` as below
+Create a `manifest-work.yaml` as shown in this example:
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
@@ -110,14 +110,14 @@ spec:
         restartPolicy: OnFailure
 ```
 
-Apply the yaml file to the hub
+Apply the yaml file to the hub.
 
 ```Shell
 kubectl apply -f manifest-work.yaml
 kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cluster1 get manifestwork/mw-01 -o yaml
 ```
 
-Check on the managed cluster and see the _hello_ Pod has been deployed from the hub
+Check on the managed cluster and see the _hello_ Pod has been deployed from the hub.
 
 ```Shell
 $ export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
