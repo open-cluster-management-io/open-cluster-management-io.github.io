@@ -15,7 +15,7 @@ See the following options to connect with the community:
 
 [Slack](Coming soon)
 
-[Community calender](Coming soon)
+[Community agenda](https://docs.google.com/document/d/1EnQzhfW3qj7eATS1ZVe5kuzxOOlxDEpb2dIoG3SrFks)
 
 
 ## Get Involved
