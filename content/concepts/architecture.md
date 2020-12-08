@@ -21,10 +21,10 @@ The hub cluster aggregates information from multiple clusters by using an asynch
 
 The _klusterlet_ is an agent running on the cluster managed by the hub.
 
+
 ## Managed cluster
 
-The _managed cluster_ is the term that is used to define additional clusters with the Klusterlet, which is the agent that initiates a connection to hub cluster.
-The managed cluster receives and applies requests, then returns the results.
+The _managed cluster_ provides a representation of the managed cluster on the hub. ManagedCluster controls the lifecycle of whether the remote cluster has been "accepted" by the Hub for management and can retrieve information from the Hub to direct a set of manifests or actions to apply.
 
 
 ## Application lifecycle (work in progress)
