@@ -17,6 +17,7 @@ See the following options to connect with the community:
 
 [Community agenda](https://docs.google.com/document/d/1EnQzhfW3qj7eATS1ZVe5kuzxOOlxDEpb2dIoG3SrFks)
 
+[Youtube channel](https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw)
 
 ## Get Involved
 
