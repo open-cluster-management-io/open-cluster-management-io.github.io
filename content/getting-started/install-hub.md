@@ -49,4 +49,4 @@ make deploy-hub # make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warning
 ```
 
 ## Install from OperatorHub
-If you are using Openshift or have `OLM` installed in your cluster, you are able to install the hub with a released version from operator hub. Details can be found [here](https://operatorhub.io/operator/cluster-manager)
+If you are using OpenShift or have `OLM` installed in your cluster, you are able to install the hub with a released version from OperatorHub. Details can be found [here](https://operatorhub.io/operator/cluster-manager).
