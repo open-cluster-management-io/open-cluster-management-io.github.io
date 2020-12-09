@@ -11,11 +11,11 @@ See the following options to connect with the community:
 
 [GitHub](https://github.com/open-cluster-management)
 
-[Mailing group](open-cluster-management@googlegroup.com)
+[Mailing group](https://groups.google.com/g/open-cluster-management)
 
 [Slack](Coming soon)
 
-[Community agenda](https://docs.google.com/document/d/1EnQzhfW3qj7eATS1ZVe5kuzxOOlxDEpb2dIoG3SrFks)
+[Community meetings](https://github.com/open-cluster-management/community/projects/1)
 
 [Youtube channel](https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw)
 
