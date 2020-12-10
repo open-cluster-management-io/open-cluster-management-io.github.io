@@ -72,14 +72,14 @@ NAME                    HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE
 <managed cluster name>  false          https://localhost                           57s
 ```
 
-Next approve the certificate and set managecluster to be accepted by hub with following commands:
+Next approve the certificate and set managecluster to be accepted by the hub with following commands:
 
 ```Shell
 kubectl certificate approve {csr name}
 kubectl patch managedcluster {managed cluster name} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
 ```
 
-Run `kubectl get managedcluster` again on hub cluster, you should be able to see that the cluster is registered.
+Run `kubectl get managedcluster` again on the hub cluster, you should be able to see that the cluster is registered.
 
 ```Shell
 NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
