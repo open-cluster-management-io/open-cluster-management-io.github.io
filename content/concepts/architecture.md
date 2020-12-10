@@ -13,7 +13,7 @@ This page tells you the architecture and basic concepts in open-cluster-manageme
 
 ## Hub cluster
 
-The _hub_ cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster,
+The _hub_ cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster.
 The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
 
 
@@ -36,5 +36,5 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 
 ## Governance and risk (work in progress)
 
-The _governance and risk_ is the term used to define the processes that are used to manage security and compliance from a central interface page.
+The _governance and risk_ is the term used to define the processes that are used to manage security and compliance from the hub cluster.
 After you configure a hub cluster and a managed cluster, you can create, modify and delete policies on the hub and have them applied to the managed cluster.
