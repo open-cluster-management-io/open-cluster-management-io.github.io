@@ -34,6 +34,6 @@ A multicluster application uses a Kubernetes specification, but with additional 
 A multicluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application.
 
 
-## Governance and risk (work in progress)
+## Governance and risk
 
 _Governance and risk_ is the term used to define the processes that are used to manage security and compliance from the hub cluster. Ensure the security of your cluster with the extensible policy framework. After you configure a hub cluster and a managed cluster, you can create, modify and delete policies on the hub and apply policies to managed clusters.
