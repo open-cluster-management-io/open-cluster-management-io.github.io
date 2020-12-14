@@ -4,3 +4,7 @@
         ref: "https://github.com/open-cluster-management"
         external: true
         icon: "github"
+      - name: "Slack"
+        ref: "https://kubernetes.slack.com/archives/C01GE7YSUUF"
+        external: true
+        icon: "slack"
