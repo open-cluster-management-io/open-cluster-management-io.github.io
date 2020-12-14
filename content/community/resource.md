@@ -13,7 +13,7 @@ See the following options to connect with the community:
 
 [Mailing group](https://groups.google.com/g/open-cluster-management)
 
-[Slack](Coming soon)
+[Slack](https://kubernetes.slack.com/archives/C01GE7YSUUF)
 
 [Community meetings](https://github.com/open-cluster-management/community/projects/1)
 
