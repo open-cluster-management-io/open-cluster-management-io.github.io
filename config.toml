@@ -42,12 +42,12 @@ disablePathToLower = true
   # (Optional, default none) Set source repository location
   # Used for 'Edit this page' links
   # You can also specify this parameter per page in front matter.
-  geekdocRepo = "https://github.com/thegeeklab/hugo"
+  geekdocRepo = "https://github.com/open-cluster-management/website"
 
   # (Optional, default none) Enable 'Edit this page' links. Requires 'GeekdocRepo' param
   # and path must point to 'content' directory of repo.
   # You can also specify this parameter per page in front matter.
-  geekdocEditPath = "edit/master/exampleSite/content"
+  geekdocEditPath = "edit/main/content"
 
   # (Optional, default true) Enables search function with flexsearch.
   # Index is built on the fly and might slowdown your website.
