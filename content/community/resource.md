@@ -17,4 +17,4 @@ See the following options to connect with the community:
 
 [Community meetings](https://github.com/open-cluster-management/community/projects/1)
 
-[Youtube channel](https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw)
+[YouTube channel](https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw)

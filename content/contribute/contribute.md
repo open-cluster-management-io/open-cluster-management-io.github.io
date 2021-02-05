@@ -5,7 +5,7 @@ weight: -20
 
 We know you've got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!
 
-## Get Started
+## Getting Started
 
 All contributions are welcome! Open Cluster Management uses the [Apache 2 license](https://www.apache.org/licenses/LICENSE-2.0). Please open issues for any bugs or problems you encounter, ask questions in the [#open-cluster-mgmt](https://kubernetes.slack.com/archives/C01GE7YSUUF) on Kubernetes Slack Channel, or get involved joining the open-cluster-management [mailing group](https://groups.google.com/g/open-cluster-management).
 
