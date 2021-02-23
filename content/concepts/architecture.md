@@ -43,7 +43,7 @@ The _Application console_ covers the following three components:
 - [application-ui](https://github.com/open-cluster-management/application-ui)
 - [console-api](https://github.com/open-cluster-management/console-api)
 
-![Application console architecture](../../app-console-arch.png)
+![Application console architecture](../../app-console-arch.png) 
 
 
 ## Governance and risk (work in progress)
