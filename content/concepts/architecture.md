@@ -36,14 +36,14 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 
 ## Application console (work in progress)
 
-The _application console_ runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of _application lifecycle_ subscription operators. The UI component, `application-ui`, does not have any direct dependencies on backend components provided by the Application Lifecycle squad. Instead, it depends on the `console-api` and `search-api` components to work with the custom Kubernetes resources of the _application lifecycle_ model. The `application-ui` component is packaged as a Helm chart using the `application-chart` module.
+The _application console_ runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of _application lifecycle_ subscription operators. The UI component, `application-ui`, does not have any direct dependencies on backend components provided by the Application lifecycle squad. Instead, it depends on the `console-api` and `search-api` components to work with the custom Kubernetes resources of the _application lifecycle_ model. The `application-ui` component is packaged as a Helm chart using the `application-chart` module.
 
 The _application console_ covers the following three components:
 - [application-chart](https://github.com/open-cluster-management/application-chart)
 - [application-ui](https://github.com/open-cluster-management/application-ui)
 - [console-api](https://github.com/open-cluster-management/console-api)
 
-![Application console architecture](../../app-lifecycle-ui-arch.png)
+![Application console architecture](../../app-console-arch.png)
 
 
 ## Governance and risk (work in progress)
