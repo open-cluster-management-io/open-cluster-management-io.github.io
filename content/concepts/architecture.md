@@ -34,6 +34,11 @@ A multi-cluster application uses a Kubernetes specification, but with additional
 A multi-cluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application.
 
 
+### Application console (work in progress)
+
+The _Application console_ defines the user interface used to create and manage application resources deployed on your managed clusters through the use of _Application lifecycle_ subscription operators. 
+
+
 ## Governance and risk (work in progress)
 
 _Governance and risk_ is the term used to define the processes that are used to manage security and compliance from the hub cluster. Ensure the security of your cluster with the extensible policy framework. After you configure a hub cluster and a managed cluster, you can create, modify and delete policies on the hub and apply policies to managed clusters.
