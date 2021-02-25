@@ -36,7 +36,7 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 
 ### Application console (work in progress)
 
-The _Application console_ defines the user interface used to create and manage application resources deployed on your managed clusters through the use of _Application lifecycle_ subscription operators. 
+The _Application console_ defines the user interface used to create and manage application resources deployed on your managed clusters through the use of _Application lifecycle_ subscription operators.
 
 
 ## Governance and risk (work in progress)
