@@ -21,14 +21,14 @@ All contributions to the repository must be submitted under the terms of the [Ap
 By contributing to this project you agree to the Developer Certificate of
 Origin (DCO). This document was created by the Linux Kernel community and is a
 simple statement that you, as a contributor, have the legal right to make the
-contribution. See the [DCO](DCO) file for details.
+contribution. See the DCO file for details.
 
 ## Contributing A Patch
 
 1. Submit an issue describing your proposed change to the repo in question.
-1. The [repo owners](OWNERS) will respond to your issue promptly.
-1. Fork the desired repo, develop and test your code changes.
-1. Submit a pull request.
+2. The repo owners will respond to your issue promptly.
+3. Fork the desired repo, develop and test your code changes.
+4. Submit a pull request.
 
 ## Issue and Pull Request Management
 
