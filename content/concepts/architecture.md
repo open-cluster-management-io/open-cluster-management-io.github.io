@@ -37,3 +37,7 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 ## Governance and risk (work in progress)
 
 _Governance and risk_ is the term used to define the processes that are used to manage security and compliance from the hub cluster. Ensure the security of your cluster with the extensible policy framework. After you configure a hub cluster and a managed cluster, you can create, modify and delete policies on the hub and apply policies to managed clusters.
+
+## Discovery (work in progress)
+
+_Discovery_ defines the processes that are used to identify related clusters which are available for import from Openshift Cluster Manager. By aggregating cluster information, _Discovery_ enables the user to quickly get started importing clusters to the hub. An unmanaged cluster available for import is defined as a DiscoveredCluster. A DiscoveryConfig resource must be created to enable _Discovery_. The DiscoveryConfig contains the information and filters necessary to identify DiscoveredClusters. A DiscoveredCluster resource can be imported into the _hub cluster_ at which point it becomes a ManagedCluster.
