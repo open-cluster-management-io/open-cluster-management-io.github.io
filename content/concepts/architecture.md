@@ -33,6 +33,9 @@ The _application lifecycle_ defines the processes that are used to manage applic
 A multi-cluster application uses a Kubernetes specification, but with additional automation of the deployment and lifecycle management of resources to individual clusters.
 A multi-cluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application.
 
+## Cluster lifecycle (work in progress)
+
+The _cluster lifecycle_ defines the process the lifecycle of a cluster on the hub side. It includes the create, destroy of cluster through hive, the attach and detach functionality, the addon lifecycle and a UI to give a better user experience on that process.
 
 ### Application console (work in progress)
 
