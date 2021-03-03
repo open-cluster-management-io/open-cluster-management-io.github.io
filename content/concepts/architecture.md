@@ -35,7 +35,7 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 
 ## Cluster lifecycle (work in progress)
 
-The _cluster lifecycle_ defines the process the lifecycle of a cluster on the hub side. It includes the create, destroy of cluster through hive, the attach and detach functionality, the addon lifecycle and a UI to give a better user experience on that process.
+The _cluster lifecycle_ defines the process the lifecycle of a cluster on the hub side. It includes the create, destroy of cluster through [hive](https://github.com/openshift/hive), the attach and detach functionality, the addon lifecycle and a UI to give a better user experience on that process.
 
 ### Application console (work in progress)
 
