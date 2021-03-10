@@ -13,8 +13,6 @@ After the hub is installed, the discovery component can be installed to help dis
 
 ## Install from source
 
-The Open Cluster Management project does not publish public prebuilt releases or images of the discovery operator. 
-
 To build, run, and sample the discovery operator, clone the repository and follow the instructions within the README.
 
 ```Shell
