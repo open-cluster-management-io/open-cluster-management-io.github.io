@@ -13,7 +13,7 @@ After the hub is installed, the discovery component can be installed to help dis
 
 ## Install from source
 
-To build, run, and sample the discovery operator, clone the repository and follow the instructions within the README.
+To build, run, and sample the discovery operator, clone the repository below and follow the instructions within the README.
 
 ```Shell
 git clone https://github.com/open-cluster-management/discovery.git
