@@ -27,7 +27,7 @@ The _klusterlet_ is an agent running on the cluster managed by the hub.
 The _managed cluster_ provides a representation of the managed cluster on the hub. ManagedCluster controls the lifecycle of whether the remote cluster has been "accepted" by the Hub for management and can retrieve information from the Hub to direct a set of manifests or actions to apply.
 
 
-## Application lifecycle (work in progress)
+## Application lifecycle
 
 The _application lifecycle_ defines the processes that are used to manage application resources on your managed clusters.
 A multi-cluster application uses a Kubernetes specification, but with additional automation of the deployment and lifecycle management of resources to individual clusters.
