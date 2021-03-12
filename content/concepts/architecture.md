@@ -37,6 +37,10 @@ A multi-cluster application allows you to deploy resources on multiple clusters,
 
 The _cluster lifecycle_ defines the process the lifecycle of a cluster on the hub side. It includes the create, destroy of cluster through [hive](https://github.com/openshift/hive), the attach and detach functionality, the addon lifecycle and a UI to give a better user experience on that process.
 
+### Discovery (work in progress)
+
+_Discovery_ defines the processes that are used to identify related clusters which are available for import from [Openshift Cluster Manager](https://cloud.redhat.com/openshift/). By aggregating cluster information, _Discovery_ enables the user to quickly get started importing clusters to the hub. An unmanaged cluster available for import is defined as a DiscoveredCluster. A DiscoveryConfig resource must be created to enable _Discovery_. The DiscoveryConfig contains the information and filters necessary to identify DiscoveredClusters. A DiscoveredCluster resource can be imported into the _hub cluster_ at which point it becomes a ManagedCluster. For more information see the [Discovery repo](https://github.com/open-cluster-management/discovery).
+
 ### Application console (work in progress)
 
 The _Application console_ defines the user interface used to create and manage application resources deployed on your managed clusters through the use of _Application lifecycle_ subscription operators.
