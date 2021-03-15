@@ -54,3 +54,7 @@ _Governance and risk_ is the term used to define the processes that are used to 
 ### Multiclusterhub Repo (work in progress)
 
 _Multiclusterhub Repo_ is the term used to define the internal helm repository used during installation, upgrade, and uninstall of related multiclusterhub components. 
+
+ ## Search (work in progress)
+
+_Search_ provides visibility into your Kubernetes resources across your fleet of managed clusters from a central console.
