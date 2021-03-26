@@ -26,6 +26,7 @@ Clone the `console`
 
 ```Shell
 git clone https://github.com/open-cluster-management/console
+cd console
 ```
 
 ## Install node dependencies
