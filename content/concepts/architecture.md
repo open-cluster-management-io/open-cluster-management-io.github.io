@@ -60,6 +60,4 @@ _Multiclusterhub Repo_ is the term used to define the internal helm repository u
 _Search_ provides visibility into your Kubernetes resources across your fleet of managed clusters from a central console.
 
 ## Observing environments
-_Observability_ provides insight and optimize your managed clusters. Enable the observability service operator [multicluster-observability-operator](https://github.com/open-cluster-management/multicluster-observability-operator) to monitor the health of your managed clusters. Learn about the architecture for the multicluster observability service in the following sections.
-
-![Multicluster observability architecture](./images/RHACM-ObservabilityArch.png)
+_Observability_ provides insight and optimize your managed clusters. Enable the observability service operator [multicluster-observability-operator](https://github.com/open-cluster-management/multicluster-observability-operator) to monitor the health of your managed clusters.
