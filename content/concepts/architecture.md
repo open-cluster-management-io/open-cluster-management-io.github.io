@@ -55,6 +55,9 @@ _Governance and risk_ is the term used to define the processes that are used to 
 
 _Multiclusterhub Repo_ is the term used to define the internal helm repository used during installation, upgrade, and uninstall of related multiclusterhub components. 
 
- ## Search (work in progress)
+## Search (work in progress)
 
 _Search_ provides visibility into your Kubernetes resources across your fleet of managed clusters from a central console.
+
+## Observing environments
+_Observability_ provides insight and optimize your managed clusters. Enable the observability service operator [multicluster-observability-operator](https://github.com/open-cluster-management/multicluster-observability-operator) to monitor the health of your managed clusters.
