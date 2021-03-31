@@ -19,6 +19,8 @@ cp -rf output/* $OUTPUT
 echo "open-cluster-management.io" > ${OUTPUT}/CNAME
 
 cd $OUTPUT
+git config user.email "acm-cicd@redhat.com"
+git config user.name "ACM CICD"
 git add **
 git commit -a -m "Updated website from open-cluster-management/website ${COMMIT_ID}"
 
