@@ -113,7 +113,7 @@ Apply the yaml file to the hub.
 kubectl apply -f manifest-work.yaml
 ```
 
-Verify that the `manifestwork` resource was applied the hub.
+Verify that the `manifestwork` resource was applied to the hub.
 ```Shell
 kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cluster1 get manifestwork/mw-01 -o yaml
 ```
