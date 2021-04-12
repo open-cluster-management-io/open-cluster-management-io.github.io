@@ -104,7 +104,7 @@ iam-policy-controller-7c5f746866-v65jb   1/1     Running   0          2m43s
 
 ## What is next
 
-After a successful deployment, test the policy framework and configuration policy with a sample policy. Run the following command:
+After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:
 
 ```Shell
 kubectl config use-context kind-hub
