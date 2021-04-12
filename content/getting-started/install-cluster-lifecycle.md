@@ -76,7 +76,7 @@ kubectl cluster-info
 
 Create `open-cluster-management` on the hub if haven't created
 
-Deploy managedcluster-import-controller in the open-cluster-management namespace
+Deploy klusterlet-addon-controller in the open-cluster-management namespace
 
 ```Shell
 kubectl apply -k overlays/community
@@ -145,7 +145,7 @@ test-name   true                                  True     True        21m
 ```
 
 
-### Install addons on imported clusters
+### Install addons on registered clusters
 klusterlet-addon-controller can help users to create the following addons: (WIP)
 - [application-management](install-application.md)
 
