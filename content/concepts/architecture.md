@@ -51,7 +51,7 @@ _Governance and risk_ is the term used to define the processes that are used to 
 
 ## Multiclusterhub Operator (work in progress)
 
-_Multiclusterhub Operator_ is the controller responsible for installing sub-components on the hub cluster.
+_Multiclusterhub Operator_ is the controller responsible for installing sub-components on the hub cluster. 
 ### Multiclusterhub Repo (work in progress)
 
 _Multiclusterhub Repo_ is the term used to define the internal helm repository used during installation, upgrade, and uninstall of related multiclusterhub components. 
