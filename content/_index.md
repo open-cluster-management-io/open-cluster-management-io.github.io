@@ -12,7 +12,7 @@ The Open Cluster Management project consists of several multicluster components,
 
 ## Quick start
 
-Install and create a [Cluster Manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster. For more details see [Install Hub](getting-started/install-hub.md).
+Install and create a [Cluster Manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster. For more details see [Install Cluster Manager](getting-started/install-cluster-manager).
 
 Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _managed_ cluster.
-For more details see [Install Klusterlet](getting-started/register-cluster.md).
+For more details see [Install Klusterlet](getting-started/register-cluster).

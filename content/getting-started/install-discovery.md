@@ -1,6 +1,7 @@
 ---
 title: Install Discovery
 weight: 3
+geekdocHidden: true
 ---
 
 After the hub is installed, the discovery component can be installed to help discover available clusters.
