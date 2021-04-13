@@ -17,9 +17,15 @@ Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [ku
 
 Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
-Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. 
+Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
-For `kind`, you must use version [v0.7.0](https://github.com/kubernetes-sigs/kind/releases/tag/v0.7.0) and you must have [docker](https://docs.docker.com/get-started) installed and running.
+If running on OS X, you'll need also gnu-sed installed:
+
+```Shell
+brew install gnu-sed
+```
+
+To create the hub cluster with kind, run:
 
 ```Shell
 # kind delete cluster --name hub # if the kind cluster is previously created and can be safely deleted
@@ -35,10 +41,10 @@ Clone the `registration-operator`
 git clone https://github.com/open-cluster-management/registration-operator
 ```
 
-Export the soon-to-be hub kube config as an environment variable
+Ensure the `kubectl` context is set to point to the hub cluster:
 
 ```Shell
-export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
+kubectl config use-context kind-hub
 ```
 
 Deploy hub

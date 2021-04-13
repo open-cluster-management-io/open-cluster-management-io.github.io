@@ -19,9 +19,7 @@ Ensure [golang](https://golang.org/doc/install) is installed, if you are plannin
 
 Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
 
-Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as below.
-
-For `kind`, you must use version [v0.7.0](https://github.com/kubernetes-sigs/kind/releases/tag/v0.7.0) and you must have [docker](https://docs.docker.com/get-started) installed and running.
+Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as below. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
 ```Shell
 # kind delete cluster --name cluster1 # if the kind cluster is previously created and can be safely deleted
@@ -37,18 +35,17 @@ If you have not already done so, clone the `registration-operator`.
 git clone https://github.com/open-cluster-management/registration-operator
 ```
 
-Export the soon-to-be managed cluster kube config as an environment variable
+Ensure the `kubectl` context is set to point to the managed cluster:
 
 ```Shell
-export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
+kubectl config use-context kind-cluster1
 ```
 
 Deploy agent on a managed `kind` cluster.
 
 ```Shell
 cd registration-operator
-export KLUSTERLET_KIND_KUBECONFIG=$KUBECONFIG
-export KIND_CLUSTER=<managed cluster name> # export KIND_CLUSTER=cluster1
+export KLUSTERLET_KIND_KUBECONFIG=~/cluster1-kubeconfig
 export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
 make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
@@ -62,7 +59,7 @@ After a successful deployment, a `certificatesigningrequest` and a `managedclust
 be created on the hub.
 
 ```Shell
-$ export KUBECONFIG=</path/to/hub_cluster/.kube/config> # export KUBECONFIG=~/hub-kubeconfig
+$ kubectl config use-context kind-hub
 $ kubectl get csr
 NAME                              AGE   REQUESTOR                       CONDITION
 <managed cluster name>-<suffix>   41s   kubernetes-admin                Pending
@@ -120,7 +117,7 @@ kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cl
 Check on the managed cluster and see the _hello_ Pod has been deployed from the hub.
 
 ```Shell
-$ export KUBECONFIG=</path/to/managed_cluster/.kube/config> # export KUBECONFIG=~/cluster1-kubeconfig
+$ kubectl config use-context kind-cluster1
 $ kubectl -n default get pod
 NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   0          108s
