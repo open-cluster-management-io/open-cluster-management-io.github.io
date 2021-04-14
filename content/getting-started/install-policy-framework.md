@@ -15,9 +15,9 @@ After the hub and klusterlet are installed, you can install the policy framework
 
 You must meet the following prerequisites to install the policy framework:
 
-* Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
+* Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [`kustomize`](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-* Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
+* Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
 * Prepare one Kubernetes cluster to function as the hub cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you must install and run [Docker](https://docs.docker.com/get-started).
 
