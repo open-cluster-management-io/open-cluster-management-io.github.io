@@ -123,14 +123,15 @@ The IAM policy controller is installed.
 
 1. After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:
 
-```Shell
-kubectl config use-context kind-hub
-kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
+   ```Shell
+   kubectl config use-context kind-hub
+   
+   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration- Management/policy-pod.yaml
 
-policy.policy.open-cluster-management.io/policy-pod created
-placementbinding.policy.open-cluster-management.io/binding-policy-pod created
-placementrule.apps.open-cluster-management.io/placement-policy-pod created
-```
+   policy.policy.open-cluster-management.io/policy-pod created
+   placementbinding.policy.open-cluster-management.io/binding-policy-pod created
+   placementrule.apps.open-cluster-management.io/placement-policy-pod created
+   ```
 
 2. Update the `PlacementRule` to distribute the policy to the managed cluster with the following command:
 
