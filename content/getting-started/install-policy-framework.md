@@ -45,7 +45,7 @@ Complete the following steps to install the policy framework from prebuild image
    make deploy-policy-framework-hub
    ```
 
-  * The previous command deploys the [policy-propagator](https://github.com/open-cluster-management/governance-policy-propagator).
+   * The previous command deploys the [policy-propagator](https://github.com/open-cluster-management/governance-policy-propagator).
 
 3. Ensure the pods are running on hub with the following command:
 
