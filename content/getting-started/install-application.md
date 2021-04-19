@@ -27,7 +27,7 @@ Clone the `multicloud-operators-subscription`
 git clone https://github.com/open-cluster-management/multicloud-operators-subscription
 ```
 
-Deploy subscription operators to the hub cluster.
+Deploy the subscription operators to the hub cluster.
 
 ```Shell
 export TRAVIS_BUILD=0
@@ -36,7 +36,7 @@ cd multicloud-operators-subscription
 make deploy-community-hub # make deploy-community-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
-Deploy subscription operators to managed cluster(s).
+Deploy the subscription operators to managed cluster(s).
 
 ```Shell
 export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
