@@ -184,4 +184,4 @@ The IAM policy controller is installed.
 
 ## More policies
 
-You can find more policies or contribute to the open repository, [policy-collection](https://github.com/open-cluster-management/policy-collection).
+You can find more policies or contribute to the open repository, [policy-collection](https://github.com/open-cluster-management/policy-collection). 
