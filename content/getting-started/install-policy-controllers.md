@@ -19,7 +19,7 @@ Ensure [golang](https://golang.org/doc/install) is installed, if you are plannin
 
 Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
-Ensure the open-cluster-management _policy framework_ is installed. See [Install Install Policy Framework](install-policy-framework.md) for more information.
+Ensure the open-cluster-management policy framework is installed. See [Install Policy Framework](../install-policy-framework) for more information.
 
 ## Install configuration policy controller
 Clone the `config-policy-controller`

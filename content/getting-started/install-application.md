@@ -3,7 +3,7 @@ title: Install Application management
 weight: 3
 ---
 
-After hub is installed, you could install the application management components to the hub.
+After the cluster manager is installed, you could install the application management components to the hub cluster.
 
 <!-- spellchecker-disable -->
 
@@ -17,7 +17,7 @@ Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [k
 
 Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
-Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
+Ensure the open-cluster-management cluster manager is installed. See [Install Cluster Manager](../install-cluster-manager) for more information.
 
 
 ## Install from source

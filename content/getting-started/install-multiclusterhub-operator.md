@@ -1,6 +1,7 @@
 ---
 title: Install MultiClusterHub Operator
 weight: 3
+geekdocHidden: true
 ---
 
 ## Install from source

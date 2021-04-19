@@ -3,7 +3,7 @@ title: Install Klusterlet
 weight: 2
 ---
 
-After the hub is installed, you need to install the klusterlet on another cluster so that it can be registered and managed by the hub.
+After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
 
 <!-- spellchecker-disable -->
 
@@ -17,7 +17,7 @@ Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [ku
 
 Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
-Ensure the open-cluster-management _hub_ is installed. See [Install Hub](install-hub.md) for more information.
+Ensure the open-cluster-management cluster manager is installed on the hub cluster. See [Install Cluster Manager](../install-cluster-manager) for more information.
 
 Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as below. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
@@ -55,8 +55,7 @@ If you are using OpenShift or have `OLM` installed in your cluster, you are able
 
 ## What is next
 
-After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will
-be created on the hub.
+After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will be created on the hub cluster.
 
 ```Shell
 $ kubectl config use-context kind-hub
@@ -107,14 +106,14 @@ spec:
         restartPolicy: OnFailure
 ```
 
-Apply the yaml file to the hub.
+Apply the yaml file to the hub cluster.
 
 ```Shell
 kubectl apply -f manifest-work.yaml
 kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cluster1 get manifestwork/mw-01 -o yaml
 ```
 
-Check on the managed cluster and see the _hello_ Pod has been deployed from the hub.
+Check on the managed cluster and see the _hello_ Pod has been deployed from the hub cluster.
 
 ```Shell
 $ kubectl config use-context kind-cluster1
