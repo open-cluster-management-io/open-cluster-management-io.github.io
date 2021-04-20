@@ -3,7 +3,7 @@ title: Install Policy Framework
 weight: 4
 ---
 
-After the hub and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.
+After the cluster manager and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.
 
 <!-- spellchecker-disable -->
 
@@ -21,11 +21,11 @@ You must meet the following prerequisites to install the policy framework:
 
 * Prepare one Kubernetes cluster to function as the hub cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you must install and run [Docker](https://docs.docker.com/get-started).
 
-* Ensure the `open-cluster-management` _hub_ is installed. See [Install Hub](install-hub.md) for more information.
+* Ensure the `open-cluster-management` _cluster manager_ is installed. See [Install Cluster Manager](../install-cluster-manager) for more information.
 
-* Ensure the `open-cluster-management` _klusterlet_ is installed. See [Install Klusterlet](register-cluster.md) for more information.
+* Ensure the `open-cluster-management` _klusterlet_ is installed. See [Install Klusterlet](../register-cluster) for more information.
 
-* Ensure the `open-cluster-management` _Application_ is installed. See [Install Application management](install-application.md) for more information.
+* Ensure the `open-cluster-management` _application_ is installed. See [Install Application management](../install-application) for more information.
 
 ## Install from prebuilt images on Quay.io
 
