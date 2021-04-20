@@ -28,7 +28,7 @@ Prepare one [OKD 4](https://www.okd.io/) cluster to function as the hub.
 Install [Hive](https://github.com/openshift/hive/blob/master/docs/install.md#installing-community-release-via-operatorhub) on the hub.
 
 To enable addons on managed cluster, you will need to install the following components on the hub: (WIP)
-- [application-management](install-application.md)
+- [application-management](../install-application)
 
 Create namespace `open-cluster-management` on the hub for cluster-lifecycle components.
 
@@ -155,7 +155,7 @@ test-name   true                                  True     True        21m
 
 ### Install addons on registered clusters
 klusterlet-addon-controller can help users to create the following addons: (WIP)
-- [application-management](install-application.md)
+- [application-management](../install-application)
 
 To install addons into a managed cluster, create a klusterletaddonconfig resource in the cluster namespace:
 
