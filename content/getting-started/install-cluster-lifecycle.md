@@ -23,7 +23,7 @@ Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [ku
 
 Prepare one [OKD 4](https://www.okd.io/) cluster to function as the hub.
 
-Install [cluster-manager](install-hub.md) on the hub.
+[Install Cluster Manager](../install-cluster-manager) for more information.
 
 Install [Hive](https://github.com/openshift/hive/blob/master/docs/install.md#installing-community-release-via-operatorhub) on the hub.
 
@@ -38,6 +38,7 @@ Clone the `managedcluster-import-controller` repo:
 
 ```Shell
 git clone https://github.com/open-cluster-management/managedcluster-import-controller.git
+cd managedcluster-import-controller
 ```
 
 Ensure the `kubectl` context is set to point to the hub cluster:
@@ -57,7 +58,7 @@ kubectl apply -k overlays/community
 Verify managedcluster-import-controller is running:
 ```Shell
 kubectl get po -n open-cluster-management | grep managedcluster-import-controller   
-managedcluster-import-controller-686b9dff46-flk9d   1/1     Running   0          6m47ss
+managedcluster-import-controller-686b9dff46-flk9d   1/1     Running   0          6m47s
 ```
 
 ## Install klusterlet-addon-controller from source
@@ -66,6 +67,7 @@ Clone the `klusterlet-addon-controller` repo:
 
 ```Shell
 git clone https://github.com/open-cluster-management/klusterlet-addon-controller.git
+cd klusterlet-addon-controller
 ```
 
 Ensure the `kubectl` context is set to point to the hub cluster:
@@ -80,6 +82,12 @@ Deploy klusterlet-addon-controller in the open-cluster-management namespace
 
 ```Shell
 kubectl apply -k overlays/community
+```
+
+Verify klusterlet-addon-controller is running:
+```Shell
+kubectl get po -n open-cluster-management | grep klusterlet-addon-controller   
+klusterlet-addon-controller-6dbc964f45-s45w8   1/1     Running   0          1m23s
 ```
 
 ## What is next
