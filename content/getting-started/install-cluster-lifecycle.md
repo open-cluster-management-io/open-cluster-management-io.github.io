@@ -3,13 +3,9 @@ title: Install Cluster-Lifecycle
 weight: 1
 ---
 
-Cluster-Lifecycle has 3 components:
+Cluster-Lifecycle has the following components:
 - managedcluster-import-controller
   - a controller help you generate import command. It can also manage klusterlet on managed cluster.
-- klusterlet-addon-controller
-  - a controller help you install addon agents on the managed cluster. (Note: the hub side of the addon need to be installed to enable the managed cluster addon features).
-- console (WIP)
-  - a web UI to help user manage clusters.
 
 <!-- spellchecker-disable -->
 
@@ -26,9 +22,6 @@ Prepare one [OKD 4](https://www.okd.io/) cluster to function as the hub.
 [Install Cluster Manager](../install-cluster-manager) for more information.
 
 Install [Hive](https://github.com/openshift/hive/blob/master/docs/install.md#installing-community-release-via-operatorhub) on the hub.
-
-To enable addons on managed cluster, you will need to install the following components on the hub: (WIP)
-- [application-management](../install-application)
 
 Create namespace `open-cluster-management` on the hub for cluster-lifecycle components.
 
@@ -61,34 +54,6 @@ kubectl get po -n open-cluster-management | grep managedcluster-import-controlle
 managedcluster-import-controller-686b9dff46-flk9d   1/1     Running   0          6m47s
 ```
 
-## Install klusterlet-addon-controller from source
-
-Clone the `klusterlet-addon-controller` repo:
-
-```Shell
-git clone https://github.com/open-cluster-management/klusterlet-addon-controller.git
-cd klusterlet-addon-controller
-```
-
-Ensure the `kubectl` context is set to point to the hub cluster:
-
-```Shell
-kubectl cluster-info
-```
-
-Create `open-cluster-management` on the hub if haven't created
-
-Deploy klusterlet-addon-controller in the open-cluster-management namespace
-
-```Shell
-kubectl apply -k overlays/community
-```
-
-Verify klusterlet-addon-controller is running:
-```Shell
-kubectl get po -n open-cluster-management | grep klusterlet-addon-controller   
-klusterlet-addon-controller-6dbc964f45-s45w8   1/1     Running   0          1m23s
-```
 
 ## What is next
 
@@ -150,46 +115,5 @@ Verify cluster is available on the **hub**:
 kubectl get managedcluster                                                                                                    
 NAME        HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 test-name   true                                  True     True        21m
-```
-
-
-### Install addons on registered clusters
-klusterlet-addon-controller can help users to create the following addons: (WIP)
-- [application-management](../install-application)
-
-To install addons into a managed cluster, create a klusterletaddonconfig resource in the cluster namespace:
-
-```
-apiVersion: agent.open-cluster-management.io/v1
-kind: KlusterletAddonConfig
-metadata:
-  name: CLUSTER_NAME
-  namespace: CLUSTER_NAME
-spec:
-  clusterName: CLUSTER_NAME
-  clusterNamespace: CLUSTER_NAME
-  applicationManager:
-    enabled: true
-  certPolicyController:
-    enabled: false
-  clusterLabels:
-    cloud: auto-detect
-    vendor: auto-detect
-  iamPolicyController:
-    enabled: false
-  policyController:
-    enabled: false
-  searchCollector:
-    enabled: false
-```
-
-Once created the `klusterletaddonconfig` on the hub, you will see addons installed in the managed cluster's `open-cluster-management-agent-addon` namespace.
-
-```Shell
-% oc get po -n open-cluster-management-agent-addon 
-NAME                                         READY   STATUS    RESTARTS   AGE
-klusterlet-addon-appmgr-948f88fd6-qmwzx      1/1     Running   0          4m8s
-klusterlet-addon-operator-7794fc7476-fgsfh   1/1     Running   0          20m
-klusterlet-addon-workmgr-746bbf5848-7z9m4    1/1     Running   0          11s
 ```
 
