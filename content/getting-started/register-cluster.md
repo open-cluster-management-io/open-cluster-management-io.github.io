@@ -27,9 +27,10 @@ kind create cluster --name cluster1
 kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 ```
 
-## Install with Cluster-Lifecycle
+## Install with Cluster Lifecycle
 
-If you have installed [cluster-lifecycle](install-cluster-lifecycle.md), you can follow this [instruction](install-cluster-lifecycle.md#manually_register_a_cluster) to register a managed cluster.
+If you have installed [cluster-lifecycle](../install-cluster-lifecycle), you can follow the instructions from the section, [Manually register a cluster](../install-cluster-lifecycle#manually-register-a-cluster).
+
 
 ## Install from source
 
