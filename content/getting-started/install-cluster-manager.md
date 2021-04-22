@@ -44,7 +44,7 @@ git clone https://github.com/open-cluster-management/registration-operator
 Ensure the `kubectl` context is set to point to the hub cluster:
 
 ```Shell
-kubectl config use-context kind-hub
+kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
 ```
 
 Deploy hub

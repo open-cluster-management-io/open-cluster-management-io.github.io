@@ -38,7 +38,7 @@ git clone https://github.com/open-cluster-management/registration-operator
 Ensure the `kubectl` context is set to point to the managed cluster:
 
 ```Shell
-kubectl config use-context kind-cluster1
+kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
 ```
 
 Deploy agent on a managed `kind` cluster.
@@ -58,7 +58,7 @@ If you are using OpenShift or have `OLM` installed in your cluster, you are able
 After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will be created on the hub cluster.
 
 ```Shell
-$ kubectl config use-context kind-hub
+$ kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
 $ kubectl get csr
 NAME                              AGE   REQUESTOR                       CONDITION
 <managed cluster name>-<suffix>   41s   kubernetes-admin                Pending
@@ -120,7 +120,7 @@ kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cl
 Check on the managed cluster and see the _hello_ Pod has been deployed from the hub cluster.
 
 ```Shell
-$ kubectl config use-context kind-cluster1
+$ kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
 $ kubectl -n default get pod
 NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   0          108s

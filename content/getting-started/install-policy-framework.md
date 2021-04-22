@@ -40,7 +40,7 @@ Complete the following steps to install the policy framework from prebuild image
 2. Deploy the policy framework components to the hub cluster with the following commands: 
 
    ```Shell
-   kubectl config use-context kind-hub
+   kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
    cd governance-policy-framework
    make deploy-policy-framework-hub
    ```
@@ -59,7 +59,7 @@ Complete the following steps to install the policy framework from prebuild image
 
    ```Shell
    export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
-   kubectl config use-context kind-$MANAGED_CLUSTER_NAME
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
    make deploy-policy-framework-managed
    ```
 
