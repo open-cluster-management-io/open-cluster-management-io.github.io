@@ -37,7 +37,7 @@ Complete the following procedure to install the configuration policy controller:
 
    ```Shell
    export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context kind-$WATCH_NAMESPACE
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
    cd config-policy-controller
    make kind-deploy-controller
    ```
@@ -68,7 +68,7 @@ Complete the following steps to install the certificate policy controller:
 
    ```Shell
    export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context kind-$WATCH_NAMESPACE
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
    cd cert-policy-controller
    make kind-deploy-controller
    ```
@@ -99,7 +99,7 @@ Complete the following step to install the IAM policy controller:
 
    ```Shell
    export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context kind-$WATCH_NAMESPACE
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
    cd iam-policy-controller
    make kind-deploy-controller
    ```
@@ -121,7 +121,7 @@ The IAM policy controller is installed.
 1. After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:
 
    ```Shell
-   kubectl config use-context kind-hub
+   kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
    
    kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration- Management/policy-pod.yaml
    policy.policy.open-cluster-management.io/policy-pod created
@@ -159,7 +159,7 @@ The IAM policy controller is installed.
 
    ```Shell
    export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context kind-$WATCH_NAMESPACE
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
    kubectl get policy -A
    NAMESPACE   NAME                 AGE
    cluster1    default.policy-pod   1m39s
