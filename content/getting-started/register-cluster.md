@@ -29,7 +29,7 @@ kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 
 ## Install with Cluster Lifecycle
 
-If you have installed [cluster-lifecycle](../install-cluster-lifecycle), you can follow the instructions from the section, [Manually register a cluster](../install-cluster-lifecycle#manually-register-a-cluster).
+If you have installed [Cluster Lifecycle](../install-cluster-lifecycle), you can follow the instructions from the section, [Manually register a cluster](../install-cluster-lifecycle#manually-register-a-cluster).
 
 
 ## Install from source
