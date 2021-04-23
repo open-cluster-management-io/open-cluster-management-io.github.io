@@ -101,7 +101,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 2. Once the managedcluster resource is created, a namespace with `CLUSTER_NAME` will be created, and managedcluster-import-controller will generate the `yaml` files that you can apply on your managed cluster.
 
-2. On the _cluster manager_, run the following commands to two `yaml` files:
+3. On the _cluster manager_, run the following commands to two `yaml` files:
    ```Shell
    kubectl get secret -n ${CLUSTER_NAME} ${CLUSTER_NAME}-import -ojsonpath='{.data.crds\.yaml}' | base64 --decode > crds.yaml
    kubectl get secret -n ${CLUSTER_NAME} ${CLUSTER_NAME}-import -ojsonpath='{.data.import\.yaml}' | base64 --decode > import.yaml
