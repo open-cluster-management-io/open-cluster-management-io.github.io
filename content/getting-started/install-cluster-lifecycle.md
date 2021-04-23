@@ -75,7 +75,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
    **Note**: `CLUSTER_NAME` should be same as both the clusterdeployment's resource name and the clusterdeployment's namespace name.
 
 
-2. Verify cluster is available on the _cluster manager_:
+2. Verify that the cluster is available on the _cluster manager_:
    ```Shell
    kubectl get managedcluster                                                                                                    
    NAME        HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
@@ -101,7 +101,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 2. Once the managedcluster resource is created, a namespace with `CLUSTER_NAME` will be created, and managedcluster-import-controller will generate the `yaml` files that you can apply on your managed cluster.
 
-3. On the _cluster manager_, run the following commands to two `yaml` files:
+3. On the _cluster manager_, run the following commands to get two `yaml` files:
    ```Shell
    kubectl get secret -n ${CLUSTER_NAME} ${CLUSTER_NAME}-import -ojsonpath='{.data.crds\.yaml}' | base64 --decode > crds.yaml
    kubectl get secret -n ${CLUSTER_NAME} ${CLUSTER_NAME}-import -ojsonpath='{.data.import\.yaml}' | base64 --decode > import.yaml
@@ -113,7 +113,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
    kubectl apply -f import.yaml
    ```
 
-5. Verify cluster is available on the _cluster manager_:
+5. Verify that the cluster is available on the _cluster manager_:
    ```Shell
    kubectl get managedcluster                                                                                                    
    NAME        HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
