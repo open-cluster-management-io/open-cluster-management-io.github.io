@@ -39,7 +39,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
    kubectl cluster-info
    ```
 
-3. Create the `open-cluster-management` namespace on the _cluster manager_ if you haven't already created it.
+3. Create the `open-cluster-management` namespace on the _cluster manager_ if you haven't already created it:
    ```Shell
    kubectl create ns open-cluster-management
    ```
