@@ -50,7 +50,7 @@ Complete the following steps to install the policy framework from prebuild image
 3. Ensure the pods are running on hub with the following command:
 
    ```Shell
-   kubectl get pods -n open-cluster-management 
+   $ kubectl get pods -n open-cluster-management 
    NAME                                           READY   STATUS    RESTARTS   AGE
    governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   0          94s
    ```
@@ -71,7 +71,7 @@ Complete the following steps to install the policy framework from prebuild image
 5. Verify that the pods are running with the following command:
 
    ```Shell
-   kubectl get pods -n open-cluster-management-agent-addon 
+   $ kubectl get pods -n open-cluster-management-agent-addon 
    NAME                                               READY   STATUS    RESTARTS   AGE
    governance-policy-spec-sync-6474b6d898-tmkw6       1/1     Running   0          2m14s
    governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   0          2m14s

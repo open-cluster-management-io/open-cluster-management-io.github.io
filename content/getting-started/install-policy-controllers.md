@@ -45,7 +45,7 @@ Complete the following procedure to install the configuration policy controller:
 3. Ensure the pod is running on the managed cluster. Run the following command:
 
    ```Shell
-   kubectl get pods -n open-cluster-management-agent-addon
+   $ kubectl get pods -n open-cluster-management-agent-addon
    NAME                                               READY   STATUS    RESTARTS   AGE
    ...
    config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   0          44s
@@ -76,7 +76,7 @@ Complete the following steps to install the certificate policy controller:
 3. Ensure the pod is running on the managed cluster. Run the following command:
 
    ```Shell
-   kubectl get pods -n open-cluster-management-agent-addon
+   $ kubectl get pods -n open-cluster-management-agent-addon
    NAME                                    READY   STATUS    RESTARTS   AGE
    ...
    cert-policy-controller-6678fc7c-lw6m9   1/1     Running   0          4m20s
@@ -107,7 +107,7 @@ Complete the following step to install the IAM policy controller:
 3. Ensure the pod is running on the managed cluster. Run the following command:
 
    ```Shell
-   kubectl get pods -n open-cluster-management-agent-addon
+   $ kubectl get pods -n open-cluster-management-agent-addon
    NAME                                     READY   STATUS    RESTARTS   AGE
    ...
    iam-policy-controller-7c5f746866-v65jb   1/1     Running   0          2m43s
@@ -123,7 +123,7 @@ The IAM policy controller is installed.
    ```Shell
    kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
    
-   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration- Management/policy-pod.yaml
+   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
    policy.policy.open-cluster-management.io/policy-pod created
    placementbinding.policy.open-cluster-management.io/binding-policy-pod created
    placementrule.apps.open-cluster-management.io/placement-policy-pod created
@@ -139,7 +139,7 @@ The IAM policy controller is installed.
 3. To confirm that the managed cluster is selected by `PlacementRule`, run the following command:
 
    ```Shell
-   kubectl get -n default placementrule.apps.open-cluster-management.io/placement-policy-pod -oyaml
+   $ kubectl get -n default placementrule.apps.open-cluster-management.io/placement-policy-pod -oyaml
    ...
    status:
      decisions:
@@ -158,9 +158,9 @@ The IAM policy controller is installed.
 5. After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:
 
    ```Shell
-   export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
-   kubectl get policy -A
+   $ export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
+   $ kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
+   $ kubectl get policy -A
    NAMESPACE   NAME                 AGE
    cluster1    default.policy-pod   1m39s
    ```
@@ -168,7 +168,7 @@ The IAM policy controller is installed.
 6. The missing pod is created by the policy on the managed cluster. To confirm, run the following command:
 
    ```Shell
-   kubectl get pod -n default
+   $ kubectl get pod -n default
    NAME               READY   STATUS    RESTARTS   AGE
    sample-nginx-pod   1/1     Running   0          23s
    ```
