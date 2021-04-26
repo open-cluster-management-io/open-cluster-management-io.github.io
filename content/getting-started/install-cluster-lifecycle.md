@@ -70,9 +70,9 @@ You must meet the following prerequisites to use the cluster lifecycle:
    spec:
      hubAcceptsClient: true
    ```
-   Replace the `CLUSTER_NAME` with the cluster's name you are using.
+   Replace the `CLUSTER_NAME` with the cluster name that you are using.
 
-   **Note**: `CLUSTER_NAME` should be same as both the clusterdeployment's resource name and the clusterdeployment's namespace name.
+   **Note**: `CLUSTER_NAME` should be same as both the `ClusterDeployment` resource name and the `ClusterDeployment` namespace name.
 
 
 2. Verify that the cluster is available on the _cluster manager_:
