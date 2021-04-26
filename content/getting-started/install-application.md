@@ -1,6 +1,6 @@
 ---
 title: Install Application management
-weight: 3
+weight: 4
 ---
 
 After the cluster manager is installed, you could install the application management components to the hub cluster.

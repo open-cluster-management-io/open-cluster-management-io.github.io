@@ -1,6 +1,6 @@
 ---
 title: Install Cluster Lifecycle
-weight: 1
+weight: 3
 ---
 
 Cluster Lifecycle has the following component:
