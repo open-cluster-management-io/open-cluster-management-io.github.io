@@ -52,7 +52,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 5. Verify `managedcluster-import-controller` is running:
    ```Shell
-   kubectl get po -n open-cluster-management | grep managedcluster-import-controller   
+   $ kubectl get po -n open-cluster-management | grep managedcluster-import-controller   
    managedcluster-import-controller-686b9dff46-flk9d   1/1     Running   0          6m47s
    ```
 
@@ -62,7 +62,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 ### Auto register a Hive-created cluster
 1. If you created a OKD/Openshift cluster using [Hive](https://github.com/openshift/hive/blob/master/docs/using-hive.md#using-hive), you can auto-import the cluster by simply creating a managedcluster resource:
 
-   ```
+   ```Shell
    apiVersion: cluster.open-cluster-management.io/v1
    kind: ManagedCluster
    metadata:
@@ -77,7 +77,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 2. Verify that the cluster is available on the _cluster manager_:
    ```Shell
-   kubectl get managedcluster                                                                                                    
+   $ kubectl get managedcluster                                                                                                    
    NAME        HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
    hive-test   true                                  True     True        10m
 
@@ -88,7 +88,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 1. Create a managedcluster resource:
 
-   ```
+   ```Shell
    apiVersion: cluster.open-cluster-management.io/v1
    kind: ManagedCluster
    metadata:
@@ -115,7 +115,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 5. Verify that the cluster is available on the _cluster manager_:
    ```Shell
-   kubectl get managedcluster                                                                                                    
+   $ kubectl get managedcluster                                                                                                    
    NAME        HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
    test-name   true                                  True     True        21m
    ```
