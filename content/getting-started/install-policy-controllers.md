@@ -36,10 +36,10 @@ Complete the following procedure to install the configuration policy controller:
 2. Deploy the `config-policy-controller` to the managed cluster with the following commands: 
 
    ```Shell
-   export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
+   export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
    cd config-policy-controller
-   make kind-deploy-controller
+   make deploy-controller
    ```
 
 3. Ensure the pod is running on the managed cluster. Run the following command:
@@ -67,10 +67,10 @@ Complete the following steps to install the certificate policy controller:
 2. Deploy the `cert-policy-controller` to the managed cluster with the following commands: 
 
    ```Shell
-   export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
+   export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
    cd cert-policy-controller
-   make kind-deploy-controller
+   make deploy-controller
    ```
 
 3. Ensure the pod is running on the managed cluster. Run the following command:
@@ -98,10 +98,10 @@ Complete the following step to install the IAM policy controller:
 2. Deploy the `iam-policy-controller` to the managed cluster with the following commands: 
 
    ```Shell
-   export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
+   export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
    cd iam-policy-controller
-   make kind-deploy-controller
+   make deploy-controller
    ```
 
 3. Ensure the pod is running on the managed cluster. Run the following command:
@@ -121,9 +121,8 @@ The IAM policy controller is installed.
 1. After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:
 
    ```Shell
-   kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
-   
-   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
+   $ kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+   $ kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
    policy.policy.open-cluster-management.io/policy-pod created
    placementbinding.policy.open-cluster-management.io/binding-policy-pod created
    placementrule.apps.open-cluster-management.io/placement-policy-pod created
@@ -132,7 +131,7 @@ The IAM policy controller is installed.
 2. Update the `PlacementRule` to distribute the policy to the managed cluster with the following command:
 
    ```Shell
-   kubectl patch -n default placementrule.apps.open-cluster-management.io/placement-policy-pod --type=merge -p "{\"spec\":{\"clusterSelector\":{\"matchExpressions\":[]}}}"
+   $ kubectl patch -n default placementrule.apps.open-cluster-management.io/placement-policy-pod --type=merge -p "{\"spec\":{\"clusterSelector\":{\"matchExpressions\":[]}}}"
    placementrule.apps.open-cluster-management.io/placement-policy-pod patched
    ```
 
@@ -151,15 +150,15 @@ The IAM policy controller is installed.
 4. Enforce the policy to make the configuration policy automatically correct any misconfigurations on the managed cluster:
 
    ```Shell
-   kubectl patch -n default policy.policy.open-cluster-management.io/policy-pod --type=merge -p "{\"spec\":{\"remediationAction\": \"enforce\"}}"
+   $ kubectl patch -n default policy.policy.open-cluster-management.io/policy-pod --type=merge -p "{\"spec\":{\"remediationAction\": \"enforce\"}}"
    policy.policy.open-cluster-management.io/policy-pod patched
    ```
 
 5. After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:
 
    ```Shell
-   $ export WATCH_NAMESPACE=<managed cluster name> # export WATCH_NAMESPACE=cluster1
-   $ kubectl config use-context <managed cluster context> # kubectl config use-context kind-$WATCH_NAMESPACE
+   $ export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+   $ kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
    $ kubectl get policy -A
    NAMESPACE   NAME                 AGE
    cluster1    default.policy-pod   1m39s
