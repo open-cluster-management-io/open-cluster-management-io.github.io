@@ -41,7 +41,7 @@ The _Application console_ defines the user interface used to create and manage a
 
 ## Cluster lifecycle (work in progress)
 
-The _cluster lifecycle_ defines the process the lifecycle of a cluster on the hub side. It includes the create, destroy of cluster through [hive](https://github.com/openshift/hive), the attach and detach functionality, the addon lifecycle and a UI to give a better user experience on that process.
+The _cluster lifecycle_ defines the process the lifecycle of a cluster on the hub side. It includes the create, destroy of cluster through [hive](https://github.com/openshift/hive), the attach and detach functionality, the addon lifecycle and a UI console to give a better user experience on that process.
 
 ### Discovery (work in progress)
 
@@ -56,7 +56,7 @@ _Governance and risk_ is the term used to define the processes that are used to 
 _Multiclusterhub Operator_ is the controller responsible for installing sub-components on the hub cluster.
 ### Multiclusterhub Repo (work in progress)
 
-_Multiclusterhub Repo_ is the term used to define the internal helm repository used during installation, upgrade, and uninstall of related multiclusterhub components. 
+_Multiclusterhub Repo_ is the term used to define the internal helm repository used during installation, upgrade, and uninstall of related multiclusterhub components.
 
 ## Search (work in progress)
 
