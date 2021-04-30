@@ -50,8 +50,8 @@ export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export HUB
 make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
-## Install from OperatorHub
-If you are using OpenShift or have `OLM` installed in your cluster, you are able to install the klusterlet with a released version from OperatorHub. Details can be found [here](https://operatorhub.io/operator/klusterlet).
+## Install community operator from OperatorHub.io
+If you are using OKD, OpenShift or have `OLM` installed in your cluster, you are able to install the klusterlet agent community operator with a released version from [OperatorHub.io](https://operatorhub.io). Details can be found [here](https://operatorhub.io/operator/klusterlet).
 
 ## What is next
 
