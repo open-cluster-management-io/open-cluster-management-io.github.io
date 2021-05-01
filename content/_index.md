@@ -10,9 +10,24 @@ The Open Cluster Management project consists of several multicluster components,
 - Define API for policy definition to ensure desired configuration and security settings are auditable or enforceable.
 - Define API for distributed application delivery across many clusters and the ability to deliver ongoing updates.
 
-## Quick start
+## Quick start with core components
 
-Install and create a [Cluster Manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster. For more details see [Install Cluster Manager](getting-started/install-cluster-manager).
+![open-cluster-management](/ocm-small.png)
 
-Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _managed_ cluster.
-For more details see [Install Klusterlet](getting-started/register-cluster).
+Install and create a [Cluster Manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster.
+
+Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _manage_ cluster.
+
+For more details see [Core Components](getting-started/core).
+
+## Governance policy framework
+
+Enable the Policy Framework addon which provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help meet such enterprise standards. For more details see [Policy Framework](getting-started/integration/policy-framework).
+
+## Application lifecycle management
+
+Enable the Application Lifecycle Management addon for delivery, upgrade, and configuration of applications on Kubernetes clusters. For more details see [Application Management](getting-started/integration/app-lifecycle).
+
+## Cluster lifecycle management
+
+Using OKD and Hive technologies, enable the Cluster Lifecycle Management addon to unlock enhanced multiclusters management capabilities. For more details see [Cluster Lifecycle Management](getting-started/integration/cluster-lifecycle).

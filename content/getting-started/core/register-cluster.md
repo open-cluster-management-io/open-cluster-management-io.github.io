@@ -1,5 +1,5 @@
 ---
-title: Install Klusterlet
+title: Klusterlet Agent
 weight: 2
 ---
 
@@ -17,7 +17,7 @@ Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [ku
 
 Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
-Ensure the open-cluster-management cluster manager is installed on the hub cluster. See [Install Cluster Manager](../install-cluster-manager) for more information.
+Ensure the open-cluster-management cluster manager is installed on the hub cluster. See [Cluster Manager](../cluster-manager) for more information.
 
 Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as below. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
@@ -26,11 +26,6 @@ Prepare another Kubernetes cluster to function as the managed cluster. For examp
 kind create cluster --name cluster1
 kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 ```
-
-## Install with Cluster Lifecycle
-
-If you have installed [Cluster Lifecycle](../install-cluster-lifecycle), you can follow the instructions from the section, [Manually register a cluster](../install-cluster-lifecycle#manually-register-a-cluster).
-
 
 ## Install from source
 

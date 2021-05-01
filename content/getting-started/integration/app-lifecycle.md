@@ -1,6 +1,6 @@
 ---
-title: Install Application management
-weight: 4
+title: Application Lifecycle Management
+weight: 5
 ---
 
 After the cluster manager is installed, you could install the application management components to the hub cluster.
@@ -13,12 +13,15 @@ After the cluster manager is installed, you could install the application manage
 
 ## Prerequisite
 
-Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation/) are installed.
+You must meet the following prerequisites to install the application lifecycle management addon:
 
-Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
+* Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-Ensure the open-cluster-management cluster manager is installed. See [Install Cluster Manager](../install-cluster-manager) for more information.
+* Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
+* Ensure the open-cluster-management cluster manager is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
+
+* Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
 ## Install from source
 Clone the `multicloud-operators-subscription`

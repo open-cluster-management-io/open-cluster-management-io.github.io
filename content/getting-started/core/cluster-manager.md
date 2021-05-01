@@ -1,5 +1,5 @@
 ---
-title: Install Cluster Manager
+title: Cluster Manager
 weight: 1
 ---
 

@@ -1,9 +1,9 @@
 ---
-title: Install Cluster Lifecycle
-weight: 3
+title: Cluster Lifecycle Management
+weight: 10
 ---
 
-Cluster Lifecycle has the following component:
+Cluster Lifecycle Management has the following component:
 - managedcluster-import-controller: A controller that generates an import command. It also manages the Klusterlet on a managed cluster.
 
 <!-- spellchecker-disable -->
@@ -18,11 +18,11 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-- Prepare one [OKD 4](https://www.okd.io/) cluster to function as the _cluster manager_.
+- Prepare one [OKD](https://www.okd.io) cluster to function as the _hub_ cluster.
 
-- Install a cluster manager. See [Install Cluster Manager](../install-cluster-manager) for more information.
+- Install the cluster manager on the _hub_ cluster. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
 
-- Install [Hive](https://github.com/openshift/hive/blob/master/docs/install.md#installing-community-release-via-operatorhub) on the _cluster manager_.
+- Install [Hive](https://github.com/openshift/hive/blob/master/docs/install.md#installing-community-release-via-operatorhub) on the _hub_.
 
 ## Install managedcluster-import-controller from the source files
 
@@ -119,4 +119,3 @@ You must meet the following prerequisites to use the cluster lifecycle:
    NAME        HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
    test-name   true                                  True     True        21m
    ```
-
