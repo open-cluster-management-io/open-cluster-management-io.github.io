@@ -1,5 +1,5 @@
 ---
-title: Cluster Manager
+title: Cluster manager
 weight: 1
 ---
 

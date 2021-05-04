@@ -1,5 +1,5 @@
 ---
-title: Policy Controllers
+title: Policy controllers
 weight: 2
 ---
 

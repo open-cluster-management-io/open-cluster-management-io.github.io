@@ -1,5 +1,5 @@
 ---
-title: Cluster Lifecycle Management
+title: Cluster lifecycle management
 weight: 10
 ---
 

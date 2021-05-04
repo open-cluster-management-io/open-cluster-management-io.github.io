@@ -1,5 +1,5 @@
 ---
-title: Application Lifecycle Management
+title: Application lifecycle management
 weight: 5
 ---
 
@@ -13,7 +13,7 @@ After the cluster manager is installed, you could install the application manage
 
 ## Prerequisite
 
-You must meet the following prerequisites to install the application lifecycle management addon:
+You must meet the following prerequisites to install the application lifecycle management add-on:
 
 * Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 

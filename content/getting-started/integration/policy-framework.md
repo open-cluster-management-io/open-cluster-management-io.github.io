@@ -1,5 +1,5 @@
 ---
-title: Policy Framework
+title: Policy framework
 weight: 1
 ---
 
