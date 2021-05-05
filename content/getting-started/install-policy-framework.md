@@ -42,7 +42,7 @@ Complete the following steps to install the policy framework from prebuild image
    ```Shell
    kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
    cd governance-policy-framework
-   make deploy-policy-framework-hub
+   make deploy-community-policy-framework-hub
    ```
 
    * The previous command deploys the [policy-propagator](https://github.com/open-cluster-management/governance-policy-propagator).
@@ -55,12 +55,28 @@ Complete the following steps to install the policy framework from prebuild image
    governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   0          94s
    ```
 
-4. Deploy the policy framework components to the managed cluster. Run the following commands: 
+4. Export the hub cluster `kubeconfig` with the following command:
+
+   For `kind` cluster:
+
+   ```Shell
+   kind get kubeconfig --name <cluster name> --internal > $(PWD)/kubeconfig_hub
+   ```
+
+   For non-`kind` clusters:
+
+   ```Shell
+   kubectl config view --context=<hub cluster context> --minify --flatten > $PWD/kubeconfig_hub
+   ```
+
+5. Deploy the policy framework components to the managed cluster. Run the following commands: 
 
    ```Shell
    export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
    kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
-   make deploy-policy-framework-managed
+   kubectl create ns open-cluster-management-agent-addon
+   kubectl -n open-cluster-management-agent-addon create secret generic hub-kubeconfig --from-file=kubeconfig=$PWD/kubeconfig_hub
+   make deploy-community-policy-framework-managed
    ```
 
    * The previous command deploy following components:
@@ -68,7 +84,7 @@ Complete the following steps to install the policy framework from prebuild image
      -  [policy-status-sync](https://github.com/open-cluster-management/governance-policy-status-sync)
      -  [policy-template-sync](https://github.com/open-cluster-management/governance-policy-template-sync)
 
-5. Verify that the pods are running with the following command:
+6. Verify that the pods are running with the following command:
 
    ```Shell
    $ kubectl get pods -n open-cluster-management-agent-addon 
