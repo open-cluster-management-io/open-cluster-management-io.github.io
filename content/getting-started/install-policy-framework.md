@@ -55,7 +55,7 @@ Complete the following steps to install the policy framework from prebuild image
    governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   0          94s
    ```
 
-4. Export the hub cluster kubeconfig with the following command:
+4. Export the hub cluster `kubeconfig` with the following command:
 
    For `kind` cluster:
 
@@ -63,7 +63,7 @@ Complete the following steps to install the policy framework from prebuild image
    kind get kubeconfig --name <cluster name> --internal > $(PWD)/kubeconfig_hub
    ```
 
-   For non `kind` clusters:
+   For non-`kind` clusters:
 
    ```Shell
    kubectl config view --context=<hub cluster context> --minify --flatten > $PWD/kubeconfig_hub
