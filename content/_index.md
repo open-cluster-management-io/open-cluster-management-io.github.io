@@ -22,7 +22,7 @@ For more details see [Core Components](getting-started/core).
 
 ## Governance policy framework
 
-Enable the Policy framework add-on, which provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help meet such enterprise standards. For more details see [Policy framework add-on](getting-started/integration/policy-framework).
+Enable the Policy framework add-on to gain visibility and drive remediation for various security and configuration aspects to help meet such enterprise standards. For more details see [Policy framework add-on](getting-started/integration/policy-framework).
 
 ## Application lifecycle management
 

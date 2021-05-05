@@ -24,7 +24,7 @@ You must meet the following prerequisites to install the application lifecycle m
 * Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
 ## Install from source
-Clone the `multicloud-operators-subscription`
+Clone the `multicloud-operators-subscription` repository.
 
 ```Shell
 git clone https://github.com/open-cluster-management/multicloud-operators-subscription

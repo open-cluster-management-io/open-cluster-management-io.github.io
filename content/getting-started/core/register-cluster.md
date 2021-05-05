@@ -19,7 +19,7 @@ Ensure [golang](https://golang.org/doc/install) is installed, if you are plannin
 
 Ensure the open-cluster-management cluster manager is installed on the hub cluster. See [Cluster manager](../cluster-manager) for more information.
 
-Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as below. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
+Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as described in the following instructions. To use `kind`, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
 ```Shell
 # kind delete cluster --name cluster1 # if the kind cluster is previously created and can be safely deleted

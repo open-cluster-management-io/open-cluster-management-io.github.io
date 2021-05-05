@@ -60,7 +60,7 @@ Complete the following steps to install the policy framework from prebuild image
    For `kind` cluster:
 
    ```Shell
-   kind get kubeconfig --name <cluster name> --internal > $(PWD)/kubeconfig_hub
+   kind get kubeconfig --name <cluster name> --internal > $PWD/kubeconfig_hub
    ```
 
    For non-`kind` clusters:
