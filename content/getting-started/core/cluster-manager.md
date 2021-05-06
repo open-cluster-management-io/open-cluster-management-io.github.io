@@ -54,5 +54,5 @@ cd registration-operator
 make deploy-hub # make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
-## Install from OperatorHub
-If you are using OpenShift or have `OLM` installed in your cluster, you are able to install the cluster manager with a released version from OperatorHub. Details can be found [here](https://operatorhub.io/operator/cluster-manager).
+## Install community operator from OperatorHub.io
+If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the cluster manager community operator with a released version from [OperatorHub.io](https://operatorhub.io). Details can be found [here](https://operatorhub.io/operator/cluster-manager).
