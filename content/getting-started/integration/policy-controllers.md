@@ -1,6 +1,6 @@
 ---
-title: Install Policy Controllers
-weight: 6
+title: Policy controllers
+weight: 2
 ---
 
 After policy framework is installed, you can install the policy controllers to the managed clusters.
@@ -21,7 +21,7 @@ You must meet the following prerequisites to install the policy controllers:
 
 * Prepare one Kubernetes cluster to function as the hub cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you must install and run [Docker](https://docs.docker.com/get-started).
 
-* Ensure the `open-cluster-management` _policy framework_ is installed. See [Install Policy Framework](install-policy-framework.md) for more information.
+* Ensure the `open-cluster-management` _policy framework_ is installed. See [Policy Framework](../policy-framework) for more information.
 
 ## Install the configuration policy controller
 

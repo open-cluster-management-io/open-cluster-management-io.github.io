@@ -1,5 +1,5 @@
 ---
-title: Install Cluster Manager
+title: Cluster manager
 weight: 1
 ---
 
@@ -17,15 +17,15 @@ Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [ku
 
 Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
-Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you will need [docker](https://docs.docker.com/get-started) installed and running.
+Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use `kind`, you will need [docker](https://docs.docker.com/get-started) installed and running.
 
-If running on OS X, you'll need also gnu-sed installed:
+If you are running OS X, you'll also need to install `gnu-sed`:
 
 ```Shell
 brew install gnu-sed
 ```
 
-To create the hub cluster with kind, run:
+To create the hub cluster with `kind`, run:
 
 ```Shell
 # kind delete cluster --name hub # if the kind cluster is previously created and can be safely deleted
