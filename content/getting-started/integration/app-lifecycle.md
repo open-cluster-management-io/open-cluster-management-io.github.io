@@ -49,7 +49,7 @@ make deploy-community-managed # make deploy-community-managed GO_REQUIRED_MIN_VE
 ```
 
 ## Install community operator from OperatorHub.io
-If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the multicluster subscription community operator with a released version from the [OperatorHub.io](https://operatorhub.io). Details can be found [here](https://operatorhub.io/operator/multicluster-operators-subscription).
+If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the multicluster subscription community operator with a released version from the [OperatorHub.io](https://operatorhub.io/operator/multicluster-operators-subscription).
 
 ## What is next
 

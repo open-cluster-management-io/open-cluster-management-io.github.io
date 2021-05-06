@@ -7,7 +7,11 @@
       - name: "Slack"
         ref: "https://kubernetes.slack.com/archives/C01GE7YSUUF"
         external: true
-        icon: "slack"
+        icon: "person"
+      - name: "Meeting"
+        ref: "https://github.com/open-cluster-management/community/projects/1#card-50787258"
+        external: true
+        icon: "date"
       - name: "YouTube"
         ref: "https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw"
         external: true

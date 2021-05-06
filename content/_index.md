@@ -26,8 +26,8 @@ Enable the Policy framework add-on to gain visibility and drive remediation for 
 
 ## Application lifecycle management
 
-Enable the Application Lifecycle Management add-on for delivery, upgrade, and configuration of applications on Kubernetes clusters. For more details see [Application lifecycle management add-on](getting-started/integration/app-lifecycle).
+Enable the Application lifecycle management add-on for delivery, upgrade, and configuration of applications on Kubernetes clusters. For more details see [Application lifecycle management add-on](getting-started/integration/app-lifecycle).
 
 ## Cluster lifecycle management
 
-Using OKD and Hive technologies, enable the Cluster Lifecycle Management add-on to unlock enhanced multicluster management capabilities. For more details see [Cluster lifecycle management add-on](getting-started/integration/cluster-lifecycle).
+Using OKD and Hive technologies, enable the Cluster lifecycle management add-on to unlock enhanced multicluster management capabilities. For more details see [Cluster lifecycle management add-on](getting-started/integration/cluster-lifecycle).
