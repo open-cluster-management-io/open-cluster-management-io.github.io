@@ -51,7 +51,7 @@ make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if y
 ```
 
 ## Install community operator from OperatorHub.io
-If you are using OKD, OpenShift or have `OLM` installed in your cluster, you are able to install the klusterlet agent community operator with a released version from [OperatorHub.io](https://operatorhub.io). Details can be found [here](https://operatorhub.io/operator/klusterlet).
+If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the klusterlet agent community operator with a released version from [OperatorHub.io](https://operatorhub.io). Details can be found [here](https://operatorhub.io/operator/klusterlet).
 
 ## What is next
 
