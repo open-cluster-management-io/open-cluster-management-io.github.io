@@ -55,4 +55,4 @@ make deploy-hub # make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warning
 ```
 
 ## Install community operator from OperatorHub.io
-If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the cluster manager community operator with a released version from [OperatorHub.io](https://operatorhub.io). Details can be found [here](https://operatorhub.io/operator/cluster-manager).
+If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the cluster manager community operator with a released version from [OperatorHub.io](https://operatorhub.io/operator/cluster-manager).
