@@ -3,9 +3,9 @@ title: Cluster lifecycle management
 weight: 10
 ---
 
-Cluster lifecycle management has the following component:
-- managedcluster-import-controller: A controller that generates an import command. It also manages the Klusterlet on a managed cluster.
-- klusterlet-addon-controller: A controller help you install addon agents on the managed cluster. **Note**: the hub side of the addon need to be installed first to enable the managed cluster addon features.
+Cluster lifecycle management has the following components:
+- managedcluster-import-controller: A controller that generates an import command. It also manages the klusterlet on a managed cluster.
+- klusterlet-addon-controller: A controller that helps you install addon agents on the managed cluster. **Note**: The hub side of the addon must be installed first to enable the managed cluster addon features.
 
 <!-- spellchecker-disable -->
 
@@ -61,7 +61,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 ## Next steps
 
 ### Auto register a Hive-created cluster
-1. If you created a OKD/Openshift cluster using [Hive](https://github.com/openshift/hive/blob/master/docs/using-hive.md#using-hive), you can auto-import the cluster by simply creating a managedcluster resource:
+1. If you created an OKD or Red Hat OpenShift cluster using [Hive](https://github.com/openshift/hive/blob/master/docs/using-hive.md#using-hive), you can auto-import the cluster by simply creating a `managedcluster` resource:
 
    ```Shell
    apiVersion: cluster.open-cluster-management.io/v1
@@ -71,9 +71,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
    spec:
      hubAcceptsClient: true
    ```
-   Replace the `CLUSTER_NAME` with the cluster name that you are using.
-
-   **Note**: `CLUSTER_NAME` should be same as both the `ClusterDeployment` resource name and the `ClusterDeployment` namespace name.
+   Replace `CLUSTER_NAME` with the cluster name that you are using, which should be the same as both the `ClusterDeployment` resource name and the `ClusterDeployment` namespace name.
 
 
 2. Verify that the cluster is available on the hub cluster:
@@ -87,7 +85,7 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 ### Manually register a cluster
 
-1. Create a managedcluster resource:
+1. Create a `managedcluster` resource:
 
    ```Shell
    apiVersion: cluster.open-cluster-management.io/v1
@@ -98,17 +96,17 @@ You must meet the following prerequisites to use the cluster lifecycle:
      hubAcceptsClient: true
    ```
 
-   Replace the `CLUSTER_NAME` with the name you want. 
+   Replace `CLUSTER_NAME` with the name of the cluster.
 
-2. Once the managedcluster resource is created, a namespace with `CLUSTER_NAME` will be created, and managedcluster-import-controller will generate the `yaml` files that you can apply on your managed cluster.
+2. After the `managedcluster` resource is created, a namespace with `CLUSTER_NAME` is created, and `managedcluster-import-controller` generates the yaml files that you can apply on your managed cluster.
 
-3. On the hub cluster, run the following commands to get two `yaml` files:
+3. On the hub cluster, run the following commands to generate two `yaml` files:
    ```Shell
    kubectl get secret -n ${CLUSTER_NAME} ${CLUSTER_NAME}-import -ojsonpath='{.data.crds\.yaml}' | base64 --decode > crds.yaml
    kubectl get secret -n ${CLUSTER_NAME} ${CLUSTER_NAME}-import -ojsonpath='{.data.import\.yaml}' | base64 --decode > import.yaml
    ```
 
-4. On the _managed cluster_, apply the `yaml` files:
+4. On the managed cluster, apply the `yaml` files:
    ```Shell
    kubectl apply -f crds.yaml
    kubectl apply -f import.yaml
@@ -123,40 +121,40 @@ You must meet the following prerequisites to use the cluster lifecycle:
 
 ## Install klusterlet-addon-controller from source
 
-Ensure the `kubectl` context is set to point to the hub cluster:
+1. Ensure the `kubectl` context is set to point to the hub cluster:
 
 ```Shell
 kubectl cluster-info
 ```
 
-Clone the `multicloud-operators-foundation` repo:
+2. Clone the `multicloud-operators-foundation` repo:
 
 ```Shell
 git clone https://github.com/open-cluster-management/multicloud-operators-foundation.git
 cd multicloud-operators-foundation
 ```
 
-Deploy the multicloud-operators-foundation pieces:
+3. Deploy the `multicloud-operators-foundation` pieces:
 ```Shell
 make deploy-foundation-hub
 export MANAGED_CLUSTER_NAME=<your managed cluster name, default is cluster1>
 make deploy-foundation-agent
 ```
 
-Clone the `klusterlet-addon-controller` repo:
+4. Clone the `klusterlet-addon-controller` repo:
 
 ```Shell
 git clone https://github.com/open-cluster-management/klusterlet-addon-controller.git
 cd klusterlet-addon-controller
 ```
 
-Deploy klusterlet-addon-controller in the `open-cluster-management` namespace
+5. Deploy `klusterlet-addon-controller` in the `open-cluster-management` namespace
 
 ```Shell
 kubectl apply -k overlays/community
 ```
 
-Verify klusterlet-addon-controller is running:
+6. Verify that `klusterlet-addon-controller` is running:
 ```Shell
 $ kubectl get po -n open-cluster-management | grep klusterlet-addon-controller   
 klusterlet-addon-controller-6dbc964f45-s45w8   1/1     Running   0          1m23s
@@ -165,12 +163,14 @@ klusterlet-addon-controller-6dbc964f45-s45w8   1/1     Running   0          1m23
 
 ## Next steps
 
-### Install addons on registered clusters
-klusterlet-addon-controller can help users to create the following addons:
+### Install addons on managed clusters
+`klusterlet-addon-controller` can help you create the following addons:
 - [Application lifecycle management](../app-lifecycle)
 - [Policy controllers](../policy-controllers)
 
-To install addons into a managed cluster, create a klusterletaddonconfig resource in the cluster namespace:
+To install addons on a managed cluster:
+
+1. Create a `klusterletaddonconfig` resource in the cluster namespace:
 
 ```
 apiVersion: agent.open-cluster-management.io/v1
@@ -196,9 +196,9 @@ spec:
     enabled: false
 ```
 
-Replace the `CLUSTER_NAME` with the managed cluster name that you are using.
+Replace the `CLUSTER_NAME` with the managed cluster name.
 
-Once the `klusterletaddonconfig` is created on the hub cluster, you will see addons installed in the managed cluster's `open-cluster-management-agent-addon` namespace.
+2. After the `klusterletaddonconfig` is created on the hub cluster, run the following command to see addons installed in the managed cluster's `open-cluster-management-agent-addon` namespace.
 
 ```Shell
 $ kubectl -n open-cluster-management-agent-addon get pod
