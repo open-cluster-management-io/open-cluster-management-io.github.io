@@ -23,8 +23,8 @@ Prepare another Kubernetes cluster to function as the managed cluster. For examp
 
 ```Shell
 # kind delete cluster --name cluster1 # if the kind cluster is previously created and can be safely deleted
-kind create cluster --name cluster1
-kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
+kind create cluster --name <managed cluster name> # kind create cluster --name cluster1
+kind get kubeconfig --name <managed cluster name>  --internal > ~/<managed cluster name>-kubeconfig # kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 ```
 
 ## Install from source
@@ -45,7 +45,8 @@ Deploy agent on a managed `kind` cluster.
 
 ```Shell
 cd registration-operator
-export KLUSTERLET_KIND_KUBECONFIG=~/cluster1-kubeconfig
+export MANAGED_CLUSTER=<managed cluster name> # export MANAGED_CLUSTER=cluster1
+export KLUSTERLET_KIND_KUBECONFIG=</path/to/managed_kind_cluster/.kube/config> # export KLUSTERLET_KIND_KUBECONFIG=~/cluster1-kubeconfig
 export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
 make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
