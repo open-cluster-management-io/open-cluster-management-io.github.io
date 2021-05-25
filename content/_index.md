@@ -1,33 +1,55 @@
 ---
 title: What is Open Cluster Management?
+description: Open Cluster Management is the best way to simplify management of multiple Kubernetes clusters.
+geekdocNav: false
+geekdocAlign: center
+geekdocAnchor: false
 ---
 
-The Open Cluster Management project consists of several multicluster components, which are used to access and manage your clusters. It was started to bring together the various aspects of managing Kubernetes clusters into an integrated solution comprised of loosely coupled building blocks. Here are some examples of the Multicluster APIs that are part of the project today:
+The Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.
 
-- Define API for cluster registration independent of cluster CRUD lifecycle.
-- Define API for work distribution across multiple clusters.
-- Define API for dynamic placement of content and behavior across multiple clusters.
-- Define API for policy definition to ensure desired configuration and security settings are auditable or enforceable.
-- Define API for distributed application delivery across many clusters and the ability to deliver ongoing updates.
+{{< button size="large" relref="getting-started/quick-start" >}}Getting Started{{< /button >}}
 
-## Quick start with core components
+## Feature overview
 
-![open-cluster-management](/ocm-small.png)
+{{< columns >}}
 
-Install and create a [Cluster manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster.
+### Cluster registration
 
-Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _manage_ cluster.
+Registration of multiple clusters to a hub cluster to place them under management.
 
-For more details see [Core Components](getting-started/core).
+<--->
 
-## Governance policy framework
+### Work distribution
 
-Enable the Policy framework add-on to gain visibility and drive remediation for various security and configuration aspects to help meet such enterprise standards. For more details see [Policy framework add-on](getting-started/integration/policy-framework).
+Work API that enables resources to be applied to managed clusters from a hub cluster.
 
-## Application lifecycle management
+<--->
 
-Enable the Application lifecycle management add-on for delivery, upgrade, and configuration of applications on Kubernetes clusters. For more details see [Application lifecycle management add-on](getting-started/integration/app-lifecycle).
+### Content placement
 
-## Cluster lifecycle management
+Dynamic placement of content and behavior across multiple clusters.
 
-Using OKD and Hive technologies, enable the Cluster lifecycle management add-on to unlock enhanced multicluster management capabilities. For more details see [Cluster lifecycle management add-on](getting-started/integration/cluster-lifecycle).
+{{< /columns >}}
+
+{{< columns >}}
+
+### Governance, risk management, and compliance
+
+Policy definition to ensure desired configuration and security settings are auditable or enforceable.
+
+<--->
+
+### Application lifecycle
+
+Distributed application delivery across many clusters and the ability to deliver ongoing updates.
+
+{{< /columns >}}
+
+{{< icon "gdoc_github" >}} {{< button size="small" href="https://github.com/open-cluster-management" >}}GitHub{{< /button >}}
+{{< icon "gdoc_heart" >}} {{< button size="small" relref="community/resource" >}}Join the Community{{< /button >}}
+{{< icon "gdoc_git" >}} {{< button size="small" relref="contribute/contribute" >}}Contribute{{< /button >}}
+
+{{< icon "gdoc_person" >}} {{< button size="small" href="https://kubernetes.slack.com/archives/C01GE7YSUUF" >}}Slack{{< /button >}}
+{{< icon "gdoc_date" >}} {{< button size="small" href="https://github.com/open-cluster-management/community/projects/1#card-50787258" >}}Meeting{{< /button >}}
+{{< icon "gdoc_link" >}} {{< button size="small" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" >}}YouTube{{< /button >}}
