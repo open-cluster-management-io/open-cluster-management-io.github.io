@@ -1,6 +1,6 @@
 ---
 title: Core Components
-weight: 1
+weight: 2
 ---
 
 Install the core control plane that includes cluster registration and manifests distribution on the hub cluster.
