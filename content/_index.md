@@ -6,7 +6,7 @@ geekdocAlign: center
 geekdocAnchor: false
 ---
 
-The Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.
+Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.
 
 {{< button size="large" relref="getting-started/quick-start" >}}Getting Started{{< /button >}}
 
@@ -16,13 +16,13 @@ The Open Cluster Management is a community-driven project focused on multicluste
 
 ### Cluster registration
 
-Registration of multiple clusters to a hub cluster to place them under management.
+Registration of multiple clusters to a hub cluster to place them for management.
 
 <--->
 
 ### Work distribution
 
-Work API that enables resources to be applied to managed clusters from a hub cluster.
+The work API that enables resources to be applied to managed clusters from a hub cluster.
 
 <--->
 
