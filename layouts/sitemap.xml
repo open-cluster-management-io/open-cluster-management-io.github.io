@@ -7,5 +7,9 @@
     {{ end }}{{ end }}
     <url>
         <loc>http://open-cluster-management.io/api?go-get=1</loc>
+        <loc>http://open-cluster-management.io/multicloud-operators-channel?go-get=1</loc>
+        <loc>http://open-cluster-management.io/multicloud-operators-deployable?go-get=1</loc>
+        <loc>http://open-cluster-management.io/multicloud-operators-placementrule?go-get=1</loc>
+        <loc>http://open-cluster-management.io/multicloud-operators-subscription-release?go-get=1</loc>
     </url>
 </urlset>
