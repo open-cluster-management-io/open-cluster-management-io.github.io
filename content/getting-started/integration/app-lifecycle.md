@@ -42,6 +42,7 @@ make deploy-community-hub # make deploy-community-hub GO_REQUIRED_MIN_VERSION:= 
 Deploy the subscription operators to managed cluster(s).
 
 ```Shell
+export TRAVIS_BUILD=0
 export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
 kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
 export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
