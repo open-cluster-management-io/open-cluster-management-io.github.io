@@ -1,0 +1,23 @@
+name: GoPostSubmit
+
+on:
+  push:
+    branches:
+      - main
+      - release-*
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    name: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: build
+        run: make publish
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
