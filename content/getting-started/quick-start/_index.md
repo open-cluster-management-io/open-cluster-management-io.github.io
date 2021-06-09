@@ -9,4 +9,4 @@ Install and create a [Cluster manager](https://operatorhub.io/operator/cluster-m
 
 Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _manage_ cluster.
 
-For more details see [Core Components](getting-started/core).
+For more details see [Core Components](/getting-started/core).
