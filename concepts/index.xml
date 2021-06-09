@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concepts on Open Cluster Management</title>
+    <link>http://open-cluster-management.github.io/concepts/</link>
+    <description>Recent content in Concepts on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.github.io/concepts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Architecture</title>
+      <link>http://open-cluster-management.github.io/concepts/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/architecture/</guid>
+      <description>This page tells you the architecture and basic concepts in open-cluster-management.
+   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
+Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
+    </item>
+    
+    <item>
+      <title>Roadmap</title>
+      <link>http://open-cluster-management.github.io/concepts/roadmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/roadmap/</guid>
+      <description>This page tells you the roadmap for components in open-cluster-management.
+Work in progress</description>
+    </item>
+    
+  </channel>
+</rss>

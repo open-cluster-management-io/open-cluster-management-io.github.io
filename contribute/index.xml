@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Contribute on Open Cluster Management</title>
+    <link>http://open-cluster-management.github.io/contribute/</link>
+    <description>Recent content in Contribute on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.github.io/contribute/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Contribute to Open Cluster Management</title>
+      <link>http://open-cluster-management.github.io/contribute/contribute/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/contribute/contribute/</guid>
+      <description>We know you&amp;rsquo;ve got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!
+Getting Started    All contributions are welcome! Open Cluster Management uses the Apache 2 license. Please open issues for any bugs or problems you encounter, ask questions in the #open-cluster-mgmt on Kubernetes Slack Channel, or get involved joining the open-cluster-management mailing group.
+Contribute to the Source     Join the Mailing group Attend an upcoming Community meetings Fork the repository you wish to work on.</description>
+    </item>
+    
+  </channel>
+</rss>

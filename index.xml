@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>What is Open Cluster Management? on Open Cluster Management</title>
+    <link>http://open-cluster-management.github.io/</link>
+    <description>Recent content in What is Open Cluster Management? on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Architecture</title>
+      <link>http://open-cluster-management.github.io/concepts/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/architecture/</guid>
+      <description>This page tells you the architecture and basic concepts in open-cluster-management.
+   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
+Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      <link>http://open-cluster-management.github.io/blog/blog/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/blog/blog/</guid>
+      <description>May 24, 2021 April 22, 2021     May 24, 2021    Michael Elder put together a user walk through for the basic Open Cluster Management API using kind, olm, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
+April 22, 2021    Inspired by the famous article Kubernetes The Hard Way, Dario Minonne created a tutorial for setting up Open Cluster Management the hard way.</description>
+    </item>
+    
+    <item>
+      <title>Contribute to Open Cluster Management</title>
+      <link>http://open-cluster-management.github.io/contribute/contribute/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/contribute/contribute/</guid>
+      <description>We know you&amp;rsquo;ve got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!
+Getting Started    All contributions are welcome! Open Cluster Management uses the Apache 2 license. Please open issues for any bugs or problems you encounter, ask questions in the #open-cluster-mgmt on Kubernetes Slack Channel, or get involved joining the open-cluster-management mailing group.
+Contribute to the Source     Join the Mailing group Attend an upcoming Community meetings Fork the repository you wish to work on.</description>
+    </item>
+    
+    <item>
+      <title>Resources</title>
+      <link>http://open-cluster-management.github.io/community/resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/community/resource/</guid>
+      <description>Join conversations with the other people who are involved in the creation, maintenance, and future of open-cluster-management. We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the Community repo.
+Get Connected    See the following options to connect with the community:
+GitHub
+Mailing group
+Slack
+Community meetings</description>
+    </item>
+    
+    <item>
+      <title>Roadmap</title>
+      <link>http://open-cluster-management.github.io/concepts/roadmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/roadmap/</guid>
+      <description>This page tells you the roadmap for components in open-cluster-management.
+Work in progress</description>
+    </item>
+    
+    <item>
+      <title>Cluster manager</title>
+      <link>http://open-cluster-management.github.io/getting-started/core/cluster-manager/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/core/cluster-manager/</guid>
+      <description>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
+   Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite    Ensure kubectl and kustomize are installed.
+Ensure golang is installed, if you are planning to install from the source.
+Prepare one Kubernetes cluster to function as the hub. For example, use kind to create a hub cluster.</description>
+    </item>
+    
+    <item>
+      <title>Policy framework</title>
+      <link>http://open-cluster-management.github.io/getting-started/integration/policy-framework/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/integration/policy-framework/</guid>
+      <description>After the cluster manager and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.
+   Prerequisite Install from prebuilt images on Quay.io     Prerequisite    You must meet the following prerequisites to install the policy framework:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Klusterlet agent</title>
+      <link>http://open-cluster-management.github.io/getting-started/core/register-cluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/core/register-cluster/</guid>
+      <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
+   Prerequisite Install from source Install community operator from OperatorHub.io What is next     Prerequisite    Ensure kubectl and kustomize are installed.
+Ensure golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Policy controllers</title>
+      <link>http://open-cluster-management.github.io/getting-started/integration/policy-controllers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/integration/policy-controllers/</guid>
+      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
+   Prerequisite Install the configuration policy controller Install the certificate policy controller Install the IAM policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Application lifecycle management</title>
+      <link>http://open-cluster-management.github.io/getting-started/integration/app-lifecycle/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/integration/app-lifecycle/</guid>
+      <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
+   Prerequisite Install from source Install community operator from OperatorHub.io What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+  Ensure kubectl and kustomize are installed.
+  Ensure golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>APIS</title>
+      <link>http://open-cluster-management.github.io/api/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/api/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cluster Admin</title>
+      <link>http://open-cluster-management.github.io/clusteradm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/clusteradm/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

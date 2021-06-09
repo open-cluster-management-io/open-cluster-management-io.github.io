@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Community on Open Cluster Management</title>
+    <link>http://open-cluster-management.github.io/community/</link>
+    <description>Recent content in Community on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.github.io/community/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Resources</title>
+      <link>http://open-cluster-management.github.io/community/resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/community/resource/</guid>
+      <description>Join conversations with the other people who are involved in the creation, maintenance, and future of open-cluster-management. We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the Community repo.
+Get Connected    See the following options to connect with the community:
+GitHub
+Mailing group
+Slack
+Community meetings</description>
+    </item>
+    
+  </channel>
+</rss>

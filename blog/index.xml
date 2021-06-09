@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on Open Cluster Management</title>
+    <link>http://open-cluster-management.github.io/blog/</link>
+    <description>Recent content in Blog on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Blog</title>
+      <link>http://open-cluster-management.github.io/blog/blog/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/blog/blog/</guid>
+      <description>May 24, 2021 April 22, 2021     May 24, 2021    Michael Elder put together a user walk through for the basic Open Cluster Management API using kind, olm, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
+April 22, 2021    Inspired by the famous article Kubernetes The Hard Way, Dario Minonne created a tutorial for setting up Open Cluster Management the hard way.</description>
+    </item>
+    
+  </channel>
+</rss>

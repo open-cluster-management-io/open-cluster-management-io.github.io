@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Addons and Integrations on Open Cluster Management</title>
+    <link>http://open-cluster-management.github.io/getting-started/integration/</link>
+    <description>Recent content in Addons and Integrations on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.github.io/getting-started/integration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Policy framework</title>
+      <link>http://open-cluster-management.github.io/getting-started/integration/policy-framework/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/integration/policy-framework/</guid>
+      <description>After the cluster manager and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.
+   Prerequisite Install from prebuilt images on Quay.io     Prerequisite    You must meet the following prerequisites to install the policy framework:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Policy controllers</title>
+      <link>http://open-cluster-management.github.io/getting-started/integration/policy-controllers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/integration/policy-controllers/</guid>
+      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
+   Prerequisite Install the configuration policy controller Install the certificate policy controller Install the IAM policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Application lifecycle management</title>
+      <link>http://open-cluster-management.github.io/getting-started/integration/app-lifecycle/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/getting-started/integration/app-lifecycle/</guid>
+      <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
+   Prerequisite Install from source Install community operator from OperatorHub.io What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+  Ensure kubectl and kustomize are installed.
+  Ensure golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+  </channel>
+</rss>
