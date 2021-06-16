@@ -1,6 +1,7 @@
 ---
 title: Policy controllers
 weight: 2
+geekdocHidden: true
 ---
 
 After policy framework is installed, you can install the policy controllers to the managed clusters.

@@ -1,6 +1,7 @@
 ---
 title: Application lifecycle management
 weight: 5
+geekdocHidden: true
 ---
 
 After the cluster manager is installed, you could install the application management components to the hub cluster.
