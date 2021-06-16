@@ -34,15 +34,15 @@ Dynamic placement of content and behavior across multiple clusters.
 
 {{< columns >}}
 
-### Governance, risk management, and compliance
+### Vendor neutral APIs
 
-Policy definition to ensure desired configuration and security settings are auditable or enforceable.
+Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms.
 
 <--->
 
-### Application lifecycle
+### Open community
 
-Distributed application delivery across many clusters and the ability to deliver ongoing updates.
+An open and neutral initiative that welcomes all. Aiming to join Cloud Native Computing Foundation (CNCF) for shared governance.
 
 {{< /columns >}}
 

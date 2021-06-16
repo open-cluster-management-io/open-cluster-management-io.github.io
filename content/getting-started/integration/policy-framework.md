@@ -1,6 +1,7 @@
 ---
 title: Policy framework
 weight: 1
+geekdocHidden: true
 ---
 
 After the cluster manager and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.
