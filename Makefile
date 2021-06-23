@@ -17,7 +17,6 @@ static: hugo
 	./hugo -D -d output
 
 publish: static
-	./deploy.sh
 
 .DEFAULT_GOAL := static 
 
