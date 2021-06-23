@@ -1,6 +1,6 @@
 ---
 title: Architecture
-weight: -20
+weight: 1
 ---
 
 This page tells you the architecture and basic concepts in open-cluster-management.
