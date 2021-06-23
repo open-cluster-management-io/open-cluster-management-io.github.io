@@ -46,9 +46,9 @@ Deploy agent on a managed `kind` cluster.
 ```Shell
 cd registration-operator
 export MANAGED_CLUSTER=<managed cluster name> # export MANAGED_CLUSTER=cluster1
-export KLUSTERLET_KIND_KUBECONFIG=</path/to/managed_kind_cluster/.kube/config> # export KLUSTERLET_KIND_KUBECONFIG=~/cluster1-kubeconfig
-export HUB_KIND_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export HUB_KIND_KUBECONFIG=~/hub-kubeconfig
-make deploy-spoke-kind # make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
+export KLUSTERLET_KUBECONFIG=</path/to/managed_kind_cluster/.kube/config> # export KLUSTERLET_KUBECONFIG=~/cluster1-kubeconfig
+export HUB_KUBECONFIG=</path/to/hub_kind_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
+make deploy-spoke # make deploy-spoke GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
 ## Install community operator from OperatorHub.io
