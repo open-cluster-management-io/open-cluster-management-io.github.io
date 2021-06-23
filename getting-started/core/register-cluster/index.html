@@ -579,9 +579,9 @@ kind get kubeconfig --name &lt;managed cluster name&gt;  --internal &gt; ~/&lt;m
 </code></pre></div><p>Deploy agent on a managed <code>kind</code> cluster.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">cd</span> registration-operator
 <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER=cluster1</span>
-<span class="nb">export</span> <span class="nv">KLUSTERLET_KIND_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/managed_kind_cluster/.kube/config&gt; <span class="c1"># export KLUSTERLET_KIND_KUBECONFIG=~/cluster1-kubeconfig</span>
-<span class="nb">export</span> <span class="nv">HUB_KIND_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_kind_cluster/.kube/config&gt; <span class="c1"># export HUB_KIND_KUBECONFIG=~/hub-kubeconfig</span>
-make deploy-spoke-kind <span class="c1"># make deploy-spoke-kind GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
+<span class="nb">export</span> <span class="nv">KLUSTERLET_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/managed_kind_cluster/.kube/config&gt; <span class="c1"># export KLUSTERLET_KUBECONFIG=~/cluster1-kubeconfig</span>
+<span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_kind_cluster/.kube/config&gt; <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
+make deploy-spoke <span class="c1"># make deploy-spoke GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
 </code></pre></div><div class="gdoc-page__anchorwrap">
     <h2 id="install-community-operator-from-operatorhubio">
         Install community operator from OperatorHub.io
