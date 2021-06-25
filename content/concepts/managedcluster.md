@@ -12,7 +12,7 @@ weight: 2
 
 This process ensures that any agent with a credential to hub can request to join as a `ManagedCluster`, while the request must be approved by an admin on the hub.
 
-An example of `ManagedCluster` resource is as below:
+An example of `ManagedCluster` resource is shown in the following example.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1
@@ -42,7 +42,7 @@ In open-cluster-management, [registraion](https://github.com/open-cluster-manage
 
 To add a  `ManagedCluster` to a `ManagedClusterSet`, user needs to set a lable `open-cluster-management.io/clusterset={clusterset name}` on the `ManagedCluster`.  User must have the `create` permission to `managedclusterset/join` resource to add a  `ManagedCluster` to a `ManagedClusterSet`.
 
-An example of `ManagedClusterSet` resource is as below:
+An example of `ManagedClusterSet` resource is shown in the following example.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
