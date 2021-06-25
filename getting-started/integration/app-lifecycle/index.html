@@ -11,9 +11,9 @@
 
 
     <meta name="description" content="After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Prerequisite Install from source Install community operator from OperatorHub.io What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+   Prerequisite Install from source What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
-  Ensure golang is installed, if you are planning to install from the source.">
+  Ensure the open-cluster-management cluster manager is installed. See Cluster Manager for more information.">
 
 
 
@@ -312,6 +312,70 @@
         
             
             
+
+            
+            
+            
+            
+            
+            
+
+            <li>
+            
+            
+                <span class="flex">
+                    <a href="/getting-started/integration/" class="gdoc-nav__entry ">
+                        Addons and Integrations
+                    </a>
+                </span>
+            
+            
+
+            
+                
+    
+
+    <ul class="gdoc-nav__list">
+        
+            
+            
+            
+        
+            
+            
+            
+        
+            
+            
+
+            
+            
+            
+            
+            
+            
+
+            <li>
+            
+            
+                <span class="flex">
+                    <a href="/getting-started/integration/app-lifecycle/" class="gdoc-nav__entry is-active">
+                        Application lifecycle management
+                    </a>
+                </span>
+            
+            
+
+            
+            </li>
+            
+            
+        
+    </ul>
+
+            
+            </li>
+            
             
         
     </ul>
@@ -546,7 +610,6 @@
   <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-from-source">Install from source</a></li>
-        <li><a href="#install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</a></li>
         <li><a href="#what-is-next">What is next</a></li>
       </ul></nav><hr></div>
 
@@ -565,10 +628,7 @@
 <p>Ensure <a class="gdoc-markdown__link" href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a class="gdoc-markdown__link" href="https://kubernetes-sigs.github.io/kustomize/installation">kustomize</a> are installed.</p>
 </li>
 <li>
-<p>Ensure <a class="gdoc-markdown__link" href="https://golang.org/doc/install">golang</a> is installed, if you are planning to install from the source.</p>
-</li>
-<li>
-<p>Ensure the open-cluster-management cluster manager is installed. See <a class="gdoc-markdown__link" href="/getting-started/core/cluster-manager">Cluster Manager</a> for more information.</p>
+<p>Ensure the <code>open-cluster-management</code> <em>cluster manager</em> is installed. See <a class="gdoc-markdown__link" href="/getting-started/core/cluster-manager">Cluster Manager</a> for more information.</p>
 </li>
 <li>
 <p>Ensure the <code>open-cluster-management</code> <em>klusterlet</em> is installed. See <a class="gdoc-markdown__link" href="/getting-started/core/register-cluster">Klusterlet</a> for more information.</p>
@@ -582,27 +642,23 @@
         </a>
     </h2>
 </div><p>Clone the <code>multicloud-operators-subscription</code> repository.</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management/multicloud-operators-subscription
-</code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">export</span> <span class="nv">TRAVIS_BUILD</span><span class="o">=</span><span class="m">0</span>
-kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/multicloud-operators-subscription
 <span class="nb">cd</span> multicloud-operators-subscription
-make deploy-community-hub <span class="c1"># make deploy-community-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
+</code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+$ make deploy-hub
+$ kubectl -n open-cluster-management get deploy  multicloud-operators-subscription
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           25s
 </code></pre></div><p>Deploy the subscription operators to managed cluster(s).</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">export</span> <span class="nv">TRAVIS_BUILD</span><span class="o">=</span><span class="m">0</span>
-<span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_cluster/.kube/config&gt; <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
-kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
-make deploy-community-managed <span class="c1"># make deploy-community-managed GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ <span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_cluster/.kube/config&gt; <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
+$ <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
+$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
+$ make deploy-managed
+$ kubectl -n open-cluster-management-agent-addon get deploy  multicloud-operators-subscription
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           103s
 </code></pre></div><div class="gdoc-page__anchorwrap">
-    <h2 id="install-community-operator-from-operatorhubio">
-        Install community operator from OperatorHub.io
-        <a data-clipboard-text="http://open-cluster-management.github.io/getting-started/integration/app-lifecycle/#install-community-operator-from-operatorhubio" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Install community operator from OperatorHub.io" href="#install-community-operator-from-operatorhubio">
-            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-        </a>
-    </h2>
-</div><p>If you are using OKD, OpenShift, or have <code>OLM</code> installed in your cluster, you can install the multicluster subscription community operator with a released version from the <a class="gdoc-markdown__link" href="https://operatorhub.io/operator/multicluster-operators-subscription">OperatorHub.io</a>.</p>
-<div class="gdoc-page__anchorwrap">
     <h2 id="what-is-next">
         What is next
         <a data-clipboard-text="http://open-cluster-management.github.io/getting-started/integration/app-lifecycle/#what-is-next" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor What is next" href="#what-is-next">
@@ -611,7 +667,6 @@ make deploy-community-managed <span class="c1"># make deploy-community-managed G
     </h2>
 </div><p>After a successful deployment, test the subscription operator with a <code>helm</code> subscription. Run the following command:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-<span class="nb">cd</span> multicloud-operators-subscription
 kubectl apply -f examples/helmrepo-hub-channel
 </code></pre></div><p>After a while, you should see the subscription propagated to the managed cluster and the Helm app installed. By default, when a subscription deploys subscribed applications to target clusters, the applications are deployed to that subscription namespace. To confirm, run the following command:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
