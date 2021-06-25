@@ -8,6 +8,8 @@ geekdocAnchor: false
 
 Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.
 
+![open-cluster-management](/clusteradm_init.png)
+
 {{< button size="large" relref="getting-started/quick-start" >}}Getting Started{{< /button >}}
 
 ## Feature overview
