@@ -1,7 +1,6 @@
 ---
 title: Application lifecycle management
 weight: 5
-geekdocHidden: true
 ---
 
 After the cluster manager is installed, you could install the application management components to the hub cluster.
@@ -18,9 +17,7 @@ You must meet the following prerequisites to install the application lifecycle m
 
 * Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-* Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
-
-* Ensure the open-cluster-management cluster manager is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
+* Ensure the `open-cluster-management` _cluster manager_ is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
 
 * Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
@@ -28,30 +25,31 @@ You must meet the following prerequisites to install the application lifecycle m
 Clone the `multicloud-operators-subscription` repository.
 
 ```Shell
-git clone https://github.com/open-cluster-management/multicloud-operators-subscription
+git clone https://github.com/open-cluster-management-io/multicloud-operators-subscription
+cd multicloud-operators-subscription
 ```
 
 Deploy the subscription operators to the hub cluster.
 
 ```Shell
-export TRAVIS_BUILD=0
-kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
-cd multicloud-operators-subscription
-make deploy-community-hub # make deploy-community-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
+$ kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+$ make deploy-hub
+$ kubectl -n open-cluster-management get deploy  multicloud-operators-subscription
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+multicloud-operators-subscription   1/1     1            1           25s
 ```
 
 Deploy the subscription operators to managed cluster(s).
 
 ```Shell
-export TRAVIS_BUILD=0
-export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
-kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
-export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
-make deploy-community-managed # make deploy-community-managed GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
+$ export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
+$ export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+$ kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
+$ make deploy-managed
+$ kubectl -n open-cluster-management-agent-addon get deploy  multicloud-operators-subscription
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+multicloud-operators-subscription   1/1     1            1           103s
 ```
-
-## Install community operator from OperatorHub.io
-If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the multicluster subscription community operator with a released version from the [OperatorHub.io](https://operatorhub.io/operator/multicluster-operators-subscription).
 
 ## What is next
 
@@ -59,7 +57,6 @@ After a successful deployment, test the subscription operator with a `helm` subs
 
 ```Shell
 kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
-cd multicloud-operators-subscription
 kubectl apply -f examples/helmrepo-hub-channel
 ```
 
