@@ -11,17 +11,6 @@
     
     
     <item>
-      <title>Architecture</title>
-      <link>http://open-cluster-management.github.io/concepts/architecture/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.github.io/concepts/architecture/</guid>
-      <description>This page tells you the architecture and basic concepts in open-cluster-management.
-   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
-Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
-    </item>
-    
-    <item>
       <title>Blog</title>
       <link>http://open-cluster-management.github.io/blog/blog/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -67,6 +56,17 @@ Work in progress</description>
     </item>
     
     <item>
+      <title>Architecture</title>
+      <link>http://open-cluster-management.github.io/concepts/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/architecture/</guid>
+      <description>This page tells you the architecture and basic concepts in open-cluster-management.
+   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
+Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
+    </item>
+    
+    <item>
       <title>Cluster manager</title>
       <link>http://open-cluster-management.github.io/getting-started/core/cluster-manager/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -102,6 +102,26 @@ Ensure golang is installed, if you are planning to install from the source.</des
     </item>
     
     <item>
+      <title>ManagedCluster</title>
+      <link>http://open-cluster-management.github.io/concepts/managedcluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/managedcluster/</guid>
+      <description>ManagedCluster Registration    ManagedCluster is a cluster scoped API on hub cluster to define a kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
+ An agent opts in to register a cluster to the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.</description>
+    </item>
+    
+    <item>
+      <title>ManifestWork</title>
+      <link>http://open-cluster-management.github.io/concepts/manifestwork/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/manifestwork/</guid>
+      <description>What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
+An example of ManifestWork to deploy a deployment to the managed cluster is shown as below:</description>
+    </item>
+    
+    <item>
       <title>Policy controllers</title>
       <link>http://open-cluster-management.github.io/getting-started/integration/policy-controllers/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -111,6 +131,25 @@ Ensure golang is installed, if you are planning to install from the source.</des
    Prerequisite Install the configuration policy controller Install the certificate policy controller Install the IAM policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
   Ensure kubectl and kustomize are installed.
   Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Placement</title>
+      <link>http://open-cluster-management.github.io/concepts/placement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/placement/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Addons</title>
+      <link>http://open-cluster-management.github.io/concepts/addon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.github.io/concepts/addon/</guid>
+      <description>What is an addon?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:
+ A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.</description>
     </item>
     
     <item>

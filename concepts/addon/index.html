@@ -10,13 +10,12 @@
 
 
 
-    <meta name="description" content="We know you&rsquo;ve got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!
-Getting Started    All contributions are welcome! Open Cluster Management uses the Apache 2 license. Please open issues for any bugs or problems you encounter, ask questions in the #open-cluster-mgmt on Kubernetes Slack Channel, or get involved joining the open-cluster-management mailing group.
-Contribute to the Source     Join the Mailing group Attend an upcoming Community meetings Fork the repository you wish to work on.">
+    <meta name="description" content="What is an addon?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:
+ A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.">
 
 
 
-    <title>Contribute to Open Cluster Management | Open Cluster Management</title>
+    <title>Addons | Open Cluster Management</title>
 
     <link rel="icon" href="/favicon/favicon-32x32.png" type="image/x-icon">
 
@@ -255,7 +254,7 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
             
             
                 <span class="flex">
-                    <a href="/concepts/addon/" class="gdoc-nav__entry ">
+                    <a href="/concepts/addon/" class="gdoc-nav__entry is-active">
                         Addons
                     </a>
                 </span>
@@ -577,7 +576,7 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
             
             
                 <span class="flex">
-                    <a href="/contribute/contribute/" class="gdoc-nav__entry is-active">
+                    <a href="/contribute/contribute/" class="gdoc-nav__entry ">
                         Contribute to Open Cluster Management
                     </a>
                 </span>
@@ -690,7 +689,7 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
     <div>
         <span class="editpage">
             <svg class="icon gdoc_code"><use xlink:href="#gdoc_code"></use></svg>
-            <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/edit/main/content/contribute/contribute.md">
+            <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/edit/main/content/concepts/addon.md">
                 Edit this page
             </a>
         </span>
@@ -700,60 +699,50 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
 
 
     <article class="gdoc-markdown gdoc-markdown__align--left">
-        <h1>Contribute to Open Cluster Management</h1>
-        <p>We know you&rsquo;ve got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!</p>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="getting-started">
-        Getting Started
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#getting-started" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Getting Started" href="#getting-started">
+        <h1>Addons</h1>
+        <div class="gdoc-page__anchorwrap">
+    <h2 id="what-is-an-addon">
+        What is an addon?
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/addon/#what-is-an-addon" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor What is an addon?" href="#what-is-an-addon">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>All contributions are welcome! Open Cluster Management uses the <a class="gdoc-markdown__link" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2 license</a>. Please open issues for any bugs or problems you encounter, ask questions in the <a class="gdoc-markdown__link" href="https://kubernetes.slack.com/archives/C01GE7YSUUF">#open-cluster-mgmt</a> on Kubernetes Slack Channel, or get involved joining the open-cluster-management <a class="gdoc-markdown__link" href="https://groups.google.com/g/open-cluster-management">mailing group</a>.</p>
+</div><p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:</p>
+<ol>
+<li>A tool to collect alert events in the managed cluster, and send to the hub cluster.</li>
+<li>A network solution that uses hub to share the network infos and establish connection among managed clusters.</li>
+<li>A tool to spread security policies to multiple clusters.</li>
+</ol>
+<p>In general, if a management tool needs different configuration for each managed clusters or a secured communitation between managed cluster and hub cluster, it can utilize the addon mechanism in open-cluster-management to ease the installation and day 2 operation.</p>
 <div class="gdoc-page__anchorwrap">
-    <h2 id="contribute-to-the-source">
-        Contribute to the Source
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#contribute-to-the-source" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Contribute to the Source" href="#contribute-to-the-source">
+    <h2 id="addon-enablement">
+        Addon enablement
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/addon/#addon-enablement" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Addon enablement" href="#addon-enablement">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><ul>
-<li>Join the <a class="gdoc-markdown__link" href="https://groups.google.com/g/open-cluster-management">Mailing group</a></li>
-<li>Attend an upcoming <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/community/projects/1">Community meetings</a></li>
-<li>Fork the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management">repository</a> you wish to work on. For example, <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/api">API</a>,<a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/registration">Registration</a>, etc.</li>
-<li>Get started by following the <code>CONTRIBUTING.md</code> guide in the repository you wish to work on</li>
-</ul>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="get-involved--file-a-bug">
-        Get Involved / File a Bug
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#get-involved--file-a-bug" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Get Involved / File a Bug" href="#get-involved--file-a-bug">
+</div><p>Each addon should register itself on hub by creating a <code>ClusterManagementAddon</code> resource on the hub cluster. For instance, the <code>helloworld</code> addon can be registered to the hub cluster by creating:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterManagementAddOn<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">addOnMeta</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">displayName</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
+</span></code></pre></div><p>An addon should also have a controller running on hub taking responsible of addon configuration for each managed cluster. When a user wants to enable the addon on a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the below resource indicate to enable <code>helloworld</code> addon in cluster1</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterAddon<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
+</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">installNamespace</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
+</span></code></pre></div><div class="gdoc-page__anchorwrap">
+    <h2 id="addon-frameworkhttpsgithubcomopen-cluster-management-ioaddon-framework">
+        <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework">Addon framework</a>
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/addon/#addon-frameworkhttpsgithubcomopen-cluster-management-ioaddon-framework" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Addon framework" href="#addon-frameworkhttpsgithubcomopen-cluster-management-ioaddon-framework">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Check out the project and consider contributing. You can pick up an issue to work on, or report a bug by creating a new issue <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/community/issues">here</a>. When your code is ready to be reviewed, you can propose a pull request. You can find a good guide about the GitHub workflow <a class="gdoc-markdown__link" href="https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project">here</a>.</p>
-<p>If you intend to propose an enhancement or a new feature in open-cluster-management, submit a pull request in the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/enhancements">enhancements repo</a>. The proposal should follow the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/enhancements/blob/master/guidelines/README.md">kep format</a>.</p>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="certificate-of-origin">
-        Certificate of Origin
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#certificate-of-origin" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Certificate of Origin" href="#certificate-of-origin">
-            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-        </a>
-    </h2>
-</div><p>By contributing to this project, you agree to the Developer Certificate of
-Origin (DCO). This document was created by the Linux Kernel community and is a
-simple statement that you, as a contributor, have the legal right to make the
-contribution. See the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/registration-operator/blob/master/DCO">DCO</a> file for details.</p>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="talk-to-us">
-        Talk to Us
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#talk-to-us" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Talk to Us" href="#talk-to-us">
-            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-        </a>
-    </h2>
-</div><ul>
-<li>Follow the <a class="gdoc-markdown__link" href="https://groups.google.com/g/open-cluster-management">Mailing group</a></li>
-<li>Chat with us in the <a class="gdoc-markdown__link" href="https://kubernetes.slack.com/archives/C01GE7YSUUF">#open-cluster-mgmt</a> on Kubernetes Slack Channel</li>
-</ul>
+</div><p>addon-framework is to provide a library for developer to develop an adddon in open-cluster-management more easily. Take a look at the <code>helloworld</code> example <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">here</a> to understand how addon-framework can be used.</p>
 
 
     </article>

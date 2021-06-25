@@ -10,13 +10,12 @@
 
 
 
-    <meta name="description" content="We know you&rsquo;ve got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!
-Getting Started    All contributions are welcome! Open Cluster Management uses the Apache 2 license. Please open issues for any bugs or problems you encounter, ask questions in the #open-cluster-mgmt on Kubernetes Slack Channel, or get involved joining the open-cluster-management mailing group.
-Contribute to the Source     Join the Mailing group Attend an upcoming Community meetings Fork the repository you wish to work on.">
+    <meta name="description" content="ManagedCluster Registration    ManagedCluster is a cluster scoped API on hub cluster to define a kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
+ An agent opts in to register a cluster to the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.">
 
 
 
-    <title>Contribute to Open Cluster Management | Open Cluster Management</title>
+    <title>ManagedCluster | Open Cluster Management</title>
 
     <link rel="icon" href="/favicon/favicon-32x32.png" type="image/x-icon">
 
@@ -183,7 +182,7 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
             
             
                 <span class="flex">
-                    <a href="/concepts/managedcluster/" class="gdoc-nav__entry ">
+                    <a href="/concepts/managedcluster/" class="gdoc-nav__entry is-active">
                         ManagedCluster
                     </a>
                 </span>
@@ -577,7 +576,7 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
             
             
                 <span class="flex">
-                    <a href="/contribute/contribute/" class="gdoc-nav__entry is-active">
+                    <a href="/contribute/contribute/" class="gdoc-nav__entry ">
                         Contribute to Open Cluster Management
                     </a>
                 </span>
@@ -690,7 +689,7 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
     <div>
         <span class="editpage">
             <svg class="icon gdoc_code"><use xlink:href="#gdoc_code"></use></svg>
-            <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/edit/main/content/contribute/contribute.md">
+            <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/edit/main/content/concepts/managedcluster.md">
                 Edit this page
             </a>
         </span>
@@ -700,61 +699,81 @@ Contribute to the Source     Join the Mailing group Attend an upcoming Community
 
 
     <article class="gdoc-markdown gdoc-markdown__align--left">
-        <h1>Contribute to Open Cluster Management</h1>
-        <p>We know you&rsquo;ve got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!</p>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="getting-started">
-        Getting Started
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#getting-started" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Getting Started" href="#getting-started">
+        <h1>ManagedCluster</h1>
+        <div class="gdoc-page__anchorwrap">
+    <h2 id="managedcluster-registration">
+        ManagedCluster Registration
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/managedcluster/#managedcluster-registration" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor ManagedCluster Registration" href="#managedcluster-registration">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>All contributions are welcome! Open Cluster Management uses the <a class="gdoc-markdown__link" href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2 license</a>. Please open issues for any bugs or problems you encounter, ask questions in the <a class="gdoc-markdown__link" href="https://kubernetes.slack.com/archives/C01GE7YSUUF">#open-cluster-mgmt</a> on Kubernetes Slack Channel, or get involved joining the open-cluster-management <a class="gdoc-markdown__link" href="https://groups.google.com/g/open-cluster-management">mailing group</a>.</p>
+</div><p><code>ManagedCluster</code> is a cluster scoped API on hub cluster to define a kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a <code>double opt-in</code> mechanism which is:</p>
+<ol>
+<li>An agent opts in to register a cluster to the hub by creating a <code>ManagedCluster</code> resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request</li>
+<li>An admin user on the hub opts in to explicitly accept the registration of the <code>ManagedCluster</code>.</li>
+</ol>
+<p>This process ensures that any agent with a credential to hub can request to join as a <code>ManagedCluster</code>, while the request must be approved by an admin on the hub.</p>
+<p>An example of <code>ManagedCluster</code> resource is as below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedCluster<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">hubAcceptsClient</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w">  </span><span class="k">managedClusterClientConfigs</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="k">url</span><span class="p">:</span><span class="w"> </span>https<span class="p">:</span>//managedcluster-apiserver<span class="p">:</span><span class="m">6443</span><span class="w">
+</span></code></pre></div><p>The admin user on the hub needs to approve the authn/authz of agent separately by:</p>
+<ol>
+<li>approve the <code>certificatesigningrequest</code> initiated by the agent so agent is authenticated to the hub.</li>
+<li>set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code> api, so the agent is authorized to call the hub.
+The admin user must have a <code>create</code> permission to <code>managedcluster/accept</code> resource to set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code>.</li>
+</ol>
+<p>After the admin user on the hub approve the registration of the cluster, a namespace with the same name of the cluster will be created. This namespace can be regarded as a <code>container</code> of the resources that agents in a managed cluster can access. By default, the agent on a cluster is only authorized to access certain resource kinds in this namespace on the hub to ensure the security isolation. In addition, the agent will set a status condition in <code>ManagedCluster</code>  as <code>Joined</code> and starts to update the liveness of managed cluster.</p>
+<p>In open-cluster-management, <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/registration">registraion</a> project is to implement the registration process. It includes an agent in the managed cluster to register to the hub, a controller on the hub cluster to handle authz/authn setup for agent.</p>
 <div class="gdoc-page__anchorwrap">
-    <h2 id="contribute-to-the-source">
-        Contribute to the Source
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#contribute-to-the-source" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Contribute to the Source" href="#contribute-to-the-source">
+    <h2 id="managedclusterset">
+        ManagedClusterSet
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/managedcluster/#managedclusterset" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor ManagedClusterSet" href="#managedclusterset">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><ul>
-<li>Join the <a class="gdoc-markdown__link" href="https://groups.google.com/g/open-cluster-management">Mailing group</a></li>
-<li>Attend an upcoming <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/community/projects/1">Community meetings</a></li>
-<li>Fork the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management">repository</a> you wish to work on. For example, <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/api">API</a>,<a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/registration">Registration</a>, etc.</li>
-<li>Get started by following the <code>CONTRIBUTING.md</code> guide in the repository you wish to work on</li>
-</ul>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="get-involved--file-a-bug">
-        Get Involved / File a Bug
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#get-involved--file-a-bug" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Get Involved / File a Bug" href="#get-involved--file-a-bug">
+</div><p><code>ManagedClusterSet</code> is a cluster scoped API on hub cluster to define a group of <code>ManagedCluster</code>. How <code>ManagedCluster</code> is grouped depends on different use cases. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code> <code>ManagedClusterSet</code> for different purpose of the clusters. Or you can create <code>notrh-america</code>, <code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on region of the <code>ManagedCluster</code>.</p>
+<p><code>ManagedCluster</code> is to implement the notion in <a class="gdoc-markdown__link" href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
+<p>To add a  <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a lable <code>open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>.  User must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a  <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
+<p>An example of <code>ManagedClusterSet</code> resource is as below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSet<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
+</span></code></pre></div><div class="gdoc-page__anchorwrap">
+    <h2 id="clusterclaim">
+        ClusterClaim
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/managedcluster/#clusterclaim" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor ClusterClaim" href="#clusterclaim">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Check out the project and consider contributing. You can pick up an issue to work on, or report a bug by creating a new issue <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/community/issues">here</a>. When your code is ready to be reviewed, you can propose a pull request. You can find a good guide about the GitHub workflow <a class="gdoc-markdown__link" href="https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project">here</a>.</p>
-<p>If you intend to propose an enhancement or a new feature in open-cluster-management, submit a pull request in the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/enhancements">enhancements repo</a>. The proposal should follow the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/enhancements/blob/master/guidelines/README.md">kep format</a>.</p>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="certificate-of-origin">
-        Certificate of Origin
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#certificate-of-origin" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Certificate of Origin" href="#certificate-of-origin">
-            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-        </a>
-    </h2>
-</div><p>By contributing to this project, you agree to the Developer Certificate of
-Origin (DCO). This document was created by the Linux Kernel community and is a
-simple statement that you, as a contributor, have the legal right to make the
-contribution. See the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/registration-operator/blob/master/DCO">DCO</a> file for details.</p>
-<div class="gdoc-page__anchorwrap">
-    <h2 id="talk-to-us">
-        Talk to Us
-        <a data-clipboard-text="http://open-cluster-management.github.io/contribute/contribute/#talk-to-us" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Talk to Us" href="#talk-to-us">
-            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
-        </a>
-    </h2>
-</div><ul>
-<li>Follow the <a class="gdoc-markdown__link" href="https://groups.google.com/g/open-cluster-management">Mailing group</a></li>
-<li>Chat with us in the <a class="gdoc-markdown__link" href="https://kubernetes.slack.com/archives/C01GE7YSUUF">#open-cluster-mgmt</a> on Kubernetes Slack Channel</li>
-</ul>
-
+</div><p><code>ClusterClaim</code> is a cluster scoped API on managed cluster as an implementation of <a class="gdoc-markdown__link" href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid">KEP-2149</a>. It provides an extension point for other actors in the managed cluster to report certain property of a managed cluster to the hub. The <code>registraion-agent</code> collects all the <code>ClusterClaim</code> in the managed cluster and sync them in <code>clusterClaims</code> field in the related <code>ManagedCluster</code>.</p>
+<p>A third party actor can create a cluster claim on the managed cluster as below:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterClaim<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">value</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
+</span></code></pre></div><p>And the <code>ClusterClaim</code> will be synced to the hub cluster:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedCluster<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">hubAcceptsClient</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="w"></span><span class="k">status</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">clusterClaims</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
+</span><span class="w">    </span><span class="k">value</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
+</span><span class="w">  </span><span class="k">conditions</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>...<span class="w">
+</span></code></pre></div>
 
     </article>
 

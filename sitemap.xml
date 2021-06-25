@@ -2,10 +2,6 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/architecture</loc>
-    </url>
-    
-    <url>
         <loc>http://open-cluster-management.github.io/blog/blog</loc>
     </url>
     
@@ -19,6 +15,10 @@
     
     <url>
         <loc>http://open-cluster-management.github.io/concepts/roadmap</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.github.io/concepts/architecture</loc>
     </url>
     
     <url>
@@ -50,11 +50,27 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.github.io/concepts/managedcluster</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.github.io/concepts/manifestwork</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.github.io/getting-started/integration/policy-controllers</loc>
     </url>
     
     <url>
         <loc>http://open-cluster-management.github.io/community</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.github.io/concepts/placement</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.github.io/concepts/addon</loc>
     </url>
     
     <url>
