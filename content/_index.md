@@ -34,6 +34,12 @@ Dynamic placement of content and behavior across multiple clusters.
 
 {{< columns >}}
 
+### Application lifecycle
+
+Distributed application delivery across many clusters and the ability to deliver ongoing updates.
+
+<--->
+
 ### Vendor neutral APIs
 
 Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms.
