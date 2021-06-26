@@ -3,6 +3,4 @@ title: Roadmap
 weight: -20
 ---
 
-This page tells you the roadmap for components in open-cluster-management.
-
-Work in progress
+The Open Cluster Management community uses [GitHub Project](https://github.com/open-cluster-management-io/community/projects/2) to track the progress of the project.
