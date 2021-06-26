@@ -11,9 +11,9 @@
 
 
     <meta name="description" content="Use any of the following methods to bootstrap your Open Cluster Management environment.
-   Clusteradm CLI tool Operator hub More details     Clusteradm CLI tool    clusteradm init # run this command on your hub cluster For more details see clusteradm GitHub page.
-Operator hub    Install and create a Cluster manager on your hub cluster.
-Install and create a Klusterlet agent on your manage cluster.">
+   Clusteradm CLI tool Operator hub More details     Clusteradm CLI tool      Download and extract the clusteradm binary. For more details see the clusteradm GitHub page.
+  Ensure the kubectl context is set to point to the hub cluster:
+  kubectl config use-context &lt;hub cluster context&gt; # kubectl config use-context kind-hub Bootstrap the Open Cluster Management control plane.">
 
 
 
@@ -702,8 +702,8 @@ Install and create a Klusterlet agent on your manage cluster.">
 
     <article class="gdoc-markdown gdoc-markdown__align--left">
         <h1>Quick Start</h1>
-        <p><img src="/ocm-logo.png" alt="open-cluster-management"  />
-Use any of the following methods to bootstrap your Open Cluster Management environment.</p>
+        <p><img src="/ocm-logo.png" alt="open-cluster-management"  /></p>
+<p>Use any of the following methods to bootstrap your Open Cluster Management environment.</p>
 <!-- spellchecker-disable -->
 
 
@@ -723,9 +723,20 @@ Use any of the following methods to bootstrap your Open Cluster Management envir
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">clusteradm init <span class="c1"># run this command on your hub cluster</span>
-</code></pre></div><p>For more details see <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
-<div class="gdoc-page__anchorwrap">
+</div><ol>
+<li>
+<p>Download and extract the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For more details see the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
+</li>
+<li>
+<p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
+</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+</code></pre></div><ol start="3">
+<li>Bootstrap the Open Cluster Management control plane.</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init
+</code></pre></div><div class="gdoc-page__anchorwrap">
     <h2 id="operator-hub">
         Operator hub
         <a data-clipboard-text="http://open-cluster-management.github.io/getting-started/quick-start/#operator-hub" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Operator hub" href="#operator-hub">
@@ -741,7 +752,7 @@ Use any of the following methods to bootstrap your Open Cluster Management envir
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>For more details see <a class="gdoc-markdown__link" href="content/getting-started/core/_index.md">Core components</a>.</p>
+</div><p>For more details see <a class="gdoc-markdown__link" href="/getting-started/core">Core components</a>.</p>
 
 
     </article>
