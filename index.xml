@@ -118,7 +118,7 @@ Ensure golang is installed, if you are planning to install from the source.</des
       
       <guid>http://open-cluster-management.github.io/concepts/manifestwork/</guid>
       <description>What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
-An example of ManifestWork to deploy a deployment to the managed cluster is shown as below:</description>
+An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.</description>
     </item>
     
     <item>
@@ -139,7 +139,8 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.github.io/concepts/placement/</guid>
-      <description></description>
+      <description>Placement API is used to select a set of managed clusters in one or multiple ManagedClusterSets so that the user&amp;rsquo;s workloads can be deployed to these clusters.
+Bind ManagedClusterSet to a namespace    Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.</description>
     </item>
     
     <item>

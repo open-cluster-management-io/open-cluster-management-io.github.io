@@ -11,7 +11,7 @@
 
 
     <meta name="description" content="What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
-An example of ManifestWork to deploy a deployment to the managed cluster is shown as below:">
+An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.">
 
 
 
@@ -231,7 +231,11 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
             <li>
             
             
-                <span class="flex">Placement</span>
+                <span class="flex">
+                    <a href="/concepts/placement/" class="gdoc-nav__entry ">
+                        Placement
+                    </a>
+                </span>
             
             
 
@@ -708,7 +712,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
         </a>
     </h2>
 </div><p><code>ManifestWork</code> is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitor the <code>ManifestWork</code> resource in the cluster namespace on hub cluster.</p>
-<p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown as below:</p>
+<p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
@@ -745,7 +749,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
         </a>
     </h2>
 </div><p>work agent will track all the resource defined in <code>ManifestWork</code> and update the its status. There are two types of status in manifestwork. <code>resourceStatus</code> tracks the status of each manifest in the <code>ManifestWork</code>. and <code>conditions</code> reflects the overall status of the <code>ManifestWork</code>. Work agent currently checks whether a resource is <code>Available</code>, meaning the resource exists on the managed cluster, and <code>Applied</code> meaning the resource defined in <code>ManifestWork</code> has been applied to the managed cluster.</p>
-<p>An example is shown as below:</p>
+<p>An example is shown in the following example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">

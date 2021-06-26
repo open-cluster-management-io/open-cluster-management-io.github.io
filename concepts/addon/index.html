@@ -231,7 +231,11 @@
             <li>
             
             
-                <span class="flex">Placement</span>
+                <span class="flex">
+                    <a href="/concepts/placement/" class="gdoc-nav__entry ">
+                        Placement
+                    </a>
+                </span>
             
             
 
@@ -728,7 +732,7 @@
 </span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">addOnMeta</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="k">displayName</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
-</span></code></pre></div><p>An addon should also have a controller running on hub taking responsible of addon configuration for each managed cluster. When a user wants to enable the addon on a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the below resource indicate to enable <code>helloworld</code> addon in cluster1</p>
+</span></code></pre></div><p>An addon should also have a controller running on hub taking responsible of addon configuration for each managed cluster. When a user wants to enable the addon on a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the following example indicate to enable <code>helloworld</code> addon in cluster1</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterAddon<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">

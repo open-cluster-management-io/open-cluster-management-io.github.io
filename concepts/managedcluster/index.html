@@ -231,7 +231,11 @@
             <li>
             
             
-                <span class="flex">Placement</span>
+                <span class="flex">
+                    <a href="/concepts/placement/" class="gdoc-nav__entry ">
+                        Placement
+                    </a>
+                </span>
             
             
 
@@ -713,7 +717,7 @@
 <li>An admin user on the hub opts in to explicitly accept the registration of the <code>ManagedCluster</code>.</li>
 </ol>
 <p>This process ensures that any agent with a credential to hub can request to join as a <code>ManagedCluster</code>, while the request must be approved by an admin on the hub.</p>
-<p>An example of <code>ManagedCluster</code> resource is as below:</p>
+<p>An example of <code>ManagedCluster</code> resource is shown in the following example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedCluster<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
@@ -740,7 +744,7 @@ The admin user must have a <code>create</code> permission to <code>managedcluste
 </div><p><code>ManagedClusterSet</code> is a cluster scoped API on hub cluster to define a group of <code>ManagedCluster</code>. How <code>ManagedCluster</code> is grouped depends on different use cases. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code> <code>ManagedClusterSet</code> for different purpose of the clusters. Or you can create <code>notrh-america</code>, <code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on region of the <code>ManagedCluster</code>.</p>
 <p><code>ManagedCluster</code> is to implement the notion in <a class="gdoc-markdown__link" href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
 <p>To add a  <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a lable <code>open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>.  User must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a  <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
-<p>An example of <code>ManagedClusterSet</code> resource is as below:</p>
+<p>An example of <code>ManagedClusterSet</code> resource is shown in the following example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSet<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">

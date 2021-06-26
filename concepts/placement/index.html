@@ -10,7 +10,8 @@
 
 
 
-    <meta name="description" content="Open Cluster Management">
+    <meta name="description" content="Placement API is used to select a set of managed clusters in one or multiple ManagedClusterSets so that the user&rsquo;s workloads can be deployed to these clusters.
+Bind ManagedClusterSet to a namespace    Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.">
 
 
 
@@ -230,7 +231,11 @@
             <li>
             
             
-                <span class="flex">Placement</span>
+                <span class="flex">
+                    <a href="/concepts/placement/" class="gdoc-nav__entry is-active">
+                        Placement
+                    </a>
+                </span>
             
             
 
@@ -699,7 +704,84 @@
 
     <article class="gdoc-markdown gdoc-markdown__align--left">
         <h1>Placement</h1>
-        
+        <p><code>Placement</code> API is used to select a set of managed clusters in one or multiple <code>ManagedClusterSets</code> so that the user&rsquo;s workloads can be deployed to these clusters.</p>
+<div class="gdoc-page__anchorwrap">
+    <h2 id="bind-managedclusterset-to-a-namespace">
+        Bind ManagedClusterSet to a namespace
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/placement/#bind-managedclusterset-to-a-namespace" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Bind ManagedClusterSet to a namespace" href="#bind-managedclusterset-to-a-namespace">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Before creating a <code>Placement</code>, you need to create a <code>ManagedClusterSetBinding</code> in a namespace to bind to a <code>ManagedClusterSet</code>. Then you can create a <code>Placement</code> in the same namespace to select the clusters in this <code>ManagedClusterSet</code>. Assume a <code>ManagedClusterSet</code> is created on the hub cluster as seen in the following examples.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSet<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
+</span></code></pre></div><p>You can create a <code>ManagedClusterSetBinding</code> as following to bind the <code>ManagedClusterSet</code> to default namespace</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSetBinding<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
+</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">clusterSet</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
+</span></code></pre></div><p>You must have the <code>create</code> permission on resource <code>managedclusterset/bind</code> to bind the <code>ManagedClusterSet</code> to a namespace.</p>
+<div class="gdoc-page__anchorwrap">
+    <h2 id="select-clusters-in-managedclusterset">
+        Select clusters in ManagedClusterSet
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/placement/#select-clusters-in-managedclusterset" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Select clusters in ManagedClusterSet" href="#select-clusters-in-managedclusterset">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p>After <code>ManagedClusterSetBinding</code> is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound <code>ManagedClusterSet</code>. You can select clusters by labels or <code>clusterClaims</code>. For instance, you can select 3 cluster with labels <code>purpose=test</code> and clusterClaim <code>platform.open-cluster-management.io=aws</code> as seen in the following examples.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Placement<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>placement1<span class="w">
+</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">numberOfClusters</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span><span class="w">  </span><span class="k">clusterSets</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span>- prod<span class="w">
+</span><span class="w">  </span><span class="k">predicates</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">requiredClusterSelector</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">labelSelector</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">purpose</span><span class="p">:</span><span class="w"> </span>test<span class="w">
+</span><span class="w">        </span><span class="k">claimSelector</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">matchExpressions</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="k">key</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
+</span><span class="w">              </span><span class="k">operator</span><span class="p">:</span><span class="w"> </span>In<span class="w">
+</span><span class="w">              </span><span class="k">values</span><span class="p">:</span><span class="w">
+</span><span class="w">                </span>- aws<span class="w">
+</span></code></pre></div><p>A slice of <code>PlacementDecision</code> will be created by placement controller in the same namespace, each with a label of <code>open-cluster-management.io/placement=placement1</code>. <code>PlacementDecision</code> contains the results of the cluster selection as seen in the following examples.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>PlacementDecision<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">placement.open-cluster-management.io</span><span class="p">:</span><span class="w"> </span>placement1<span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>placement1-decision<span class="m">-1</span><span class="w">
+</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">decisions</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">clusterName</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
+</span><span class="w">    </span>- <span class="k">clusterName</span><span class="p">:</span><span class="w"> </span>cluster2<span class="w">
+</span><span class="w">    </span>- <span class="k">clusterName</span><span class="p">:</span><span class="w"> </span>cluster3<span class="w">
+</span></code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how workload should be placed to multiple clusters.</p>
+<div class="gdoc-page__anchorwrap">
+    <h2 id="future-work">
+        Future work
+        <a data-clipboard-text="http://open-cluster-management.github.io/concepts/placement/#future-work" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Future work" href="#future-work">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p>In addition to select cluster by predicates, we are still working on other advanced features including</p>
+<ul>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/community/issues/48">taint/toleration of ManagedCluster</a>.</li>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/community/issues/49">various workload spread policy</a>.</li>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/community/issues/52">usage based scheduling</a>.</li>
+</ul>
+
 
     </article>
 
