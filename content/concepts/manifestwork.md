@@ -7,7 +7,7 @@ weight: 2
 
 `ManifestWork` is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a `ManifestWork` resource must be created in the cluster namespace. A work agent implemented in [work](https://github.com/open-cluster-management-io/work) project is run on the managed cluster and monitor the `ManifestWork` resource in the cluster namespace on hub cluster.
 
-An example of `ManifestWork` to deploy a deployment to the managed cluster is shown as below:
+An example of `ManifestWork` to deploy a deployment to the managed cluster is shown in the following example.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
@@ -44,7 +44,7 @@ spec:
 
 work agent will track all the resource defined in `ManifestWork` and update the its status. There are two types of status in manifestwork. `resourceStatus` tracks the status of each manifest in the `ManifestWork`. and `conditions` reflects the overall status of the `ManifestWork`. Work agent currently checks whether a resource is `Available`, meaning the resource exists on the managed cluster, and `Applied` meaning the resource defined in `ManifestWork` has been applied to the managed cluster. 
 
-An example is shown as below:
+An example is shown in the following example.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
