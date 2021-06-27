@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Concepts on Open Cluster Management</title>
-    <link>http://open-cluster-management.github.io/concepts/</link>
+    <link>http://open-cluster-management.io/concepts/</link>
     <description>Recent content in Concepts on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     
-	<atom:link href="http://open-cluster-management.github.io/concepts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://open-cluster-management.io/concepts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Roadmap</title>
-      <link>http://open-cluster-management.github.io/concepts/roadmap/</link>
+      <link>http://open-cluster-management.io/concepts/roadmap/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.github.io/concepts/roadmap/</guid>
+      <guid>http://open-cluster-management.io/concepts/roadmap/</guid>
       <description>This page tells you the roadmap for components in open-cluster-management.
 Work in progress</description>
     </item>
     
     <item>
       <title>Architecture</title>
-      <link>http://open-cluster-management.github.io/concepts/architecture/</link>
+      <link>http://open-cluster-management.io/concepts/architecture/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.github.io/concepts/architecture/</guid>
+      <guid>http://open-cluster-management.io/concepts/architecture/</guid>
       <description>This page tells you the architecture and basic concepts in open-cluster-management.
    Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
 Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
@@ -33,40 +33,40 @@ Klusterlet    The klusterlet is an agent running on the cluster managed by the h
     
     <item>
       <title>ManagedCluster</title>
-      <link>http://open-cluster-management.github.io/concepts/managedcluster/</link>
+      <link>http://open-cluster-management.io/concepts/managedcluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.github.io/concepts/managedcluster/</guid>
+      <guid>http://open-cluster-management.io/concepts/managedcluster/</guid>
       <description>ManagedCluster Registration    ManagedCluster is a cluster scoped API on hub cluster to define a kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
  An agent opts in to register a cluster to the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.</description>
     </item>
     
     <item>
       <title>ManifestWork</title>
-      <link>http://open-cluster-management.github.io/concepts/manifestwork/</link>
+      <link>http://open-cluster-management.io/concepts/manifestwork/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.github.io/concepts/manifestwork/</guid>
+      <guid>http://open-cluster-management.io/concepts/manifestwork/</guid>
       <description>What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
 An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.</description>
     </item>
     
     <item>
       <title>Placement</title>
-      <link>http://open-cluster-management.github.io/concepts/placement/</link>
+      <link>http://open-cluster-management.io/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.github.io/concepts/placement/</guid>
+      <guid>http://open-cluster-management.io/concepts/placement/</guid>
       <description>Placement API is used to select a set of managed clusters in one or multiple ManagedClusterSets so that the user&amp;rsquo;s workloads can be deployed to these clusters.
 Bind ManagedClusterSet to a namespace    Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.</description>
     </item>
     
     <item>
       <title>Addons</title>
-      <link>http://open-cluster-management.github.io/concepts/addon/</link>
+      <link>http://open-cluster-management.io/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.github.io/concepts/addon/</guid>
+      <guid>http://open-cluster-management.io/concepts/addon/</guid>
       <description>What is an addon?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:
  A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.</description>
     </item>

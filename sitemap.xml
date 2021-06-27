@@ -2,111 +2,111 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
     <url>
-        <loc>http://open-cluster-management.github.io/blog/blog</loc>
+        <loc>http://open-cluster-management.io/blog/blog</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/contribute/contribute</loc>
+        <loc>http://open-cluster-management.io/contribute/contribute</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/community/resource</loc>
+        <loc>http://open-cluster-management.io/community/resource</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/roadmap</loc>
+        <loc>http://open-cluster-management.io/concepts/roadmap</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/architecture</loc>
+        <loc>http://open-cluster-management.io/concepts/architecture</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/core/cluster-manager</loc>
+        <loc>http://open-cluster-management.io/getting-started/core/cluster-manager</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts</loc>
+        <loc>http://open-cluster-management.io/concepts</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/integration/policy-framework</loc>
+        <loc>http://open-cluster-management.io/getting-started/integration/policy-framework</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/quick-start</loc>
+        <loc>http://open-cluster-management.io/getting-started/quick-start</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/core</loc>
+        <loc>http://open-cluster-management.io/getting-started/core</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started</loc>
+        <loc>http://open-cluster-management.io/getting-started</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/core/register-cluster</loc>
+        <loc>http://open-cluster-management.io/getting-started/core/register-cluster</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/managedcluster</loc>
+        <loc>http://open-cluster-management.io/concepts/managedcluster</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/manifestwork</loc>
+        <loc>http://open-cluster-management.io/concepts/manifestwork</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/integration/policy-controllers</loc>
+        <loc>http://open-cluster-management.io/getting-started/integration/policy-controllers</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/community</loc>
+        <loc>http://open-cluster-management.io/community</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/placement</loc>
+        <loc>http://open-cluster-management.io/concepts/placement</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/concepts/addon</loc>
+        <loc>http://open-cluster-management.io/concepts/addon</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/contribute</loc>
+        <loc>http://open-cluster-management.io/contribute</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/integration</loc>
+        <loc>http://open-cluster-management.io/getting-started/integration</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/getting-started/integration/app-lifecycle</loc>
+        <loc>http://open-cluster-management.io/getting-started/integration/app-lifecycle</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/blog</loc>
+        <loc>http://open-cluster-management.io/blog</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/api</loc>
+        <loc>http://open-cluster-management.io/api</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/categories</loc>
+        <loc>http://open-cluster-management.io/categories</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/clusteradm</loc>
+        <loc>http://open-cluster-management.io/clusteradm</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io/tags</loc>
+        <loc>http://open-cluster-management.io/tags</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.github.io</loc>
+        <loc>http://open-cluster-management.io</loc>
     </url>
     
     <url>
