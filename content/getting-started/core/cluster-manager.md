@@ -28,9 +28,9 @@ brew install gnu-sed
 To create the hub cluster with `kind`, run:
 
 ```Shell
-# kind delete cluster --name hub # if the kind cluster is previously created and can be safely deleted
-kind create cluster --name hub
-kind get kubeconfig --name hub --internal > ~/hub-kubeconfig
+# kind delete cluster --name kind-hub # if the kind cluster is previously created and can be safely deleted
+kind create cluster --name kind-hub
+kind get kubeconfig --name kind-hub --internal > ~/hub-kubeconfig
 ```
 
 ## Install from source
