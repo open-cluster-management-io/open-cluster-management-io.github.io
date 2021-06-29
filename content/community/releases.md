@@ -3,7 +3,7 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a four month release cycle. The current release is `v0.3.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.3.0`. Continue reading to view upcoming releases:
 
 - `v0.4.0` on July 2021
 
