@@ -194,5 +194,14 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
       <description></description>
     </item>
     
+    <item>
+      <title>multicloud-operators-channel</title>
+      <link>http://open-cluster-management.io/multicloud-operators-channel/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/multicloud-operators-channel/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
