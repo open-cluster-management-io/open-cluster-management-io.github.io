@@ -11,9 +11,7 @@
 
 
     <meta name="description" content="Use any of the following methods to bootstrap your Open Cluster Management environment.
-   Clusteradm CLI tool Operator hub More details     Clusteradm CLI tool      Download and extract the clusteradm binary. For more details see the clusteradm GitHub page.
-  Ensure the kubectl context is set to point to the hub cluster:
-  kubectl config use-context &lt;hub cluster context&gt; # kubectl config use-context kind-hub Bootstrap the Open Cluster Management control plane.">
+   Bootstrap via Clusteradm CLI tool  Install Clusteradm CLI tool Deploy a cluster manager on your hub cluster Deploy a klusterlet agent on your manage cluster Accept join request and verify   Bootstrap via Operatorhub.io More details     Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.">
 
 
 
@@ -737,37 +735,110 @@
 
 
   <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
-        <li><a href="#clusteradm-cli-tool">Clusteradm CLI tool</a></li>
-        <li><a href="#operator-hub">Operator hub</a></li>
+        <li><a href="#bootstrap-via-clusteradm-cli-tool">Bootstrap via Clusteradm CLI tool</a>
+          <ul>
+            <li><a href="#install-clusteradm-cli-tool">Install Clusteradm CLI tool</a></li>
+            <li><a href="#deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</a></li>
+            <li><a href="#deploy-a-klusterlet-agent-on-your-manage-cluster">Deploy a klusterlet agent on your manage cluster</a></li>
+            <li><a href="#accept-join-request-and-verify">Accept join request and verify</a></li>
+          </ul>
+        </li>
+        <li><a href="#bootstrap-via-operatorhubio">Bootstrap via Operatorhub.io</a></li>
         <li><a href="#more-details">More details</a></li>
       </ul></nav><hr></div>
 
 
-<!-- spellchecker-enable -->
-<div class="gdoc-page__anchorwrap">
-    <h2 id="clusteradm-cli-tool">
-        Clusteradm CLI tool
-        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#clusteradm-cli-tool" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Clusteradm CLI tool" href="#clusteradm-cli-tool">
+<p>Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.</p>
+<p>You can create these two clusters using <a class="gdoc-markdown__link" href="https://kind.sigs.k8s.io">kind</a>. Run the following commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind create cluster --name &lt;your hub cluster name&gt;     <span class="c1"># kind create cluster --name hub</span>
+kind create cluster --name &lt;your managed cluster name&gt; <span class="c1"># kind create cluster --name cluster1</span>
+</code></pre></div><div class="gdoc-page__anchorwrap">
+    <h2 id="bootstrap-via-clusteradm-cli-tool">
+        Bootstrap via Clusteradm CLI tool
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#bootstrap-via-clusteradm-cli-tool" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Bootstrap via Clusteradm CLI tool" href="#bootstrap-via-clusteradm-cli-tool">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
+</div><div class="gdoc-page__anchorwrap">
+    <h3 id="install-clusteradm-cli-tool">
+        Install Clusteradm CLI tool
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#install-clusteradm-cli-tool" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Install Clusteradm CLI tool" href="#install-clusteradm-cli-tool">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
+</div><p>Download and extract the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For more details see the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
+<div class="gdoc-page__anchorwrap">
+    <h3 id="deploy-a-cluster-manager-on-your-hub-cluster">
+        Deploy a cluster manager on your hub cluster
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#deploy-a-cluster-manager-on-your-hub-cluster" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Deploy a cluster manager on your hub cluster" href="#deploy-a-cluster-manager-on-your-hub-cluster">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
 </div><ol>
 <li>
-<p>Download and extract the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For more details see the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
+<p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+</code></pre></div></li>
+<li>
+<p>Bootstrap the Open Cluster Management control plane:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init
+</code></pre></div><p>Then you will get a result with a generated  <code>join</code>  command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">... 
+clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
+</code></pre></div><p>Copy the generated command and replace the <code>&lt;managed_cluster_name&gt;</code> to your managed cluster name. E.g. <code>cluster1</code>.</p>
 </li>
+</ol>
+<div class="gdoc-page__anchorwrap">
+    <h3 id="deploy-a-klusterlet-agent-on-your-manage-cluster">
+        Deploy a klusterlet agent on your manage cluster
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#deploy-a-klusterlet-agent-on-your-manage-cluster" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Deploy a klusterlet agent on your manage cluster" href="#deploy-a-klusterlet-agent-on-your-manage-cluster">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
+</div><ol>
+<li>
+<p>Ensure the <code>kubectl</code> context is set to point to the managed cluster:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
+</code></pre></div></li>
+<li>
+<p>Run the previously copied <code>join</code> command to join the hub cluster:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
+</code></pre></div></li>
+</ol>
+<div class="gdoc-page__anchorwrap">
+    <h3 id="accept-join-request-and-verify">
+        Accept join request and verify
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#accept-join-request-and-verify" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Accept join request and verify" href="#accept-join-request-and-verify">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
+</div><ol>
 <li>
 <p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
-</li>
-</ol>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-</code></pre></div><ol start="3">
-<li>Bootstrap the Open Cluster Management control plane.</li>
+</code></pre></div></li>
+<li>
+<p>Wait for csr created on hub:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w <span class="p">|</span> grep &lt;managed_cluster_name&gt; <span class="c1"># kubectl get csr -w | grep cluster1</span> 
+</code></pre></div><p>We would get a result looks like the following after csr created:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+</code></pre></div></li>
+<li>
+<p>Accept request:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters &lt;managed_cluster_name&gt; <span class="c1"># clusteradm accept --clusters cluster1</span>
+</code></pre></div></li>
+<li>
+<p>Verify <code>managedcluster</code> have been created successfully:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster
+</code></pre></div><p>The return result looks like:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
+cluster1   <span class="nb">true</span>           https://127.0.0.1:41478   True     True        5m23s
+</code></pre></div></li>
 </ol>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init
-</code></pre></div><div class="gdoc-page__anchorwrap">
-    <h2 id="operator-hub">
-        Operator hub
-        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#operator-hub" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Operator hub" href="#operator-hub">
+<div class="gdoc-page__anchorwrap">
+    <h2 id="bootstrap-via-operatorhubio">
+        Bootstrap via Operatorhub.io
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#bootstrap-via-operatorhubio" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Bootstrap via Operatorhub.io" href="#bootstrap-via-operatorhubio">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
