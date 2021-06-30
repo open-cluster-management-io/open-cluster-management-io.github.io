@@ -177,6 +177,15 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
     </item>
     
     <item>
+      <title>addon-framework</title>
+      <link>http://open-cluster-management.io/addon-framework/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/addon-framework/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>APIS</title>
       <link>http://open-cluster-management.io/api/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
