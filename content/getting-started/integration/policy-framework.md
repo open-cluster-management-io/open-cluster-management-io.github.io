@@ -3,7 +3,7 @@ title: Policy framework
 weight: 1
 ---
 
-After the cluster manager and klusterlet are installed and application management is installed, you can install the policy framework components to the hub and the managed clusters.
+After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
 
 <!-- spellchecker-disable -->
 
@@ -88,10 +88,18 @@ Complete the following steps to install the policy framework from prebuilt image
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
-   # Deploy the synchronization components
-   for COMPONENT in "spec" "status" "template"; do
-      kubectl apply -f ${GIT_PATH}/governance-policy-${COMPONENT}-sync/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
-      kubectl set env deployment/governance-policy-${COMPONENT}-sync -n ${MANAGED_NAMESPACE} --containers="governance-policy-${COMPONENT}-sync" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
+   # Deploy the spec synchronization component
+   export COMPONENT="governance-policy-spec-sync"
+   kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
+   # Deploy the status synchronization component
+   export COMPONENT="governance-policy-status-sync"
+   kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
+   # Deploy the template synchronization component
+   export COMPONENT="governance-policy-template-sync"
+   kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
    done
    ```
 
