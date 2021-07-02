@@ -1,7 +1,6 @@
 ---
 title: Policy controllers
 weight: 2
-geekdocHidden: true
 ---
 
 After policy framework is installed, you can install the policy controllers to the managed clusters.
@@ -20,30 +19,35 @@ You must meet the following prerequisites to install the policy controllers:
 
 * Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
-* Prepare one Kubernetes cluster to function as the hub cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use kind, you must install and run [Docker](https://docs.docker.com/get-started).
-
 * Ensure the `open-cluster-management` _policy framework_ is installed. See [Policy Framework](../policy-framework) for more information.
 
 ## Install the configuration policy controller
 
 Complete the following procedure to install the configuration policy controller:
 
-1. Clone the `config-policy-controller`:
+1. Deploy the `config-policy-controller` to the managed cluster with the following commands: 
 
    ```Shell
-   git clone https://github.com/open-cluster-management/config-policy-controller.git
-   ```
-
-2. Deploy the `config-policy-controller` to the managed cluster with the following commands: 
-
-   ```Shell
+   # Configure kubectl to point to the managed cluster
    export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
    kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
-   cd config-policy-controller
-   make deploy-controller
+   # Create the namespace
+   export MANAGED_NAMESPACE="open-cluster-management-agent-addon"
+   kubectl create ns ${MANAGED_NAMESPACE}
+   # Apply the CRD
+   export COMPONENT="config-policy-controller"
+   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/main/deploy"
+   kubectl apply -f ${GIT_PATH}/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
+   # Deploy the controller
+   kubectl apply -f ${GIT_PATH}/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl apply -f ${GIT_PATH}/clusterrole.yaml -n ${MANAGED_NAMESPACE}
+   kubectl apply -f ${GIT_PATH}/clusterrole_binding.yaml -n ${MANAGED_NAMESPACE}
+   kubectl apply -f ${GIT_PATH}/service_account.yaml -n ${MANAGED_NAMESPACE}
+   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers=${COMPONENT} WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
    ```
+   * See [config-policy-controller](https://github.com/open-cluster-management-io/config-policy-controller) for more information.
 
-3. Ensure the pod is running on the managed cluster. Run the following command:
+2. Ensure the pod is running on the managed cluster with the following command:
 
    ```Shell
    $ kubectl get pods -n open-cluster-management-agent-addon
@@ -52,70 +56,6 @@ Complete the following procedure to install the configuration policy controller:
    config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   0          44s
    ...
    ```
-
-The configuration policy controller is installed.
-
-## Install the certificate policy controller
-
-Complete the following steps to install the certificate policy controller:
-
-1. Clone the `cert-policy-controller`:
-
-   ```Shell
-   git clone https://github.com/open-cluster-management/cert-policy-controller.git
-   ```
-
-2. Deploy the `cert-policy-controller` to the managed cluster with the following commands: 
-
-   ```Shell
-   export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
-   cd cert-policy-controller
-   make deploy-controller
-   ```
-
-3. Ensure the pod is running on the managed cluster. Run the following command:
-
-   ```Shell
-   $ kubectl get pods -n open-cluster-management-agent-addon
-   NAME                                    READY   STATUS    RESTARTS   AGE
-   ...
-   cert-policy-controller-6678fc7c-lw6m9   1/1     Running   0          4m20s
-   ...
-   ```
-
-The certificate policy is installed.
-
-## Install the IAM policy controller
-
-Complete the following step to install the IAM policy controller:
-
-1. Clone the `iam-policy-controller`:
-
-   ```Shell
-   git clone https://github.com/open-cluster-management/iam-policy-controller.git
-   ```
-
-2. Deploy the `iam-policy-controller` to the managed cluster with the following commands: 
-
-   ```Shell
-   export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
-   cd iam-policy-controller
-   make deploy-controller
-   ```
-
-3. Ensure the pod is running on the managed cluster. Run the following command:
-
-   ```Shell
-   $ kubectl get pods -n open-cluster-management-agent-addon
-   NAME                                     READY   STATUS    RESTARTS   AGE
-   ...
-   iam-policy-controller-7c5f746866-v65jb   1/1     Running   0          2m43s
-   ...
-   ```
-
-The IAM policy controller is installed.
 
 ## What is next
 
@@ -129,22 +69,22 @@ The IAM policy controller is installed.
    placementrule.apps.open-cluster-management.io/placement-policy-pod created
    ```
 
-2. Update the `PlacementRule` to distribute the policy to the managed cluster with the following command:
+2. Update the `PlacementRule` to distribute the policy to the managed cluster with the following command (this `clusterSelector` will deploy the policy to all managed clusters):
 
    ```Shell
    $ kubectl patch -n default placementrule.apps.open-cluster-management.io/placement-policy-pod --type=merge -p "{\"spec\":{\"clusterSelector\":{\"matchExpressions\":[]}}}"
    placementrule.apps.open-cluster-management.io/placement-policy-pod patched
    ```
 
-3. To confirm that the managed cluster is selected by `PlacementRule`, run the following command:
+3. To confirm that the managed cluster is selected by the `PlacementRule`, run the following command:
 
    ```Shell
-   $ kubectl get -n default placementrule.apps.open-cluster-management.io/placement-policy-pod -oyaml
+   $ kubectl get -n default placementrule.apps.open-cluster-management.io/placement-policy-pod -o yaml
    ...
    status:
      decisions:
-     - clusterName: cluster1
-       clusterNamespace: cluster1
+     - clusterName: <managed cluster name>
+       clusterNamespace: <managed cluster name>
    ...
    ```
 
@@ -175,4 +115,4 @@ The IAM policy controller is installed.
 
 ## More policies
 
-You can find more policies or contribute to the open repository, [policy-collection](https://github.com/open-cluster-management/policy-collection).
+You can find more policies or contribute to the open policy repository, [policy-collection](https://github.com/open-cluster-management/policy-collection).

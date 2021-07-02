@@ -42,6 +42,12 @@ Distributed application delivery across many clusters and the ability to deliver
 
 <--->
 
+### Governance, risk management, and compliance
+
+Policy definition to ensure desired configuration and security settings are auditable or enforceable.
+
+<--->
+
 ### Vendor neutral APIs
 
 Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms.
