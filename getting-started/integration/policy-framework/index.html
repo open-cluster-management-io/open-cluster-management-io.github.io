@@ -10,8 +10,8 @@
 
 
 
-    <meta name="description" content="After the cluster manager and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.
-   Prerequisite Install from prebuilt images on Quay.io     Prerequisite    You must meet the following prerequisites to install the policy framework:
+    <meta name="description" content="After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
+   Architecture Prerequisite Install from prebuilt images on Quay.io     Architecture    Prerequisite    You must meet the following prerequisites to install the policy framework:
   Ensure kubectl and kustomize are installed.
   Ensure Golang is installed, if you are planning to install from the source.">
 
@@ -443,9 +443,53 @@
         
             
             
+
+            
+            
+            
+            
+            
+            
+
+            <li>
+            
+            
+                <span class="flex">
+                    <a href="/getting-started/integration/policy-framework/" class="gdoc-nav__entry is-active">
+                        Policy framework
+                    </a>
+                </span>
+            
+            
+
+            
+            </li>
+            
             
         
             
+            
+
+            
+            
+            
+            
+            
+            
+
+            <li>
+            
+            
+                <span class="flex">
+                    <a href="/getting-started/integration/policy-controllers/" class="gdoc-nav__entry ">
+                        Policy controllers
+                    </a>
+                </span>
+            
+            
+
+            
+            </li>
             
             
         
@@ -730,18 +774,27 @@
 
     <article class="gdoc-markdown gdoc-markdown__align--left">
         <h1>Policy framework</h1>
-        <p>After the cluster manager and klusterlet are installed, you can install the policy framework components to the hub and the managed clusters.</p>
+        <p>After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.</p>
 <!-- spellchecker-disable -->
 
 
 
   <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
+        <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-from-prebuilt-images-on-quayio">Install from prebuilt images on Quay.io</a></li>
       </ul></nav><hr></div>
 
 
 <!-- spellchecker-enable -->
+<div class="gdoc-page__anchorwrap">
+    <h2 id="architecture">
+        Architecture
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/integration/policy-framework/#architecture" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Architecture" href="#architecture">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p><img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture"  /></p>
 <div class="gdoc-page__anchorwrap">
     <h2 id="prerequisite">
         Prerequisite
@@ -756,9 +809,6 @@
 </li>
 <li>
 <p>Ensure <a class="gdoc-markdown__link" href="https://golang.org/doc/install">Golang</a> is installed, if you are planning to install from the source.</p>
-</li>
-<li>
-<p>Prepare one Kubernetes cluster to function as the hub cluster. For example, use <a class="gdoc-markdown__link" href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create a hub cluster. To use kind, you must install and run <a class="gdoc-markdown__link" href="https://docs.docker.com/get-started">Docker</a>.</p>
 </li>
 <li>
 <p>Ensure the <code>open-cluster-management</code> <em>cluster manager</em> is installed. See <a class="gdoc-markdown__link" href="/getting-started/core/cluster-manager">Cluster Manager</a> for more information.</p>
@@ -777,19 +827,24 @@
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Complete the following steps to install the policy framework from prebuild images on Quay.io:</p>
+</div><p>Complete the following steps to install the policy framework from prebuilt images on Quay.io:</p>
 <ol>
 <li>
-<p>Clone the <code>governance-policy-framework</code> repository:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management/governance-policy-framework.git
-</code></pre></div></li>
-<li>
-<p>Deploy the policy framework components to the hub cluster with the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-<span class="nb">cd</span> governance-policy-framework
-make deploy-community-policy-framework-hub
+<p>Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the <code>open-cluster-management</code> namespace on the hub cluster with the following commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the hub cluster</span>
+kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+<span class="c1"># Create the namespace</span>
+<span class="nb">export</span> <span class="nv">HUB_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management&#34;</span>
+kubectl create ns <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
+<span class="c1"># Apply the CRDs</span>
+<span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy&#34;</span>
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_policies_crd.yaml
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
+<span class="c1"># Deploy the policy-propagator</span>
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/operator.yaml -n <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
 </code></pre></div><ul>
-<li>The previous command deploys the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/governance-policy-propagator">policy-propagator</a>.</li>
+<li>See <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/governance-policy-propagator">policy-propagator</a> for more information.</li>
 </ul>
 </li>
 <li>
@@ -806,24 +861,43 @@ governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span class="m"
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config view --context<span class="o">=</span>&lt;hub cluster context&gt; --minify --flatten &gt; <span class="nv">$PWD</span>/kubeconfig_hub
 </code></pre></div></li>
 <li>
-<p>Deploy the policy framework components to the managed cluster. Run the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
+<p>Deploy the policy synchronization components to the managed cluster. Run the following commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
+<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
 kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-$MANAGED_CLUSTER_NAME</span>
-kubectl create ns open-cluster-management-agent-addon
-kubectl -n open-cluster-management-agent-addon create secret generic hub-kubeconfig --from-file<span class="o">=</span><span class="nv">kubeconfig</span><span class="o">=</span><span class="nv">$PWD</span>/kubeconfig_hub
-make deploy-community-policy-framework-managed
+<span class="c1"># Create the namespace</span>
+<span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
+kubectl create ns <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+<span class="c1"># Create the secret to authenticate with the hub</span>
+kubectl -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> create secret generic hub-kubeconfig --from-file<span class="o">=</span><span class="nv">kubeconfig</span><span class="o">=</span><span class="nv">$PWD</span>/kubeconfig_hub
+<span class="c1"># Apply the policy CRD</span>
+<span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+<span class="c1"># Deploy the spec synchronization component</span>
+<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-spec-sync&#34;</span>
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span class="c1"># Deploy the status synchronization component</span>
+<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-status-sync&#34;</span>
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span class="c1"># Deploy the template synchronization component</span>
+<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-template-sync&#34;</span>
+kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span class="k">done</span>
 </code></pre></div><ul>
-<li>The previous command deploy following components:
+<li>See more about the synchronization components:
 <ul>
-<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/governance-policy-spec-sync">policy-spec-sync</a></li>
-<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/governance-policy-status-sync">policy-status-sync</a></li>
-<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/governance-policy-template-sync">policy-template-sync</a></li>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/governance-policy-spec-sync">policy-spec-sync</a></li>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/governance-policy-status-sync">policy-status-sync</a></li>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/governance-policy-template-sync">policy-template-sync</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Verify that the pods are running with the following command:</p>
+<p>Verify that the pods are running on the managed cluster with the following command:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management-agent-addon 
 NAME                                               READY   STATUS    RESTARTS   AGE
 governance-policy-spec-sync-6474b6d898-tmkw6       1/1     Running   <span class="m">0</span>          2m14s
