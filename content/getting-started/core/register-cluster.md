@@ -26,6 +26,7 @@ Prepare another Kubernetes cluster to function as the managed cluster. For examp
 kind create cluster --name <managed cluster name> # kind create cluster --name cluster1
 kind get kubeconfig --name <managed cluster name>  --internal > ~/<managed cluster name>-kubeconfig # kind get kubeconfig --name cluster1 --internal > ~/cluster1-kubeconfig
 ```
+If you are using OKD, OpenShift, you will need to prepare a kubeconfig with `certificate-authority-data`, `client-certificate-data` and `client-key-data`. By default, it's located in `auth/kubeconfig` under your installation folder.
 
 ## Install from source
 
@@ -82,6 +83,7 @@ Run `kubectl get managedcluster` again on the hub cluster. You should be able to
 NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 <managed cluster name>   true           https://localhost      True     True        7m58s
 ```
+If the managed cluster status is not ture, refer to [Troubleshooting](#troubleshooting) to debug on your cluster.
 
 After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a `manifest-work.yaml` as shown in this example:
 
@@ -126,3 +128,27 @@ $ kubectl -n default get pod
 NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   0          108s
 ```
+
+## Troubleshooting
+* The managed cluster status is not ture.
+
+  For example, checking managedcluster and get below result.
+  ```
+  $ kubectl get managedcluster
+  NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+  <managed cluster name> true           https://localhost               Unknown     46m
+  ```
+  There are many reasons for this problem. You can use below commands to get more debug info. If the provided info can't help, please log an issue to us.
+
+  On the hub cluster, check the managedcluster status.
+  ```
+  kubectl get managedcluster <managed cluster name> -oyaml # kubectl get managedcluster cluster1 -oyaml
+  ```
+  On the hub cluster, check the lease status.
+  ```
+  kubectl get lease -n <managed cluster name> # kubectl get lease -n cluster1
+  ```
+  On the managed cluster, check the klusterlet status.
+  ```
+  kubectl get klusterlet -o yaml
+  ```
