@@ -11,7 +11,7 @@
 
 
     <meta name="description" content="After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
-   Prerequisite Install from source Install community operator from OperatorHub.io What is next     Prerequisite    Ensure kubectl and kustomize are installed.
+   Prerequisite Install from source Install community operator from OperatorHub.io What is next Troubleshooting     Prerequisite    Ensure kubectl and kustomize are installed.
 Ensure golang is installed, if you are planning to install from the source.">
 
 
@@ -783,6 +783,7 @@ Ensure golang is installed, if you are planning to install from the source.">
         <li><a href="#install-from-source">Install from source</a></li>
         <li><a href="#install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</a></li>
         <li><a href="#what-is-next">What is next</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ul></nav><hr></div>
 
 
@@ -801,7 +802,8 @@ Ensure golang is installed, if you are planning to install from the source.">
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># kind delete cluster --name cluster1 # if the kind cluster is previously created and can be safely deleted</span>
 kind create cluster --name &lt;managed cluster name&gt; <span class="c1"># kind create cluster --name cluster1</span>
 kind get kubeconfig --name &lt;managed cluster name&gt;  --internal &gt; ~/&lt;managed cluster name&gt;-kubeconfig <span class="c1"># kind get kubeconfig --name cluster1 --internal &gt; ~/cluster1-kubeconfig</span>
-</code></pre></div><div class="gdoc-page__anchorwrap">
+</code></pre></div><p>If you are using OKD, OpenShift, you will need to prepare a kubeconfig with <code>certificate-authority-data</code>, <code>client-certificate-data</code> and <code>client-key-data</code>. By default, it&rsquo;s located in <code>auth/kubeconfig</code> under your installation folder.</p>
+<div class="gdoc-page__anchorwrap">
     <h2 id="install-from-source">
         Install from source
         <a data-clipboard-text="http://open-cluster-management.io/getting-started/core/register-cluster/#install-from-source" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Install from source" href="#install-from-source">
@@ -848,7 +850,8 @@ kubectl patch managedcluster <span class="o">{</span>managed cluster name<span c
 </code></pre></div><p>Run <code>kubectl get managedcluster</code> again on the hub cluster. You should be able to see that the managed cluster is registered now.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 &lt;managed cluster name&gt;   <span class="nb">true</span>           https://localhost      True     True        7m58s
-</code></pre></div><p>After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a <code>manifest-work.yaml</code> as shown in this example:</p>
+</code></pre></div><p>If the managed cluster status is not ture, refer to <a class="gdoc-markdown__link" href="#troubleshooting">Troubleshooting</a> to debug on your cluster.</p>
+<p>After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a <code>manifest-work.yaml</code> as shown in this example:</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
@@ -877,7 +880,30 @@ kubectl patch managedcluster <span class="o">{</span>managed cluster name<span c
 $ kubectl -n default get pod
 NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   <span class="m">0</span>          108s
-</code></pre></div>
+</code></pre></div><div class="gdoc-page__anchorwrap">
+    <h2 id="troubleshooting">
+        Troubleshooting
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/core/register-cluster/#troubleshooting" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Troubleshooting" href="#troubleshooting">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><ul>
+<li>
+<p>The managed cluster status is not ture.</p>
+<p>For example, checking managedcluster and get below result.</p>
+<pre><code>$ kubectl get managedcluster
+NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+&lt;managed cluster name&gt; true           https://localhost               Unknown     46m
+</code></pre><p>There are many reasons for this problem. You can use below commands to get more debug info. If the provided info can&rsquo;t help, please log an issue to us.</p>
+<p>On the hub cluster, check the managedcluster status.</p>
+<pre><code>kubectl get managedcluster &lt;managed cluster name&gt; -oyaml # kubectl get managedcluster cluster1 -oyaml
+</code></pre><p>On the hub cluster, check the lease status.</p>
+<pre><code>kubectl get lease -n &lt;managed cluster name&gt; # kubectl get lease -n cluster1
+</code></pre><p>On the managed cluster, check the klusterlet status.</p>
+<pre><code>kubectl get klusterlet -o yaml
+</code></pre></li>
+</ul>
+
 
     </article>
 
