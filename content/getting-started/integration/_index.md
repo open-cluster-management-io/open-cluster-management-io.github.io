@@ -1,5 +1,5 @@
 ---
-title: Addons and Integrations
+title: Add-ons and Integrations
 weight: 5
 ---
 
