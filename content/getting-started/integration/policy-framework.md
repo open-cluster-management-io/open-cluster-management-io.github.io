@@ -1,6 +1,6 @@
 ---
 title: Policy framework
-weight: 1
+weight: 10
 ---
 
 After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
@@ -100,7 +100,6 @@ Complete the following steps to install the policy framework from prebuilt image
    export COMPONENT="governance-policy-template-sync"
    kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
    kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
-   done
    ```
 
    * See more about the synchronization components:
