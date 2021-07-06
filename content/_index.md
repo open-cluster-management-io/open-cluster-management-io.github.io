@@ -60,12 +60,12 @@ An open and neutral initiative that welcomes all. Aiming to join Cloud Native Co
 
 {{< /columns >}}
 
-{{< icon "gdoc_github" >}} {{< button size="small" href="https://github.com/open-cluster-management" >}}GitHub{{< /button >}}
+{{< icon "gdoc_github" >}} {{< button size="small" href="https://github.com/open-cluster-management-io" >}}GitHub{{< /button >}}
 {{< icon "gdoc_heart" >}} {{< button size="small" relref="community/resource" >}}Join the Community{{< /button >}}
 {{< icon "gdoc_git" >}} {{< button size="small" relref="contribute/contribute" >}}Contribute{{< /button >}}
 {{< icon "gdoc_download" >}} {{< button size="small" relref="community/releases" >}}Releases{{< /button >}}
 
 {{< icon "gdoc_person" >}} {{< button size="small" href="https://kubernetes.slack.com/archives/C01GE7YSUUF" >}}Slack{{< /button >}}
-{{< icon "gdoc_date" >}} {{< button size="small" href="https://github.com/open-cluster-management/community/projects/1#card-50787258" >}}Meeting{{< /button >}}
+{{< icon "gdoc_date" >}} {{< button size="small" href="https://github.com/open-cluster-management-io/community/projects/1#card-50787258" >}}Meeting{{< /button >}}
 {{< icon "gdoc_link" >}} {{< button size="small" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" >}}YouTube{{< /button >}}
 {{< icon "gdoc_tags" >}} {{< button size="small" relref="blog/blog" >}}Blog{{< /button >}}
