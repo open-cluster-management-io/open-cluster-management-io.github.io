@@ -455,6 +455,32 @@
             
             
                 <span class="flex">
+                    <a href="/getting-started/integration/app-lifecycle/" class="gdoc-nav__entry ">
+                        Application lifecycle management
+                    </a>
+                </span>
+            
+            
+
+            
+            </li>
+            
+            
+        
+            
+            
+
+            
+            
+            
+            
+            
+            
+
+            <li>
+            
+            
+                <span class="flex">
                     <a href="/getting-started/integration/policy-framework/" class="gdoc-nav__entry is-active">
                         Policy framework
                     </a>
@@ -483,32 +509,6 @@
                 <span class="flex">
                     <a href="/getting-started/integration/policy-controllers/" class="gdoc-nav__entry ">
                         Policy controllers
-                    </a>
-                </span>
-            
-            
-
-            
-            </li>
-            
-            
-        
-            
-            
-
-            
-            
-            
-            
-            
-            
-
-            <li>
-            
-            
-                <span class="flex">
-                    <a href="/getting-started/integration/app-lifecycle/" class="gdoc-nav__entry ">
-                        Application lifecycle management
                     </a>
                 </span>
             
@@ -885,7 +885,6 @@ kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><sp
 <span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-template-sync&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
 kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
-<span class="k">done</span>
 </code></pre></div><ul>
 <li>See more about the synchronization components:
 <ul>

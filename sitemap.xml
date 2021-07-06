@@ -34,10 +34,6 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/policy-framework</loc>
-    </url>
-    
-    <url>
         <loc>http://open-cluster-management.io/getting-started/quick-start</loc>
     </url>
     
@@ -59,10 +55,6 @@
     
     <url>
         <loc>http://open-cluster-management.io/concepts/manifestwork</loc>
-    </url>
-    
-    <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/policy-controllers</loc>
     </url>
     
     <url>
@@ -91,6 +83,14 @@
     
     <url>
         <loc>http://open-cluster-management.io/blog</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/getting-started/integration/policy-framework</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/getting-started/integration/policy-controllers</loc>
     </url>
     
     <url>

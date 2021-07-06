@@ -90,18 +90,6 @@ Prepare one Kubernetes cluster to function as the hub. For example, use kind to 
     </item>
     
     <item>
-      <title>Policy framework</title>
-      <link>http://open-cluster-management.io/getting-started/integration/policy-framework/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
-      <description>After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
-   Architecture Prerequisite Install from prebuilt images on Quay.io     Architecture    Prerequisite    You must meet the following prerequisites to install the policy framework:
-  Ensure kubectl and kustomize are installed.
-  Ensure Golang is installed, if you are planning to install from the source.</description>
-    </item>
-    
-    <item>
       <title>Klusterlet agent</title>
       <link>http://open-cluster-management.io/getting-started/core/register-cluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -130,18 +118,6 @@ Ensure golang is installed, if you are planning to install from the source.</des
       <guid>http://open-cluster-management.io/concepts/manifestwork/</guid>
       <description>What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
 An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.</description>
-    </item>
-    
-    <item>
-      <title>Policy controllers</title>
-      <link>http://open-cluster-management.io/getting-started/integration/policy-controllers/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
-      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
-   Prerequisite Install the configuration policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
-  Ensure kubectl and kustomize are installed.
-  Ensure Golang is installed, if you are planning to install from the source.</description>
     </item>
     
     <item>
@@ -174,6 +150,30 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
    Prerequisite Install from source What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
   Ensure the open-cluster-management cluster manager is installed. See Cluster Manager for more information.</description>
+    </item>
+    
+    <item>
+      <title>Policy framework</title>
+      <link>http://open-cluster-management.io/getting-started/integration/policy-framework/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
+      <description>After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
+   Architecture Prerequisite Install from prebuilt images on Quay.io     Architecture    Prerequisite    You must meet the following prerequisites to install the policy framework:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>Policy controllers</title>
+      <link>http://open-cluster-management.io/getting-started/integration/policy-controllers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
+      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
+   Prerequisite Install the configuration policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
     </item>
     
     <item>

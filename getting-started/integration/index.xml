@@ -11,6 +11,18 @@
     
     
     <item>
+      <title>Application lifecycle management</title>
+      <link>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
+      <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
+   Prerequisite Install from source What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+  Ensure kubectl and kustomize are installed.
+  Ensure the open-cluster-management cluster manager is installed. See Cluster Manager for more information.</description>
+    </item>
+    
+    <item>
       <title>Policy framework</title>
       <link>http://open-cluster-management.io/getting-started/integration/policy-framework/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -32,18 +44,6 @@
    Prerequisite Install the configuration policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
   Ensure kubectl and kustomize are installed.
   Ensure Golang is installed, if you are planning to install from the source.</description>
-    </item>
-    
-    <item>
-      <title>Application lifecycle management</title>
-      <link>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
-      <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Prerequisite Install from source What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
-  Ensure kubectl and kustomize are installed.
-  Ensure the open-cluster-management cluster manager is installed. See Cluster Manager for more information.</description>
     </item>
     
   </channel>
