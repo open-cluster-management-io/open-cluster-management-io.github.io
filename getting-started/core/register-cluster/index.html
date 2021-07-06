@@ -801,7 +801,6 @@ Ensure golang is installed, if you are planning to install from the source.">
 <p>Prepare another Kubernetes cluster to function as the managed cluster. For example, use <a class="gdoc-markdown__link" href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create another cluster as described in the following instructions. To use <code>kind</code>, you will need <a class="gdoc-markdown__link" href="https://docs.docker.com/get-started">docker</a> installed and running.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># kind delete cluster --name cluster1 # if the kind cluster is previously created and can be safely deleted</span>
 kind create cluster --name &lt;managed cluster name&gt; <span class="c1"># kind create cluster --name cluster1</span>
-kind get kubeconfig --name &lt;managed cluster name&gt;  --internal &gt; ~/&lt;managed cluster name&gt;-kubeconfig <span class="c1"># kind get kubeconfig --name cluster1 --internal &gt; ~/cluster1-kubeconfig</span>
 </code></pre></div><p>If you are using OKD, OpenShift, you will need to prepare a kubeconfig with <code>certificate-authority-data</code>, <code>client-certificate-data</code> and <code>client-key-data</code>. By default, it&rsquo;s located in <code>auth/kubeconfig</code> under your installation folder.</p>
 <div class="gdoc-page__anchorwrap">
     <h2 id="install-from-source">
@@ -811,14 +810,11 @@ kind get kubeconfig --name &lt;managed cluster name&gt;  --internal &gt; ~/&lt;m
         </a>
     </h2>
 </div><p>If you have not already done so, clone the <code>registration-operator</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management/registration-operator
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/registration-operator
 </code></pre></div><p>Ensure the <code>kubectl</code> context is set to point to the managed cluster:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
 </code></pre></div><p>Deploy agent on a managed <code>kind</code> cluster.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">cd</span> registration-operator
-<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER=cluster1</span>
-<span class="nb">export</span> <span class="nv">KLUSTERLET_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/managed_kind_cluster/.kube/config&gt; <span class="c1"># export KLUSTERLET_KUBECONFIG=~/cluster1-kubeconfig</span>
-<span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_kind_cluster/.kube/config&gt; <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
 make deploy-spoke <span class="c1"># make deploy-spoke GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
 </code></pre></div><div class="gdoc-page__anchorwrap">
     <h2 id="install-community-operator-from-operatorhubio">
