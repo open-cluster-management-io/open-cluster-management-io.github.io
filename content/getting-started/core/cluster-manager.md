@@ -30,7 +30,7 @@ To create the hub cluster with `kind`, run:
 ```Shell
 # kind delete cluster --name hub # if the kind cluster is previously created and can be safely deleted
 kind create cluster --name hub
-kind get kubeconfig --name hub --internal > ~/hub-kubeconfig
+kind get kubeconfig --name {your kind cluster name} --internal > ./.hub-kubeconfig # ./.hub-kubeconfig is default value of HUB_KUBECONFIG 
 ```
 
 ## Install from source
@@ -38,7 +38,7 @@ kind get kubeconfig --name hub --internal > ~/hub-kubeconfig
 Clone the `registration-operator`
 
 ```Shell
-git clone https://github.com/open-cluster-management/registration-operator
+git clone https://github.com/open-cluster-management-io/registration-operator
 ```
 
 Ensure the `kubectl` context is set to point to the hub cluster:
@@ -51,6 +51,7 @@ Deploy hub
 
 ```Shell
 cd registration-operator
+export KUBECONFIG=$HOME/.kube/config # set a env variable KUBECONFIG to kubeconfig file path
 make deploy-hub # make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
 ```
 
