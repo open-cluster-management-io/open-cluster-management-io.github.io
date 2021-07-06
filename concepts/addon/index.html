@@ -10,12 +10,12 @@
 
 
 
-    <meta name="description" content="What is an addon?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:
+    <meta name="description" content="What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of add-ons includes:
  A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.">
 
 
 
-    <title>Addons | Open Cluster Management</title>
+    <title>Add-ons | Open Cluster Management</title>
 
     <link rel="icon" href="/favicon/favicon-32x32.png" type="image/x-icon">
 
@@ -259,7 +259,7 @@
             
                 <span class="flex">
                     <a href="/concepts/addon/" class="gdoc-nav__entry is-active">
-                        Addons
+                        Add-ons
                     </a>
                 </span>
             
@@ -427,7 +427,7 @@
             
                 <span class="flex">
                     <a href="/getting-started/integration/" class="gdoc-nav__entry ">
-                        Addons and Integrations
+                        Add-ons and Integrations
                     </a>
                 </span>
             
@@ -771,36 +771,36 @@
 
 
     <article class="gdoc-markdown gdoc-markdown__align--left">
-        <h1>Addons</h1>
+        <h1>Add-ons</h1>
         <div class="gdoc-page__anchorwrap">
-    <h2 id="what-is-an-addon">
-        What is an addon?
-        <a data-clipboard-text="http://open-cluster-management.io/concepts/addon/#what-is-an-addon" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor What is an addon?" href="#what-is-an-addon">
+    <h2 id="what-is-an-add-on">
+        What is an add-on?
+        <a data-clipboard-text="http://open-cluster-management.io/concepts/addon/#what-is-an-add-on" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor What is an add-on?" href="#what-is-an-add-on">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:</p>
+</div><p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of add-ons includes:</p>
 <ol>
 <li>A tool to collect alert events in the managed cluster, and send to the hub cluster.</li>
 <li>A network solution that uses hub to share the network infos and establish connection among managed clusters.</li>
 <li>A tool to spread security policies to multiple clusters.</li>
 </ol>
-<p>In general, if a management tool needs different configuration for each managed clusters or a secured communitation between managed cluster and hub cluster, it can utilize the addon mechanism in open-cluster-management to ease the installation and day 2 operation.</p>
+<p>In general, if a management tool needs different configuration for each managed clusters or a secured communitation between managed cluster and hub cluster, it can utilize the add-on mechanism in open-cluster-management to ease the installation and day 2 operation.</p>
 <div class="gdoc-page__anchorwrap">
-    <h2 id="addon-enablement">
-        Addon enablement
-        <a data-clipboard-text="http://open-cluster-management.io/concepts/addon/#addon-enablement" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Addon enablement" href="#addon-enablement">
+    <h2 id="add-on-enablement">
+        Add-on enablement
+        <a data-clipboard-text="http://open-cluster-management.io/concepts/addon/#add-on-enablement" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Add-on enablement" href="#add-on-enablement">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Each addon should register itself on hub by creating a <code>ClusterManagementAddon</code> resource on the hub cluster. For instance, the <code>helloworld</code> addon can be registered to the hub cluster by creating:</p>
+</div><p>Each add-on should register itself on hub by creating a <code>ClusterManagementAddon</code> resource on the hub cluster. For instance, the <code>helloworld</code> add-on can be registered to the hub cluster by creating:</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterManagementAddOn<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
 </span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">addOnMeta</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="k">displayName</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
-</span></code></pre></div><p>An addon should also have a controller running on hub taking responsible of addon configuration for each managed cluster. When a user wants to enable the addon on a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the following example indicate to enable <code>helloworld</code> addon in cluster1</p>
+</span></code></pre></div><p>An add-on should also have a controller running on hub taking responsible of add-on configuration for each managed cluster. When a user wants to enable the add-on on a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the following example indicate to enable <code>helloworld</code> add-on in cluster1</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterAddon<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
@@ -808,13 +808,13 @@
 </span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">installNamespace</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
 </span></code></pre></div><div class="gdoc-page__anchorwrap">
-    <h2 id="addon-frameworkhttpsgithubcomopen-cluster-management-ioaddon-framework">
-        <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework">Addon framework</a>
-        <a data-clipboard-text="http://open-cluster-management.io/concepts/addon/#addon-frameworkhttpsgithubcomopen-cluster-management-ioaddon-framework" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Addon framework" href="#addon-frameworkhttpsgithubcomopen-cluster-management-ioaddon-framework">
+    <h2 id="add-on-framework">
+        Add-on framework
+        <a data-clipboard-text="http://open-cluster-management.io/concepts/addon/#add-on-framework" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Add-on framework" href="#add-on-framework">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>addon-framework is to provide a library for developer to develop an adddon in open-cluster-management more easily. Take a look at the <code>helloworld</code> example <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">here</a> to understand how addon-framework can be used.</p>
+</div><p>The <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework">add-on framework</a> provides a library for developers to easily develop add-ons in open-cluster-management. Take a look at the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a> to understand how the add-on framework can be used.</p>
 
 
     </article>

@@ -155,12 +155,12 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
     </item>
     
     <item>
-      <title>Addons</title>
+      <title>Add-ons</title>
       <link>http://open-cluster-management.io/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/addon/</guid>
-      <description>What is an addon?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of addons includes:
+      <description>What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of add-ons includes:
  A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.</description>
     </item>
     
