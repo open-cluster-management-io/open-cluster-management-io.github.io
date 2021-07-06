@@ -833,14 +833,17 @@
 <p>Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the <code>open-cluster-management</code> namespace on the hub cluster with the following commands:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the hub cluster</span>
 kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+   
 <span class="c1"># Create the namespace</span>
 <span class="nb">export</span> <span class="nv">HUB_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management&#34;</span>
 kubectl create ns <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
+   
 <span class="c1"># Apply the CRDs</span>
 <span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_policies_crd.yaml
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
+   
 <span class="c1"># Deploy the policy-propagator</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/operator.yaml -n <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
 </code></pre></div><ul>
@@ -865,22 +868,28 @@ governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span class="m"
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
 <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
 kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-$MANAGED_CLUSTER_NAME</span>
+   
 <span class="c1"># Create the namespace</span>
 <span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
 kubectl create ns <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+   
 <span class="c1"># Create the secret to authenticate with the hub</span>
 kubectl -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> create secret generic hub-kubeconfig --from-file<span class="o">=</span><span class="nv">kubeconfig</span><span class="o">=</span><span class="nv">$PWD</span>/kubeconfig_hub
+   
 <span class="c1"># Apply the policy CRD</span>
 <span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+   
 <span class="c1"># Deploy the spec synchronization component</span>
 <span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-spec-sync&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
 kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+   
 <span class="c1"># Deploy the status synchronization component</span>
 <span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-status-sync&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
 kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+   
 <span class="c1"># Deploy the template synchronization component</span>
 <span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-template-sync&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>

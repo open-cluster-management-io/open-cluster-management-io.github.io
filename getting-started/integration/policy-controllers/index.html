@@ -821,13 +821,16 @@
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
 <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
 kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-$MANAGED_CLUSTER_NAME</span>
+   
 <span class="c1"># Create the namespace</span>
 <span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
 kubectl create ns <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+   
 <span class="c1"># Apply the CRD</span>
 <span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;config-policy-controller&#34;</span>
 <span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io/</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">/main/deploy&#34;</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
+   
 <span class="c1"># Deploy the controller</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/clusterrole.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
