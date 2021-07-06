@@ -31,13 +31,16 @@ Complete the following procedure to install the configuration policy controller:
    # Configure kubectl to point to the managed cluster
    export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
    kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
+   
    # Create the namespace
    export MANAGED_NAMESPACE="open-cluster-management-agent-addon"
    kubectl create ns ${MANAGED_NAMESPACE}
+   
    # Apply the CRD
    export COMPONENT="config-policy-controller"
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/main/deploy"
    kubectl apply -f ${GIT_PATH}/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
+   
    # Deploy the controller
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${MANAGED_NAMESPACE}
    kubectl apply -f ${GIT_PATH}/clusterrole.yaml -n ${MANAGED_NAMESPACE}

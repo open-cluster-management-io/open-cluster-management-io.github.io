@@ -38,14 +38,17 @@ Complete the following steps to install the policy framework from prebuilt image
    ```Shell
    # Configure kubectl to point to the hub cluster
    kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+   
    # Create the namespace
    export HUB_NAMESPACE="open-cluster-management"
    kubectl create ns ${HUB_NAMESPACE}
+   
    # Apply the CRDs
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policies_crd.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
+   
    # Deploy the policy-propagator
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${HUB_NAMESPACE}
    ```
@@ -80,22 +83,28 @@ Complete the following steps to install the policy framework from prebuilt image
    # Configure kubectl to point to the managed cluster
    export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
    kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
+   
    # Create the namespace
    export MANAGED_NAMESPACE="open-cluster-management-agent-addon"
    kubectl create ns ${MANAGED_NAMESPACE}
+   
    # Create the secret to authenticate with the hub
    kubectl -n ${MANAGED_NAMESPACE} create secret generic hub-kubeconfig --from-file=kubeconfig=$PWD/kubeconfig_hub
+   
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+   
    # Deploy the spec synchronization component
    export COMPONENT="governance-policy-spec-sync"
    kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
    kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
+   
    # Deploy the status synchronization component
    export COMPONENT="governance-policy-status-sync"
    kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
    kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
+   
    # Deploy the template synchronization component
    export COMPONENT="governance-policy-template-sync"
    kubectl apply -f ${GIT_PATH}/${COMPONENT}/main/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
