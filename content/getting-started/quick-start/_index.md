@@ -13,11 +13,20 @@ Use any of the following methods to bootstrap your Open Cluster Management envir
 
 Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.
 
-You can create these two clusters using [kind](https://kind.sigs.k8s.io). Run the following commands:
+Set the following environment variables that will be used throughout to simplify the instructions:
 
 ```Shell
-kind create cluster --name <your hub cluster name>     # kind create cluster --name hub
-kind create cluster --name <your managed cluster name> # kind create cluster --name cluster1
+export HUB_CLUSTER_NAME=<your hub cluster name>             # export HUB_CLUSTER_NAME=hub
+export MANAGED_CLUSTER_NAME=<your managed cluster name>     # export MANAGED_CLUSTER_NAME=cluster1
+export CTX_HUB_CLUSTER=<your hub cluster context>           # export CTX_HUB_CLUSTER=kind-hub
+export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED_CLUSTER=kind-cluster1
+```
+
+Then create these two clusters using [kind](https://kind.sigs.k8s.io). Run the following commands:
+
+```Shell
+kind create cluster --name ${HUB_CLUSTER_NAME}
+kind create cluster --name ${MANAGED_CLUSTER_NAME}
 ```
 
 ## Bootstrap via Clusteradm CLI tool
@@ -28,16 +37,10 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
 
 ### Deploy a cluster manager on your hub cluster
 
-1. Ensure the `kubectl` context is set to point to the hub cluster:
+1. Bootstrap the Open Cluster Management control plane:
 
    ```Shell
-   kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
-   ```
-
-2. Bootstrap the Open Cluster Management control plane:
-
-   ```Shell
-   clusteradm init
+   clusteradm init --context ${CTX_HUB_CLUSTER}
    ```
 
    Then you will get a result with a generated `join` command:
@@ -49,53 +52,41 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
 
    Copy the generated command and replace the `<managed_cluster_name>` to your managed cluster name. E.g. `cluster1`.
 
-### Deploy a klusterlet agent on your manage cluster
+### Deploy a klusterlet agent on your managed cluster
 
-1. Ensure the `kubectl` context is set to point to the managed cluster:
-
-   ```Shell
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
-   ```
-
-2. Run the previously copied `join` command to join the hub cluster:
+1. Run the previously copied `join` command by append the context of your managed cluster to join the hub cluster:
 
    ```Shell
-   clusteradm join --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name <managed_cluster_name>
+   clusteradm join --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name ${MANAGED_CLUSTER_NAME} --context ${CTX_MANAGED_CLUSTER}
    ```
 
 ### Accept join request and verify
 
-1. Ensure the `kubectl` context is set to point to the hub cluster:
+1. Wait for the CSR is created on your hub cluster:
 
    ```Shell
-   kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep ${MANAGED_CLUSTER_NAME}
    ```
 
-2. Wait for csr created on the hub:
-
-   ```Shell
-   kubectl get csr -w | grep <managed_cluster_name> # kubectl get csr -w | grep cluster1
-   ```
-
-   Result looks like the following after csr created:
+   Then you will get a result resembling the following after the CSR is created:
 
    ```Shell
    cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
    ```
 
-3. Accept request:
+2. Accept request:
 
    ```Shell
-   clusteradm accept --clusters <managed_cluster_name> # clusteradm accept --clusters cluster1
+   clusteradm accept --clusters ${MANAGED_CLUSTER_NAME} --context ${CTX_HUB_CLUSTER}
    ```
 
-4. Verify `managedcluster` has been created successfully:
+3. Verify `managedcluster` has been created successfully:
 
    ```Shell
-   kubectl get managedcluster
+   kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
    ```
 
-   The return result looks like:
+   Then you will get a result resembling the following:
 
    ```Shell
    NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
