@@ -24,7 +24,7 @@ Registration of multiple clusters to a hub cluster to place them for management.
 
 ### Work distribution
 
-The work API that enables resources to be applied to managed clusters from a hub cluster.
+The work API that enables resources to be applied to the managed clusters from a hub cluster.
 
 <--->
 
@@ -56,7 +56,7 @@ Avoid vendor lock-in by using APIs that are not tied to any cloud providers or p
 
 ### Open community
 
-An open and neutral initiative that welcomes all. Aiming to join Cloud Native Computing Foundation (CNCF) for shared governance.
+An open and neutral initiative that welcomes all. Aiming to join the Cloud Native Computing Foundation (CNCF) for shared governance.
 
 {{< /columns >}}
 
