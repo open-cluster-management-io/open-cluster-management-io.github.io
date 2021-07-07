@@ -53,7 +53,8 @@ Complete the following steps to install the policy framework from prebuilt image
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${HUB_NAMESPACE}
    ```
 
-   * See [policy-propagator](https://github.com/open-cluster-management-io/governance-policy-propagator) for more information.
+   * See more about the policy propagator:
+     - [policy-propagator](https://github.com/open-cluster-management-io/governance-policy-propagator)
 
 2. Ensure the pods are running on hub with the following command:
 
@@ -125,3 +126,7 @@ Complete the following steps to install the policy framework from prebuilt image
    governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   0          2m14s
    governance-policy-template-sync-759b9b556f-mx46t   1/1     Running   0          2m14s
    ```
+
+## What is next
+
+Install the [policy controllers](../policy-controllers) to the managed clusters.
