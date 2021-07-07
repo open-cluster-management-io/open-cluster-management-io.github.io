@@ -10,8 +10,8 @@
 
 
 
-    <meta name="description" content="What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of add-ons includes:
- A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.">
+    <meta name="description" content="What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:
+ A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters.">
 
 
 
@@ -779,13 +779,13 @@
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of add-ons includes:</p>
+</div><p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:</p>
 <ol>
 <li>A tool to collect alert events in the managed cluster, and send to the hub cluster.</li>
-<li>A network solution that uses hub to share the network infos and establish connection among managed clusters.</li>
+<li>A network solution that uses the hub to share the network info and establish connection among managed clusters.</li>
 <li>A tool to spread security policies to multiple clusters.</li>
 </ol>
-<p>In general, if a management tool needs different configuration for each managed clusters or a secured communitation between managed cluster and hub cluster, it can utilize the add-on mechanism in open-cluster-management to ease the installation and day 2 operation.</p>
+<p>In general, if a management tool needs a different configuration for each managed cluster or a secured communication between the managed cluster and the hub cluster, it can utilize the add-on mechanism in open-cluster-management to ease the installation and day 2 operation.</p>
 <div class="gdoc-page__anchorwrap">
     <h2 id="add-on-enablement">
         Add-on enablement
@@ -793,14 +793,14 @@
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>Each add-on should register itself on hub by creating a <code>ClusterManagementAddon</code> resource on the hub cluster. For instance, the <code>helloworld</code> add-on can be registered to the hub cluster by creating:</p>
+</div><p>Each add-on should register itself on the hub by creating a <code>ClusterManagementAddon</code> resource on the hub cluster. For instance, the <code>helloworld</code> add-on can be registered to the hub cluster by creating:</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterManagementAddOn<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
 </span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">addOnMeta</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="k">displayName</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
-</span></code></pre></div><p>An add-on should also have a controller running on hub taking responsible of add-on configuration for each managed cluster. When a user wants to enable the add-on on a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the following example indicate to enable <code>helloworld</code> add-on in cluster1</p>
+</span></code></pre></div><p>An add-on should also have a controller running on the hub taking responsible of add-on configuration for each managed cluster. When a user wants to enable the add-on for a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the following example enables <code>helloworld</code> add-on in cluster1</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterAddon<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
@@ -814,7 +814,7 @@
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>The <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework">add-on framework</a> provides a library for developers to easily develop add-ons in open-cluster-management. Take a look at the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a> to understand how the add-on framework can be used.</p>
+</div><p><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework">Add-on framework</a> provides a library for developers to develop an add-ons in open-cluster-management more easily. Take a look at the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a> to understand how the add-on framework can be used.</p>
 
 
     </article>

@@ -26,7 +26,7 @@
       
       <guid>http://open-cluster-management.io/concepts/architecture/</guid>
       <description>This page tells you the architecture and basic concepts in open-cluster-management.
-   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs in a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
+   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs on a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
 Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
     </item>
     
@@ -36,8 +36,8 @@ Klusterlet    The klusterlet is an agent running on the cluster managed by the h
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/managedcluster/</guid>
-      <description>ManagedCluster Registration    ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
- An agent opts in to register a cluster to the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request.</description>
+      <description>ManagedCluster Registration    ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
+ An agent opts in to register a cluster with the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.</description>
     </item>
     
     <item>
@@ -46,7 +46,7 @@ Klusterlet    The klusterlet is an agent running on the cluster managed by the h
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/manifestwork/</guid>
-      <description>What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
+      <description>What is ManifestWork    ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitors the ManifestWork resource in the cluster namespace on the hub cluster.
 An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.</description>
     </item>
     
@@ -66,8 +66,8 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/addon/</guid>
-      <description>What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. The examples of add-ons includes:
- A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses hub to share the network infos and establish connection among managed clusters.</description>
+      <description>What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:
+ A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters.</description>
     </item>
     
   </channel>

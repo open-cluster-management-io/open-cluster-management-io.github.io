@@ -10,7 +10,7 @@
 
 
 
-    <meta name="description" content="What is ManifestWork    ManifestWork is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitor the ManifestWork resource in the cluster namespace on hub cluster.
+    <meta name="description" content="What is ManifestWork    ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitors the ManifestWork resource in the cluster namespace on the hub cluster.
 An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.">
 
 
@@ -779,7 +779,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p><code>ManifestWork</code> is to define a group of kubernetes resource on hub to be applied to managed cluster. In open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitor the <code>ManifestWork</code> resource in the cluster namespace on hub cluster.</p>
+</div><p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
@@ -808,7 +808,8 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
 </span><span class="w">              </span><span class="k">containers</span><span class="p">:</span><span class="w">
 </span><span class="w">                </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
 </span><span class="w">                  </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>quay.io/asmacdo/busybox<span class="w">
-</span><span class="w">                  </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
+</span><span class="w">                  </span><span class="k">command</span><span class="p">:</span><span class="w">
+</span><span class="w">                    </span><span class="p">[</span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
 </span></code></pre></div><div class="gdoc-page__anchorwrap">
     <h2 id="status-tracking">
         Status tracking
@@ -816,8 +817,8 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>work agent will track all the resource defined in <code>ManifestWork</code> and update the its status. There are two types of status in manifestwork. <code>resourceStatus</code> tracks the status of each manifest in the <code>ManifestWork</code>. and <code>conditions</code> reflects the overall status of the <code>ManifestWork</code>. Work agent currently checks whether a resource is <code>Available</code>, meaning the resource exists on the managed cluster, and <code>Applied</code> meaning the resource defined in <code>ManifestWork</code> has been applied to the managed cluster.</p>
-<p>An example is shown in the following example.</p>
+</div><p>Work agent will track all the resources defined in <code>ManifestWork</code> and update the its status. There are two types of status in manifestwork. The <code>resourceStatus</code> tracks the status of each manifest in the <code>ManifestWork</code> and <code>conditions</code> reflects the overall status of the <code>ManifestWork</code>. Work agent currently checks whether a resource is <code>Available</code>, meaning the resource exists on the managed cluster, and <code>Applied</code> means the resource defined in <code>ManifestWork</code> has been applied to the managed cluster.</p>
+<p>Here is an example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
 </span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
@@ -825,32 +826,31 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
 </span><span class="w">    </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
 </span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello-work<span class="w">
 </span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>...<span class="w"> </span>...<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w"> </span>...<span class="w"> </span>...<span class="w">
 </span><span class="w"></span><span class="k">status</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">conditions</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2021-06-15T02:26:02Z&#39;</span><span class="w">
+</span><span class="w">    </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
 </span><span class="w">      </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>Apply<span class="w"> </span>manifest<span class="w"> </span>work<span class="w"> </span>complete<span class="w">
 </span><span class="w">      </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>AppliedManifestWorkComplete<span class="w">
-</span><span class="w">      </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;True&#39;</span><span class="w">
+</span><span class="w">      </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
 </span><span class="w">      </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Applied<span class="w">
-</span><span class="w">    </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2021-06-15T02:26:02Z&#39;</span><span class="w">
+</span><span class="w">    </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
 </span><span class="w">      </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>All<span class="w"> </span>resources<span class="w"> </span>are<span class="w"> </span>available<span class="w">
 </span><span class="w">      </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>ResourcesAvailable<span class="w">
-</span><span class="w">      </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;True&#39;</span><span class="w">
+</span><span class="w">      </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
 </span><span class="w">      </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Available<span class="w">
 </span><span class="w">  </span><span class="k">resourceStatus</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
 </span><span class="w">      </span>- <span class="k">conditions</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2021-06-15T02:26:02Z&#39;</span><span class="w">
+</span><span class="w">          </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
 </span><span class="w">            </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>Apply<span class="w"> </span>manifest<span class="w"> </span>complete<span class="w">
 </span><span class="w">            </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>AppliedManifestComplete<span class="w">
-</span><span class="w">            </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;True&#39;</span><span class="w">
+</span><span class="w">            </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
 </span><span class="w">            </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Applied<span class="w">
-</span><span class="w">          </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;2021-06-15T02:26:02Z&#39;</span><span class="w">
+</span><span class="w">          </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
 </span><span class="w">            </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>Resource<span class="w"> </span>is<span class="w"> </span>available<span class="w">
 </span><span class="w">            </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>ResourceAvailable<span class="w">
-</span><span class="w">            </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;True&#39;</span><span class="w">
+</span><span class="w">            </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
 </span><span class="w">            </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Available<span class="w">
 </span><span class="w">        </span><span class="k">resourceMeta</span><span class="p">:</span><span class="w">
 </span><span class="w">          </span><span class="k">group</span><span class="p">:</span><span class="w"> </span>apps<span class="w">
@@ -867,7 +867,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creats an <code>AppliedManifestWork</code> is on managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
+</div><p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
 
 
     </article>

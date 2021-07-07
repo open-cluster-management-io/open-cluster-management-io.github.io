@@ -10,8 +10,8 @@
 
 
 
-    <meta name="description" content="ManagedCluster Registration    ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
- An agent opts in to register a cluster to the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request.">
+    <meta name="description" content="ManagedCluster Registration    ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
+ An agent opts in to register a cluster with the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.">
 
 
 
@@ -779,9 +779,9 @@
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p><code>ManagedCluster</code> is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered to the hub cluster. In open-cluster-management, the cluster registration follows a <code>double opt-in</code> mechanism which is:</p>
+</div><p><code>ManagedCluster</code> is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a <code>double opt-in</code> mechanism which is:</p>
 <ol>
-<li>An agent opts in to register a cluster to the hub by creating a <code>ManagedCluster</code> resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request.</li>
+<li>An agent opts in to register a cluster with the hub by creating a <code>ManagedCluster</code> resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request</li>
 <li>An admin user on the hub opts in to explicitly accept the registration of the <code>ManagedCluster</code>.</li>
 </ol>
 <p>This process ensures that any agent with a credential to the hub can request to join as a <code>ManagedCluster</code>, while the request must be approved by an admin on the hub.</p>
@@ -793,15 +793,15 @@
 </span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">hubAcceptsClient</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="w">  </span><span class="k">managedClusterClientConfigs</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="k">url</span><span class="p">:</span><span class="w"> </span>https<span class="p">:</span>//managedcluster-apiserver<span class="p">:</span><span class="m">6443</span><span class="w">
-</span></code></pre></div><p>The admin user on the hub needs to approve the authn/authz of the agent separately by:</p>
+</span><span class="w">    </span>- <span class="k">url</span><span class="p">:</span><span class="w"> </span>https<span class="p">:</span>//managedcluster-apiserver<span class="p">:</span><span class="m">6443</span><span class="w">
+</span></code></pre></div><p>The admin user on the hub needs to approve the authn/authz of an agent separately by:</p>
 <ol>
-<li>approving the <code>certificatesigningrequest</code> initiated by the agent so the agent is authenticated to the hub.</li>
-<li>setting <code>hubAcceptsClient</code> to true in the <code>ManagedCluster</code> API, so the agent is authorized to call the hub.
-The admin user must have <code>create</code> permissions to the <code>managedcluster/accept</code> resource to set <code>hubAcceptsClient</code> to true in <code>ManagedCluster</code>.</li>
+<li>Approving the <code>certificatesigningrequest</code> initiated by the agent so agent is authenticated to the hub.</li>
+<li>Set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code> API, so the agent is authorized to call the hub.</li>
 </ol>
-<p>After the admin user on the hub approves the registration of the cluster, a namespace with the same name of the cluster will be created. This namespace can be regarded as a <code>container</code> of the resources that agents in a managed cluster can access. By default, the agent on a cluster is only authorized to access certain resource kinds in this namespace on the hub to ensure security isolation. In addition, the agent will set a status condition in <code>ManagedCluster</code>  as <code>Joined</code> and start to update the liveness of the managed cluster.</p>
-<p>In open-cluster-management, the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/registration">registration</a> project is to implement the registration process. It includes an agent in the managed cluster to register to the hub, a controller on the hub cluster to handle authz/authn setup for the agent.</p>
+<p>The admin user must have a <code>create</code> permission to <code>managedcluster/accept</code> resource to set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code>.</p>
+<p>After the admin user on the hub approve the registration of the cluster, a namespace with the same name of the cluster will be created. This namespace can be regarded as a <code>container</code> of the resources that agents in a managed cluster can access. By default, the agent on a cluster is only authorized to access certain resource kinds in this namespace on the hub to ensure security isolation. In addition, the agent will set a status condition in <code>ManagedCluster</code> as <code>Joined</code> and starts to update the liveness of managed cluster.</p>
+<p>In open-cluster-management, <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/registration">registration</a> project implements the registration process. It includes an agent in the managed cluster to register to the hub, a controller on the hub cluster to handle authz/authn setup for the agent.</p>
 <div class="gdoc-page__anchorwrap">
     <h2 id="managedclusterset">
         ManagedClusterSet
@@ -809,9 +809,9 @@ The admin user must have <code>create</code> permissions to the <code>managedclu
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p><code>ManagedClusterSet</code> is a cluster scoped API on the hub cluster to define a group of <code>ManagedCluster</code>. How <code>ManagedCluster</code> is grouped depends on different use cases. For instance, you can create <code>dev</code>, <code>staging</code>, and <code>prod</code> <code>ManagedClusterSet</code> for different purposes for the clusters. You can also create <code>north-america</code>, <code>europe</code>, and <code>apac</code> <code>ManagedClusterSet</code> based on the region of the <code>ManagedCluster</code>.</p>
+</div><p><code>ManagedClusterSet</code> is a cluster scoped API on the hub cluster to define a group of <code>ManagedCluster</code>. How <code>ManagedCluster</code> is grouped depends on different use cases. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code> <code>ManagedClusterSet</code> for different purposes. Or you can create <code>north-america</code>, <code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on the region of the <code>ManagedCluster</code>.</p>
 <p><code>ManagedCluster</code> is to implement the notion in <a class="gdoc-markdown__link" href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
-<p>To add a  <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, the user needs to set the label <code>open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>.  User must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a  <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
+<p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label <code>open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>. The user must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
 <p>An example of a <code>ManagedClusterSet</code> resource is shown in the following example.</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSet<span class="w">
@@ -824,7 +824,7 @@ The admin user must have <code>create</code> permissions to the <code>managedclu
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p><code>ClusterClaim</code> is a cluster scoped API on a managed cluster as an implementation of <a class="gdoc-markdown__link" href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid">KEP-2149</a>. It provides an extension point for other actors in the managed cluster to report certain properties of a managed cluster to the hub. The <code>registration-agent</code> collects all the <code>ClusterClaim</code> in the managed cluster and syncs them in the <code>clusterClaims</code> field in the related <code>ManagedCluster</code>.</p>
+</div><p><code>ClusterClaim</code> is a cluster scoped API on the managed cluster as an implementation of <a class="gdoc-markdown__link" href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid">KEP-2149</a>. It provides an extension point for other actors in the managed cluster to report certain properties of a managed cluster to the hub. The <code>registration-agent</code> collects all the <code>ClusterClaim</code> in the managed cluster and syncs them in <code>clusterClaims</code> field in the related <code>ManagedCluster</code>.</p>
 <p>A third party actor can create a cluster claim on the managed cluster as shown below:</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterClaim<span class="w">
@@ -841,10 +841,9 @@ The admin user must have <code>create</code> permissions to the <code>managedclu
 </span><span class="w">  </span><span class="k">hubAcceptsClient</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="w"></span><span class="k">status</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">clusterClaims</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
-</span><span class="w">    </span><span class="k">value</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
-</span><span class="w">  </span><span class="k">conditions</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>...<span class="w">
+</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
+</span><span class="w">      </span><span class="k">value</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
+</span><span class="w">  </span><span class="k">conditions</span><span class="p">:</span><span class="w"> </span>...<span class="w">
 </span></code></pre></div>
 
     </article>

@@ -826,8 +826,8 @@ kind create cluster --name &lt;your managed cluster name&gt; <span class="c1"># 
 <li>
 <p>Bootstrap the Open Cluster Management control plane:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init
-</code></pre></div><p>Then you will get a result with a generated  <code>join</code>  command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">... 
+</code></pre></div><p>Then you will get a result with a generated <code>join</code> command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">...
 clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
 </code></pre></div><p>Copy the generated command and replace the <code>&lt;managed_cluster_name&gt;</code> to your managed cluster name. E.g. <code>cluster1</code>.</p>
 </li>
@@ -862,8 +862,8 @@ clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
 </code></pre></div></li>
 <li>
-<p>Wait for csr created on hub:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w <span class="p">|</span> grep &lt;managed_cluster_name&gt; <span class="c1"># kubectl get csr -w | grep cluster1</span> 
+<p>Wait for csr created on the hub:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w <span class="p">|</span> grep &lt;managed_cluster_name&gt; <span class="c1"># kubectl get csr -w | grep cluster1</span>
 </code></pre></div><p>We would get a result looks like the following after csr created:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
 </code></pre></div></li>
@@ -895,7 +895,7 @@ cluster1   <span class="nb">true</span>           https://127.0.0.1:41478   True
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>For more details see <a class="gdoc-markdown__link" href="/getting-started/core">Core components</a>.</p>
+</div><p>For more details, see <a class="gdoc-markdown__link" href="/getting-started/core">Core components</a>.</p>
 
 
     </article>

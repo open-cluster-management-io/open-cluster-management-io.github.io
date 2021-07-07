@@ -822,7 +822,7 @@ $ make deploy-hub
 $ kubectl -n open-cluster-management get deploy  multicloud-operators-subscription
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           25s
-</code></pre></div><p>Deploy the subscription operators to managed cluster(s).</p>
+</code></pre></div><p>Deploy the subscription operators to the managed cluster(s).</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ <span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_cluster/.kube/config&gt; <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
 $ <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
 $ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
@@ -842,9 +842,9 @@ multicloud-operators-subscription   1/1     <span class="m">1</span>            
 kubectl apply -f examples/helmrepo-hub-channel
 </code></pre></div><p>After a while, you should see the subscription propagated to the managed cluster and the Helm app installed. By default, when a subscription deploys subscribed applications to target clusters, the applications are deployed to that subscription namespace. To confirm, run the following command:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-$ kubectl get subscriptions.apps 
+$ kubectl get subscriptions.apps
 NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
-nginx-sub   Subscribed   107m   <span class="nb">true</span>  
+nginx-sub   Subscribed   107m   <span class="nb">true</span>
 $ kubectl get pod
 NAME                                                   READY   STATUS      RESTARTS   AGE
 nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     <span class="m">0</span>          108m
