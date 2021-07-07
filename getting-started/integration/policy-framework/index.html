@@ -11,7 +11,7 @@
 
 
     <meta name="description" content="After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
-   Architecture Prerequisite Install from prebuilt images on Quay.io     Architecture    Prerequisite    You must meet the following prerequisites to install the policy framework:
+   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture    Prerequisite    You must meet the following prerequisites to install the policy framework:
   Ensure kubectl and kustomize are installed.
   Ensure Golang is installed, if you are planning to install from the source.">
 
@@ -783,6 +783,7 @@
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-from-prebuilt-images-on-quayio">Install from prebuilt images on Quay.io</a></li>
+        <li><a href="#what-is-next">What is next</a></li>
       </ul></nav><hr></div>
 
 
@@ -847,7 +848,11 @@ kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span
 <span class="c1"># Deploy the policy-propagator</span>
 kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/operator.yaml -n <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
 </code></pre></div><ul>
-<li>See <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/governance-policy-propagator">policy-propagator</a> for more information.</li>
+<li>See more about the policy propagator:
+<ul>
+<li><a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/governance-policy-propagator">policy-propagator</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -913,6 +918,14 @@ governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   <span class
 governance-policy-template-sync-759b9b556f-mx46t   1/1     Running   <span class="m">0</span>          2m14s
 </code></pre></div></li>
 </ol>
+<div class="gdoc-page__anchorwrap">
+    <h2 id="what-is-next">
+        What is next
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/integration/policy-framework/#what-is-next" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor What is next" href="#what-is-next">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p>Install the <a class="gdoc-markdown__link" href="../policy-controllers">policy controllers</a> to the managed clusters.</p>
 
 
     </article>
