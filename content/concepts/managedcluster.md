@@ -44,7 +44,7 @@ In open-cluster-management, [registration](https://github.com/open-cluster-manag
 
 To add a `ManagedCluster` to a `ManagedClusterSet`, user needs to set a label `open-cluster-management.io/clusterset={clusterset name}` on the `ManagedCluster`. The user must have the `create` permission to `managedclusterset/join` resource to add a `ManagedCluster` to a `ManagedClusterSet`.
 
-An example of `ManagedClusterSet` resource is shown in the following example.
+An example of a `ManagedClusterSet` resource is shown in the following example.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
@@ -57,7 +57,7 @@ metadata:
 
 `ClusterClaim` is a cluster scoped API on the managed cluster as an implementation of [KEP-2149](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid). It provides an extension point for other actors in the managed cluster to report certain properties of a managed cluster to the hub. The `registration-agent` collects all the `ClusterClaim` in the managed cluster and syncs them in `clusterClaims` field in the related `ManagedCluster`.
 
-A third party actor can create a cluster claim on the managed cluster as below:
+A third party actor can create a cluster claim on the managed cluster as shown below:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
