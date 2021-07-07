@@ -15,13 +15,14 @@ After the cluster manager is installed, you could install the application manage
 
 You must meet the following prerequisites to install the application lifecycle management add-on:
 
-* Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-* Ensure the `open-cluster-management` _cluster manager_ is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
+- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
 
-* Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
+- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
 ## Install from source
+
 Clone the `multicloud-operators-subscription` repository.
 
 ```Shell
@@ -39,7 +40,7 @@ NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     1            1           25s
 ```
 
-Deploy the subscription operators to managed cluster(s).
+Deploy the subscription operators to the managed cluster(s).
 
 ```Shell
 $ export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
@@ -64,9 +65,9 @@ After a while, you should see the subscription propagated to the managed cluster
 
 ```Shell
 $ kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
-$ kubectl get subscriptions.apps 
+$ kubectl get subscriptions.apps
 NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
-nginx-sub   Subscribed   107m   true  
+nginx-sub   Subscribed   107m   true
 $ kubectl get pod
 NAME                                                   READY   STATUS      RESTARTS   AGE
 nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     0          108m

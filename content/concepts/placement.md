@@ -16,7 +16,7 @@ metadata:
   name: prod
 ```
 
-You can create a `ManagedClusterSetBinding` as following to bind the `ManagedClusterSet` to default namespace
+You can create a `ManagedClusterSetBinding` as follows to bind the `ManagedClusterSet` to the default namespace.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
@@ -28,11 +28,11 @@ spec:
   clusterSet: prod
 ```
 
-You must have the `create` permission on resource `managedclusterset/bind` to bind the `ManagedClusterSet` to a namespace. 
+You must have the `create` permission on resource `managedclusterset/bind` to bind the `ManagedClusterSet` to a namespace.
 
 ## Select clusters in ManagedClusterSet
 
-After `ManagedClusterSetBinding` is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound `ManagedClusterSet`. You can select clusters by labels or `clusterClaims`. For instance, you can select 3 cluster with labels `purpose=test` and clusterClaim `platform.open-cluster-management.io=aws` as seen in the following examples.
+After `ManagedClusterSetBinding` is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound `ManagedClusterSet`. You can select clusters by labels or `clusterClaims`. For instance, you can select 3 clusters with labels `purpose=test` and clusterClaim `platform.open-cluster-management.io=aws` as seen in the following examples.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
@@ -43,7 +43,7 @@ metadata:
 spec:
   numberOfClusters: 3
   clusterSets:
-  - prod
+    - prod
   predicates:
     - requiredClusterSelector:
         labelSelector:
@@ -57,7 +57,7 @@ spec:
                 - aws
 ```
 
-A slice of `PlacementDecision` will be created by placement controller in the same namespace, each with a label of `open-cluster-management.io/placement=placement1`. `PlacementDecision` contains the results of the cluster selection as seen in the following examples.
+`PlacementDecision` will be created by the placement controller in the same namespace, each with a label of `open-cluster-management.io/placement=placement1`. `PlacementDecision` contains the results of the cluster selection as seen in the following examples.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
@@ -74,11 +74,12 @@ spec:
     - clusterName: cluster3
 ```
 
-`PlacementDecision` can be consumed by another operand to decide how workload should be placed to multiple clusters.
+`PlacementDecision` can be consumed by another operand to decide how the workload should be placed in multiple clusters.
 
 ## Future work
 
-In addition to select cluster by predicates, we are still working on other advanced features including
-- [taint/toleration of ManagedCluster](https://github.com/open-cluster-management-io/community/issues/48).
-- [various workload spread policy](https://github.com/open-cluster-management-io/community/issues/49).
-- [usage based scheduling](https://github.com/open-cluster-management-io/community/issues/52).
+In addition to selecting cluster by predicates, we are still working on other advanced features including
+
+- [Taint/Toleration of ManagedCluster](https://github.com/open-cluster-management-io/community/issues/48).
+- [Various workload spread policies](https://github.com/open-cluster-management-io/community/issues/49).
+- [Usage based scheduling](https://github.com/open-cluster-management-io/community/issues/52).
