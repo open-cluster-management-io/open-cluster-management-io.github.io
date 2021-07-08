@@ -50,6 +50,7 @@ make deploy-spoke # make deploy-spoke GO_REQUIRED_MIN_VERSION:= # if you see war
 ```
 
 ## Install community operator from OperatorHub.io
+
 If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the klusterlet agent community operator with a released version from [OperatorHub.io](https://operatorhub.io/operator/klusterlet).
 
 ## What is next
@@ -80,7 +81,8 @@ Run `kubectl get managedcluster` again on the hub cluster. You should be able to
 NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 <managed cluster name>   true           https://localhost      True     True        7m58s
 ```
-If the managed cluster status is not ture, refer to [Troubleshooting](#troubleshooting) to debug on your cluster.
+
+If the managed cluster status is not true, refer to [Troubleshooting](#troubleshooting) to debug on your cluster.
 
 After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a `manifest-work.yaml` as shown in this example:
 
@@ -93,17 +95,17 @@ metadata:
 spec:
   workload:
     manifests:
-    - apiVersion: v1
-      kind: Pod
-      metadata:
-        name: hello
-        namespace: default
-      spec:
-        containers:
-        - name: hello
-          image: busybox
-          command: ['sh', '-c', 'echo "Hello, Kubernetes!" && sleep 3600']
-        restartPolicy: OnFailure
+      - apiVersion: v1
+        kind: Pod
+        metadata:
+          name: hello
+          namespace: default
+        spec:
+          containers:
+            - name: hello
+              image: busybox
+              command: ["sh", "-c", 'echo "Hello, Kubernetes!" && sleep 3600']
+          restartPolicy: OnFailure
 ```
 
 Apply the yaml file to the hub cluster.
@@ -113,6 +115,7 @@ kubectl apply -f manifest-work.yaml
 ```
 
 Verify that the `manifestwork` resource was applied to the hub.
+
 ```Shell
 kubectl -n <managed cluster name> get manifestwork/mw-01 -o yaml # kubectl -n cluster1 get manifestwork/mw-01 -o yaml
 ```
@@ -127,25 +130,33 @@ hello   1/1     Running   0          108s
 ```
 
 ## Troubleshooting
-* The managed cluster status is not ture.
 
-  For example, checking managedcluster and get below result.
+- The managed cluster status is not true.
+
+  For example, the result below is shown when checking managedcluster.
+
   ```
   $ kubectl get managedcluster
   NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
   <managed cluster name> true           https://localhost               Unknown     46m
   ```
-  There are many reasons for this problem. You can use below commands to get more debug info. If the provided info can't help, please log an issue to us.
+
+  There are many reasons for this problem. You can use the commands below to get more debug info. If the provided info doesn't help, please log an issue to us.
 
   On the hub cluster, check the managedcluster status.
+
   ```
   kubectl get managedcluster <managed cluster name> -oyaml # kubectl get managedcluster cluster1 -oyaml
   ```
+
   On the hub cluster, check the lease status.
+
   ```
   kubectl get lease -n <managed cluster name> # kubectl get lease -n cluster1
   ```
+
   On the managed cluster, check the klusterlet status.
+
   ```
   kubectl get klusterlet -o yaml
   ```
