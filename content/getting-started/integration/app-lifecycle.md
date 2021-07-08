@@ -11,6 +11,12 @@ After the cluster manager is installed, you could install the application manage
 
 <!-- spellchecker-enable -->
 
+## Architecture
+
+![application lifecycle management architecture](https://github.com/open-cluster-management-io/multicloud-operators-subscription/raw/main/images/architecture.png)
+
+For more details, visit the [multicloud-operators-subscription GitHub page](https://github.com/open-cluster-management-io/multicloud-operators-subscription).
+
 ## Prerequisite
 
 You must meet the following prerequisites to install the application lifecycle management add-on:
@@ -40,14 +46,30 @@ NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     1            1           25s
 ```
 
-Deploy the subscription operators to the managed cluster(s).
+Create the `open-cluster-management-agent-addon` namespace on the managed cluster.
 
-```Shell
-$ export HUB_KUBECONFIG=</path/to/hub_cluster/.kube/config> # export HUB_KUBECONFIG=~/hub-kubeconfig
-$ export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
+```shell
 $ kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
-$ make deploy-managed
-$ kubectl -n open-cluster-management-agent-addon get deploy  multicloud-operators-subscription
+$ kubectl create ns open-cluster-management-agent-addon
+namespace/open-cluster-management-agent-addon created
+```
+
+Deploy the subscription add-on on the hub cluster's managed cluster namespace.
+
+```shell
+$ kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+$ export MANAGED_CLUSTER_NAME=<managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
+$ make deploy-addon
+$ kubectl -n <managed cluster name> get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
+NAME                  AVAILABLE   DEGRADED   PROGRESSING
+application-manager   True
+```
+
+Check the the subscription add-on deployment on the managed cluster.
+
+```shell
+$ kubectl config use-context <managed cluster context> # kubectl config use-context kind-cluster1
+$ kubectl -n open-cluster-management-agent-addon get deploy multicloud-operators-subscription
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     1            1           103s
 ```
