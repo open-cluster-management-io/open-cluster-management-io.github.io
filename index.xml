@@ -147,9 +147,10 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
       
       <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Prerequisite Install from source What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+   Architecture Prerequisite Install from source What is next     Architecture    For more details, visit the multicloud-operators-subscription GitHub page.
+Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
-  Ensure the open-cluster-management cluster manager is installed. See Cluster Manager for more information.</description>
+  Ensure the open-cluster-management cluster manager is installed.</description>
     </item>
     
     <item>

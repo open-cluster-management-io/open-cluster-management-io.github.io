@@ -11,9 +11,10 @@
 
 
     <meta name="description" content="After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Prerequisite Install from source What is next     Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+   Architecture Prerequisite Install from source What is next     Architecture    For more details, visit the multicloud-operators-subscription GitHub page.
+Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
-  Ensure the open-cluster-management cluster manager is installed. See Cluster Manager for more information.">
+  Ensure the open-cluster-management cluster manager is installed.">
 
 
 
@@ -780,6 +781,7 @@
 
 
   <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
+        <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-from-source">Install from source</a></li>
         <li><a href="#what-is-next">What is next</a></li>
@@ -787,6 +789,15 @@
 
 
 <!-- spellchecker-enable -->
+<div class="gdoc-page__anchorwrap">
+    <h2 id="architecture">
+        Architecture
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/integration/app-lifecycle/#architecture" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Architecture" href="#architecture">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p><img src="https://github.com/open-cluster-management-io/multicloud-operators-subscription/raw/main/images/architecture.png" alt="application lifecycle management architecture"  /></p>
+<p>For more details, visit the <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management-io/multicloud-operators-subscription">multicloud-operators-subscription GitHub page</a>.</p>
 <div class="gdoc-page__anchorwrap">
     <h2 id="prerequisite">
         Prerequisite
@@ -822,12 +833,20 @@ $ make deploy-hub
 $ kubectl -n open-cluster-management get deploy  multicloud-operators-subscription
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           25s
-</code></pre></div><p>Deploy the subscription operators to the managed cluster(s).</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ <span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;/path/to/hub_cluster/.kube/config&gt; <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
-$ <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
-$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-$ make deploy-managed
-$ kubectl -n open-cluster-management-agent-addon get deploy  multicloud-operators-subscription
+</code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
+$ kubectl create ns open-cluster-management-agent-addon
+namespace/open-cluster-management-agent-addon created
+</code></pre></div><p>Deploy the subscription add-on on the hub cluster&rsquo;s managed cluster namespace.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+$ <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt;  <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
+$ make deploy-addon
+$ kubectl -n &lt;managed cluster name&gt; get managedclusteraddon <span class="c1"># kubectl -n cluster1 get managedclusteraddon</span>
+NAME                  AVAILABLE   DEGRADED   PROGRESSING
+application-manager   True
+</code></pre></div><p>Check the the subscription add-on deployment on the managed cluster.</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
+$ kubectl -n open-cluster-management-agent-addon get deploy multicloud-operators-subscription
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           103s
 </code></pre></div><div class="gdoc-page__anchorwrap">
