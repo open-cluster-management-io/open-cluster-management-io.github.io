@@ -846,7 +846,7 @@ kubectl patch managedcluster <span class="o">{</span>managed cluster name<span c
 </code></pre></div><p>Run <code>kubectl get managedcluster</code> again on the hub cluster. You should be able to see that the managed cluster is registered now.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 &lt;managed cluster name&gt;   <span class="nb">true</span>           https://localhost      True     True        7m58s
-</code></pre></div><p>If the managed cluster status is not ture, refer to <a class="gdoc-markdown__link" href="#troubleshooting">Troubleshooting</a> to debug on your cluster.</p>
+</code></pre></div><p>If the managed cluster status is not true, refer to <a class="gdoc-markdown__link" href="#troubleshooting">Troubleshooting</a> to debug on your cluster.</p>
 <p>After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a <code>manifest-work.yaml</code> as shown in this example:</p>
 <div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
 </span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
@@ -856,17 +856,17 @@ kubectl patch managedcluster <span class="o">{</span>managed cluster name<span c
 </span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
 </span><span class="w">  </span><span class="k">workload</span><span class="p">:</span><span class="w">
 </span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
-</span><span class="w">      </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Pod<span class="w">
-</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">containers</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">          </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>busybox<span class="w">
-</span><span class="w">          </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
-</span><span class="w">        </span><span class="k">restartPolicy</span><span class="p">:</span><span class="w"> </span>OnFailure<span class="w">
+</span><span class="w">      </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w">        </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Pod<span class="w">
+</span><span class="w">        </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">          </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w">        </span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">containers</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">              </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>busybox<span class="w">
+</span><span class="w">              </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
+</span><span class="w">          </span><span class="k">restartPolicy</span><span class="p">:</span><span class="w"> </span>OnFailure<span class="w">
 </span></code></pre></div><p>Apply the yaml file to the hub cluster.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl apply -f manifest-work.yaml
 </code></pre></div><p>Verify that the <code>manifestwork</code> resource was applied to the hub.</p>
@@ -885,12 +885,12 @@ hello   1/1     Running   <span class="m">0</span>          108s
     </h2>
 </div><ul>
 <li>
-<p>The managed cluster status is not ture.</p>
-<p>For example, checking managedcluster and get below result.</p>
+<p>The managed cluster status is not true.</p>
+<p>For example, the result below is shown when checking managedcluster.</p>
 <pre><code>$ kubectl get managedcluster
 NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
 &lt;managed cluster name&gt; true           https://localhost               Unknown     46m
-</code></pre><p>There are many reasons for this problem. You can use below commands to get more debug info. If the provided info can&rsquo;t help, please log an issue to us.</p>
+</code></pre><p>There are many reasons for this problem. You can use the commands below to get more debug info. If the provided info doesn&rsquo;t help, please log an issue to us.</p>
 <p>On the hub cluster, check the managedcluster status.</p>
 <pre><code>kubectl get managedcluster &lt;managed cluster name&gt; -oyaml # kubectl get managedcluster cluster1 -oyaml
 </code></pre><p>On the hub cluster, check the lease status.</p>

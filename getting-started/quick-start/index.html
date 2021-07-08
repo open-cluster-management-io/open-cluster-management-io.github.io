@@ -864,7 +864,7 @@ clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1
 <li>
 <p>Wait for csr created on the hub:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w <span class="p">|</span> grep &lt;managed_cluster_name&gt; <span class="c1"># kubectl get csr -w | grep cluster1</span>
-</code></pre></div><p>We would get a result looks like the following after csr created:</p>
+</code></pre></div><p>Result looks like the following after csr created:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
 </code></pre></div></li>
 <li>
@@ -872,7 +872,7 @@ clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters &lt;managed_cluster_name&gt; <span class="c1"># clusteradm accept --clusters cluster1</span>
 </code></pre></div></li>
 <li>
-<p>Verify <code>managedcluster</code> have been created successfully:</p>
+<p>Verify <code>managedcluster</code> has been created successfully:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster
 </code></pre></div><p>The return result looks like:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
@@ -887,7 +887,7 @@ cluster1   <span class="nb">true</span>           https://127.0.0.1:41478   True
         </a>
     </h2>
 </div><p>Install and create a <a class="gdoc-markdown__link" href="https://operatorhub.io/operator/cluster-manager">Cluster manager</a> on your <em>hub</em> cluster.</p>
-<p>Install and create a <a class="gdoc-markdown__link" href="https://operatorhub.io/operator/klusterlet">Klusterlet agent</a> on your <em>manage</em> cluster.</p>
+<p>Install and create a <a class="gdoc-markdown__link" href="https://operatorhub.io/operator/klusterlet">Klusterlet agent</a> on your <em>managed</em> cluster.</p>
 <div class="gdoc-page__anchorwrap">
     <h2 id="more-details">
         More details

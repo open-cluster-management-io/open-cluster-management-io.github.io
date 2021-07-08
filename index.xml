@@ -160,9 +160,7 @@ Prerequisite    You must meet the following prerequisites to install the applica
       
       <guid>http://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
       <description>After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
-   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture    Prerequisite    You must meet the following prerequisites to install the policy framework:
-  Ensure kubectl and kustomize are installed.
-  Ensure Golang is installed, if you are planning to install from the source.</description>
+   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture     You can find the analysis of the architectural components here  Prerequisite    You must meet the following prerequisites to install the policy framework:</description>
     </item>
     
     <item>
