@@ -77,7 +77,7 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
    kubectl get csr -w | grep <managed_cluster_name> # kubectl get csr -w | grep cluster1
    ```
 
-   We would get a result looks like the following after csr created:
+   Result looks like the following after csr created:
 
    ```Shell
    cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
@@ -89,7 +89,7 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
    clusteradm accept --clusters <managed_cluster_name> # clusteradm accept --clusters cluster1
    ```
 
-4. Verify `managedcluster` have been created successfully:
+4. Verify `managedcluster` has been created successfully:
 
    ```Shell
    kubectl get managedcluster
@@ -106,7 +106,7 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
 
 Install and create a [Cluster manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster.
 
-Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _manage_ cluster.
+Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _managed_ cluster.
 
 ## More details
 
