@@ -73,8 +73,8 @@ Community meetings</description>
       
       <guid>http://open-cluster-management.io/concepts/architecture/</guid>
       <description>This page tells you the architecture and basic concepts in open-cluster-management.
-   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs on a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
-Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.</description>
+   Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview    open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
+ The service must have an API to determine the inventory of available clusters.</description>
     </item>
     
     <item>

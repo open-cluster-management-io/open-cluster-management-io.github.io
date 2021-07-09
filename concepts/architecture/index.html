@@ -11,8 +11,8 @@
 
 
     <meta name="description" content="This page tells you the architecture and basic concepts in open-cluster-management.
-   Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Hub cluster    The hub cluster is the common term that is used to define the central controller that runs on a Kubernetes cluster. The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.
-Klusterlet    The klusterlet is an agent running on the cluster managed by the hub.">
+   Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview    open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
+ The service must have an API to determine the inventory of available clusters.">
 
 
 
@@ -780,6 +780,7 @@ Klusterlet    The klusterlet is an agent running on the cluster managed by the h
 
 
   <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
+        <li><a href="#overview">Overview</a></li>
         <li><a href="#hub-cluster">Hub cluster</a></li>
         <li><a href="#klusterlet">Klusterlet</a></li>
         <li><a href="#managed-cluster">Managed cluster</a></li>
@@ -789,6 +790,29 @@ Klusterlet    The klusterlet is an agent running on the cluster managed by the h
 
 
 <!-- spellchecker-enable -->
+<div class="gdoc-page__anchorwrap">
+    <h2 id="overview">
+        Overview
+        <a data-clipboard-text="http://open-cluster-management.io/concepts/architecture/#overview" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Overview" href="#overview">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h2>
+</div><p>open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.</p>
+<ul>
+<li>The service must have an API to determine the inventory of available clusters.</li>
+<li>The service must have a way to determine where to schedule and assign Kubernetes API manifests to a selected set of clusters.</li>
+<li>The service must have a way to deliver desired Kubernetes API manifests to a selected set of clusters.</li>
+<li>The service must have a way to govern how users access available clusters or groups of clusters in the fleet.</li>
+<li>Optionally, the service may need to extend the management agent with additional built-in controllers that should be run on managed clusters.</li>
+</ul>
+<p>open-cluster-management provides core primitives to satisfy the above requirements to ease the multicluster enablement:</p>
+<ul>
+<li>For awareness of cluster inventory, the <a class="gdoc-markdown__link" href="/concepts/managedcluster">ManagedCluster</a> API represents the cluster under management while a Klusterlet operator running on the remote cluster provides metadata and health information about the availability of the agent and the managed cluster Kubernetes API endpoint.</li>
+<li>For awareness of workload and configuration scheduled, a <a class="gdoc-markdown__link" href="/concepts/placement">Placement</a> API provides the ability to describe the expected characteristics of ideal clusters and the controller will examine the available clusters (based on permissions for the user/namespace) and dynamically match a list of clusters captured in a cluster.open-cluster-management.io/PlacementDecision. Related controllers can then use the result of these decisions to drive further placement of configuration and workload on the selected clusters.</li>
+<li>For the delivery of configuration, the <a class="gdoc-markdown__link" href="/concepts/manifestwork">ManifestWork</a> API provides a simple way to specify one or more Kubernetes manifests that should be delivered and reconciled against the managed cluster.</li>
+<li>To define a consistent access control boundary, users or groups may be assigned to specific ManagedClusters or collections of ManagedClusters known as <a class="gdoc-markdown__link" href="/concepts/managedcluster/#managedclusterset">ManagedClusterSets</a>.</li>
+<li>If the service has a need to install built-in controllers or operators on managed clusters, the addon.<a class="gdoc-markdown__link" href="/concepts/addon">ManagedClusterAddon</a> API allows additional behaviors to be injected remotely into the management agent to support abstractions built around the ManifestWork or other core primitives.</li>
+</ul>
 <div class="gdoc-page__anchorwrap">
     <h2 id="hub-cluster">
         Hub cluster
