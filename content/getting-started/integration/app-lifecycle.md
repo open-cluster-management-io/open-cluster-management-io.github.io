@@ -13,7 +13,10 @@ After the cluster manager is installed, you could install the application manage
 
 ## Architecture
 
-![application lifecycle management architecture](https://github.com/open-cluster-management-io/multicloud-operators-subscription/raw/main/images/architecture.png)
+<img src="https://github.com/open-cluster-management-io/multicloud-operators-subscription/raw/main/images/architecture.png" 
+alt="application lifecycle management architecture" 
+class="responsive2">
+<!-- ![application lifecycle management architecture](https://github.com/open-cluster-management-io/multicloud-operators-subscription/raw/main/images/architecture.png) -->
 
 For more details, visit the [multicloud-operators-subscription GitHub page](https://github.com/open-cluster-management-io/multicloud-operators-subscription).
 

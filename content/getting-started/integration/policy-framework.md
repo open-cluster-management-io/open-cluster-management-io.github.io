@@ -15,7 +15,10 @@ After cluster manager, klusterlet, and application management are installed, you
 
 - You can find the analysis of the architectural components [here](https://github.com/open-cluster-management/governance-policy-framework#architecutre)
 
-![Policy framework architecture](/policy-framework-architecture-diagram.jpg)
+<img src="/policy-framework-architecture-diagram.jpg" 
+alt="Policy framework architecture" 
+class="responsive3">
+<!-- ![Policy framework architecture](/policy-framework-architecture-diagram.jpg) -->
 
 ## Prerequisite
 
