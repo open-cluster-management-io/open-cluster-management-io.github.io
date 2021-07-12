@@ -1,8 +1,7 @@
 baseURL = "http://open-cluster-management.io"
 languageCode = "en-us"
 title = "Open Cluster Management"
-
-theme = "hugo-geekdoc"
+theme = "ocmTheme"
 
 # Geekdoc required configuration
 pygmentsUseClasses = true
@@ -17,6 +16,24 @@ disablePathToLower = true
   [markup.tableOfContents]
     startLevel = 1
     endLevel = 9
+
+[menu]
+  [[menu.main]]
+    name = "Docs"
+    url = "/concepts/addon"
+    weight = 1
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/blog"
+    weight = 2
+  [[menu.main]]
+    name = "Contribute"
+    url = "/contribute/contribute"
+    weight = 3
+  [[menu.main]]
+    name = "Getting started"
+    url = "/getting-started/quick-start"
+    weight = 4
 
 [params]
   # (Optional, default 6) Set how many table of contents levels to be showed on page.
