@@ -828,25 +828,22 @@ Prerequisite    You must meet the following prerequisites to install the applica
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/multicloud-operators-subscription
 <span class="nb">cd</span> multicloud-operators-subscription
 </code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 $ make deploy-hub
-$ kubectl -n open-cluster-management get deploy  multicloud-operators-subscription
+$ kubectl -n open-cluster-management get deploy multicloud-operators-subscription --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           25s
 </code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-$ kubectl create ns open-cluster-management-agent-addon
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl create ns open-cluster-management-agent-addon --context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 namespace/open-cluster-management-agent-addon created
-</code></pre></div><p>Deploy the subscription add-on on the hub cluster&rsquo;s managed cluster namespace.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-$ <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt;  <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
+</code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 $ make deploy-addon
-$ kubectl -n &lt;managed cluster name&gt; get managedclusteraddon <span class="c1"># kubectl -n cluster1 get managedclusteraddon</span>
+$ kubectl -n <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span> get managedclusteraddon <span class="c1"># kubectl -n cluster1 get managedclusteraddon</span>
 NAME                  AVAILABLE   DEGRADED   PROGRESSING
 application-manager   True
 </code></pre></div><p>Check the the subscription add-on deployment on the managed cluster.</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-$ kubectl -n open-cluster-management-agent-addon get deploy multicloud-operators-subscription
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl -n open-cluster-management-agent-addon get deploy multicloud-operators-subscription --context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicloud-operators-subscription   1/1     <span class="m">1</span>            <span class="m">1</span>           103s
 </code></pre></div><div class="gdoc-page__anchorwrap">
@@ -857,14 +854,12 @@ multicloud-operators-subscription   1/1     <span class="m">1</span>            
         </a>
     </h2>
 </div><p>After a successful deployment, test the subscription operator with a <code>helm</code> subscription. Run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-kubectl apply -f examples/helmrepo-hub-channel
-</code></pre></div><p>After a while, you should see the subscription propagated to the managed cluster and the Helm app installed. By default, when a subscription deploys subscribed applications to target clusters, the applications are deployed to that subscription namespace. To confirm, run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-$ kubectl get subscriptions.apps
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl apply -f examples/helmrepo-hub-channel --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
+</code></pre></div><p>After a while, you should see the subscription is propagated to the managed cluster and the Helm app is installed. By default, when a subscribed applications is deployed to the target clusters, the applications are installed in the coresponding subscription namespace. To confirm, run the following command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get subscriptions.apps --context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
 nginx-sub   Subscribed   107m   <span class="nb">true</span>
-$ kubectl get pod
+$ kubectl get pod --context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 NAME                                                   READY   STATUS      RESTARTS   AGE
 nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     <span class="m">0</span>          108m
 nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     <span class="m">0</span>          108m

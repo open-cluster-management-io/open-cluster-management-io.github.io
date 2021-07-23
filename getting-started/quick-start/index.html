@@ -11,7 +11,7 @@
 
 
     <meta name="description" content="Use any of the following methods to bootstrap your Open Cluster Management environment.
-   Bootstrap via Clusteradm CLI tool  Install Clusteradm CLI tool Deploy a cluster manager on your hub cluster Deploy a klusterlet agent on your manage cluster Accept join request and verify   Bootstrap via Operatorhub.io More details     Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.">
+   Bootstrap via Clusteradm CLI tool  Install Clusteradm CLI tool Deploy a cluster manager on your hub cluster Deploy a klusterlet agent on your managed cluster Accept join request and verify   Bootstrap via Operatorhub.io More details     Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.">
 
 
 
@@ -783,7 +783,7 @@
           <ul>
             <li><a href="#install-clusteradm-cli-tool">Install Clusteradm CLI tool</a></li>
             <li><a href="#deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</a></li>
-            <li><a href="#deploy-a-klusterlet-agent-on-your-manage-cluster">Deploy a klusterlet agent on your manage cluster</a></li>
+            <li><a href="#deploy-a-klusterlet-agent-on-your-managed-cluster">Deploy a klusterlet agent on your managed cluster</a></li>
             <li><a href="#accept-join-request-and-verify">Accept join request and verify</a></li>
           </ul>
         </li>
@@ -793,9 +793,14 @@
 
 
 <p>Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.</p>
-<p>You can create these two clusters using <a class="gdoc-markdown__link" href="https://kind.sigs.k8s.io">kind</a>. Run the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind create cluster --name &lt;your hub cluster name&gt;     <span class="c1"># kind create cluster --name hub</span>
-kind create cluster --name &lt;your managed cluster name&gt; <span class="c1"># kind create cluster --name cluster1</span>
+<p>Set the following environment variables that will be used throughout to simplify the instructions:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">export</span> <span class="nv">HUB_CLUSTER_NAME</span><span class="o">=</span>&lt;your hub cluster name&gt;             <span class="c1"># export HUB_CLUSTER_NAME=hub</span>
+<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;your managed cluster name&gt;     <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
+<span class="nb">export</span> <span class="nv">CTX_HUB_CLUSTER</span><span class="o">=</span>&lt;your hub cluster context&gt;           <span class="c1"># export CTX_HUB_CLUSTER=kind-hub</span>
+<span class="nb">export</span> <span class="nv">CTX_MANAGED_CLUSTER</span><span class="o">=</span>&lt;your managed cluster context&gt;   <span class="c1"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
+</code></pre></div><p>Then create these two clusters using <a class="gdoc-markdown__link" href="https://kind.sigs.k8s.io">kind</a>. Run the following commands:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind create cluster --name <span class="si">${</span><span class="nv">HUB_CLUSTER_NAME</span><span class="si">}</span>
+kind create cluster --name <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
 </code></pre></div><div class="gdoc-page__anchorwrap">
     <h2 id="bootstrap-via-clusteradm-cli-tool">
         Bootstrap via Clusteradm CLI tool
@@ -820,12 +825,8 @@ kind create cluster --name &lt;your managed cluster name&gt; <span class="c1"># 
     </h3>
 </div><ol>
 <li>
-<p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-</code></pre></div></li>
-<li>
 <p>Bootstrap the Open Cluster Management control plane:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 </code></pre></div><p>Then you will get a result with a generated <code>join</code> command:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">...
 clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
@@ -833,20 +834,16 @@ clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1
 </li>
 </ol>
 <div class="gdoc-page__anchorwrap">
-    <h3 id="deploy-a-klusterlet-agent-on-your-manage-cluster">
-        Deploy a klusterlet agent on your manage cluster
-        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#deploy-a-klusterlet-agent-on-your-manage-cluster" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Deploy a klusterlet agent on your manage cluster" href="#deploy-a-klusterlet-agent-on-your-manage-cluster">
+    <h3 id="deploy-a-klusterlet-agent-on-your-managed-cluster">
+        Deploy a klusterlet agent on your managed cluster
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/quick-start/#deploy-a-klusterlet-agent-on-your-managed-cluster" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Deploy a klusterlet agent on your managed cluster" href="#deploy-a-klusterlet-agent-on-your-managed-cluster">
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h3>
 </div><ol>
 <li>
-<p>Ensure the <code>kubectl</code> context is set to point to the managed cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-cluster1</span>
-</code></pre></div></li>
-<li>
-<p>Run the previously copied <code>join</code> command to join the hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
+<p>Run the previously copied <code>join</code> command by appending the context of your managed cluster to join the hub cluster:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm join --context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span> --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
 </code></pre></div></li>
 </ol>
 <div class="gdoc-page__anchorwrap">
@@ -858,23 +855,19 @@ clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1
     </h3>
 </div><ol>
 <li>
-<p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
-</code></pre></div></li>
-<li>
-<p>Wait for csr created on the hub:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w <span class="p">|</span> grep &lt;managed_cluster_name&gt; <span class="c1"># kubectl get csr -w | grep cluster1</span>
-</code></pre></div><p>Result looks like the following after csr created:</p>
+<p>Wait for the CSR is created on your hub cluster:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span> <span class="p">|</span> grep <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+</code></pre></div><p>Then you will get a result resembling the following after the CSR is created:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
 </code></pre></div></li>
 <li>
 <p>Accept request:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters &lt;managed_cluster_name&gt; <span class="c1"># clusteradm accept --clusters cluster1</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span> --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 </code></pre></div></li>
 <li>
 <p>Verify <code>managedcluster</code> has been created successfully:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster
-</code></pre></div><p>The return result looks like:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
+</code></pre></div><p>Then you will get a result resembling the following:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
 cluster1   <span class="nb">true</span>           https://127.0.0.1:41478   True     True        5m23s
 </code></pre></div></li>

@@ -799,10 +799,14 @@ Prepare one Kubernetes cluster to function as the hub. For example, use kind to 
 <p>Prepare one Kubernetes cluster to function as the hub. For example, use <a class="gdoc-markdown__link" href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create a hub cluster. To use <code>kind</code>, you will need <a class="gdoc-markdown__link" href="https://docs.docker.com/get-started">docker</a> installed and running.</p>
 <p>If you are running OS X, you&rsquo;ll also need to install <code>gnu-sed</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">brew install gnu-sed
-</code></pre></div><p>To create the hub cluster with <code>kind</code>, run:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># kind delete cluster --name hub # if the kind cluster is previously created and can be safely deleted</span>
-kind create cluster --name hub
-kind get kubeconfig --name <span class="o">{</span>your kind cluster name<span class="o">}</span> --internal &gt; ./.hub-kubeconfig <span class="c1"># ./.hub-kubeconfig is default value of HUB_KUBECONFIG</span> 
+</code></pre></div><p>Set the following environment variable that will be used throughout to simplify the instructions:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">export</span> <span class="nv">HUB_CLUSTER_NAME</span><span class="o">=</span>&lt;your hub cluster name&gt;             <span class="c1"># export HUB_CLUSTER_NAME=hub</span>
+<span class="nb">export</span> <span class="nv">CTX_HUB_CLUSTER</span><span class="o">=</span>&lt;your hub cluster context&gt;           <span class="c1"># export CTX_HUB_CLUSTER=kind-hub</span>
+<span class="nb">export</span> <span class="nv">HUB_KUBECONFIG</span><span class="o">=</span>&lt;your hub cluster kubeconfig file&gt;    <span class="c1"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
+</code></pre></div><p>Then create the hub cluster with <code>kind</code>, run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># kind delete cluster --name ${HUB_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted</span>
+kind create cluster --name <span class="si">${</span><span class="nv">HUB_CLUSTER_NAME</span><span class="si">}</span>
+kind get kubeconfig --name <span class="si">${</span><span class="nv">HUB_CLUSTER_NAME</span><span class="si">}</span> --internal &gt; <span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
 </code></pre></div><div class="gdoc-page__anchorwrap">
     <h2 id="install-from-source">
         Install from source
@@ -813,7 +817,7 @@ kind get kubeconfig --name <span class="o">{</span>your kind cluster name<span c
 </div><p>Clone the <code>registration-operator</code></p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/registration-operator
 </code></pre></div><p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 </code></pre></div><p>Deploy hub</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">cd</span> registration-operator
 <span class="nb">export</span> <span class="nv">KUBECONFIG</span><span class="o">=</span><span class="nv">$HOME</span>/.kube/config <span class="c1"># set a env variable KUBECONFIG to kubeconfig file path</span>

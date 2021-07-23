@@ -834,7 +834,7 @@
 <li>
 <p>Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the <code>open-cluster-management</code> namespace on the hub cluster with the following commands:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the hub cluster</span>
-kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 
 <span class="c1"># Create the namespace</span>
 <span class="nb">export</span> <span class="nv">HUB_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management&#34;</span>
@@ -858,29 +858,28 @@ kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span
 </li>
 <li>
 <p>Ensure the pods are running on the hub with the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
 NAME                                           READY   STATUS    RESTARTS   AGE
 governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span class="m">0</span>          94s
 </code></pre></div></li>
 <li>
 <p>Export the hub cluster <code>kubeconfig</code> with the following command:</p>
 <p>For <code>kind</code> cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind get kubeconfig --name &lt;cluster name&gt; --internal &gt; <span class="nv">$PWD</span>/kubeconfig_hub
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind get kubeconfig --name <span class="si">${</span><span class="nv">HUB_CLUSTER_NAME</span><span class="si">}</span> --internal &gt; <span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
 </code></pre></div><p>For non-<code>kind</code> clusters:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config view --context<span class="o">=</span>&lt;hub cluster context&gt; --minify --flatten &gt; <span class="nv">$PWD</span>/kubeconfig_hub
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config view --context<span class="o">=</span><span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span> --minify --flatten &gt; <span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
 </code></pre></div></li>
 <li>
 <p>Deploy the policy synchronization components to the managed cluster. Run the following commands:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
-<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
-kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-$MANAGED_CLUSTER_NAME</span>
+kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 
 <span class="c1"># Create the namespace</span>
 <span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
 kubectl create ns <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
 
 <span class="c1"># Create the secret to authenticate with the hub</span>
-kubectl -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> create secret generic hub-kubeconfig --from-file<span class="o">=</span><span class="nv">kubeconfig</span><span class="o">=</span><span class="nv">$PWD</span>/kubeconfig_hub
+kubectl -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> create secret generic hub-kubeconfig --from-file<span class="o">=</span><span class="nv">kubeconfig</span><span class="o">=</span><span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
 
 <span class="c1"># Apply the policy CRD</span>
 <span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>

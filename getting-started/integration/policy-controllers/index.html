@@ -819,8 +819,7 @@
 <li>
 <p>Deploy the <code>config-policy-controller</code> to the managed cluster with the following commands:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
-<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
-kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-$MANAGED_CLUSTER_NAME</span>
+kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
    
 <span class="c1"># Create the namespace</span>
 <span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
@@ -860,7 +859,7 @@ config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span class
 </div><ol>
 <li>
 <p>After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 $ kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
 policy.policy.open-cluster-management.io/policy-pod created
 placementbinding.policy.open-cluster-management.io/binding-policy-pod created
@@ -877,8 +876,8 @@ placementrule.apps.open-cluster-management.io/placement-policy-pod patched
 ...
 status:
   decisions:
-  - clusterName: &lt;managed cluster name&gt;
-    clusterNamespace: &lt;managed cluster name&gt;
+  - clusterName: <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+    clusterNamespace: <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
 ...
 </code></pre></div></li>
 <li>
@@ -888,8 +887,7 @@ policy.policy.open-cluster-management.io/policy-pod patched
 </code></pre></div></li>
 <li>
 <p>After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ <span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;managed cluster name&gt; <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
-$ kubectl config use-context &lt;managed cluster context&gt; <span class="c1"># kubectl config use-context kind-$MANAGED_CLUSTER_NAME</span>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 $ kubectl get policy -A
 NAMESPACE   NAME                 AGE
 cluster1    default.policy-pod   1m39s
