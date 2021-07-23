@@ -54,10 +54,10 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
 
 ### Deploy a klusterlet agent on your managed cluster
 
-1. Run the previously copied `join` command by append the context of your managed cluster to join the hub cluster:
+1. Run the previously copied `join` command by appending the context of your managed cluster to join the hub cluster:
 
    ```Shell
-   clusteradm join --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name ${MANAGED_CLUSTER_NAME} --context ${CTX_MANAGED_CLUSTER}
+   clusteradm join --context ${CTX_MANAGED_CLUSTER} --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name ${MANAGED_CLUSTER_NAME}
    ```
 
 ### Accept join request and verify
