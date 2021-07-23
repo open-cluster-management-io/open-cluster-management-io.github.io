@@ -29,8 +29,7 @@ Complete the following procedure to install the configuration policy controller:
 
    ```Shell
    # Configure kubectl to point to the managed cluster
-   export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
-   kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
+   kubectl config use-context ${CTX_MANAGED_CLUSTER}
    
    # Create the namespace
    export MANAGED_NAMESPACE="open-cluster-management-agent-addon"
@@ -65,7 +64,7 @@ Complete the following procedure to install the configuration policy controller:
 1. After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:
 
    ```Shell
-   $ kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+   $ kubectl config use-context ${CTX_HUB_CLUSTER}
    $ kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
    policy.policy.open-cluster-management.io/policy-pod created
    placementbinding.policy.open-cluster-management.io/binding-policy-pod created
@@ -86,8 +85,8 @@ Complete the following procedure to install the configuration policy controller:
    ...
    status:
      decisions:
-     - clusterName: <managed cluster name>
-       clusterNamespace: <managed cluster name>
+     - clusterName: ${MANAGED_CLUSTER_NAME}
+       clusterNamespace: ${MANAGED_CLUSTER_NAME}
    ...
    ```
 
@@ -101,8 +100,7 @@ Complete the following procedure to install the configuration policy controller:
 5. After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:
 
    ```Shell
-   $ export MANAGED_CLUSTER_NAME=<managed cluster name> # export MANAGED_CLUSTER_NAME=cluster1
-   $ kubectl config use-context <managed cluster context> # kubectl config use-context kind-$MANAGED_CLUSTER_NAME
+   $ kubectl config use-context ${CTX_MANAGED_CLUSTER}
    $ kubectl get policy -A
    NAMESPACE   NAME                 AGE
    cluster1    default.policy-pod   1m39s
