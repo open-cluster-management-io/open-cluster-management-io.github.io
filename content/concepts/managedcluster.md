@@ -42,7 +42,7 @@ In open-cluster-management, [registration](https://github.com/open-cluster-manag
 
 `ManagedCluster` is to implement the notion in [KEP-1645](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api), but we also expand its definition as a scope for workload placement.
 
-To add a `ManagedCluster` to a `ManagedClusterSet`, user needs to set a label `open-cluster-management.io/clusterset={clusterset name}` on the `ManagedCluster`. The user must have the `create` permission to `managedclusterset/join` resource to add a `ManagedCluster` to a `ManagedClusterSet`.
+To add a `ManagedCluster` to a `ManagedClusterSet`, user needs to set a label `cluster.open-cluster-management.io/clusterset={clusterset name}` on the `ManagedCluster`. The user must have the `create` permission to `managedclusterset/join` resource to add a `ManagedCluster` to a `ManagedClusterSet`.
 
 An example of a `ManagedClusterSet` resource is shown in the following example.
 
