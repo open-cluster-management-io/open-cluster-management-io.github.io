@@ -4,8 +4,9 @@ weight: 1
 ---
 
 This page tells you the architecture and basic concepts in open-cluster-management.
-
-![Architecture diagram](https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png)
+<img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" 
+alt="Architecture diagram" 
+class="responsive">
 
 <!-- spellchecker-disable -->
 
