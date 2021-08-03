@@ -1,0 +1,19 @@
+{{ define "title" }}
+Open Cluster Management | Docs
+{{ end }}
+
+{{ define "main" }}
+{{ $isDocsRoot := eq .CurrentSection .FirstSection }}
+
+<div id="ocm" class="page-docs page-wrapper page-docs-list">
+  <aside class="docs-menu">
+    {{ partial "sidebar-2.html" . }}
+  </aside>
+  <section>
+    <article>
+
+    </article>
+  </section>
+</div>
+
+{{ end }}

@@ -1,0 +1,56 @@
+// OCM.io Styles
+//
+// 1. Setup Fonts
+//
+
+
+// 1. Fonts
+
+@font-face {
+  font-family: 'RedHatText';
+  src: url('../../static/fonts/RedHatText-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatText';
+  src: url('../../static/fonts/RedHatText-Light.woff2') format('woff2');
+  font-weight: lighter;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatText';
+  src: url('../../static/fonts/RedHatText-Medium.woff2') format('woff2');
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatText';
+  src: url('../../static/fonts/RedHatText-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('../../static/fonts/RedHatDisplay-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('../../static/fonts/RedHatDisplay-Light.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('../../static/fonts/RedHatDisplay-Medium.woff2') format('woff2');
+  font-weight: medium;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'RedHatDisplay';
+  src: url('../../static/fonts/RedHatDisplay-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}

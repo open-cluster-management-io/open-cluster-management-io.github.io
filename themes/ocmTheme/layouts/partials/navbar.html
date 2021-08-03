@@ -1,0 +1,41 @@
+{{ $menu := site.Menus.main }}
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="/" class="navbar-item">
+        <img src="img/ocm-white-mainGradient.svg" alt="" class="mr-2" style= />
+        <span>Open Cluster Management</span>
+      </a>
+      <a class="navbar-burger burger" dataTarget="navMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu" id="nav-links">
+      <div class="navbar-end">
+        {{ range $menu }}
+              <a href="{{ .URL | relLangURL }}" class="navbar-item is-white">
+                {{ .Name }}
+              </a>
+          {{ end }}
+          <div class="nav-icons-container">
+            <a class="navbar-item" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
+              <img src="img/youtube.svg" alt="">
+            </a>
+            <a class="navbar-item" href="https://github.com/open-cluster-management-io" target="_blank">
+              <img src="img/github.svg" alt="">
+            </a>
+            <a class="navbar-item" href="https://twitter.com/opencluster_m8t" target="_blank">
+              <img src="img/twitter.svg" alt="">
+            </a>
+            <a class="navbar-item" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+              <img src="img/slack.svg" alt="">
+            </a>
+          </div>
+      </div>
+    </div>
+  </div>
+</nav>
+

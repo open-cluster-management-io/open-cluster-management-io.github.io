@@ -1,0 +1,178 @@
+
+h1,h2,h3,h4 {
+  font-family: RedHatDisplay-Bold;
+  & span {
+    font-family: RedHatDisplay-Regular;
+  }
+}
+
+// ****
+// Hero
+// ****
+
+.hero {
+  color: white;
+  background-color: $ocm-purple;
+
+  .hero-background {
+    max-height: 650px;
+    position: absolute;
+    right: -100px;
+    top: 0;
+    img {
+      max-height: inherit;
+    }
+  }
+
+  p {
+    font-family: RedHatText-Regular;
+    font-size: 18px;
+  }
+  
+  .hero-button-container {
+    a {
+      height: 56px;
+      font-family: RedHatDisplay-Bold;
+      color: $ocm-dark;
+    }
+  }
+
+  .hero-astro {
+    position: relative;
+    bottom: 0;
+  }
+
+}
+
+//  ***********
+//  Quick Start
+//  ***********
+
+.quick-start {
+  padding: 4rem 3rem;
+  background-color: $ocm-light;
+
+  .container .columns .column {
+
+    &.is-one-fifth {
+      span {
+        background-color: $ocm-light-blue;
+        width: 32px;
+        display: block;
+        height: 4px;
+      }
+      h2 {
+        color: $ocm-dark;
+        font-family: RedHatDisplay-Medium;
+      }
+    }
+
+    .box {
+      .content {
+        span {
+          font-family: RedHatDisplay-Bold;
+          font-size: 36px;
+          color: $ocm-light-blue;
+        }
+      }
+      background-color: $ocm-purple;
+      h4,p {
+        color: $ocm-light;
+      }
+      a {
+        color: $ocm-light-blue;
+      }
+    }
+
+  }
+
+}
+
+
+// ****************
+// Feature Overview
+// ****************
+
+.features {
+  background-color: $ocm-purple;
+
+  .content {
+    h1 {
+      font-size: 36px;
+      color: $ocm-light-blue;
+    }
+    p {
+      color: $ocm-light;
+      font-size: 1.1rem;
+    }
+
+    a{
+      font-family: RedHatDisplay-Bold;
+      color: $ocm-dark;
+    }
+  }
+
+}
+
+// *************
+// Infra Support
+// *************
+
+.infra-support{
+  background-color: $ocm-light;
+  .content {
+    h1 {
+      font-size: 36px;;
+    }
+    img {
+      object-fit: contain;
+      max-width: 10rem;
+    }
+
+    a.button {
+      font-family: RedHatDisplay-Bold;
+      color: $ocm-dark;
+    }
+  }
+
+}
+
+// ******
+// Addons
+// ****** 
+
+.addons {
+  background-color: $ocm-purple;
+  h1 {
+    color: $ocm-light;
+    font-size: 36px;
+  }
+
+  .content {
+    span {
+            background-color: $ocm-light-blue;
+        width: 32px;
+        display: block;
+        height: 4px;
+    }
+    color: $ocm-light;
+    h2 {
+      margin-top: 1.3rem;
+      font-family: RedHatDisplay-Medium;
+      font-weight: unset;
+      color: $ocm-light;
+    }
+    p {
+      padding-top: 0.8rem;
+    }
+
+    .button:hover {
+      color: $ocm-dark;
+    }
+  }
+
+
+
+
+
+}

@@ -1,9 +1,22 @@
+{{ $langCode := site.LanguageCode | default "en-us" }} {{ $lang := .Lang }} {{
+$home := site.BaseURL }}
+
 <!DOCTYPE html>
-<html>
+<html lang="{{ $langCode }}">
+  <head>
+    <title>
+      {{ block "title" . }} 
+      Open Cluster Management | {{ .Title }}
+      {{ end }}
+    </title>
     {{- partial "head.html" . -}}
-    <body>
-        {{- partial "header.html" . -}}
-        {{- block "main" . }}{{- end }}
-        {{- partial "footer.html" . -}}
-    </body>
+  </head>
+
+  <body id="landing">
+    
+    {{ block "main" . }}
+    {{ end }}
+
+    {{ partial "script.html" . }}
+  </body>
 </html>

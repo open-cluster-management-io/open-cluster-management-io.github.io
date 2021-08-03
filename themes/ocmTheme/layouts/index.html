@@ -1,6 +1,28 @@
+{{ define "title" }}
+Open Cluster Management
+{{ end }}
+
 {{ define "main" }}
-{{- partial "subject.html" . -}}
-{{- partial "quickstart.html" . -}}
-{{- partial "featureoverview.html" . -}}
-{{- partial "addons.html" . -}}
+<header>
+  {{partial "navbar.html" . }}
+</header>
+<div id="content" class="page-home">
+  
+    {{ partial "hero.html" . }}
+
+    {{ partial "quick-start.html" . }}
+
+    {{ partial "feature-overview.html" . }}
+
+    {{ partial "infra-support.html" . }}
+
+    {{ partial "addons.html" . }}
+
+</div>
+
+<footer>
+  {{ partial "footer.html" . }}
+</footer>
+
+
 {{ end }}
