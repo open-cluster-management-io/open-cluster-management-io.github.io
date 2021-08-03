@@ -1,7 +1,7 @@
   
 URL := http://localhost:1313
 OPEN_CMD := $(shell command -v open || command -v xdg-open || echo : 2>/dev/null)
-HUGO_VERSION := v0.71.0
+HUGO_VERSION := v0.85.0+extended
 
 hugo:
 	@echo Downloading hugo wrapper 

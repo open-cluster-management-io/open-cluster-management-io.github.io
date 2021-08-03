@@ -1,7 +1,8 @@
 baseURL = "http://open-cluster-management.io"
 languageCode = "en-us"
-title = "Open Cluster Management"
 theme = "ocmTheme"
+
+contentDir = "content"
 
 # Geekdoc required configuration
 pygmentsUseClasses = true
@@ -17,62 +18,45 @@ disablePathToLower = true
     startLevel = 1
     endLevel = 9
 
-[menu]
-  [[menu.main]]
-    name = "Docs"
-    url = "/concepts/addon"
-    weight = 1
-  [[menu.main]]
-    name = "Blog"
-    url = "/blog/blog"
-    weight = 2
-  [[menu.main]]
-    name = "Contribute"
-    url = "/contribute/contribute"
-    weight = 3
-  [[menu.main]]
-    name = "Getting started"
-    url = "/getting-started/quick-start"
-    weight = 4
+[Permalinks]
+code = "/:filename/"
 
 [params]
-  # (Optional, default 6) Set how many table of contents levels to be showed on page.
-  # Use false to hide ToC, note that 0 will default to 6 (https://gohugo.io/functions/default/)
-  # You can also specify this parameter per page in front matter.
-  geekdocToC = 3
+title = "Open Cluster Management"
+description = "Open Cluster Management is the best way to simplify management of multiple Kubernetes clusters."
+jsFile = [
+  "app"
+]
 
-  # (Optional, default static/brand.svg) Set the path to a logo for the Geekdoc
-  # relative to your 'static/' folder.
-  geekdocLogo = "ocm-logo.png"
 
-  # (Optional, default false) Render menu from data file im 'data/menu/main.yaml'.
-  geekdocMenuBundle = false
+# i18n menu configs
 
-  # (Optional, default true) Show page navigation links at the bottom of each
-  # docs page (bundle menu only).
-  geekdocNextPrev = false
+# English
+[languages.en]
+title = "Open Cluster Management"
+description = "Open Cluster Management is the best way to simplify management of multiple Kubernetes clusters."
+contentDir = "content/en"
+languageName = "English"
+weight = 1
 
-  # (Optional, default true) Show a breadcrumb navigation bar at the top of each docs page.
-  # You can also specify this parameter per page in front matter.
-  geekdocBreadcrumb = false
 
-    # (Optional, default none) Set source repository location
-  # Used for 'Edit this page' links
-  # You can also specify this parameter per page in front matter.
-  geekdocRepo = "https://github.com/open-cluster-management-io/open-cluster-management-io.github.io"
-
-    # (Optional, default none) Enable 'Edit this page' links. Requires 'GeekdocRepo' param
-  # and path must point to 'content' directory of repo.
-  # You can also specify this parameter per page in front matter.
-  geekdocEditPath = "edit/main/content"
-
-  # (Optional, default true) Enables search function with flexsearch.
-  # Index is built on the fly and might slowdown your website.
-  geekdocSearch = false
-
-  # (Optional, default true) Add an anchor link to headlines.
-  geekdocAnchor = true
-
-  # (Optional, default true) Copy anchor url to clipboard on click.
-  geekdocAnchorCopy = true
-  
+[[languages.en.menu.main]]
+  name = "Getting started"
+  url = "/getting-started/quick-start"
+  weight = 1
+[[languages.en.menu.main]]
+  name = "Docs"
+  url = "/concepts/addon"
+  weight = 2
+[[languages.en.menu.main]]
+  name = "Blog"
+  url = "/blog"
+  weight = 3
+[[languages.en.menu.main]]
+  name = "Community"
+  url = "/community"
+  weight = 3
+[[languages.en.menu.main]]
+  name = "Contribute"
+  url = "/contribute"
+  weight = 4

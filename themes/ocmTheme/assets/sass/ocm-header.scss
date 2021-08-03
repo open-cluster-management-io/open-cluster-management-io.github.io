@@ -1,0 +1,29 @@
+header{
+  background-color: $ocm-purple;
+  nav {
+    &.navbar {
+      background-color: transparent;
+      font-family: RedHatText-Regular;
+
+      .navbar-brand {
+        .navbar-item {
+          color: $ocm-light;
+          img {
+            max-height: 40px;
+          }
+        }
+      }
+      .navbar-menu {
+        .navbar-end {
+          .navbar-item {
+            color: $ocm-light;
+          }
+          .nav-icons-container {
+            display: flex;
+          }
+        }
+      }
+    }
+  }
+}
+

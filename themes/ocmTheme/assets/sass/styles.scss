@@ -1,0 +1,20 @@
+* {
+  font-family: RedHatText-Regular;
+}
+
+// custom variables
+@import './vars.scss';
+
+// import libraries
+@import "./../bulma/bulma.sass";
+
+// ocm styles
+@import './ocm-mixins.scss';
+@import './ocm-layout.scss';
+
+// page styles
+@import './ocm-header.scss';
+@import './ocm-home-page.scss';
+@import './ocm-footer.scss';
+
+// documentation
