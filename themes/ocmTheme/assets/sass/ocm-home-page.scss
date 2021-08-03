@@ -31,9 +31,13 @@ h1,h2,h3,h4 {
   
   .hero-button-container {
     a {
+      padding: 0 2rem;
       height: 56px;
       font-family: RedHatDisplay-Bold;
       color: $ocm-dark;
+      &:first-of-type {
+        margin-right: 2rem;
+      }
     }
   }
 
@@ -67,12 +71,18 @@ h1,h2,h3,h4 {
       }
     }
 
-    .box {
+    .card {
+      padding: 1rem 2rem;
+      height: 22rem;
       .content {
+        height: inherit;
         span {
           font-family: RedHatDisplay-Bold;
           font-size: 36px;
           color: $ocm-light-blue;
+        }
+        .qs-link-wrapper {
+          margin-top: auto;
         }
       }
       background-color: $ocm-purple;
