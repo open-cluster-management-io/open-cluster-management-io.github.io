@@ -153,7 +153,7 @@ hello   1/1     Running   0          108s
   On the hub cluster, check the managedcluster status.
 
   ```Shell
-  kubectl get managedcluster ${MANAGED_CLUSTER_NAME}--context ${CTX_HUB_CLUSTER} -o yaml
+  kubectl get managedcluster ${MANAGED_CLUSTER_NAME} --context ${CTX_HUB_CLUSTER} -o yaml
   ```
 
   On the hub cluster, check the lease status.
