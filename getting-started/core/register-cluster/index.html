@@ -903,7 +903,7 @@ NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE 
 <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span> <span class="nb">true</span>           https://localhost               Unknown     46m
 </code></pre></div><p>There are many reasons for this problem. You can use the commands below to get more debug info. If the provided info doesn&rsquo;t help, please log an issue to us.</p>
 <p>On the hub cluster, check the managedcluster status.</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>--context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span> -o yaml
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span> --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span> -o yaml
 </code></pre></div><p>On the hub cluster, check the lease status.</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get lease -n <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span> --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 </code></pre></div><p>On the managed cluster, check the klusterlet status.</p>
