@@ -27,7 +27,11 @@ You must meet the following prerequisites to install the policy framework:
 
 - Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
-- Ensure the `open-cluster-management` _application_ is installed. See [Application management](/getting-started/integration/app-lifecycle) for more information.
+- Ensure the `open-cluster-management` _application_ is installed if you are using `PlacementRules` with your policies. See [Application management](/getting-started/integration/app-lifecycle) for more information. While installing Application management for the `PlacementRules` API is the recommended approach, if you are only using the new `Placement` API, you can skip the Application management installation, but you do need to install the `PlacementRule` CRD with this command:
+
+   ```Shell
+   kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
+   ```
 
 ## Install from prebuilt images on Quay.io
 
