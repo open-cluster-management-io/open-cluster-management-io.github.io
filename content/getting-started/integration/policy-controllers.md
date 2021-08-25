@@ -61,7 +61,11 @@ Complete the following procedure to install the configuration policy controller:
 
 ## What is next
 
-1. After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:
+After a successful deployment, test the policy framework and configuration policy controller with a sample policy.  You can use a policy that includes a `Placement` mapping or if you installed Application management's `PlacementRule` support you can use either placement implementation.  Perform the steps in the **Placement Rule API** or the **Placement API** section based on which placement API you desire to use.
+
+### Placement Rule API
+
+1. Run the following command to create a policy on the hub that uses `PlacementRule`:
 
    ```Shell
    $ kubectl config use-context ${CTX_HUB_CLUSTER}
@@ -90,23 +94,60 @@ Complete the following procedure to install the configuration policy controller:
    ...
    ```
 
-4. Enforce the policy to make the configuration policy automatically correct any misconfigurations on the managed cluster:
+### Placement API
+
+1. Run the following command to create a policy on the hub that uses `Placement` if you did not select the `PlacementRule` option in the previous section:
+
+   ```Shell
+   $ kubectl config use-context <hub cluster context> # kubectl config use-context kind-hub
+   $ kubectl apply -n default -f https://raw.githubusercontent.com/gparvin/my-policies/main/policies/placement/policy-pod.yaml
+   policy.policy.open-cluster-management.io/policy-pod created
+   placementbinding.policy.open-cluster-management.io/binding-policy-pod created
+   placement.cluster.open-cluster-management.io/placement-policy-pod created
+   ```
+
+2. Update the `Placement` to distribute the policy to the managed cluster with the following command (this `clusterSelector` will deploy the policy to all managed clusters):
+
+   ```Shell
+   $ kubectl patch -n default placement.cluster.open-cluster-management.io/placement-policy-pod --type=merge -p "{\"spec\":{\"predicates\":[{\"requiredClusterSelector\":{\"labelSelector\":{\"matchExpressions\":[]}}}]}}"
+   placement.cluster.open-cluster-management.io/placement-policy-pod patched
+   ```
+
+3. Make sure the `default` namespace has a `managedclustersetbinding` for a `managedclusterset` with at least one managed cluster resource in the `managedclusterset`.  See [Bind ManagedClusterSet to a namespace](https://open-cluster-management.io/concepts/placement/#bind-managedclusterset-to-a-namespace) for more information on this.
+
+4. To confirm that the managed cluster is selected by the `Placement`, run the following command:
+
+   ```Shell
+   $ kubectl get -n default placementdecision.cluster.open-cluster-management.io/placement-policy-pod-decision-1 -o yaml
+   ...
+   status:
+     decisions:
+     - clusterName: <managed cluster name>
+       reason: ""
+   ...
+   ```
+
+### Final steps to apply the policy
+
+Perform the following steps to continue working with the policy to test the policy framework now that a specific placement API has been selected.
+
+1. Enforce the policy to make the configuration policy automatically correct any misconfigurations on the managed cluster:
 
    ```Shell
    $ kubectl patch -n default policy.policy.open-cluster-management.io/policy-pod --type=merge -p "{\"spec\":{\"remediationAction\": \"enforce\"}}"
    policy.policy.open-cluster-management.io/policy-pod patched
    ```
 
-5. After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:
+2. After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:
 
    ```Shell
    $ kubectl config use-context ${CTX_MANAGED_CLUSTER}
    $ kubectl get policy -A
-   NAMESPACE   NAME                 AGE
-   cluster1    default.policy-pod   1m39s
+   NAMESPACE   NAME                 REMEDIATION ACTION   COMPLIANCE STATE   AGE
+   cluster1    default.policy-pod   enforce              Compliant          4m32s
    ```
 
-6. The missing pod is created by the policy on the managed cluster. To confirm, run the following command:
+3. The missing pod is created by the policy on the managed cluster. To confirm, run the following command:
 
    ```Shell
    $ kubectl get pod -n default
@@ -116,4 +157,4 @@ Complete the following procedure to install the configuration policy controller:
 
 ## More policies
 
-You can find more policies or contribute to the open policy repository, [policy-collection](https://github.com/open-cluster-management/policy-collection).
+You can find more policies or contribute to the open policy repository, [policy-collection](https://github.com/open-cluster-management/policy-collection).  Note that these policies all use the Application management `PlacementRule` API.
