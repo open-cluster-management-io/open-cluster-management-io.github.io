@@ -40,9 +40,8 @@ Prerequisite    You must meet the following prerequisites to install the applica
       
       <guid>http://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
       <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
-   Prerequisite Install the configuration policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
-  Ensure kubectl and kustomize are installed.
-  Ensure Golang is installed, if you are planning to install from the source.</description>
+   Prerequisite Install the configuration policy controller What is next  Placement Rule API Placement API Final steps to apply the policy   More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.</description>
     </item>
     
   </channel>

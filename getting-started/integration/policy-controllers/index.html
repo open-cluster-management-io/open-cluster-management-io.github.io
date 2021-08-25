@@ -11,9 +11,8 @@
 
 
     <meta name="description" content="After policy framework is installed, you can install the policy controllers to the managed clusters.
-   Prerequisite Install the configuration policy controller What is next More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
-  Ensure kubectl and kustomize are installed.
-  Ensure Golang is installed, if you are planning to install from the source.">
+   Prerequisite Install the configuration policy controller What is next  Placement Rule API Placement API Final steps to apply the policy   More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.">
 
 
 
@@ -791,7 +790,13 @@
   <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-the-configuration-policy-controller">Install the configuration policy controller</a></li>
-        <li><a href="#what-is-next">What is next</a></li>
+        <li><a href="#what-is-next">What is next</a>
+          <ul>
+            <li><a href="#placement-rule-api">Placement Rule API</a></li>
+            <li><a href="#placement-api">Placement API</a></li>
+            <li><a href="#final-steps-to-apply-the-policy">Final steps to apply the policy</a></li>
+          </ul>
+        </li>
         <li><a href="#more-policies">More policies</a></li>
       </ul></nav><hr></div>
 
@@ -865,9 +870,17 @@ config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span class
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
+</div><p>After a successful deployment, test the policy framework and configuration policy controller with a sample policy.  You can use a policy that includes a <code>Placement</code> mapping or if you installed Application management&rsquo;s <code>PlacementRule</code> support you can use either placement implementation.  Perform the steps in the <strong>Placement Rule API</strong> or the <strong>Placement API</strong> section based on which placement API you desire to use.</p>
+<div class="gdoc-page__anchorwrap">
+    <h3 id="placement-rule-api">
+        Placement Rule API
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/integration/policy-controllers/#placement-rule-api" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Placement Rule API" href="#placement-rule-api">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
 </div><ol>
 <li>
-<p>After a successful deployment, test the policy framework and configuration policy controller with a sample policy. Run the following command:</p>
+<p>Run the following command to create a policy on the hub that uses <code>PlacementRule</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
 $ kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
 policy.policy.open-cluster-management.io/policy-pod created
@@ -889,6 +902,51 @@ status:
     clusterNamespace: <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
 ...
 </code></pre></div></li>
+</ol>
+<div class="gdoc-page__anchorwrap">
+    <h3 id="placement-api">
+        Placement API
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/integration/policy-controllers/#placement-api" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Placement API" href="#placement-api">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
+</div><ol>
+<li>
+<p>Run the following command to create a policy on the hub that uses <code>Placement</code> if you did not select the <code>PlacementRule</code> option in the previous section:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+$ kubectl apply -n default -f https://raw.githubusercontent.com/gparvin/my-policies/main/policies/placement/policy-pod.yaml
+policy.policy.open-cluster-management.io/policy-pod created
+placementbinding.policy.open-cluster-management.io/binding-policy-pod created
+placement.cluster.open-cluster-management.io/placement-policy-pod created
+</code></pre></div></li>
+<li>
+<p>Update the <code>Placement</code> to distribute the policy to the managed cluster with the following command (this <code>clusterSelector</code> will deploy the policy to all managed clusters):</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default placement.cluster.open-cluster-management.io/placement-policy-pod --type<span class="o">=</span>merge -p <span class="s2">&#34;{\&#34;spec\&#34;:{\&#34;predicates\&#34;:[{\&#34;requiredClusterSelector\&#34;:{\&#34;labelSelector\&#34;:{\&#34;matchExpressions\&#34;:[]}}}]}}&#34;</span>
+placement.cluster.open-cluster-management.io/placement-policy-pod patched
+</code></pre></div></li>
+<li>
+<p>Make sure the <code>default</code> namespace has a <code>managedclustersetbinding</code> for a <code>managedclusterset</code> with at least one managed cluster resource in the <code>managedclusterset</code>.  See <a class="gdoc-markdown__link" href="https://open-cluster-management.io/concepts/placement/#bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</a> for more information on this.</p>
+</li>
+<li>
+<p>To confirm that the managed cluster is selected by the <code>Placement</code>, run the following command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get -n default placementdecision.cluster.open-cluster-management.io/placement-policy-pod-decision-1 -o yaml
+...
+status:
+  decisions:
+  - clusterName: &lt;managed cluster name&gt;
+    reason: <span class="s2">&#34;&#34;</span>
+...
+</code></pre></div></li>
+</ol>
+<div class="gdoc-page__anchorwrap">
+    <h3 id="final-steps-to-apply-the-policy">
+        Final steps to apply the policy
+        <a data-clipboard-text="http://open-cluster-management.io/getting-started/integration/policy-controllers/#final-steps-to-apply-the-policy" class="gdoc-page__anchor gdoc-page__anchor--right clip" aria-label="Anchor Final steps to apply the policy" href="#final-steps-to-apply-the-policy">
+            <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
+        </a>
+    </h3>
+</div><p>Perform the following steps to continue working with the policy to test the policy framework now that a specific placement API has been selected.</p>
+<ol>
 <li>
 <p>Enforce the policy to make the configuration policy automatically correct any misconfigurations on the managed cluster:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default policy.policy.open-cluster-management.io/policy-pod --type<span class="o">=</span>merge -p <span class="s2">&#34;{\&#34;spec\&#34;:{\&#34;remediationAction\&#34;: \&#34;enforce\&#34;}}&#34;</span>
@@ -898,8 +956,8 @@ policy.policy.open-cluster-management.io/policy-pod patched
 <p>After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:</p>
 <div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
 $ kubectl get policy -A
-NAMESPACE   NAME                 AGE
-cluster1    default.policy-pod   1m39s
+NAMESPACE   NAME                 REMEDIATION ACTION   COMPLIANCE STATE   AGE
+cluster1    default.policy-pod   enforce              Compliant          4m32s
 </code></pre></div></li>
 <li>
 <p>The missing pod is created by the policy on the managed cluster. To confirm, run the following command:</p>
@@ -915,7 +973,7 @@ sample-nginx-pod   1/1     Running   <span class="m">0</span>          23s
             <svg class="icon gdoc_link"><use xlink:href="#gdoc_link"></use></svg>
         </a>
     </h2>
-</div><p>You can find more policies or contribute to the open policy repository, <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/policy-collection">policy-collection</a>.</p>
+</div><p>You can find more policies or contribute to the open policy repository, <a class="gdoc-markdown__link" href="https://github.com/open-cluster-management/policy-collection">policy-collection</a>.  Note that these policies all use the Application management <code>PlacementRule</code> API.</p>
 
 
     </article>

@@ -828,8 +828,9 @@
 <p>Ensure the <code>open-cluster-management</code> <em>klusterlet</em> is installed. See <a class="gdoc-markdown__link" href="/getting-started/core/register-cluster">Klusterlet</a> for more information.</p>
 </li>
 <li>
-<p>Ensure the <code>open-cluster-management</code> <em>application</em> is installed. See <a class="gdoc-markdown__link" href="/getting-started/integration/app-lifecycle">Application management</a> for more information.</p>
-</li>
+<p>Ensure the <code>open-cluster-management</code> <em>application</em> is installed if you are using <code>PlacementRules</code> with your policies. See <a class="gdoc-markdown__link" href="/getting-started/integration/app-lifecycle">Application management</a> for more information. While installing Application management for the <code>PlacementRules</code> API is the recommended approach, if you are only using the new <code>Placement</code> API, you can skip the Application management installation, but you do need to install the <code>PlacementRule</code> CRD with this command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
+</code></pre></div></li>
 </ul>
 <div class="gdoc-page__anchorwrap">
     <h2 id="install-from-prebuilt-images-on-quayio">
