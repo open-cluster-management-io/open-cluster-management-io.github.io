@@ -3,7 +3,7 @@ title: Policy framework
 weight: 10
 ---
 
-After cluster manager, klusterlet, and application management are installed, you can install the policy framework components to the hub and the managed clusters.
+The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
 
 <!-- spellchecker-disable -->
 
