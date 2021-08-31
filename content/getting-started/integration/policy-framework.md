@@ -3,7 +3,7 @@ title: Policy framework
 weight: 10
 ---
 
-The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help meet such enterprise standards.
+The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
 
 <!-- spellchecker-disable -->
 
