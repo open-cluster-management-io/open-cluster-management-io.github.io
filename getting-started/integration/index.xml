@@ -17,8 +17,8 @@
       
       <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Architecture Prerequisite Install from source What is next     Architecture    For more details, visit the multicloud-operators-subscription GitHub page.
-Prerequisite    You must meet the following prerequisites to install the application lifecycle management add-on:
+   Architecture Prerequisite Install from source What is next     Architecture For more details, visit the multicloud-operators-subscription GitHub page.
+Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
   Ensure the open-cluster-management cluster manager is installed.</description>
     </item>
@@ -30,7 +30,8 @@ Prerequisite    You must meet the following prerequisites to install the applica
       
       <guid>http://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture     You can find the analysis of the architectural components here  Prerequisite    You must meet the following prerequisites to install the policy framework:</description>
+   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  You can find the analysis of the architectural components here  Prerequisite You must meet the following prerequisites to install the policy framework:
+  Ensure kubectl and kustomize are installed.</description>
     </item>
     
     <item>
@@ -40,8 +41,9 @@ Prerequisite    You must meet the following prerequisites to install the applica
       
       <guid>http://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
       <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
-   Prerequisite Install the configuration policy controller What is next  Placement Rule API Placement API Final steps to apply the policy   More policies     Prerequisite    You must meet the following prerequisites to install the policy controllers:
-  Ensure kubectl and kustomize are installed.</description>
+   Prerequisite Install the configuration policy controller What is next  Placement Rule API Placement API Final steps to apply the policy   More policies     Prerequisite You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
     </item>
     
   </channel>

@@ -25,8 +25,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/architecture/</guid>
-      <description>This page tells you the architecture and basic concepts in open-cluster-management.
-   Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview    open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
+      <description>This page tells you the architecture and basic concepts in open-cluster-management.    Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
  The service must have an API to determine the inventory of available clusters.</description>
     </item>
     
@@ -36,7 +35,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/managedcluster/</guid>
-      <description>ManagedCluster Registration    ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
+      <description>ManagedCluster Registration ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
  An agent opts in to register a cluster with the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.</description>
     </item>
     
@@ -46,7 +45,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/manifestwork/</guid>
-      <description>What is ManifestWork    ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitors the ManifestWork resource in the cluster namespace on the hub cluster.
+      <description>What is ManifestWork ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitors the ManifestWork resource in the cluster namespace on the hub cluster.
 An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.</description>
     </item>
     
@@ -57,7 +56,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
       
       <guid>http://open-cluster-management.io/concepts/placement/</guid>
       <description>Placement API is used to select a set of managed clusters in one or multiple ManagedClusterSets so that the user&amp;rsquo;s workloads can be deployed to these clusters.
-Bind ManagedClusterSet to a namespace    Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.</description>
+Bind ManagedClusterSet to a namespace Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.</description>
     </item>
     
     <item>
@@ -66,8 +65,8 @@ Bind ManagedClusterSet to a namespace    Before creating a Placement, you need t
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/addon/</guid>
-      <description>What is an add-on?    Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:
- A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters.</description>
+      <description>What is an add-on? Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:
+ A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters. A tool to spread security policies to multiple clusters.</description>
     </item>
     
   </channel>
