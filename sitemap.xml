@@ -18,7 +18,7 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/roadmap</loc>
+        <loc>http://open-cluster-management.io/community/roadmap</loc>
     </url>
     
     <url>
@@ -31,6 +31,10 @@
     
     <url>
         <loc>http://open-cluster-management.io/concepts</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources</loc>
     </url>
     
     <url>
@@ -58,11 +62,11 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/community</loc>
+        <loc>http://open-cluster-management.io/concepts/placement</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/placement</loc>
+        <loc>http://open-cluster-management.io/scenarios</loc>
     </url>
     
     <url>
@@ -70,7 +74,7 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/contribute</loc>
+        <loc>http://open-cluster-management.io/community</loc>
     </url>
     
     <url>
@@ -79,6 +83,10 @@
     
     <url>
         <loc>http://open-cluster-management.io/getting-started/integration/app-lifecycle</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/contribute</loc>
     </url>
     
     <url>

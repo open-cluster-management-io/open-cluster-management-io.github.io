@@ -60,10 +60,10 @@ YouTube channel</description>
     
     <item>
       <title>Roadmap</title>
-      <link>http://open-cluster-management.io/concepts/roadmap/</link>
+      <link>http://open-cluster-management.io/community/roadmap/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/concepts/roadmap/</guid>
+      <guid>http://open-cluster-management.io/community/roadmap/</guid>
       <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
     </item>
     
@@ -87,6 +87,16 @@ YouTube channel</description>
    Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite Ensure kubectl and kustomize are installed.
 Ensure golang is installed, if you are planning to install from the source.
 Prepare one Kubernetes cluster to function as the hub. For example, use kind to create a hub cluster.</description>
+    </item>
+    
+    <item>
+      <title>Deploy Kubernetes resources to the desired clusters</title>
+      <link>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</guid>
+      <description>Prerequisites Select dev environment clusters using placement Apply the Kubernetes resources to the selected clusters  After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as Deployment, Service, Configmap, Secret, and so on) to your desired clusters:
+ Use placement to select the desired clusters if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters. Use ManifestWork to apply your Kubernetes resources to the selected clusters  Here is a sample to deploy a hello-world Deployment to the dev environment clusters:</description>
     </item>
     
     <item>

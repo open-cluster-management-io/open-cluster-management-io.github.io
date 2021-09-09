@@ -129,82 +129,119 @@
             </div>
         </div>
     </nav>
-    <h1>Quick Start</h1>
-    <p><img src="/ocm-logo.png" alt="open-cluster-management"></p>
-<p>Use any of the following methods to bootstrap your Open Cluster Management environment.</p>
-<!-- spellchecker-disable -->
-
-
-
-  <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
-        <li><a href="#bootstrap-via-clusteradm-cli-tool">Bootstrap via Clusteradm CLI tool</a>
-          <ul>
-            <li><a href="#install-clusteradm-cli-tool">Install Clusteradm CLI tool</a></li>
-            <li><a href="#deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</a></li>
-            <li><a href="#deploy-a-klusterlet-agent-on-your-managed-cluster">Deploy a klusterlet agent on your managed cluster</a></li>
-            <li><a href="#accept-join-request-and-verify">Accept join request and verify</a></li>
-          </ul>
-        </li>
-        <li><a href="#bootstrap-via-operatorhubio">Bootstrap via Operatorhub.io</a></li>
-        <li><a href="#more-details">More details</a></li>
-      </ul></nav><hr></div>
-
-
-<p>Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.</p>
-<p>Set the following environment variables that will be used throughout to simplify the instructions:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="nb">export</span> <span class="nv">HUB_CLUSTER_NAME</span><span class="o">=</span>&lt;your hub cluster name&gt;             <span class="c1"># export HUB_CLUSTER_NAME=hub</span>
-<span class="nb">export</span> <span class="nv">MANAGED_CLUSTER_NAME</span><span class="o">=</span>&lt;your managed cluster name&gt;     <span class="c1"># export MANAGED_CLUSTER_NAME=cluster1</span>
-<span class="nb">export</span> <span class="nv">CTX_HUB_CLUSTER</span><span class="o">=</span>&lt;your hub cluster context&gt;           <span class="c1"># export CTX_HUB_CLUSTER=kind-hub</span>
-<span class="nb">export</span> <span class="nv">CTX_MANAGED_CLUSTER</span><span class="o">=</span>&lt;your managed cluster context&gt;   <span class="c1"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
-</code></pre></div><p>Then create these two clusters using <a href="https://kind.sigs.k8s.io">kind</a>. Run the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind create cluster --name <span class="si">${</span><span class="nv">HUB_CLUSTER_NAME</span><span class="si">}</span>
-kind create cluster --name <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
-</code></pre></div><h2 id="bootstrap-via-clusteradm-cli-tool">Bootstrap via Clusteradm CLI tool</h2>
-<h3 id="install-clusteradm-cli-tool">Install Clusteradm CLI tool</h3>
-<p>Download and extract the <a href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For more details see the <a href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
-<h3 id="deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</h3>
+    <h1>Deploy Kubernetes resources to the desired clusters</h1>
+    <ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#select-dev-environment-clusters-using-placement">Select <code>dev</code> environment clusters using placement</a></li>
+<li><a href="#apply-the-kubernetes-resources-to-the-selected-clusters">Apply the Kubernetes resources to the selected clusters</a></li>
+</ul>
+<p>After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as <code>Deployment</code>, <code>Service</code>, <code>Configmap</code>, <code>Secret</code>, and so on) to your desired clusters:</p>
 <ol>
-<li>
-<p>Bootstrap the Open Cluster Management control plane:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm init --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
-</code></pre></div><p>Then you will get a result with a generated <code>join</code> command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">...
-clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
-</code></pre></div><p>Copy the generated command and replace the <code>&lt;managed_cluster_name&gt;</code> to your managed cluster name. E.g. <code>cluster1</code>.</p>
-</li>
+<li>Use placement to <a href="#select-dev-environment-clusters-using-placement">select the desired clusters</a> if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters.</li>
+<li>Use ManifestWork to <a href="#apply-the-kubernetes-resources-to-the-selected-clusters">apply your Kubernetes resources to the selected clusters</a></li>
 </ol>
-<h3 id="deploy-a-klusterlet-agent-on-your-managed-cluster">Deploy a klusterlet agent on your managed cluster</h3>
+<p>Here is a sample to deploy a <code>hello-world</code> <code>Deployment</code> to the <code>dev</code> environment clusters:</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>At least one cluster with the <code>environment: dev</code> label has registered to the hub cluster.</p>
+<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} label managedcluster cluster1 environment=dev
+
+╰─$ kubectl --context ${CTX_HUB_CLUSTER} get managedcluster -l environment=dev
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+cluster1   true           https://localhost      True     True        44h
+</code></pre><h2 id="select-dev-environment-clusters-using-placement">Select <code>dev</code> environment clusters using placement</h2>
 <ol>
-<li>
-<p>Run the previously copied <code>join</code> command by appending the context of your managed cluster to join the hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm join --context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span> --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
-</code></pre></div></li>
+<li>Create a <code>ManagedClusterSet</code></li>
 </ol>
-<h3 id="accept-join-request-and-verify">Accept join request and verify</h3>
+<pre><code>╰─$ cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: ManagedClusterSet
+metadata:
+  name: clusterset1
+EOF
+</code></pre><ol start="2">
+<li>Add <code>ManagedClusters</code> to the above <code>ManagedClusterSet</code></li>
+</ol>
+<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} label managedcluster cluster1 cluster.open-cluster-management.io/clusterset=clusterset1
+</code></pre><ol start="3">
+<li>Create a <code>ManagedClusterSetBinding</code> to bind the <code>ManagedClusterSet</code> to the <code>default</code> Namespace.</li>
+</ol>
+<pre><code>╰─$ cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: ManagedClusterSetBinding
+metadata:
+  name: clusterset1
+  namespace: default
+spec:
+  clusterSet: clusterset1
+EOF
+</code></pre><ol start="4">
+<li>Create a <code>Placement</code> to choose the <code>dev</code> environment cluster in <code>default</code> Namespace</li>
+</ol>
+<pre><code>╰─$ cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: Placement
+metadata:
+  name: placement1
+  namespace: default
+spec:
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchLabels:
+            environment: dev
+EOF
+</code></pre><ol start="5">
+<li>Get the desired clusters</li>
+</ol>
+<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} get placementdecisions placement1-decision-1 -o jsonpath='{.status.decisions}'
+[{&quot;clusterName&quot;:&quot;cluster1&quot;,&quot;reason&quot;:&quot;&quot;}]%
+</code></pre><h2 id="apply-the-kubernetes-resources-to-the-selected-clusters">Apply the Kubernetes resources to the selected clusters</h2>
+<p>We got the target clusters, <code>cluster1</code>, which fulfill the <code>dev</code> environment condition. Now we start to deploy the <code>hello-world</code> Deployment on it.</p>
 <ol>
-<li>
-<p>Wait for the CSR is created on your hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get csr -w --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span> <span class="p">|</span> grep <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
-</code></pre></div><p>Then you will get a result resembling the following after the CSR is created:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
-</code></pre></div></li>
-<li>
-<p>Accept request:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span> --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
-</code></pre></div></li>
-<li>
-<p>Verify <code>managedcluster</code> has been created successfully:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster --context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
-</code></pre></div><p>Then you will get a result resembling the following:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
-cluster1   <span class="nb">true</span>           https://127.0.0.1:41478   True     True        5m23s
-</code></pre></div></li>
+<li>(Optional) Check the status(allocatable, capacity, conditions, version) of managed clusters before/after you apply your Kubernetes resources by:</li>
 </ol>
-<h2 id="bootstrap-via-operatorhubio">Bootstrap via Operatorhub.io</h2>
-<p>Install and create a <a href="https://operatorhub.io/operator/cluster-manager">Cluster manager</a> on your <em>hub</em> cluster.</p>
-<p>Install and create a <a href="https://operatorhub.io/operator/klusterlet">Klusterlet agent</a> on your <em>managed</em> cluster.</p>
-<h2 id="more-details">More details</h2>
-<p>For more details, see <a href="/getting-started/core">Core components</a>.</p>
+<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} get managedcluster cluster1 -o jsonpath='{.status}' | python -m json.tool
+</code></pre><ol start="2">
+<li>Apply the <code>hello-world</code> description yaml to <em>cluster1</em> Namespace on the <em>hub</em> cluster.</li>
+</ol>
+<pre><code>cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  name: hello-world
+  namespace: cluster1
+  labels:
+    app: hello
+spec:
+  workload:
+    manifests:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: hello
+          namespace: default
+
+        spec:
+          selector:
+            matchLabels:
+              app: hello
+          template:
+            metadata:
+              labels:
+                app: hello
+            spec:
+              containers:
+                - name: hello
+                  image: quay.io/asmacdo/busybox
+                  command: ['sh', '-c', 'echo &quot;Hello, World!&quot; &amp;&amp; sleep 3600']
+EOF
+</code></pre><ol start="3">
+<li>Check if there is a Pod created on the <code>ManagedCluster </code>cluster1`</li>
+</ol>
+<pre><code>╰─$ kubectl --kubeconfig=&lt;kubeconfig path of cluster1&gt; get pod
+NAME                     READY   STATUS    RESTARTS   AGE
+hello-64dd6fd586-wrmdz   1/1     Running   0          118s
+</code></pre><p>By now we have demonstrated how to deploy a <code>hello-world</code> Deployment into the desired clusters, you can apply any Kubernetes resource in that way.</p>
 
 
 </div> 

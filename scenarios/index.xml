@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>User Scenarios on Open Cluster Management</title>
+    <link>http://open-cluster-management.io/scenarios/</link>
+    <description>Recent content in User Scenarios on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="http://open-cluster-management.io/scenarios/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Deploy Kubernetes resources to the desired clusters</title>
+      <link>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</guid>
+      <description>Prerequisites Select dev environment clusters using placement Apply the Kubernetes resources to the selected clusters  After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as Deployment, Service, Configmap, Secret, and so on) to your desired clusters:
+ Use placement to select the desired clusters if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters. Use ManifestWork to apply your Kubernetes resources to the selected clusters  Here is a sample to deploy a hello-world Deployment to the dev environment clusters:</description>
+    </item>
+    
+  </channel>
+</rss>

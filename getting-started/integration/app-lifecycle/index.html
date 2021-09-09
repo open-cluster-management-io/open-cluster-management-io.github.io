@@ -27,9 +27,6 @@
         <li>
             <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
-                <li >
-                    <a class="navlink" id="roadmap" href="/concepts/roadmap">Roadmap</a>
-                </li>
                 <li>
                     <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
                 </li>
@@ -44,17 +41,6 @@
                 </li>
                 <li>
                     <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
-                <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
-                </li>
-                <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
@@ -92,6 +78,28 @@
                             <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                     </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
+            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+                <li>
+                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
+            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+                <li>
+                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                </li>
+                <li >
+                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                </li>
+                <li>
+                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
@@ -217,6 +225,9 @@ nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     <span
             $('#pageSubmenu').addClass('show');
             $('#pageSubsubmenu').addClass('show');
             $('#pageSubsubmenu2').addClass('show');   
+        }
+        if (pathname == "scenarios"){
+            $('#pageSubmenu3').addClass('show');
         }
 
         $("#sidebar").mCustomScrollbar({
