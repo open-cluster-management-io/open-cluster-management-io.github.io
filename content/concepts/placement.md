@@ -32,7 +32,11 @@ You must have the `create` permission on resource `managedclusterset/bind` to bi
 
 ## Select clusters in ManagedClusterSet
 
-After `ManagedClusterSetBinding` is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound `ManagedClusterSet`. You can select clusters by labels or `clusterClaims`. For instance, you can select 3 clusters with labels `purpose=test` and clusterClaim `platform.open-cluster-management.io=aws` as seen in the following examples.
+After `ManagedClusterSetBinding` is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound `ManagedClusterSet`.
+You can specify `predicates` and `prioritizers` to filter and score clusters.
+
+### Predicates
+In `predicates` section, you can select clusters by labels or `clusterClaims`. For instance, you can select 3 clusters with labels `purpose=test` and clusterClaim `platform.open-cluster-management.io=aws` as seen in the following examples.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
@@ -57,14 +61,44 @@ spec:
                 - aws
 ```
 
-`PlacementDecision` will be created by the placement controller in the same namespace, each with a label of `open-cluster-management.io/placement=placement1`. `PlacementDecision` contains the results of the cluster selection as seen in the following examples.
+### Prioritizers
+In `prioritizerPolicy` section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and pin the placementdecisions as seen in the following examples.
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: Placement
+metadata:
+  name: placement1
+  namespace: default
+spec:
+  numberOfClusters: 2
+  prioritizerPolicy:
+    mode: Exact
+    configurations:
+      - name: ResourceAllocatableMemory
+      - name: Steady
+        weight: 3
+```
+- `mode` is either `Exact`, `Additive`, `""` where `""` is Additive by default.
+  - In `Additive` mode, any prioritizer not explicitly enumerated is enabled in its default Configurations, in which Steady and Balance prioritizers have the weight of 1 while other prioritizers have the weight of 0. Additive doesn't require configuring all prioritizers. The default Configurations may change in the future, and additional prioritization will happen.
+  - In `Exact` mode, any prioritizer not explicitly enumerated is weighted as zero. Exact requires knowing the full set of prioritizers you want, but avoids behavior changes between releases.
+- `configurations` represents the configuration of prioritizers.
+  - `name` is the name of a prioritizer. Below are the valid names:
+    - Balance: balance the decisions among the clusters.
+    - Steady: ensure the existing decision is stabilized.
+    - ResourceRatioCPU & ResourceRatioMemory: sort clusters based on the allocatable to capacity ratio.
+    - ResourceAllocatableCPU & ResourceAllocatableMemory: sort clusters based on the allocatable.
+  - `weight` defines the weight of prioritizer. The value must be ranged in [0,10].
+    Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
+    A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicate thats the prioritizer is disabled.
+
+A slice of `PlacementDecision` will be created by placement controller in the same namespace, each with a label of `cluster.open-cluster-management.io/placement={placement name}`. `PlacementDecision` contains the results of the cluster selection as seen in the following examples.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
 kind: PlacementDecision
 metadata:
   labels:
-    placement.open-cluster-management.io: placement1
+    cluster.open-cluster-management.io/placement: placement1
   name: placement1-decision-1
   namespace: default
 spec:
