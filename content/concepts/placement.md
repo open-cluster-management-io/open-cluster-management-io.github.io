@@ -85,7 +85,6 @@ spec:
   - `name` is the name of a prioritizer. Below are the valid names:
     - Balance: balance the decisions among the clusters.
     - Steady: ensure the existing decision is stabilized.
-    - ResourceRatioCPU & ResourceRatioMemory: sort clusters based on the allocatable to capacity ratio.
     - ResourceAllocatableCPU & ResourceAllocatableMemory: sort clusters based on the allocatable.
   - `weight` defines the weight of prioritizer. The value must be ranged in [0,10].
     Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
