@@ -208,6 +208,95 @@
 </span><span class="w">          </span><span class="k">version</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
 </span></code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
 <p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
+<h3 id="delete-options">Delete options</h3>
+<p>User can explicitly choose not to garbage collect the applied resources when a <code>ManifestWork</code> is deleted. the user should specify the <code>deleteOption</code> in the <code>ManifestWork</code>. By default, <code>deleteOption</code> is set as <code>Foreground</code>
+which means the applied resources on the spoke will be deleted with the removal of <code>ManifestWork</code>. User can set it to
+<code>Orphan</code> so the applied resources will not be deleted. Here is an example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>deleteoption-demo<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">workload</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>apps/v1<span class="w">
+</span><span class="w">      </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Deployment<span class="w">
+</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">selector</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">        </span><span class="k">template</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">labels</span><span class="p">:</span><span class="w">
+</span><span class="w">              </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">          </span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">containers</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">              </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>quay.io/asmacdo/busybox<span class="w">
+</span><span class="w">              </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span><span class="k">deleteOption</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">propagationPolicy</span><span class="p">:</span><span class="w"> </span>Orphan<span class="w">
+</span></code></pre></div><p>Alternatively, user can also specify a certain resource defined in the <code>ManifestWork</code> to be orphaned by setting the
+<code>deleteOption</code> to be <code>SelectivelyOrphan</code>. Here is an example with <code>SelectivelyOrphan</code> specified. It ensures the removal of deployment resource specified in the <code>ManifestWork</code> while the service resource is kept.</p>
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>selective-delete-work<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">workload</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span>- <span class="k">kind</span><span class="p">:</span><span class="w"> </span>Service<span class="w">
+</span><span class="w">      </span><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
+</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w">        </span><span class="k">labels</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>ClusterIP<span class="w">
+</span><span class="w">        </span><span class="k">ports</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>app<span class="w">
+</span><span class="w">          </span><span class="k">port</span><span class="p">:</span><span class="w"> </span><span class="m">443</span><span class="w">
+</span><span class="w">          </span><span class="k">protocol</span><span class="p">:</span><span class="w"> </span>TCP<span class="w">
+</span><span class="w">          </span><span class="k">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">4443</span><span class="w">
+</span><span class="w">        </span><span class="k">selector</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">    </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>apps/v1<span class="w">
+</span><span class="w">      </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Deployment<span class="w">
+</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="k">selector</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">        </span><span class="k">template</span><span class="p">:</span><span class="w">
+</span><span class="w">          </span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">labels</span><span class="p">:</span><span class="w">
+</span><span class="w">              </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">          </span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span><span class="k">containers</span><span class="p">:</span><span class="w">
+</span><span class="w">            </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
+</span><span class="w">              </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>quay.io/asmacdo/busybox<span class="w">
+</span><span class="w">              </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
+</span><span class="w">  </span><span class="k">deleteOption</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">propagationPolicy</span><span class="p">:</span><span class="w"> </span>SelectivelyOrphan<span class="w">
+</span><span class="w">    </span><span class="k">selectivelyOrphans</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="k">orphaningRules</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
+</span><span class="w">        </span><span class="k">resource</span><span class="p">:</span><span class="w"> </span>services<span class="w">
+</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
+</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
+</span></code></pre></div><h2 id="resource-race-and-adoption">Resource Race and Adoption</h2>
+<p>It is possible to create two <code>ManifestWorks</code> for the same cluster with the same resource defined.
+For example, the user can create two <code>Manifestworks</code> on cluster1, and both <code>Manifestworks</code> have the
+deployment resource <code>hello</code> in default namespace. If the content of the resource is different, the
+two <code>ManifestWorks</code> will fight and it is desired since each <code>ManifestWork</code> is treated as equal and
+each <code>ManifestWork</code> is declaring the ownership of the resource.</p>
+<p>When one of the <code>ManifestWork</code> is deleted, the applied resource will not be removed no matter
+<code>DeleteOption</code> is set or not. The remaining <code>ManifestWork</code> will still keep the ownership of the resource.</p>
 
 
 </div> 
