@@ -16,8 +16,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/blog/blog/</guid>
-      <description>May 24, 2021 April 22, 2021     May 24, 2021 Michael Elder put together a user walk through for the basic Open Cluster Management API using kind, olm, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
-April 22, 2021 Inspired by the famous article Kubernetes The Hard Way, Dario Minonne created a tutorial for setting up Open Cluster Management the hard way. See https://github.</description>
+      <description>Sep 22, 2021 May 24, 2021 April 22, 2021     Sep 22, 2021 The Next Kubernetes Frontier: Multicluster Management authored by Min Kim and Jian Qiu
+May 24, 2021 Michael Elder put together a user walk through for the basic Open Cluster Management API using kind, olm, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
+April 22, 2021 Inspired by the famous article Kubernetes The Hard Way, Dario Minonne created a tutorial for setting up Open Cluster Management the hard way.</description>
     </item>
     
     <item>
@@ -37,9 +38,9 @@ Contribute to the Source  Join the Mailing group Attend an upcoming Community me
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/community/releases/</guid>
-      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.3.0. Continue reading to view upcoming releases:
-  v0.4.0 on August 2021
+      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.4.0. Continue reading to view upcoming releases:
   v0.5.0 on November 2021
+  v0.4.0 on August 2021
   </description>
     </item>
     

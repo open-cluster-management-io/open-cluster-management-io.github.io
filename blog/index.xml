@@ -16,8 +16,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/blog/blog/</guid>
-      <description>May 24, 2021 April 22, 2021     May 24, 2021 Michael Elder put together a user walk through for the basic Open Cluster Management API using kind, olm, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
-April 22, 2021 Inspired by the famous article Kubernetes The Hard Way, Dario Minonne created a tutorial for setting up Open Cluster Management the hard way. See https://github.</description>
+      <description>Sep 22, 2021 May 24, 2021 April 22, 2021     Sep 22, 2021 The Next Kubernetes Frontier: Multicluster Management authored by Min Kim and Jian Qiu
+May 24, 2021 Michael Elder put together a user walk through for the basic Open Cluster Management API using kind, olm, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
+April 22, 2021 Inspired by the famous article Kubernetes The Hard Way, Dario Minonne created a tutorial for setting up Open Cluster Management the hard way.</description>
     </item>
     
   </channel>
