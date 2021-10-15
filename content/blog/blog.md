@@ -9,6 +9,10 @@ weight: -20
 
 <!-- spellchecker-enable -->
 
+## Sep 22, 2021
+
+[The Next Kubernetes Frontier: Multicluster Management](https://containerjournal.com/features/the-next-kubernetes-frontier-multicluster-management/) authored by [Min Kim](https://github.com/yue9944882) and [Jian Qiu](https://github.com/qiujian16)
+
 ## May 24, 2021
 
 [Michael Elder](https://github.com/mdelder) put together a user walk through for the basic Open Cluster Management API using `kind`, `olm`, and other open source technologies. See https://github.com/mdelder/open-cluster-management-getting-started for more details.
