@@ -16,6 +16,10 @@
         height: auto;
     }
 
+    .highlight {
+        position: relative;
+    }
+
     pre {
         background: #f4f4f4;
         border: 1px solid #ddd;
@@ -31,6 +35,25 @@
         padding: 1em 1.5em;
         display: block;
         word-wrap: break-word;
+    }
+
+    .clipboard-copy-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        border: 0;
+        border-radius: 4px;
+        padding: 1px;
+        font-size: 0.7em;
+        line-height: 1.8;
+        color: #fff;
+        background-color: #999;
+        min-width: 55px;
+        text-align: center;
+    }
+
+    .clipboard-copy-btn:hover {
+        background-color: #aaa;
     }
     
     body {
