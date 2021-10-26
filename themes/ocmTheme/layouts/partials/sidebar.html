@@ -1,101 +1,99 @@
-<!-- Sidebar  -->
+{{ $home := .Site.GetPage "home" }}
+
+{{ $rootPath := "" }}
+{{ if eq $home.Lang "zh" }}
+    {{ $rootPath = "/zh" }}
+{{ end }}
+
 <nav id="sidebar">
     <div class="sidebar-header">
-        <a class="navlink" href="/">
+        <a class="navlink" href="{{ $rootPath }}/">
         <img src="/OCM-White_MainGradient.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
         <h4>Open Cluster Management</h4>
         </a>
     </div>
     <ul class="list-unstyled components">
-        <p>Navigation</p>
-        <li>
-            <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li id="concepts">
+            <a class="navlink" href="{{ $rootPath }}/concepts">{{ i18n "sidebar_concepts" }}</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
+                    <a class="navlink" href="{{ $rootPath }}/concepts/architecture">{{ i18n "sidebar_architecture" }}</a>
                 </li>
                 <li>
-                    <a class="navlink" id="managedcluster" href="/concepts/managedcluster">ManagedCluster</a>
+                    <a class="navlink" href="{{ $rootPath }}/concepts/managedcluster">{{ i18n "sidebar_managed_cluster" }}</a>
                 </li>
                 <li>
-                    <a class="navlink" id="manifestwork" href="/concepts/manifestwork">ManifestWork</a>
+                    <a class="navlink" href="{{ $rootPath }}/concepts/manifestwork">{{ i18n "sidebar_manifest_work" }}</a>
                 </li>
                 <li>
-                    <a class="navlink" id="placement" href="/concepts/placement">Placement</a>
+                    <a class="navlink" href="{{ $rootPath }}/concepts/placement">{{ i18n "sidebar_placement" }}</a>
                 </li>
                 <li>
-                    <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
+                    <a class="navlink" href="{{ $rootPath }}/concepts/addon">{{ i18n "sidebar_addons" }}</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Getting Started</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu">
-
+        <li id="getting-started">
+            <a class="navlink" href="{{ $rootPath }}/getting-started">{{ i18n "sidebar_getting_started" }}</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="quick-start" href="/getting-started/quick-start">Quick Start</a>
+                    <a class="navlink" href="{{ $rootPath }}/getting-started/quick-start">{{ i18n "sidebar_quick_start" }}</a>
                 </li>
-
                 <li>
-                    <!-- href="#pageSubsubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"-->
-                    <a class="navlink"  id="core" href="/getting-started/core"  >Core Components</a>
-                    <ul class="collapse list-unstyled" id="pageSubsubmenu">
+                    <a class="navlink" href="{{ $rootPath }}/getting-started/core">{{ i18n "sidebar_core_components" }}</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="cluster-manager" href="/getting-started/core/cluster-manager">Cluster Manager</a>
+                            <a class="navlink" href="{{ $rootPath }}/getting-started/core/cluster-manager">{{ i18n "sidebar_cluster_manager" }}</a>
                         </li>
                         <li>
-                            <a class="navlink" id="register-cluster" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
+                            <a class="navlink" href="{{ $rootPath }}/getting-started/core/register-cluster">{{ i18n "sidebar_register_cluster" }}</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink"  id="integration" href="/getting-started/integration"  >Add-ons and Integrations</a>
-                    <!-- <a class="navlink" href="#pageSubsubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Add-ons and Integrations</a> -->
-                    <ul class="collapse  list-unstyled" id="pageSubsubmenu2">
+                    <a class="navlink" href="{{ $rootPath }}/getting-started/integration">{{ i18n "sidebar_integrations" }}</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="app-lifecycle" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                            <a class="navlink" href="{{ $rootPath }}/getting-started/integration/app-lifecycle">{{ i18n "sidebar_apps" }}</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-framework" href="/getting-started/integration/policy-framework">Policy framework</a>
+                            <a class="navlink" href="{{ $rootPath }}/getting-started/integration/policy-framework">{{ i18n "sidebar_grc" }}</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
+                            <a class="navlink" href="{{ $rootPath }}/getting-started/integration/policy-controllers">{{ i18n "sidebar_grc_ctrl" }}</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+        <li id="scenarios">
+            <a class="navlink" href="{{ $rootPath }}/scenarios">{{ i18n "sidebar_scenarios" }}</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                    <a class="navlink" href="{{ $rootPath }}/scenarios/deploy-kubernetes-resources">{{ i18n "sidebar_deploy_kubernetes_resources" }}</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+        <li id="community">
+            <a class="navlink" href="{{ $rootPath }}/community">{{ i18n "sidebar_community" }}</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                    <a class="navlink" href="{{ $rootPath }}/community/releases">{{ i18n "sidebar_releases" }}</a>
                 </li>
                 <li >
-                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                    <a class="navlink" href="{{ $rootPath }}/community/roadmap">{{ i18n "sidebar_roadmap" }}</a>
                 </li>
                 <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
+                    <a class="navlink" href="{{ $rootPath }}/community/resource">{{ i18n "sidebar_resources" }}</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" id="contribute" href="/contribute/contribute">Contribute</a>
+        <li id="contribute">
+            <a class="navlink" href="{{ $rootPath }}/contribute">{{ i18n "sidebar_contribute" }}</a>
         </li>
-
-        <li>
-            <a class="navlink" id="blog" href="/blog/blog">Blog</a>
+        <li id="blog">
+            <a class="navlink" href="{{ $rootPath }}/blog">{{ i18n "sidebar_blog" }}</a>
         </li>
     </ul>
-    <ul class="list-unstyled CTAs">
-        @ Open Cluster Management Authors
-    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>

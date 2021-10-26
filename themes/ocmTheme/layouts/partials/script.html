@@ -8,35 +8,47 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        arr = window.location.pathname.split("/");
-        var linkname= arr[arr.length-2];
-        console.log(linkname);
-        $('#'+linkname).css({"background":"#fff", "color": "#7386D5"});
-        var pathname = window.location.pathname.split("/")[1]; 
-        console.log(pathname);
-        if (pathname == "concepts"){
-            $('#homeSubmenu').addClass('show');
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            // the first path is i18n language, remove it and get the root path again
+            paths.shift()
+            rootPath = $('#'+paths[0])
         }
-        if (pathname == "community"){
-            $('#pageSubmenu2').addClass('show');
-        }
-        if (pathname == "getting-started"){
-            $('#pageSubmenu').addClass('show');
-            $('#pageSubsubmenu').addClass('show');
-            $('#pageSubsubmenu2').addClass('show');   
-        }
-        if (pathname == "scenarios"){
-            $('#pageSubmenu3').addClass('show');
-        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                // highlight the current link
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                // unfold parents ul
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                // unfold sibling ul
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
         $('#sidebarCollapse').on('click', function () {
             console.log("2");
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
         });
     });
 </script>

@@ -1,6 +1,6 @@
 ---
-title: Blog 
-weight: -20
+title: Blog
+weight: 6
 ---
 
 <!-- spellchecker-disable -->
