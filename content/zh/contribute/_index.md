@@ -1,6 +1,6 @@
 ---
-title: Contribute to Open Cluster Management 
-weight: -20
+title: 贡献
+weight: 5
 ---
 
 We know you've got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!

@@ -1,11 +1,9 @@
 ---
-title: Quick Start
+title: 快速开始
 weight: 1
 ---
 
-![open-cluster-management](/ocm-logo.png)
-
-Use any of the following methods to bootstrap your Open Cluster Management environment.
+使用以下任意方法准备 Open Cluster Management 环境。
 
 <!-- spellchecker-disable -->
 

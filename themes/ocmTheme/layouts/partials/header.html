@@ -1,40 +1,54 @@
-<nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top"
->
+{{ $home := .Site.GetPage "home" }}
+
+<nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top">
   <div class="container">
     <a href="/" class="navbar-brand">
-    <img src="/OCM-White_MainGradient.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
-   Open Cluster Management
+      <img src="/OCM-White_MainGradient.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Open Cluster Management
     </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navmenu"
-    >
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto ">
         <li class="nav-item pe-2">
-          <a href="/getting-started/quick-start" class="nav-link text-light">Getting Started</a>
+          <a href="community/resource/" class="nav-link text-light">{{ i18n "header_community"}}</a>
         </li>
         <li class="nav-item pe-2">
-          <a href="community/resource/" class="nav-link text-light">Community</a>
+          <a href="contribute/contribute" class="nav-link text-light">{{ i18n "header_contribute"}}</a>
         </li>
         <li class="nav-item pe-2">
-          <a href="/contribute/contribute" class="nav-link text-light">Contribute</a>
+          <a href="concepts/architecture" class="nav-link text-light">{{ i18n "header_document"}}</a>
         </li>
-        <li class="nav-item pe-2">
-          <a href="/concepts/architecture" class="nav-link text-light">Architecture</a>
+        <li class="nav-item dropdown">
+          {{ if eq $home.Lang "zh" }}
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
+          {{ else }}
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
+          {{ end }}
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {{ if eq $home.Lang "zh" }}
+            <li><a class="dropdown-item" href="/">English</a></li>
+            {{ else }}
+            <li><a class="dropdown-item" href="/zh">中文</a></li>
+            {{ end }}
+          </ul>
         </li>
         <li class="nav-item pe-3">
           <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
               <i class="bi bi-youtube"></i>
-            </a>
+          </a>
         </li>
         <li class="nav-item pe-3">
           <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
-            <i class="bi bi-github"></i></a>
+            <i class="bi bi-github"></i>
+          </a>
+        </li>
+        <li class="nav-item pe-3">
+          <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+            <i class="bi bi-slack"></i>
+          </a>
         </li>
       </ul>
     </div>

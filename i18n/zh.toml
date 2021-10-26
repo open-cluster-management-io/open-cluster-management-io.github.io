@@ -1,0 +1,134 @@
+[header_community]
+other = "社区"
+
+[header_contribute]
+other = "贡献"
+
+[header_document]
+other = "文档"
+
+[subject_title]
+other = "Make working with many Kubernetes clusters super easy regardless of where they are deployed."
+
+[subject_content]
+other = "Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more."
+
+[subject_getting_started]
+other = "开始"
+
+[feature_overview]
+other = "功能概览"
+
+[feature_cluster_inventory]
+other = "Cluster inventory"
+
+[feature_cluster_inventory_content]
+other = "Registration of multiple clusters to a hub cluster to place them for management."
+
+[feature_work_distribution]
+other = "Work distribution"
+
+[feature_work_distribution_content]
+other = "The work API that enables resources to be applied to managed clusters from a hub cluster."
+
+[feature_content_placement]
+other = "Content placement"
+
+[feature_content_placement_content]
+other = "Dynamic placement of content and behavior across multiple clusters."
+
+[feature_apis]
+other = "Vendor neutral APIs"
+
+[feature_apis_content]
+other = "Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms."
+
+[addons_overview]
+other = "在不同场景中安装管理组件"
+
+[addons_grc]
+other = "Configure, secure, and manage your resources."
+
+[addons_grc_content]
+other = "Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage for your quota and cost."
+
+[addons_grc_link]
+other = "Learn more about Policies"
+
+[addons_apps]
+other = "Launch apps everywhere."
+
+[addons_apps_content]
+other = "Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes."
+
+[addons_apps_link]
+other = "Learn more about applications"
+
+[sidebar_concepts]
+other = "概念"
+
+[sidebar_architecture]
+other = "Architecture"
+
+[sidebar_managed_cluster]
+other = "ManagedCluster"
+
+[sidebar_manifest_work]
+other = "ManifestWork"
+
+[sidebar_placement]
+other = "Placement"
+
+[sidebar_addons]
+other = "Add-ons"
+
+[sidebar_getting_started]
+other = "安装"
+
+[sidebar_quick_start]
+other = "快速开始"
+
+[sidebar_core_components]
+other = "核心组件"
+
+[sidebar_cluster_manager]
+other = "Cluster Manager"
+
+[sidebar_register_cluster]
+other = "Klusterlet Agent"
+
+[sidebar_integrations]
+other = "插件和集成"
+
+[sidebar_apps]
+other = "Application lifecycle management"
+
+[sidebar_grc]
+other = "Policy framework"
+
+[sidebar_grc_ctrl]
+other = "Policy controllers"
+
+[sidebar_scenarios]
+other = "应用场景"
+
+[sidebar_deploy_kubernetes_resources]
+other = "Deploy Kubernetes Resources"
+
+[sidebar_community]
+other = "社区"
+
+[sidebar_releases]
+other = "Releases"
+
+[sidebar_roadmap]
+other = "Roadmap"
+
+[sidebar_resources]
+other = "Resources"
+
+[sidebar_contribute]
+other = "贡献"
+
+[sidebar_blog]
+other = "博客"
