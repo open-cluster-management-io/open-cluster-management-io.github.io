@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/svg" href="/OCM-White_MainGradient.svg">
+    <title>Open Cluster Management</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/contentpage.css"/>
+</head>
+<body>
+    <div class="wrapper">
+
+
+
+    
+
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <a class="navlink" href="/zh/">
+        <img src="/OCM-White_MainGradient.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
+        <h4>Open Cluster Management</h4>
+        </a>
+    </div>
+    <ul class="list-unstyled components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">Architecture</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">ManagedCluster</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">ManifestWork</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">Placement</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">Add-ons</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">Cluster Manager</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/register-cluster">Klusterlet Agent</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy framework</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy controllers</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">Releases</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">Roadmap</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/community/resource">Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
+</nav>
+
+<div id="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>ManagedCluster</h1>
+    <h2 id="managedcluster-registration">ManagedCluster Registration</h2>
+<p><code>ManagedCluster</code> is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a <code>double opt-in</code> mechanism which is:</p>
+<ol>
+<li>An agent opts in to register a cluster with the hub by creating a <code>ManagedCluster</code> resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request</li>
+<li>An admin user on the hub opts in to explicitly accept the registration of the <code>ManagedCluster</code>.</li>
+</ol>
+<p>This process ensures that any agent with a credential to the hub can request to join as a <code>ManagedCluster</code>, while the request must be approved by an admin on the hub.</p>
+<p>An example of <code>ManagedCluster</code> resource is shown in the following example.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">managedClusterClientConfigs</span>:
+    - <span style="color:#66d9ef">url</span>: https://managedcluster-apiserver:<span style="color:#ae81ff">6443</span>
+</code></pre></div><p>The admin user on the hub needs to approve the authn/authz of an agent separately by:</p>
+<ol>
+<li>Approving the <code>certificatesigningrequest</code> initiated by the agent so agent is authenticated to the hub.</li>
+<li>Set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code> API, so the agent is authorized to call the hub.</li>
+</ol>
+<p>The admin user must have a <code>create</code> permission to <code>managedcluster/accept</code> resource to set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code>.</p>
+<p>After the admin user on the hub approve the registration of the cluster, a namespace with the same name of the cluster will be created. This namespace can be regarded as a <code>container</code> of the resources that agents in a managed cluster can access. By default, the agent on a cluster is only authorized to access certain resource kinds in this namespace on the hub to ensure security isolation. In addition, the agent will set a status condition in <code>ManagedCluster</code> as <code>Joined</code> and starts to update the liveness of managed cluster.</p>
+<p>In open-cluster-management, <a href="https://github.com/open-cluster-management-io/registration">registration</a> project implements the registration process. It includes an agent in the managed cluster to register to the hub, a controller on the hub cluster to handle authz/authn setup for the agent.</p>
+<h2 id="managedclusterset">ManagedClusterSet</h2>
+<p><code>ManagedClusterSet</code> is a cluster scoped API on the hub cluster to define a group of <code>ManagedCluster</code>. How <code>ManagedCluster</code> is grouped depends on different use cases. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code> <code>ManagedClusterSet</code> for different purposes. Or you can create <code>north-america</code>, <code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on the region of the <code>ManagedCluster</code>.</p>
+<p><code>ManagedCluster</code> is to implement the notion in <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
+<p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label <code>cluster.open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>. The user must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
+<p>An example of a <code>ManagedClusterSet</code> resource is shown in the following example.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: prod
+</code></pre></div><h2 id="clusterclaim">ClusterClaim</h2>
+<p><code>ClusterClaim</code> is a cluster scoped API on the managed cluster as an implementation of <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid">KEP-2149</a>. It provides an extension point for other actors in the managed cluster to report certain properties of a managed cluster to the hub. The <code>registration-agent</code> collects all the <code>ClusterClaim</code> in the managed cluster and syncs them in <code>clusterClaims</code> field in the related <code>ManagedCluster</code>.</p>
+<p>A third party actor can create a cluster claim on the managed cluster as shown below:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterClaim
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: platform.open-cluster-management.io
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">value</span>: aws
+</code></pre></div><p>And the <code>ClusterClaim</code> will be synced to the hub cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: aws
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">clusterClaims</span>:
+    - <span style="color:#66d9ef">name</span>: platform.open-cluster-management.io
+      <span style="color:#66d9ef">value</span>: aws
+  <span style="color:#66d9ef">conditions</span>: ...
+</code></pre></div>
+
+    <script type="text/javascript" src="/clipboard-copy.js"></script>
+</div> 
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
+        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
+
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+        $('#sidebarCollapse').on('click', function () {
+            console.log("2");
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
+        });
+    });
+</script>
+</body>
+</html>

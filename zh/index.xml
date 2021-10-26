@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Open Cluster Management</title>
+    <link>http://open-cluster-management.io/zh/</link>
+    <description>Recent content on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	<atom:link href="http://open-cluster-management.io/zh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Releases</title>
+      <link>http://open-cluster-management.io/zh/community/releases/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/community/releases/</guid>
+      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.4.0. Continue reading to view upcoming releases:
+  v0.5.0 on November 2021
+  v0.4.0 on August 2021
+  </description>
+    </item>
+    
+    <item>
+      <title>资源</title>
+      <link>http://open-cluster-management.io/zh/community/resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/community/resource/</guid>
+      <description>Join conversations with the other people who are involved in the creation, maintenance, and future of open-cluster-management. We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the Community repo.
+Get Connected See the following options to connect with the community:
+GitHub
+Mailing group
+Slack
+Community meetings
+YouTube channel</description>
+    </item>
+    
+    <item>
+      <title>路线图</title>
+      <link>http://open-cluster-management.io/zh/community/roadmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/community/roadmap/</guid>
+      <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
+    </item>
+    
+    <item>
+      <title>Cluster manager</title>
+      <link>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</guid>
+      <description>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
+   Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite Ensure kubectl and kustomize are installed.
+Ensure golang is installed, if you are planning to install from the source.
+Prepare one Kubernetes cluster to function as the hub. For example, use kind to create a hub cluster.</description>
+    </item>
+    
+    <item>
+      <title>架构</title>
+      <link>http://open-cluster-management.io/zh/concepts/architecture/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/architecture/</guid>
+      <description>This page tells you the architecture and basic concepts in open-cluster-management.    Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
+ The service must have an API to determine the inventory of available clusters.</description>
+    </item>
+    
+    <item>
+      <title>部署 Kubernetes 资源</title>
+      <link>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</guid>
+      <description>Prerequisites Select dev environment clusters using placement Apply the Kubernetes resources to the selected clusters  After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as Deployment, Service, Configmap, Secret, and so on) to your desired clusters:
+ Use placement to select the desired clusters if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters. Use ManifestWork to apply your Kubernetes resources to the selected clusters  Here is a sample to deploy a hello-world Deployment to the dev environment clusters:</description>
+    </item>
+    
+    <item>
+      <title>Klusterlet agent</title>
+      <link>http://open-cluster-management.io/zh/getting-started/core/register-cluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/core/register-cluster/</guid>
+      <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
+   Prerequisite Install from source Install community operator from OperatorHub.io What is next Troubleshooting     Prerequisite Ensure kubectl and kustomize are installed.
+Ensure golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+    <item>
+      <title>ManagedCluster</title>
+      <link>http://open-cluster-management.io/zh/concepts/managedcluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/managedcluster/</guid>
+      <description>ManagedCluster Registration ManagedCluster is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a double opt-in mechanism which is:
+ An agent opts in to register a cluster with the hub by creating a ManagedCluster resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request An admin user on the hub opts in to explicitly accept the registration of the ManagedCluster.</description>
+    </item>
+    
+    <item>
+      <title>ManifestWork</title>
+      <link>http://open-cluster-management.io/zh/concepts/manifestwork/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/manifestwork/</guid>
+      <description>What is ManifestWork ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitors the ManifestWork resource in the cluster namespace on the hub cluster.
+An example of ManifestWork to deploy a deployment to the managed cluster is shown in the following example.</description>
+    </item>
+    
+    <item>
+      <title>Placement</title>
+      <link>http://open-cluster-management.io/zh/concepts/placement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/placement/</guid>
+      <description>Placement API is used to select a set of managed clusters in one or multiple ManagedClusterSets so that the user&amp;rsquo;s workloads can be deployed to these clusters.
+Bind ManagedClusterSet to a namespace Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.</description>
+    </item>
+    
+    <item>
+      <title>插件</title>
+      <link>http://open-cluster-management.io/zh/concepts/addon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/addon/</guid>
+      <description>What is an add-on? Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:
+ A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters. A tool to spread security policies to multiple clusters.</description>
+    </item>
+    
+    <item>
+      <title>Application lifecycle management</title>
+      <link>http://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</guid>
+      <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
+   Architecture Prerequisite Install from source What is next     Architecture For more details, visit the multicloud-operators-subscription GitHub page.
+Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
+  Ensure kubectl and kustomize are installed.
+  Ensure the open-cluster-management cluster manager is installed.</description>
+    </item>
+    
+    <item>
+      <title>Policy framework</title>
+      <link>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
+      <description>The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
+   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  You can find the analysis of the architectural components here  Prerequisite You must meet the following prerequisites to install the policy framework:
+  Ensure kubectl and kustomize are installed.</description>
+    </item>
+    
+    <item>
+      <title>Policy controllers</title>
+      <link>http://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</guid>
+      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
+   Prerequisite Install the configuration policy controller What is next  Placement Rule API Placement API Final steps to apply the policy   More policies     Prerequisite You must meet the following prerequisites to install the policy controllers:
+  Ensure kubectl and kustomize are installed.
+  Ensure Golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -15,6 +15,10 @@
 </head>
 <body>
     <div class="wrapper">
+
+
+
+
 <nav id="sidebar">
     <div class="sidebar-header">
         <a class="navlink" href="/">
@@ -23,97 +27,89 @@
         </a>
     </div>
     <ul class="list-unstyled components">
-        <p>Navigation</p>
-        <li>
-            <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li id="concepts">
+            <a class="navlink" href="/concepts">Concepts</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
+                    <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
                 <li>
-                    <a class="navlink" id="managedcluster" href="/concepts/managedcluster">ManagedCluster</a>
+                    <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" id="manifestwork" href="/concepts/manifestwork">ManifestWork</a>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
                 </li>
                 <li>
-                    <a class="navlink" id="placement" href="/concepts/placement">Placement</a>
+                    <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
+                    <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Getting Started</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu">
-
+        <li id="getting-started">
+            <a class="navlink" href="/getting-started">Getting Started</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="quick-start" href="/getting-started/quick-start">Quick Start</a>
+                    <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
-
                 <li>
-                    
-                    <a class="navlink"  id="core" href="/getting-started/core"  >Core Components</a>
-                    <ul class="collapse list-unstyled" id="pageSubsubmenu">
+                    <a class="navlink" href="/getting-started/core">Core Components</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="cluster-manager" href="/getting-started/core/cluster-manager">Cluster Manager</a>
+                            <a class="navlink" href="/getting-started/core/cluster-manager">Cluster Manager</a>
                         </li>
                         <li>
-                            <a class="navlink" id="register-cluster" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
+                            <a class="navlink" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink"  id="integration" href="/getting-started/integration"  >Add-ons and Integrations</a>
-                    
-                    <ul class="collapse  list-unstyled" id="pageSubsubmenu2">
+                    <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="app-lifecycle" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                            <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-framework" href="/getting-started/integration/policy-framework">Policy framework</a>
+                            <a class="navlink" href="/getting-started/integration/policy-framework">Policy framework</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
+                            <a class="navlink" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+        <li id="scenarios">
+            <a class="navlink" href="/scenarios">Scenarios</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                    <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+        <li id="community">
+            <a class="navlink" href="/community">Community</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                    <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
-                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                    <a class="navlink" href="/community/roadmap">Roadmap</a>
                 </li>
                 <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
+                    <a class="navlink" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" id="contribute" href="/contribute/contribute">Contribute</a>
+        <li id="contribute">
+            <a class="navlink" href="/contribute">Contribute</a>
         </li>
-
-        <li>
-            <a class="navlink" id="blog" href="/blog/blog">Blog</a>
+        <li id="blog">
+            <a class="navlink" href="/blog">Blog</a>
         </li>
     </ul>
-    <ul class="list-unstyled CTAs">
-        @ Open Cluster Management Authors
-    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
 
 <div id="content">
@@ -135,7 +131,7 @@
 
 
 
-  <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-from-prebuilt-images-on-quayio">Install from prebuilt images on Quay.io</a></li>
@@ -168,7 +164,7 @@ class="responsive3"></p>
 </li>
 <li>
 <p>Ensure the <code>open-cluster-management</code> <em>application</em> is installed if you are using <code>PlacementRules</code> with your policies. See <a href="/getting-started/integration/app-lifecycle">Application management</a> for more information. While installing Application management for the <code>PlacementRules</code> API is the recommended approach, if you are only using the new <code>Placement</code> API, you can skip the Application management installation, but you do need to install the <code>PlacementRule</code> CRD with this command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
 </code></pre></div></li>
 </ul>
 <h2 id="install-from-prebuilt-images-on-quayio">Install from prebuilt images on Quay.io</h2>
@@ -176,21 +172,21 @@ class="responsive3"></p>
 <ol>
 <li>
 <p>Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the <code>open-cluster-management</code> namespace on the hub cluster with the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the hub cluster</span>
-kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the hub cluster</span>
+kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 
-<span class="c1"># Create the namespace</span>
-<span class="nb">export</span> <span class="nv">HUB_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management&#34;</span>
-kubectl create ns <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
+<span style="color:#75715e"># Create the namespace</span>
+export HUB_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;open-cluster-management&#34;</span>
+kubectl create ns <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
 
-<span class="c1"># Apply the CRDs</span>
-<span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy&#34;</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_policies_crd.yaml
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
+<span style="color:#75715e"># Apply the CRDs</span>
+export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy&#34;</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policies_crd.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
 
-<span class="c1"># Deploy the policy-propagator</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/operator.yaml -n <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
+<span style="color:#75715e"># Deploy the policy-propagator</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/operator.yaml -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
 </code></pre></div><ul>
 <li>See more about the policy propagator:
 <ul>
@@ -201,47 +197,47 @@ kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span
 </li>
 <li>
 <p>Ensure the pods are running on the hub with the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n <span class="si">${</span><span class="nv">HUB_NAMESPACE</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
 NAME                                           READY   STATUS    RESTARTS   AGE
-governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span class="m">0</span>          94s
+governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span style="color:#ae81ff">0</span>          94s
 </code></pre></div></li>
 <li>
 <p>Export the hub cluster <code>kubeconfig</code> with the following command:</p>
 <p>For <code>kind</code> cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kind get kubeconfig --name <span class="si">${</span><span class="nv">HUB_CLUSTER_NAME</span><span class="si">}</span> --internal &gt; <span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kind get kubeconfig --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span> --internal &gt; <span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
 </code></pre></div><p>For non-<code>kind</code> clusters:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">kubectl config view --context<span class="o">=</span><span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span> --minify --flatten &gt; <span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl config view --context<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> --minify --flatten &gt; <span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 <li>
 <p>Deploy the policy synchronization components to the managed cluster. Run the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
-kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the managed cluster</span>
+kubectl config use-context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 
-<span class="c1"># Create the namespace</span>
-<span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
-kubectl create ns <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+<span style="color:#75715e"># Create the namespace</span>
+export MANAGED_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>
+kubectl create ns <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
 
-<span class="c1"># Create the secret to authenticate with the hub</span>
-kubectl -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> create secret generic hub-kubeconfig --from-file<span class="o">=</span><span class="nv">kubeconfig</span><span class="o">=</span><span class="si">${</span><span class="nv">HUB_KUBECONFIG</span><span class="si">}</span>
+<span style="color:#75715e"># Create the secret to authenticate with the hub</span>
+kubectl -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span> create secret generic hub-kubeconfig --from-file<span style="color:#f92672">=</span>kubeconfig<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
 
-<span class="c1"># Apply the policy CRD</span>
-<span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+<span style="color:#75715e"># Apply the policy CRD</span>
+export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
 
-<span class="c1"># Deploy the spec synchronization component</span>
-<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-spec-sync&#34;</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span style="color:#75715e"># Deploy the spec synchronization component</span>
+export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;governance-policy-spec-sync&#34;</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span>/main/deploy/operator.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl set env deployment/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span> --containers<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> WATCH_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 
-<span class="c1"># Deploy the status synchronization component</span>
-<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-status-sync&#34;</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span style="color:#75715e"># Deploy the status synchronization component</span>
+export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;governance-policy-status-sync&#34;</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span>/main/deploy/operator.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl set env deployment/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span> --containers<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> WATCH_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 
-<span class="c1"># Deploy the template synchronization component</span>
-<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;governance-policy-template-sync&#34;</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span>/main/deploy/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">&#34;</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span style="color:#75715e"># Deploy the template synchronization component</span>
+export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;governance-policy-template-sync&#34;</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span>/main/deploy/operator.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl set env deployment/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span> --containers<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> WATCH_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 </code></pre></div><ul>
 <li>See more about the synchronization components:
 <ul>
@@ -254,11 +250,11 @@ kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><sp
 </li>
 <li>
 <p>Verify that the pods are running on the managed cluster with the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management-agent-addon
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management-agent-addon
 NAME                                               READY   STATUS    RESTARTS   AGE
-governance-policy-spec-sync-6474b6d898-tmkw6       1/1     Running   <span class="m">0</span>          2m14s
-governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   <span class="m">0</span>          2m14s
-governance-policy-template-sync-759b9b556f-mx46t   1/1     Running   <span class="m">0</span>          2m14s
+governance-policy-spec-sync-6474b6d898-tmkw6       1/1     Running   <span style="color:#ae81ff">0</span>          2m14s
+governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   <span style="color:#ae81ff">0</span>          2m14s
+governance-policy-template-sync-759b9b556f-mx46t   1/1     Running   <span style="color:#ae81ff">0</span>          2m14s
 </code></pre></div></li>
 </ol>
 <h2 id="what-is-next">What is next</h2>
@@ -277,35 +273,47 @@ governance-policy-template-sync-759b9b556f-mx46t   1/1     Running   <span class
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        arr = window.location.pathname.split("/");
-        var linkname= arr[arr.length-2];
-        console.log(linkname);
-        $('#'+linkname).css({"background":"#fff", "color": "#7386D5"});
-        var pathname = window.location.pathname.split("/")[1]; 
-        console.log(pathname);
-        if (pathname == "concepts"){
-            $('#homeSubmenu').addClass('show');
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
         }
-        if (pathname == "community"){
-            $('#pageSubmenu2').addClass('show');
-        }
-        if (pathname == "getting-started"){
-            $('#pageSubmenu').addClass('show');
-            $('#pageSubsubmenu').addClass('show');
-            $('#pageSubsubmenu2').addClass('show');   
-        }
-        if (pathname == "scenarios"){
-            $('#pageSubmenu3').addClass('show');
-        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
         $('#sidebarCollapse').on('click', function () {
             console.log("2");
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
         });
     });
 </script>

@@ -15,6 +15,10 @@
 </head>
 <body>
     <div class="wrapper">
+
+
+
+
 <nav id="sidebar">
     <div class="sidebar-header">
         <a class="navlink" href="/">
@@ -23,97 +27,89 @@
         </a>
     </div>
     <ul class="list-unstyled components">
-        <p>Navigation</p>
-        <li>
-            <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li id="concepts">
+            <a class="navlink" href="/concepts">Concepts</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
+                    <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
                 <li>
-                    <a class="navlink" id="managedcluster" href="/concepts/managedcluster">ManagedCluster</a>
+                    <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" id="manifestwork" href="/concepts/manifestwork">ManifestWork</a>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
                 </li>
                 <li>
-                    <a class="navlink" id="placement" href="/concepts/placement">Placement</a>
+                    <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
+                    <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Getting Started</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu">
-
+        <li id="getting-started">
+            <a class="navlink" href="/getting-started">Getting Started</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="quick-start" href="/getting-started/quick-start">Quick Start</a>
+                    <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
-
                 <li>
-                    
-                    <a class="navlink"  id="core" href="/getting-started/core"  >Core Components</a>
-                    <ul class="collapse list-unstyled" id="pageSubsubmenu">
+                    <a class="navlink" href="/getting-started/core">Core Components</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="cluster-manager" href="/getting-started/core/cluster-manager">Cluster Manager</a>
+                            <a class="navlink" href="/getting-started/core/cluster-manager">Cluster Manager</a>
                         </li>
                         <li>
-                            <a class="navlink" id="register-cluster" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
+                            <a class="navlink" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink"  id="integration" href="/getting-started/integration"  >Add-ons and Integrations</a>
-                    
-                    <ul class="collapse  list-unstyled" id="pageSubsubmenu2">
+                    <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="app-lifecycle" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                            <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-framework" href="/getting-started/integration/policy-framework">Policy framework</a>
+                            <a class="navlink" href="/getting-started/integration/policy-framework">Policy framework</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
+                            <a class="navlink" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+        <li id="scenarios">
+            <a class="navlink" href="/scenarios">Scenarios</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                    <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+        <li id="community">
+            <a class="navlink" href="/community">Community</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                    <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
-                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                    <a class="navlink" href="/community/roadmap">Roadmap</a>
                 </li>
                 <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
+                    <a class="navlink" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" id="contribute" href="/contribute/contribute">Contribute</a>
+        <li id="contribute">
+            <a class="navlink" href="/contribute">Contribute</a>
         </li>
-
-        <li>
-            <a class="navlink" id="blog" href="/blog/blog">Blog</a>
+        <li id="blog">
+            <a class="navlink" href="/blog">Blog</a>
         </li>
     </ul>
-    <ul class="list-unstyled CTAs">
-        @ Open Cluster Management Authors
-    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
 
 <div id="content">
@@ -133,60 +129,60 @@
     <p><code>Placement</code> API is used to select a set of managed clusters in one or multiple <code>ManagedClusterSets</code> so that the user&rsquo;s workloads can be deployed to these clusters.</p>
 <h2 id="bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</h2>
 <p>Before creating a <code>Placement</code>, you need to create a <code>ManagedClusterSetBinding</code> in a namespace to bind to a <code>ManagedClusterSet</code>. Then you can create a <code>Placement</code> in the same namespace to select the clusters in this <code>ManagedClusterSet</code>. Assume a <code>ManagedClusterSet</code> is created on the hub cluster as seen in the following examples.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSet<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
-</span></code></pre></div><p>You can create a <code>ManagedClusterSetBinding</code> as follows to bind the <code>ManagedClusterSet</code> to the default namespace.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSetBinding<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">clusterSet</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
-</span></code></pre></div><p>You must have the <code>create</code> permission on resource <code>managedclusterset/bind</code> to bind the <code>ManagedClusterSet</code> to a namespace.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: prod
+</code></pre></div><p>You can create a <code>ManagedClusterSetBinding</code> as follows to bind the <code>ManagedClusterSet</code> to the default namespace.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSetBinding
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: prod
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">clusterSet</span>: prod
+</code></pre></div><p>You must have the <code>create</code> permission on resource <code>managedclusterset/bind</code> to bind the <code>ManagedClusterSet</code> to a namespace.</p>
 <h2 id="select-clusters-in-managedclusterset">Select clusters in ManagedClusterSet</h2>
 <p>After <code>ManagedClusterSetBinding</code> is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound <code>ManagedClusterSet</code>.
 You can specify <code>predicates</code> and <code>prioritizers</code> to filter and score clusters.</p>
 <h3 id="predicates">Predicates</h3>
 <p>In <code>predicates</code> section, you can select clusters by labels or <code>clusterClaims</code>. For instance, you can select 3 clusters with labels <code>purpose=test</code> and clusterClaim <code>platform.open-cluster-management.io=aws</code> as seen in the following examples.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Placement<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>placement1<span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">numberOfClusters</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
-</span><span class="w">  </span><span class="k">clusterSets</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- prod<span class="w">
-</span><span class="w">  </span><span class="k">predicates</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">requiredClusterSelector</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">labelSelector</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">purpose</span><span class="p">:</span><span class="w"> </span>test<span class="w">
-</span><span class="w">        </span><span class="k">claimSelector</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">matchExpressions</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="k">key</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
-</span><span class="w">              </span><span class="k">operator</span><span class="p">:</span><span class="w"> </span>In<span class="w">
-</span><span class="w">              </span><span class="k">values</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span>- aws<span class="w">
-</span></code></pre></div><h3 id="prioritizers">Prioritizers</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement1
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">3</span>
+  <span style="color:#66d9ef">clusterSets</span>:
+    - prod
+  <span style="color:#66d9ef">predicates</span>:
+    - <span style="color:#66d9ef">requiredClusterSelector</span>:
+        <span style="color:#66d9ef">labelSelector</span>:
+          <span style="color:#66d9ef">matchLabels</span>:
+            <span style="color:#66d9ef">purpose</span>: test
+        <span style="color:#66d9ef">claimSelector</span>:
+          <span style="color:#66d9ef">matchExpressions</span>:
+            - <span style="color:#66d9ef">key</span>: platform.open-cluster-management.io
+              <span style="color:#66d9ef">operator</span>: In
+              <span style="color:#66d9ef">values</span>:
+                - aws
+</code></pre></div><h3 id="prioritizers">Prioritizers</h3>
 <p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and pin the placementdecisions as seen in the following examples.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Placement<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>placement1<span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">numberOfClusters</span><span class="p">:</span><span class="w"> </span><span class="m">2</span><span class="w">
-</span><span class="w">  </span><span class="k">prioritizerPolicy</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">mode</span><span class="p">:</span><span class="w"> </span>Exact<span class="w">
-</span><span class="w">    </span><span class="k">configurations</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>ResourceAllocatableMemory<span class="w">
-</span><span class="w">      </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>Steady<span class="w">
-</span><span class="w">        </span><span class="k">weight</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
-</span></code></pre></div><ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement1
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">2</span>
+  <span style="color:#66d9ef">prioritizerPolicy</span>:
+    <span style="color:#66d9ef">mode</span>: Exact
+    <span style="color:#66d9ef">configurations</span>:
+      - <span style="color:#66d9ef">name</span>: ResourceAllocatableMemory
+      - <span style="color:#66d9ef">name</span>: Steady
+        <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">3</span>
+</code></pre></div><ul>
 <li><code>mode</code> is either <code>Exact</code>, <code>Additive</code>, <code>&quot;&quot;</code> where <code>&quot;&quot;</code> is Additive by default.
 <ul>
 <li>In <code>Additive</code> mode, any prioritizer not explicitly enumerated is enabled in its default Configurations, in which Steady and Balance prioritizers have the weight of 1 while other prioritizers have the weight of 0. Additive doesn&rsquo;t require configuring all prioritizers. The default Configurations may change in the future, and additional prioritization will happen.</li>
@@ -209,19 +205,19 @@ A higher weight indicates that the prioritizer weights more in the cluster selec
 </li>
 </ul>
 <p>A slice of <code>PlacementDecision</code> will be created by placement controller in the same namespace, each with a label of <code>cluster.open-cluster-management.io/placement={placement name}</code>. <code>PlacementDecision</code> contains the results of the cluster selection as seen in the following examples.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>PlacementDecision<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">cluster.open-cluster-management.io/placement</span><span class="p">:</span><span class="w"> </span>placement1<span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>placement1-decision<span class="m">-1</span><span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">decisions</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">clusterName</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
-</span><span class="w">    </span>- <span class="k">clusterName</span><span class="p">:</span><span class="w"> </span>cluster2<span class="w">
-</span><span class="w">    </span>- <span class="k">clusterName</span><span class="p">:</span><span class="w"> </span>cluster3<span class="w">
-</span></code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the workload should be placed in multiple clusters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: PlacementDecision
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">cluster.open-cluster-management.io/placement</span>: placement1
+  <span style="color:#66d9ef">name</span>: placement1-decision<span style="color:#ae81ff">-1</span>
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">decisions</span>:
+    - <span style="color:#66d9ef">clusterName</span>: cluster1
+    - <span style="color:#66d9ef">clusterName</span>: cluster2
+    - <span style="color:#66d9ef">clusterName</span>: cluster3
+</code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the workload should be placed in multiple clusters.</p>
 <h2 id="future-work">Future work</h2>
 <p>In addition to selecting cluster by predicates, we are still working on other advanced features including</p>
 <ul>
@@ -243,35 +239,47 @@ A higher weight indicates that the prioritizer weights more in the cluster selec
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        arr = window.location.pathname.split("/");
-        var linkname= arr[arr.length-2];
-        console.log(linkname);
-        $('#'+linkname).css({"background":"#fff", "color": "#7386D5"});
-        var pathname = window.location.pathname.split("/")[1]; 
-        console.log(pathname);
-        if (pathname == "concepts"){
-            $('#homeSubmenu').addClass('show');
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
         }
-        if (pathname == "community"){
-            $('#pageSubmenu2').addClass('show');
-        }
-        if (pathname == "getting-started"){
-            $('#pageSubmenu').addClass('show');
-            $('#pageSubsubmenu').addClass('show');
-            $('#pageSubsubmenu2').addClass('show');   
-        }
-        if (pathname == "scenarios"){
-            $('#pageSubmenu3').addClass('show');
-        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
         $('#sidebarCollapse').on('click', function () {
             console.log("2");
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
         });
     });
 </script>

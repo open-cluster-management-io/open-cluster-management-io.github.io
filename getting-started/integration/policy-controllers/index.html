@@ -15,6 +15,10 @@
 </head>
 <body>
     <div class="wrapper">
+
+
+
+
 <nav id="sidebar">
     <div class="sidebar-header">
         <a class="navlink" href="/">
@@ -23,97 +27,89 @@
         </a>
     </div>
     <ul class="list-unstyled components">
-        <p>Navigation</p>
-        <li>
-            <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li id="concepts">
+            <a class="navlink" href="/concepts">Concepts</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
+                    <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
                 <li>
-                    <a class="navlink" id="managedcluster" href="/concepts/managedcluster">ManagedCluster</a>
+                    <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" id="manifestwork" href="/concepts/manifestwork">ManifestWork</a>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
                 </li>
                 <li>
-                    <a class="navlink" id="placement" href="/concepts/placement">Placement</a>
+                    <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
+                    <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Getting Started</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu">
-
+        <li id="getting-started">
+            <a class="navlink" href="/getting-started">Getting Started</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="quick-start" href="/getting-started/quick-start">Quick Start</a>
+                    <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
-
                 <li>
-                    
-                    <a class="navlink"  id="core" href="/getting-started/core"  >Core Components</a>
-                    <ul class="collapse list-unstyled" id="pageSubsubmenu">
+                    <a class="navlink" href="/getting-started/core">Core Components</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="cluster-manager" href="/getting-started/core/cluster-manager">Cluster Manager</a>
+                            <a class="navlink" href="/getting-started/core/cluster-manager">Cluster Manager</a>
                         </li>
                         <li>
-                            <a class="navlink" id="register-cluster" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
+                            <a class="navlink" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink"  id="integration" href="/getting-started/integration"  >Add-ons and Integrations</a>
-                    
-                    <ul class="collapse  list-unstyled" id="pageSubsubmenu2">
+                    <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="app-lifecycle" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                            <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-framework" href="/getting-started/integration/policy-framework">Policy framework</a>
+                            <a class="navlink" href="/getting-started/integration/policy-framework">Policy framework</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
+                            <a class="navlink" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+        <li id="scenarios">
+            <a class="navlink" href="/scenarios">Scenarios</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                    <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+        <li id="community">
+            <a class="navlink" href="/community">Community</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                    <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
-                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                    <a class="navlink" href="/community/roadmap">Roadmap</a>
                 </li>
                 <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
+                    <a class="navlink" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" id="contribute" href="/contribute/contribute">Contribute</a>
+        <li id="contribute">
+            <a class="navlink" href="/contribute">Contribute</a>
         </li>
-
-        <li>
-            <a class="navlink" id="blog" href="/blog/blog">Blog</a>
+        <li id="blog">
+            <a class="navlink" href="/blog">Blog</a>
         </li>
     </ul>
-    <ul class="list-unstyled CTAs">
-        @ Open Cluster Management Authors
-    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
 
 <div id="content">
@@ -135,7 +131,7 @@
 
 
 
-  <div class="gdoc-toc gdoc-toc__level--3"><nav id="TableOfContents"><ul>
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-the-configuration-policy-controller">Install the configuration policy controller</a></li>
         <li><a href="#what-is-next">What is next</a>
@@ -168,34 +164,34 @@
 <ol>
 <li>
 <p>Deploy the <code>config-policy-controller</code> to the managed cluster with the following commands:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell"><span class="c1"># Configure kubectl to point to the managed cluster</span>
-kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the managed cluster</span>
+kubectl config use-context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
    
-<span class="c1"># Create the namespace</span>
-<span class="nb">export</span> <span class="nv">MANAGED_NAMESPACE</span><span class="o">=</span><span class="s2">&#34;open-cluster-management-agent-addon&#34;</span>
-kubectl create ns <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
+<span style="color:#75715e"># Create the namespace</span>
+export MANAGED_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>
+kubectl create ns <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
    
-<span class="c1"># Apply the CRD</span>
-<span class="nb">export</span> <span class="nv">COMPONENT</span><span class="o">=</span><span class="s2">&#34;config-policy-controller&#34;</span>
-<span class="nb">export</span> <span class="nv">GIT_PATH</span><span class="o">=</span><span class="s2">&#34;https://raw.githubusercontent.com/open-cluster-management-io/</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span><span class="s2">/main/deploy&#34;</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
+<span style="color:#75715e"># Apply the CRD</span>
+export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;config-policy-controller&#34;</span>
+export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io/</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span><span style="color:#e6db74">/main/deploy&#34;</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
    
-<span class="c1"># Deploy the controller</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/operator.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/clusterrole.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/clusterrole_binding.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl apply -f <span class="si">${</span><span class="nv">GIT_PATH</span><span class="si">}</span>/service_account.yaml -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span>
-kubectl <span class="nb">set</span> env deployment/<span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> -n <span class="si">${</span><span class="nv">MANAGED_NAMESPACE</span><span class="si">}</span> --containers<span class="o">=</span><span class="si">${</span><span class="nv">COMPONENT</span><span class="si">}</span> <span class="nv">WATCH_NAMESPACE</span><span class="o">=</span><span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+<span style="color:#75715e"># Deploy the controller</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/operator.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/clusterrole.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/clusterrole_binding.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/service_account.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl set env deployment/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span> --containers<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> WATCH_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 </code></pre></div><ul>
 <li>See <a href="https://github.com/open-cluster-management-io/config-policy-controller">config-policy-controller</a> for more information.</li>
 </ul>
 </li>
 <li>
 <p>Ensure the pod is running on the managed cluster with the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management-agent-addon
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management-agent-addon
 NAME                                               READY   STATUS    RESTARTS   AGE
 ...
-config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span class="m">0</span>          44s
+config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span style="color:#ae81ff">0</span>          44s
 ...
 </code></pre></div></li>
 </ol>
@@ -205,7 +201,7 @@ config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span class
 <ol>
 <li>
 <p>Run the following command to create a policy on the hub that uses <code>PlacementRule</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_HUB_CLUSTER</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 $ kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
 policy.policy.open-cluster-management.io/policy-pod created
 placementbinding.policy.open-cluster-management.io/binding-policy-pod created
@@ -213,17 +209,17 @@ placementrule.apps.open-cluster-management.io/placement-policy-pod created
 </code></pre></div></li>
 <li>
 <p>Update the <code>PlacementRule</code> to distribute the policy to the managed cluster with the following command (this <code>clusterSelector</code> will deploy the policy to all managed clusters):</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default placementrule.apps.open-cluster-management.io/placement-policy-pod --type<span class="o">=</span>merge -p <span class="s2">&#34;{\&#34;spec\&#34;:{\&#34;clusterSelector\&#34;:{\&#34;matchExpressions\&#34;:[]}}}&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default placementrule.apps.open-cluster-management.io/placement-policy-pod --type<span style="color:#f92672">=</span>merge -p <span style="color:#e6db74">&#34;{\&#34;spec\&#34;:{\&#34;clusterSelector\&#34;:{\&#34;matchExpressions\&#34;:[]}}}&#34;</span>
 placementrule.apps.open-cluster-management.io/placement-policy-pod patched
 </code></pre></div></li>
 <li>
 <p>To confirm that the managed cluster is selected by the <code>PlacementRule</code>, run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get -n default placementrule.apps.open-cluster-management.io/placement-policy-pod -o yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get -n default placementrule.apps.open-cluster-management.io/placement-policy-pod -o yaml
 ...
 status:
   decisions:
-  - clusterName: <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
-    clusterNamespace: <span class="si">${</span><span class="nv">MANAGED_CLUSTER_NAME</span><span class="si">}</span>
+  - clusterName: <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
+    clusterNamespace: <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 ...
 </code></pre></div></li>
 </ol>
@@ -231,7 +227,7 @@ status:
 <ol>
 <li>
 <p>Run the following command to create a policy on the hub that uses <code>Placement</code> if you did not select the <code>PlacementRule</code> option in the previous section:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;hub cluster context&gt; <span class="c1"># kubectl config use-context kind-hub</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context &lt;hub cluster context&gt; <span style="color:#75715e"># kubectl config use-context kind-hub</span>
 $ kubectl apply -n default -f https://raw.githubusercontent.com/gparvin/my-policies/main/policies/placement/policy-pod.yaml
 policy.policy.open-cluster-management.io/policy-pod created
 placementbinding.policy.open-cluster-management.io/binding-policy-pod created
@@ -239,7 +235,7 @@ placement.cluster.open-cluster-management.io/placement-policy-pod created
 </code></pre></div></li>
 <li>
 <p>Update the <code>Placement</code> to distribute the policy to the managed cluster with the following command (this <code>clusterSelector</code> will deploy the policy to all managed clusters):</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default placement.cluster.open-cluster-management.io/placement-policy-pod --type<span class="o">=</span>merge -p <span class="s2">&#34;{\&#34;spec\&#34;:{\&#34;predicates\&#34;:[{\&#34;requiredClusterSelector\&#34;:{\&#34;labelSelector\&#34;:{\&#34;matchExpressions\&#34;:[]}}}]}}&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default placement.cluster.open-cluster-management.io/placement-policy-pod --type<span style="color:#f92672">=</span>merge -p <span style="color:#e6db74">&#34;{\&#34;spec\&#34;:{\&#34;predicates\&#34;:[{\&#34;requiredClusterSelector\&#34;:{\&#34;labelSelector\&#34;:{\&#34;matchExpressions\&#34;:[]}}}]}}&#34;</span>
 placement.cluster.open-cluster-management.io/placement-policy-pod patched
 </code></pre></div></li>
 <li>
@@ -247,12 +243,12 @@ placement.cluster.open-cluster-management.io/placement-policy-pod patched
 </li>
 <li>
 <p>To confirm that the managed cluster is selected by the <code>Placement</code>, run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get -n default placementdecision.cluster.open-cluster-management.io/placement-policy-pod-decision-1 -o yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get -n default placementdecision.cluster.open-cluster-management.io/placement-policy-pod-decision-1 -o yaml
 ...
 status:
   decisions:
   - clusterName: &lt;managed cluster name&gt;
-    reason: <span class="s2">&#34;&#34;</span>
+    reason: <span style="color:#e6db74">&#34;&#34;</span>
 ...
 </code></pre></div></li>
 </ol>
@@ -261,21 +257,21 @@ status:
 <ol>
 <li>
 <p>Enforce the policy to make the configuration policy automatically correct any misconfigurations on the managed cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default policy.policy.open-cluster-management.io/policy-pod --type<span class="o">=</span>merge -p <span class="s2">&#34;{\&#34;spec\&#34;:{\&#34;remediationAction\&#34;: \&#34;enforce\&#34;}}&#34;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl patch -n default policy.policy.open-cluster-management.io/policy-pod --type<span style="color:#f92672">=</span>merge -p <span style="color:#e6db74">&#34;{\&#34;spec\&#34;:{\&#34;remediationAction\&#34;: \&#34;enforce\&#34;}}&#34;</span>
 policy.policy.open-cluster-management.io/policy-pod patched
 </code></pre></div></li>
 <li>
 <p>After a few seconds, your policy is propagated to the managed cluster. To confirm, run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span class="si">${</span><span class="nv">CTX_MANAGED_CLUSTER</span><span class="si">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 $ kubectl get policy -A
 NAMESPACE   NAME                 REMEDIATION ACTION   COMPLIANCE STATE   AGE
 cluster1    default.policy-pod   enforce              Compliant          4m32s
 </code></pre></div></li>
 <li>
 <p>The missing pod is created by the policy on the managed cluster. To confirm, run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-Shell" data-lang="Shell">$ kubectl get pod -n default
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pod -n default
 NAME               READY   STATUS    RESTARTS   AGE
-sample-nginx-pod   1/1     Running   <span class="m">0</span>          23s
+sample-nginx-pod   1/1     Running   <span style="color:#ae81ff">0</span>          23s
 </code></pre></div></li>
 </ol>
 <h2 id="more-policies">More policies</h2>
@@ -294,35 +290,47 @@ sample-nginx-pod   1/1     Running   <span class="m">0</span>          23s
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        arr = window.location.pathname.split("/");
-        var linkname= arr[arr.length-2];
-        console.log(linkname);
-        $('#'+linkname).css({"background":"#fff", "color": "#7386D5"});
-        var pathname = window.location.pathname.split("/")[1]; 
-        console.log(pathname);
-        if (pathname == "concepts"){
-            $('#homeSubmenu').addClass('show');
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
         }
-        if (pathname == "community"){
-            $('#pageSubmenu2').addClass('show');
-        }
-        if (pathname == "getting-started"){
-            $('#pageSubmenu').addClass('show');
-            $('#pageSubsubmenu').addClass('show');
-            $('#pageSubsubmenu2').addClass('show');   
-        }
-        if (pathname == "scenarios"){
-            $('#pageSubmenu3').addClass('show');
-        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
         $('#sidebarCollapse').on('click', function () {
             console.log("2");
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
         });
     });
 </script>

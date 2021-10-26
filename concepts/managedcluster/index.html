@@ -15,6 +15,10 @@
 </head>
 <body>
     <div class="wrapper">
+
+
+
+
 <nav id="sidebar">
     <div class="sidebar-header">
         <a class="navlink" href="/">
@@ -23,97 +27,89 @@
         </a>
     </div>
     <ul class="list-unstyled components">
-        <p>Navigation</p>
-        <li>
-            <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li id="concepts">
+            <a class="navlink" href="/concepts">Concepts</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
+                    <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
                 <li>
-                    <a class="navlink" id="managedcluster" href="/concepts/managedcluster">ManagedCluster</a>
+                    <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" id="manifestwork" href="/concepts/manifestwork">ManifestWork</a>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
                 </li>
                 <li>
-                    <a class="navlink" id="placement" href="/concepts/placement">Placement</a>
+                    <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
+                    <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Getting Started</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu">
-
+        <li id="getting-started">
+            <a class="navlink" href="/getting-started">Getting Started</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="quick-start" href="/getting-started/quick-start">Quick Start</a>
+                    <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
-
                 <li>
-                    
-                    <a class="navlink"  id="core" href="/getting-started/core"  >Core Components</a>
-                    <ul class="collapse list-unstyled" id="pageSubsubmenu">
+                    <a class="navlink" href="/getting-started/core">Core Components</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="cluster-manager" href="/getting-started/core/cluster-manager">Cluster Manager</a>
+                            <a class="navlink" href="/getting-started/core/cluster-manager">Cluster Manager</a>
                         </li>
                         <li>
-                            <a class="navlink" id="register-cluster" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
+                            <a class="navlink" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink"  id="integration" href="/getting-started/integration"  >Add-ons and Integrations</a>
-                    
-                    <ul class="collapse  list-unstyled" id="pageSubsubmenu2">
+                    <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="app-lifecycle" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                            <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-framework" href="/getting-started/integration/policy-framework">Policy framework</a>
+                            <a class="navlink" href="/getting-started/integration/policy-framework">Policy framework</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
+                            <a class="navlink" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+        <li id="scenarios">
+            <a class="navlink" href="/scenarios">Scenarios</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                    <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+        <li id="community">
+            <a class="navlink" href="/community">Community</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                    <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
-                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                    <a class="navlink" href="/community/roadmap">Roadmap</a>
                 </li>
                 <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
+                    <a class="navlink" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" id="contribute" href="/contribute/contribute">Contribute</a>
+        <li id="contribute">
+            <a class="navlink" href="/contribute">Contribute</a>
         </li>
-
-        <li>
-            <a class="navlink" id="blog" href="/blog/blog">Blog</a>
+        <li id="blog">
+            <a class="navlink" href="/blog">Blog</a>
         </li>
     </ul>
-    <ul class="list-unstyled CTAs">
-        @ Open Cluster Management Authors
-    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
 
 <div id="content">
@@ -138,15 +134,15 @@
 </ol>
 <p>This process ensures that any agent with a credential to the hub can request to join as a <code>ManagedCluster</code>, while the request must be approved by an admin on the hub.</p>
 <p>An example of <code>ManagedCluster</code> resource is shown in the following example.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedCluster<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">hubAcceptsClient</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w">  </span><span class="k">managedClusterClientConfigs</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">url</span><span class="p">:</span><span class="w"> </span>https<span class="p">:</span>//managedcluster-apiserver<span class="p">:</span><span class="m">6443</span><span class="w">
-</span></code></pre></div><p>The admin user on the hub needs to approve the authn/authz of an agent separately by:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">managedClusterClientConfigs</span>:
+    - <span style="color:#66d9ef">url</span>: https://managedcluster-apiserver:<span style="color:#ae81ff">6443</span>
+</code></pre></div><p>The admin user on the hub needs to approve the authn/authz of an agent separately by:</p>
 <ol>
 <li>Approving the <code>certificatesigningrequest</code> initiated by the agent so agent is authenticated to the hub.</li>
 <li>Set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code> API, so the agent is authorized to call the hub.</li>
@@ -159,32 +155,32 @@
 <p><code>ManagedCluster</code> is to implement the notion in <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
 <p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label <code>cluster.open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>. The user must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
 <p>An example of a <code>ManagedClusterSet</code> resource is shown in the following example.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedClusterSet<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>prod<span class="w">
-</span></code></pre></div><h2 id="clusterclaim">ClusterClaim</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: prod
+</code></pre></div><h2 id="clusterclaim">ClusterClaim</h2>
 <p><code>ClusterClaim</code> is a cluster scoped API on the managed cluster as an implementation of <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid">KEP-2149</a>. It provides an extension point for other actors in the managed cluster to report certain properties of a managed cluster to the hub. The <code>registration-agent</code> collects all the <code>ClusterClaim</code> in the managed cluster and syncs them in <code>clusterClaims</code> field in the related <code>ManagedCluster</code>.</p>
 <p>A third party actor can create a cluster claim on the managed cluster as shown below:</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1alpha1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ClusterClaim<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">value</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
-</span></code></pre></div><p>And the <code>ClusterClaim</code> will be synced to the hub cluster:</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>cluster.open-cluster-management.io/v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManagedCluster<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">hubAcceptsClient</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="w"></span><span class="k">status</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">clusterClaims</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>platform.open-cluster-management.io<span class="w">
-</span><span class="w">      </span><span class="k">value</span><span class="p">:</span><span class="w"> </span>aws<span class="w">
-</span><span class="w">  </span><span class="k">conditions</span><span class="p">:</span><span class="w"> </span>...<span class="w">
-</span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterClaim
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: platform.open-cluster-management.io
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">value</span>: aws
+</code></pre></div><p>And the <code>ClusterClaim</code> will be synced to the hub cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: aws
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">clusterClaims</span>:
+    - <span style="color:#66d9ef">name</span>: platform.open-cluster-management.io
+      <span style="color:#66d9ef">value</span>: aws
+  <span style="color:#66d9ef">conditions</span>: ...
+</code></pre></div>
 
     <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div> 
@@ -198,35 +194,47 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        arr = window.location.pathname.split("/");
-        var linkname= arr[arr.length-2];
-        console.log(linkname);
-        $('#'+linkname).css({"background":"#fff", "color": "#7386D5"});
-        var pathname = window.location.pathname.split("/")[1]; 
-        console.log(pathname);
-        if (pathname == "concepts"){
-            $('#homeSubmenu').addClass('show');
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
         }
-        if (pathname == "community"){
-            $('#pageSubmenu2').addClass('show');
-        }
-        if (pathname == "getting-started"){
-            $('#pageSubmenu').addClass('show');
-            $('#pageSubsubmenu').addClass('show');
-            $('#pageSubsubmenu2').addClass('show');   
-        }
-        if (pathname == "scenarios"){
-            $('#pageSubmenu3').addClass('show');
-        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
         $('#sidebarCollapse').on('click', function () {
             console.log("2");
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
         });
     });
 </script>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/svg" href="/OCM-White_MainGradient.svg">
+    <title>Open Cluster Management</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/contentpage.css"/>
+</head>
+<body>
+    <div class="wrapper">
+
+
+
+    
+
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <a class="navlink" href="/zh/">
+        <img src="/OCM-White_MainGradient.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
+        <h4>Open Cluster Management</h4>
+        </a>
+    </div>
+    <ul class="list-unstyled components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">Architecture</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">ManagedCluster</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">ManifestWork</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">Placement</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">Add-ons</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">Cluster Manager</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/register-cluster">Klusterlet Agent</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy framework</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy controllers</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">Releases</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">Roadmap</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/community/resource">Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
+</nav>
+
+<div id="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>Cluster manager</h1>
+    <p>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.</p>
+<!-- spellchecker-disable -->
+
+
+
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#prerequisite">Prerequisite</a></li>
+        <li><a href="#install-from-source">Install from source</a></li>
+        <li><a href="#install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</a></li>
+      </ul></nav><hr></div>
+
+
+<!-- spellchecker-enable -->
+<h2 id="prerequisite">Prerequisite</h2>
+<p>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubernetes-sigs.github.io/kustomize/installation">kustomize</a> are installed.</p>
+<p>Ensure <a href="https://golang.org/doc/install">golang</a> is installed, if you are planning to install from the source.</p>
+<p>Prepare one Kubernetes cluster to function as the hub. For example, use <a href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create a hub cluster. To use <code>kind</code>, you will need <a href="https://docs.docker.com/get-started">docker</a> installed and running.</p>
+<p>If you are running OS X, you&rsquo;ll also need to install <code>gnu-sed</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">brew install gnu-sed
+</code></pre></div><p>Set the following environment variable that will be used throughout to simplify the instructions:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export HUB_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your hub cluster name&gt;             <span style="color:#75715e"># export HUB_CLUSTER_NAME=hub</span>
+export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
+export HUB_KUBECONFIG<span style="color:#f92672">=</span>&lt;your hub cluster kubeconfig file&gt;    <span style="color:#75715e"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
+</code></pre></div><p>Then create the hub cluster with <code>kind</code>, run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># kind delete cluster --name ${HUB_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted</span>
+kind create cluster --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span>
+kind get kubeconfig --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span> --internal &gt; <span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
+</code></pre></div><h2 id="install-from-source">Install from source</h2>
+<p>Clone the <code>registration-operator</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/registration-operator
+</code></pre></div><p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div><p>Deploy hub</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">cd registration-operator
+export KUBECONFIG<span style="color:#f92672">=</span>$HOME/.kube/config <span style="color:#75715e"># set a env variable KUBECONFIG to kubeconfig file path</span>
+make deploy-hub <span style="color:#75715e"># make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
+</code></pre></div><h2 id="install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</h2>
+<p>If you are using OKD, OpenShift, or have <code>OLM</code> installed in your cluster, you can install the cluster manager community operator with a released version from <a href="https://operatorhub.io/operator/cluster-manager">OperatorHub.io</a>.</p>
+
+
+    <script type="text/javascript" src="/clipboard-copy.js"></script>
+</div> 
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
+        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
+
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+        $('#sidebarCollapse').on('click', function () {
+            console.log("2");
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
+        });
+    });
+</script>
+</body>
+</html>

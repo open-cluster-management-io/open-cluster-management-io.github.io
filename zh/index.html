@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html><head>
+	<meta name="generator" content="Hugo 0.71.0" />
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+  />
+  <link
+    href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
+    rel="stylesheet"
+  />
+  <link rel="shortcut icon" type="image/svg" href="/OCM-White_MainGradient.svg">
+  <link rel="stylesheet" href="/homepage.css"/>
+  <title>Open Cluster Management</title>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous">
+  </script>
+</head>
+<body>
+
+<nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top">
+  <div class="container">
+    <a href="/" class="navbar-brand">
+      <img src="/OCM-White_MainGradient.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Open Cluster Management
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto ">
+        <li class="nav-item pe-2">
+          <a href="community/resource/" class="nav-link text-light">社区</a>
+        </li>
+        <li class="nav-item pe-2">
+          <a href="contribute/contribute" class="nav-link text-light">贡献</a>
+        </li>
+        <li class="nav-item pe-2">
+          <a href="concepts/architecture" class="nav-link text-light">文档</a>
+        </li>
+        <li class="nav-item dropdown">
+          
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
+          
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+            <li><a class="dropdown-item" href="/">English</a></li>
+            
+          </ul>
+        </li>
+        <li class="nav-item pe-3">
+          <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
+              <i class="bi bi-youtube"></i>
+          </a>
+        </li>
+        <li class="nav-item pe-3">
+          <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+            <i class="bi bi-github"></i>
+          </a>
+        </li>
+        <li class="nav-item pe-3">
+          <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+            <i class="bi bi-slack"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="ocm text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start">
+  <div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between">
+      <div>
+        <h1>Make working with many Kubernetes clusters super easy regardless of where they are deployed.</h1>
+        <p class="lead my-4">Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.</p>
+        <div class="d-grid gap-2 d-md-block">
+          <a class="btn btn-lg btn-outline-info btn-block"
+            href="getting-started/quick-start"
+            role="button"
+            data-bs-target="#enroll">开始</a>
+        </div>
+      </div>
+      <img src="/robot7.png" alt="" class="robot img-fluid w-20 d-none d-sm-block rounded  pe-1" />
+      </div>
+  </div>
+</section>
+<section class="p-4">
+  <h1 class="text-center pb-2" style="color:#293655;">功能概览</h1>
+  <div class="container ">
+    <div class="row text-center g-4">
+      <div class="col-md">
+        <div class="card text-light ocm">
+          <div class="card-body text-center">
+            <div class="h1 mb-3">
+              <i class="bi bi-laptop"></i>
+            </div>
+            <h3 class="card-title mb-3">Cluster inventory</h3>
+            <p class="card-text fw-light">Registration of multiple clusters to a hub cluster to place them for management.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md">
+          <div class="card  text-light ocm">
+          <div class="card-body text-center">
+            <div class="h1 mb-3">
+              <i class="bi bi-person-square"></i>
+            </div>
+            <h3 class="card-title mb-3">Work distribution</h3>
+            <p class="card-text fw-light">The work API that enables resources to be applied to managed clusters from a hub cluster.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md" >
+          <div class="card text-light ocm" style="height:100%">
+          <div class="card-body text-center">
+            <div class="h1 mb-3">
+              <i class="bi bi-people"></i>
+            </div>
+            <h3 class="card-title mb-3">Content placement</h3>
+            <p class="card-text fw-light">Dynamic placement of content and behavior across multiple clusters. <br> </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md">
+          <div class="card  text-light ocm">
+            <div class="card-body text-center">
+              <div class="h1 mb-3">
+                <i class="bi bi-cloud"></i>
+              </div>
+              <h3 class="card-title mb-3">Vendor neutral APIs</h3>
+              <p class="card-text fw-light">Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms.</p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+<section class="p-5">
+  <h1 class="text-center pb-2" style="color:#293655;">在不同场景中安装管理组件</h1>
+  <div class="container">
+    <div class="row text-center g-4">
+      <div class="col-md d-flex">
+        <div class="card bg-dark text-light">
+          <div class="ocm card-body text-center d-flex flex-column">
+            <h4 class="card-title mb-3">Configure, secure, and manage your resources.</h4>
+            <p class="card-text fw-light">Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage for your quota and cost.</p>
+            <a role="button" class="btn btn-outline-info mt-auto" href="getting-started/integration/policy-framework">Learn more about Policies</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md d-flex">
+        <div class="card bg-secondary text-light">
+          <div class="ocm card-body text-center d-flex flex-column" >
+            <h4 class="card-title mb-3 ">Launch apps everywhere.</h4>
+            <p class="card-text card-text-fix-pt-top fw-light">Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes.</p>
+            <a role="button" class="btn btn-outline-info mt-auto" href="getting-started/integration/app-lifecycle/">Learn more about applications</a>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</section>
+<nav class="ocm navbar navbar-expand-lg navbar-dark py-3">
+  <div class="container">
+    <div class="copyright text-light">&copy; 2021 Open Cluster Management Authors</div>
+  </div>
+</nav>
+</body>
+</html>

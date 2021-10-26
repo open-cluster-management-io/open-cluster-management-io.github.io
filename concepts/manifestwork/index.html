@@ -15,6 +15,10 @@
 </head>
 <body>
     <div class="wrapper">
+
+
+
+
 <nav id="sidebar">
     <div class="sidebar-header">
         <a class="navlink" href="/">
@@ -23,97 +27,89 @@
         </a>
     </div>
     <ul class="list-unstyled components">
-        <p>Navigation</p>
-        <li>
-            <a class="navlink" href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Concepts</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+        <li id="concepts">
+            <a class="navlink" href="/concepts">Concepts</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="architecture" href="/concepts/architecture">Architecture</a>
+                    <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
                 <li>
-                    <a class="navlink" id="managedcluster" href="/concepts/managedcluster">ManagedCluster</a>
+                    <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" id="manifestwork" href="/concepts/manifestwork">ManifestWork</a>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
                 </li>
                 <li>
-                    <a class="navlink" id="placement" href="/concepts/placement">Placement</a>
+                    <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" id="addon" href="/concepts/addon">Add-ons</a>
+                    <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Getting Started</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu">
-
+        <li id="getting-started">
+            <a class="navlink" href="/getting-started">Getting Started</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="quick-start" href="/getting-started/quick-start">Quick Start</a>
+                    <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
-
                 <li>
-                    
-                    <a class="navlink"  id="core" href="/getting-started/core"  >Core Components</a>
-                    <ul class="collapse list-unstyled" id="pageSubsubmenu">
+                    <a class="navlink" href="/getting-started/core">Core Components</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="cluster-manager" href="/getting-started/core/cluster-manager">Cluster Manager</a>
+                            <a class="navlink" href="/getting-started/core/cluster-manager">Cluster Manager</a>
                         </li>
                         <li>
-                            <a class="navlink" id="register-cluster" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
+                            <a class="navlink" href="/getting-started/core/register-cluster">Klusterlet Agent</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink"  id="integration" href="/getting-started/integration"  >Add-ons and Integrations</a>
-                    
-                    <ul class="collapse  list-unstyled" id="pageSubsubmenu2">
+                    <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
+                    <ul class="collapse list-unstyled">
                         <li>
-                            <a class="navlink" id="app-lifecycle" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                            <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-framework" href="/getting-started/integration/policy-framework">Policy framework</a>
+                            <a class="navlink" href="/getting-started/integration/policy-framework">Policy framework</a>
                         </li>
                         <li>
-                            <a class="navlink" id="policy-controllers" href="/getting-started/integration/policy-controllers">Policy controllers</a>
+                            <a class="navlink" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Scenarios</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu3">
+        <li id="scenarios">
+            <a class="navlink" href="/scenarios">Scenarios</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                    <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Community</a>
-            <ul class="collapse  list-unstyled" id="pageSubmenu2">
+        <li id="community">
+            <a class="navlink" href="/community">Community</a>
+            <ul class="collapse list-unstyled">
                 <li>
-                    <a class="navlink" id="releases" href="/community/releases">Releases</a>
+                    <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
-                    <a class="navlink" id="roadmap" href="/community/roadmap">Roadmap</a>
+                    <a class="navlink" href="/community/roadmap">Roadmap</a>
                 </li>
                 <li>
-                    <a class="navlink" id="resource" href="/community/resource">Resources</a>
+                    <a class="navlink" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
-        <li>
-            <a class="navlink" id="contribute" href="/contribute/contribute">Contribute</a>
+        <li id="contribute">
+            <a class="navlink" href="/contribute">Contribute</a>
         </li>
-
-        <li>
-            <a class="navlink" id="blog" href="/blog/blog">Blog</a>
+        <li id="blog">
+            <a class="navlink" href="/blog">Blog</a>
         </li>
     </ul>
-    <ul class="list-unstyled CTAs">
-        @ Open Cluster Management Authors
-    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
 
 <div id="content">
@@ -133,163 +129,163 @@
     <h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
 <p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello-work<span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
-</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">workload</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>apps/v1<span class="w">
-</span><span class="w">        </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Deployment<span class="w">
-</span><span class="w">        </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">          </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">        </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">selector</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">          </span><span class="k">template</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">            </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">containers</span><span class="p">:</span><span class="w">
-</span><span class="w">                </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">                  </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>quay.io/asmacdo/busybox<span class="w">
-</span><span class="w">                  </span><span class="k">command</span><span class="p">:</span><span class="w">
-</span><span class="w">                    </span><span class="p">[</span><span class="s2">&#34;sh&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;-c&#34;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
-</span></code></pre></div><h2 id="status-tracking">Status tracking</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: hello-work
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">app</span>: hello
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+        <span style="color:#66d9ef">kind</span>: Deployment
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: hello
+          <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">selector</span>:
+            <span style="color:#66d9ef">matchLabels</span>:
+              <span style="color:#66d9ef">app</span>: hello
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">metadata</span>:
+              <span style="color:#66d9ef">labels</span>:
+                <span style="color:#66d9ef">app</span>: hello
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">containers</span>:
+                - <span style="color:#66d9ef">name</span>: hello
+                  <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
+                  <span style="color:#66d9ef">command</span>:
+                    [<span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span>]
+</code></pre></div><h2 id="status-tracking">Status tracking</h2>
 <p>Work agent will track all the resources defined in <code>ManifestWork</code> and update its status. There are two types of status in manifestwork. The <code>resourceStatus</code> tracks the status of each manifest in the <code>ManifestWork</code> and <code>conditions</code> reflects the overall status of the <code>ManifestWork</code>. Work agent currently checks whether a resource is <code>Available</code>, meaning the resource exists on the managed cluster, and <code>Applied</code> means the resource defined in <code>ManifestWork</code> has been applied to the managed cluster.</p>
 <p>Here is an example.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello-work<span class="w">
-</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>cluster1<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w"> </span>...<span class="w"> </span>...<span class="w">
-</span><span class="w"></span><span class="k">status</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">conditions</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
-</span><span class="w">      </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>Apply<span class="w"> </span>manifest<span class="w"> </span>work<span class="w"> </span>complete<span class="w">
-</span><span class="w">      </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>AppliedManifestWorkComplete<span class="w">
-</span><span class="w">      </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
-</span><span class="w">      </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Applied<span class="w">
-</span><span class="w">    </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
-</span><span class="w">      </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>All<span class="w"> </span>resources<span class="w"> </span>are<span class="w"> </span>available<span class="w">
-</span><span class="w">      </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>ResourcesAvailable<span class="w">
-</span><span class="w">      </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
-</span><span class="w">      </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Available<span class="w">
-</span><span class="w">  </span><span class="k">resourceStatus</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="k">conditions</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
-</span><span class="w">            </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>Apply<span class="w"> </span>manifest<span class="w"> </span>complete<span class="w">
-</span><span class="w">            </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>AppliedManifestComplete<span class="w">
-</span><span class="w">            </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
-</span><span class="w">            </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Applied<span class="w">
-</span><span class="w">          </span>- <span class="k">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;2021-06-15T02:26:02Z&#34;</span><span class="w">
-</span><span class="w">            </span><span class="k">message</span><span class="p">:</span><span class="w"> </span>Resource<span class="w"> </span>is<span class="w"> </span>available<span class="w">
-</span><span class="w">            </span><span class="k">reason</span><span class="p">:</span><span class="w"> </span>ResourceAvailable<span class="w">
-</span><span class="w">            </span><span class="k">status</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;True&#34;</span><span class="w">
-</span><span class="w">            </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>Available<span class="w">
-</span><span class="w">        </span><span class="k">resourceMeta</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">group</span><span class="p">:</span><span class="w"> </span>apps<span class="w">
-</span><span class="w">          </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Deployment<span class="w">
-</span><span class="w">          </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">          </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">          </span><span class="k">ordinal</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
-</span><span class="w">          </span><span class="k">resource</span><span class="p">:</span><span class="w"> </span>deployments<span class="w">
-</span><span class="w">          </span><span class="k">version</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
-</span></code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">app</span>: hello
+  <span style="color:#66d9ef">name</span>: hello-work
+  <span style="color:#66d9ef">namespace</span>: cluster1
+<span style="color:#66d9ef">spec</span>: ... ...
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+      <span style="color:#66d9ef">message</span>: Apply manifest work complete
+      <span style="color:#66d9ef">reason</span>: AppliedManifestWorkComplete
+      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+      <span style="color:#66d9ef">type</span>: Applied
+    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+      <span style="color:#66d9ef">message</span>: All resources are available
+      <span style="color:#66d9ef">reason</span>: ResourcesAvailable
+      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+      <span style="color:#66d9ef">type</span>: Available
+  <span style="color:#66d9ef">resourceStatus</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">conditions</span>:
+          - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+            <span style="color:#66d9ef">message</span>: Apply manifest complete
+            <span style="color:#66d9ef">reason</span>: AppliedManifestComplete
+            <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+            <span style="color:#66d9ef">type</span>: Applied
+          - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+            <span style="color:#66d9ef">message</span>: Resource is available
+            <span style="color:#66d9ef">reason</span>: ResourceAvailable
+            <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+            <span style="color:#66d9ef">type</span>: Available
+        <span style="color:#66d9ef">resourceMeta</span>:
+          <span style="color:#66d9ef">group</span>: apps
+          <span style="color:#66d9ef">kind</span>: Deployment
+          <span style="color:#66d9ef">name</span>: hello
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">ordinal</span>: <span style="color:#ae81ff">0</span>
+          <span style="color:#66d9ef">resource</span>: deployments
+          <span style="color:#66d9ef">version</span>: v1
+</code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
 <p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
 <h3 id="delete-options">Delete options</h3>
 <p>User can explicitly choose not to garbage collect the applied resources when a <code>ManifestWork</code> is deleted. the user should specify the <code>deleteOption</code> in the <code>ManifestWork</code>. By default, <code>deleteOption</code> is set as <code>Foreground</code>
 which means the applied resources on the spoke will be deleted with the removal of <code>ManifestWork</code>. User can set it to
 <code>Orphan</code> so the applied resources will not be deleted. Here is an example:</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>work.open-cluster-management.io/v1<span class="w">
-</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>deleteoption-demo<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">workload</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>apps/v1<span class="w">
-</span><span class="w">      </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Deployment<span class="w">
-</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">selector</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">        </span><span class="k">template</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">          </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">containers</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">              </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>quay.io/asmacdo/busybox<span class="w">
-</span><span class="w">              </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
-</span><span class="w">  </span><span class="k">deleteOption</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">propagationPolicy</span><span class="p">:</span><span class="w"> </span>Orphan<span class="w">
-</span></code></pre></div><p>Alternatively, user can also specify a certain resource defined in the <code>ManifestWork</code> to be orphaned by setting the
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: deleteoption-demo
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+    - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+      <span style="color:#66d9ef">kind</span>: Deployment
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: hello
+        <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">selector</span>:
+          <span style="color:#66d9ef">matchLabels</span>:
+            <span style="color:#66d9ef">app</span>: hello
+        <span style="color:#66d9ef">template</span>:
+          <span style="color:#66d9ef">metadata</span>:
+            <span style="color:#66d9ef">labels</span>:
+              <span style="color:#66d9ef">app</span>: hello
+          <span style="color:#66d9ef">spec</span>:
+            <span style="color:#66d9ef">containers</span>:
+            - <span style="color:#66d9ef">name</span>: hello
+              <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
+              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span>]
+  <span style="color:#66d9ef">deleteOption</span>:
+    <span style="color:#66d9ef">propagationPolicy</span>: Orphan
+</code></pre></div><p>Alternatively, user can also specify a certain resource defined in the <code>ManifestWork</code> to be orphaned by setting the
 <code>deleteOption</code> to be <code>SelectivelyOrphan</code>. Here is an example with <code>SelectivelyOrphan</code> specified. It ensures the removal of deployment resource specified in the <code>ManifestWork</code> while the service resource is kept.</p>
-<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="k">kind</span><span class="p">:</span><span class="w"> </span>ManifestWork<span class="w">
-</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>selective-delete-work<span class="w">
-</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">  </span><span class="k">workload</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">manifests</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span>- <span class="k">kind</span><span class="p">:</span><span class="w"> </span>Service<span class="w">
-</span><span class="w">      </span><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
-</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
-</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">        </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>ClusterIP<span class="w">
-</span><span class="w">        </span><span class="k">ports</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>app<span class="w">
-</span><span class="w">          </span><span class="k">port</span><span class="p">:</span><span class="w"> </span><span class="m">443</span><span class="w">
-</span><span class="w">          </span><span class="k">protocol</span><span class="p">:</span><span class="w"> </span>TCP<span class="w">
-</span><span class="w">          </span><span class="k">targetPort</span><span class="p">:</span><span class="w"> </span><span class="m">4443</span><span class="w">
-</span><span class="w">        </span><span class="k">selector</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">    </span>- <span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>apps/v1<span class="w">
-</span><span class="w">      </span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Deployment<span class="w">
-</span><span class="w">      </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">      </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">        </span><span class="k">selector</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">matchLabels</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">        </span><span class="k">template</span><span class="p">:</span><span class="w">
-</span><span class="w">          </span><span class="k">metadata</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">labels</span><span class="p">:</span><span class="w">
-</span><span class="w">              </span><span class="k">app</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">          </span><span class="k">spec</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span><span class="k">containers</span><span class="p">:</span><span class="w">
-</span><span class="w">            </span>- <span class="k">name</span><span class="p">:</span><span class="w"> </span>hello<span class="w">
-</span><span class="w">              </span><span class="k">image</span><span class="p">:</span><span class="w"> </span>quay.io/asmacdo/busybox<span class="w">
-</span><span class="w">              </span><span class="k">command</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s1">&#39;sh&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-c&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span><span class="p">]</span><span class="w">
-</span><span class="w">  </span><span class="k">deleteOption</span><span class="p">:</span><span class="w">
-</span><span class="w">    </span><span class="k">propagationPolicy</span><span class="p">:</span><span class="w"> </span>SelectivelyOrphan<span class="w">
-</span><span class="w">    </span><span class="k">selectivelyOrphans</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span><span class="k">orphaningRules</span><span class="p">:</span><span class="w">
-</span><span class="w">      </span>- <span class="k">group</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;&#34;</span><span class="w">
-</span><span class="w">        </span><span class="k">resource</span><span class="p">:</span><span class="w"> </span>services<span class="w">
-</span><span class="w">        </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>default<span class="w">
-</span><span class="w">        </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>helloworld<span class="w">
-</span></code></pre></div><h2 id="resource-race-and-adoption">Resource Race and Adoption</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: selective-delete-work
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+    - <span style="color:#66d9ef">kind</span>: Service
+      <span style="color:#66d9ef">apiVersion</span>: v1
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: helloworld
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">labels</span>:
+          <span style="color:#66d9ef">app</span>: hello
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">type</span>: ClusterIP
+        <span style="color:#66d9ef">ports</span>:
+        - <span style="color:#66d9ef">name</span>: app
+          <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">443</span>
+          <span style="color:#66d9ef">protocol</span>: TCP
+          <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">4443</span>
+        <span style="color:#66d9ef">selector</span>:
+          <span style="color:#66d9ef">app</span>: hello
+    - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+      <span style="color:#66d9ef">kind</span>: Deployment
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: hello
+        <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">selector</span>:
+          <span style="color:#66d9ef">matchLabels</span>:
+            <span style="color:#66d9ef">app</span>: hello
+        <span style="color:#66d9ef">template</span>:
+          <span style="color:#66d9ef">metadata</span>:
+            <span style="color:#66d9ef">labels</span>:
+              <span style="color:#66d9ef">app</span>: hello
+          <span style="color:#66d9ef">spec</span>:
+            <span style="color:#66d9ef">containers</span>:
+            - <span style="color:#66d9ef">name</span>: hello
+              <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
+              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span>]
+  <span style="color:#66d9ef">deleteOption</span>:
+    <span style="color:#66d9ef">propagationPolicy</span>: SelectivelyOrphan
+    <span style="color:#66d9ef">selectivelyOrphans</span>:
+      <span style="color:#66d9ef">orphaningRules</span>:
+      - <span style="color:#66d9ef">group</span>: <span style="color:#e6db74">&#34;&#34;</span>
+        <span style="color:#66d9ef">resource</span>: services
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">name</span>: helloworld
+</code></pre></div><h2 id="resource-race-and-adoption">Resource Race and Adoption</h2>
 <p>It is possible to create two <code>ManifestWorks</code> for the same cluster with the same resource defined.
 For example, the user can create two <code>Manifestworks</code> on cluster1, and both <code>Manifestworks</code> have the
 deployment resource <code>hello</code> in default namespace. If the content of the resource is different, the
@@ -311,35 +307,47 @@ each <code>ManifestWork</code> is declaring the ownership of the resource.</p>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        arr = window.location.pathname.split("/");
-        var linkname= arr[arr.length-2];
-        console.log(linkname);
-        $('#'+linkname).css({"background":"#fff", "color": "#7386D5"});
-        var pathname = window.location.pathname.split("/")[1]; 
-        console.log(pathname);
-        if (pathname == "concepts"){
-            $('#homeSubmenu').addClass('show');
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
         }
-        if (pathname == "community"){
-            $('#pageSubmenu2').addClass('show');
-        }
-        if (pathname == "getting-started"){
-            $('#pageSubmenu').addClass('show');
-            $('#pageSubsubmenu').addClass('show');
-            $('#pageSubsubmenu2').addClass('show');   
-        }
-        if (pathname == "scenarios"){
-            $('#pageSubmenu3').addClass('show');
-        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
 
         $("#sidebar").mCustomScrollbar({
             theme: "minimal"
         });
         $('#sidebarCollapse').on('click', function () {
             console.log("2");
-            $('#sidebar, #content').toggleClass('active');
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
         });
     });
 </script>

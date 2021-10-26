@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>核心组件 on Open Cluster Management</title>
+    <link>http://open-cluster-management.io/zh/getting-started/core/</link>
+    <description>Recent content in 核心组件 on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	<atom:link href="http://open-cluster-management.io/zh/getting-started/core/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cluster manager</title>
+      <link>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</guid>
+      <description>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
+   Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite Ensure kubectl and kustomize are installed.
+Ensure golang is installed, if you are planning to install from the source.
+Prepare one Kubernetes cluster to function as the hub. For example, use kind to create a hub cluster.</description>
+    </item>
+    
+    <item>
+      <title>Klusterlet agent</title>
+      <link>http://open-cluster-management.io/zh/getting-started/core/register-cluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/getting-started/core/register-cluster/</guid>
+      <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
+   Prerequisite Install from source Install community operator from OperatorHub.io What is next Troubleshooting     Prerequisite Ensure kubectl and kustomize are installed.
+Ensure golang is installed, if you are planning to install from the source.</description>
+    </item>
+    
+  </channel>
+</rss>

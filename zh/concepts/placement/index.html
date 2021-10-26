@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/svg" href="/OCM-White_MainGradient.svg">
+    <title>Open Cluster Management</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/contentpage.css"/>
+</head>
+<body>
+    <div class="wrapper">
+
+
+
+    
+
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <a class="navlink" href="/zh/">
+        <img src="/OCM-White_MainGradient.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
+        <h4>Open Cluster Management</h4>
+        </a>
+    </div>
+    <ul class="list-unstyled components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">Architecture</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">ManagedCluster</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">ManifestWork</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">Placement</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">Add-ons</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">Cluster Manager</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/register-cluster">Klusterlet Agent</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy framework</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy controllers</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">Releases</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">Roadmap</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/community/resource">Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
+</nav>
+
+<div id="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>Placement</h1>
+    <p><code>Placement</code> API is used to select a set of managed clusters in one or multiple <code>ManagedClusterSets</code> so that the user&rsquo;s workloads can be deployed to these clusters.</p>
+<h2 id="bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</h2>
+<p>Before creating a <code>Placement</code>, you need to create a <code>ManagedClusterSetBinding</code> in a namespace to bind to a <code>ManagedClusterSet</code>. Then you can create a <code>Placement</code> in the same namespace to select the clusters in this <code>ManagedClusterSet</code>. Assume a <code>ManagedClusterSet</code> is created on the hub cluster as seen in the following examples.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: prod
+</code></pre></div><p>You can create a <code>ManagedClusterSetBinding</code> as follows to bind the <code>ManagedClusterSet</code> to the default namespace.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSetBinding
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: prod
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">clusterSet</span>: prod
+</code></pre></div><p>You must have the <code>create</code> permission on resource <code>managedclusterset/bind</code> to bind the <code>ManagedClusterSet</code> to a namespace.</p>
+<h2 id="select-clusters-in-managedclusterset">Select clusters in ManagedClusterSet</h2>
+<p>After <code>ManagedClusterSetBinding</code> is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound <code>ManagedClusterSet</code>.
+You can specify <code>predicates</code> and <code>prioritizers</code> to filter and score clusters.</p>
+<h3 id="predicates">Predicates</h3>
+<p>In <code>predicates</code> section, you can select clusters by labels or <code>clusterClaims</code>. For instance, you can select 3 clusters with labels <code>purpose=test</code> and clusterClaim <code>platform.open-cluster-management.io=aws</code> as seen in the following examples.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement1
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">3</span>
+  <span style="color:#66d9ef">clusterSets</span>:
+    - prod
+  <span style="color:#66d9ef">predicates</span>:
+    - <span style="color:#66d9ef">requiredClusterSelector</span>:
+        <span style="color:#66d9ef">labelSelector</span>:
+          <span style="color:#66d9ef">matchLabels</span>:
+            <span style="color:#66d9ef">purpose</span>: test
+        <span style="color:#66d9ef">claimSelector</span>:
+          <span style="color:#66d9ef">matchExpressions</span>:
+            - <span style="color:#66d9ef">key</span>: platform.open-cluster-management.io
+              <span style="color:#66d9ef">operator</span>: In
+              <span style="color:#66d9ef">values</span>:
+                - aws
+</code></pre></div><h3 id="prioritizers">Prioritizers</h3>
+<p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and pin the placementdecisions as seen in the following examples.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement1
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">2</span>
+  <span style="color:#66d9ef">prioritizerPolicy</span>:
+    <span style="color:#66d9ef">mode</span>: Exact
+    <span style="color:#66d9ef">configurations</span>:
+      - <span style="color:#66d9ef">name</span>: ResourceAllocatableMemory
+      - <span style="color:#66d9ef">name</span>: Steady
+        <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">3</span>
+</code></pre></div><ul>
+<li><code>mode</code> is either <code>Exact</code>, <code>Additive</code>, <code>&quot;&quot;</code> where <code>&quot;&quot;</code> is Additive by default.
+<ul>
+<li>In <code>Additive</code> mode, any prioritizer not explicitly enumerated is enabled in its default Configurations, in which Steady and Balance prioritizers have the weight of 1 while other prioritizers have the weight of 0. Additive doesn&rsquo;t require configuring all prioritizers. The default Configurations may change in the future, and additional prioritization will happen.</li>
+<li>In <code>Exact</code> mode, any prioritizer not explicitly enumerated is weighted as zero. Exact requires knowing the full set of prioritizers you want, but avoids behavior changes between releases.</li>
+</ul>
+</li>
+<li><code>configurations</code> represents the configuration of prioritizers.
+<ul>
+<li><code>name</code> is the name of a prioritizer. Below are the valid names:
+<ul>
+<li>Balance: balance the decisions among the clusters.</li>
+<li>Steady: ensure the existing decision is stabilized.</li>
+<li>ResourceAllocatableCPU &amp; ResourceAllocatableMemory: sort clusters based on the allocatable.</li>
+</ul>
+</li>
+<li><code>weight</code> defines the weight of prioritizer. The value must be ranged in [0,10].
+Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
+A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicate thats the prioritizer is disabled.</li>
+</ul>
+</li>
+</ul>
+<p>A slice of <code>PlacementDecision</code> will be created by placement controller in the same namespace, each with a label of <code>cluster.open-cluster-management.io/placement={placement name}</code>. <code>PlacementDecision</code> contains the results of the cluster selection as seen in the following examples.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: PlacementDecision
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">cluster.open-cluster-management.io/placement</span>: placement1
+  <span style="color:#66d9ef">name</span>: placement1-decision<span style="color:#ae81ff">-1</span>
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">decisions</span>:
+    - <span style="color:#66d9ef">clusterName</span>: cluster1
+    - <span style="color:#66d9ef">clusterName</span>: cluster2
+    - <span style="color:#66d9ef">clusterName</span>: cluster3
+</code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the workload should be placed in multiple clusters.</p>
+<h2 id="future-work">Future work</h2>
+<p>In addition to selecting cluster by predicates, we are still working on other advanced features including</p>
+<ul>
+<li><a href="https://github.com/open-cluster-management-io/community/issues/48">Taint/Toleration of ManagedCluster</a>.</li>
+<li><a href="https://github.com/open-cluster-management-io/community/issues/49">Various workload spread policies</a>.</li>
+<li><a href="https://github.com/open-cluster-management-io/community/issues/52">Usage based scheduling</a>.</li>
+</ul>
+
+
+    <script type="text/javascript" src="/clipboard-copy.js"></script>
+</div> 
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
+        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
+
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+        $('#sidebarCollapse').on('click', function () {
+            console.log("2");
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
+        });
+    });
+</script>
+</body>
+</html>

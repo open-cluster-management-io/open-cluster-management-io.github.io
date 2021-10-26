@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/svg" href="/OCM-White_MainGradient.svg">
+    <title>Open Cluster Management</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/contentpage.css"/>
+</head>
+<body>
+    <div class="wrapper">
+
+
+
+    
+
+
+<nav id="sidebar">
+    <div class="sidebar-header">
+        <a class="navlink" href="/zh/">
+        <img src="/OCM-White_MainGradient.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
+        <h4>Open Cluster Management</h4>
+        </a>
+    </div>
+    <ul class="list-unstyled components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">Architecture</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">ManagedCluster</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">ManifestWork</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">Placement</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">Add-ons</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">Cluster Manager</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/register-cluster">Klusterlet Agent</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse list-unstyled">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">Application lifecycle management</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy framework</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy controllers</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse list-unstyled">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">Releases</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">Roadmap</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/community/resource">Resources</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+    </ul>
+    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
+</nav>
+
+<div id="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+                <span>Toggle Sidebar</span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav ml-auto">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>ManifestWork</h1>
+    <h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
+<p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
+<p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: hello-work
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">app</span>: hello
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+        <span style="color:#66d9ef">kind</span>: Deployment
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: hello
+          <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">selector</span>:
+            <span style="color:#66d9ef">matchLabels</span>:
+              <span style="color:#66d9ef">app</span>: hello
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">metadata</span>:
+              <span style="color:#66d9ef">labels</span>:
+                <span style="color:#66d9ef">app</span>: hello
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">containers</span>:
+                - <span style="color:#66d9ef">name</span>: hello
+                  <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
+                  <span style="color:#66d9ef">command</span>:
+                    [<span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span>]
+</code></pre></div><h2 id="status-tracking">Status tracking</h2>
+<p>Work agent will track all the resources defined in <code>ManifestWork</code> and update its status. There are two types of status in manifestwork. The <code>resourceStatus</code> tracks the status of each manifest in the <code>ManifestWork</code> and <code>conditions</code> reflects the overall status of the <code>ManifestWork</code>. Work agent currently checks whether a resource is <code>Available</code>, meaning the resource exists on the managed cluster, and <code>Applied</code> means the resource defined in <code>ManifestWork</code> has been applied to the managed cluster.</p>
+<p>Here is an example.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">app</span>: hello
+  <span style="color:#66d9ef">name</span>: hello-work
+  <span style="color:#66d9ef">namespace</span>: cluster1
+<span style="color:#66d9ef">spec</span>: ... ...
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+      <span style="color:#66d9ef">message</span>: Apply manifest work complete
+      <span style="color:#66d9ef">reason</span>: AppliedManifestWorkComplete
+      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+      <span style="color:#66d9ef">type</span>: Applied
+    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+      <span style="color:#66d9ef">message</span>: All resources are available
+      <span style="color:#66d9ef">reason</span>: ResourcesAvailable
+      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+      <span style="color:#66d9ef">type</span>: Available
+  <span style="color:#66d9ef">resourceStatus</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">conditions</span>:
+          - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+            <span style="color:#66d9ef">message</span>: Apply manifest complete
+            <span style="color:#66d9ef">reason</span>: AppliedManifestComplete
+            <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+            <span style="color:#66d9ef">type</span>: Applied
+          - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
+            <span style="color:#66d9ef">message</span>: Resource is available
+            <span style="color:#66d9ef">reason</span>: ResourceAvailable
+            <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+            <span style="color:#66d9ef">type</span>: Available
+        <span style="color:#66d9ef">resourceMeta</span>:
+          <span style="color:#66d9ef">group</span>: apps
+          <span style="color:#66d9ef">kind</span>: Deployment
+          <span style="color:#66d9ef">name</span>: hello
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">ordinal</span>: <span style="color:#ae81ff">0</span>
+          <span style="color:#66d9ef">resource</span>: deployments
+          <span style="color:#66d9ef">version</span>: v1
+</code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
+<p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
+<h3 id="delete-options">Delete options</h3>
+<p>User can explicitly choose not to garbage collect the applied resources when a <code>ManifestWork</code> is deleted. the user should specify the <code>deleteOption</code> in the <code>ManifestWork</code>. By default, <code>deleteOption</code> is set as <code>Foreground</code>
+which means the applied resources on the spoke will be deleted with the removal of <code>ManifestWork</code>. User can set it to
+<code>Orphan</code> so the applied resources will not be deleted. Here is an example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: deleteoption-demo
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+    - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+      <span style="color:#66d9ef">kind</span>: Deployment
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: hello
+        <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">selector</span>:
+          <span style="color:#66d9ef">matchLabels</span>:
+            <span style="color:#66d9ef">app</span>: hello
+        <span style="color:#66d9ef">template</span>:
+          <span style="color:#66d9ef">metadata</span>:
+            <span style="color:#66d9ef">labels</span>:
+              <span style="color:#66d9ef">app</span>: hello
+          <span style="color:#66d9ef">spec</span>:
+            <span style="color:#66d9ef">containers</span>:
+            - <span style="color:#66d9ef">name</span>: hello
+              <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
+              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span>]
+  <span style="color:#66d9ef">deleteOption</span>:
+    <span style="color:#66d9ef">propagationPolicy</span>: Orphan
+</code></pre></div><p>Alternatively, user can also specify a certain resource defined in the <code>ManifestWork</code> to be orphaned by setting the
+<code>deleteOption</code> to be <code>SelectivelyOrphan</code>. Here is an example with <code>SelectivelyOrphan</code> specified. It ensures the removal of deployment resource specified in the <code>ManifestWork</code> while the service resource is kept.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: selective-delete-work
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+    - <span style="color:#66d9ef">kind</span>: Service
+      <span style="color:#66d9ef">apiVersion</span>: v1
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: helloworld
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">labels</span>:
+          <span style="color:#66d9ef">app</span>: hello
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">type</span>: ClusterIP
+        <span style="color:#66d9ef">ports</span>:
+        - <span style="color:#66d9ef">name</span>: app
+          <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">443</span>
+          <span style="color:#66d9ef">protocol</span>: TCP
+          <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">4443</span>
+        <span style="color:#66d9ef">selector</span>:
+          <span style="color:#66d9ef">app</span>: hello
+    - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+      <span style="color:#66d9ef">kind</span>: Deployment
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: hello
+        <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">selector</span>:
+          <span style="color:#66d9ef">matchLabels</span>:
+            <span style="color:#66d9ef">app</span>: hello
+        <span style="color:#66d9ef">template</span>:
+          <span style="color:#66d9ef">metadata</span>:
+            <span style="color:#66d9ef">labels</span>:
+              <span style="color:#66d9ef">app</span>: hello
+          <span style="color:#66d9ef">spec</span>:
+            <span style="color:#66d9ef">containers</span>:
+            - <span style="color:#66d9ef">name</span>: hello
+              <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
+              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span>]
+  <span style="color:#66d9ef">deleteOption</span>:
+    <span style="color:#66d9ef">propagationPolicy</span>: SelectivelyOrphan
+    <span style="color:#66d9ef">selectivelyOrphans</span>:
+      <span style="color:#66d9ef">orphaningRules</span>:
+      - <span style="color:#66d9ef">group</span>: <span style="color:#e6db74">&#34;&#34;</span>
+        <span style="color:#66d9ef">resource</span>: services
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">name</span>: helloworld
+</code></pre></div><h2 id="resource-race-and-adoption">Resource Race and Adoption</h2>
+<p>It is possible to create two <code>ManifestWorks</code> for the same cluster with the same resource defined.
+For example, the user can create two <code>Manifestworks</code> on cluster1, and both <code>Manifestworks</code> have the
+deployment resource <code>hello</code> in default namespace. If the content of the resource is different, the
+two <code>ManifestWorks</code> will fight and it is desired since each <code>ManifestWork</code> is treated as equal and
+each <code>ManifestWork</code> is declaring the ownership of the resource.</p>
+<p>When one of the <code>ManifestWork</code> is deleted, the applied resource will not be removed no matter
+<code>DeleteOption</code> is set or not. The remaining <code>ManifestWork</code> will still keep the ownership of the resource.</p>
+
+
+    <script type="text/javascript" src="/clipboard-copy.js"></script>
+</div> 
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        pathname = window.location.pathname
+        paths = pathname.replace(/^\/|\/$/g, '').split('/')
+        rootPath = $('#'+paths[0])
+        if (rootPath.length == 0) {
+            
+            paths.shift()
+            rootPath = $('#'+paths[0])
+        }
+
+        console.log('paths', paths, rootPath)
+
+        rootPath.find('a.navlink').each(function() {
+            href = $(this).attr('href')
+            if (pathname == (href + '/')) {
+                
+                $(this).css({'background':'#fff', 'color': '#7386D5'})
+
+                
+                $(this).parents('ul.collapse').each(function() {
+                    console.log('parent ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                
+                $(this).siblings('ul.collapse').each(function() {
+                    console.log('sibling ul', $(this))
+                    $(this).addClass('show')
+                })
+
+                return
+            }
+        })
+
+
+        $("#sidebar").mCustomScrollbar({
+            theme: "minimal"
+        });
+        $('#sidebarCollapse').on('click', function () {
+            console.log("2");
+            $('#content').toggleClass('active');
+            $('#sidebar').toggleClass('sidebar-active')
+        });
+    });
+</script>
+</body>
+</html>

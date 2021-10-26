@@ -1,0 +1,112 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/community/releases</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/community/resource</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/community/roadmap</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/core/cluster-manager</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/concepts</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/quick-start</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/concepts/architecture</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/core/register-cluster</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/concepts/managedcluster</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/concepts/manifestwork</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/core</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/concepts/placement</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/scenarios</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/community</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/concepts/addon</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/integration/app-lifecycle</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/integration</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/contribute</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/blog</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/integration/policy-framework</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/integration/policy-controllers</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/api?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/clusteradm?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/multicloud-operators-channel?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/addon-framework?go-get=1</loc>
+    </url>
+</urlset>
