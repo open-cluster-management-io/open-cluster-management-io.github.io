@@ -8,10 +8,10 @@ other = "贡献"
 other = "文档"
 
 [subject_title]
-other = "Make working with many Kubernetes clusters super easy regardless of where they are deployed."
+other = "轻松接管部署在任何地方的Kubernetes集群。"
 
 [subject_content]
-other = "Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more."
+other = "Open Cluster Management是一个由开源社区驱动的混合云多集群管理平台。在这里你可以通过简单开放的API去使用集群的注册，工作负载分发，以及动态的资源配置路由等功能。"
 
 [subject_getting_started]
 other = "开始"
@@ -20,67 +20,67 @@ other = "开始"
 other = "功能概览"
 
 [feature_cluster_inventory]
-other = "Cluster inventory"
+other = "集群注册中心"
 
 [feature_cluster_inventory_content]
-other = "Registration of multiple clusters to a hub cluster to place them for management."
+other = "多集群元数据的注册管理以作为更上层功能的根基。"
 
 [feature_work_distribution]
-other = "Work distribution"
+other = "工作负载分发"
 
 [feature_work_distribution_content]
-other = "The work API that enables resources to be applied to managed clusters from a hub cluster."
+other = "通过Work API去稳步管理任意资源面向多集群的分发。"
 
 [feature_content_placement]
-other = "Content placement"
+other = "动态集群匹配及路由"
 
 [feature_content_placement_content]
-other = "Dynamic placement of content and behavior across multiple clusters."
+other = "动态地管理集群的拓扑以进行高级的集群匹配及路由策略。"
 
 [feature_apis]
-other = "Vendor neutral APIs"
+other = "厂商中立"
 
 [feature_apis_content]
-other = "Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms."
+other = "避免厂商锁定问题，API通用面向厂商及终端用户可自由拓展。"
 
 [addons_overview]
 other = "在不同场景中安装管理组件"
 
 [addons_grc]
-other = "Configure, secure, and manage your resources."
+other = "配置，保护，维护多集群资源"
 
 [addons_grc_content]
-other = "Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage for your quota and cost."
+other = "通过为集群打标签可以实现多集群策略配置的管理，然后平台就会帮助你维持策略配置在多集群之间的一致性，进而这些资源配置可以为你管理各个集群的访问控制，配额以及成本。"
 
 [addons_grc_link]
-other = "Learn more about Policies"
+other = "了解更多关于策略配置管理"
 
 [addons_apps]
-other = "Launch apps everywhere."
+other = "在任何地方运行你的应用"
 
 [addons_apps_content]
-other = "Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes."
+other = "借助应用生命周期管理相关功能，你可以创建并交付跨集群的应用，并且动态追踪应用的升级与发布。"
 
 [addons_apps_link]
-other = "Learn more about applications"
+other = "了解更多关于应用管理"
 
 [sidebar_concepts]
 other = "概念"
 
 [sidebar_architecture]
-other = "Architecture"
+other = "架构"
 
 [sidebar_managed_cluster]
-other = "ManagedCluster"
+other = "托管集群"
 
 [sidebar_manifest_work]
-other = "ManifestWork"
+other = "资源下发"
 
 [sidebar_placement]
-other = "Placement"
+other = "匹配路由"
 
 [sidebar_addons]
-other = "Add-ons"
+other = "自定义插件"
 
 [sidebar_getting_started]
 other = "安装"
@@ -92,40 +92,40 @@ other = "快速开始"
 other = "核心组件"
 
 [sidebar_cluster_manager]
-other = "Cluster Manager"
+other = "中枢控制器"
 
 [sidebar_register_cluster]
-other = "Klusterlet Agent"
+other = "集群代理控制器"
 
 [sidebar_integrations]
 other = "插件和集成"
 
 [sidebar_apps]
-other = "Application lifecycle management"
+other = "应用生命周期管理"
 
 [sidebar_grc]
-other = "Policy framework"
+other = "Policy框架"
 
 [sidebar_grc_ctrl]
-other = "Policy controllers"
+other = "Policy控制器"
 
 [sidebar_scenarios]
 other = "应用场景"
 
 [sidebar_deploy_kubernetes_resources]
-other = "Deploy Kubernetes Resources"
+other = "部署Kubernetes资源"
 
 [sidebar_community]
 other = "社区"
 
 [sidebar_releases]
-other = "Releases"
+other = "发行版本"
 
 [sidebar_roadmap]
-other = "Roadmap"
+other = "社区规划"
 
 [sidebar_resources]
-other = "Resources"
+other = "社区资源"
 
 [sidebar_contribute]
 other = "贡献"
