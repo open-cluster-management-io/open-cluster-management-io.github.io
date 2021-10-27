@@ -9,94 +9,100 @@ weight: 1
 
 {{< toc >}}
 
-Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.
+在开始安装组件到集群里之前, 首先需要准备一个至少有两个集群的多集群环境。 其中一个用来作为中枢（Hub）集群，另一个作为被托管（Managed）。
 
-Set the following environment variables that will be used throughout to simplify the instructions:
+同时为你的控制台命令行工具配置以下的环境变量，这会伴随你接下来的体验过程：
 
 ```Shell
+# 中枢集群的名称
 export HUB_CLUSTER_NAME=<your hub cluster name>             # export HUB_CLUSTER_NAME=hub
+# 托管集群的名称
 export MANAGED_CLUSTER_NAME=<your managed cluster name>     # export MANAGED_CLUSTER_NAME=cluster1
+# 中枢集群在你的KubeConfig中的Context名称
 export CTX_HUB_CLUSTER=<your hub cluster context>           # export CTX_HUB_CLUSTER=kind-hub
+# 托管集群在你的KubeConfig中的Context名称
 export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED_CLUSTER=kind-cluster1
 ```
 
-Then create these two clusters using [kind](https://kind.sigs.k8s.io). Run the following commands:
+如果没有现成的多集群环境，我们可以通过[Kind](https://kind.sigs.k8s.io)以下为创建两个新集群。执行以下命令：
 
 ```Shell
+# 创建中枢集群
 kind create cluster --name ${HUB_CLUSTER_NAME}
+# 创建托管集群
 kind create cluster --name ${MANAGED_CLUSTER_NAME}
 ```
 
-## Bootstrap via Clusteradm CLI tool
+## 通过Clusteradm命令行工具进行部署
 
-### Install Clusteradm CLI tool
+### 安装Clusteradm命令行工具
 
-Download and extract the [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
+下载并且解压 [Clusteradm命令行工具](https://github.com/open-cluster-management-io/clusteradm/releases/latest). 更多使用细节可以参考[Clusteradm GitHub页面](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
 
-### Deploy a cluster manager on your hub cluster
+### 在Hub集群部署组件Cluster Manager
 
-1. Bootstrap the Open Cluster Management control plane:
+1. 启动Open Cluster Management的中枢控制面：
 
    ```Shell
    clusteradm init --context ${CTX_HUB_CLUSTER}
    ```
 
-   Then you will get a result with a generated `join` command:
+   然后你可以使用`join`命令完成注册流程：
 
    ```Shell
    ...
    clusteradm join --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name <managed_cluster_name>
    ```
 
-   Copy the generated command and replace the `<managed_cluster_name>` to your managed cluster name. E.g. `cluster1`.
+   接下来就只需要复制以上命令并且替换掉其中的`<managed_cluster_name>`为你的实际托管集群名称，例如`cluster1`。
 
-### Deploy a klusterlet agent on your managed cluster
+### 在托管集群上部署Klusterlet代理控制器
 
-1. Run the previously copied `join` command by appending the context of your managed cluster to join the hub cluster:
+1. 执行前面复制粘贴的`join`命令并指定上下文名称(Context)以使托管集群注册到中枢集群中:
 
    ```Shell
    clusteradm join --context ${CTX_MANAGED_CLUSTER} --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name ${MANAGED_CLUSTER_NAME}
    ```
 
-### Accept join request and verify
+### 接受注册请求并且校验 
 
-1. Wait for the CSR is created on your hub cluster:
+1. 等待中枢集群上CSR请求对象被成功创建出来:
 
    ```Shell
    kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep ${MANAGED_CLUSTER_NAME}
    ```
 
-   Then you will get a result resembling the following after the CSR is created:
+   然后当CSR被创建时，你会看到类似以下的终端输出：
 
    ```Shell
    cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
    ```
 
-2. Accept request:
+2. 接受集群注册请求:
 
    ```Shell
    clusteradm accept --clusters ${MANAGED_CLUSTER_NAME} --context ${CTX_HUB_CLUSTER}
    ```
 
-3. Verify `managedcluster` has been created successfully:
+3. 检查托管集群`managedcluster`是否被成功创建:
 
    ```Shell
    kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
    ```
 
-   Then you will get a result resembling the following:
+   然后你会看到类似以下的终端输出：
 
    ```Shell
    NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
    cluster1   true           https://127.0.0.1:41478   True     True        5m23s
    ```
 
-## Bootstrap via Operatorhub.io
+## 通过Operatorhub.io进行自动化部署
 
-Install and create a [Cluster manager](https://operatorhub.io/operator/cluster-manager) on your _hub_ cluster.
+在中枢集群中创建一个[Cluster manager](https://operatorhub.io/operator/cluster-manager)对象.
 
-Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _managed_ cluster.
+在托管集群中场景一个[Klusterlet agent](https://operatorhub.io/operator/klusterlet)对象。
 
-## More details
+## 了解更多细节
 
-For more details, see [Core components](/getting-started/core).
+通过[核心组件介绍](/getting-started/core)来了解更多细节。
