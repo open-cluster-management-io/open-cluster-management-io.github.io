@@ -9,6 +9,10 @@ weight: 6
 
 <!-- spellchecker-enable -->
 
+## Oct 12, 2021
+
+[Using the Open Cluster Management Add-on Framework to Develop a Managed Cluster Add-on](https://cloud.redhat.com/blog/using-the-open-cluster-management-add-on-framework-to-develop-a-managed-cluster-add-on) authored by [Jian Qiu](https://github.com/qiujian16), [Le Yang](https://github.com/elgnay) and [Wei Liu](https://github.com/skeeey)
+
 ## Sep 22, 2021
 
 [The Next Kubernetes Frontier: Multicluster Management](https://containerjournal.com/features/the-next-kubernetes-frontier-multicluster-management/) authored by [Min Kim](https://github.com/yue9944882) and [Jian Qiu](https://github.com/qiujian16)
