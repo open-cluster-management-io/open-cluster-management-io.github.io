@@ -1,5 +1,5 @@
 ---
-title: Releases
+title: 发行版本
 weight: -20
 ---
 

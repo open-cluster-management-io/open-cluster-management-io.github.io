@@ -1,5 +1,5 @@
 ---
-title: 插件
+title: 自定义插件
 weight: 4
 ---
 

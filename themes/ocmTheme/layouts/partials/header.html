@@ -1,9 +1,9 @@
 {{ $home := .Site.GetPage "home" }}
 
 <nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top">
-  <div class="container">
+  <div class="container-fluid">
     <a href="/" class="navbar-brand">
-      <img src="/OCM-White_MainGradient.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
       Open Cluster Management
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
@@ -12,15 +12,15 @@
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto ">
         <li class="nav-item pe-2">
-          <a href="community/resource/" class="nav-link text-light">{{ i18n "header_community"}}</a>
+          <a href="community" class="nav-link text-light">{{ i18n "header_community"}}</a>
         </li>
         <li class="nav-item pe-2">
-          <a href="contribute/contribute" class="nav-link text-light">{{ i18n "header_contribute"}}</a>
+          <a href="contribute" class="nav-link text-light">{{ i18n "header_contribute"}}</a>
         </li>
         <li class="nav-item pe-2">
-          <a href="concepts/architecture" class="nav-link text-light">{{ i18n "header_document"}}</a>
+          <a href="concepts" class="nav-link text-light">{{ i18n "header_document"}}</a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown pe-2">
           {{ if eq $home.Lang "zh" }}
           <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
           {{ else }}
@@ -35,17 +35,17 @@
             {{ end }}
           </ul>
         </li>
-        <li class="nav-item pe-3">
+        <li class="nav-item pe-2">
           <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
               <i class="bi bi-youtube"></i>
           </a>
         </li>
-        <li class="nav-item pe-3">
+        <li class="nav-item pe-2">
           <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
             <i class="bi bi-github"></i>
           </a>
         </li>
-        <li class="nav-item pe-3">
+        <li class="nav-item pe-2">
           <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
             <i class="bi bi-slack"></i>
           </a>
