@@ -1,5 +1,5 @@
 ---
-title: ManagedCluster
+title: 托管集群
 weight: 2
 ---
 

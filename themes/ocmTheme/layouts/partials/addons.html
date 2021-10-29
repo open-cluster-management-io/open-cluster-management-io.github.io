@@ -1,23 +1,28 @@
-<section class="p-5">
-  <h1 class="text-center pb-2" style="color:#293655;">{{ i18n "addons_overview" }}</h1>
+<section class="ocm section-padding">
+  <h1 class="text-center pb-2 addons-h1">{{ i18n "addons_overview" }}</h1>
   <div class="container">
-    <div class="row text-center g-4">
+    <div class="row g-4">
       <div class="col-md d-flex">
-        <div class="card bg-dark text-light">
-          <div class="ocm card-body text-center d-flex flex-column">
-            <h4 class="card-title mb-3">{{ i18n "addons_grc" }}</h4>
+        <div class="card bg-dark text-light border-none">
+          <div class="ocm card-body d-flex flex-column">
+            <div class="rectangle"></div>
+            <h3 class="card-title mb-3">{{ i18n "addons_grc" }}</h3>
             <p class="card-text fw-light">{{ i18n "addons_grc_content" }}</p>
-            <a role="button" class="btn btn-outline-info mt-auto" href="getting-started/integration/policy-framework">{{ i18n "addons_grc_link" }}</a>
+            <div class="mt-auto">
+              <a role="button" class="ocm-btn mt-auto" href="getting-started/integration/policy-framework">{{ i18n "addons_grc_link" }}</a>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="col-md d-flex">
-        <div class="card bg-secondary text-light">
-          <div class="ocm card-body text-center d-flex flex-column" >
-            <h4 class="card-title mb-3 ">{{ i18n "addons_apps" }}</h4>
-            <p class="card-text card-text-fix-pt-top fw-light">{{ i18n "addons_apps_content" }}</p>
-            <a role="button" class="btn btn-outline-info mt-auto" href="getting-started/integration/app-lifecycle/">{{ i18n "addons_apps_link" }}</a>
+        <div class="card bg-secondary text-light border-none">
+          <div class="ocm card-body d-flex flex-column">
+            <div class="rectangle"></div>
+            <h3 class="card-title mb-3">{{ i18n "addons_apps" }}</h3>
+            <p class="card-text fw-light">{{ i18n "addons_apps_content" }}</p>
+            <div class="mt-auto">
+              <a role="button" class="ocm-btn" href="getting-started/integration/app-lifecycle/">{{ i18n "addons_apps_link" }}</a>
+            </div>
           </div>
         </div>
       </div>

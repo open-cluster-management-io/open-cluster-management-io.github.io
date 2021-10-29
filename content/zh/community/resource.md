@@ -1,6 +1,6 @@
 ---
-title: 资源
-weight: -20
+title: 社区资源
+weight: -10
 ---
 
 Join conversations with the other people who are involved in the creation, maintenance, and future of [open-cluster-management](https://github.com/open-cluster-management-io). We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the [Community repo](https://github.com/open-cluster-management-io/community).
