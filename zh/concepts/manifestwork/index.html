@@ -3,7 +3,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/svg" href="/OCM-White_MainGradient.svg">
+    <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
     <title>Open Cluster Management</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -24,7 +24,7 @@
 <nav id="sidebar">
     <div class="sidebar-header">
         <a class="navlink" href="/zh/">
-        <img src="/OCM-White_MainGradient.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
+        <img src="/ocm.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
         <h4>Open Cluster Management</h4>
         </a>
     </div>
@@ -127,7 +127,7 @@
             </div>
         </div>
     </nav>
-    <h1>ManifestWork</h1>
+    <h1>资源下发</h1>
     <h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
 <p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>

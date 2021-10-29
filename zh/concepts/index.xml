@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Concepts on Open Cluster Management</title>
+    <title>概念 on Open Cluster Management</title>
     <link>http://open-cluster-management.io/zh/concepts/</link>
-    <description>Recent content in Concepts on Open Cluster Management</description>
+    <description>Recent content in 概念 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     
 	<atom:link href="http://open-cluster-management.io/zh/concepts/index.xml" rel="self" type="application/rss+xml" />
@@ -20,7 +20,7 @@
     </item>
     
     <item>
-      <title>ManagedCluster</title>
+      <title>托管集群</title>
       <link>http://open-cluster-management.io/zh/concepts/managedcluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -30,7 +30,7 @@
     </item>
     
     <item>
-      <title>ManifestWork</title>
+      <title>资源下发</title>
       <link>http://open-cluster-management.io/zh/concepts/manifestwork/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -40,7 +40,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
     </item>
     
     <item>
-      <title>Placement</title>
+      <title>匹配路由</title>
       <link>http://open-cluster-management.io/zh/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -50,7 +50,7 @@ Bind ManagedClusterSet to a namespace Before creating a Placement, you need to c
     </item>
     
     <item>
-      <title>插件</title>
+      <title>自定义插件</title>
       <link>http://open-cluster-management.io/zh/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       

@@ -10,7 +10,7 @@
     
     
     <item>
-      <title>Releases</title>
+      <title>发行版本</title>
       <link>http://open-cluster-management.io/zh/community/releases/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -22,7 +22,16 @@
     </item>
     
     <item>
-      <title>资源</title>
+      <title>社区规划</title>
+      <link>http://open-cluster-management.io/zh/community/roadmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/community/roadmap/</guid>
+      <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
+    </item>
+    
+    <item>
+      <title>社区资源</title>
       <link>http://open-cluster-management.io/zh/community/resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -34,15 +43,6 @@ Mailing group
 Slack
 Community meetings
 YouTube channel</description>
-    </item>
-    
-    <item>
-      <title>路线图</title>
-      <link>http://open-cluster-management.io/zh/community/roadmap/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/zh/community/roadmap/</guid>
-      <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
     </item>
     
   </channel>

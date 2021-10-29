@@ -6,19 +6,15 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/community/resource</loc>
-    </url>
-    
-    <url>
         <loc>http://open-cluster-management.io/zh/community/roadmap</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/getting-started/core/cluster-manager</loc>
+        <loc>http://open-cluster-management.io/zh/community/resource</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/concepts</loc>
+        <loc>http://open-cluster-management.io/zh/getting-started/core/cluster-manager</loc>
     </url>
     
     <url>
@@ -30,11 +26,11 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources</loc>
+        <loc>http://open-cluster-management.io/zh/concepts</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/getting-started</loc>
+        <loc>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources</loc>
     </url>
     
     <url>
@@ -42,15 +38,19 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/zh/getting-started</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/zh/concepts/managedcluster</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/concepts/manifestwork</loc>
+        <loc>http://open-cluster-management.io/zh/getting-started/core</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/getting-started/core</loc>
+        <loc>http://open-cluster-management.io/zh/concepts/manifestwork</loc>
     </url>
     
     <url>

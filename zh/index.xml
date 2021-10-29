@@ -10,7 +10,7 @@
     
     
     <item>
-      <title>Releases</title>
+      <title>发行版本</title>
       <link>http://open-cluster-management.io/zh/community/releases/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -22,7 +22,16 @@
     </item>
     
     <item>
-      <title>资源</title>
+      <title>社区规划</title>
+      <link>http://open-cluster-management.io/zh/community/roadmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/community/roadmap/</guid>
+      <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
+    </item>
+    
+    <item>
+      <title>社区资源</title>
       <link>http://open-cluster-management.io/zh/community/resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -34,15 +43,6 @@ Mailing group
 Slack
 Community meetings
 YouTube channel</description>
-    </item>
-    
-    <item>
-      <title>路线图</title>
-      <link>http://open-cluster-management.io/zh/community/roadmap/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/zh/community/roadmap/</guid>
-      <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
     </item>
     
     <item>
@@ -89,7 +89,7 @@ Ensure golang is installed, if you are planning to install from the source.</des
     </item>
     
     <item>
-      <title>ManagedCluster</title>
+      <title>托管集群</title>
       <link>http://open-cluster-management.io/zh/concepts/managedcluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -99,7 +99,7 @@ Ensure golang is installed, if you are planning to install from the source.</des
     </item>
     
     <item>
-      <title>ManifestWork</title>
+      <title>资源下发</title>
       <link>http://open-cluster-management.io/zh/concepts/manifestwork/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -109,7 +109,7 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
     </item>
     
     <item>
-      <title>Placement</title>
+      <title>匹配路由</title>
       <link>http://open-cluster-management.io/zh/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -119,7 +119,7 @@ Bind ManagedClusterSet to a namespace Before creating a Placement, you need to c
     </item>
     
     <item>
-      <title>插件</title>
+      <title>自定义插件</title>
       <link>http://open-cluster-management.io/zh/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
