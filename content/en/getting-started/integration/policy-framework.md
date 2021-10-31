@@ -15,9 +15,9 @@ The policy framework provides governance capability to gain visibility, and driv
 
 - You can find the analysis of the architectural components [here](https://github.com/open-cluster-management/governance-policy-framework#architecture)
 
-<img src="/policy-framework-architecture-diagram.jpg" 
-alt="Policy framework architecture" 
-class="responsive3">
+<div style="text-align: center; padding: 20px;">
+   <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
+</div>
 
 ## Prerequisite
 

@@ -5,17 +5,16 @@
     {{ $rootPath = "/zh" }}
 {{ end }}
 
-<nav id="sidebar">
-    <div class="sidebar-header">
-        <a class="navlink" href="{{ $rootPath }}/">
-        <img src="/ocm.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
-        <h4>Open Cluster Management</h4>
-        </a>
-    </div>
-    <ul class="list-unstyled components">
+<div class="sidebar-toggle sidebar-toggle-sm">
+    <button type="button" id="sidebarToggle" class="btn btn-info">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+<nav id="sidebar" class="sidebar-hide-sm">
+    <ul class="components">
         <li id="concepts">
             <a class="navlink" href="{{ $rootPath }}/concepts">{{ i18n "sidebar_concepts" }}</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/concepts/architecture">{{ i18n "sidebar_architecture" }}</a>
                 </li>
@@ -35,13 +34,13 @@
         </li>
         <li id="getting-started">
             <a class="navlink" href="{{ $rootPath }}/getting-started">{{ i18n "sidebar_getting_started" }}</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/getting-started/quick-start">{{ i18n "sidebar_quick_start" }}</a>
                 </li>
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/getting-started/core">{{ i18n "sidebar_core_components" }}</a>
-                    <ul class="collapse list-unstyled">
+                    <ul class="collapse">
                         <li>
                             <a class="navlink" href="{{ $rootPath }}/getting-started/core/cluster-manager">{{ i18n "sidebar_cluster_manager" }}</a>
                         </li>
@@ -52,7 +51,7 @@
                 </li>
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/getting-started/integration">{{ i18n "sidebar_integrations" }}</a>
-                    <ul class="collapse list-unstyled">
+                    <ul class="collapse">
                         <li>
                             <a class="navlink" href="{{ $rootPath }}/getting-started/integration/app-lifecycle">{{ i18n "sidebar_apps" }}</a>
                         </li>
@@ -68,7 +67,7 @@
         </li>
         <li id="scenarios">
             <a class="navlink" href="{{ $rootPath }}/scenarios">{{ i18n "sidebar_scenarios" }}</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/scenarios/deploy-kubernetes-resources">{{ i18n "sidebar_deploy_kubernetes_resources" }}</a>
                 </li>
@@ -76,15 +75,12 @@
         </li>
         <li id="community">
             <a class="navlink" href="{{ $rootPath }}/community">{{ i18n "sidebar_community" }}</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/community/releases">{{ i18n "sidebar_releases" }}</a>
                 </li>
                 <li >
                     <a class="navlink" href="{{ $rootPath }}/community/roadmap">{{ i18n "sidebar_roadmap" }}</a>
-                </li>
-                <li>
-                    <a class="navlink" href="{{ $rootPath }}/community/resource">{{ i18n "sidebar_resources" }}</a>
                 </li>
             </ul>
         </li>
@@ -94,6 +90,21 @@
         <li id="blog">
             <a class="navlink" href="{{ $rootPath }}/blog">{{ i18n "sidebar_blog" }}</a>
         </li>
+        <li style="padding-top: 10px; border-top: 2px solid #448a78;">
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io" target="_blank"><i class="bi bi-github"></i><span style="padding-left: 10px;">GitHub</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://kubernetes.slack.com/archives/C01GE7YSUUF" target="_blank"><i class="bi bi-slack"></i><span style="padding-left: 10px;">Slack</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank"><i class="bi bi-youtube"></i><span style="padding-left: 10px;">YouTube</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://groups.google.com/g/open-cluster-management" target="_blank"><i class="bi bi-envelope-fill"></i><span style="padding-left: 10px;">Mailing group</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io/community/projects/1" target="_blank"><i class="bi bi-calendar-event-fill"></i><span style="padding-left: 10px;">Community meetings</span></a>
+        </li>
     </ul>
-    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
+<script type="text/javascript" src="/sidebar.js"></script>

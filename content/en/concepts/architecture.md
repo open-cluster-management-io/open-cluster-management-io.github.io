@@ -4,9 +4,6 @@ weight: 1
 ---
 
 This page tells you the architecture and basic concepts in open-cluster-management.
-<img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" 
-alt="Architecture diagram" 
-class="responsive">
 
 <!-- spellchecker-disable -->
 
@@ -31,6 +28,10 @@ open-cluster-management provides core primitives to satisfy the above requiremen
 - For the delivery of configuration, the [ManifestWork](/concepts/manifestwork) API provides a simple way to specify one or more Kubernetes manifests that should be delivered and reconciled against the managed cluster.
 - To define a consistent access control boundary, users or groups may be assigned to specific ManagedClusters or collections of ManagedClusters known as [ManagedClusterSets](/concepts/managedcluster/#managedclusterset).
 - If the service has a need to install built-in controllers or operators on managed clusters, the addon.[ManagedClusterAddon](/concepts/addon) API allows additional behaviors to be injected remotely into the management agent to support abstractions built around the ManifestWork or other core primitives.
+
+<div style="text-align: center; padding: 20px;">
+    <img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto;">
+</div>
 
 ## Hub cluster
 
