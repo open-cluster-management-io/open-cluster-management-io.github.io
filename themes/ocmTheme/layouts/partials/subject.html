@@ -5,19 +5,21 @@
     {{ $rootPath = "/zh" }}
 {{ end }}
 
-<section class="ocm text-light subject-padding">
-  <div class="container-fluid">
-    <div class="d-sm-flex align-items-center">
-      <div class="subject-content-padding subject-content-padding-md">
-        <h1>{{ i18n "subject_title" }}</h1>
-        <p class="lead my-4">{{ i18n "subject_content" }}</p>
+<div class="bd-masthead mb-3" id="content">
+  <div class="container px-4 px-md-3">
+    <div class="row align-items-lg-center">
+      <div class="col-md-8 order-md-1 col-lg-5 text-center text-md-start">
+        <h1 class="mb-3">{{ i18n "subject_title" }}</h1>
+        <p class="lead mb-4">{{ i18n "subject_content" }}</p>
         <div class="d-md-block">
           <a class="ocm-btn ocm-btn-lg"
             href="{{ $rootPath }}/getting-started"
             role="button">{{ i18n "subject_getting_started" }}</a>
         </div>
       </div>
-      <img src="/robot7.png" alt="" class="subject-img subject-img-none" />
+      <div class="col-8 mx-auto col-md-4 order-md-2 col-lg-7">
+        <img src="/robot7.png" alt="" class="subject-img subject-img-none" />
+      </div>
     </div>
   </div>
-</section>
+</div>

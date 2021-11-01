@@ -8,7 +8,7 @@ other = "Contribute"
 other = "Document"
 
 [subject_title]
-other = "Make working with many Kubernetes clusters super easy regardless of where they are deployed."
+other = "Make working with many Kubernetes clusters super easy regardless of where they are deployed"
 
 [subject_content]
 other = "Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more."
