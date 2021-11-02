@@ -1,3 +1,9 @@
+{{ $home := .Site.GetPage "home" }}
+
+{{ $rootPath := "" }}
+{{ if eq $home.Lang "zh" }}
+    {{ $rootPath = "/zh" }}
+{{ end }}
 
 <section class="ocm text-light subject-padding">
   <div class="container-fluid">
@@ -7,7 +13,7 @@
         <p class="lead my-4">{{ i18n "subject_content" }}</p>
         <div class="d-md-block">
           <a class="ocm-btn ocm-btn-lg"
-            href="getting-started/quick-start"
+            href="{{ $rootPath }}/getting-started"
             role="button">{{ i18n "subject_getting_started" }}</a>
         </div>
       </div>
