@@ -4,33 +4,24 @@
   <meta charset="UTF-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
-    crossorigin="anonymous"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
-  />
-  <link
-    href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"
-    rel="stylesheet"
-  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"/>
+  <link rel="stylesheet" href="/main.css"/>
   <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
-  <link rel="stylesheet" href="/homepage.css"/>
   <title>Open Cluster Management</title>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-    crossorigin="anonymous">
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top">
-  <div class="container-fluid">
+
+
+
+<input id="current-lang" type="hidden" value="en">
+
+<div class="container-fluid">
+  <nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top ocm-header">
     <a href="/" class="navbar-brand">
       <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
       Open Cluster Management
@@ -41,13 +32,13 @@
     <div class="collapse navbar-collapse" id="navmenu">
       <ul class="navbar-nav ms-auto ">
         <li class="nav-item pe-2">
-          <a href="community" class="nav-link text-light">Community</a>
+          <a href="/community" class="nav-link text-light">Community</a>
         </li>
         <li class="nav-item pe-2">
-          <a href="contribute" class="nav-link text-light">Contribute</a>
+          <a href="/contribute" class="nav-link text-light">Contribute</a>
         </li>
         <li class="nav-item pe-2">
-          <a href="concepts" class="nav-link text-light">Document</a>
+          <a href="/concepts" class="nav-link text-light">Document</a>
         </li>
         <li class="nav-item dropdown pe-2">
           
@@ -56,7 +47,7 @@
 
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             
-            <li><a class="dropdown-item" href="/zh">中文</a></li>
+            <li><a class="dropdown-item" href="#" id="to-zh">中文</a></li>
             
           </ul>
         </li>
@@ -77,8 +68,12 @@
         </li>
       </ul>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>
+
+
+
+
 
 <section class="ocm text-light subject-padding">
   <div class="container-fluid">
@@ -88,7 +83,7 @@
         <p class="lead my-4">Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.</p>
         <div class="d-md-block">
           <a class="ocm-btn ocm-btn-lg"
-            href="getting-started/quick-start"
+            href="/getting-started"
             role="button">Get Started</a>
         </div>
       </div>
@@ -183,5 +178,6 @@
     <div class="text-light">&copy; 2021 Open Cluster Management Authors</div>
   </div>
 </nav>
+<script type="text/javascript" src="/lang.js"></script>
 </body>
 </html>

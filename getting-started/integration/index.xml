@@ -16,7 +16,7 @@
       
       <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Architecture Prerequisite Install from source What is next     Architecture For more details, visit the multicloud-operators-subscription GitHub page.
+   Architecture Prerequisite Install from source What is next     Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
 Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
   Ensure the open-cluster-management cluster manager is installed.</description>
@@ -29,7 +29,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>http://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  You can find the analysis of the architectural components here  Prerequisite You must meet the following prerequisites to install the policy framework:
+   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  You can find the analysis of the architectural components here   Prerequisite You must meet the following prerequisites to install the policy framework:
   Ensure kubectl and kustomize are installed.</description>
     </item>
     

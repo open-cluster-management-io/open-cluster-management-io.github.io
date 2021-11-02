@@ -1,35 +1,93 @@
 <!DOCTYPE html>
 <html><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
-    <title>Open Cluster Management</title>
-    
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/contentpage.css"/>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"/>
+  <link rel="stylesheet" href="/main.css"/>
+  <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
+  <title>Open Cluster Management</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="wrapper">
+    <div class="container-fluid">
+        <div class="row">
 
 
 
 
-<nav id="sidebar">
-    <div class="sidebar-header">
-        <a class="navlink" href="/">
-        <img src="/ocm.svg" alt="" width="50" height="70" class="d-inline-block align-text-top">
-        <h4>Open Cluster Management</h4>
-        </a>
+<input id="current-lang" type="hidden" value="en">
+
+<div class="container-fluid">
+  <nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top ocm-header">
+    <a href="/" class="navbar-brand">
+      <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
+      Open Cluster Management
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav ms-auto ">
+        <li class="nav-item pe-2">
+          <a href="/community" class="nav-link text-light">Community</a>
+        </li>
+        <li class="nav-item pe-2">
+          <a href="/contribute" class="nav-link text-light">Contribute</a>
+        </li>
+        <li class="nav-item pe-2">
+          <a href="/concepts" class="nav-link text-light">Document</a>
+        </li>
+        <li class="nav-item dropdown pe-2">
+          
+          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
+          
+
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+            <li><a class="dropdown-item" href="#" id="to-zh">中文</a></li>
+            
+          </ul>
+        </li>
+        <li class="nav-item pe-2">
+          <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
+              <i class="bi bi-youtube"></i>
+          </a>
+        </li>
+        <li class="nav-item pe-2">
+          <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+            <i class="bi bi-github"></i>
+          </a>
+        </li>
+        <li class="nav-item pe-2">
+          <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+            <i class="bi bi-slack"></i>
+          </a>
+        </li>
+      </ul>
     </div>
-    <ul class="list-unstyled components">
+  </nav>
+</div>
+</div>
+        <div class="row subject-padding">
+            <div class="col-2 col-md-3 padding-none sidebar-bgc">
+
+
+
+
+<div class="sidebar-toggle sidebar-toggle-sm">
+    <button type="button" id="sidebarToggle" class="btn btn-info">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+<nav id="sidebar" class="sidebar-hide-sm">
+    <ul class="components">
         <li id="concepts">
             <a class="navlink" href="/concepts">Concepts</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
@@ -49,13 +107,13 @@
         </li>
         <li id="getting-started">
             <a class="navlink" href="/getting-started">Getting Started</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
                 <li>
                     <a class="navlink" href="/getting-started/core">Core Components</a>
-                    <ul class="collapse list-unstyled">
+                    <ul class="collapse">
                         <li>
                             <a class="navlink" href="/getting-started/core/cluster-manager">Cluster Manager</a>
                         </li>
@@ -66,7 +124,7 @@
                 </li>
                 <li>
                     <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
-                    <ul class="collapse list-unstyled">
+                    <ul class="collapse">
                         <li>
                             <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
@@ -82,7 +140,7 @@
         </li>
         <li id="scenarios">
             <a class="navlink" href="/scenarios">Scenarios</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
@@ -90,15 +148,12 @@
         </li>
         <li id="community">
             <a class="navlink" href="/community">Community</a>
-            <ul class="collapse list-unstyled">
+            <ul class="collapse">
                 <li>
                     <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
                     <a class="navlink" href="/community/roadmap">Roadmap</a>
-                </li>
-                <li>
-                    <a class="navlink" href="/community/resource">Resources</a>
                 </li>
             </ul>
         </li>
@@ -108,23 +163,27 @@
         <li id="blog">
             <a class="navlink" href="/blog">Blog</a>
         </li>
+        <li style="padding-top: 10px; border-top: 2px solid #448a78;">
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io" target="_blank"><i class="bi bi-github"></i><span style="padding-left: 10px;">GitHub</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://kubernetes.slack.com/archives/C01GE7YSUUF" target="_blank"><i class="bi bi-slack"></i><span style="padding-left: 10px;">Slack</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank"><i class="bi bi-youtube"></i><span style="padding-left: 10px;">YouTube</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://groups.google.com/g/open-cluster-management" target="_blank"><i class="bi bi-envelope-fill"></i><span style="padding-left: 10px;">Mailing group</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io/community/projects/1" target="_blank"><i class="bi bi-calendar-event-fill"></i><span style="padding-left: 10px;">Community meetings</span></a>
+        </li>
     </ul>
-    <ul class="list-unstyled sidebar-footer">&copy; 2021 Open Cluster Management Authors</ul>
 </nav>
-
+<script type="text/javascript" src="/sidebar.js"></script>
+</div>
+            <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button type="button" id="sidebarCollapse" class="btn btn-info">
-                <i class="fas fa-align-left"></i>
-                <span>Toggle Sidebar</span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="nav navbar-nav ml-auto">
-                </ul>
-            </div>
-        </div>
-    </nav>
     <h1>Add-ons</h1>
     <h2 id="what-is-an-add-on">What is an add-on?</h2>
 <p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:</p>
@@ -152,62 +211,17 @@
 </code></pre></div><h2 id="add-on-framework">Add-on framework</h2>
 <p><a href="https://github.com/open-cluster-management-io/addon-framework">Add-on framework</a> provides a library for developers to develop an add-ons in open-cluster-management more easily. Take a look at the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a> to understand how the add-on framework can be used.</p>
 
-
-    <script type="text/javascript" src="/clipboard-copy.js"></script>
-</div> 
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        pathname = window.location.pathname
-        paths = pathname.replace(/^\/|\/$/g, '').split('/')
-        rootPath = $('#'+paths[0])
-        if (rootPath.length == 0) {
-            
-            paths.shift()
-            rootPath = $('#'+paths[0])
-        }
-
-        console.log('paths', paths, rootPath)
-
-        rootPath.find('a.navlink').each(function() {
-            href = $(this).attr('href')
-            if (pathname == (href + '/')) {
-                
-                $(this).css({'background':'#fff', 'color': '#7386D5'})
-
-                
-                $(this).parents('ul.collapse').each(function() {
-                    console.log('parent ul', $(this))
-                    $(this).addClass('show')
-                })
-
-                
-                $(this).siblings('ul.collapse').each(function() {
-                    console.log('sibling ul', $(this))
-                    $(this).addClass('show')
-                })
-
-                return
-            }
-        })
-
-
-        $("#sidebar").mCustomScrollbar({
-            theme: "minimal"
-        });
-        $('#sidebarCollapse').on('click', function () {
-            console.log("2");
-            $('#content').toggleClass('active');
-            $('#sidebar').toggleClass('sidebar-active')
-        });
-    });
-</script>
+<script type="text/javascript" src="/clipboard-copy.js"></script>
+</div>
+        </div>
+        <div class="row"><nav class="ocm navbar navbar-expand-lg navbar-dark py-3">
+  <div class="container-fluid">
+    <div class="text-light">&copy; 2021 Open Cluster Management Authors</div>
+  </div>
+</nav>
+<script type="text/javascript" src="/lang.js"></script>
+</div>
+    </div>
 </body>
 </html>

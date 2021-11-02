@@ -30,20 +30,5 @@
       <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
     </item>
     
-    <item>
-      <title>社区资源</title>
-      <link>http://open-cluster-management.io/zh/community/resource/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/zh/community/resource/</guid>
-      <description>Join conversations with the other people who are involved in the creation, maintenance, and future of open-cluster-management. We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the Community repo.
-Get Connected See the following options to connect with the community:
-GitHub
-Mailing group
-Slack
-Community meetings
-YouTube channel</description>
-    </item>
-    
   </channel>
 </rss>

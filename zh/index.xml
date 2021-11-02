@@ -31,21 +31,6 @@
     </item>
     
     <item>
-      <title>社区资源</title>
-      <link>http://open-cluster-management.io/zh/community/resource/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/zh/community/resource/</guid>
-      <description>Join conversations with the other people who are involved in the creation, maintenance, and future of open-cluster-management. We want to hear from you. How you are using open-cluster-management? What we can do to make it better? To understand how the Open Cluster Management community is governed, visit the Community repo.
-Get Connected See the following options to connect with the community:
-GitHub
-Mailing group
-Slack
-Community meetings
-YouTube channel</description>
-    </item>
-    
-    <item>
       <title>Cluster manager</title>
       <link>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -63,7 +48,8 @@ Prepare one Kubernetes cluster to function as the hub. For example, use kind to 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/zh/concepts/architecture/</guid>
-      <description>This page tells you the architecture and basic concepts in open-cluster-management.    Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
+      <description>This page tells you the architecture and basic concepts in open-cluster-management.
+   Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
  The service must have an API to determine the inventory of available clusters.</description>
     </item>
     
@@ -135,7 +121,7 @@ Bind ManagedClusterSet to a namespace Before creating a Placement, you need to c
       
       <guid>http://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Architecture Prerequisite Install from source What is next     Architecture For more details, visit the multicloud-operators-subscription GitHub page.
+   Architecture Prerequisite Install from source What is next     Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
 Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
   Ensure kubectl and kustomize are installed.
   Ensure the open-cluster-management cluster manager is installed.</description>
@@ -148,7 +134,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  You can find the analysis of the architectural components here  Prerequisite You must meet the following prerequisites to install the policy framework:
+   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  You can find the analysis of the architectural components here   Prerequisite You must meet the following prerequisites to install the policy framework:
   Ensure kubectl and kustomize are installed.</description>
     </item>
     
