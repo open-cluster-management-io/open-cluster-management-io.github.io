@@ -10,15 +10,19 @@
     <div class="row">
       <div class="col-md-8 order-md-1 col-lg-5 text-center text-md-start">
         <h1 class="mb-3">{{ i18n "subject_title" }}</h1>
-        <p class="lead mb-4">{{ i18n "subject_content" }}</p>
+        <p class="lead mb-4"><a class="subject-ocm" href="https://github.com/open-cluster-management-io/" target="_blank">Open Cluster Management</a> {{ i18n "subject_content" }}</p>
         <div class="d-md-block">
-          <a class="ocm-btn ocm-btn-lg"
-            href="{{ $rootPath }}/getting-started"
-            role="button">{{ i18n "subject_getting_started" }}</a>
+          <a class="ocm-btn ocm-btn-lg" href="{{ $rootPath }}/getting-started" role="button">{{ i18n "subject_getting_started" }}</a>
         </div>
+        <p class="subject-github">
+          {{ if eq $home.Lang "zh" }}
+          <i>如果喜欢 Open Cluster Management，请在 <a style="color: #1DCECE;" href="https://github.com/open-cluster-management-io/OCM" target="_blank">GitHub</a> 打星！</i>
+          {{ else }}
+          <i>If you like Open Cluster Management, give it a star on <a style="color: #1DCECE;" href="https://github.com/open-cluster-management-io/OCM" target="_blank">GitHub</a>!</i>
+          {{ end }}
+        </p>
       </div>
-      <div class="col-8 mx-auto col-md-4 order-md-2 col-lg-7 subject-img">
-      </div>
+      <div class="col-8 mx-auto col-md-4 order-md-2 col-lg-7 subject-img"></div>
     </div>
   </div>
 </div>

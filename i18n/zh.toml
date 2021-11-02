@@ -11,7 +11,7 @@ other = "文档"
 other = "轻松接管部署在任何地方的Kubernetes集群。"
 
 [subject_content]
-other = "Open Cluster Management是一个由开源社区驱动的混合云多集群管理平台。在这里你可以通过简单开放的API去使用集群的注册，工作负载分发，以及动态的资源配置路由等功能。"
+other = "是一个由开源社区驱动的混合云多集群管理平台。在这里你可以通过简单开放的API去使用集群的注册，工作负载分发，以及动态的资源配置路由等功能。"
 
 [subject_getting_started]
 other = "开始"

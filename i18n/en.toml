@@ -11,7 +11,7 @@ other = "Document"
 other = "Make working with many Kubernetes clusters super easy regardless of where they are deployed"
 
 [subject_content]
-other = "Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more."
+other = "is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more."
 
 [subject_getting_started]
 other = "Get Started"
