@@ -23,9 +23,18 @@ a {
   color: #f8f9fa !important;
 }
 
+header > nav > div.container-fluid,
+nav > div.container-fluid {
+  padding: 0 0.5em;
+}
+
 .ocm .bd-masthead{
   padding-top: 3em;
   margin-bottom: 0px !important;
+  background-image: url("/OCM-Header-Background.png");
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-size: 50%;
 }
 
 .ocm .bd-masthead .col-md-8{
@@ -86,7 +95,7 @@ a {
 }
 
 .subject-padding {
-  padding-top: 4.5rem;
+  padding-top: 2rem;
 }
 
 .subject-content-padding {
@@ -95,34 +104,10 @@ a {
 }
 
 .subject-img {
-  width: calc(100% + (1680px - 1320px)/2 + 16px);
-  height: calc(100% + 2em);
-}
-
-@media (max-width: 1400px) {
-  .subject-img {
-    width: calc(100% + (1400px - 1140px)/2 + 16px);
-    height: calc(100% + 2em);
-  }
-}
-
-@media (max-width: 1200px) {
-  .subject-img {
-    width: calc(100% + (1200px - 960px)/2 + 16px);
-    height: calc(100% + 2em);
-  }
-}
-@media (max-width: 992px) {
-  .subject-img {
-    width: calc(100% + (992px - 720px)/2 + 16px);
-    height: calc(100% + 2em);
-  }
-}
-@media (max-width: 768px) {
-  .subject-img {
-    width: calc(100% + (768px - 540px)/2 + 16px);
-    height: calc(100% + 2em);
-  }
+  background-image: url("/OCM-Header-Astro-sm.png");
+  background-position: bottom;
+  background-size: 60%;
+  background-repeat: no-repeat;
 }
 
 .feature-h1 {
@@ -134,21 +119,9 @@ a {
   color:#1DCECE;
 }
 
-@media (max-width: 768px) {
-  .subject-img-none {
-    display:none!important;
-  }
-
-  .subject-content-padding-md {
-    padding: 1.5rem 0;
-  }
-}
-
-
 /* content page */
 #content {
   padding: 40px;
-  min-height: 89vh;
   transition: all 0.3s;
 }
 
@@ -221,7 +194,7 @@ a {
 }
 
 #sidebar ul.components {
-  padding: 2.75rem 0;
+  padding: 2.5rem 0;
 }
 
 #sidebar ul {
@@ -270,13 +243,40 @@ a {
   display: none;
 }
 
+@media (min-width: 1400px) {
+  .home > header > nav > div.container-fluid,
+  .home > nav > div.container-fluid {
+    max-width: 1320px;
+  }
+}
+
+@media (width <= 1400px) {
+  .ocm .bd-masthead{
+    background-size: contain;
+  }
+
+  .subject-img {
+    background-size: contain;
+  }
+}
+
+@media (max-width: 992px) {
+  .subject-img {
+    display:none!important;
+  }
+}
+
 @media (max-width: 768px) {
-  .subject-img-none {
+  .subject-img {
     display:none!important;
   }
 
   .subject-content-padding-md {
     padding: 1.5rem 0;
+  }
+
+  .ocm .bd-masthead{
+    background: none;
   }
 }
 

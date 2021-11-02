@@ -9,7 +9,7 @@
 
 <header class="navbar navbar-expand-md navbar-dark bd-navbar">
   <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
-    <div class="container-fluid container-xxl flex-wrap flex-md-nowrap">
+    <div class="container-fluid flex-wrap flex-md-nowrap">
       <a href="{{ $rootPath }}/" class="navbar-brand">
         <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
         Open Cluster Management
@@ -41,30 +41,22 @@
               {{ else }}
               <li><a class="dropdown-item" href="#" id="to-zh">中文</a></li>
               {{ end }}
-
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {{ if eq $home.Lang "zh" }}
-                <li><a class="dropdown-item" href="/">English</a></li>
-                {{ else }}
-                <li><a class="dropdown-item" href="/zh">中文</a></li>
-                {{ end }}
-              </ul>
             </ul>
-            <li class="nav-item pe-2">
-              <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
-                  <i class="bi bi-youtube"></i>
-              </a>
-            </li>
-            <li class="nav-item pe-2">
-              <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
-                <i class="bi bi-github"></i>
-              </a>
-            </li>
-            <li class="nav-item pe-2">
-              <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
-                <i class="bi bi-slack"></i>
-              </a>
-            </li>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
+                <i class="bi bi-youtube"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+              <i class="bi bi-slack"></i>
+            </a>
           </li>
         </ul>
       </div>
