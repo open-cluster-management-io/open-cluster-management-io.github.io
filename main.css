@@ -34,7 +34,7 @@ nav > div.container-fluid {
   background-image: url("/OCM-Header-Background.png");
   background-repeat: no-repeat;
   background-position-x: right;
-  background-size: 50%;
+  background-size: 48%;
 }
 
 .ocm .bd-masthead .col-md-8{
@@ -110,6 +110,19 @@ nav > div.container-fluid {
   background-repeat: no-repeat;
 }
 
+.subject-ocm {
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #f8f9fa!important;
+}
+
+.subject-github {
+  margin-top: 1rem;
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: #f8f9fa!important;
+}
+
 .feature-h1 {
   color:#151515;
   padding-bottom: 2rem;
@@ -122,6 +135,7 @@ nav > div.container-fluid {
 /* content page */
 #content {
   padding: 40px;
+  min-height: 90vh;
   transition: all 0.3s;
 }
 
@@ -250,7 +264,7 @@ nav > div.container-fluid {
   }
 }
 
-@media (width <= 1400px) {
+@media (max-width: 1400px) {
   .ocm .bd-masthead{
     background-size: contain;
   }
