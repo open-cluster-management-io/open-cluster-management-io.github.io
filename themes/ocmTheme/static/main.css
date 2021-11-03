@@ -17,13 +17,29 @@ a {
 }
 
 /* main page */
-.ocm{
+
+.ocm, header nav {
   background-color: #0e0f45!important;
+  color: #f8f9fa !important;
 }
 
-.ocm-header {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+header > nav > div.container-fluid,
+nav > div.container-fluid {
+  padding: 0 0.5em;
+}
+
+.ocm .bd-masthead{
+  padding-top: 3em;
+  margin-bottom: 0px !important;
+  background-image: url("/OCM-Header-Background.png");
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-size: 50%;
+}
+
+.ocm .bd-masthead .col-md-8{
+  padding-top: 4em;
+  padding-bottom: 2em;
 }
 
 .ocm-btn {
@@ -62,12 +78,24 @@ a {
   margin-bottom: 1rem;
 }
 
+.full-height {
+  height: 100%;
+}
+
+.feature-section {
+  padding: 2rem;
+  background-color: white;
+}
 .section-padding {
   padding: 2rem;
 }
 
+.border-none {
+  border: 0;
+}
+
 .subject-padding {
-  padding-top: 4.5rem;
+  padding-top: 2rem;
 }
 
 .subject-content-padding {
@@ -76,8 +104,10 @@ a {
 }
 
 .subject-img {
-  width: 50%;
-  margin-right: -10px;
+  background-image: url("/OCM-Header-Astro-sm.png");
+  background-position: bottom;
+  background-size: 60%;
+  background-repeat: no-repeat;
 }
 
 .feature-h1 {
@@ -92,7 +122,6 @@ a {
 /* content page */
 #content {
   padding: 40px;
-  min-height: 89vh;
   transition: all 0.3s;
 }
 
@@ -165,7 +194,7 @@ a {
 }
 
 #sidebar ul.components {
-  padding: 2.75rem 0;
+  padding: 2.5rem 0;
 }
 
 #sidebar ul {
@@ -214,13 +243,40 @@ a {
   display: none;
 }
 
+@media (min-width: 1400px) {
+  .home > header > nav > div.container-fluid,
+  .home > nav > div.container-fluid {
+    max-width: 1320px;
+  }
+}
+
+@media (width <= 1400px) {
+  .ocm .bd-masthead{
+    background-size: contain;
+  }
+
+  .subject-img {
+    background-size: contain;
+  }
+}
+
+@media (max-width: 992px) {
+  .subject-img {
+    display:none!important;
+  }
+}
+
 @media (max-width: 768px) {
-  .subject-img-none {
+  .subject-img {
     display:none!important;
   }
 
   .subject-content-padding-md {
     padding: 1.5rem 0;
+  }
+
+  .ocm .bd-masthead{
+    background: none;
   }
 }
 
