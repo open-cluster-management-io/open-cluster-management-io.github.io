@@ -13,85 +13,88 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="ocm home">
 
 
 
 
 <input id="current-lang" type="hidden" value="en">
 
-<div class="container-fluid">
-  <nav class="ocm navbar navbar-expand-lg navbar-dark py-3 fixed-top ocm-header">
-    <a href="/" class="navbar-brand">
-      <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
-      Open Cluster Management
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navmenu">
-      <ul class="navbar-nav ms-auto ">
-        <li class="nav-item pe-2">
-          <a href="/community" class="nav-link text-light">Community</a>
-        </li>
-        <li class="nav-item pe-2">
-          <a href="/contribute" class="nav-link text-light">Contribute</a>
-        </li>
-        <li class="nav-item pe-2">
-          <a href="/concepts" class="nav-link text-light">Document</a>
-        </li>
-        <li class="nav-item dropdown pe-2">
-          
-          <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
-          
+<header class="navbar navbar-expand-md navbar-dark bd-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
+    <div class="container-fluid flex-wrap flex-md-nowrap">
+      <a href="/" class="navbar-brand">
+        <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
+        Open Cluster Management
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto ">
+          <li class="nav-item pe-2">
+            <a href="/community" class="nav-link text-light">Community</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/contribute" class="nav-link text-light">Contribute</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/concepts" class="nav-link text-light">Document</a>
+          </li>
+          <li class="nav-item dropdown pe-2">
+            
+            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
+            
 
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            
-            <li><a class="dropdown-item" href="#" id="to-zh">中文</a></li>
-            
-          </ul>
-        </li>
-        <li class="nav-item pe-2">
-          <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
-              <i class="bi bi-youtube"></i>
-          </a>
-        </li>
-        <li class="nav-item pe-2">
-          <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
-            <i class="bi bi-github"></i>
-          </a>
-        </li>
-        <li class="nav-item pe-2">
-          <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
-            <i class="bi bi-slack"></i>
-          </a>
-        </li>
-      </ul>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+              <li><a class="dropdown-item" href="#" id="to-zh">中文</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
+                <i class="bi bi-youtube"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+              <i class="bi bi-slack"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
-</div>
+</header>
 
 
 
 
 
-<section class="ocm text-light subject-padding">
-  <div class="container-fluid">
-    <div class="d-sm-flex align-items-center">
-      <div class="subject-content-padding subject-content-padding-md">
-        <h1>Make working with many Kubernetes clusters super easy regardless of where they are deployed.</h1>
-        <p class="lead my-4">Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.</p>
+<div class="bd-masthead mb-3">
+  <div class="container px-4 px-md-3">
+    <div class="row">
+      <div class="col-md-8 order-md-1 col-lg-5 text-center text-md-start">
+        <h1 class="mb-3">Make working with many Kubernetes clusters super easy regardless of where they are deployed</h1>
+        <p class="lead mb-4">Open Cluster Management is a community-driven project focused on multicluster and multicloud scenarios for Kubernetes apps. Open APIs are evolving within this project for cluster registration, work distribution, dynamic placement of policies and workloads, and much more.</p>
         <div class="d-md-block">
           <a class="ocm-btn ocm-btn-lg"
             href="/getting-started"
             role="button">Get Started</a>
         </div>
       </div>
-      <img src="/robot7.png" alt="" class="subject-img subject-img-none" />
+      <div class="col-8 mx-auto col-md-4 order-md-2 col-lg-7 subject-img">
+      </div>
     </div>
   </div>
-</section>
-<section class="section-padding">
+</div>
+<section class="feature-section">
   <h1 class="text-center feature-h1">Feature Overview</h1>
   <div class="container">
     <div class="row text-center g-4">
@@ -174,7 +177,7 @@
   </div>
 </section>
 <nav class="ocm navbar navbar-expand-lg navbar-dark py-3">
-  <div class="container-fluid">
+  <div class="container-fluid flex-wrap flex-md-nowrap">
     <div class="text-light">&copy; 2021 Open Cluster Management Authors</div>
   </div>
 </nav>
