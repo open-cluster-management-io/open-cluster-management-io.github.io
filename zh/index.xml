@@ -15,10 +15,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/zh/community/releases/</guid>
-      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.4.0. Continue reading to view upcoming releases:
-  v0.5.0 on November 2021
-  v0.4.0 on August 2021
-  </description>
+      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.5.0. Continue reading to view upcoming releases:
+v0.5.0, on 8th, November 2021 Open Cluster Management team is proud to annouce the release of OCM v0.5.0! We made several enhancements on APIs and addons which include:
+ Support deleteOption in ManifestWork. Introduce plugin mechanism in Placement API and add resource based scheduling. ManagedClusterSet API is upgraded from v1alpha1 to v1beta1.</description>
     </item>
     
     <item>
