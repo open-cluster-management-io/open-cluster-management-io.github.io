@@ -82,12 +82,20 @@ nav > div.container-fluid {
   height: 100%;
 }
 
+.section-padding {
+  padding: 2rem;
+}
+
 .feature-section {
   padding: 2rem;
   background-color: white;
 }
-.section-padding {
-  padding: 2rem;
+
+.cncf-section {
+  padding-top: 2rem;
+}
+.cncf-section a {
+  color: #f8f9fa;
 }
 
 .border-none {
@@ -130,6 +138,11 @@ nav > div.container-fluid {
 
 .addons-h1 {
   color:#1DCECE;
+}
+
+.cncf-logo {
+  background: url(https://raw.githubusercontent.com/cncf/artwork/master/other/cncf/horizontal/white/cncf-white.svg) 50% no-repeat;
+  height: 75px;
 }
 
 /* content page */
