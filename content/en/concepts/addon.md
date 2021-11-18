@@ -124,3 +124,41 @@ Here's a few examples of cases where we will need add-ons:
 provides a library for developers to develop an add-ons in open-cluster-management 
 more easily. Take a look at the [helloworld example](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld) 
 to understand how the add-on framework can be used.
+
+### Custom signers
+
+The original Kubernetes CSR api only supports there built-in signers:
+
+- "kubernetes.io/kube-apiserver-client"
+- "kubernetes.io/kube-apiserver-client-kubelet"
+- "kubernetes.io/kubelet-serving"
+  
+However in some cases, we need to sign additional custom certificates for the 
+addon agents which is not used for connecting any kube-apiserver. The addon 
+manager can be serving as a custom CSR signer controller based on the 
+addon-framework's extensibility by implementing the signing logic. Note that 
+after successfully signing the certificates, the framework will also keep 
+rotating the certificates automatically for the addon.
+
+
+### Hub credential injection
+
+The addon manager developed base on [addon-framework](https://github.com/open-cluster-management-io/addon-framework)
+will automatically persist the signed certificates as secret resource to the 
+managed clusters after signed by either original Kubernetes CSR controller or 
+custom signers. The injected secrets will be:
+
+- For "kubernetes.io/kube-apiserver-client" signer, the name will be "<addon name>
+  -hub-kubeconfig" with properties:
+  - "kubeconfig": a kubeconfig file for accessing hub cluster with the addon's 
+    identity.
+  - "tls.crt": the signed certificate.
+  - "tls.key": the private key.
+- For custom signer, the name will be "<addon name>-<signer name>-client-cert"
+  with properties:
+  - "tls.crt": the signed certificate.
+  - "tls.key": the private key.
+
+
+
+
