@@ -188,30 +188,141 @@
 <div id="content">
     <h1>Add-ons</h1>
     <h2 id="what-is-an-add-on">What is an add-on?</h2>
-<p>Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:</p>
-<ol>
-<li>A tool to collect alert events in the managed cluster, and send to the hub cluster.</li>
-<li>A network solution that uses the hub to share the network info and establish connection among managed clusters.</li>
-<li>A tool to spread security policies to multiple clusters.</li>
-</ol>
-<p>In general, if a management tool needs a different configuration for each managed cluster or a secured communication between the managed cluster and the hub cluster, it can utilize the add-on mechanism in open-cluster-management to ease the installation and day 2 operation.</p>
+<p>Open-cluster-management has a built-in mechanism named <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>
+to help developers to develop an extension based on the foundation components
+for the purpose of working with multiple clusters in custom cases. A typical
+addon should consist of two kinds of components:</p>
+<ul>
+<li>
+<p><strong>Addon Agent</strong>: A kubernetes controller <em>in the managed cluster</em> that manages
+the managed cluster for the hub admins. A typical addon agent is expected to
+be working by subscribing the prescriptions (e.g. in forms of CustomResources)
+from the hub cluster and then consistently reconcile the state of the managed
+cluster like an ordinary kubernetes operator does.</p>
+</li>
+<li>
+<p><strong>Addon Manager</strong>: A kubernetes controller <em>in the hub cluster</em> that applies
+manifests to the managed clusters via the <a href="./manifestwork.md">ManifestWork</a>
+api. In addition to resource dispatching, the manager can optionally manage
+the lifecycle of CSRs for the addon agents or even the RBAC permission bond
+to the CSRs&rsquo; requesting identity.</p>
+</li>
+</ul>
+<p>In general, if a management tool working inside the managed cluster needs to
+discriminate configuration for each managed cluster, it will be helpful to model
+its implementation as a working addon agent. The configurations for each agent
+are supposed to be persisted in the hub cluster, so the hub admin will be able
+to prescribe the agent to do its job in a declarative way. In abstraction, via
+the addon we will be decoupling a multi-cluster control plane into (1) strategy
+dispatching and (2) execution. The addon manager doesn&rsquo;t actually apply any
+changes directly to the managed cluster, instead it just places its prescription
+to a dedicated namespace allocated for the accepted managed cluster. Then the
+addon agent pulls the prescriptions consistently and does the execution.</p>
+<p>In addition to dispatching configurations before the agents, the addon manager
+will be automatically doing some fiddly preparation before the agent bootstraps,
+such as:</p>
+<ul>
+<li>CSR applying, approving and signing.</li>
+<li>Injecting and managing client credentials used by agents to access the hub
+cluster.</li>
+<li>The RBAC permission for the agents both in the hub cluster or the managed
+cluster.</li>
+<li>Installing strategy.</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p>The following architecture graph shows how the coordination between addon manager
+and addon agent works.</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/addon-architecture.png" alt="Addon Architecture" style="margin: 0 auto; width: 80%">
+</div>
 <h2 id="add-on-enablement">Add-on enablement</h2>
-<p>Each add-on should register itself on the hub by creating a <code>ClusterManagementAddon</code> resource on the hub cluster. For instance, the <code>helloworld</code> add-on can be registered to the hub cluster by creating:</p>
+<p>From a user&rsquo;s perspective, to install the addon to the hub cluster the hub admin
+should register a globally-unique <code>ClusterManagementAddon</code> resource as a singleton
+placeholder in the hub cluster. For instance, the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld</a>
+add-on can be registered to the hub cluster by creating:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: helloworld
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">addOnMeta</span>:
     <span style="color:#66d9ef">displayName</span>: helloworld
-</code></pre></div><p>An add-on should also have a controller running on the hub taking responsibility of add-on configuration for each managed cluster. When a user wants to enable the add-on for a certain managed cluster, the user should create a <code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the <code>ManagedClusterAddon</code> should be the same name of the corresponding <code>ClusterManagementAddon</code>. For instance, the following example enables <code>helloworld</code> add-on in cluster1</p>
+</code></pre></div><p>The addon manager running on the hub is taking responsibility of configuring the
+installation of addon agents for each managed cluster. When a user wants to enable
+the add-on for a certain managed cluster, the user should create a
+<code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the
+<code>ManagedClusterAddon</code> should be the same name of the corresponding
+<code>ClusterManagementAddon</code>. For instance, the following example enables <code>helloworld</code>
+add-on in &ldquo;cluster1&rdquo;:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ManagedClusterAddon
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: helloworld
   <span style="color:#66d9ef">namespace</span>: cluster1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">installNamespace</span>: helloworld
-</code></pre></div><h2 id="add-on-framework">Add-on framework</h2>
-<p><a href="https://github.com/open-cluster-management-io/addon-framework">Add-on framework</a> provides a library for developers to develop an add-ons in open-cluster-management more easily. Take a look at the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a> to understand how the add-on framework can be used.</p>
+</code></pre></div><p>Last but not least, a neat uninstallation of the addon is also supported by simply
+deleting the corresponding <code>ClusterManagementAddon</code> resource from the hub cluster
+which is the &ldquo;root&rdquo; of the whole addon. The OCM platform will automatically sanitize
+the hub cluster for you after the uninstalling by removing all the components either
+in the hub cluster or in the manage clusters.</p>
+<h3 id="add-on-healthiness">Add-on healthiness</h3>
+<p>The healthiness of the addon instances are visible when we list the addons via
+kubectl:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
+NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
+&lt;cluster&gt;   &lt;addon&gt;                  True                   
+</code></pre></div><p>The addon agent are expected to report its healthiness periodically as long as it&rsquo;s
+running. Also the versioning the addon agent can be reflected in the resources
+optionally so that we can control the upgrading the agents progressively.</p>
+<h2 id="examples">Examples</h2>
+<p>Here&rsquo;s a few examples of cases where we will need add-ons:</p>
+<ol>
+<li>A tool to collect alert events in the managed cluster, and send to the hub
+cluster.</li>
+<li>A network solution that uses the hub to share the network info and establish
+connection among managed clusters. See <a href="https://github.com/open-cluster-management-io/cluster-proxy">cluster-proxy</a></li>
+<li>A tool to spread security policies to multiple clusters.</li>
+</ol>
+<h2 id="add-on-framework">Add-on framework</h2>
+<p><a href="https://github.com/open-cluster-management-io/addon-framework">Add-on framework</a>
+provides a library for developers to develop an add-ons in open-cluster-management
+more easily. Take a look at the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a>
+to understand how the add-on framework can be used.</p>
+<h3 id="custom-signers">Custom signers</h3>
+<p>The original Kubernetes CSR api only supports there built-in signers:</p>
+<ul>
+<li>&ldquo;kubernetes.io/kube-apiserver-client&rdquo;</li>
+<li>&ldquo;kubernetes.io/kube-apiserver-client-kubelet&rdquo;</li>
+<li>&ldquo;kubernetes.io/kubelet-serving&rdquo;</li>
+</ul>
+<p>However in some cases, we need to sign additional custom certificates for the
+addon agents which is not used for connecting any kube-apiserver. The addon
+manager can be serving as a custom CSR signer controller based on the
+addon-framework&rsquo;s extensibility by implementing the signing logic. Note that
+after successfully signing the certificates, the framework will also keep
+rotating the certificates automatically for the addon.</p>
+<h3 id="hub-credential-injection">Hub credential injection</h3>
+<p>The addon manager developed base on <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>
+will automatically persist the signed certificates as secret resource to the
+managed clusters after signed by either original Kubernetes CSR controller or
+custom signers. The injected secrets will be:</p>
+<ul>
+<li>For &ldquo;kubernetes.io/kube-apiserver-client&rdquo; signer, the name will be &ldquo;<addon name>
+-hub-kubeconfig&rdquo; with properties:
+<ul>
+<li>&ldquo;kubeconfig&rdquo;: a kubeconfig file for accessing hub cluster with the addon&rsquo;s
+identity.</li>
+<li>&ldquo;tls.crt&rdquo;: the signed certificate.</li>
+<li>&ldquo;tls.key&rdquo;: the private key.</li>
+</ul>
+</li>
+<li>For custom signer, the name will be &ldquo;<addon name>-<signer name>-client-cert&rdquo;
+with properties:
+<ul>
+<li>&ldquo;tls.crt&rdquo;: the signed certificate.</li>
+<li>&ldquo;tls.key&rdquo;: the private key.</li>
+</ul>
+</li>
+</ul>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
