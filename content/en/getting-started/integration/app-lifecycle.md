@@ -29,6 +29,53 @@ You must meet the following prerequisites to install the application lifecycle m
 
 - Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
+## Install via Clusteradm CLI tool
+
+Ensure `clusteradm` CLI tool is installed. Download and extract the [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
+
+```Shell
+$ clusteradm
+Usage:
+  clusteradm [command]
+...
+```
+
+Deploy the subscription operators to the hub cluster.
+
+```Shell
+$ kubectl config use-context ${CTX_HUB_CLUSTER}
+$ clusteradm install addons --names application-manager
+Installing built-in application-manager add-on to the Hub cluster...
+$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+multicluster-operators-subscription   1/1     1            1           25s
+```
+Create the `open-cluster-management-agent-addon` namespace on the managed cluster.
+
+```Shell
+$ kubectl create ns open-cluster-management-agent-addon --context ${CTX_MANAGED_CLUSTER}
+namespace/open-cluster-management-agent-addon created
+```
+
+Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.
+
+```Shell
+$ kubectl config use-context ${CTX_HUB_CLUSTER}
+$ clusteradm enable addons --names application-manager --clusters ${MANAGED_CLUSTER_NAME}
+Deploying application-manager add-on to managed cluster: <managed_cluster_name>.
+$ kubectl -n ${MANAGED_CLUSTER_NAME} get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
+NAME                  AVAILABLE   DEGRADED   PROGRESSING
+application-manager   True
+```
+
+Check the the subscription add-on deployment on the managed cluster.
+
+```Shell
+$ kubectl -n open-cluster-management-agent-addon get deploy multicluster-operators-subscription --context ${CTX_MANAGED_CLUSTER}
+NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+multicluster-operators-subscription   1/1     1            1           103s
+```
+
 ## Install from source
 
 Clone the `multicloud-operators-subscription` repository.
@@ -43,9 +90,9 @@ Deploy the subscription operators to the hub cluster.
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
 $ make deploy-hub
-$ kubectl -n open-cluster-management get deploy multicloud-operators-subscription --context ${CTX_HUB_CLUSTER}
+$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicloud-operators-subscription   1/1     1            1           25s
+multicluster-operators-subscription   1/1     1            1           25s
 ```
 
 Create the `open-cluster-management-agent-addon` namespace on the managed cluster.
@@ -68,9 +115,9 @@ application-manager   True
 Check the the subscription add-on deployment on the managed cluster.
 
 ```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy multicloud-operators-subscription --context ${CTX_MANAGED_CLUSTER}
+$ kubectl -n open-cluster-management-agent-addon get deploy multicluster-operators-subscription --context ${CTX_MANAGED_CLUSTER}
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicloud-operators-subscription   1/1     1            1           103s
+multicluster-operators-subscription   1/1     1            1           103s
 ```
 
 ## What is next
