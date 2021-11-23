@@ -240,7 +240,8 @@ and addon agent works.</p>
 should register a globally-unique <code>ClusterManagementAddon</code> resource as a singleton
 placeholder in the hub cluster. For instance, the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld</a>
 add-on can be registered to the hub cluster by creating:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: helloworld
 <span style="color:#66d9ef">spec</span>:
@@ -253,7 +254,8 @@ the add-on for a certain managed cluster, the user should create a
 <code>ManagedClusterAddon</code> should be the same name of the corresponding
 <code>ClusterManagementAddon</code>. For instance, the following example enables <code>helloworld</code>
 add-on in &ldquo;cluster1&rdquo;:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ManagedClusterAddon
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterAddon
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: helloworld
   <span style="color:#66d9ef">namespace</span>: cluster1

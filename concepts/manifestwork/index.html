@@ -298,7 +298,8 @@ which means the applied resources on the spoke will be deleted with the removal 
     <span style="color:#66d9ef">propagationPolicy</span>: Orphan
 </code></pre></div><p>Alternatively, user can also specify a certain resource defined in the <code>ManifestWork</code> to be orphaned by setting the
 <code>deleteOption</code> to be <code>SelectivelyOrphan</code>. Here is an example with <code>SelectivelyOrphan</code> specified. It ensures the removal of deployment resource specified in the <code>ManifestWork</code> while the service resource is kept.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ManifestWork
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: selective-delete-work
 <span style="color:#66d9ef">spec</span>:

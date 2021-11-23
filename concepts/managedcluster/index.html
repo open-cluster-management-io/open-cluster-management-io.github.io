@@ -216,7 +216,7 @@
 <p><code>ManagedCluster</code> is to implement the notion in <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
 <p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label <code>cluster.open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>. The user must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
 <p>An example of a <code>ManagedClusterSet</code> resource is shown in the following example.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: prod

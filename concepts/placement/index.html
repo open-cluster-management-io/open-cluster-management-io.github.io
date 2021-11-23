@@ -190,12 +190,12 @@
     <p><code>Placement</code> API is used to select a set of managed clusters in one or multiple <code>ManagedClusterSets</code> so that the user&rsquo;s workloads can be deployed to these clusters.</p>
 <h2 id="bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</h2>
 <p>Before creating a <code>Placement</code>, you need to create a <code>ManagedClusterSetBinding</code> in a namespace to bind to a <code>ManagedClusterSet</code>. Then you can create a <code>Placement</code> in the same namespace to select the clusters in this <code>ManagedClusterSet</code>. Assume a <code>ManagedClusterSet</code> is created on the hub cluster as seen in the following examples.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: prod
 </code></pre></div><p>You can create a <code>ManagedClusterSetBinding</code> as follows to bind the <code>ManagedClusterSet</code> to the default namespace.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: ManagedClusterSetBinding
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: prod
