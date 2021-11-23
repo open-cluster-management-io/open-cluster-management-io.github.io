@@ -47,7 +47,7 @@ To add a `ManagedCluster` to a `ManagedClusterSet`, user needs to set a label `c
 An example of a `ManagedClusterSet` resource is shown in the following example.
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
+apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: ManagedClusterSet
 metadata:
   name: prod

@@ -135,6 +135,7 @@ Alternatively, user can also specify a certain resource defined in the `Manifest
 `deleteOption` to be `SelectivelyOrphan`. Here is an example with `SelectivelyOrphan` specified. It ensures the removal of deployment resource specified in the `ManifestWork` while the service resource is kept.
 
 ```yaml
+apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
 metadata:
   name: selective-delete-work

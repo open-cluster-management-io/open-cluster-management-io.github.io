@@ -10,7 +10,7 @@ weight: 3
 Before creating a `Placement`, you need to create a `ManagedClusterSetBinding` in a namespace to bind to a `ManagedClusterSet`. Then you can create a `Placement` in the same namespace to select the clusters in this `ManagedClusterSet`. Assume a `ManagedClusterSet` is created on the hub cluster as seen in the following examples.
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
+apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: ManagedClusterSet
 metadata:
   name: prod
@@ -19,7 +19,7 @@ metadata:
 You can create a `ManagedClusterSetBinding` as follows to bind the `ManagedClusterSet` to the default namespace.
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
+apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: ManagedClusterSetBinding
 metadata:
   name: prod
