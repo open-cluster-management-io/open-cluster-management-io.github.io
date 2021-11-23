@@ -61,6 +61,7 @@ placeholder in the hub cluster. For instance, the [helloworld](https://github.co
 add-on can be registered to the hub cluster by creating:
 
 ```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ClusterManagementAddOn
 metadata:
   name: helloworld
@@ -78,6 +79,7 @@ the add-on for a certain managed cluster, the user should create a
 add-on in "cluster1":
 
 ```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
 kind: ManagedClusterAddon
 metadata:
   name: helloworld
