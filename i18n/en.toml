@@ -109,6 +109,9 @@ other = "Policy framework"
 [sidebar_grc_ctrl]
 other = "Policy controllers"
 
+[sidebar_cluster_proxy]
+other = "Cluster proxy"
+
 [sidebar_scenarios]
 other = "Scenarios"
 
