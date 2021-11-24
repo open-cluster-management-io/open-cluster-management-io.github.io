@@ -109,6 +109,9 @@ other = "Policy框架"
 [sidebar_grc_ctrl]
 other = "Policy控制器"
 
+[sidebar_cluster_proxy]
+other = "网络隧道"
+
 [sidebar_scenarios]
 other = "应用场景"
 
