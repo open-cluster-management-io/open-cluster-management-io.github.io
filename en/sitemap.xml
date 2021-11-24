@@ -70,6 +70,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/getting-started/integration/cluster-proxy</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/contribute</loc>
     </url>
     
