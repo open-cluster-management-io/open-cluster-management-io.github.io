@@ -168,7 +168,46 @@ Another example will be [cluster-gateway](https://github.com/oam-dev/cluster-gat
 which is an aggregated apiserver optionally working over cluster-proxy for 
 routing traffic to the managed clusters dynamically in HTTPs protocol.
 
+Note that by default the client credential for konnectivity client will be
+persisted as secrets resources under the namespace where the addon-manager
+is running. With that being said, to mount the secret to the systems in the
+other namespaces, the users are expected to copy the secret on their own
+manually.
+
 ## More insight
+
+### Troubleshooting
+
+The installation of proxy servers and agents are prescribed by the custom
+resource called "managedproxyconfiguration". We can check it out by the 
+following commands:
+
+```shell
+$ kubectl get managedproxyconfiguration cluster-proxy -o yaml
+apiVersion: proxy.open-cluster-management.io/v1alpha1
+kind: ManagedProxyConfiguration
+metadata: ...
+spec:
+  proxyAgent:
+    image: <expected image of the proxy agents>
+    replicas: <expected replicas of proxy agents>
+  proxyServer:
+    entrypoint:
+      loadBalancerService:
+        name: proxy-agent-entrypoint
+      type: LoadBalancerService # Or "Hostname" to set a fixed address
+                                # for establishing proxy tunnels.
+    image: <expected image of the proxy servers>
+    inClusterServiceName: proxy-entrypoint
+    namespace: <target namespace to install proxy server>
+    replicas: <expected replicas of proxy servers>
+  authentication: # Customize authentication between proxy server/agent
+status:
+  conditions: ...
+```
+
+
+### Related materials
 
 See the original [design proposal](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/14-addon-cluster-proxy) 
 for reference.
