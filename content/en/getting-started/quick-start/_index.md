@@ -3,80 +3,212 @@ title: Quick Start
 weight: 1
 ---
 
-Use any of the following methods to bootstrap your Open Cluster Management environment.
+After walking through our *Quick Start* guide you will:
+
+* Install and run OCM's command-line tool `clusteradm`.
+* Bootstrap an OCM's hub cluster as the multi-cluster control plan.
+* Register another cluster as OCM's managed cluster.
+* Approving the managed cluster to be controlled by hub cluster.
+
+__Contents__
 
 <!-- spellchecker-disable -->
 
 {{< toc >}}
 
-Before installation, prepare a multicluster environment with at least two clusters. One used as hub cluster and another as managed cluster.
+## Prerequisites
 
-Set the following environment variables that will be used throughout to simplify the instructions:
+- The hub cluster should be `v1.19+`.
+- At least one managed cluster greater than `v1.16+`.
+
+You can always set up a local [KinD](https://kind.sigs.k8s.io/)
+environment on your workstation easily by following these [instructions](#setup-a-local-kind-environment)
+after meeting the following additional prerequisites:
+
+- KinD greater than `v0.9.0+`.
+  
+## Environment
+
+In this section, we will be warming up by preparing your terminal environment 
+before actually installing OCM to your clusters. You can skip the KinD setup
+below if you'd like to install OCM into your existing clusters.
+
+### Setup a local KinD environment
+
+To create two local running clusters on your workstation, run:
+
+```shell
+$ kind create cluster --name hub
+$ kind create cluster --name cluster1
+```
+
+Remember that the cluster named "hub" will be the multi-cluster control plane
+of your OCM environment, and "cluster1" is supposed to be the cluster controlled
+by "hub".
+
+### Prepare terminal environment
+
+Before actually installing the OCM components into your clusters, export
+the following environment variables in your terminal before running our
+command-line tool `clusteradm` so that it can correctly discriminate the
+hub cluster and managed cluster:
 
 ```Shell
-export HUB_CLUSTER_NAME=<your hub cluster name>             # export HUB_CLUSTER_NAME=hub
-export MANAGED_CLUSTER_NAME=<your managed cluster name>     # export MANAGED_CLUSTER_NAME=cluster1
+# The context name of the clusters in your kubeconfig
+# If the clusters are created by KinD, then the context name will the follow the pattern "kind-<cluster name>".
 export CTX_HUB_CLUSTER=<your hub cluster context>           # export CTX_HUB_CLUSTER=kind-hub
 export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED_CLUSTER=kind-cluster1
 ```
 
-Then create these two clusters using [kind](https://kind.sigs.k8s.io). Run the following commands:
+## Bootstrap via clusteradm CLI tool
 
-```Shell
-kind create cluster --name ${HUB_CLUSTER_NAME}
-kind create cluster --name ${MANAGED_CLUSTER_NAME}
-```
+By this section, we will be bootstrapping your first running OCM environment
+with the help of OCM's native command-line tool `clusteradm`.
 
-## Bootstrap via Clusteradm CLI tool
 
-### Install Clusteradm CLI tool
+### Install clusteradm CLI tool
 
-Download and extract the [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
+Download and extract the clusteradm binary from our [release page](https://github.com/open-cluster-management-io/clusteradm/releases/latest). 
+
+- On Linux:
+
+   ```shell
+   $ wget https://github.com/open-cluster-management-io/clusteradm/releases/download/v0.1.0-alpha.7/clusteradm_linux_amd64.tar.gz
+   $ tar xzvf clusteradm_linux_amd64.tar.gz
+   $ chmod u+x clusteradm
+   $ mv ./clusteradm /usr/local/bin/
+   ```
+
+- On MacOS:
+
+   ```shell
+   $ wget https://github.com/open-cluster-management-io/clusteradm/releases/download/v0.1.0-alpha.7/clusteradm_darwin_amd64.tar.gz
+   $ tar xzvf clusteradm_darwin_amd64.tar.gz
+   $ chmod u+x clusteradm
+   $ mv ./clusteradm /usr/local/bin/
+   ```
 
 ### Deploy a cluster manager on your hub cluster
 
-1. Bootstrap the Open Cluster Management control plane:
+1. Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):
 
-   ```Shell
-   clusteradm init --context ${CTX_HUB_CLUSTER}
+   ```shell
+   $ clusteradm init --context ${CTX_HUB_CLUSTER}
    ```
+   
+   By this command, `clusteradm` is helping you to install a [registration-operator](https://github.com/open-cluster-management-io/registration-operator)
+   into your hub cluster which is responsible for consistently installing 
+   and upgrading a few core components for your OCM environment.
+   
+   After the `init` command finishes, there's supposed to be a command generated 
+   on your console for you to move ahead registering your managed clusters. A 
+   sample of the generated command will be:
+   
+   ```shell
+   $ clusteradm join \
+        --hub-token <your token data> \
+        --hub-apiserver <your hub kube-apiserver endpoint> \
+        --cluster-name <cluster_name>
+   ```
+   
+   It's recommended to save the command somewhere in your workstation for 
+   future use.
+   
+2. Then you can check out the running instances of registration operator by:
 
-   Then you will get a result with a generated `join` command:
+   ```shell
+   $ kubectl -n open-cluster-management   get pod
+   NAME                               READY   STATUS    RESTARTS   AGE
+   cluster-manager-695d945d4d-5dn8k   1/1     Running   0          19d
+   ```
+   
+   Additionally, to check out the instances of OCM's hub control plane, run
+   the following command:
 
-   ```Shell
+   ```shell
+   $ kubectl -n open-cluster-management-hub   get pod
+   NAME                               READY   STATUS    RESTARTS   AGE
+   cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   0          19d
+   cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   0          19d
+   cluster-manager-registration-webhook-59c9b89499-n7m2x      1/1     Running   0          19d
+   cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   0          19d
    ...
-   clusteradm join --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name <managed_cluster_name>
    ```
+   
+   The overall installation information is visible in the custom resource 
+   named `clustermanager`:
 
-   Copy the generated command and replace the `<managed_cluster_name>` to your managed cluster name. E.g. `cluster1`.
+   ```shell
+   $  kubectl get clustermanager cluster-manager -o yaml
+   ```
 
 ### Deploy a klusterlet agent on your managed cluster
 
-1. Run the previously copied `join` command by appending the context of your managed cluster to join the hub cluster:
+After all the pods of hub components get running, now your hub cluster is
+all set. Let's move on to register your managed cluster into OCM.
+   
+1. Run the previously generated command from `init`. Note that you're supposed
+   to explicitly pass `--context` option if your managed cluster is created by
+   KinD because its kubeconfig are persisted in the same kubeconfig file of 
+   the hub cluster.
+   
+   ```shell
+   clusteradm join \
+        --context ${CTX_MANAGED_CLUSTER} \
+        --hub-token <your token data> \
+        --hub-apiserver <your hub cluster endpoint> \
+        --cluster-name "cluster1"    # Or other arbitrary unique name
+   ```
+   
+2. Verify the installation of OCM agents in your managed clusters by:
 
-   ```Shell
-   clusteradm join --context ${CTX_MANAGED_CLUSTER} --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name ${MANAGED_CLUSTER_NAME}
+   ```shell
+   $ kubectl -n open-cluster-management-agent get pod
+   NAME                                             READY   STATUS    RESTARTS   AGE
+   klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
+   klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
+   ```
+   
+   Similar to `clustermanager`, the overall installation information is prescribed
+   by another custom resource called "klusterlet" which is only installed in your 
+   managed cluster:
+   
+   ```shell
+   $ kubectl get klusterlet klusterlet -o yaml
    ```
 
 ### Accept join request and verify
 
-1. Wait for the CSR is created on your hub cluster:
+After the OCM agent get deployed in your managed cluster gets running, it will 
+be sending a "handshake" to your hub cluster waiting for approvals from hub 
+cluster admin to manage the cluster for you. So in the next we will walk through 
+the steps of permitting the registration requests from the prespective of a 
+OCM's hub admin:
+
+1. Wait for the creation of CSR resources which will be created by your managed 
+   clusters' OCM agents into your hub cluster:
 
    ```Shell
-   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep ${MANAGED_CLUSTER_NAME}
+   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1
    ```
 
-   Then you will get a result resembling the following after the CSR is created:
+   A sample of pending CSR request will be:
 
    ```Shell
    cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
    ```
 
-2. Accept request:
+2. Accept the join request using your `clusteradm` tool:
 
    ```Shell
-   clusteradm accept --clusters ${MANAGED_CLUSTER_NAME} --context ${CTX_HUB_CLUSTER}
+   clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
    ```
+   
+   After running the `accept` command, the CSR from your managed cluster
+   named "cluster1" will be approved, and additionally it will prescribe
+   the OCM hub control plane to setup related resources (such as a namespace
+   named "cluster1" in the hub cluster) and RBAC permissions automatically
+   for you.
 
 3. Verify `managedcluster` has been created successfully:
 
@@ -88,7 +220,7 @@ Download and extract the [clusteradm binary](https://github.com/open-cluster-man
 
    ```Shell
    NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
-   cluster1   true           https://127.0.0.1:41478   True     True        5m23s
+   cluster1   true           <your endpoint>           True     True        5m23s
    ```
 
 ## Bootstrap via Operatorhub.io
