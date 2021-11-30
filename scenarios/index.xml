@@ -10,13 +10,14 @@
     
     
     <item>
-      <title>Deploy Kubernetes resources to the desired clusters</title>
+      <title>Deploy Kubernetes resources to the managed clusters</title>
       <link>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</guid>
-      <description>Prerequisites Select dev environment clusters using placement Apply the Kubernetes resources to the selected clusters  After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as Deployment, Service, Configmap, Secret, and so on) to your desired clusters:
- Use placement to select the desired clusters if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters. Use ManifestWork to apply your Kubernetes resources to the selected clusters  Here is a sample to deploy a hello-world Deployment to the dev environment clusters:</description>
+      <description>After bootstrapping an OCM environment of at least one managed clusters, now it&amp;rsquo;s time to begin your first journey of deploying Kubernetes resources into your managed clusters with OCM&amp;rsquo;s ManifestWork API.
+Prerequisites By design, you don&amp;rsquo;t need to do any additional preparation before working on the ManifestWork API. Just in case of runnint into any unexpected failures, you can make sure your environment by checking the following conditions:
+  The CRD ManifestWork is installed in the hub cluster:</description>
     </item>
     
   </channel>
