@@ -117,7 +117,7 @@ Download and extract the clusteradm binary from our [release page](https://githu
 2. Then you can check out the running instances of registration operator by:
 
    ```shell
-   $ kubectl -n open-cluster-management   get pod
+   $ kubectl -n open-cluster-management   get pod   --context ${CTX_HUB_CLUSTER}
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-695d945d4d-5dn8k   1/1     Running   0          19d
    ```
@@ -126,7 +126,7 @@ Download and extract the clusteradm binary from our [release page](https://githu
    the following command:
 
    ```shell
-   $ kubectl -n open-cluster-management-hub   get pod
+   $ kubectl -n open-cluster-management-hub   get pod   --context ${CTX_HUB_CLUSTER}
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   0          19d
    cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   0          19d
@@ -139,7 +139,7 @@ Download and extract the clusteradm binary from our [release page](https://githu
    named `clustermanager`:
 
    ```shell
-   $ kubectl get clustermanager cluster-manager -o yaml
+   $ kubectl get clustermanager cluster-manager -o yaml   --context ${CTX_HUB_CLUSTER}
    ```
 
 ### Deploy a klusterlet agent on your managed cluster
