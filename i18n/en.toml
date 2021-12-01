@@ -64,6 +64,9 @@ other = "Use application lifecycle to create your application and deliver hybrid
 [addons_apps_link]
 other = "Learn more about applications"
 
+[supported_by]
+other = "Supported by"
+
 [sidebar_concepts]
 other = "Concepts"
 

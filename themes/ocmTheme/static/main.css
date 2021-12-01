@@ -91,6 +91,15 @@ nav > div.container-fluid {
   background-color: white;
 }
 
+.addons-section {
+  padding: 2rem;
+}
+
+.supports-section {
+  padding: 2rem;
+  background-color: white;
+}
+
 .cncf-section {
   padding-top: 2rem;
 }
@@ -138,6 +147,25 @@ nav > div.container-fluid {
 
 .addons-h1 {
   color:#1DCECE;
+}
+
+.supports-grid {
+  display: grid;
+  grid-gap: 2.375rem;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.supports-logo {
+  display: grid;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  place-items: center;
+  max-width: 320px;
+  width: 100%;
+}
+
+.tencent-logo {
+  padding: 70px;
 }
 
 .cncf-logo {
@@ -285,6 +313,10 @@ nav > div.container-fluid {
   .subject-img {
     background-size: contain;
   }
+
+  .tencent-logo {
+    padding: 25px;
+  }
 }
 
 @media (max-width: 992px) {
@@ -319,5 +351,10 @@ nav > div.container-fluid {
 
   .sidebar-hide-sm {
     display: none;
+  }
+
+  .supports-grid {
+    padding: 0;
+    grid-template-columns: repeat(1, 1fr);
   }
 }

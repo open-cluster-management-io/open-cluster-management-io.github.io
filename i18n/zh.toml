@@ -64,6 +64,9 @@ other = "借助应用生命周期管理相关功能，你可以创建并交付�
 [addons_apps_link]
 other = "了解更多关于应用管理"
 
+[supported_by]
+other = "Supported by"
+
 [sidebar_concepts]
 other = "概念"
 
