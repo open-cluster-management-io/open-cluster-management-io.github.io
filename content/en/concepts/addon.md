@@ -161,6 +161,11 @@ custom signers. The injected secrets will be:
   - "tls.crt": the signed certificate.
   - "tls.key": the private key.
 
+### Auto-install by cluster discovery
 
-
+The addon manager can automatically install an addon to the managed clusters
+upon discovering new clusters by setting the `InstallStrategy` from the 
+[addon-framework](https://github.com/open-cluster-management-io/addon-framework).
+On the other hand, the admin can also manually install the addon for the 
+clusters by applying `ManagedClusterAddon` into their cluster namespace.
 
