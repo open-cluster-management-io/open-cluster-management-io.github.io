@@ -41,12 +41,12 @@ Benefiting from the merit of "master-agent" architecture, in abstraction we
 are de-coupling most of the multi-cluster operations generally into 
 (1) computation/decision and (2) execution, and the actual execution against 
 the target cluster will be completely off-loaded into the managed cluster. The
-hub cluster won't be directly requesting against the real clusters instead it 
+hub cluster won't directly request against the real clusters, instead it 
 just persists its prescriptions delcaratively for each cluster, and the 
 klusterlet will be actively pulling the prescriptions from the hub and doing
 the execution. Hence, the burden of the hub cluster will be greatly relieved
 because the hub cluster doesn't need to either deal with flooding events from 
-the managed clusters or buried in sending requests against the clusters. 
+the managed clusters or be buried in sending requests against the clusters. 
 Imagine in a world where there's no kubelet in Kubernetes and its control plane
 is directly operating the container daemons, it will be extremely hard for a 
 centric controller to manage a cluster of 5k+ nodes. Likewise, that's how OCM
