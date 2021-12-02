@@ -35,9 +35,8 @@ v0.5.0, on 8th, November 2021 Open Cluster Management team is proud to annouce t
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/architecture/</guid>
-      <description>This page tells you the architecture and basic concepts in open-cluster-management.
-   Overview Hub cluster Klusterlet Managed cluster Application lifecycle Governance and risk     Overview open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.
- The service must have an API to determine the inventory of available clusters.</description>
+      <description>This page is an overview of open cluster management.
+   Overview  &amp;ldquo;Master-agent&amp;rdquo; architecture Modularity and extensibility   Concepts  Cluster registering: &amp;ldquo;double opt-in handshaking&amp;rdquo; Cluster namespace Addons   Building blocks  Registration Work Placement Application lifecycle Governance and risk Registration operator       Overview Open Cluster Management (OCM) is a powerful, modular, extensible platform for Kubernetes multi-cluster orchestration. Learning from the past failing lesson of building Kubernetes federation systems in the Kuberentes community, in OCM we will be jumping out of the legacy centric, imperative architecture of Kubefed v2 and embracing the &amp;ldquo;master-agent&amp;rdquo; architecture which is identical to the original pattern of &amp;ldquo;master-kubelet&amp;rdquo; from Kubernetes.</description>
     </item>
     
     <item>

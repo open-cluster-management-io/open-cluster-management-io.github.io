@@ -190,55 +190,193 @@
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
     <h1>Architecture</h1>
-    <p>This page tells you the architecture and basic concepts in open-cluster-management.</p>
+    <p>This page is an overview of open cluster management.</p>
 <!-- spellchecker-disable -->
 
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#hub-cluster">Hub cluster</a></li>
-        <li><a href="#klusterlet">Klusterlet</a></li>
-        <li><a href="#managed-cluster">Managed cluster</a></li>
-        <li><a href="#application-lifecycle">Application lifecycle</a></li>
-        <li><a href="#governance-and-risk">Governance and risk</a></li>
+        <li><a href="#overview">Overview</a>
+          <ul>
+            <li><a href="#master-agent-architecture">&ldquo;Master-agent&rdquo; architecture</a></li>
+            <li><a href="#modularity-and-extensibility">Modularity and extensibility</a></li>
+          </ul>
+        </li>
+        <li><a href="#concepts">Concepts</a>
+          <ul>
+            <li><a href="#cluster-registering-double-opt-in-handshaking">Cluster registering: &ldquo;double opt-in handshaking&rdquo;</a></li>
+            <li><a href="#cluster-namespace">Cluster namespace</a></li>
+            <li><a href="#addons">Addons</a></li>
+          </ul>
+        </li>
+        <li><a href="#building-blocks">Building blocks</a>
+          <ul>
+            <li><a href="#registration">Registration</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#placement">Placement</a></li>
+            <li><a href="#application-lifecycle">Application lifecycle</a></li>
+            <li><a href="#governance-and-risk">Governance and risk</a></li>
+            <li><a href="#registration-operator">Registration operator</a></li>
+          </ul>
+        </li>
       </ul></nav><hr></div>
 
 
 <!-- spellchecker-enable -->
 <h2 id="overview">Overview</h2>
-<p>open-cluster-management enables any capability within the Kubernetes ecosystem to orchestrate itself across multiple clusters and cloud providers. Consider the requirements that a capability within the Kubernetes ecosystem would need to become multicluster-aware.</p>
+<p><strong>Open Cluster Management</strong> (OCM) is a powerful, modular, extensible platform
+for Kubernetes multi-cluster orchestration. Learning from the past failing
+lesson of building Kubernetes federation systems in the Kuberentes community,
+in OCM we will be jumping out of the legacy centric, imperative architecture of
+<a href="https://github.com/kubernetes-sigs/kubefed">Kubefed v2</a> and embracing the
+&ldquo;master-agent&rdquo; architecture which is identical to the original pattern of
+&ldquo;master-kubelet&rdquo; from Kubernetes. Hence, intuitively in OCM our multi-cluster
+control plane is modeled as a &ldquo;Hub&rdquo; and on the other hand each of the clusters
+being managed by the &ldquo;Hub&rdquo; will be a &ldquo;Klusterlet&rdquo; which is obviously inspired
+from the original name of &ldquo;kubelet&rdquo;. Here&rsquo;s a more detailed clarification of
+the two models we will be frequently using throughout the world of OCM:</p>
 <ul>
-<li>The service must have an API to determine the inventory of available clusters.</li>
-<li>The service must have a way to determine where to schedule and assign Kubernetes API manifests to a selected set of clusters.</li>
-<li>The service must have a way to deliver desired Kubernetes API manifests to a selected set of clusters.</li>
-<li>The service must have a way to govern how users access available clusters or groups of clusters in the fleet.</li>
-<li>Optionally, the service may need to extend the management agent with additional built-in controllers that should be run on managed clusters.</li>
+<li>
+<p><strong>Hub Cluster</strong>: Indicating the cluster that runs the multi-cluster control
+plane of OCM. Generally the hub cluster is supposed to be a light-weight
+Kubernetes cluster hosting merely a few fundamental controllers and services.</p>
+</li>
+<li>
+<p><strong>Klusterlet</strong>: Indicating the clusters that being managed by the hub
+cluster, might also called as &ldquo;managed cluster&rdquo; or &ldquo;spoke cluster&rdquo;. The
+klusterlet is supposed to actively <strong>pulling</strong> the latest prescriptions from
+the hub cluster and consistently reconciles the physical Kubernetes cluster
+to the expected state.</p>
+</li>
 </ul>
-<p>open-cluster-management provides core primitives to satisfy the above requirements to ease the multicluster enablement:</p>
-<ul>
-<li>For awareness of cluster inventory, the <a href="/concepts/managedcluster">ManagedCluster</a> API represents the cluster under management while a Klusterlet operator running on the remote cluster provides metadata and health information about the availability of the agent and the managed cluster Kubernetes API endpoint.</li>
-<li>For awareness of workload and configuration scheduled, a <a href="/concepts/placement">Placement</a> API provides the ability to describe the expected characteristics of ideal clusters and the controller will examine the available clusters (based on permissions for the user/namespace) and dynamically match a list of clusters captured in a cluster.open-cluster-management.io/PlacementDecision. Related controllers can then use the result of these decisions to drive further placement of configuration and workload on the selected clusters.</li>
-<li>For the delivery of configuration, the <a href="/concepts/manifestwork">ManifestWork</a> API provides a simple way to specify one or more Kubernetes manifests that should be delivered and reconciled against the managed cluster.</li>
-<li>To define a consistent access control boundary, users or groups may be assigned to specific ManagedClusters or collections of ManagedClusters known as <a href="/concepts/managedcluster/#managedclusterset">ManagedClusterSets</a>.</li>
-<li>If the service has a need to install built-in controllers or operators on managed clusters, the addon.<a href="/concepts/addon">ManagedClusterAddon</a> API allows additional behaviors to be injected remotely into the management agent to support abstractions built around the ManifestWork or other core primitives.</li>
-</ul>
+<h3 id="master-agent-architecture">&ldquo;Master-agent&rdquo; architecture</h3>
+<p>Benefiting from the merit of &ldquo;master-agent&rdquo; architecture, in abstraction we
+are de-coupling most of the multi-cluster operations generally into
+(1) computation/decision and (2) execution, and the actual execution against
+the target cluster will be completely off-loaded into the managed cluster. The
+hub cluster won&rsquo;t directly request against the real clusters, instead it
+just persists its prescriptions delcaratively for each cluster, and the
+klusterlet will be actively pulling the prescriptions from the hub and doing
+the execution. Hence, the burden of the hub cluster will be greatly relieved
+because the hub cluster doesn&rsquo;t need to either deal with flooding events from
+the managed clusters or be buried in sending requests against the clusters.
+Imagine in a world where there&rsquo;s no kubelet in Kubernetes and its control plane
+is directly operating the container daemons, it will be extremely hard for a
+centric controller to manage a cluster of 5k+ nodes. Likewise, that&rsquo;s how OCM
+trying to breach the bottleneck of scalability, by dividing and offloading the
+execution into separated agents. So it&rsquo;s always feasible for a hub cluster to
+accept and manage thousand-ish clusters.</p>
+<p>Each klusterlet will be working independently and autonomously, so they have
+a weak dependency to the availability of the hub cluster. If the hub goes down
+(e.g. during maintenance or network partition) the klusterlet or other OCM
+agents working in the managed cluster are supposed to keep actively managing
+the hosting cluster until it re-connects. Additionally if the hub cluster and
+the managed clusters are owned by different admins, it will be easier for the
+admin of the managed cluster to police the prescriptions from the hub control
+plane because the klusterlet is running as a &ldquo;white-box&rdquo; as a pod instance in
+the managed cluster. Upon any accident, the klusterlet admin can quickly cut
+off the connection with the hub cluster without shutting the whole multi-cluster
+control plane down.</p>
 <div style="text-align: center; padding: 20px;">
-    <img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto;">
+    <img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto; width: 50%">
 </div>
-<h2 id="hub-cluster">Hub cluster</h2>
-<p>The <em>hub</em> cluster is the common term that is used to define the central controller that runs on a Kubernetes cluster.
-The hub cluster aggregates information from multiple clusters by using an asynchronous work request model.</p>
-<h2 id="klusterlet">Klusterlet</h2>
-<p>The <em>klusterlet</em> is an agent running on the cluster managed by the hub.</p>
-<h2 id="managed-cluster">Managed cluster</h2>
-<p>The <em>managed cluster</em> provides a representation of the managed cluster on the hub. ManagedCluster controls the lifecycle of whether the remote cluster has been &ldquo;accepted&rdquo; by the Hub for management and can retrieve information from the Hub to direct a set of manifests or actions to apply.</p>
-<h2 id="application-lifecycle">Application lifecycle</h2>
-<p>The <em>application lifecycle</em> defines the processes that are used to manage application resources on your managed clusters.
-A multi-cluster application uses a Kubernetes specification, but with additional automation of the deployment and lifecycle management of resources to individual clusters.
-A multi-cluster application allows you to deploy resources on multiple clusters, while maintaining easy-to-reconcile service routes, as well as full control of Kubernetes resource updates for all aspects of the application.</p>
-<h2 id="governance-and-risk">Governance and risk</h2>
-<p><em>Governance and risk</em> is the term used to define the processes that are used to manage security and compliance from the hub cluster. Ensure the security of your cluster with the extensible policy framework. After you configure a hub cluster and a managed cluster, you can create, modify and delete policies on the hub and apply policies to the managed clusters.</p>
+<p>The &ldquo;master-agent&rdquo; architecture also minimized the requirements in the network
+for registering a new cluster to the hub. Any cluster that can reach the
+endpoint of the hub cluster will be able to be managed, even a random KinD
+sandbox cluster on your laptop. That is because the prescriptions are
+effectively <strong>pulled</strong> from the hub instead of <strong>pushing</strong>. In addition to
+that, OCM also provides a <a href="https://open-cluster-management.io/concepts/addon/">addon</a>
+named <a href="https://open-cluster-management.io/getting-started/integration/cluster-proxy/">&ldquo;cluster-proxy&rdquo;</a>
+which automatically manages a reverse proxy tunnel for proactive access to the
+managed clusters by leveraging on the Kubernetes&rsquo; subproject <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/">konnectivity</a>.</p>
+<h3 id="modularity-and-extensibility">Modularity and extensibility</h3>
+<p>Not only OCM will bring you a fluent user-experience of managing a number of
+clusters on ease, but also it will be equally friendly to further customization
+or second-time development. Every functionality working in OCM is expected to
+be freely-pluggable by modularizing the atomic capability into separated
+building blocks, except for the mandatory core module named <a href="https://github.com/open-cluster-management-io/registration">registration</a>
+which is responsible for controlling the lifecycle of a managed controller
+and exporting the elementary <code>ManagedCluster</code> model.</p>
+<p>Another good example surfacing our modularity will be the <a href="https://open-cluster-management.io/concepts/placement/">placement</a>,
+a standalone module focusing at dynamically selecting the proper list of
+the managed clusters from user&rsquo;s prescription. You can build any advanced
+multi-cluster orchestration on the top of placement, e.g. multi-cluster
+workload re-balancing, multi-cluster helm charts replication, etc. On the
+other hand if you&rsquo;re satisfied by the current capacities from our placement
+module, you can quickly opt-out and replace it with your customized ones, and
+reach out to our community so that we can converge in the future if plausible.</p>
+<hr>
+<h2 id="concepts">Concepts</h2>
+<h3 id="cluster-registering-double-opt-in-handshaking">Cluster registering: &ldquo;double opt-in handshaking&rdquo;</h3>
+<p>Practically the hub cluster and the managed cluster can be owned/maintained
+by different admins, so in OCM we clearly separated the roles and make the
+cluster registration require approval from the both sides defencing unwelcome
+requests. In terms of terminating the registration, the hub admin can kick
+out a registered cluster by denying the rotation of hub cluster&rsquo;s certificate,
+on the other hand from the perspective of a managed cluster&rsquo;s admin, he can
+either brutally deleting the agent instances or revoking the granted RBAC
+permissions for the agents. Note that the hub controller will be automatically
+preparing environment for the newly registered cluster and cleaning up neatly
+upon kicking a managed cluster.</p>
+<h3 id="cluster-namespace">Cluster namespace</h3>
+<p>Kubernetes has a native soft multi-tenancy isolation in the granularity of
+its namespace resources, so in OCM, for each of the managed cluster we will
+be provisioning a dedicated namespace for the managed cluster and grants
+sufficient RBAC permissions so that the klusterlet can persist some data
+in the hub cluster. This dedicated namespace is the &ldquo;cluster namespace&rdquo; which
+is majorly for saving the prescriptions from the hub. e.g. we can create
+<code>ManifestWork</code> in a cluster namespace in order to deploy some resources towards
+the corresponding cluster. Meanwhile, the clsuter namespace can also be used
+to save the uploaded stats from the klusterlet e.g. the healthiness of an
+addon, etc.</p>
+<h3 id="addons">Addons</h3>
+<p>Addon is a general concept for the optional, pluggable customization built over
+the extensibility from OCM. It can be a controller in the hub cluster, or just
+a customized agent in the managed cluster, or even the both collaborating
+in peers. The addons are expected to implement the <code>ClusterManagementAddon</code> or
+<code>ManagedClusterAddon</code> API of which a detailed elaboration can be found <a href="https://open-cluster-management.io/concepts/addon/">here</a>.</p>
+<hr>
+<h2 id="building-blocks">Building blocks</h2>
+<p>The following is a list of commonly-used modules/subprojects that you might
+be interested in the journey of OCM:</p>
+<h3 id="registration">Registration</h3>
+<p>The core module of OCM managing the lifecycle of the managed clusters. The
+registration controller in the hub cluster can be intuitively compared to a
+broker that represents and manages the hub cluster in terms of cluster
+registration, while the registration agent working in the managed cluster
+is another broker that represents the managed cluster. After a successful
+registration, the registration controller and agent will also be consistently
+probing each other&rsquo;s healthiness. i.e. the cluster heartbeats.</p>
+<h3 id="work">Work</h3>
+<p>The module for dispatching resources from the hub cluster to the managed
+clusters, which can be easily done by writing a <code>ManifestWork</code> resource into
+a cluster namespace. See more details about the API <a href="https://open-cluster-management.io/concepts/manifestwork/">here</a>.</p>
+<h3 id="placement">Placement</h3>
+<p>Building custom advanced topology across the clusters by either grouping
+clusters via the labels or the cluster-claims. The placement module is
+completely decoupled from the execution, the output from placement will
+be merely a list of names of the matched clusters in the <code>PlacementDecision</code>
+API, so the consumer controller of the decision output can reactively
+discovery the topology or availability change from the managed clusters by
+simply list-watching the decision API.</p>
+<h3 id="application-lifecycle">Application lifecycle</h3>
+<p>The <em>application lifecycle</em> defines the processes that are used to manage
+application resources on your managed clusters. A multi-cluster application
+uses a Kubernetes specification, but with additional automation of the
+deployment and lifecycle management of resources to individual clusters. A
+multi-cluster application allows you to deploy resources on multiple clusters,
+while maintaining easy-to-reconcile service routes, as well as full control
+of Kubernetes resource updates for all aspects of the application.</p>
+<h3 id="governance-and-risk">Governance and risk</h3>
+<p><em>Governance and risk</em> is the term used to define the processes that are used
+to manage security and compliance from the hub cluster. Ensure the security
+of your cluster with the extensible policy framework. After you configure a hub
+cluster and a managed cluster, you can create, modify and delete policies on
+the hub and apply policies to the managed clusters.</p>
+<h3 id="registration-operator">Registration operator</h3>
+<p>Automating the installation and upgrading of a few built-in modules in OCM. You
+can either deploy the operator standalone or delegate the registration operator
+to the operator lifecyle framework.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
