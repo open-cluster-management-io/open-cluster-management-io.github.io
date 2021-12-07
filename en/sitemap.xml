@@ -110,6 +110,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/multicloud-operators-subscription</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io</loc>
     </url>
     
@@ -121,6 +125,9 @@
     </url>
     <url>
         <loc>http://open-cluster-management.io/multicloud-operators-channel?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/multicloud-operators-subscription?go-get=1</loc>
     </url>
     <url>
         <loc>http://open-cluster-management.io/addon-framework?go-get=1</loc>
