@@ -68,25 +68,19 @@ with the help of OCM's native command-line tool `clusteradm`.
 
 ### Install clusteradm CLI tool
 
-Download and extract the clusteradm binary from our [release page](https://github.com/open-cluster-management-io/clusteradm/releases/latest). 
+It's recommended to install with the following command if you have a golang 
+environment:
 
-- On Linux:
+```shell
+$ go install open-cluster-management.io/clusteradm
+```
 
-   ```shell
-   $ wget https://github.com/open-cluster-management-io/clusteradm/releases/download/v0.1.0-alpha.7/clusteradm_linux_amd64.tar.gz
-   $ tar xzvf clusteradm_linux_amd64.tar.gz
-   $ chmod u+x clusteradm
-   $ mv ./clusteradm /usr/local/bin/
-   ```
+Otherwise if you don't have golang library in the local environment, you can also 
+install by:
 
-- On MacOS:
-
-   ```shell
-   $ wget https://github.com/open-cluster-management-io/clusteradm/releases/download/v0.1.0-alpha.7/clusteradm_darwin_amd64.tar.gz
-   $ tar xzvf clusteradm_darwin_amd64.tar.gz
-   $ chmod u+x clusteradm
-   $ mv ./clusteradm /usr/local/bin/
-   ```
+```shell
+$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+```
 
 ### Deploy a cluster manager on your hub cluster
 
