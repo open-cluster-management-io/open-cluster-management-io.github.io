@@ -146,7 +146,8 @@ all set. Let's move on to register your managed cluster into OCM.
    the hub cluster.
    
    ```shell
-   clusteradm join \
+   $ # NOTE: Switch kubeconfig to the managed cluster.
+   $ clusteradm join \
         --context ${CTX_MANAGED_CLUSTER} \
         --hub-token <your token data> \
         --hub-apiserver <your hub cluster endpoint> \
@@ -182,19 +183,19 @@ OCM's hub admin:
    clusters' OCM agents into your hub cluster:
 
    ```Shell
-   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1
+   $ kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1
    ```
 
    A sample of pending CSR request will be:
 
    ```Shell
-   cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+   $ cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
    ```
 
 2. Accept the join request using your `clusteradm` tool:
 
    ```Shell
-   clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
+   $ clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
    ```
    
    After running the `accept` command, the CSR from your managed cluster
@@ -206,7 +207,7 @@ OCM's hub admin:
 3. Verify `managedcluster` has been created successfully:
 
    ```Shell
-   kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
+   $ kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
    ```
 
    Then you will get a result resembling the following:
