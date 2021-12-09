@@ -309,7 +309,8 @@ all set. Let&rsquo;s move on to register your managed cluster into OCM.</p>
 to explicitly pass <code>--context</code> option if your managed cluster is created by
 KinD because its kubeconfig are persisted in the same kubeconfig file of
 the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm join <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># NOTE: Switch kubeconfig to the managed cluster.</span>
+$ clusteradm join <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
@@ -337,13 +338,13 @@ OCM&rsquo;s hub admin:</p>
 <li>
 <p>Wait for the creation of CSR resources which will be created by your managed
 clusters&rsquo; OCM agents into your hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get csr -w --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> | grep cluster1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get csr -w --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> | grep cluster1
 </code></pre></div><p>A sample of pending CSR request will be:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
 </code></pre></div></li>
 <li>
 <p>Accept the join request using your <code>clusteradm</code> tool:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters cluster1 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ clusteradm accept --clusters cluster1 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>After running the <code>accept</code> command, the CSR from your managed cluster
 named &ldquo;cluster1&rdquo; will be approved, and additionally it will prescribe
 the OCM hub control plane to setup related resources (such as a namespace
@@ -352,7 +353,7 @@ for you.</p>
 </li>
 <li>
 <p>Verify <code>managedcluster</code> has been created successfully:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>Then you will get a result resembling the following:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
 cluster1   true           &lt;your endpoint&gt;           True     True        5m23s
