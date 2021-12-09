@@ -68,15 +68,14 @@ with the help of OCM's native command-line tool `clusteradm`.
 
 ### Install clusteradm CLI tool
 
-It's recommended to install with the following command if you have a golang 
+It's recommended to install with the following command if you have a `golang` 
 environment:
 
 ```shell
 $ go install open-cluster-management.io/clusteradm
 ```
 
-Otherwise if you don't have golang library in the local environment, you can also 
-install by:
+Otherwise if you don't have a `golang` environment, you can also install by:
 
 ```shell
 $ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
