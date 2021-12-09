@@ -121,6 +121,10 @@ other = "应用场景"
 [sidebar_deploy_kubernetes_resources]
 other = "部署Kubernetes资源"
 
+[sidebar_extend_managed_clusters]
+other = "扩展集群模型"
+
+
 [sidebar_community]
 other = "社区"
 

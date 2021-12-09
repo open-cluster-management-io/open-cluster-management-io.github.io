@@ -121,6 +121,9 @@ other = "Scenarios"
 [sidebar_deploy_kubernetes_resources]
 other = "Deploy Kubernetes Resources"
 
+[sidebar_extend_managed_clusters]
+other = "Extend Managed Clusters"
+
 [sidebar_community]
 other = "Community"
 
