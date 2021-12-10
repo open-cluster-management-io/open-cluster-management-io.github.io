@@ -26,6 +26,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/scenarios/extending-managed-clusters</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/getting-started/quick-start</loc>
     </url>
     

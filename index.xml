@@ -63,6 +63,16 @@ Prerequisites By design, you don&amp;rsquo;t need to do any additional preparati
     </item>
     
     <item>
+      <title>Extending managed clusters with custom attributes</title>
+      <link>http://open-cluster-management.io/scenarios/extending-managed-clusters/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/scenarios/extending-managed-clusters/</guid>
+      <description>Under some cases we need a convenient way to extend OCM&amp;rsquo;s Managed Cluster data model so that our own custom multi-cluster system can easily work over the OCM&amp;rsquo;s native cluster api otherwise we will have to maintain an additional Kubernetes&amp;rsquo; CustomResourceDefinition in the project. OCM definitely supports developers to decorate the cluster api with minimal effort, and in the following content we will walk through that briefly.
+The original cluster model in OCM &amp;ldquo;Managed Cluster&amp;rdquo; is designed to be a neat and light-weight placeholder resource of which the spec doesn&amp;rsquo;t require any additional information other than &amp;ldquo;whether the cluster is accepted or not&amp;rdquo; i.</description>
+    </item>
+    
+    <item>
       <title>Klusterlet agent</title>
       <link>http://open-cluster-management.io/getting-started/core/register-cluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

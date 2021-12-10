@@ -196,45 +196,96 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>Cluster manager</h1>
-    <p>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.</p>
-<!-- spellchecker-disable -->
-
-
-
-  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#prerequisite">Prerequisite</a></li>
-        <li><a href="#install-from-source">Install from source</a></li>
-        <li><a href="#install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</a></li>
-      </ul></nav><hr></div>
-
-
-<!-- spellchecker-enable -->
-<h2 id="prerequisite">Prerequisite</h2>
-<p>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubernetes-sigs.github.io/kustomize/installation">kustomize</a> are installed.</p>
-<p>Ensure <a href="https://golang.org/doc/install">golang</a> is installed, if you are planning to install from the source.</p>
-<p>Prepare one Kubernetes cluster to function as the hub. For example, use <a href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create a hub cluster. To use <code>kind</code>, you will need <a href="https://docs.docker.com/get-started">docker</a> installed and running.</p>
-<p>If you are running OS X, you&rsquo;ll also need to install <code>gnu-sed</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">brew install gnu-sed
-</code></pre></div><p>Set the following environment variable that will be used throughout to simplify the instructions:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export HUB_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your hub cluster name&gt;             <span style="color:#75715e"># export HUB_CLUSTER_NAME=hub</span>
-export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
-export HUB_KUBECONFIG<span style="color:#f92672">=</span>&lt;your hub cluster kubeconfig file&gt;    <span style="color:#75715e"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
-</code></pre></div><p>Then create the hub cluster with <code>kind</code>, run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># kind delete cluster --name ${HUB_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted</span>
-kind create cluster --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span>
-kind get kubeconfig --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span> --internal &gt; <span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
-</code></pre></div><h2 id="install-from-source">Install from source</h2>
-<p>Clone the <code>registration-operator</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/registration-operator
-</code></pre></div><p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Deploy hub</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">cd registration-operator
-export KUBECONFIG<span style="color:#f92672">=</span>$HOME/.kube/config <span style="color:#75715e"># set a env variable KUBECONFIG to kubeconfig file path</span>
-make deploy-hub <span style="color:#75715e"># make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
-</code></pre></div><h2 id="install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</h2>
-<p>If you are using OKD, OpenShift, or have <code>OLM</code> installed in your cluster, you can install the cluster manager community operator with a released version from <a href="https://operatorhub.io/operator/cluster-manager">OperatorHub.io</a>.</p>
+    <h1>Extending managed clusters with custom attributes</h1>
+    <p>Under some cases we need a convenient way to extend OCM&rsquo;s <a href="https://open-cluster-management.io/concepts/managedcluster/">Managed Cluster</a>
+data model so that our own custom multi-cluster system can easily work over the
+OCM&rsquo;s native cluster api otherwise we will have to maintain an additional
+Kubernetes&rsquo; <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/">CustomResourceDefinition</a>
+in the project. OCM definitely supports developers to decorate the cluster api
+with minimal effort, and in the following content we will walk through that
+briefly.</p>
+<p>The original cluster model in OCM &ldquo;Managed Cluster&rdquo; is designed to be a
+<strong>neat</strong> and  <strong>light-weight</strong> placeholder resource of which the spec doesn&rsquo;t
+require any additional information other than &ldquo;whether the cluster is
+accepted or not&rdquo; i.e. <code>.spec.hubAcceptsClient</code>, and all the other fields
+in the spec are totally optional, e.g. <code>.spec.managedClusterClientConfigs</code>
+is only required until we install some addons that replying on that
+information.</p>
+<p>Overall in OCM we can decorate the original cluster model with custom
+attributes in the following approaches:</p>
+<ul>
+<li><code>Label</code>: The common label primitive in terms of a Kubernetes resource.</li>
+<li><code>Cluster Claim</code>: A custom resource available inside the managed cluster
+which will be consistently reported to the hub cluster.</li>
+</ul>
+<h2 id="labeling-managed-cluster">Labeling managed cluster</h2>
+<p>Any kubernetes resource can be attached with labels in the metadata in the
+form of:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">&lt;domain name&gt;/&lt;label name&gt;</span>: &lt;label string value&gt;
+...
+</code></pre></div><p>However, there&rsquo;re some restrictions to the label value such as the content
+length, and legal charset etc, so it&rsquo;s not convenient to put some structurelized
+or comprehensive data in the label value.</p>
+<p>Additionally, due to the fact that the finest granularity of authorization
+mechanism in Kubernetes is &ldquo;resource&rdquo;, so it&rsquo;s also not convenient for us
+to protect these extended labels from unexpected modification unless
+intercepting the writes the &ldquo;Managed Cluster&rdquo; with an admission webhook which
+brings additional costs in cluster administration and operation. So generally
+it&rsquo;s recommended to put those immutable or static attributes (that doesn&rsquo;t
+frequently change over time) such as:</p>
+<ul>
+<li>data-center information</li>
+<li>network infrastructure information</li>
+<li>geography attributes like cluster&rsquo;s region</li>
+<li>&hellip;</li>
+</ul>
+<p>Last but not least, it&rsquo;s generally not recommended to grant permission to the
+managed cluster to update non-status fields on the &ldquo;Managed Cluster&rdquo; so these
+custom attributes in labels should only be manipulated by hub cluster
+admins/operators. If you are looking for a way to make the local agents in the
+managed clusters to be capable of reporting attributes in a &ldquo;bottom-up&rdquo;
+pattern, go ahead read the &ldquo;Cluster Claim&rdquo; section below.</p>
+<h2 id="decorating-managed-cluster-with-cluster-claim">Decorating managed cluster with cluster claim</h2>
+<p>The cluster claim is a cluster-scoped custom resource working from the managed
+clusters and proactively projecting custom attributes towards the hub cluster&rsquo;s
+&ldquo;Managed Cluster&rdquo; model. Note that the hub cluster is not supposed to make
+any direct modification upon the projected claims on the &ldquo;ManagedCluster&rdquo;, i.e.
+<strong>read-only</strong> to the hub cluster.</p>
+<p>A sample of cluster claim will be like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterClaim
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: id.open-cluster-management.io
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">value</span>: 95f91f25-d7a2-4fc3<span style="color:#ae81ff">-9237</span>-2ef633d8451c
+</code></pre></div><p>After applying the cluster claim above to any managed cluster, the value of
+the claims will be instantly reflected in the cluster model. e.g.:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>: ...
+<span style="color:#66d9ef">spec</span>: ...
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">clusterClaims</span>:
+    - <span style="color:#66d9ef">name</span>: id.open-cluster-management.io
+      <span style="color:#66d9ef">value</span>: 95f91f25-d7a2-4fc3<span style="color:#ae81ff">-9237</span>-2ef633d8451c
+</code></pre></div><p>And any future updates upon the claim will also be reported from the
+registration agent to the hub cluster.</p>
+<p>The claims are useful if we want the hub cluster to perform different actions
+or behaviors reactively based on the feedback of reported values. They&rsquo;re
+typically applicable to describe the information that changes in the managed
+cluster frequently. e.g.:</p>
+<ul>
+<li>aggregated resource information (node counts, pod counts)</li>
+<li>cluster resource watermark/budget</li>
+<li>any cluster-scoped knowledge of the managed cluster&hellip;</li>
+</ul>
+<h2 id="next">Next</h2>
+<p>After extending your &ldquo;Managed Cluster&rdquo; with customized attributes, now we can
+try the advanced cluster selection using the <a href="https://open-cluster-management.io/concepts/placement/">placement</a>
+policies, which is provided ny another module of OCM helpful for building your
+own advanced multi-cluster systems.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
