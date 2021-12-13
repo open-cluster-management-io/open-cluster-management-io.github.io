@@ -193,61 +193,149 @@
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
     <h1>ManagedCluster</h1>
-    <h2 id="managedcluster-registration">ManagedCluster Registration</h2>
-<p><code>ManagedCluster</code> is a cluster scoped API on the hub cluster to define a Kubernetes cluster registered with the hub cluster. In open-cluster-management, the cluster registration follows a <code>double opt-in</code> mechanism which is:</p>
-<ol>
-<li>An agent opts in to register a cluster with the hub by creating a <code>ManagedCluster</code> resource on the hub. The agent needs a kubeconfig with appropriate permission (bootstrap kubeconfig) to initiate the registration request</li>
-<li>An admin user on the hub opts in to explicitly accept the registration of the <code>ManagedCluster</code>.</li>
-</ol>
-<p>This process ensures that any agent with a credential to the hub can request to join as a <code>ManagedCluster</code>, while the request must be approved by an admin on the hub.</p>
-<p>An example of <code>ManagedCluster</code> resource is shown in the following example.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManagedCluster
+    <h2 id="managedcluster">ManagedCluster</h2>
+<p><code>ManagedCluster</code> is a cluster scoped API in the hub cluster representing the
+registered or pending-for-acceptance Kubernetes clusters in OCM. The
+<a href="https://open-cluster-management.io/getting-started/core/register-cluster/">klusterlet agent</a>
+working in the managed cluster is expected to actively maintain/refresh the
+status of the corresponding <code>ManagedCluster</code> resource on the hub cluster.
+On the other hand, removing the <code>ManagedCluster</code> from the hub cluster indicates
+the cluster is denied/exiled from the hub cluster. The following is the
+introduction of how the cluster registration lifecycle works under the hood:</p>
+<h3 id="cluster-registration-and-acceptance">Cluster registration and acceptance</h3>
+<h4 id="bootstrapping-registration">Bootstrapping registration</h4>
+<p>Firstly, the cluster registration process should be initiated by the
+registration agent which requires a bootstrap kubeconfig e.g.:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: Secret
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
-  <span style="color:#66d9ef">managedClusterClientConfigs</span>:
-    - <span style="color:#66d9ef">url</span>: https://managedcluster-apiserver:<span style="color:#ae81ff">6443</span>
-</code></pre></div><p>The admin user on the hub needs to approve the authn/authz of an agent separately by:</p>
-<ol>
-<li>Approving the <code>certificatesigningrequest</code> initiated by the agent so agent is authenticated to the hub.</li>
-<li>Set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code> API, so the agent is authorized to call the hub.</li>
-</ol>
-<p>The admin user must have a <code>create</code> permission to <code>managedcluster/accept</code> resource to set <code>hubAccpetClient</code> to true in <code>ManagedCluster</code>.</p>
-<p>After the admin user on the hub approve the registration of the cluster, a namespace with the same name of the cluster will be created. This namespace can be regarded as a <code>container</code> of the resources that agents in a managed cluster can access. By default, the agent on a cluster is only authorized to access certain resource kinds in this namespace on the hub to ensure security isolation. In addition, the agent will set a status condition in <code>ManagedCluster</code> as <code>Joined</code> and starts to update the liveness of managed cluster.</p>
-<p>In open-cluster-management, <a href="https://github.com/open-cluster-management-io/registration">registration</a> project implements the registration process. It includes an agent in the managed cluster to register to the hub, a controller on the hub cluster to handle authz/authn setup for the agent.</p>
+  <span style="color:#66d9ef">name</span>: bootstrap-hub-kubeconfig
+  <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent
+<span style="color:#66d9ef">type</span>: Opaque
+<span style="color:#66d9ef">data</span>:
+  <span style="color:#66d9ef">kubeconfig</span>: &lt;base64-encoded kubeconfig&gt;
+</code></pre></div><p>A minimal RBAC permission required for the subject in the bootstrap kubeconfig
+will be:</p>
+<ul>
+<li><code>CertficateSigningRequest</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;watch&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;.</li>
+<li><code>ManagedCluster</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;</li>
+</ul>
+<p>Note that ideally the bootstrap kubeconfig is supposed to live shortly
+(hour-ish) after signed by the hub cluster so that it won&rsquo;t be abused by
+unwelcome clients.</p>
+<p>Last but not least, you can always live an easier life by leveraging OCM&rsquo;s
+command-line tool <code>clusteradm</code> to manage the whole registration process.</p>
+<h4 id="approving-registration">Approving registration</h4>
+<p>When we&rsquo;re registering a new cluster into OCM, the registration agent will be
+starting by creating an unaccepted <code>ManagedCluster</code> into the hub cluster along
+with a temporary <a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/">CertficateSigningRequest (CSR)</a>
+resource. The cluster will be accepted by the hub control plan, if the
+following requirements is meet:</p>
+<ul>
+<li>The CSR is approved and signed by any certificate provider setting filling
+<code>.status.certificate</code> with legit X.509 certificates.</li>
+<li>The <code>ManagedCluster</code> resource is approved by setting <code>.spec.hubAcceptsClient</code>
+to true in the spec.</li>
+</ul>
+<p>Note that the cluster approval process above can be done by one-line:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ clusteradm accept --clusters &lt;cluster name&gt;
+</code></pre></div><p>Upon the approval, the registration agent will observe the signed certificate
+and persist them as a local secret named &ldquo;hub-kubeconfig-secret&rdquo; (by default
+in the &ldquo;open-cluster-management-agent&rdquo; namespace) which will be mounted to the
+other fundamental components of klusterlet such as the <a href="https://open-cluster-management.io/concepts/manifestwork/">work</a>
+agent. In a word, if you can find your &ldquo;hub-kubeconfig-secret&rdquo; successfully
+present in your managed cluster, the cluster registration is all set!</p>
+<p>Overall the registration process in OCM is called <code>double opt-in</code> mechanism,
+which means that a successful cluster registration requires both sides of
+approval and commitment from the hub cluster and the managed cluster. This
+will be especially useful when the hub cluster and managed clusters are
+operated by different admins or teams. In OCM, we assume the clusters are
+mutually untrusted in the beginning then set up the connection between them
+gracefully with permission and validity under control.</p>
+<p>Note that the functionality mentioned above are all managed by OCM&rsquo;s
+<a href="https://github.com/open-cluster-management-io/registration">registration</a>
+sub-project, which is the &ldquo;root dependency&rdquo; in the OCM world. It includes
+an agent in the managed cluster to register to the hub and a controller in
+the hub cluster to coordinate with the agent.</p>
+<h3 id="cluster-heart-bearts-and-status">Cluster heart-bearts and status</h3>
+<p>By default, the registration will be reporting and refreshing its healthiness
+state to the hub cluster on a one-minute basis, and that interval can be easily
+overridden by setting <code>.spec.leaseDurationSeconds</code> on the <code>ManagedCluster</code>.</p>
+<p>In addition to that, a few commonly-used information will also be reflected
+in the status of the <code>ManagedCluster</code>, e.g.:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#66d9ef">status</span>:
+    <span style="color:#66d9ef">version</span>:
+      <span style="color:#66d9ef">kubernetes</span>: v1<span style="color:#ae81ff">.20.11</span>-aliyun<span style="color:#ae81ff">.1</span>
+    <span style="color:#66d9ef">allocatable</span>:
+      <span style="color:#66d9ef">cpu</span>: 11700m
+      <span style="color:#66d9ef">ephemeral-storage</span>: <span style="color:#e6db74">&#34;342068531454&#34;</span>
+      <span style="color:#66d9ef">hugepages-1Gi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+      <span style="color:#66d9ef">hugepages-2Mi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+      <span style="color:#66d9ef">memory</span>: 17474228Ki
+      <span style="color:#66d9ef">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
+    <span style="color:#66d9ef">capacity</span>:
+      <span style="color:#66d9ef">cpu</span>: <span style="color:#e6db74">&#34;12&#34;</span>
+      <span style="color:#66d9ef">ephemeral-storage</span>: 371168112Ki
+      <span style="color:#66d9ef">hugepages-1Gi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+      <span style="color:#66d9ef">hugepages-2Mi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+      <span style="color:#66d9ef">memory</span>: 23777972Ki
+      <span style="color:#66d9ef">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
+    <span style="color:#66d9ef">conditions</span>: ...
+</code></pre></div><h3 id="cluster-removal">Cluster removal</h3>
+<p>A previously registered cluster can opt-out cutting off the connection from
+either hub cluster or managed cluster. This is helpful for tackling emergency
+problems in your OCM environment, e.g.:</p>
+<ul>
+<li>When the hub cluster is overloaded, under emergency</li>
+<li>When the managed cluster is intended to detach from OCM</li>
+<li>When the hub cluster is found sending wrong orders to the managed cluster</li>
+<li>When the managed cluster is spamming requests to the hub cluster</li>
+</ul>
+<h4 id="unregister-from-hub-cluster">Unregister from hub cluster</h4>
+<p>A recommended way to unregister a managed cluster will flip the
+<code>.spec.hubAcceptsClient</code> bit back to <code>false</code>, which will be trggering the hub
+control plane to offload the managed cluster from effective management.
+Meanwhile, a permanent way to kick a managed cluster from the hub control plane
+is simply deleting its <code>ManagedCluster</code> resource.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete managedcluster &lt;cluster name&gt;
+</code></pre></div><p>This is also revoking the previously-granted RBAC permission for the managed
+cluster instantly in the background. If we hope to defer the rejection to
+the next time when the klusterlet agent is renewing its certificate, as a
+minimal operation we can remove the following RBAC rules from the cluster&rsquo;s
+effective cluster role resource:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># ClusterRole: open-cluster-management:managedcluster:&lt;cluster name&gt;</span>
+<span style="color:#75715e"># Removing the following RBAC rule to stop the certificate rotation.</span>
+- <span style="color:#66d9ef">apiGroups</span>:
+    - register.open-cluster-management.io
+  <span style="color:#66d9ef">resources</span>:
+    - managedclusters/clientcertificates
+  <span style="color:#66d9ef">verbs</span>:
+    - renew
+</code></pre></div><h4 id="unregister-from-the-managed-cluster">Unregister from the managed cluster</h4>
+<p>The admin of the managed cluster can disable the prescriptions from hub cluster
+by scaling the OCM klusterlet agents to <code>0</code>. Or just permanently deleting the
+agent components from the managed cluster.</p>
 <h2 id="managedclusterset">ManagedClusterSet</h2>
-<p><code>ManagedClusterSet</code> is a cluster scoped API on the hub cluster to define a group of <code>ManagedCluster</code>. How <code>ManagedCluster</code> is grouped depends on different use cases. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code> <code>ManagedClusterSet</code> for different purposes. Or you can create <code>north-america</code>, <code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on the region of the <code>ManagedCluster</code>.</p>
-<p><code>ManagedCluster</code> is to implement the notion in <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api">KEP-1645</a>, but we also expand its definition as a scope for workload placement.</p>
-<p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label <code>cluster.open-cluster-management.io/clusterset={clusterset name}</code> on the <code>ManagedCluster</code>. The user must have the <code>create</code> permission to <code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>.</p>
+<p><code>ManagedClusterSet</code> is a cluster scoped API on the hub cluster to define a
+group of <code>ManagedCluster</code>s. Practically it&rsquo;s a common case for hub cluster to
+group the existing managed clusters according to their deploying environment
+or data-center. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code>
+<code>ManagedClusterSet</code> for different purposes. Or you can create <code>north-america</code>,
+<code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on the region of the <code>ManagedCluster</code>.</p>
+<p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label
+<code>cluster.open-cluster-management.io/clusterset={clusterset name}</code> on the
+<code>ManagedCluster</code>. The user must have the <code>create</code> permission to
+<code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a
+<code>ManagedClusterSet</code>.</p>
 <p>An example of a <code>ManagedClusterSet</code> resource is shown in the following example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: prod
-</code></pre></div><h2 id="clusterclaim">ClusterClaim</h2>
-<p><code>ClusterClaim</code> is a cluster scoped API on the managed cluster as an implementation of <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/2149-clusterid">KEP-2149</a>. It provides an extension point for other actors in the managed cluster to report certain properties of a managed cluster to the hub. The <code>registration-agent</code> collects all the <code>ClusterClaim</code> in the managed cluster and syncs them in <code>clusterClaims</code> field in the related <code>ManagedCluster</code>.</p>
-<p>A third party actor can create a cluster claim on the managed cluster as shown below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterClaim
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: platform.open-cluster-management.io
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">value</span>: aws
-</code></pre></div><p>And the <code>ClusterClaim</code> will be synced to the hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManagedCluster
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: aws
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
-<span style="color:#66d9ef">status</span>:
-  <span style="color:#66d9ef">clusterClaims</span>:
-    - <span style="color:#66d9ef">name</span>: platform.open-cluster-management.io
-      <span style="color:#66d9ef">value</span>: aws
-  <span style="color:#66d9ef">conditions</span>: ...
-</code></pre></div>
+</code></pre></div><p>Furthermore, we can do advanced cluster matching/selecting within a
+<code>ManagedClusterSet</code> using the <a href="https://github.com/open-cluster-management-io/placement">placement</a>
+module.</p>
+
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>
