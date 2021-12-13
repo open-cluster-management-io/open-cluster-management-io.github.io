@@ -3,7 +3,13 @@ title: 托管集群
 weight: 2
 ---
 
-## ManagedCluster
+<!-- spellchecker-disable -->
+
+{{< toc >}}
+
+<!-- spellchecker-enable -->
+
+## What is ManagedCluster?
 
 `ManagedCluster` is a cluster scoped API in the hub cluster representing the
 registered or pending-for-acceptance Kubernetes clusters in OCM. The
