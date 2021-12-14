@@ -115,6 +115,9 @@ other = "Policy控制器"
 [sidebar_cluster_proxy]
 other = "网络隧道"
 
+[sidebar_managed_serviceaccount]
+other = "托管多集群ServiceAccount"
+
 [sidebar_scenarios]
 other = "应用场景"
 
