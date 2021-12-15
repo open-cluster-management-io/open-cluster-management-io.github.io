@@ -82,6 +82,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/getting-started/integration/managed-serviceaccount</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/blog</loc>
     </url>
     
