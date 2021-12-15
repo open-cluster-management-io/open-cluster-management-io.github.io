@@ -115,6 +115,9 @@ other = "Policy controllers"
 [sidebar_cluster_proxy]
 other = "Cluster proxy"
 
+[sidebar_managed_serviceaccount]
+other = "Managed service account"
+
 [sidebar_scenarios]
 other = "Scenarios"
 
