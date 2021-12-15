@@ -127,6 +127,9 @@ other = "Deploy Kubernetes Resources"
 [sidebar_extend_managed_clusters]
 other = "Extend Managed Clusters"
 
+[sidebar_push_kube_api_requests]
+other = "Pushing Kube API Requests to the Managed Clusters"
+
 [sidebar_community]
 other = "Community"
 

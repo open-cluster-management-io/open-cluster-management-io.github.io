@@ -127,6 +127,8 @@ other = "部署Kubernetes资源"
 [sidebar_extend_managed_clusters]
 other = "扩展集群模型"
 
+[sidebar_push_kube_api_requests]
+other = "向托管集群推送Kube API请求"
 
 [sidebar_community]
 other = "社区"
