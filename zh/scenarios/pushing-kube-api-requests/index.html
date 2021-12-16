@@ -202,125 +202,118 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>托管多集群ServiceAccount</h1>
-    <!-- spellchecker-disable -->
-
-
-
-  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#background">Background</a></li>
-        <li><a href="#prerequisite">Prerequisite</a></li>
-        <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
-        <li><a href="#related-materials">Related materials</a></li>
-      </ul></nav><hr></div>
-
-
-<!-- spellchecker-enable -->
-<p><a href="https://github.com/open-cluster-management-io/managed-serviceaccount">Managed Service Account</a>
-is an OCM addon enabling a hub cluster admin to manage <a href="https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/">service account</a>
-across multiple clusters on ease. By controlling the creation and removal of
-the service account, the addon agent will project and rotate the corresponding
-token back to the hub cluster which is very useful for the Kube API client from
-the hub cluster to request against the managed clusters.</p>
-<h2 id="background">Background</h2>
-<p>Normally there are two major approaches for a Kube API client to authenticate
-and access a Kubernetes cluster:</p>
+    <h1>向托管集群推送Kubernetes API请求</h1>
+    <p>By following the instructions in this document, an OCM hub admin will be able
+to &ldquo;push&rdquo; Kubernetes API requests to the managed clusters. The benefit of using
+this method for &ldquo;pushing&rdquo; requests in OCM is that we don&rsquo;t need to explicitly
+configure any API endpoint for the managed clusters or provide any client
+credentials as preparation. We just need to enable/install the following OCM
+addons:</p>
 <ul>
-<li>Valid X.509 certificate-key pair</li>
-<li>Service account bearer token</li>
-</ul>
-<p>The service account token will be automatically and persisted as a secret
-resource inside the hosting Kubernetes clusters upon creation, which is commonly
-used for the <a href="https://github.com/kubernetes/client-go/tree/master/examples/in-cluster-client-configuration">&ldquo;in-cluster&rdquo;</a>
-client. However, in terms of OCM, the hub cluster is completely an external
-system to the managed clusters, so we will need a local agent in each managed
-cluster to reflect the tokens consistently to the hub cluster so that the
-Kube API client from hub cluster can &ldquo;push&rdquo; the requests directly against the
-managed cluster. By delegating the multi-cluster service account management to
-this addon, we can:</p>
-<ul>
-<li>Project the service account token from the managed clusters to the hub cluster
-with custom API audience.</li>
-<li>Rotate the service account tokens dynamically.</li>
-<li>Homogenize the client identities so that we can easily write a static RBAC
-policy that applies to multiple managed clusters.</li>
+<li><a href="https://github.com/open-cluster-management-io/cluster-proxy">Cluster-Proxy</a>:
+Setting up the <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/">konnectivity</a>
+tunnels between the hub cluster and the managed clusters so the hub cluster
+can connect/access the managed cluster from anywhere.</li>
+<li><a href="https://github.com/open-cluster-management-io/managed-serviceaccount">Managed-ServiceAccount</a>:
+Automating the lifecycle of the local service account in the managed clusters
+and projecting the tokens back to the hub cluster so that the Kubernetes API
+clients from the hub can make authenticated requests.</li>
+<li><a href="https://github.com/oam-dev/cluster-gateway">Cluster-Gateway</a>: An aggregated
+apiserver providing a &ldquo;proxy&rdquo; subresource which helps the hub admin to
+gracefully access the managed clusters by standard Kubernetes API calls
+(including long-running calls).</li>
 </ul>
 <h2 id="prerequisite">Prerequisite</h2>
 <p>You must meet the following prerequisites to install the managed service
 account:</p>
 <ul>
-<li>
-<p>Ensure your <code>open-cluster-management</code> release is greater than <code>v0.5.0</code>.</p>
-</li>
-<li>
-<p>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl"><code>kubectl</code></a> is installed.</p>
-</li>
-<li>
-<p>Ensure <a href="https://helm.sh/docs/intro/install/"><code>helm</code></a> is installed.</p>
-</li>
+<li>Ensure your <code>open-cluster-management</code> release is greater than <code>v0.5.0</code>.</li>
+<li>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl"><code>kubectl</code></a> is installed.</li>
+<li>Ensure <a href="https://helm.sh/docs/intro/install/"><code>helm</code></a> is installed.</li>
+<li>Your hub cluster supports <code>LoadBalancer</code> typed service for provisioning
+an external ingress for establishing tunnels for cluster-proxy addon. (a
+workaround is also available <a href="https://github.com/open-cluster-management-io/cluster-proxy/blob/main/FQA.md#1-what-if-my-hub-cluster-doesnt-support-loadbalancer-type-service">here</a>)</li>
 </ul>
 <h2 id="installation">Installation</h2>
-<p>To install the managed service account addon to the OCM control plane, run:</p>
+<h3 id="adding-helm-chart-repo">Adding helm chart repo</h3>
+<p>Making sure the following OCM addons are discovered by your helm environment:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
 $ helm repo update
 $ helm search repo ocm
-NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/managed-serviceaccount          &lt;...&gt;           1.0.0       A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon
-...
-</code></pre></div><p>Then run the following helm command to continue the installation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm install -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    cluster-proxy ocm/cluster-proxy 
-$ kubectl -n open-cluster-management-addon get pod
-NAME                                                    READY   STATUS    RESTARTS   AGE
-managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   <span style="color:#ae81ff">1</span>          4d4h 
-...
-</code></pre></div><p>By default, the addon manager will be automatically discovering the addition or
-removal the managed clusters and installs the proxy agents into them on the
-fly. To check out the healthiness status of the proxy agents, we can run:</p>
+NAME                             	CHART VERSION	APP VERSION	DESCRIPTION                                   
+ocm/cluster-gateway-addon-manager	1.1.8        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Gateway Addon-Manager
+ocm/cluster-proxy                	0.1.0        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy OCM Addon      
+ocm/managed-serviceaccount       	0.1.0        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon 
+</code></pre></div><h3 id="install-the-ocm-addons">Install the OCM addons</h3>
+<p>By the following helm commands to install the addons:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm -n open-cluster-management-addon install cluster-proxy ocm/cluster-proxy
+$ helm -n open-cluster-management-addon install managed-serviceaccount ocm/managed-serviceaccount
+$ helm -n open-cluster-management-addon update cluster-gateway ocm/cluster-gateway-addon-manager <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Delegating for secret discovery to &#34;managed-serviceaccount&#34; addon.</span>
+    <span style="color:#75715e"># Skip the option for manual secret management.</span>
+    --set manualSecretManagement<span style="color:#f92672">=</span>false <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Enabling konnectivity tunnels via &#34;cluster-proxy&#34; addon.</span>
+    <span style="color:#75715e"># Skip the option if the hub cluster and the managed clusters are already mutually accessible.</span>
+    --set konnectivityEgress<span style="color:#f92672">=</span>true
+</code></pre></div><h3 id="confirm-addon-installation">Confirm addon installation</h3>
+<p>The commands above installs the addon manager into the hub cluster, and the
+manager will creating <code>ManagedClusterAddon</code> automatically into the cluster
+namespaces representing the addon is plumbed into the managed cluster. In order
+to check their status, run:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
-NAMESPACE         NAME                     AVAILABLE   DEGRADED   PROGRESSING
-&lt;cluster name&gt;    managed-serviceaccount   True  
+NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
+managed1    cluster-gateway          Unknown <span style="color:#75715e"># Expecting an &#34;Unknown&#34; due to temporary addon-framework limitation</span>     
+managed1    cluster-proxy            True                   
+managed1    managed-serviceaccount   True 
+</code></pre></div><p>Furthermore, after the addons are all deployed successfully, the hub admin will
+be able to see a new resource named <code>ClusterGateway</code> registered into the hub
+cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get clustergateway
+NAME       PROVIDER   CREDENTIAL-TYPE       ENDPOINT-TYPE
+managed1              ServiceAccountToken   ClusterProxy
 </code></pre></div><h2 id="usage">Usage</h2>
-<p>To exercise the new <code>ManagedServiceAccount</code> API introduced by this addon, we
-can start by applying the following sample resource:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ export CLUSTER_NAME<span style="color:#f92672">=</span>&lt;cluster name&gt;
-$ kubectl create -f - <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">apiVersion: authentication.open-cluster-management.io/v1alpha1
-</span><span style="color:#e6db74">kind: ManagedServiceAccount
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: my-sample
-</span><span style="color:#e6db74">  namespace: ${CLUSTER_NAME}
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  rotation: {}
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>Then the addon agent in each of the managed cluster is responsible for
-executing and refreshing the status of the <code>ManagedServiceAccount</code>, e.g.:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">...
-  status:
-    conditions:
-    - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
-      message: <span style="color:#e6db74">&#34;&#34;</span>
-      reason: TokenReported
-      status: <span style="color:#e6db74">&#34;True&#34;</span>
-      type: TokenReported
-    - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
-      message: <span style="color:#e6db74">&#34;&#34;</span>
-      reason: SecretCreated
-      status: <span style="color:#e6db74">&#34;True&#34;</span>
-      type: SecretCreated
-    expirationTimestamp: <span style="color:#e6db74">&#34;2022-12-04T09:08:15Z&#34;</span>
-    tokenSecretRef:
-      lastRefreshTimestamp: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
-      name: my-sample
-</code></pre></div><p>The corresponding secret will also be created in the hub cluster, which is
-visible via:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n &lt;your cluster&gt; get secret my-sample  
-NAME        TYPE     DATA   AGE
-my-sample   Opaque   <span style="color:#ae81ff">2</span>      2m23s
-</code></pre></div><h2 id="related-materials">Related materials</h2>
-<p>Repo: <a href="https://github.com/open-cluster-management-io/managed-serviceaccount">https://github.com/open-cluster-management-io/managed-serviceaccount</a></p>
-<p>See the design proposal at: <a href="https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/19-projected-serviceaccount-token">https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/19-projected-serviceaccount-token</a></p>
+<p>Now the gateway is ready for proxying your requests to the managed clusters
+dynamically. The easiest way to verify if the proxying framework is working
+is to run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ export CLUSTER_NAME<span style="color:#f92672">=</span>managed1 <span style="color:#75715e"># Or any other valid managed cluster name</span>
+$ kubectl get --raw<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/apis/cluster.core.oam.dev/v1alpha1/clustergateways/</span><span style="color:#e6db74">${</span>CLUSTER_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">/proxy/healthz&#34;</span>
+ok
+</code></pre></div><p>Another nice feature is that you can also easily convert the kubeconfig of the
+hub cluster into a managed cluster&rsquo;s kubeconfig by adding the api suffix to the
+cluster endpoint in your kubeconfig:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff">$ # Copy and edit your original hub kubeconfig into e.g. managed1.kubeconfig
+apiVersion: v1
+clusters:
+...
+<span style="color:#f92672">---    server: https://x.x.x.x
+</span><span style="color:#f92672"></span><span style="color:#a6e22e">+++    server: https://x.x.x.x/apis/cluster.core.oam.dev/v1alpha1/clustergateways/${CLUSTER_NAME}/proxy
+</span></code></pre></div><p>Then we can access the managed cluster directly via kubectl with the tweaked
+kubeconfig:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ KUBECONFIG<span style="color:#f92672">=</span>managed1.kubeconfig kubectl get ns
+</code></pre></div><p>However upon your first-time installation, you may encounter the RBAC
+restriction message such as:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Error from server (Forbidden): namespaces is forbidden: User &#34;system:serviceaccount:open-cluster-management-managed-serviceaccount:cluster-gateway&#34; cannot list resource &#34;namespaces&#34; in API group &#34;&#34; at the cluster scope
+</code></pre></div><p>That is because we haven&rsquo;t set up proper RBAC permissions for the <code>egress</code>
+service account managed by the <code>ManagedServiceAccount</code> yet. After granting
+sufficient permissions for the service account in the managed clusters, you
+will be able to freely operate the managed cluster from the hub without asking
+for any credential or kubeconfig from the managed clusters. Note that the
+service account is also periodically rotated by the addons so there&rsquo;s no need
+to worry in sustainable credential management.</p>
+<h2 id="insight">Insight</h2>
+<p>Overall, the following picture of architecture reveals the internal technique
+of the request &ldquo;pushing&rdquo; framework in the OCM:</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/proxy-framework.png" alt="Cluster proxy architecture" style="margin: 0 auto; width: 90%">
+</div>
+<p>With the help of the framework, we can easily develop a web service or an
+operator that runs in the hub cluster and is able to access to the managed
+clusters through the gateway. Note that it&rsquo;s generally not recommended to
+list-watch the managed clusters from the hub because it&rsquo;s in a sense violating
+the original philosophy of &ldquo;pull&rdquo; or &ldquo;master-agent&rdquo; architecture of OCM. In
+order to coordinate the hub cluster and the managed clusters in your custom
+system, consider build your own OCM addon based on the <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>
+which provides you utilities for further customization.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

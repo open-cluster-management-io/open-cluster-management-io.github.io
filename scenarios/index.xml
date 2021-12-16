@@ -30,5 +30,15 @@ Prerequisites By design, you don&amp;rsquo;t need to do any additional preparati
 The original cluster model in OCM &amp;ldquo;Managed Cluster&amp;rdquo; is designed to be a neat and light-weight placeholder resource of which the spec doesn&amp;rsquo;t require any additional information other than &amp;ldquo;whether the cluster is accepted or not&amp;rdquo; i.</description>
     </item>
     
+    <item>
+      <title>Pushing Kubernetes API requests to the managed clusters</title>
+      <link>http://open-cluster-management.io/scenarios/pushing-kube-api-requests/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/scenarios/pushing-kube-api-requests/</guid>
+      <description>By following the instructions in this document, an OCM hub admin will be able to &amp;ldquo;push&amp;rdquo; Kubernetes API requests to the managed clusters. The benefit of using this method for &amp;ldquo;pushing&amp;rdquo; requests in OCM is that we don&amp;rsquo;t need to explicitly configure any API endpoint for the managed clusters or provide any client credentials as preparation. We just need to enable/install the following OCM addons:
+ Cluster-Proxy: Setting up the konnectivity tunnels between the hub cluster and the managed clusters so the hub cluster can connect/access the managed cluster from anywhere.</description>
+    </item>
+    
   </channel>
 </rss>
