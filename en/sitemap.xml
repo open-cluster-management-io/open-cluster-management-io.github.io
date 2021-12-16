@@ -118,6 +118,14 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/cluster-proxy</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/managed-serviceaccount</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/multicloud-operators-channel</loc>
     </url>
     
@@ -143,5 +151,11 @@
     </url>
     <url>
         <loc>http://open-cluster-management.io/addon-framework?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/cluster-proxy?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/managed-serviceaccount?go-get=1</loc>
     </url>
 </urlset>
