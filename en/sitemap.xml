@@ -122,6 +122,26 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/config-policy-controller</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-propagator</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-spec-sync</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-status-sync</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-template-sync</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/managed-serviceaccount</loc>
     </url>
     
@@ -135,6 +155,10 @@
     
     <url>
         <loc>http://open-cluster-management.io</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/ocm-kustomize-generator-plugins</loc>
     </url>
     
     <url>
@@ -157,5 +181,23 @@
     </url>
     <url>
         <loc>http://open-cluster-management.io/managed-serviceaccount?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/config-policy-controller?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-propagator?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-spec-sync?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-status-sync?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-template-sync?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/ocm-kustomize-generator-plugins?go-get=1</loc>
     </url>
 </urlset>
