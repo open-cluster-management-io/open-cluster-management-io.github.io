@@ -18,7 +18,7 @@ All contributions are welcome! Open Cluster Management uses the [Apache 2 licens
 
 ## Get Involved / File a Bug
 
-Check out the project and consider contributing. You can pick up an issue to work on, or report a bug by creating a new issue [here](https://github.com/open-cluster-management-io/community/issues). When your code is ready to be reviewed, you can propose a pull request. You can find a good guide about the GitHub workflow [here](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project).
+Check out the project and consider contributing. You can pick up an issue to work on, or report a bug by creating a new issue [here](https://github.com/open-cluster-management-io/ocm/issues). When your code is ready to be reviewed, you can propose a pull request. You can find a good guide about the GitHub workflow [here](https://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project).
 
 If you intend to propose an enhancement or a new feature in open-cluster-management, submit a pull request in the [enhancements repo](https://github.com/open-cluster-management-io/enhancements). The proposal should follow the [kep format](https://github.com/open-cluster-management-io/enhancements/blob/main/guidelines/README.md).
 
