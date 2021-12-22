@@ -113,7 +113,7 @@ other = "Policy框架"
 other = "Policy控制器"
 
 [sidebar_cluster_proxy]
-other = "网络隧道"
+other = "多集群网络隧道"
 
 [sidebar_managed_serviceaccount]
 other = "托管多集群ServiceAccount"

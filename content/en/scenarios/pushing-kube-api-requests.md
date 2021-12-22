@@ -31,10 +31,6 @@ account:
 * Ensure your `open-cluster-management` release is greater than `v0.5.0`.
 * Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) is installed.
 * Ensure [`helm`](https://helm.sh/docs/intro/install/) is installed.
-* Your hub cluster supports `LoadBalancer` typed service for provisioning
-  an external ingress for establishing tunnels for cluster-proxy addon. (a
-  workaround is also available [here](https://github.com/open-cluster-management-io/cluster-proxy/blob/main/FQA.md#1-what-if-my-hub-cluster-doesnt-support-loadbalancer-type-service))
-
 
 ## Installation
 
