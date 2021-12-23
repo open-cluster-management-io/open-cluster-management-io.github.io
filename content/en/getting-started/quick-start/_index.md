@@ -72,7 +72,8 @@ It's recommended to install with the following command if you have a `golang`
 environment:
 
 ```shell
-$ go install open-cluster-management.io/clusteradm
+# Installing clusteradm to $GOPATH/bin/
+$ GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
 ```
 
 Otherwise if you don't have a `golang` environment, you can also install by:
