@@ -128,7 +128,7 @@ sufficient RBAC permissions so that the klusterlet can persist some data
 in the hub cluster. This dedicated namespace is the "cluster namespace" which
 is majorly for saving the prescriptions from the hub. e.g. we can create 
 `ManifestWork` in a cluster namespace in order to deploy some resources towards
-the corresponding cluster. Meanwhile, the clsuter namespace can also be used
+the corresponding cluster. Meanwhile, the cluster namespace can also be used
 to save the uploaded stats from the klusterlet e.g. the healthiness of an
 addon, etc.
 
