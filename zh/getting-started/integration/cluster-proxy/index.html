@@ -135,7 +135,7 @@
                             <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">应用生命周期管理</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/integration/cluster-proxy">网络隧道</a>
+                            <a class="navlink" href="/zh/getting-started/integration/cluster-proxy">多集群网络隧道</a>
                         </li>
                         <li>
                             <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy框架</a>
@@ -202,7 +202,7 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>Cluster proxy</h1>
+    <h1>多集群网络隧道</h1>
     <p><a href="https://github.com/open-cluster-management-io/cluster-proxy">Cluster proxy</a>
 is an OCM addon providing L4 network connectivity from hub cluster to
 the managed clusters without <strong>any additional requirement</strong> to the managed
@@ -221,7 +221,12 @@ sub-project <a href="https://github.com/kubernetes-sigs/apiserver-network-proxy"
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#installation">Installation</a></li>
-        <li><a href="#usage">Usage</a></li>
+        <li><a href="#usage">Usage</a>
+          <ul>
+            <li><a href="#command-line-tools">Command-line tools</a></li>
+            <li><a href="#example-code">Example code</a></li>
+          </ul>
+        </li>
         <li><a href="#more-insight">More insight</a>
           <ul>
             <li><a href="#troubleshooting">Troubleshooting</a></li>
@@ -310,7 +315,7 @@ or configure the proxy agents no more.</p>
 $ helm repo update
 $ helm search repo ocm
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-proxy                 	&lt;...&gt;       	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy                
+ocm/cluster-proxy                 	v0.1.1       	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy                
 ...
 </code></pre></div><p>Then run the following helm command to install the cluster-proxy addon:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm install -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\
@@ -334,6 +339,14 @@ NAMESPACE     NAME                     AVAILABLE   DEGRADED   PROGRESSING
 </code></pre></div><p>The proxy agent distributed in the managed cluster will be periodically
 renewing the lease lock of the addon instance.</p>
 <h2 id="usage">Usage</h2>
+<h3 id="command-line-tools">Command-line tools</h3>
+<p>Using the <a href="https://open-cluster-management.io/getting-started/quick-start/#install-clusteradm-cli-tool">clusteradm</a>
+to check the status of the cluster-proxy addon:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm proxy health
+CLUSTER NAME    INSTALLED    AVAILABLE    PROBED HEALTH    LATENCY
+&lt;cluster#1&gt;     True         True         True             67.595144ms
+&lt;cluster#2&gt;     True         True         True             85.418368ms
+</code></pre></div><h3 id="example-code">Example code</h3>
 <p>An <a href="https://github.com/open-cluster-management-io/cluster-proxy/blob/main/examples/test-client/main.go">example client</a>
 in the cluster proxy repo shows us how to dynamically talk to the kube-apiserver
 of a managed cluster from the hub cluster by simply prescribing the name of

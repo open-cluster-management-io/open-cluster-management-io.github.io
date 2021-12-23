@@ -269,7 +269,8 @@ with the help of OCM&rsquo;s native command-line tool <code>clusteradm</code>.</
 <h3 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h3>
 <p>It&rsquo;s recommended to install with the following command if you have a <code>golang</code>
 environment:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ go install open-cluster-management.io/clusteradm
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
+$ GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
 </code></pre></div><p>Otherwise if you don&rsquo;t have a <code>golang</code> environment, you can also install by:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
 </code></pre></div><h3 id="deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</h3>
