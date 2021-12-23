@@ -105,7 +105,7 @@ $ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
 $ helm repo update
 $ helm search repo ocm
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-proxy                 	<...>       	1.0.0      	A Helm chart for Cluster-Proxy                
+ocm/cluster-proxy                 	v0.1.1       	1.0.0      	A Helm chart for Cluster-Proxy                
 ...
 ```
 
@@ -141,6 +141,20 @@ The proxy agent distributed in the managed cluster will be periodically
 renewing the lease lock of the addon instance.
 
 ## Usage
+
+### Command-line tools
+
+Using the [clusteradm](https://open-cluster-management.io/getting-started/quick-start/#install-clusteradm-cli-tool)
+to check the status of the cluster-proxy addon:
+
+```shell
+$ clusteradm proxy health
+CLUSTER NAME    INSTALLED    AVAILABLE    PROBED HEALTH    LATENCY
+<cluster#1>     True         True         True             67.595144ms
+<cluster#2>     True         True         True             85.418368ms
+```
+
+### Example code
 
 An [example client](https://github.com/open-cluster-management-io/cluster-proxy/blob/main/examples/test-client/main.go) 
 in the cluster proxy repo shows us how to dynamically talk to the kube-apiserver 
