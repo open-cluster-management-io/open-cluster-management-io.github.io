@@ -87,7 +87,7 @@ $ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusterad
 1. Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):
 
    ```shell
-   $ clusteradm init --context ${CTX_HUB_CLUSTER}
+   $ clusteradm init --wait --context ${CTX_HUB_CLUSTER}
    ```
    
    By this command, `clusteradm` is helping you to install a [registration-operator](https://github.com/open-cluster-management-io/registration-operator)
@@ -102,6 +102,7 @@ $ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusterad
    $ clusteradm join \
         --hub-token <your token data> \
         --hub-apiserver <your hub kube-apiserver endpoint> \
+        --wait \
         --cluster-name <cluster_name>
    ```
    
