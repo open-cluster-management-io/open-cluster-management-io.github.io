@@ -65,6 +65,9 @@ export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED
 By this section, we will be bootstrapping your first running OCM environment
 with the help of OCM's native command-line tool `clusteradm`.
 
+<div style="text-align: center; padding: 20px;">
+   <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 60%">
+</div>
 
 ### Install clusteradm CLI tool
 
