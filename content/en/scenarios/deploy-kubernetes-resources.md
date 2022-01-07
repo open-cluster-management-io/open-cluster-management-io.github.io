@@ -23,7 +23,7 @@ you can make sure your environment by checking the following conditions:
 - The CRD `AppliedManifestWork` is installed in the managed cluster:
 
     ```shell
-    $ kubectl get crd manifestworks.work.open-cluster-management.io 
+    $ kubectl get crd appliedmanifestworks.work.open-cluster-management.io 
     ```
 
 - The work agent is successfully running in the managed cluster:
