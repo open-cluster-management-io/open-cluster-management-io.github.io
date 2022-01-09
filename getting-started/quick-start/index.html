@@ -297,12 +297,12 @@ future use.</p>
 </li>
 <li>
 <p>Then you can check out the running instances of registration operator by:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management   get pod   --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 NAME                               READY   STATUS    RESTARTS   AGE
 cluster-manager-695d945d4d-5dn8k   1/1     Running   <span style="color:#ae81ff">0</span>          19d
 </code></pre></div><p>Additionally, to check out the instances of OCM&rsquo;s hub control plane, run
 the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management-hub   get pod   --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management-hub get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 NAME                               READY   STATUS    RESTARTS   AGE
 cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   <span style="color:#ae81ff">0</span>          19d
 cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   <span style="color:#ae81ff">0</span>          19d
@@ -311,7 +311,7 @@ cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   <sp
 ...
 </code></pre></div><p>The overall installation information is visible in the custom resource
 named <code>clustermanager</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get clustermanager cluster-manager -o yaml   --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get clustermanager cluster-manager -o yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 </ol>
 <h3 id="deploy-a-klusterlet-agent-on-your-managed-cluster">Deploy a klusterlet agent on your managed cluster</h3>
@@ -332,14 +332,14 @@ $ clusteradm join <span style="color:#ae81ff">\
 </code></pre></div></li>
 <li>
 <p>Verify the installation of OCM agents in your managed clusters by:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management-agent get pod
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management-agent get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 NAME                                             READY   STATUS    RESTARTS   AGE
 klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   <span style="color:#ae81ff">0</span>          19d
 klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   <span style="color:#ae81ff">0</span>          19d
 </code></pre></div><p>Similar to <code>clustermanager</code>, the overall installation information is prescribed
 by another custom resource called &ldquo;klusterlet&rdquo; which is only installed in your
 managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get klusterlet klusterlet -o yaml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get klusterlet klusterlet -o yaml --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 </ol>
 <h3 id="accept-join-request-and-verify">Accept join request and verify</h3>
