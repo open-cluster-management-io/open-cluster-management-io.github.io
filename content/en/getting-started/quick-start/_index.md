@@ -115,7 +115,7 @@ $ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusterad
 2. Then you can check out the running instances of registration operator by:
 
    ```shell
-   $ kubectl -n open-cluster-management   get pod   --context ${CTX_HUB_CLUSTER}
+   $ kubectl -n open-cluster-management get pod --context ${CTX_HUB_CLUSTER}
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-695d945d4d-5dn8k   1/1     Running   0          19d
    ```
@@ -124,7 +124,7 @@ $ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusterad
    the following command:
 
    ```shell
-   $ kubectl -n open-cluster-management-hub   get pod   --context ${CTX_HUB_CLUSTER}
+   $ kubectl -n open-cluster-management-hub get pod --context ${CTX_HUB_CLUSTER}
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   0          19d
    cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   0          19d
@@ -137,7 +137,7 @@ $ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusterad
    named `clustermanager`:
 
    ```shell
-   $ kubectl get clustermanager cluster-manager -o yaml   --context ${CTX_HUB_CLUSTER}
+   $ kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
    ```
 
 ### Deploy a klusterlet agent on your managed cluster
@@ -162,7 +162,7 @@ all set. Let's move on to register your managed cluster into OCM.
 2. Verify the installation of OCM agents in your managed clusters by:
 
    ```shell
-   $ kubectl -n open-cluster-management-agent get pod
+   $ kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
    NAME                                             READY   STATUS    RESTARTS   AGE
    klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
    klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
@@ -173,7 +173,7 @@ all set. Let's move on to register your managed cluster into OCM.
    managed cluster:
    
    ```shell
-   $ kubectl get klusterlet klusterlet -o yaml
+   $ kubectl get klusterlet klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
    ```
 
 ### Accept join request and verify
