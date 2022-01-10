@@ -97,9 +97,9 @@ a standalone module focusing at dynamically selecting the proper list of
 the managed clusters from user's prescription. You can build any advanced 
 multi-cluster orchestration on the top of placement, e.g. multi-cluster
 workload re-balancing, multi-cluster helm charts replication, etc. On the
-other hand if you're satisfied by the current capacities from our placement
+other hand if you're not satisfied by the current capacities from our placement
 module, you can quickly opt-out and replace it with your customized ones, and
-reach out to our community so that we can converge in the future if plausible.
+reach out to our community so that we can converge in the future if possible.
 
 
 ---
