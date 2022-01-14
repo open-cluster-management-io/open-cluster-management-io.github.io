@@ -18,8 +18,8 @@ for Kubernetes multi-cluster orchestration. Learning from the past failing
 lesson of building Kubernetes federation systems in the Kuberentes community, 
 in OCM we will be jumping out of the legacy centric, imperative architecture of
 [Kubefed v2](https://github.com/kubernetes-sigs/kubefed) and embracing the 
-"master-agent" architecture which is identical to the original pattern of 
-"master-kubelet" from Kubernetes. Hence, intuitively in OCM our multi-cluster 
+"hub-agent" architecture which is identical to the original pattern of 
+"hub-kubelet" from Kubernetes. Hence, intuitively in OCM our multi-cluster 
 control plane is modeled as a "Hub" and on the other hand each of the clusters 
 being managed by the "Hub" will be a "Klusterlet" which is obviously inspired 
 from the original name of "kubelet". Here's a more detailed clarification of 
@@ -35,9 +35,9 @@ the two models we will be frequently using throughout the world of OCM:
   the hub cluster and consistently reconciles the physical Kubernetes cluster
   to the expected state.
   
-### "Master-agent" architecture
+### "Hub-agent" architecture
 
-Benefiting from the merit of "master-agent" architecture, in abstraction we 
+Benefiting from the merit of "hub-agent" architecture, in abstraction we 
 are de-coupling most of the multi-cluster operations generally into 
 (1) computation/decision and (2) execution, and the actual execution against 
 the target cluster will be completely off-loaded into the managed cluster. The
@@ -71,7 +71,7 @@ control plane down.
 </div>
 
 
-The "master-agent" architecture also minimized the requirements in the network
+The "hub-agent" architecture also minimized the requirements in the network
 for registering a new cluster to the hub. Any cluster that can reach the 
 endpoint of the hub cluster will be able to be managed, even a random KinD 
 sandbox cluster on your laptop. That is because the prescriptions are 

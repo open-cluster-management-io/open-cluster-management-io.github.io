@@ -149,7 +149,7 @@ With the help of the framework, we can easily develop a web service or an
 operator that runs in the hub cluster and is able to access to the managed
 clusters through the gateway. Note that it's generally not recommended to
 list-watch the managed clusters from the hub because it's in a sense violating
-the original philosophy of "pull" or "master-agent" architecture of OCM. In
+the original philosophy of "pull" or "hub-agent" architecture of OCM. In
 order to coordinate the hub cluster and the managed clusters in your custom
 system, consider build your own OCM addon based on the [addon-framework](https://github.com/open-cluster-management-io/addon-framework)
 which provides you utilities for further customization.
