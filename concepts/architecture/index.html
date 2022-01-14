@@ -215,7 +215,7 @@
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#overview">Overview</a>
           <ul>
-            <li><a href="#master-agent-architecture">&ldquo;Master-agent&rdquo; architecture</a></li>
+            <li><a href="#hub-agent-architecture">&ldquo;Hub-agent&rdquo; architecture</a></li>
             <li><a href="#modularity-and-extensibility">Modularity and extensibility</a></li>
           </ul>
         </li>
@@ -246,8 +246,8 @@ for Kubernetes multi-cluster orchestration. Learning from the past failing
 lesson of building Kubernetes federation systems in the Kuberentes community,
 in OCM we will be jumping out of the legacy centric, imperative architecture of
 <a href="https://github.com/kubernetes-sigs/kubefed">Kubefed v2</a> and embracing the
-&ldquo;master-agent&rdquo; architecture which is identical to the original pattern of
-&ldquo;master-kubelet&rdquo; from Kubernetes. Hence, intuitively in OCM our multi-cluster
+&ldquo;hub-agent&rdquo; architecture which is identical to the original pattern of
+&ldquo;hub-kubelet&rdquo; from Kubernetes. Hence, intuitively in OCM our multi-cluster
 control plane is modeled as a &ldquo;Hub&rdquo; and on the other hand each of the clusters
 being managed by the &ldquo;Hub&rdquo; will be a &ldquo;Klusterlet&rdquo; which is obviously inspired
 from the original name of &ldquo;kubelet&rdquo;. Here&rsquo;s a more detailed clarification of
@@ -266,8 +266,8 @@ the hub cluster and consistently reconciles the physical Kubernetes cluster
 to the expected state.</p>
 </li>
 </ul>
-<h3 id="master-agent-architecture">&ldquo;Master-agent&rdquo; architecture</h3>
-<p>Benefiting from the merit of &ldquo;master-agent&rdquo; architecture, in abstraction we
+<h3 id="hub-agent-architecture">&ldquo;Hub-agent&rdquo; architecture</h3>
+<p>Benefiting from the merit of &ldquo;hub-agent&rdquo; architecture, in abstraction we
 are de-coupling most of the multi-cluster operations generally into
 (1) computation/decision and (2) execution, and the actual execution against
 the target cluster will be completely off-loaded into the managed cluster. The
@@ -297,7 +297,7 @@ control plane down.</p>
 <div style="text-align: center; padding: 20px;">
     <img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto; width: 50%">
 </div>
-<p>The &ldquo;master-agent&rdquo; architecture also minimized the requirements in the network
+<p>The &ldquo;hub-agent&rdquo; architecture also minimized the requirements in the network
 for registering a new cluster to the hub. Any cluster that can reach the
 endpoint of the hub cluster will be able to be managed, even a random KinD
 sandbox cluster on your laptop. That is because the prescriptions are
