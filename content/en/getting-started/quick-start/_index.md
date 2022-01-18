@@ -19,7 +19,7 @@ __Contents__
 ## Prerequisites
 
 - The hub cluster should be `v1.19+`.
-- The managed clusters should be `v1.16+`.
+- The managed clusters should be `v1.11+`.
 
 You can always set up a local [KinD](https://kind.sigs.k8s.io/)
 environment on your workstation easily by following these [instructions](#setup-a-local-kind-environment)
