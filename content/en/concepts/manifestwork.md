@@ -3,6 +3,12 @@ title: ManifestWork
 weight: 2
 ---
 
+<!-- spellchecker-disable -->
+
+{{< toc >}}
+
+<!-- spellchecker-enable -->
+
 ## What is `ManifestWork`
 
 `ManifestWork` is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a `ManifestWork` resource must be created in the cluster namespace. A work agent implemented in [work](https://github.com/open-cluster-management-io/work) project is run on the managed cluster and monitors the `ManifestWork` resource in the cluster namespace on the hub cluster.
@@ -12,11 +18,7 @@ An example of `ManifestWork` to deploy a deployment to the managed cluster is sh
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
-metadata:
-  name: hello-work
-  namespace: cluster1
-  labels:
-    app: hello
+metadata: ...
 spec:
   workload:
     manifests:
@@ -50,12 +52,8 @@ Here is an example.
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
-metadata:
-  labels:
-    app: hello
-  name: hello-work
-  namespace: cluster1
-spec: ... ...
+metadata: ... 
+spec: ...
 status:
   conditions:
     - lastTransitionTime: "2021-06-15T02:26:02Z"
@@ -91,6 +89,50 @@ status:
           version: v1
 ```
 
+### Fine-grained field values tracking
+
+Optionally, we can let the work agent aggregate and report certain fields from 
+the distributed resources to the hub clusters by setting `FeedbackRule` for 
+the `ManifestWork`:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata: ...
+spec:
+  workload: ...
+  manifestConfigs:
+    - resourceIdentifier:
+        group: apps
+        resource: deployments
+        namespace: default
+        name: hello
+      feedbackRules:
+        - type: WellKnownStatus
+        - type: JSONPaths
+          jsonPaths:
+            - name: isAvailable
+              path: '.status.conditions[?(@.type=="Available")].status'
+```
+
+The feedback rules prescribe the work agent to periodically get the latest 
+states of the resources, and scrape merely those expected fields from them,
+which is helpful for trimming the payload size of the status. Note that the
+collected feedback values on the `ManifestWork` will not be updated unless
+the latest value is changed/different from the previous recorded value. 
+Currently, it supports two kinds of `FeedbackRule`:
+
+- `WellKnownStatus`: Using the pre-built template of feedback values for those
+  well-known kubernetes resources.
+- `JSONPaths`: A valid [Kubernetes JSON-Path](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
+  that selects a scalar field from the resource. Currently supported types are 
+  **Integer**, **String** and **Boolean**.
+
+The default feedback value scraping interval is 30 second, and we can override 
+it by setting `--status-sync-interval` on your work agent. Too short period can
+cause excessive burden to the control plane of the managed cluster, so generally
+a recommended lower bound for the interval is 5 second.
+
 ## Garbage collection
 
 To ensure the resources applied by `ManifestWork` are reliably recorded, the work agent creates an `AppliedManifestWork` on the managed cluster for each `ManifestWork` as an anchor for resources relating to `ManifestWork`. When `ManifestWork` is deleted, work agent runs a `Foreground deletion`, that `ManifestWork` will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.
@@ -104,29 +146,9 @@ which means the applied resources on the spoke will be deleted with the removal 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
-metadata:
-  name: deleteoption-demo
+metadata: ...
 spec:
-  workload:
-    manifests:
-    - apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: hello
-        namespace: default
-      spec:
-        selector:
-          matchLabels:
-            app: hello
-        template:
-          metadata:
-            labels:
-              app: hello
-          spec:
-            containers:
-            - name: hello
-              image: quay.io/asmacdo/busybox
-              command: ['sh', '-c', 'echo "Hello, World!" && sleep 3600']
+  workload: ...
   deleteOption:
     propagationPolicy: Orphan
 ```
@@ -140,42 +162,7 @@ kind: ManifestWork
 metadata:
   name: selective-delete-work
 spec:
-  workload:
-    manifests:
-    - kind: Service
-      apiVersion: v1
-      metadata:
-        name: helloworld
-        namespace: default
-        labels:
-          app: hello
-      spec:
-        type: ClusterIP
-        ports:
-        - name: app
-          port: 443
-          protocol: TCP
-          targetPort: 4443
-        selector:
-          app: hello
-    - apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: hello
-        namespace: default
-      spec:
-        selector:
-          matchLabels:
-            app: hello
-        template:
-          metadata:
-            labels:
-              app: hello
-          spec:
-            containers:
-            - name: hello
-              image: quay.io/asmacdo/busybox
-              command: ['sh', '-c', 'echo "Hello, World!" && sleep 3600']
+  workload: ...
   deleteOption:
     propagationPolicy: SelectivelyOrphan
     selectivelyOrphans:
