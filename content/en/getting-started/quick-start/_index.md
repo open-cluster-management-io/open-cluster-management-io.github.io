@@ -111,6 +111,7 @@ steps:
    sample of the generated command will be:
    
    ```shell
+   $ # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
    $ clusteradm join \
         --hub-token <your token data> \
         --hub-apiserver <your hub kube-apiserver endpoint> \
