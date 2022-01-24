@@ -230,6 +230,7 @@
         <li><a href="#bootstrap-via-clusteradm-cli-tool">Bootstrap via clusteradm CLI tool</a>
           <ul>
             <li><a href="#install-clusteradm-cli-tool">Install clusteradm CLI tool</a></li>
+            <li><a href="#overview-of-the-registration-process">Overview of the registration process</a></li>
             <li><a href="#deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</a></li>
             <li><a href="#deploy-a-klusterlet-agent-on-your-managed-cluster">Deploy a klusterlet agent on your managed cluster</a></li>
             <li><a href="#accept-join-request-and-verify">Accept join request and verify</a></li>
@@ -274,17 +275,22 @@ export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed c
 </code></pre></div><h2 id="bootstrap-via-clusteradm-cli-tool">Bootstrap via clusteradm CLI tool</h2>
 <p>By this section, we will be bootstrapping your first running OCM environment
 with the help of OCM&rsquo;s native command-line tool <code>clusteradm</code>.</p>
+<h3 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h3>
+<p>It&rsquo;s recommended to run the following one-liner to download and install <strong>the
+latest release</strong> of <code>clusteradm</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</code></pre></div><p>You can also install <strong>the latest development version</strong> (main branch) by:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
+$ GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
+</code></pre></div><h3 id="overview-of-the-registration-process">Overview of the registration process</h3>
+<p>The following movie shows how to bootstrap a hub cluster control plane and
+then register another cluster into the hub.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 60%">
 </div>
-<h3 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h3>
-<p>It&rsquo;s recommended to install with the following command if you have a <code>golang</code>
-environment:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
-$ GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
-</code></pre></div><p>Otherwise if you don&rsquo;t have a <code>golang</code> environment, you can also install by:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
-</code></pre></div><h3 id="deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</h3>
+<p>To try out the cluster registration, let&rsquo;s go on walk through the following
+steps:</p>
+<h3 id="deploy-a-cluster-manager-on-your-hub-cluster">Deploy a cluster manager on your hub cluster</h3>
 <ol>
 <li>
 <p>Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):</p>
