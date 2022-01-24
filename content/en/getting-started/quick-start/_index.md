@@ -65,25 +65,34 @@ export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED
 By this section, we will be bootstrapping your first running OCM environment
 with the help of OCM's native command-line tool `clusteradm`.
 
-<div style="text-align: center; padding: 20px;">
-   <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 60%">
-</div>
 
 ### Install clusteradm CLI tool
 
-It's recommended to install with the following command if you have a `golang` 
-environment:
+It's recommended to run the following one-liner to download and install **the 
+latest release** of `clusteradm`:
+
+```shell
+$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+```
+
+You can also install **the latest development version** (main branch) by:
 
 ```shell
 # Installing clusteradm to $GOPATH/bin/
 $ GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
 ```
 
-Otherwise if you don't have a `golang` environment, you can also install by:
+### Overview of the registration process
 
-```shell
-$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
-```
+The following movie shows how to bootstrap a hub cluster control plane and 
+then register another cluster into the hub.
+
+<div style="text-align: center; padding: 20px;">
+   <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 60%">
+</div>
+
+To try out the cluster registration, let's go on walk through the following
+steps:
 
 ### Deploy a cluster manager on your hub cluster
 
