@@ -301,7 +301,8 @@ and upgrading a few core components for your OCM environment.</p>
 <p>After the <code>init</code> command finishes, there&rsquo;s supposed to be a command generated
 on your console for you to move ahead registering your managed clusters. A
 sample of the generated command will be:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm join <span style="color:#ae81ff">\
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
+$ clusteradm join <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --hub-apiserver &lt;your hub kube-apiserver endpoint&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --wait <span style="color:#ae81ff">\
