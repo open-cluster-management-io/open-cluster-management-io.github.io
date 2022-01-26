@@ -212,7 +212,36 @@
 <div id="content">
     <h1>发行版本</h1>
     <p>Open Cluster Management has approximately a three to four month release cycle. The current release is <code>v0.5.0</code>. Continue reading to view upcoming releases:</p>
-<h2 id="v060-on-21st-janurary-2022"><code>v0.6.0</code>, on 21st, Janurary 2022</h2>
+<h2 id="v060-on-21st-january-2022"><code>v0.6.0</code>, on 21st, January 2022</h2>
+<p>The Open Cluster Management team is proud to announce the release of OCM v0.6.0! We made many enhancements on core components and introduced some new addons.</p>
+<ul>
+<li><a href="https://github.com/open-cluster-management-io/cluster-proxy">First release of cluster-proxy addon</a>, Cluster-Proxy addon is to provide a reverse tunnel from the managed cluster to the hub using <code>apiserver-network-proxy</code>, so user can easily visit the apiserver of the managedcluster from the hub without complicated infrstructure configuration. See <a href="https://open-cluster-management.io/scenarios/pushing-kube-api-requests/">here</a> on how to use cluster-proxy in OCM.</li>
+<li><a href="https://github.com/open-cluster-management-io/managed-serviceaccount">First release of managed-serviceaccount addon</a>, Managed-Servicesaccount addon provides a mechanism to project a service account on a managed cluster to the hub. The user can then use this projected account to visit services on the managed cluster.</li>
+<li><a href="https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/29-manifestwork-status-feedback">Sync status of applied resources in ManifestWork</a>, The users can specify the status field of the applied resource they want to explore in the ManifestWork spec, and get results from the status of the ManifestWork. See <a href="https://open-cluster-management.io/concepts/manifestwork/#fine-grained-field-values-tracking">here</a> on how to use this feature in Manifestwork.</li>
+<li><a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling">Placement extensible scheduling</a>, a new API AddonPlacementScore is added which allows third party controllers to score the clusters based on various metrics. The user can specify what score should be used in the Placement API to select clusters.</li>
+<li><a href="https://github.com/open-cluster-management-io/addon-framework/pull/62">Helm chart interface for addon framework</a>, a new interface is added in addon framework with which the developer can build an addon agent from a helm chart. See <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm">example</a> on how to build an addon agent from the helm chart.</li>
+<li><a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/pull/55">Placement API support for multicloud-operators-subscription</a>, subscription now supports Placement API and can leverage all new features in Placement API to deploy application packages.</li>
+</ul>
+<p>We also added many new functions in <a href="https://github.com/open-cluster-management-io/clusteradm">clusteradm</a> and enhanced the website documentation.</p>
+<p>See details in the release changelogs::</p>
+<ul>
+<li>registration v0.6.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.6.0/CHANGELOG/CHANGELOG-v0.6.md">changelog</a></li>
+<li>work v0.6.0 <a href="https://github.com/open-cluster-management-io/work/blob/v0.6.0/CHANGELOG/CHANGELOG-v0.6.md">changelog</a></li>
+<li>placement v0.3.0 <a href="https://github.com/open-cluster-management-io/placement/blob/v0.3.0/CHANGELOG/CHANGELOG-v0.3.md">changelog</a></li>
+<li>addon-framework v0.2.0 <a href="https://github.com/open-cluster-management-io/addon-framework/blob/v0.2.0/CHANGELOG/CHANGELOG-v0.2.md">changelog</a></li>
+<li>registration-operator v0.6.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.6.0/CHANGELOG/CHANGELOG-v0.6.md">changelog</a></li>
+<li>multicloud-operators-subscription v0.6.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/blob/v0.6.0/CHANGELOG/CHANGELOG-v0.6.md">changelog</a></li>
+<li>cluster-proxy v0.1.3 <a href="https://github.com/open-cluster-management-io/cluster-proxy">repo</a></li>
+<li>managed-serviceaccount v0.1.0 <a href="https://github.com/open-cluster-management-io/managed-serviceaccount">repo</a></li>
+<li>clusteradm v0.1.0 <a href="https://github.com/open-cluster-management-io/clusteradm/blob/v0.1.0/CHANGELOG">changelog</a></li>
+<li>config-policy-controller v0.6.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.6.0.md">changelog</a></li>
+<li>governance-policy-propagator v0.6.0 <a href="https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.6.0.md">changelog</a></li>
+<li>governance-policy-status-sync v0.6.0 <a href="https://github.com/open-cluster-management-io/governance-policy-status-sync/blob/main/CHANGELOG/CHANGELOG-v0.6.0%20.md">changelog</a></li>
+<li>governance-policy-spec-sync v0.6.0 <a href="https://github.com/open-cluster-management-io/governance-policy-spec-sync/blob/main/CHANGELOG/CHANGELOG-v0.6.0.md">changelog</a></li>
+<li>governance-policy-template-sync v0.6.0 <a href="https://github.com/open-cluster-management-io/governance-policy-template-sync/blob/main/CHANGELOG/CHANGELOG-v0.6.0.md">changelog</a></li>
+<li>ocm-kustomize-generator-plugins v1.3.0 <a href="https://github.com/open-cluster-management-io/ocm-kustomize-generator-plugins/blob/main/CHANGELOG/CHANGELOG-v1.3.0.md">changelog</a></li>
+</ul>
+<p>There are 20+ contributors making contributions in this release, they are @champly, @ChunxiAlexLuo, @dhaiducek, @elgnay, @haoqing0110, @ilan-pinto, @mikeshng, @morvencao, @mprahl, @nathanweatherly, @qiujian16, @rokej, @skeeey, @TheRealHaoLiu, @serngawy, @suigh, @xauthulei, @xiangjingli, @xuezhaojun, @ycyaoxdu, @yue9944882, @zhujian7, @zhiweiyin318. Thanks for your contributions!</p>
 <h2 id="v050-on-8th-november-2021"><code>v0.5.0</code>, on 8th, November 2021</h2>
 <p>Open Cluster Management team is proud to annouce the release of OCM v0.5.0! We made several enhancements on APIs
 and addons which include:</p>
