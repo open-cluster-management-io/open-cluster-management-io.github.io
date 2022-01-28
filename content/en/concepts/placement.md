@@ -5,6 +5,9 @@ weight: 3
 
 `Placement` API is used to select a set of managed clusters in one or multiple `ManagedClusterSets` so that the user's workloads can be deployed to these clusters.
 
+**Notice**:
+`Placement` and `PlacementDecision` API is upgraded from v1alpha1 to v1beta1, v1alpha1 is deprecated in OCM v0.7.0 and planned to be removed in OCM v0.8.0. The field `spec.prioritizerPolicy.configurations.name` in `Placement` API v1alpha1 is removed and replaced by `spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn` in v1beta1.
+
 ## Bind ManagedClusterSet to a namespace
 
 Before creating a `Placement`, you need to create a `ManagedClusterSetBinding` in a namespace to bind to a `ManagedClusterSet`. Then you can create a `Placement` in the same namespace to select the clusters in this `ManagedClusterSet`. Assume a `ManagedClusterSet` is created on the hub cluster as seen in the following examples.
@@ -39,7 +42,7 @@ You can specify `predicates` and `prioritizers` to filter and score clusters.
 In `predicates` section, you can select clusters by labels or `clusterClaims`. For instance, you can select 3 clusters with labels `purpose=test` and clusterClaim `platform.open-cluster-management.io=aws` as seen in the following examples.
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
+apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
   name: placement1
@@ -64,7 +67,7 @@ spec:
 ### Prioritizers
 In `prioritizerPolicy` section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and the largest addon score cpuratio, and pin the placementdecisions as seen in the following examples.
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
+apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
   name: placement1
@@ -75,9 +78,9 @@ spec:
     mode: Exact
     configurations:
       - scoreCoordinate:
-          buildIn: ResourceAllocatableMemory
+          builtIn: ResourceAllocatableMemory
       - scoreCoordinate:
-          buildIn: Steady
+          builtIn: Steady
         weight: 3
       - scoreCoordinate:
           type: AddOn
@@ -106,13 +109,10 @@ spec:
     Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
     A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicates that the prioritizer is disabled. A negative weight indicates wants to select the last ones.
 
-**Notice**:
-- `configurations.name` filed will be removed in v1beta1 and replaced by `scoreCoordinate.builtIn`. If both `name` and `scoreCoordinate.builtIn` are defined, will use the value in `scoreCoordinate.builtIn`.
-
 A slice of `PlacementDecision` will be created by placement controller in the same namespace, each with a label of `cluster.open-cluster-management.io/placement={placement name}`. `PlacementDecision` contains the results of the cluster selection as seen in the following examples.
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
+apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: PlacementDecision
 metadata:
   labels:
