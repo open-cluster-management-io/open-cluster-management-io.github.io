@@ -212,14 +212,16 @@
 <div id="content">
     <h1>匹配路由</h1>
     <p><code>Placement</code> API is used to select a set of managed clusters in one or multiple <code>ManagedClusterSets</code> so that the user&rsquo;s workloads can be deployed to these clusters.</p>
+<p><strong>Notice</strong>:
+<code>Placement</code> and <code>PlacementDecision</code> API is upgraded from v1alpha1 to v1beta1, v1alpha1 is deprecated in OCM v0.7.0 and planned to be removed in OCM v0.8.0. The field <code>spec.prioritizerPolicy.configurations.name</code> in <code>Placement</code> API v1alpha1 is removed and replaced by <code>spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn</code> in v1beta1.</p>
 <h2 id="bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</h2>
 <p>Before creating a <code>Placement</code>, you need to create a <code>ManagedClusterSetBinding</code> in a namespace to bind to a <code>ManagedClusterSet</code>. Then you can create a <code>Placement</code> in the same namespace to select the clusters in this <code>ManagedClusterSet</code>. Assume a <code>ManagedClusterSet</code> is created on the hub cluster as seen in the following examples.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: prod
 </code></pre></div><p>You can create a <code>ManagedClusterSetBinding</code> as follows to bind the <code>ManagedClusterSet</code> to the default namespace.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: ManagedClusterSetBinding
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: prod
@@ -232,7 +234,7 @@
 You can specify <code>predicates</code> and <code>prioritizers</code> to filter and score clusters.</p>
 <h3 id="predicates">Predicates</h3>
 <p>In <code>predicates</code> section, you can select clusters by labels or <code>clusterClaims</code>. For instance, you can select 3 clusters with labels <code>purpose=test</code> and clusterClaim <code>platform.open-cluster-management.io=aws</code> as seen in the following examples.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: placement1
@@ -253,8 +255,8 @@ You can specify <code>predicates</code> and <code>prioritizers</code> to filter 
               <span style="color:#66d9ef">values</span>:
                 - aws
 </code></pre></div><h3 id="prioritizers">Prioritizers</h3>
-<p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and pin the placementdecisions as seen in the following examples.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and the largest addon score cpuratio, and pin the placementdecisions as seen in the following examples.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: placement1
@@ -264,9 +266,16 @@ You can specify <code>predicates</code> and <code>prioritizers</code> to filter 
   <span style="color:#66d9ef">prioritizerPolicy</span>:
     <span style="color:#66d9ef">mode</span>: Exact
     <span style="color:#66d9ef">configurations</span>:
-      - <span style="color:#66d9ef">name</span>: ResourceAllocatableMemory
-      - <span style="color:#66d9ef">name</span>: Steady
+      - <span style="color:#66d9ef">scoreCoordinate</span>:
+          <span style="color:#66d9ef">builtIn</span>: ResourceAllocatableMemory
+      - <span style="color:#66d9ef">scoreCoordinate</span>:
+          <span style="color:#66d9ef">builtIn</span>: Steady
         <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">3</span>
+      - <span style="color:#66d9ef">scoreCoordinate</span>:
+          <span style="color:#66d9ef">type</span>: AddOn
+          <span style="color:#66d9ef">addOn</span>:
+            <span style="color:#66d9ef">resourceName</span>: default
+            <span style="color:#66d9ef">scoreName</span>: cpuratio
 </code></pre></div><ul>
 <li><code>mode</code> is either <code>Exact</code>, <code>Additive</code>, <code>&quot;&quot;</code> where <code>&quot;&quot;</code> is Additive by default.
 <ul>
@@ -276,21 +285,35 @@ You can specify <code>predicates</code> and <code>prioritizers</code> to filter 
 </li>
 <li><code>configurations</code> represents the configuration of prioritizers.
 <ul>
-<li><code>name</code> is the name of a prioritizer. Below are the valid names:
+<li><code>scoreCoordinate</code> represents the configuration of the prioritizer and score source.
+<ul>
+<li><code>type</code> defines the type of the prioritizer score.
+Type is either &ldquo;BuiltIn&rdquo;, &ldquo;AddOn&rdquo; or &ldquo;&quot;, where &quot;&rdquo; is &ldquo;BuiltIn&rdquo; by default.
+When the type is &ldquo;BuiltIn&rdquo;, a BuiltIn prioritizer name must be specified.
+When the type is &ldquo;AddOn&rdquo;, need to configure the score source in AddOn.</li>
+<li><code>builtIn</code> defines the name of a BuiltIn prioritizer. Below are the valid BuiltIn prioritizer names.
 <ul>
 <li>Balance: balance the decisions among the clusters.</li>
 <li>Steady: ensure the existing decision is stabilized.</li>
 <li>ResourceAllocatableCPU &amp; ResourceAllocatableMemory: sort clusters based on the allocatable.</li>
 </ul>
 </li>
-<li><code>weight</code> defines the weight of prioritizer. The value must be ranged in [0,10].
+<li><code>addOn</code> defines the resource name and score name. <code>AddOnPlacementScore</code> is introduced to describe addon scores, go into the &ldquo;Extensible scheduling&rdquo; section to learn more about it.
+<ul>
+<li><code>resourceName</code> defines the resource name of the <code>AddOnPlacementScore</code>. The placement prioritizer selects <code>AddOnPlacementScore</code> CR by this name.</li>
+<li><code>scoreName</code> defines the score name inside <code>AddOnPlacementScore</code>. <code>AddOnPlacementScore</code> contains a list of score name and score value, ScoreName specify the score to be used by the prioritizer.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>weight</code> defines the weight of prioritizer. The value must be ranged in [-10,10].
 Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
-A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicate thats the prioritizer is disabled.</li>
+A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicates that the prioritizer is disabled. A negative weight indicates wants to select the last ones.</li>
 </ul>
 </li>
 </ul>
 <p>A slice of <code>PlacementDecision</code> will be created by placement controller in the same namespace, each with a label of <code>cluster.open-cluster-management.io/placement={placement name}</code>. <code>PlacementDecision</code> contains the results of the cluster selection as seen in the following examples.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: PlacementDecision
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">labels</span>:
@@ -303,6 +326,14 @@ A higher weight indicates that the prioritizer weights more in the cluster selec
     - <span style="color:#66d9ef">clusterName</span>: cluster2
     - <span style="color:#66d9ef">clusterName</span>: cluster3
 </code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the workload should be placed in multiple clusters.</p>
+<h2 id="extensible-scheduling">Extensible scheduling</h2>
+<p>In placement resource based scheduling, in some cases the prioritizer needs extra data (more than the default value provided by ManagedCluster) to calculate the score of the managed cluster. For example, schedule the clusters based on cpu or memory usage data of the clusters fetched from a monitoring system.</p>
+<p>So we provide a new API <code>AddOnPlacementScore</code> to support a more extensible way to schedule based on customized scores.</p>
+<ul>
+<li>As a user, as mentioned in the above section, can specify the score in placement yaml to select clusters.</li>
+<li>As a score provider, a 3rd party controller could run on either hub or managed cluster, to maintain the lifecycle of <code>AddOnPlacementScore</code> and update score into it.</li>
+</ul>
+<p>Refer to the <a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a> to learn more.</p>
 <h2 id="future-work">Future work</h2>
 <p>In addition to selecting cluster by predicates, we are still working on other advanced features including</p>
 <ul>

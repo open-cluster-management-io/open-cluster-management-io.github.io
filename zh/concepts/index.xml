@@ -48,7 +48,8 @@ An example of ManifestWork to deploy a deployment to the managed cluster is show
       
       <guid>http://open-cluster-management.io/zh/concepts/placement/</guid>
       <description>Placement API is used to select a set of managed clusters in one or multiple ManagedClusterSets so that the user&amp;rsquo;s workloads can be deployed to these clusters.
-Bind ManagedClusterSet to a namespace Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet. Then you can create a Placement in the same namespace to select the clusters in this ManagedClusterSet. Assume a ManagedClusterSet is created on the hub cluster as seen in the following examples.</description>
+Notice: Placement and PlacementDecision API is upgraded from v1alpha1 to v1beta1, v1alpha1 is deprecated in OCM v0.7.0 and planned to be removed in OCM v0.8.0. The field spec.prioritizerPolicy.configurations.name in Placement API v1alpha1 is removed and replaced by spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn in v1beta1.
+Bind ManagedClusterSet to a namespace Before creating a Placement, you need to create a ManagedClusterSetBinding in a namespace to bind to a ManagedClusterSet.</description>
     </item>
     
     <item>
