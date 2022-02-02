@@ -162,10 +162,12 @@ all set. Let's move on to register your managed cluster into OCM.
    
    ```shell
    $ # NOTE: Switch kubeconfig to the managed cluster.
+   $ # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
    $ clusteradm join \
         --context ${CTX_MANAGED_CLUSTER} \
         --hub-token <your token data> \
         --hub-apiserver <your hub cluster endpoint> \
+        --wait \
         --cluster-name "cluster1"    # Or other arbitrary unique name
    ```
    
