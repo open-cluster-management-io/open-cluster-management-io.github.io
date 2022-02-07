@@ -234,7 +234,7 @@ and access a Kubernetes cluster:</p>
 <li>Valid X.509 certificate-key pair</li>
 <li>Service account bearer token</li>
 </ul>
-<p>The service account token will be automatically and persisted as a secret
+<p>The service account token will be automatically persisted as a secret
 resource inside the hosting Kubernetes clusters upon creation, which is commonly
 used for the <a href="https://github.com/kubernetes/client-go/tree/master/examples/in-cluster-client-configuration">&ldquo;in-cluster&rdquo;</a>
 client. However, in terms of OCM, the hub cluster is completely an external
@@ -274,7 +274,7 @@ ocm/managed-serviceaccount          &lt;...&gt;           1.0.0       A Helm cha
 ...
 </code></pre></div><p>Then run the following helm command to continue the installation:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm install -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    cluster-proxy ocm/cluster-proxy 
+</span><span style="color:#ae81ff"></span>    managed-serviceaccount  ocm/managed-serviceaccount
 $ kubectl -n open-cluster-management-addon get pod
 NAME                                                    READY   STATUS    RESTARTS   AGE
 managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   <span style="color:#ae81ff">1</span>          4d4h 
