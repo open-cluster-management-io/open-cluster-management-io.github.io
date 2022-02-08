@@ -103,6 +103,12 @@ other = "Klusterlet Agent"
 [sidebar_integrations]
 other = "Add-ons and Integrations"
 
+[sidebar_administration]
+other = "Administration"
+
+[sidebar_administration_upgrading]
+other = "Upgrading"
+
 [sidebar_apps]
 other = "Application lifecycle management"
 
