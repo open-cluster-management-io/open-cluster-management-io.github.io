@@ -103,6 +103,12 @@ other = "集群代理控制器"
 [sidebar_integrations]
 other = "插件和集成"
 
+[sidebar_administration]
+other = "运维管理"
+
+[sidebar_administration_upgrading]
+other = "升级版本"
+
 [sidebar_apps]
 other = "应用生命周期管理"
 
