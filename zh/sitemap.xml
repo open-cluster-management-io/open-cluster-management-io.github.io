@@ -18,6 +18,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/administration/upgrading</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests</loc>
     </url>
     
@@ -71,6 +75,10 @@
     
     <url>
         <loc>http://open-cluster-management.io/zh/concepts/addon</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/zh/getting-started/administration</loc>
     </url>
     
     <url>

@@ -38,6 +38,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/getting-started/administration/upgrading</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/getting-started/core</loc>
     </url>
     
@@ -71,6 +75,10 @@
     
     <url>
         <loc>http://open-cluster-management.io/getting-started/integration</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/getting-started/administration</loc>
     </url>
     
     <url>
