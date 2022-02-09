@@ -38,13 +38,10 @@ Complete the following procedure to install the configuration policy controller:
    # Apply the CRD
    export COMPONENT="config-policy-controller"
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/main/deploy"
-   kubectl apply -f ${GIT_PATH}/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
+   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_configurationpolicies.yaml
    
    # Deploy the controller
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${MANAGED_NAMESPACE}
-   kubectl apply -f ${GIT_PATH}/clusterrole.yaml -n ${MANAGED_NAMESPACE}
-   kubectl apply -f ${GIT_PATH}/clusterrole_binding.yaml -n ${MANAGED_NAMESPACE}
-   kubectl apply -f ${GIT_PATH}/service_account.yaml -n ${MANAGED_NAMESPACE}
    kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers=${COMPONENT} WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
    ```
    * See [config-policy-controller](https://github.com/open-cluster-management-io/config-policy-controller) for more information.
