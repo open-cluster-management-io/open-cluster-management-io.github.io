@@ -263,13 +263,10 @@ kubectl create ns <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span st
 <span style="color:#75715e"># Apply the CRD</span>
 export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;config-policy-controller&#34;</span>
 export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io/</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span><span style="color:#e6db74">/main/deploy&#34;</span>
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/v1/policy.open-cluster-management.io_configurationpolicies.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_configurationpolicies.yaml
    
 <span style="color:#75715e"># Deploy the controller</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/operator.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/clusterrole.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/clusterrole_binding.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/service_account.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
 kubectl set env deployment/<span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span> --containers<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span> WATCH_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 </code></pre></div><ul>
 <li>See <a href="https://github.com/open-cluster-management-io/config-policy-controller">config-policy-controller</a> for more information.</li>

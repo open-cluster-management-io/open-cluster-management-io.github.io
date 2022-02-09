@@ -270,9 +270,10 @@ kubectl create ns <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style=
 
 <span style="color:#75715e"># Apply the CRDs</span>
 export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy&#34;</span>
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policies_crd.yaml
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
-kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policies.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_placementbindings.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policyautomations.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_policysets.yaml
 
 <span style="color:#75715e"># Deploy the policy-propagator</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/operator.yaml -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
@@ -312,6 +313,9 @@ kubectl -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="co
 <span style="color:#75715e"># Apply the policy CRD</span>
 export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+
+<span style="color:#75715e"># Determine the managed cluster name</span>
+export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>cluster1
 
 <span style="color:#75715e"># Deploy the spec synchronization component</span>
 export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;governance-policy-spec-sync&#34;</span>
