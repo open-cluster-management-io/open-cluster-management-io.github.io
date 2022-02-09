@@ -53,9 +53,10 @@ Complete the following steps to install the policy framework from prebuilt image
 
    # Apply the CRDs
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy"
-   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policies_crd.yaml
-   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_placementbindings_crd.yaml
-   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policyautomations_crd.yaml
+   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policies.yaml
+   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_placementbindings.yaml
+   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policyautomations.yaml
+   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policysets.yaml
 
    # Deploy the policy-propagator
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${HUB_NAMESPACE}
@@ -102,6 +103,9 @@ Complete the following steps to install the policy framework from prebuilt image
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+
+   # Determine the managed cluster name
+   export MANAGED_CLUSTER_NAME=cluster1
 
    # Deploy the spec synchronization component
    export COMPONENT="governance-policy-spec-sync"
