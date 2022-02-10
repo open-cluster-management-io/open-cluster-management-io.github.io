@@ -93,7 +93,7 @@ sub-project, which is the "root dependency" in the OCM world. It includes
 an agent in the managed cluster to register to the hub and a controller in
 the hub cluster to coordinate with the agent.
 
-### Cluster heart-bearts and status
+### Cluster heartbeats and status
 
 By default, the registration will be reporting and refreshing its healthiness
 state to the hub cluster on a one-minute basis, and that interval can be easily
