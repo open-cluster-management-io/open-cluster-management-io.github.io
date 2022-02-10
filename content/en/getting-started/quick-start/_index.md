@@ -72,7 +72,7 @@ It's recommended to run the following one-liner to download and install **the
 latest release** of `clusteradm`:
 
 ```shell
-curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | sudo bash
 ```
 
 You can also install **the latest development version** (main branch) by:

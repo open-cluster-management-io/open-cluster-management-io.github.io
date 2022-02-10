@@ -35,7 +35,7 @@ In order to retrieve the latest version of OCM's command-line tool `clusteradm`,
 run the following one-liner command:
 
 ```shell
-$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | sudo bash
 ```
 
 Then you're supposed to see the following outputs:
