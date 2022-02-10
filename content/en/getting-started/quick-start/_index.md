@@ -38,8 +38,8 @@ below if you'd like to install OCM into your existing clusters.
 To create two local running clusters on your workstation, run:
 
 ```shell
-$ kind create cluster --name hub
-$ kind create cluster --name cluster1
+kind create cluster --name hub
+kind create cluster --name cluster1
 ```
 
 Remember that the cluster named "hub" will be the multi-cluster control plane
@@ -72,14 +72,14 @@ It's recommended to run the following one-liner to download and install **the
 latest release** of `clusteradm`:
 
 ```shell
-$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
 ```
 
 You can also install **the latest development version** (main branch) by:
 
 ```shell
 # Installing clusteradm to $GOPATH/bin/
-$ GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
+GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
 ```
 
 ### Overview of the registration process
@@ -99,7 +99,7 @@ steps:
 1. Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):
 
    ```shell
-   $ clusteradm init --wait --context ${CTX_HUB_CLUSTER}
+   clusteradm init --wait --context ${CTX_HUB_CLUSTER}
    ```
    
    By this command, `clusteradm` is helping you to install a [registration-operator](https://github.com/open-cluster-management-io/registration-operator)
@@ -111,8 +111,8 @@ steps:
    sample of the generated command will be:
    
    ```shell
-   $ # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
-   $ clusteradm join \
+   # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+   clusteradm join \
         --hub-token <your token data> \
         --hub-apiserver <your hub kube-apiserver endpoint> \
         --wait \
@@ -125,7 +125,7 @@ steps:
 2. Then you can check out the running instances of registration operator by:
 
    ```shell
-   $ kubectl -n open-cluster-management get pod --context ${CTX_HUB_CLUSTER}
+   kubectl -n open-cluster-management get pod --context ${CTX_HUB_CLUSTER}
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-695d945d4d-5dn8k   1/1     Running   0          19d
    ```
@@ -134,7 +134,7 @@ steps:
    the following command:
 
    ```shell
-   $ kubectl -n open-cluster-management-hub get pod --context ${CTX_HUB_CLUSTER}
+   kubectl -n open-cluster-management-hub get pod --context ${CTX_HUB_CLUSTER}
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   0          19d
    cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   0          19d
@@ -147,7 +147,7 @@ steps:
    named `clustermanager`:
 
    ```shell
-   $ kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
+   kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
    ```
 
 ### Deploy a klusterlet agent on your managed cluster
@@ -161,9 +161,9 @@ all set. Let's move on to register your managed cluster into OCM.
    the hub cluster.
    
    ```shell
-   $ # NOTE: Switch kubeconfig to the managed cluster.
-   $ # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
-   $ clusteradm join \
+   # NOTE: Switch kubeconfig to the managed cluster.
+   # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+   clusteradm join \
         --context ${CTX_MANAGED_CLUSTER} \
         --hub-token <your token data> \
         --hub-apiserver <your hub cluster endpoint> \
@@ -174,7 +174,7 @@ all set. Let's move on to register your managed cluster into OCM.
 2. Verify the installation of OCM agents in your managed clusters by:
 
    ```shell
-   $ kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
+   kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
    NAME                                             READY   STATUS    RESTARTS   AGE
    klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
    klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
@@ -185,7 +185,7 @@ all set. Let's move on to register your managed cluster into OCM.
    managed cluster:
    
    ```shell
-   $ kubectl get klusterlet klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
+   kubectl get klusterlet klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
    ```
 
 ### Accept join request and verify
@@ -200,19 +200,19 @@ OCM's hub admin:
    clusters' OCM agents into your hub cluster:
 
    ```Shell
-   $ kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1
+   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1
    ```
 
    A sample of pending CSR request will be:
 
    ```Shell
-   $ cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+   cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
    ```
 
 2. Accept the join request using your `clusteradm` tool:
 
    ```Shell
-   $ clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
+   clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
    ```
    
    After running the `accept` command, the CSR from your managed cluster
@@ -224,7 +224,7 @@ OCM's hub admin:
 3. Verify `managedcluster` has been created successfully:
 
    ```Shell
-   $ kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
+   kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
    ```
 
    Then you will get a result resembling the following:
