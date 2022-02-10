@@ -228,7 +228,7 @@
                 <li><a href="#approving-registration">Approving registration</a></li>
               </ul>
             </li>
-            <li><a href="#cluster-heart-bearts-and-status">Cluster heart-bearts and status</a></li>
+            <li><a href="#cluster-heartbeats-and-status">Cluster heartbeats and status</a></li>
             <li><a href="#cluster-removal">Cluster removal</a>
               <ul>
                 <li><a href="#unregister-from-hub-cluster">Unregister from hub cluster</a></li>
@@ -306,7 +306,7 @@ gracefully with permission and validity under control.</p>
 sub-project, which is the &ldquo;root dependency&rdquo; in the OCM world. It includes
 an agent in the managed cluster to register to the hub and a controller in
 the hub cluster to coordinate with the agent.</p>
-<h3 id="cluster-heart-bearts-and-status">Cluster heart-bearts and status</h3>
+<h3 id="cluster-heartbeats-and-status">Cluster heartbeats and status</h3>
 <p>By default, the registration will be reporting and refreshing its healthiness
 state to the hub cluster on a one-minute basis, and that interval can be easily
 overridden by setting <code>.spec.leaseDurationSeconds</code> on the <code>ManagedCluster</code>.</p>
