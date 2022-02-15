@@ -43,9 +43,9 @@ $ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
 $ helm repo update
 $ helm search repo ocm
 NAME                             	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-gateway-addon-manager	1.1.8        	1.0.0      	A Helm chart for Cluster-Gateway Addon-Manager
-ocm/cluster-proxy                	0.1.0        	1.0.0      	A Helm chart for Cluster-Proxy OCM Addon      
-ocm/managed-serviceaccount       	0.1.0        	1.0.0      	A Helm chart for Managed ServiceAccount Addon 
+ocm/cluster-gateway-addon-manager	1.1.10        	1.0.0      	A Helm chart for Cluster-Gateway Addon-Manager
+ocm/cluster-proxy                	0.1.4        	1.0.0      	A Helm chart for Cluster-Proxy OCM Addon      
+ocm/managed-serviceaccount       	0.1.1        	1.0.0      	A Helm chart for Managed ServiceAccount Addon 
 ```
 
 ### Install the OCM addons
@@ -55,7 +55,7 @@ By the following helm commands to install the addons:
 ```shell
 $ helm -n open-cluster-management-addon install cluster-proxy ocm/cluster-proxy
 $ helm -n open-cluster-management-addon install managed-serviceaccount ocm/managed-serviceaccount
-$ helm -n open-cluster-management-addon update cluster-gateway ocm/cluster-gateway-addon-manager \
+$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager \
     # Delegating for secret discovery to "managed-serviceaccount" addon.
     # Skip the option for manual secret management.
     --set manualSecretManagement=false \
@@ -74,7 +74,7 @@ to check their status, run:
 ```shell
 $ kubectl get managedclusteraddon -A
 NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
-managed1    cluster-gateway          Unknown # Expecting an "Unknown" due to temporary addon-framework limitation     
+managed1    cluster-gateway          True
 managed1    cluster-proxy            True                   
 managed1    managed-serviceaccount   True 
 ```
