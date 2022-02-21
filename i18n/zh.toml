@@ -76,6 +76,9 @@ other = "架构"
 [sidebar_managed_cluster]
 other = "托管集群"
 
+[ sidebar_managed_cluster_set ]
+other = "托管集群分组"
+
 [sidebar_manifest_work]
 other = "资源下发"
 
