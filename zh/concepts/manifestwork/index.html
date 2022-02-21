@@ -219,16 +219,35 @@
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
     <h1>资源下发</h1>
-    <h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
+    <!-- spellchecker-disable -->
+
+
+
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#what-is-manifestwork">What is <code>ManifestWork</code></a></li>
+        <li><a href="#status-tracking">Status tracking</a>
+          <ul>
+            <li><a href="#fine-grained-field-values-tracking">Fine-grained field values tracking</a></li>
+          </ul>
+        </li>
+        <li><a href="#garbage-collection">Garbage collection</a>
+          <ul>
+            <li><a href="#delete-options">Delete options</a></li>
+          </ul>
+        </li>
+        <li><a href="#resource-race-and-adoption">Resource Race and Adoption</a></li>
+      </ul></nav><hr></div>
+
+
+<!-- spellchecker-enable -->
+<h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
 <p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: hello-work
-  <span style="color:#66d9ef">namespace</span>: cluster1
-  <span style="color:#66d9ef">labels</span>:
-    <span style="color:#66d9ef">app</span>: hello
+  <span style="color:#66d9ef">namespace</span>: &lt;target managed cluster<span style="color:#e6db74">&gt;
+</span><span style="color:#e6db74">  name: hello-work-demo</span>
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">workload</span>:
     <span style="color:#66d9ef">manifests</span>:
@@ -256,12 +275,8 @@
 <p>Here is an example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">labels</span>:
-    <span style="color:#66d9ef">app</span>: hello
-  <span style="color:#66d9ef">name</span>: hello-work
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>: ... ...
+<span style="color:#66d9ef">metadata</span>: ... 
+<span style="color:#66d9ef">spec</span>: ...
 <span style="color:#66d9ef">status</span>:
   <span style="color:#66d9ef">conditions</span>:
     - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-06-15T02:26:02Z&#34;</span>
@@ -295,6 +310,72 @@
           <span style="color:#66d9ef">ordinal</span>: <span style="color:#ae81ff">0</span>
           <span style="color:#66d9ef">resource</span>: deployments
           <span style="color:#66d9ef">version</span>: v1
+</code></pre></div><h3 id="fine-grained-field-values-tracking">Fine-grained field values tracking</h3>
+<p>Optionally, we can let the work agent aggregate and report certain fields from
+the distributed resources to the hub clusters by setting <code>FeedbackRule</code> for
+the <code>ManifestWork</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>: ...
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>: ...
+  <span style="color:#66d9ef">manifestConfigs</span>:
+    - <span style="color:#66d9ef">resourceIdentifier</span>:
+        <span style="color:#66d9ef">group</span>: apps
+        <span style="color:#66d9ef">resource</span>: deployments
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">name</span>: hello
+      <span style="color:#66d9ef">feedbackRules</span>:
+        - <span style="color:#66d9ef">type</span>: WellKnownStatus
+        - <span style="color:#66d9ef">type</span>: JSONPaths
+          <span style="color:#66d9ef">jsonPaths</span>:
+            - <span style="color:#66d9ef">name</span>: isAvailable
+              <span style="color:#66d9ef">path</span>: <span style="color:#e6db74">&#39;.status.conditions[?(@.type==&#34;Available&#34;)].status&#39;</span>
+</code></pre></div><p>The feedback rules prescribe the work agent to periodically get the latest
+states of the resources, and scrape merely those expected fields from them,
+which is helpful for trimming the payload size of the status. Note that the
+collected feedback values on the <code>ManifestWork</code> will not be updated unless
+the latest value is changed/different from the previous recorded value.
+Currently, it supports two kinds of <code>FeedbackRule</code>:</p>
+<ul>
+<li><code>WellKnownStatus</code>: Using the pre-built template of feedback values for those
+well-known kubernetes resources.</li>
+<li><code>JSONPaths</code>: A valid <a href="https://kubernetes.io/docs/reference/kubectl/jsonpath/">Kubernetes JSON-Path</a>
+that selects a scalar field from the resource. Currently supported types are
+<strong>Integer</strong>, <strong>String</strong> and <strong>Boolean</strong>.</li>
+</ul>
+<p>The default feedback value scraping interval is 30 second, and we can override
+it by setting <code>--status-sync-interval</code> on your work agent. Too short period can
+cause excessive burden to the control plane of the managed cluster, so generally
+a recommended lower bound for the interval is 5 second.</p>
+<p>In the end, the scraped values from feedback rules will be shown in the status:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>: ...
+<span style="color:#66d9ef">spec</span>: ...
+<span style="color:#66d9ef">status</span>:  
+  <span style="color:#66d9ef">resourceStatus</span>:
+    <span style="color:#66d9ef">manifests</span>:
+    - <span style="color:#66d9ef">conditions</span>: ...
+      <span style="color:#66d9ef">resourceMeta</span>: ...
+      <span style="color:#66d9ef">statusFeedback</span>:
+        <span style="color:#66d9ef">values</span>:
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">integer</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">type</span>: Integer
+          <span style="color:#66d9ef">name</span>: ReadyReplicas
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">integer</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">type</span>: Integer
+          <span style="color:#66d9ef">name</span>: Replicas
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">integer</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">type</span>: Integer
+          <span style="color:#66d9ef">name</span>: AvailableReplicas
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">string</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+            <span style="color:#66d9ef">type</span>: String
+          <span style="color:#66d9ef">name</span>: isAvailable
 </code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
 <p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
 <h3 id="delete-options">Delete options</h3>
@@ -303,73 +384,19 @@ which means the applied resources on the spoke will be deleted with the removal 
 <code>Orphan</code> so the applied resources will not be deleted. Here is an example:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: deleteoption-demo
+<span style="color:#66d9ef">metadata</span>: ...
 <span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">workload</span>:
-    <span style="color:#66d9ef">manifests</span>:
-    - <span style="color:#66d9ef">apiVersion</span>: apps/v1
-      <span style="color:#66d9ef">kind</span>: Deployment
-      <span style="color:#66d9ef">metadata</span>:
-        <span style="color:#66d9ef">name</span>: hello
-        <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">spec</span>:
-        <span style="color:#66d9ef">selector</span>:
-          <span style="color:#66d9ef">matchLabels</span>:
-            <span style="color:#66d9ef">app</span>: hello
-        <span style="color:#66d9ef">template</span>:
-          <span style="color:#66d9ef">metadata</span>:
-            <span style="color:#66d9ef">labels</span>:
-              <span style="color:#66d9ef">app</span>: hello
-          <span style="color:#66d9ef">spec</span>:
-            <span style="color:#66d9ef">containers</span>:
-            - <span style="color:#66d9ef">name</span>: hello
-              <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
-              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span>]
+  <span style="color:#66d9ef">workload</span>: ...
   <span style="color:#66d9ef">deleteOption</span>:
     <span style="color:#66d9ef">propagationPolicy</span>: Orphan
 </code></pre></div><p>Alternatively, user can also specify a certain resource defined in the <code>ManifestWork</code> to be orphaned by setting the
 <code>deleteOption</code> to be <code>SelectivelyOrphan</code>. Here is an example with <code>SelectivelyOrphan</code> specified. It ensures the removal of deployment resource specified in the <code>ManifestWork</code> while the service resource is kept.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ManifestWork
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: selective-delete-work
 <span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">workload</span>:
-    <span style="color:#66d9ef">manifests</span>:
-    - <span style="color:#66d9ef">kind</span>: Service
-      <span style="color:#66d9ef">apiVersion</span>: v1
-      <span style="color:#66d9ef">metadata</span>:
-        <span style="color:#66d9ef">name</span>: helloworld
-        <span style="color:#66d9ef">namespace</span>: default
-        <span style="color:#66d9ef">labels</span>:
-          <span style="color:#66d9ef">app</span>: hello
-      <span style="color:#66d9ef">spec</span>:
-        <span style="color:#66d9ef">type</span>: ClusterIP
-        <span style="color:#66d9ef">ports</span>:
-        - <span style="color:#66d9ef">name</span>: app
-          <span style="color:#66d9ef">port</span>: <span style="color:#ae81ff">443</span>
-          <span style="color:#66d9ef">protocol</span>: TCP
-          <span style="color:#66d9ef">targetPort</span>: <span style="color:#ae81ff">4443</span>
-        <span style="color:#66d9ef">selector</span>:
-          <span style="color:#66d9ef">app</span>: hello
-    - <span style="color:#66d9ef">apiVersion</span>: apps/v1
-      <span style="color:#66d9ef">kind</span>: Deployment
-      <span style="color:#66d9ef">metadata</span>:
-        <span style="color:#66d9ef">name</span>: hello
-        <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">spec</span>:
-        <span style="color:#66d9ef">selector</span>:
-          <span style="color:#66d9ef">matchLabels</span>:
-            <span style="color:#66d9ef">app</span>: hello
-        <span style="color:#66d9ef">template</span>:
-          <span style="color:#66d9ef">metadata</span>:
-            <span style="color:#66d9ef">labels</span>:
-              <span style="color:#66d9ef">app</span>: hello
-          <span style="color:#66d9ef">spec</span>:
-            <span style="color:#66d9ef">containers</span>:
-            - <span style="color:#66d9ef">name</span>: hello
-              <span style="color:#66d9ef">image</span>: quay.io/asmacdo/busybox
-              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#39;sh&#39;</span>, <span style="color:#e6db74">&#39;-c&#39;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, World!&#34; &amp;&amp; sleep 3600&#39;</span>]
+  <span style="color:#66d9ef">workload</span>: ...
   <span style="color:#66d9ef">deleteOption</span>:
     <span style="color:#66d9ef">propagationPolicy</span>: SelectivelyOrphan
     <span style="color:#66d9ef">selectivelyOrphans</span>:

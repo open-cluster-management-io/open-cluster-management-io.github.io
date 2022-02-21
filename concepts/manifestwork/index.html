@@ -241,7 +241,9 @@
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork
-<span style="color:#66d9ef">metadata</span>: ...
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: &lt;target managed cluster<span style="color:#e6db74">&gt;
+</span><span style="color:#e6db74">  name: hello-work-demo</span>
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">workload</span>:
     <span style="color:#66d9ef">manifests</span>:
@@ -342,7 +344,35 @@ that selects a scalar field from the resource. Currently supported types are
 it by setting <code>--status-sync-interval</code> on your work agent. Too short period can
 cause excessive burden to the control plane of the managed cluster, so generally
 a recommended lower bound for the interval is 5 second.</p>
-<h2 id="garbage-collection">Garbage collection</h2>
+<p>In the end, the scraped values from feedback rules will be shown in the status:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>: ...
+<span style="color:#66d9ef">spec</span>: ...
+<span style="color:#66d9ef">status</span>:  
+  <span style="color:#66d9ef">resourceStatus</span>:
+    <span style="color:#66d9ef">manifests</span>:
+    - <span style="color:#66d9ef">conditions</span>: ...
+      <span style="color:#66d9ef">resourceMeta</span>: ...
+      <span style="color:#66d9ef">statusFeedback</span>:
+        <span style="color:#66d9ef">values</span>:
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">integer</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">type</span>: Integer
+          <span style="color:#66d9ef">name</span>: ReadyReplicas
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">integer</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">type</span>: Integer
+          <span style="color:#66d9ef">name</span>: Replicas
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">integer</span>: <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">type</span>: Integer
+          <span style="color:#66d9ef">name</span>: AvailableReplicas
+        - <span style="color:#66d9ef">fieldValue</span>:
+            <span style="color:#66d9ef">string</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+            <span style="color:#66d9ef">type</span>: String
+          <span style="color:#66d9ef">name</span>: isAvailable
+</code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
 <p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
 <h3 id="delete-options">Delete options</h3>
 <p>User can explicitly choose not to garbage collect the applied resources when a <code>ManifestWork</code> is deleted. the user should specify the <code>deleteOption</code> in the <code>ManifestWork</code>. By default, <code>deleteOption</code> is set as <code>Foreground</code>
