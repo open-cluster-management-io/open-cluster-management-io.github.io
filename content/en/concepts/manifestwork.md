@@ -18,7 +18,9 @@ An example of `ManifestWork` to deploy a deployment to the managed cluster is sh
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
-metadata: ...
+metadata:
+  namespace: <target managed cluster>
+  name: hello-work-demo
 spec:
   workload:
     manifests:
@@ -132,6 +134,38 @@ The default feedback value scraping interval is 30 second, and we can override
 it by setting `--status-sync-interval` on your work agent. Too short period can
 cause excessive burden to the control plane of the managed cluster, so generally
 a recommended lower bound for the interval is 5 second.
+
+In the end, the scraped values from feedback rules will be shown in the status:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata: ...
+spec: ...
+status:  
+  resourceStatus:
+    manifests:
+    - conditions: ...
+      resourceMeta: ...
+      statusFeedback:
+        values:
+        - fieldValue:
+            integer: 1
+            type: Integer
+          name: ReadyReplicas
+        - fieldValue:
+            integer: 1
+            type: Integer
+          name: Replicas
+        - fieldValue:
+            integer: 1
+            type: Integer
+          name: AvailableReplicas
+        - fieldValue:
+            string: "True"
+            type: String
+          name: isAvailable
+```
 
 ## Garbage collection
 
