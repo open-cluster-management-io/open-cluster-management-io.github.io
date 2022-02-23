@@ -102,7 +102,7 @@ Complete the following steps to install the policy framework from prebuilt image
 
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
-   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies_crd.yaml
+   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
    # Determine the managed cluster name
    export MANAGED_CLUSTER_NAME=cluster1
