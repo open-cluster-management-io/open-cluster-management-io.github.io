@@ -31,7 +31,7 @@ You must meet the following prerequisites to install the policy framework:
 
 - Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
 
-- Ensure the `open-cluster-management` _application_ is installed if you are using `PlacementRules` with your policies. See [Application management](/getting-started/integration/app-lifecycle) for more information. While installing Application management for the `PlacementRules` API is the recommended approach, if you are only using the new `Placement` API, you can skip the Application management installation, but you do need to install the `PlacementRule` CRD with this command:
+- If you are using `PlacementRules` with your policies, ensure the `open-cluster-management` _application_ is installed . See [Application management](/getting-started/integration/app-lifecycle) for more information. If you are using the default `Placement` API, you can skip the Application management installation, but you do need to install the `PlacementRule` CRD with this command:
 
    ```Shell
    kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
@@ -93,7 +93,7 @@ Complete the following steps to install the policy framework from prebuilt image
    # Configure kubectl to point to the managed cluster
    kubectl config use-context ${CTX_MANAGED_CLUSTER}
 
-   # Create the namespace
+   # Create the namespace for the synchronization components
    export MANAGED_NAMESPACE="open-cluster-management-agent-addon"
    kubectl create ns ${MANAGED_NAMESPACE}
 
@@ -104,7 +104,7 @@ Complete the following steps to install the policy framework from prebuilt image
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
-   # Determine the managed cluster name
+   # Set the managed cluster name
    export MANAGED_CLUSTER_NAME=cluster1
 
    # Deploy the spec synchronization component
@@ -131,7 +131,7 @@ Complete the following steps to install the policy framework from prebuilt image
 5. Verify that the pods are running on the managed cluster with the following command:
 
    ```Shell
-   $ kubectl get pods -n open-cluster-management-agent-addon
+   $ kubectl get pods -n ${MANAGED_NAMESPACE}
    NAME                                               READY   STATUS    RESTARTS   AGE
    governance-policy-spec-sync-6474b6d898-tmkw6       1/1     Running   0          2m14s
    governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   0          2m14s
