@@ -11,7 +11,7 @@ your managed clusters with OCM's `ManifestWork` API.
 ## Prerequisites
 
 By design, you don't need to do any additional preparation before working on
-the `ManifestWork` API. Just in case of runnint into any unexpected failures,
+the `ManifestWork` API. Just in case of run into any unexpected failures,
 you can make sure your environment by checking the following conditions:
 
 - The CRD `ManifestWork` is installed in the hub cluster:
