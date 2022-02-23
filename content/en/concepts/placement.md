@@ -3,43 +3,65 @@ title: Placement
 weight: 3
 ---
 
-`Placement` API is used to select a set of managed clusters in one or multiple `ManagedClusterSets` so that the user's workloads can be deployed to these clusters.
+<!-- spellchecker-disable -->
 
-**Notice**:
-`Placement` and `PlacementDecision` API is upgraded from v1alpha1 to v1beta1, v1alpha1 is deprecated in OCM v0.7.0 and planned to be removed in OCM v0.8.0. The field `spec.prioritizerPolicy.configurations.name` in `Placement` API v1alpha1 is removed and replaced by `spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn` in v1beta1.
+{{< toc >}}
 
-## Bind ManagedClusterSet to a namespace
+<!-- spellchecker-enable -->
 
-Before creating a `Placement`, you need to create a `ManagedClusterSetBinding` in a namespace to bind to a `ManagedClusterSet`. Then you can create a `Placement` in the same namespace to select the clusters in this `ManagedClusterSet`. Assume a `ManagedClusterSet` is created on the hub cluster as seen in the following examples.
+**API-CHANGE NOTE**:
+`Placement` and `PlacementDecision` API is upgraded from v1alpha1 to v1beta1,
+v1alpha1 will be deprecated in OCM v0.7.0 and planned to be removed in OCM
+v0.8.0. The field `spec.prioritizerPolicy.configurations.name` in `Placement`
+API v1alpha1 is removed and replaced by
+`spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn` in v1beta1.
 
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: ManagedClusterSet
-metadata:
-  name: prod
-```
 
-You can create a `ManagedClusterSetBinding` as follows to bind the `ManagedClusterSet` to the default namespace.
+## Overall
 
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: ManagedClusterSetBinding
-metadata:
-  name: prod
-  namespace: default
-spec:
-  clusterSet: prod
-```
+`Placement` concept is used to dynamically select a set of managed clusters in
+one or multiple [ManagedClusterSet](./managedclusterset.md) so that higher level
+users can either replicate Kubernetes resources to the member clusters or run
+their advanced workload i.e. __multi-cluster scheduling__.
 
-You must have the `create` permission on resource `managedclusterset/bind` to bind the `ManagedClusterSet` to a namespace.
+The "input" and "output" of the scheduling process are decoupled into two
+separated Kubernetes API `Placement` and `PlacementDecision`. As is shown in
+the following picture, we prescribe the scheduling policy in the spec of
+`Placement` API and the placement controller in the hub will help us to
+dynamically select a slice of managed clusters from the given cluster sets.
+
+Note that the scheduling result in the `PlacementDecision` API is designed to
+be paginated with its page index as the name's suffix to avoid "too large
+object" issue from the underlying Kubernetes API framework.
+
+<div style="text-align: center; padding: 20px;">
+   <img src="/placement-explain.png" alt="Placement" style="margin: 0 auto; width: 60%">
+</div>
+
+
+Following the architecture of Kubernetes' original scheduling framework, the
+multi-cluster scheduling is logically divided into two phases internally:
+
+- __Predicate__: Hard requirements for the selected clusters.
+- __Prioritize__: Rank the clusters by the soft requirements and select a subset
+  among them.
 
 ## Select clusters in ManagedClusterSet
 
-After `ManagedClusterSetBinding` is created in a namespace, you can create a placement in the namespace to define what clusters should be selected in the bound `ManagedClusterSet`.
-You can specify `predicates` and `prioritizers` to filter and score clusters.
+By following [the pervious section](./managedclusterset.md) about
+`ManagedClusterSet`, now we're supposed to have one or multiple valid cluster
+sets in the hub clusters. Then we can move on and create a placement in the
+"workspace namespace" by specifying `predicates` and `prioritizers` in the
+`Placement` API to define our own multi-cluster scheduling policy.
 
 ### Predicates
-In `predicates` section, you can select clusters by labels or `clusterClaims`. For instance, you can select 3 clusters with labels `purpose=test` and clusterClaim `platform.open-cluster-management.io=aws` as seen in the following examples.
+
+#### Label/Claim selection
+
+In `predicates` section, you can select clusters by labels or `clusterClaims`.
+For instance, you can select 3 clusters with labels `purpose=test` and
+clusterClaim `platform.open-cluster-management.io=aws` as seen in the following
+examples:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta1
@@ -64,8 +86,20 @@ spec:
                 - aws
 ```
 
+Note that the distinction between label-selecting and claim-selecting is
+elaborated in [this page](https://open-cluster-management.io/scenarios/extending-managed-clusters/)
+about how to extend attributes for the managed clusters.
+
 ### Prioritizers
-In `prioritizerPolicy` section, you can define the policy of prioritizers. For instance, you can select 2 clusters with the largest memory available and the largest addon score cpuratio, and pin the placementdecisions as seen in the following examples.
+
+
+#### Score-based prioritizer
+
+In `prioritizerPolicy` section, you can define the policy of prioritizers.
+For instance, you can select 2 clusters with the largest memory available and
+the largest addon score cpuratio, and pin the placementdecisions as seen in the
+following examples.
+
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
@@ -90,24 +124,24 @@ spec:
 ```
 
 - `mode` is either `Exact`, `Additive`, `""` where `""` is Additive by default.
-  - In `Additive` mode, any prioritizer not explicitly enumerated is enabled in its default Configurations, in which Steady and Balance prioritizers have the weight of 1 while other prioritizers have the weight of 0. Additive doesn't require configuring all prioritizers. The default Configurations may change in the future, and additional prioritization will happen.
-  - In `Exact` mode, any prioritizer not explicitly enumerated is weighted as zero. Exact requires knowing the full set of prioritizers you want, but avoids behavior changes between releases.
+    - In `Additive` mode, any prioritizer not explicitly enumerated is enabled in its default Configurations, in which Steady and Balance prioritizers have the weight of 1 while other prioritizers have the weight of 0. Additive doesn't require configuring all prioritizers. The default Configurations may change in the future, and additional prioritization will happen.
+    - In `Exact` mode, any prioritizer not explicitly enumerated is weighted as zero. Exact requires knowing the full set of prioritizers you want, but avoids behavior changes between releases.
 - `configurations` represents the configuration of prioritizers.
-  - `scoreCoordinate` represents the configuration of the prioritizer and score source.
-    - `type` defines the type of the prioritizer score.
-    Type is either "BuiltIn", "AddOn" or "", where "" is "BuiltIn" by default.
-    When the type is "BuiltIn", a BuiltIn prioritizer name must be specified.
-    When the type is "AddOn", need to configure the score source in AddOn.
-    - `builtIn` defines the name of a BuiltIn prioritizer. Below are the valid BuiltIn prioritizer names.
-      - Balance: balance the decisions among the clusters.
-      - Steady: ensure the existing decision is stabilized.
-      - ResourceAllocatableCPU & ResourceAllocatableMemory: sort clusters based on the allocatable.
-    - `addOn` defines the resource name and score name. `AddOnPlacementScore` is introduced to describe addon scores, go into the "Extensible scheduling" section to learn more about it.
-      - `resourceName` defines the resource name of the `AddOnPlacementScore`. The placement prioritizer selects `AddOnPlacementScore` CR by this name.
-      - `scoreName` defines the score name inside `AddOnPlacementScore`. `AddOnPlacementScore` contains a list of score name and score value, ScoreName specify the score to be used by the prioritizer.
-  - `weight` defines the weight of prioritizer. The value must be ranged in [-10,10].
-    Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
-    A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicates that the prioritizer is disabled. A negative weight indicates wants to select the last ones.
+    - `scoreCoordinate` represents the configuration of the prioritizer and score source.
+        - `type` defines the type of the prioritizer score.
+          Type is either "BuiltIn", "AddOn" or "", where "" is "BuiltIn" by default.
+          When the type is "BuiltIn", a BuiltIn prioritizer name must be specified.
+          When the type is "AddOn", need to configure the score source in AddOn.
+        - `builtIn` defines the name of a BuiltIn prioritizer. Below are the valid BuiltIn prioritizer names.
+            - Balance: balance the decisions among the clusters.
+            - Steady: ensure the existing decision is stabilized.
+            - ResourceAllocatableCPU & ResourceAllocatableMemory: sort clusters based on the allocatable.
+        - `addOn` defines the resource name and score name. `AddOnPlacementScore` is introduced to describe addon scores, go into the "Extensible scheduling" section to learn more about it.
+            - `resourceName` defines the resource name of the `AddOnPlacementScore`. The placement prioritizer selects `AddOnPlacementScore` CR by this name.
+            - `scoreName` defines the score name inside `AddOnPlacementScore`. `AddOnPlacementScore` contains a list of score name and score value, ScoreName specify the score to be used by the prioritizer.
+    - `weight` defines the weight of prioritizer. The value must be ranged in [-10,10].
+      Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
+      A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicates that the prioritizer is disabled. A negative weight indicates wants to select the last ones.
 
 A slice of `PlacementDecision` will be created by placement controller in the same namespace, each with a label of `cluster.open-cluster-management.io/placement={placement name}`. `PlacementDecision` contains the results of the cluster selection as seen in the following examples.
 
