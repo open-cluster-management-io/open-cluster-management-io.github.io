@@ -136,7 +136,7 @@ spec:
             - Balance: balance the decisions among the clusters.
             - Steady: ensure the existing decision is stabilized.
             - ResourceAllocatableCPU & ResourceAllocatableMemory: sort clusters based on the allocatable.
-        - `addOn` defines the resource name and score name. `AddOnPlacementScore` is introduced to describe addon scores, go into the "Extensible scheduling" section to learn more about it.
+        - `addOn` defines the resource name and score name. `AddOnPlacementScore` is introduced to describe addon scores, go into the [Extensible scheduling](#extensible-scheduling) section to learn more about it.
             - `resourceName` defines the resource name of the `AddOnPlacementScore`. The placement prioritizer selects `AddOnPlacementScore` CR by this name.
             - `scoreName` defines the score name inside `AddOnPlacementScore`. `AddOnPlacementScore` contains a list of score name and score value, ScoreName specify the score to be used by the prioritizer.
     - `weight` defines the weight of prioritizer. The value must be ranged in [-10,10].

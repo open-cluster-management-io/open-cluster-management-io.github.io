@@ -11,7 +11,7 @@ weight: 2
 
 ## What is `ManifestWork`
 
-`ManifestWork` is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a `ManifestWork` resource must be created in the cluster namespace. A work agent implemented in [work](https://github.com/open-cluster-management-io/work) project is run on the managed cluster and monitors the `ManifestWork` resource in the cluster namespace on the hub cluster.
+`ManifestWork` is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a `ManifestWork` resource must be created in the cluster namespace. A work agent implemented in [work](https://github.com/open-cluster-management-io/work) project is run on the managed cluster and monitors the `ManifestWork` resource in the cluster namespace on the hub cluster.
 
 An example of `ManifestWork` to deploy a deployment to the managed cluster is shown in the following example.
 

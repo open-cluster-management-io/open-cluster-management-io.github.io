@@ -44,7 +44,7 @@ Deploy the subscription operators to the hub cluster.
 
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm install addons --names application-manager
+$ clusteradm install addon --names application-manager
 Installing built-in application-manager add-on to the Hub cluster...
 $ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
@@ -61,7 +61,7 @@ Deploy the subscription add-on in corresponding managed cluster namespace on the
 
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm enable addons --names application-manager --clusters ${MANAGED_CLUSTER_NAME}
+$ clusteradm addon enable --name application-manager --clusters ${MANAGED_CLUSTER_NAME}
 Deploying application-manager add-on to managed cluster: <managed_cluster_name>.
 $ kubectl -n ${MANAGED_CLUSTER_NAME} get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
 NAME                  AVAILABLE   DEGRADED   PROGRESSING

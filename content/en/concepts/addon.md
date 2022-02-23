@@ -106,7 +106,7 @@ NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
 ```
 
 The addon agent are expected to report its healthiness periodically as long as it's
-running. Also the versioning the addon agent can be reflected in the resources 
+running. Also the versioning of the addon agent can be reflected in the resources 
 optionally so that we can control the upgrading the agents progressively.
 
 
@@ -129,7 +129,7 @@ to understand how the add-on framework can be used.
 
 ### Custom signers
 
-The original Kubernetes CSR api only supports there built-in signers:
+The original Kubernetes CSR api only supports three built-in signers:
 
 - "kubernetes.io/kube-apiserver-client"
 - "kubernetes.io/kube-apiserver-client-kubelet"
@@ -168,4 +168,3 @@ upon discovering new clusters by setting the `InstallStrategy` from the
 [addon-framework](https://github.com/open-cluster-management-io/addon-framework).
 On the other hand, the admin can also manually install the addon for the 
 clusters by applying `ManagedClusterAddon` into their cluster namespace.
-

@@ -43,8 +43,8 @@ kind create cluster --name cluster1
 ```
 
 Remember that the cluster named "hub" will be the multi-cluster control plane
-of your OCM environment, and "cluster1" is supposed to be the cluster controlled
-by "hub".
+of your OCM environment, and "cluster1" is supposed to be the managed cluster
+controlled by "hub".
 
 ### Prepare terminal environment
 
