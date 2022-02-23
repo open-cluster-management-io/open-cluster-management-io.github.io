@@ -3,7 +3,8 @@ title: Policy framework
 weight: 10
 ---
 
-The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
+The policy framework provides governance capability to gain visibility, and drive remediation for
+various security and configuration aspects to help IT administrators meet their requirements.
 
 <!-- spellchecker-disable -->
 
@@ -13,7 +14,8 @@ The policy framework provides governance capability to gain visibility, and driv
 
 ## Architecture
 
-- You can find the analysis of the architectural components [here](https://github.com/open-cluster-management/governance-policy-framework#architecture)
+- You can find the analysis of the architectural components
+  [here](https://github.com/open-cluster-management/governance-policy-framework#architecture)
 
 <div style="text-align: center; padding: 20px;">
    <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
@@ -23,25 +25,34 @@ The policy framework provides governance capability to gain visibility, and driv
 
 You must meet the following prerequisites to install the policy framework:
 
-- Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [`kustomize`](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
+- Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) and
+  [`kustomize`](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
 
-- Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
+- Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from
+  the source.
 
-- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
+- Ensure the `open-cluster-management` _cluster manager_ is installed. See
+  [Cluster Manager](/getting-started/core/cluster-manager) for more information.
 
-- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
+- Ensure the `open-cluster-management` _klusterlet_ is installed. See
+  [Klusterlet](/getting-started/core/register-cluster) for more information.
 
-- If you are using `PlacementRules` with your policies, ensure the `open-cluster-management` _application_ is installed . See [Application management](/getting-started/integration/app-lifecycle) for more information. If you are using the default `Placement` API, you can skip the Application management installation, but you do need to install the `PlacementRule` CRD with this command:
+- If you are using `PlacementRules` with your policies, ensure the `open-cluster-management`
+  _application_ is installed . See
+  [Application management](/getting-started/integration/app-lifecycle) for more information. If you
+  are using the default `Placement` API, you can skip the Application management installation, but
+  you do need to install the `PlacementRule` CRD with this command:
 
-   ```Shell
-   kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
-   ```
+  ```Shell
+  kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
+  ```
 
 ## Install from prebuilt images on Quay.io
 
 Complete the following steps to install the policy framework from prebuilt images on Quay.io:
 
-1. Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the `open-cluster-management` namespace on the hub cluster with the following commands:
+1. Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the
+   `open-cluster-management` namespace on the hub cluster with the following commands:
 
    ```Shell
    # Configure kubectl to point to the hub cluster
