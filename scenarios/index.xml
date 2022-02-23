@@ -16,7 +16,7 @@
       
       <guid>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources/</guid>
       <description>After bootstrapping an OCM environment of at least one managed clusters, now it&amp;rsquo;s time to begin your first journey of deploying Kubernetes resources into your managed clusters with OCM&amp;rsquo;s ManifestWork API.
-Prerequisites By design, you don&amp;rsquo;t need to do any additional preparation before working on the ManifestWork API. Just in case of runnint into any unexpected failures, you can make sure your environment by checking the following conditions:
+Prerequisites By design, you don&amp;rsquo;t need to do any additional preparation before working on the ManifestWork API. Just in case of run into any unexpected failures, you can make sure your environment by checking the following conditions:
   The CRD ManifestWork is installed in the hub cluster:</description>
     </item>
     

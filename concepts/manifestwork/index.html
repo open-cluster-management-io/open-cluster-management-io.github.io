@@ -240,7 +240,7 @@
 
 <!-- spellchecker-enable -->
 <h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
-<p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
+<p><code>ManifestWork</code> is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork

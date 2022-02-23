@@ -304,7 +304,7 @@ kubectl:</p>
 NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
 &lt;cluster&gt;   &lt;addon&gt;                  True                   
 </code></pre></div><p>The addon agent are expected to report its healthiness periodically as long as it&rsquo;s
-running. Also the versioning the addon agent can be reflected in the resources
+running. Also the versioning of the addon agent can be reflected in the resources
 optionally so that we can control the upgrading the agents progressively.</p>
 <h2 id="examples">Examples</h2>
 <p>Here&rsquo;s a few examples of cases where we will need add-ons:</p>
@@ -321,7 +321,7 @@ provides a library for developers to develop an add-ons in open-cluster-manageme
 more easily. Take a look at the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld example</a>
 to understand how the add-on framework can be used.</p>
 <h3 id="custom-signers">Custom signers</h3>
-<p>The original Kubernetes CSR api only supports there built-in signers:</p>
+<p>The original Kubernetes CSR api only supports three built-in signers:</p>
 <ul>
 <li>&ldquo;kubernetes.io/kube-apiserver-client&rdquo;</li>
 <li>&ldquo;kubernetes.io/kube-apiserver-client-kubelet&rdquo;</li>
