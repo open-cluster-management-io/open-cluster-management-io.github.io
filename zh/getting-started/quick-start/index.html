@@ -263,7 +263,9 @@ kind create cluster --name <span style="color:#e6db74">${</span>MANAGED_CLUSTER_
 <ol>
 <li>
 <p>启动Open Cluster Management的中枢控制面：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm init --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># 默认安装&#34;latest&#34;版本的核心组件.</span>
+<span style="color:#75715e"># 可以通过例如 &#34;--bundle-version=0.6.0&#34; 安装特定版本.</span>
+clusteradm init --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>然后你可以使用<code>join</code>命令完成注册流程：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">...
 clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;

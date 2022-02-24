@@ -305,7 +305,9 @@ steps:</p>
 <ol>
 <li>
 <p>Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm init --wait --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># By default it installs &#34;latest&#34; build of OCM components.</span>
+<span style="color:#75715e"># Use e.g. &#34;--bundle-version=0.6.0&#34; to install certain release.</span>
+clusteradm init --wait --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>By this command, <code>clusteradm</code> is helping you to install a <a href="https://github.com/open-cluster-management-io/registration-operator">registration-operator</a>
 into your hub cluster which is responsible for consistently installing
 and upgrading a few core components for your OCM environment.</p>
