@@ -20,7 +20,7 @@ API v1alpha1 is removed and replaced by
 ## Overall
 
 `Placement` concept is used to dynamically select a set of managed clusters in
-one or multiple [ManagedClusterSet](./managedclusterset.md) so that higher level
+one or multiple [ManagedClusterSet](../managedclusterset) so that higher level
 users can either replicate Kubernetes resources to the member clusters or run
 their advanced workload i.e. __multi-cluster scheduling__.
 
@@ -48,7 +48,7 @@ multi-cluster scheduling is logically divided into two phases internally:
 
 ## Select clusters in ManagedClusterSet
 
-By following [the pervious section](./managedclusterset.md) about
+By following [the previous section](../managedclusterset) about
 `ManagedClusterSet`, now we're supposed to have one or multiple valid cluster
 sets in the hub clusters. Then we can move on and create a placement in the
 "workspace namespace" by specifying `predicates` and `prioritizers` in the
