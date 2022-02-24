@@ -99,6 +99,8 @@ steps:
 1. Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):
 
    ```shell
+   # By default it installs "latest" build of OCM components.
+   # Use e.g. "--bundle-version=0.6.0" to install certain release.
    clusteradm init --wait --context ${CTX_HUB_CLUSTER}
    ```
    
