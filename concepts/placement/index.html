@@ -252,7 +252,7 @@ API v1alpha1 is removed and replaced by
 <code>spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn</code> in v1beta1.</p>
 <h2 id="overall">Overall</h2>
 <p><code>Placement</code> concept is used to dynamically select a set of managed clusters in
-one or multiple <a href="./managedclusterset.md">ManagedClusterSet</a> so that higher level
+one or multiple <a href="../managedclusterset">ManagedClusterSet</a> so that higher level
 users can either replicate Kubernetes resources to the member clusters or run
 their advanced workload i.e. <strong>multi-cluster scheduling</strong>.</p>
 <p>The &ldquo;input&rdquo; and &ldquo;output&rdquo; of the scheduling process are decoupled into two
@@ -274,7 +274,7 @@ multi-cluster scheduling is logically divided into two phases internally:</p>
 among them.</li>
 </ul>
 <h2 id="select-clusters-in-managedclusterset">Select clusters in ManagedClusterSet</h2>
-<p>By following <a href="./managedclusterset.md">the pervious section</a> about
+<p>By following <a href="../managedclusterset">the previous section</a> about
 <code>ManagedClusterSet</code>, now we&rsquo;re supposed to have one or multiple valid cluster
 sets in the hub clusters. Then we can move on and create a placement in the
 &ldquo;workspace namespace&rdquo; by specifying <code>predicates</code> and <code>prioritizers</code> in the
