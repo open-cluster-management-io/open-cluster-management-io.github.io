@@ -44,6 +44,8 @@ kind create cluster --name ${MANAGED_CLUSTER_NAME}
 1. 启动Open Cluster Management的中枢控制面：
 
    ```Shell
+   # 默认安装"latest"版本的核心组件.
+   # 可以通过例如 "--bundle-version=0.6.0" 安装特定版本.
    clusteradm init --context ${CTX_HUB_CLUSTER}
    ```
 
