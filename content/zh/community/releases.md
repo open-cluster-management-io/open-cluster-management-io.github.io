@@ -5,6 +5,8 @@ weight: -20
 
 Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.5.0`. Continue reading to view upcoming releases:
 
+## `v0.7.0`, on 25th, March 2022
+
 ## `v0.6.0`, on 21st, January 2022
 
 The Open Cluster Management team is proud to announce the release of OCM v0.6.0! We made many enhancements on core components and introduced some new addons.
