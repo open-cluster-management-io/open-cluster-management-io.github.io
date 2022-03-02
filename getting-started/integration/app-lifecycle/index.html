@@ -269,7 +269,7 @@ multicluster-operators-subscription   1/1     <span style="color:#ae81ff">1</spa
 namespace/open-cluster-management-agent-addon created
 </code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-$ clusteradm addon enable --name application-manager --clusters <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
+$ clusteradm addon enable --name application-manager --cluster <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 Deploying application-manager add-on to managed cluster: &lt;managed_cluster_name&gt;.
 $ kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get managedclusteraddon <span style="color:#75715e"># kubectl -n cluster1 get managedclusteraddon</span>
 NAME                  AVAILABLE   DEGRADED   PROGRESSING
