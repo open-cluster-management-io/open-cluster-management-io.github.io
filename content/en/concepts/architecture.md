@@ -119,6 +119,10 @@ permissions for the agents. Note that the hub controller will be automatically
 preparing environment for the newly registered cluster and cleaning up neatly
 upon kicking a managed cluster.
 
+<div style="text-align: center; padding: 20px;">
+   <img src="/double-optin-registration.png" alt="Clusterset" style="margin: 0 auto; width: 60%">
+</div>
+
 ### Cluster namespace 
 
 Kubernetes has a native soft multi-tenancy isolation in the granularity of
