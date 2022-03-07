@@ -173,13 +173,12 @@ all set. Let's move on to register your managed cluster into OCM.
         --cluster-name "cluster1"    # Or other arbitrary unique name
    ```
    
-2. Verify the installation of OCM agents in your managed clusters by:
+2. Verify the installation of klusterlet registration agent in your managed clusters by:
 
    ```shell
    kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
    NAME                                             READY   STATUS    RESTARTS   AGE
    klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
-   klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
    ```
    
    Similar to `clustermanager`, the overall installation information is prescribed
@@ -223,7 +222,15 @@ OCM's hub admin:
    named "cluster1" in the hub cluster) and RBAC permissions automatically
    for you.
 
-3. Verify `managedcluster` has been created successfully:
+3. Verify the installation of OCM agents in your managed clusters by:
+   ```shell
+   kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
+   NAME                                             READY   STATUS    RESTARTS   AGE
+   klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
+   klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
+   ```
+
+4. Verify `managedcluster` has been created successfully:
 
    ```Shell
    kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
