@@ -35,9 +35,9 @@ the two models we will be frequently using throughout the world of OCM:
   the hub cluster and consistently reconciles the physical Kubernetes cluster
   to the expected state.
   
-### "Hub-agent" architecture
+### "Hub-spoke" architecture
 
-Benefiting from the merit of "hub-agent" architecture, in abstraction we 
+Benefiting from the merit of ["hub-spoke"](https://en.wikipedia.org/wiki/Spoke%E2%80%93hub_distribution_paradigm) architecture, in abstraction we 
 are de-coupling most of the multi-cluster operations generally into 
 (1) computation/decision and (2) execution, and the actual execution against 
 the target cluster will be completely off-loaded into the managed cluster. The
