@@ -226,7 +226,7 @@
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#overview">Overview</a>
           <ul>
-            <li><a href="#hub-agent-architecture">&ldquo;Hub-agent&rdquo; architecture</a></li>
+            <li><a href="#hub-spoke-architecture">&ldquo;Hub-spoke&rdquo; architecture</a></li>
             <li><a href="#modularity-and-extensibility">Modularity and extensibility</a></li>
           </ul>
         </li>
@@ -277,8 +277,8 @@ the hub cluster and consistently reconciles the physical Kubernetes cluster
 to the expected state.</p>
 </li>
 </ul>
-<h3 id="hub-agent-architecture">&ldquo;Hub-agent&rdquo; architecture</h3>
-<p>Benefiting from the merit of &ldquo;hub-agent&rdquo; architecture, in abstraction we
+<h3 id="hub-spoke-architecture">&ldquo;Hub-spoke&rdquo; architecture</h3>
+<p>Benefiting from the merit of <a href="https://en.wikipedia.org/wiki/Spoke%E2%80%93hub_distribution_paradigm">&ldquo;hub-spoke&rdquo;</a> architecture, in abstraction we
 are de-coupling most of the multi-cluster operations generally into
 (1) computation/decision and (2) execution, and the actual execution against
 the target cluster will be completely off-loaded into the managed cluster. The
