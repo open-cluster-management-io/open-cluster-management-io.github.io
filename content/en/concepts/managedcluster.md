@@ -123,6 +123,83 @@ in the status of the `ManagedCluster`, e.g.:
     conditions: ...
 ```
 
+### Cluster taints and tolerations
+
+To support filtering unhealthy/not-reporting clusters and keep workloads from
+being placed in unhealthy or unreachable clusters, we introduce the similar
+concept of taint/toleration in Kubernetes. It also allows user to add customized
+a taint to deselect a cluster from placement. This is useful when user wants to
+set a cluster to maintanence mode and evict workload from this cluster.
+
+In OCM, Taints and Tolerations work together to allow users to control the
+selection of managed clusters more flexibly.
+
+#### Taints of ManagedClusters
+
+Taints are properties of ManagedClusters, they allow a Placement to repel a set
+of ManagedClusters. A Taint includes the following fields:
+- __Key__ (requiqred). The taint key applied to a cluster. e.g. bar or
+foo.example.com/bar.
+- __Value__ (optional). The taint value corresponding to the taint key.
+- __Effect__ (required). The Effect of the taint on Placements that do not
+tolerate the taint. Valid effects are 
+  - `NoSelect`. It means Placements are not allowed to select a cluster unless
+  they tolerate this taint. The cluster will be removed from the placement
+  decision if it has already been selected by the Placement.
+  - `PreferNoSelect`. It means the scheduler tries not to select the cluster,
+  rather than prohibiting Placements from selecting the cluster entirely.
+  - `NoSelectIfNew`. It means Placements are not allowed to select the cluster
+  unless: 1) they tolerate the taint; 2) they have already had the cluster in
+  their cluster decisions;
+- __TimeAdded__ (required). The time at which the taint was added. It is set
+automatically and user should not to set/update its value.
+
+**Builtin taints to reflect the status of ManagedClusters**
+
+There are two builtin taints, which will be automatically added to
+ManagedClusters, according to their conditions.
+- `cluster.open-cluster-management.io/unavailable`. The taint is added to a
+ManagedCluster when it is not available. To be specific, the cluster has a
+condition 'ManagedClusterConditionAvailable' with status of 'False'. The taint
+has effect `NoSelect` and an empty value. Example,
+  ```yaml
+  apiVersion: cluster.open-cluster-management.io/v1
+  kind: ManagedCluster
+  metadata:
+   name: cluster1
+  spec:
+   hubAcceptsClient: true
+   taints:
+     - effect: NoSelect
+       key: cluster.open-cluster-management.io/unavailable
+       timeAdded: '2022-02-21T08:11:54Z'
+  ```
+- `cluster.open-cluster-management.io/unreachable`. The taint is added to a
+ManagedCluster when it is not reachable. To be specific,
+  - 1) The cluster has no condition 'ManagedClusterConditionAvailable';
+  - 2) Or the status of condition 'ManagedClusterConditionAvailable' is
+  'Unknown';
+  The taint has effect `NoSelect` and an empty value. Example,
+  ```yaml
+  apiVersion: cluster.open-cluster-management.io/v1
+  kind: ManagedCluster
+  metadata:
+    name: cluster1
+  spec:
+    hubAcceptsClient: true
+    taints:
+      - effect: NoSelect
+        key: cluster.open-cluster-management.io/unreachable
+        timeAdded: '2022-02-21T08:11:06Z'
+  ```
+
+#### Tolerations of Placements
+
+Tolerations are applied to Placements, and allow Placements to select
+ManagedClusters with matching taints. Refer to [Placement
+Taints/Tolerations](../placement/#taintstolerations) to see how it is used for
+cluster selection.
+
 ### Cluster removal
 
 A previously registered cluster can opt-out cutting off the connection from 
@@ -137,7 +214,7 @@ problems in your OCM environment, e.g.:
 #### Unregister from hub cluster
 
 A recommended way to unregister a managed cluster will flip the 
-`.spec.hubAcceptsClient` bit back to `false`, which will be trggering the hub
+`.spec.hubAcceptsClient` bit back to `false`, which will be triggering the hub
 control plane to offload the managed cluster from effective management. 
 Meanwhile, a permanent way to kick a managed cluster from the hub control plane
 is simply deleting its `ManagedCluster` resource. 
