@@ -283,7 +283,7 @@ example-clusterset                      No ManagedCluster selected
 member clusters to the set.</p>
 <h3 id="adding-a-managedcluster-to-a-managedclusterset">Adding a ManagedCluster to a ManagedClusterSet</h3>
 <p>Running the following command to add a cluster to the set:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm clusterset add example-clusterset --clusters managed1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm clusterset set example-clusterset --clusters managed1
 $ clusteradm get clustersets
 NAME                BOUND NAMESPACES    STATUS
 example-clusterset                      <span style="color:#ae81ff">1</span> ManagedCluster selected
