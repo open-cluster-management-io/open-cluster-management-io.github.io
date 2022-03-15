@@ -57,7 +57,7 @@ member clusters to the set.
 Running the following command to add a cluster to the set:
 
 ```shell
-$ clusteradm clusterset add example-clusterset --clusters managed1
+$ clusteradm clusterset set example-clusterset --clusters managed1
 $ clusteradm get clustersets
 NAME                BOUND NAMESPACES    STATUS
 example-clusterset                      1 ManagedCluster selected
