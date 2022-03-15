@@ -127,9 +127,10 @@ in the status of the `ManagedCluster`, e.g.:
 
 To support filtering unhealthy/not-reporting clusters and keep workloads from
 being placed in unhealthy or unreachable clusters, we introduce the similar
-concept of taint/toleration in Kubernetes. It also allows user to add customized
-a taint to deselect a cluster from placement. This is useful when user wants to
-set a cluster to maintanence mode and evict workload from this cluster.
+concept of taint/toleration in Kubernetes. It also allows user to add a
+customized taint to deselect a cluster from placement. This is useful when the
+user wants to set a cluster to maintenance mode and evict workload from this
+cluster.
 
 In OCM, Taints and Tolerations work together to allow users to control the
 selection of managed clusters more flexibly.
@@ -138,7 +139,7 @@ selection of managed clusters more flexibly.
 
 Taints are properties of ManagedClusters, they allow a Placement to repel a set
 of ManagedClusters. A Taint includes the following fields:
-- __Key__ (requiqred). The taint key applied to a cluster. e.g. bar or
+- __Key__ (required). The taint key applied to a cluster. e.g. bar or
 foo.example.com/bar.
 - __Value__ (optional). The taint value corresponding to the taint key.
 - __Effect__ (required). The Effect of the taint on Placements that do not
@@ -152,7 +153,7 @@ tolerate the taint. Valid effects are
   unless: 1) they tolerate the taint; 2) they have already had the cluster in
   their cluster decisions;
 - __TimeAdded__ (required). The time at which the taint was added. It is set
-automatically and user should not to set/update its value.
+automatically and the user should not to set/update its value.
 
 **Builtin taints to reflect the status of ManagedClusters**
 
@@ -161,7 +162,7 @@ ManagedClusters, according to their conditions.
 - `cluster.open-cluster-management.io/unavailable`. The taint is added to a
 ManagedCluster when it is not available. To be specific, the cluster has a
 condition 'ManagedClusterConditionAvailable' with status of 'False'. The taint
-has effect `NoSelect` and an empty value. Example,
+has the effect `NoSelect` and an empty value. Example,
   ```yaml
   apiVersion: cluster.open-cluster-management.io/v1
   kind: ManagedCluster
@@ -179,7 +180,7 @@ ManagedCluster when it is not reachable. To be specific,
   - 1) The cluster has no condition 'ManagedClusterConditionAvailable';
   - 2) Or the status of condition 'ManagedClusterConditionAvailable' is
   'Unknown';
-  The taint has effect `NoSelect` and an empty value. Example,
+  The taint has the effect `NoSelect` and an empty value. Example,
   ```yaml
   apiVersion: cluster.open-cluster-management.io/v1
   kind: ManagedCluster

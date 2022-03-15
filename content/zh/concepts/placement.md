@@ -58,7 +58,7 @@ sets in the hub clusters. Then we can move on and create a placement in the
 
 #### Label/Claim selection
 
-In `predicates` section, you can select clusters by labels or `clusterClaims`.
+In the `predicates` section, you can select clusters by labels or `clusterClaims`.
 For instance, you can select 3 clusters with labels `purpose=test` and
 clusterClaim `platform.open-cluster-management.io=aws` as seen in the following
 examples:
@@ -94,9 +94,10 @@ about how to extend attributes for the managed clusters.
 
 To support filtering unhealthy/not-reporting clusters and keep workloads from
 being placed in unhealthy or unreachable clusters, we introduce the similar
-concept of taint/toleration in Kubernetes. It also allows user to add customized
-a taint to deselect a cluster from placement. This is useful when user wants to
-set a cluster to maintanence mode and evict workload from this cluster.
+concept of taint/toleration in Kubernetes. It also allows user to add a
+customized taint to deselect a cluster from placement. This is useful when the
+user wants to set a cluster to maintenance mode and evict workload from this
+cluster.
 
 In OCM, Taints and Tolerations work together to allow users to control the
 selection of managed clusters more flexibly.
@@ -114,7 +115,7 @@ following fields:
 value. Valid operators are `Exists` and `Equal`. Defaults to `Equal`. A
 toleration "matches" a taint if the keys are the same and the effects are the
 same, and the operator is:
-  - `Equal`. The operator is Equal and the values are equal.
+  - `Equal`. The operator is Equal and the values are equal.
   - `Exists`. Exists is equivalent to wildcard for value, so that a placement
   can tolerate all taints of a particular category.
 - __Effect__ (optional). Effect indicates the taint effect to match. Empty means
@@ -265,15 +266,15 @@ spec:
             `AddOnPlacementScore` CR by this name.
             - `scoreName` defines the score name inside `AddOnPlacementScore`.
             `AddOnPlacementScore` contains a list of score name and score value,
-            ScoreName specify the score to be used by the prioritizer.
-    - `weight` defines the weight of prioritizer. The value must be ranged in
+            ScoreName specifies the score to be used by the prioritizer.
+    - `weight` defines the weight of the prioritizer. The value must be ranged in
     [-10,10].
       Each prioritizer will calculate an integer score of a cluster in the range
       of [-100, 100]. The final score of a cluster will be sum(weight *
       prioritizer_score).
       A higher weight indicates that the prioritizer weights more in the cluster
       selection, while 0 weight indicates that the prioritizer is disabled. A
-      negative weight indicates wants to select the last ones.
+      negative weight indicates wanting to select the last ones.
       
 A slice of `PlacementDecision` will be created by placement controller in the
 same namespace, each with a label of
