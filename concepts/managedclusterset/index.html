@@ -241,6 +241,7 @@
             </li>
           </ul>
         </li>
+        <li><a href="#default-managedclusterset">Default ManagedClusterSet</a></li>
       </ul></nav><hr></div>
 
 
@@ -353,7 +354,14 @@ clusterrole to grant a hub user the permission to bind cluster sets:</p>
       - managedclustersets/bind
     <span style="color:#66d9ef">verbs</span>:
       - create
-</code></pre></div>
+</code></pre></div><h2 id="default-managedclusterset">Default ManagedClusterSet</h2>
+<p>For easier management, we introduce a ManagedClusterSet called <code>default</code>.
+A <code>default</code> ManagedClusterSet will be automatically created initially. Any clusters not specifying a ManagedClusterSet will be added into the <code>default</code>.
+The user can move the cluster from the default clusterset to another clusterset using the command:</p>
+<pre><code>clusteradm clusterset set target-clusterset --clusters cluster-name
+</code></pre><p><code>default</code> clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
+<a href="https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
+
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>
