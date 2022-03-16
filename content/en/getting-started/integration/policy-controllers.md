@@ -16,7 +16,7 @@ After policy framework is installed, you can install the policy controllers to t
 You must meet the following prerequisites to install the policy controllers:
 
 - Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) and
-  [`kustomize`](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
+  [`kustomize`](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
 - Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from
   the source.
