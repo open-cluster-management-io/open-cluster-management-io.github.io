@@ -233,6 +233,7 @@
             <li><a href="#predicates">Predicates</a>
               <ul>
                 <li><a href="#labelclaim-selection">Label/Claim selection</a></li>
+                <li><a href="#taintstolerations">Taints/Tolerations</a></li>
               </ul>
             </li>
             <li><a href="#prioritizers">Prioritizers</a>
@@ -278,14 +279,14 @@ multi-cluster scheduling is logically divided into two phases internally:</p>
 among them.</li>
 </ul>
 <h2 id="select-clusters-in-managedclusterset">Select clusters in ManagedClusterSet</h2>
-<p>By following <a href="../managedclusterset">the pervious section</a> about
+<p>By following <a href="../managedclusterset">the previous section</a> about
 <code>ManagedClusterSet</code>, now we&rsquo;re supposed to have one or multiple valid cluster
 sets in the hub clusters. Then we can move on and create a placement in the
 &ldquo;workspace namespace&rdquo; by specifying <code>predicates</code> and <code>prioritizers</code> in the
 <code>Placement</code> API to define our own multi-cluster scheduling policy.</p>
 <h3 id="predicates">Predicates</h3>
 <h4 id="labelclaim-selection">Label/Claim selection</h4>
-<p>In <code>predicates</code> section, you can select clusters by labels or <code>clusterClaims</code>.
+<p>In the <code>predicates</code> section, you can select clusters by labels or <code>clusterClaims</code>.
 For instance, you can select 3 clusters with labels <code>purpose=test</code> and
 clusterClaim <code>platform.open-cluster-management.io=aws</code> as seen in the following
 examples:</p>
@@ -312,7 +313,105 @@ examples:</p>
 </code></pre></div><p>Note that the distinction between label-selecting and claim-selecting is
 elaborated in <a href="https://open-cluster-management.io/scenarios/extending-managed-clusters/">this page</a>
 about how to extend attributes for the managed clusters.</p>
-<h3 id="prioritizers">Prioritizers</h3>
+<h4 id="taintstolerations">Taints/Tolerations</h4>
+<p>To support filtering unhealthy/not-reporting clusters and keep workloads from
+being placed in unhealthy or unreachable clusters, we introduce the similar
+concept of taint/toleration in Kubernetes. It also allows user to add a
+customized taint to deselect a cluster from placement. This is useful when the
+user wants to set a cluster to maintenance mode and evict workload from this
+cluster.</p>
+<p>In OCM, Taints and Tolerations work together to allow users to control the
+selection of managed clusters more flexibly.</p>
+<p><a href="../managedcluster/#cluster-taints-and-tolerations">Taints</a> are properties of
+ManagedClusters, they allow a Placement to repel a set of ManagedClusters in
+predicates stage.</p>
+<p>Tolerations are applied to Placements, and allow Placements to select
+ManagedClusters with matching taints. In <code>tolerations</code> section, it includes the
+following fields:</p>
+<ul>
+<li><strong>Key</strong> (optional). Key is the taint key that the toleration applies to.</li>
+<li><strong>Value</strong> (optional). Value is the taint value the toleration matches to.</li>
+<li><strong>Operator</strong> (optional). Operator represents a key&rsquo;s relationship to the
+value. Valid operators are <code>Exists</code> and <code>Equal</code>. Defaults to <code>Equal</code>. A
+toleration &ldquo;matches&rdquo; a taint if the keys are the same and the effects are the
+same, and the operator is:
+<ul>
+<li><code>Equal</code>. The operator is Equal and the values are equal.</li>
+<li><code>Exists</code>. Exists is equivalent to wildcard for value, so that a placement
+can tolerate all taints of a particular category.</li>
+</ul>
+</li>
+<li><strong>Effect</strong> (optional). Effect indicates the taint effect to match. Empty means
+match all taint effects. When specified, allowed values are <code>NoSelect</code>,
+<code>PreferNoSelect</code> and <code>NoSelectIfNew</code>.</li>
+<li><strong>TolerationSeconds</strong> (optional). TolerationSeconds represents the period of
+time the toleration (which must be of effect <code>NoSelect</code>/<code>PreferNoSelect</code>,
+otherwise this field is ignored) tolerates the taint. The default value is nil,
+which indicates it tolerates the taint forever. The start time of counting the
+TolerationSeconds should be the <code>TimeAdded</code> in Taint, not the cluster scheduled
+time or <code>TolerationSeconds</code> added time.</li>
+</ul>
+<p>The following example shows how to tolerate clusters with taints.</p>
+<ul>
+<li>Tolerate clusters with taint</li>
+</ul>
+<p>Suppose your managed cluster has taint added as below,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">taints</span>:
+    - <span style="color:#66d9ef">effect</span>: NoSelect
+      <span style="color:#66d9ef">key</span>: gpu
+      <span style="color:#66d9ef">value</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#66d9ef">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:06Z&#39;</span>
+</code></pre></div><p>By default, the placement won’t select this cluster unless you define
+tolerations,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement1
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">tolerations</span>:
+    - <span style="color:#66d9ef">key</span>: gpu
+      <span style="color:#66d9ef">value</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#66d9ef">operator</span>: Equal
+</code></pre></div><p>With the above tolerations defined, cluster1 could be selected by placement
+because of the <code>key: gpu</code> and <code>value: &quot;true&quot;</code> match.</p>
+<ul>
+<li>Tolerate clusters with taint for a period of time</li>
+</ul>
+<p><code>TolerationSeconds</code> represents the period of time the toleration tolerates the
+taint. It could be used for the case like, when a managed cluster gets offline,
+users can make applications deployed on this cluster to be transferred to
+another available managed cluster after a tolerated time.</p>
+<p>For example, suppose the managed cluster becomes unreachable,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">taints</span>:
+    - <span style="color:#66d9ef">effect</span>: NoSelect
+      <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
+      <span style="color:#66d9ef">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:06Z&#39;</span>
+</code></pre></div><p>If define a placement with TolerationSeconds as below, then the workload will
+transferred to another available managed cluster after 5 minutes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: demo4
+  <span style="color:#66d9ef">namespace</span>: demo1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">tolerations</span>:
+    - <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
+      <span style="color:#66d9ef">operator</span>: Exists
+      <span style="color:#66d9ef">tolerationSeconds</span>: <span style="color:#ae81ff">300</span>
+</code></pre></div><h3 id="prioritizers">Prioritizers</h3>
 <h4 id="score-based-prioritizer">Score-based prioritizer</h4>
 <p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers.
 For instance, you can select 2 clusters with the largest memory available and
@@ -341,40 +440,67 @@ following examples.</p>
 </code></pre></div><ul>
 <li><code>mode</code> is either <code>Exact</code>, <code>Additive</code>, <code>&quot;&quot;</code> where <code>&quot;&quot;</code> is Additive by default.
 <ul>
-<li>In <code>Additive</code> mode, any prioritizer not explicitly enumerated is enabled in its default Configurations, in which Steady and Balance prioritizers have the weight of 1 while other prioritizers have the weight of 0. Additive doesn&rsquo;t require configuring all prioritizers. The default Configurations may change in the future, and additional prioritization will happen.</li>
-<li>In <code>Exact</code> mode, any prioritizer not explicitly enumerated is weighted as zero. Exact requires knowing the full set of prioritizers you want, but avoids behavior changes between releases.</li>
+<li>In <code>Additive</code> mode, any prioritizer not explicitly enumerated is enabled
+in its default Configurations, in which Steady and Balance prioritizers have
+the weight of 1 while other prioritizers have the weight of 0. Additive
+doesn&rsquo;t require configuring all prioritizers. The default Configurations may
+change in the future, and additional prioritization will happen.</li>
+<li>In <code>Exact</code> mode, any prioritizer not explicitly enumerated is weighted as
+zero. Exact requires knowing the full set of prioritizers you want, but
+avoids behavior changes between releases.</li>
 </ul>
 </li>
 <li><code>configurations</code> represents the configuration of prioritizers.
 <ul>
-<li><code>scoreCoordinate</code> represents the configuration of the prioritizer and score source.
+<li><code>scoreCoordinate</code> represents the configuration of the prioritizer and
+score source.
 <ul>
 <li><code>type</code> defines the type of the prioritizer score.
-Type is either &ldquo;BuiltIn&rdquo;, &ldquo;AddOn&rdquo; or &ldquo;&quot;, where &quot;&rdquo; is &ldquo;BuiltIn&rdquo; by default.
-When the type is &ldquo;BuiltIn&rdquo;, a BuiltIn prioritizer name must be specified.
+Type is either &ldquo;BuiltIn&rdquo;, &ldquo;AddOn&rdquo; or &ldquo;&quot;, where &quot;&rdquo; is &ldquo;BuiltIn&rdquo; by
+default.
+When the type is &ldquo;BuiltIn&rdquo;, a BuiltIn prioritizer name must be
+specified.
 When the type is &ldquo;AddOn&rdquo;, need to configure the score source in AddOn.</li>
-<li><code>builtIn</code> defines the name of a BuiltIn prioritizer. Below are the valid BuiltIn prioritizer names.
+<li><code>builtIn</code> defines the name of a BuiltIn prioritizer. Below are the
+valid BuiltIn prioritizer names.
 <ul>
 <li>Balance: balance the decisions among the clusters.</li>
 <li>Steady: ensure the existing decision is stabilized.</li>
-<li>ResourceAllocatableCPU &amp; ResourceAllocatableMemory: sort clusters based on the allocatable.</li>
+<li>ResourceAllocatableCPU &amp; ResourceAllocatableMemory: sort clusters
+based on the allocatable.</li>
 </ul>
 </li>
-<li><code>addOn</code> defines the resource name and score name. <code>AddOnPlacementScore</code> is introduced to describe addon scores, go into the &ldquo;Extensible scheduling&rdquo; section to learn more about it.
+<li><code>addOn</code> defines the resource name and score name.
+<code>AddOnPlacementScore</code> is introduced to describe addon scores, go into
+the <a href="#extensible-scheduling">Extensible scheduling</a> section to learn
+more about it.
 <ul>
-<li><code>resourceName</code> defines the resource name of the <code>AddOnPlacementScore</code>. The placement prioritizer selects <code>AddOnPlacementScore</code> CR by this name.</li>
-<li><code>scoreName</code> defines the score name inside <code>AddOnPlacementScore</code>. <code>AddOnPlacementScore</code> contains a list of score name and score value, ScoreName specify the score to be used by the prioritizer.</li>
+<li><code>resourceName</code> defines the resource name of the
+<code>AddOnPlacementScore</code>. The placement prioritizer selects
+<code>AddOnPlacementScore</code> CR by this name.</li>
+<li><code>scoreName</code> defines the score name inside <code>AddOnPlacementScore</code>.
+<code>AddOnPlacementScore</code> contains a list of score name and score value,
+ScoreName specifies the score to be used by the prioritizer.</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><code>weight</code> defines the weight of prioritizer. The value must be ranged in [-10,10].
-Each prioritizer will calculate an integer score of a cluster in the range of [-100, 100]. The final score of a cluster will be sum(weight * prioritizer_score).
-A higher weight indicates that the prioritizer weights more in the cluster selection, while 0 weight indicates that the prioritizer is disabled. A negative weight indicates wants to select the last ones.</li>
+<li><code>weight</code> defines the weight of the prioritizer. The value must be ranged in
+[-10,10].
+Each prioritizer will calculate an integer score of a cluster in the range
+of [-100, 100]. The final score of a cluster will be sum(weight *
+prioritizer_score).
+A higher weight indicates that the prioritizer weights more in the cluster
+selection, while 0 weight indicates that the prioritizer is disabled. A
+negative weight indicates wanting to select the last ones.</li>
 </ul>
 </li>
 </ul>
-<p>A slice of <code>PlacementDecision</code> will be created by placement controller in the same namespace, each with a label of <code>cluster.open-cluster-management.io/placement={placement name}</code>. <code>PlacementDecision</code> contains the results of the cluster selection as seen in the following examples.</p>
+<p>A slice of <code>PlacementDecision</code> will be created by placement controller in the
+same namespace, each with a label of
+<code>cluster.open-cluster-management.io/placement={placement name}</code>.
+<code>PlacementDecision</code> contains the results of the cluster selection as seen in the
+following examples.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: PlacementDecision
 <span style="color:#66d9ef">metadata</span>:
@@ -387,21 +513,33 @@ A higher weight indicates that the prioritizer weights more in the cluster selec
     - <span style="color:#66d9ef">clusterName</span>: cluster1
     - <span style="color:#66d9ef">clusterName</span>: cluster2
     - <span style="color:#66d9ef">clusterName</span>: cluster3
-</code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the workload should be placed in multiple clusters.</p>
+</code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the
+workload should be placed in multiple clusters.</p>
 <h2 id="extensible-scheduling">Extensible scheduling</h2>
-<p>In placement resource based scheduling, in some cases the prioritizer needs extra data (more than the default value provided by ManagedCluster) to calculate the score of the managed cluster. For example, schedule the clusters based on cpu or memory usage data of the clusters fetched from a monitoring system.</p>
-<p>So we provide a new API <code>AddOnPlacementScore</code> to support a more extensible way to schedule based on customized scores.</p>
+<p>In placement resource based scheduling, in some cases the prioritizer needs
+extra data (more than the default value provided by ManagedCluster) to calculate
+the score of the managed cluster. For example, schedule the clusters based on
+cpu or memory usage data of the clusters fetched from a monitoring system.</p>
+<p>So we provide a new API <code>AddOnPlacementScore</code> to support a more extensible way
+to schedule based on customized scores.</p>
 <ul>
-<li>As a user, as mentioned in the above section, can specify the score in placement yaml to select clusters.</li>
-<li>As a score provider, a 3rd party controller could run on either hub or managed cluster, to maintain the lifecycle of <code>AddOnPlacementScore</code> and update score into it.</li>
+<li>As a user, as mentioned in the above section, can specify the score in
+placement yaml to select clusters.</li>
+<li>As a score provider, a 3rd party controller could run on either hub or managed
+cluster, to maintain the lifecycle of <code>AddOnPlacementScore</code> and update score
+into it.</li>
 </ul>
-<p>Refer to the <a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a> to learn more.</p>
+<p>Refer to the
+<a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a>
+to learn more.</p>
 <h2 id="future-work">Future work</h2>
-<p>In addition to selecting cluster by predicates, we are still working on other advanced features including</p>
+<p>In addition to selecting cluster by predicates, we are still working on other
+advanced features including</p>
 <ul>
-<li><a href="https://github.com/open-cluster-management-io/community/issues/48">Taint/Toleration of ManagedCluster</a>.</li>
-<li><a href="https://github.com/open-cluster-management-io/community/issues/49">Various workload spread policies</a>.</li>
-<li><a href="https://github.com/open-cluster-management-io/community/issues/52">Usage based scheduling</a>.</li>
+<li><a href="https://github.com/open-cluster-management-io/community/issues/49">Various workload spread
+policies</a>.</li>
+<li><a href="https://github.com/open-cluster-management-io/community/issues/52">Usage based
+scheduling</a>.</li>
 </ul>
 
 </div>

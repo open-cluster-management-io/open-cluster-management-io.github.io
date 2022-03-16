@@ -232,6 +232,12 @@
               </ul>
             </li>
             <li><a href="#cluster-heartbeats-and-status">Cluster heartbeats and status</a></li>
+            <li><a href="#cluster-taints-and-tolerations">Cluster taints and tolerations</a>
+              <ul>
+                <li><a href="#taints-of-managedclusters">Taints of ManagedClusters</a></li>
+                <li><a href="#tolerations-of-placements">Tolerations of Placements</a></li>
+              </ul>
+            </li>
             <li><a href="#cluster-removal">Cluster removal</a>
               <ul>
                 <li><a href="#unregister-from-hub-cluster">Unregister from hub cluster</a></li>
@@ -333,7 +339,91 @@ in the status of the <code>ManagedCluster</code>, e.g.:</p>
       <span style="color:#66d9ef">memory</span>: 23777972Ki
       <span style="color:#66d9ef">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
     <span style="color:#66d9ef">conditions</span>: ...
-</code></pre></div><h3 id="cluster-removal">Cluster removal</h3>
+</code></pre></div><h3 id="cluster-taints-and-tolerations">Cluster taints and tolerations</h3>
+<p>To support filtering unhealthy/not-reporting clusters and keep workloads from
+being placed in unhealthy or unreachable clusters, we introduce the similar
+concept of taint/toleration in Kubernetes. It also allows user to add a
+customized taint to deselect a cluster from placement. This is useful when the
+user wants to set a cluster to maintenance mode and evict workload from this
+cluster.</p>
+<p>In OCM, Taints and Tolerations work together to allow users to control the
+selection of managed clusters more flexibly.</p>
+<h4 id="taints-of-managedclusters">Taints of ManagedClusters</h4>
+<p>Taints are properties of ManagedClusters, they allow a Placement to repel a set
+of ManagedClusters. A Taint includes the following fields:</p>
+<ul>
+<li><strong>Key</strong> (required). The taint key applied to a cluster. e.g. bar or
+foo.example.com/bar.</li>
+<li><strong>Value</strong> (optional). The taint value corresponding to the taint key.</li>
+<li><strong>Effect</strong> (required). The Effect of the taint on Placements that do not
+tolerate the taint. Valid effects are
+<ul>
+<li><code>NoSelect</code>. It means Placements are not allowed to select a cluster unless
+they tolerate this taint. The cluster will be removed from the placement
+decision if it has already been selected by the Placement.</li>
+<li><code>PreferNoSelect</code>. It means the scheduler tries not to select the cluster,
+rather than prohibiting Placements from selecting the cluster entirely.</li>
+<li><code>NoSelectIfNew</code>. It means Placements are not allowed to select the cluster
+unless: 1) they tolerate the taint; 2) they have already had the cluster in
+their cluster decisions;</li>
+</ul>
+</li>
+<li><strong>TimeAdded</strong> (required). The time at which the taint was added. It is set
+automatically and the user should not to set/update its value.</li>
+</ul>
+<p><strong>Builtin taints to reflect the status of ManagedClusters</strong></p>
+<p>There are two builtin taints, which will be automatically added to
+ManagedClusters, according to their conditions.</p>
+<ul>
+<li><code>cluster.open-cluster-management.io/unavailable</code>. The taint is added to a
+ManagedCluster when it is not available. To be specific, the cluster has a
+condition &lsquo;ManagedClusterConditionAvailable&rsquo; with status of &lsquo;False&rsquo;. The taint
+has the effect <code>NoSelect</code> and an empty value. Example,
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+ <span style="color:#66d9ef">name</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+ <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+ <span style="color:#66d9ef">taints</span>:
+   - <span style="color:#66d9ef">effect</span>: NoSelect
+     <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unavailable
+     <span style="color:#66d9ef">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:54Z&#39;</span>
+</code></pre></div></li>
+<li><code>cluster.open-cluster-management.io/unreachable</code>. The taint is added to a
+ManagedCluster when it is not reachable. To be specific,
+<ul>
+<li>
+<ol>
+<li>The cluster has no condition &lsquo;ManagedClusterConditionAvailable&rsquo;;</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Or the status of condition &lsquo;ManagedClusterConditionAvailable&rsquo; is
+&lsquo;Unknown&rsquo;;
+The taint has the effect <code>NoSelect</code> and an empty value. Example,</li>
+</ol>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#66d9ef">taints</span>:
+    - <span style="color:#66d9ef">effect</span>: NoSelect
+      <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
+      <span style="color:#66d9ef">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:06Z&#39;</span>
+</code></pre></div></li>
+</ul>
+<h4 id="tolerations-of-placements">Tolerations of Placements</h4>
+<p>Tolerations are applied to Placements, and allow Placements to select
+ManagedClusters with matching taints. Refer to <a href="../placement/#taintstolerations">Placement
+Taints/Tolerations</a> to see how it is used for
+cluster selection.</p>
+<h3 id="cluster-removal">Cluster removal</h3>
 <p>A previously registered cluster can opt-out cutting off the connection from
 either hub cluster or managed cluster. This is helpful for tackling emergency
 problems in your OCM environment, e.g.:</p>
@@ -345,7 +435,7 @@ problems in your OCM environment, e.g.:</p>
 </ul>
 <h4 id="unregister-from-hub-cluster">Unregister from hub cluster</h4>
 <p>A recommended way to unregister a managed cluster will flip the
-<code>.spec.hubAcceptsClient</code> bit back to <code>false</code>, which will be trggering the hub
+<code>.spec.hubAcceptsClient</code> bit back to <code>false</code>, which will be triggering the hub
 control plane to offload the managed cluster from effective management.
 Meanwhile, a permanent way to kick a managed cluster from the hub control plane
 is simply deleting its <code>ManagedCluster</code> resource.</p>
