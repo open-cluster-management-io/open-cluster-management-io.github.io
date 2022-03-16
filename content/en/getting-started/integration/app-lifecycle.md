@@ -23,7 +23,7 @@ For more details, visit the [multicloud-operators-subscription GitHub page](http
 
 You must meet the following prerequisites to install the application lifecycle management add-on:
 
-- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubernetes-sigs.github.io/kustomize/installation) are installed.
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/) are installed.
 
 - Ensure the `open-cluster-management` _cluster manager_ is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
 
