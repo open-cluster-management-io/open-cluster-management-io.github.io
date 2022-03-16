@@ -13,7 +13,7 @@ After the cluster manager is installed on the hub cluster, you need to install t
 
 ## Prerequisite
 
-Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/) are installed.
+Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
 Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 

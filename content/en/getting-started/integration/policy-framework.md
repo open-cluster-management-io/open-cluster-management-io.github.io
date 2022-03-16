@@ -26,7 +26,7 @@ various security and configuration aspects to help IT administrators meet their 
 You must meet the following prerequisites to install the policy framework:
 
 - Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) and
-  [`kustomize`](https://kubectl.docs.kubernetes.io/installation/) are installed.
+  [`kustomize`](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
 - Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from
   the source.
