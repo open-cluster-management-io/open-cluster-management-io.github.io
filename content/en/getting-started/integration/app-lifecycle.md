@@ -71,9 +71,9 @@ application-manager   True
 Check the the subscription add-on deployment on the managed cluster.
 
 ```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy multicluster-operators-subscription --context ${CTX_MANAGED_CLUSTER}
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     1            1           103s
+$ kubectl -n open-cluster-management-agent-addon get deploy --context ${CTX_MANAGED_CLUSTER}
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+application-manager   1/1     1            1           103s
 ```
 
 ## Install from source
@@ -115,9 +115,9 @@ application-manager   True
 Check the the subscription add-on deployment on the managed cluster.
 
 ```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy multicluster-operators-subscription --context ${CTX_MANAGED_CLUSTER}
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     1            1           103s
+$ kubectl -n open-cluster-management-agent-addon get deploy --context ${CTX_MANAGED_CLUSTER}
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+application-manager   1/1     1            1           103s
 ```
 
 ## What is next

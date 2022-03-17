@@ -44,7 +44,7 @@ Deploy the subscription operators to the hub cluster.
 
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm install addons --names application-manager
+$ clusteradm install addon --names application-manager
 Installing built-in application-manager add-on to the Hub cluster...
 $ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
@@ -61,7 +61,7 @@ Deploy the subscription add-on in corresponding managed cluster namespace on the
 
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm enable addons --names application-manager --clusters ${MANAGED_CLUSTER_NAME}
+$ clusteradm addon enable --name application-manager --cluster ${MANAGED_CLUSTER_NAME}
 Deploying application-manager add-on to managed cluster: <managed_cluster_name>.
 $ kubectl -n ${MANAGED_CLUSTER_NAME} get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
 NAME                  AVAILABLE   DEGRADED   PROGRESSING
@@ -71,9 +71,9 @@ application-manager   True
 Check the the subscription add-on deployment on the managed cluster.
 
 ```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy multicluster-operators-subscription --context ${CTX_MANAGED_CLUSTER}
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     1            1           103s
+$ kubectl -n open-cluster-management-agent-addon get deploy --context ${CTX_MANAGED_CLUSTER}
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+application-manager   1/1     1            1           103s
 ```
 
 ## Install from source
@@ -115,9 +115,9 @@ application-manager   True
 Check the the subscription add-on deployment on the managed cluster.
 
 ```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy multicluster-operators-subscription --context ${CTX_MANAGED_CLUSTER}
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     1            1           103s
+$ kubectl -n open-cluster-management-agent-addon get deploy --context ${CTX_MANAGED_CLUSTER}
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+application-manager   1/1     1            1           103s
 ```
 
 ## What is next
