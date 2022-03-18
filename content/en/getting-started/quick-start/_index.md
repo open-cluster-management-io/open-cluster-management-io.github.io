@@ -249,6 +249,12 @@ Install and create a [Cluster manager](https://operatorhub.io/operator/cluster-m
 
 Install and create a [Klusterlet agent](https://operatorhub.io/operator/klusterlet) on your _managed_ cluster.
 
-## More details
+## What is next
 
-For more details, see [Core components](/getting-started/core).
+Now you have the OCM control plane with at least one managed cluster connected! Let's start your OCM journey.
+
+- [Deploy kubernetes resources onto a managed cluster](/scenarios/deploy-kubernetes-resources)
+- [Visit kubernetes apiserver of managedcluster from cluster-proxy](/scenarios/pushing-kube-api-requests)
+- Visit [integration](/getting-started/integration) to check if any certain OCM addon will meet your use cases.
+
+To understand more about OCM API details, see [Core components](/getting-started/core).

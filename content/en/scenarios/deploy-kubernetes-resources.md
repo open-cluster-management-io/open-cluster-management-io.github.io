@@ -10,35 +10,6 @@ your managed clusters with OCM's `ManifestWork` API.
 
 ## Prerequisites
 
-By design, you don't need to do any additional preparation before working on
-the `ManifestWork` API. Just in case of run into any unexpected failures,
-you can make sure your environment by checking the following conditions:
-
-- The CRD `ManifestWork` is installed in the hub cluster:
-  
-    ```shell
-    $ kubectl get crd manifestworks.work.open-cluster-management.io 
-    ```
-
-- The CRD `AppliedManifestWork` is installed in the managed cluster:
-
-    ```shell
-    $ kubectl get crd appliedmanifestworks.work.open-cluster-management.io 
-    ```
-
-- The work agent is successfully running in the managed cluster:
-
-    ```shell
-    $ kubectl -n open-cluster-management-agent get pod
-    NAME                                             READY   STATUS    RESTARTS   AGE
-    klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          20d
-    klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          20d
-    ```
-
-https://open-cluster-management.io/concepts/manifestwork/
-
-## Terms
-
 Before we get start with the following tutorial, let's clarify a few terms
 we're going to use in the context.
 
@@ -53,28 +24,38 @@ we're going to use in the context.
   of kubernetes resources together and meant for dispatching them into the 
   managed cluster if the `ManifestWork` is created in a valid 
   `cluster namespace`, see details in this [page](https://open-cluster-management.io/concepts/manifestwork/).
-  
-- __AppliedManifestWork__: A custom resource in the managed cluster for 
-  persisting the prescribed list of resources from `ManifestWork`. It's also
-  for cleaning up the local resources upon `ManifestWork`'s deletion.
-  
-## Use Case
 
-The following are typical use cases for our `ManifestWork` API:
+## Deploy the resource to a targetd cluster
 
-## Creating a ManifestWork
+Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.
 
-Say we have a managed cluster called "cluster1" registered in our OCM 
-environment, then we are supposed to see a cluster namespace dynamically 
-created in the hub cluster named "cluster1":
+Connect to your hub cluster and run:
 
 ```shell
-$ kubectl get ns cluster1
-NAME                                    STATUS   AGE
-cluster1                                Active   21d
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name>
 ```
 
-Create the following resource into the hub cluster:
+This should create a `ManifestWork` in cluster namespace of your hub cluster. To see the detailed status of this `ManifestWork`, you can run:
+
+```shell
+clusteradm get works my-first-work --cluster <cluster name>
+```
+
+If you have some change on the manifest files, you can apply the change to the targeted cluster by running:
+
+```shell
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name> --overwrite
+```
+
+To remove the resources deployed on the targeted cluster, run:
+
+```
+kubectl delete manifestwork my-first-work -n <cluster name>
+```
+## What happens behind the scene
+
+Say we would like to deploy a nginx together with a service account into "cluster1". 
+A `ManifestWork` can be defined as follows:
 
   ```yaml
   apiVersion: work.open-cluster-management.io/v1
@@ -169,21 +150,13 @@ to check out the new resources delivered by `ManifestWork`:
   nginx-deployment-556c5468f7-hhmjf   1/1     Running   0          33m
   ```
 
-## Updating the ManifestWork
+### Updating the ManifestWork
 
 Any updates applied to the `ManifestWork` are expected to take effect 
 immediately as long as the work agent deployed in the managed cluster 
 are healthy and actively in touch with the hub cluster.
 
-1. Edit the manifestwork with the following command:
-
-  ```shell
-  $ kubectl -n cluster1 edit manifestwork example-manifestwork 
-  ```
-
-  E.g. You can update either the image name of the deployment or the replicas.
-
-2. Upon the edition, the work agent will be dynamically computing a hash
+The work agent will be dynamically computing a hash
    from the prescribed resources, and a corresponding `AppliedManifestWork`
    of which the name contains the hash value will be persisted to the managed
    cluster and replacing the previously persisted `AppliedManifestWork` 
@@ -200,7 +173,7 @@ are healthy and actively in touch with the hub cluster.
   agent will be catching up the latest state of `ManifestWork` as soon as it
   re-connects.
     
-## Deleting the ManifestWork
+### Deleting the ManifestWork
 
 The local resources deployed in the managed cluster should be cleaned up upon
 receiving the deletion event from the corresponding `ManifestWork`. The resource
@@ -219,3 +192,28 @@ are *completely* removed from the manged cluster. With that being said, if any
 deployed local resources are holding at the "Terminating" due to graceful 
 deletion. Both of its `ManifestWork` and `AppliedManifestWork` should stay
 undeleted.
+
+## Troubleshoot
+In case of run into any unexpected failures,
+you can make sure your environment by checking the following conditions:
+
+- The CRD `ManifestWork` is installed in the hub cluster:
+  
+    ```shell
+    $ kubectl get crd manifestworks.work.open-cluster-management.io 
+    ```
+
+- The CRD `AppliedManifestWork` is installed in the managed cluster:
+
+    ```shell
+    $ kubectl get crd appliedmanifestworks.work.open-cluster-management.io 
+    ```
+
+- The work agent is successfully running in the managed cluster:
+
+    ```shell
+    $ kubectl -n open-cluster-management-agent get pod
+    NAME                                             READY   STATUS    RESTARTS   AGE
+    klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          20d
+    klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          20d
+    ```
