@@ -10,6 +10,17 @@
     
     
     <item>
+      <title>Deploy Kubernetes resources to the managed clusters</title>
+      <link>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</guid>
+      <description>After bootstrapping an OCM environment of at least one managed clusters, now it&amp;rsquo;s time to begin your first journey of deploying Kubernetes resources into your managed clusters with OCM&amp;rsquo;s ManifestWork API.
+Prerequisites Before we get start with the following tutorial, let&amp;rsquo;s clarify a few terms we&amp;rsquo;re going to use in the context.
+  Cluster namespace: After a managed cluster is successfully registered into the hub. The hub registration controller will be automatically provisioning a cluster namespace dedicated for the cluster of which the name will be same as the managed cluster.</description>
+    </item>
+    
+    <item>
       <title>Extending managed clusters with custom attributes</title>
       <link>http://open-cluster-management.io/zh/scenarios/extending-managed-clusters/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -27,16 +38,6 @@ The original cluster model in OCM &amp;ldquo;Managed Cluster&amp;rdquo; is desig
       <guid>http://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests/</guid>
       <description>By following the instructions in this document, an OCM hub admin will be able to &amp;ldquo;push&amp;rdquo; Kubernetes API requests to the managed clusters. The benefit of using this method for &amp;ldquo;pushing&amp;rdquo; requests in OCM is that we don&amp;rsquo;t need to explicitly configure any API endpoint for the managed clusters or provide any client credentials as preparation. We just need to enable/install the following OCM addons:
  Cluster-Proxy: Setting up the konnectivity tunnels between the hub cluster and the managed clusters so the hub cluster can connect/access the managed cluster from anywhere.</description>
-    </item>
-    
-    <item>
-      <title>部署 Kubernetes 资源</title>
-      <link>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</guid>
-      <description>Prerequisites Select dev environment clusters using placement Apply the Kubernetes resources to the selected clusters  After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as Deployment, Service, Configmap, Secret, and so on) to your desired clusters:
- Use placement to select the desired clusters if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters. Use ManifestWork to apply your Kubernetes resources to the selected clusters  Here is a sample to deploy a hello-world Deployment to the dev environment clusters:</description>
     </item>
     
   </channel>

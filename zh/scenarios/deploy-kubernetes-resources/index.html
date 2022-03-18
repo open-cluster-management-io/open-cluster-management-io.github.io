@@ -221,119 +221,182 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>部署 Kubernetes 资源</h1>
-    <ul>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#select-dev-environment-clusters-using-placement">Select <code>dev</code> environment clusters using placement</a></li>
-<li><a href="#apply-the-kubernetes-resources-to-the-selected-clusters">Apply the Kubernetes resources to the selected clusters</a></li>
-</ul>
-<p>After bootstrapped the Open Cluster Management environment, you can now deploy any Kubernetes resources(such as <code>Deployment</code>, <code>Service</code>, <code>Configmap</code>, <code>Secret</code>, and so on) to your desired clusters:</p>
-<ol>
-<li>Use placement to <a href="#select-dev-environment-clusters-using-placement">select the desired clusters</a> if you do not know the certain desired clusters’ name but could describe the expected characteristics of ideal clusters.</li>
-<li>Use ManifestWork to <a href="#apply-the-kubernetes-resources-to-the-selected-clusters">apply your Kubernetes resources to the selected clusters</a></li>
-</ol>
-<p>Here is a sample to deploy a <code>hello-world</code> <code>Deployment</code> to the <code>dev</code> environment clusters:</p>
+    <h1>Deploy Kubernetes resources to the managed clusters</h1>
+    <p>After bootstrapping an OCM environment of at least one managed clusters, now
+it&rsquo;s time to begin your first journey of deploying Kubernetes resources into
+your managed clusters with OCM&rsquo;s <code>ManifestWork</code> API.</p>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>At least one cluster with the <code>environment: dev</code> label has registered to the hub cluster.</p>
-<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} label managedcluster cluster1 environment=dev
-
-╰─$ kubectl --context ${CTX_HUB_CLUSTER} get managedcluster -l environment=dev
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-cluster1   true           https://localhost      True     True        44h
-</code></pre><h2 id="select-dev-environment-clusters-using-placement">Select <code>dev</code> environment clusters using placement</h2>
-<ol>
-<li>Create a <code>ManagedClusterSet</code></li>
-</ol>
-<pre><code>╰─$ cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
-apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: ManagedClusterSet
-metadata:
-  name: clusterset1
-EOF
-</code></pre><ol start="2">
-<li>Add <code>ManagedClusters</code> to the above <code>ManagedClusterSet</code></li>
-</ol>
-<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} label managedcluster cluster1 cluster.open-cluster-management.io/clusterset=clusterset1
-</code></pre><ol start="3">
-<li>Create a <code>ManagedClusterSetBinding</code> to bind the <code>ManagedClusterSet</code> to the <code>default</code> Namespace.</li>
-</ol>
-<pre><code>╰─$ cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
-apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: ManagedClusterSetBinding
-metadata:
-  name: clusterset1
-  namespace: default
-spec:
-  clusterSet: clusterset1
-EOF
-</code></pre><ol start="4">
-<li>Create a <code>Placement</code> to choose the <code>dev</code> environment cluster in <code>default</code> Namespace</li>
-</ol>
-<pre><code>╰─$ cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
-apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: Placement
-metadata:
-  name: placement1
-  namespace: default
-spec:
-  predicates:
-    - requiredClusterSelector:
-        labelSelector:
-          matchLabels:
-            environment: dev
-EOF
-</code></pre><ol start="5">
-<li>Get the desired clusters</li>
-</ol>
-<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} get placementdecisions placement1-decision-1 -o jsonpath='{.status.decisions}'
-[{&quot;clusterName&quot;:&quot;cluster1&quot;,&quot;reason&quot;:&quot;&quot;}]%
-</code></pre><h2 id="apply-the-kubernetes-resources-to-the-selected-clusters">Apply the Kubernetes resources to the selected clusters</h2>
-<p>We got the target clusters, <code>cluster1</code>, which fulfill the <code>dev</code> environment condition. Now we start to deploy the <code>hello-world</code> Deployment on it.</p>
-<ol>
-<li>(Optional) Check the status(allocatable, capacity, conditions, version) of managed clusters before/after you apply your Kubernetes resources by:</li>
-</ol>
-<pre><code>╰─$ kubectl --context ${CTX_HUB_CLUSTER} get managedcluster cluster1 -o jsonpath='{.status}' | python -m json.tool
-</code></pre><ol start="2">
-<li>Apply the <code>hello-world</code> description yaml to <em>cluster1</em> Namespace on the <em>hub</em> cluster.</li>
-</ol>
-<pre><code>cat &lt;&lt;EOF | kubectl --context ${CTX_HUB_CLUSTER} apply -f -
-apiVersion: work.open-cluster-management.io/v1
-kind: ManifestWork
-metadata:
-  name: hello-world
-  namespace: cluster1
-  labels:
-    app: hello
-spec:
-  workload:
-    manifests:
-      - apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: hello
-          namespace: default
-
-        spec:
-          selector:
-            matchLabels:
-              app: hello
-          template:
-            metadata:
-              labels:
-                app: hello
-            spec:
-              containers:
-                - name: hello
-                  image: quay.io/asmacdo/busybox
-                  command: ['sh', '-c', 'echo &quot;Hello, World!&quot; &amp;&amp; sleep 3600']
-EOF
-</code></pre><ol start="3">
-<li>Check if there is a Pod created on the <code>ManagedCluster </code>cluster1`</li>
-</ol>
-<pre><code>╰─$ kubectl --kubeconfig=&lt;kubeconfig path of cluster1&gt; get pod
-NAME                     READY   STATUS    RESTARTS   AGE
-hello-64dd6fd586-wrmdz   1/1     Running   0          118s
-</code></pre><p>By now we have demonstrated how to deploy a <code>hello-world</code> Deployment into the desired clusters, you can apply any Kubernetes resource in that way.</p>
+<p>Before we get start with the following tutorial, let&rsquo;s clarify a few terms
+we&rsquo;re going to use in the context.</p>
+<ul>
+<li>
+<p><strong>Cluster namespace</strong>: After a managed cluster is successfully registered
+into the hub. The hub registration controller will be automatically
+provisioning a <code>cluster namespace</code> dedicated for the cluster of which the
+name will be same as the managed cluster. The <code>cluster namespace</code> is used
+for storing any custom resources/configurations that effectively belongs
+to the managed cluster.</p>
+</li>
+<li>
+<p><strong>ManifestWork</strong>: A custom resource in the hub cluster that groups a list
+of kubernetes resources together and meant for dispatching them into the
+managed cluster if the <code>ManifestWork</code> is created in a valid
+<code>cluster namespace</code>, see details in this <a href="https://open-cluster-management.io/concepts/manifestwork/">page</a>.</p>
+</li>
+</ul>
+<h2 id="deploy-the-resource-to-a-targetd-cluster">Deploy the resource to a targetd cluster</h2>
+<p>Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.</p>
+<p>Connect to your hub cluster and run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --cluster &lt;cluster name&gt;
+</code></pre></div><p>This should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm get works my-first-work --cluster &lt;cluster name&gt;
+</code></pre></div><p>If you have some change on the manifest files, you can apply the change to the targeted cluster by running:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --cluster &lt;cluster name&gt; --overwrite
+</code></pre></div><p>To remove the resources deployed on the targeted cluster, run:</p>
+<pre><code>kubectl delete manifestwork my-first-work -n &lt;cluster name&gt;
+</code></pre><h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
+<p>Say we would like to deploy a nginx together with a service account into &ldquo;cluster1&rdquo;.
+A <code>ManifestWork</code> can be defined as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: example-manifestwork
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: v1
+        <span style="color:#66d9ef">kind</span>: ServiceAccount
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">name</span>: my-sa
+      - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+        <span style="color:#66d9ef">kind</span>: Deployment
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">name</span>: nginx-deployment
+          <span style="color:#66d9ef">labels</span>:
+            <span style="color:#66d9ef">app</span>: nginx
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
+          <span style="color:#66d9ef">selector</span>:
+            <span style="color:#66d9ef">matchLabels</span>:
+              <span style="color:#66d9ef">app</span>: nginx
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">metadata</span>:
+              <span style="color:#66d9ef">labels</span>:
+                <span style="color:#66d9ef">app</span>: nginx
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">serviceAccountName</span>: my-sa
+              <span style="color:#66d9ef">containers</span>:
+                - <span style="color:#66d9ef">name</span>: nginx
+                  <span style="color:#66d9ef">image</span>: nginx:<span style="color:#ae81ff">1.14.2</span>
+                  <span style="color:#66d9ef">ports</span>:
+                    - <span style="color:#66d9ef">containerPort</span>: <span style="color:#ae81ff">80</span>
+</code></pre></div><p>In this example:</p>
+<ul>
+<li>A <code>ManifestWork</code> named &ldquo;example-manifestwork&rdquo; will be created into a
+&ldquo;cluster namespace&rdquo; named &ldquo;cluster1&rdquo;.</li>
+<li>The resources in the <code>ManifestWork</code> including a service-account, a deployment
+will be created to the cluster &ldquo;cluster1&rdquo;.</li>
+<li>In the status of <code>ManifestWork</code> we can check out the aggregated status
+indicating whether the prescribed resources are successfully deployed by the
+conditions in the field <code>.status.conditions[*]</code>:
+<ul>
+<li><code>Applied</code>: Whether <strong>all</strong> the resources from the spec are successfully
+applied since the last observed generation of <code>ManifestWork</code>.</li>
+<li><code>Available</code>: Whether <strong>all</strong> the resources from the spec are existing in
+the target managed cluster.</li>
+</ul>
+</li>
+<li>Beside the aggregated status, the <code>ManifestWork</code> is also tracking the
+per-resource status under <code>.status.resourceStatus[*]</code> where we can
+discriminate different resource types via the
+<code>.status.resourceStatus[*].resourceMeta</code> field. e.g.:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">resourceStatus</span>:
+  <span style="color:#66d9ef">manifests</span>:
+  - <span style="color:#66d9ef">conditions</span>:
+    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-11-25T10:17:43Z&#34;</span>
+      <span style="color:#66d9ef">message</span>: Apply manifest complete
+      <span style="color:#66d9ef">reason</span>: AppliedManifestComplete
+      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+      <span style="color:#66d9ef">type</span>: Applied
+    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-11-25T10:17:43Z&#34;</span>
+      <span style="color:#66d9ef">message</span>: Resource is available
+      <span style="color:#66d9ef">reason</span>: ResourceAvailable
+      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+      <span style="color:#66d9ef">type</span>: Available
+    <span style="color:#66d9ef">resourceMeta</span>:
+      <span style="color:#66d9ef">group</span>: apps
+      <span style="color:#66d9ef">kind</span>: Deployment
+      <span style="color:#66d9ef">name</span>: nginx-deployment
+      <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">ordinal</span>: <span style="color:#ae81ff">1</span>
+      <span style="color:#66d9ef">resource</span>: deployments
+      <span style="color:#66d9ef">version</span>: v1
+  ...
+</code></pre></div><p>If possible, you can also switch the context of your kubeconfig to &ldquo;cluster1&rdquo;
+to check out the new resources delivered by <code>ManifestWork</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl --context kind-cluster1 get pod
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-556c5468f7-d5h2m   1/1     Running   <span style="color:#ae81ff">0</span>          33m
+nginx-deployment-556c5468f7-gf574   1/1     Running   <span style="color:#ae81ff">0</span>          33m
+nginx-deployment-556c5468f7-hhmjf   1/1     Running   <span style="color:#ae81ff">0</span>          33m
+</code></pre></div><h3 id="updating-the-manifestwork">Updating the ManifestWork</h3>
+<p>Any updates applied to the <code>ManifestWork</code> are expected to take effect
+immediately as long as the work agent deployed in the managed cluster
+are healthy and actively in touch with the hub cluster.</p>
+<p>The work agent will be dynamically computing a hash
+from the prescribed resources, and a corresponding <code>AppliedManifestWork</code>
+of which the name contains the hash value will be persisted to the managed
+cluster and replacing the previously persisted <code>AppliedManifestWork</code>
+connected to the same <code>ManifestWork</code> after the latest resources are applied.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl --context kind-cluster1 get appliedmanifestwork
+NAME                                                                                                   AGE
+ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-example-manifestwork                  59m
+</code></pre></div><p>Note that if the work agent was disconnected from the hub control plane for
+a period of time and missed the new updates upon <code>ManifestWork</code>. The work
+agent will be catching up the latest state of <code>ManifestWork</code> as soon as it
+re-connects.</p>
+<h3 id="deleting-the-manifestwork">Deleting the ManifestWork</h3>
+<p>The local resources deployed in the managed cluster should be cleaned up upon
+receiving the deletion event from the corresponding <code>ManifestWork</code>. The resource
+<code>ManifestWork</code> in the hub cluster will be protected by the finalizer named:</p>
+<ul>
+<li>&ldquo;cluster.open-cluster-management.io/manifest-work-cleanup&rdquo;</li>
+</ul>
+<p>It will be removed if the corresponding <code>AppliedManifestWork</code> is gracefully
+removed from the managed cluster. Meanwhile, the <code>AppliedManifestWork</code> resource
+is also protected by another finalizer named:</p>
+<ul>
+<li>&ldquo;cluster.open-cluster-management.io/applied-manifest-work-cleanup&rdquo;</li>
+</ul>
+<p>This finalizer is supposed to be detached after the deployed local resources
+are <em>completely</em> removed from the manged cluster. With that being said, if any
+deployed local resources are holding at the &ldquo;Terminating&rdquo; due to graceful
+deletion. Both of its <code>ManifestWork</code> and <code>AppliedManifestWork</code> should stay
+undeleted.</p>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<p>In case of run into any unexpected failures,
+you can make sure your environment by checking the following conditions:</p>
+<ul>
+<li>
+<p>The CRD <code>ManifestWork</code> is installed in the hub cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get crd manifestworks.work.open-cluster-management.io 
+</code></pre></div></li>
+<li>
+<p>The CRD <code>AppliedManifestWork</code> is installed in the managed cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get crd appliedmanifestworks.work.open-cluster-management.io 
+</code></pre></div></li>
+<li>
+<p>The work agent is successfully running in the managed cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management-agent get pod
+NAME                                             READY   STATUS    RESTARTS   AGE
+klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   <span style="color:#ae81ff">0</span>          20d
+klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   <span style="color:#ae81ff">0</span>          20d
+</code></pre></div></li>
+</ul>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
