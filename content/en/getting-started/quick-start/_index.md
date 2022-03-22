@@ -122,7 +122,7 @@ steps:
    ```
    
    It's recommended to save the command somewhere in your workstation for 
-   future use.
+   future use. If it's lost, you can use `clusteradm get token` to get the command again.
    
 2. Then you can check out the running instances of registration operator by:
 
