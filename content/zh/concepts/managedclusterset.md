@@ -57,7 +57,7 @@ member clusters to the set.
 Running the following command to add a cluster to the set:
 
 ```shell
-$ clusteradm clusterset set example-clusterset --clusters managed1
+$ clusteradm clusterset add example-clusterset --clusters managed1
 $ clusteradm get clustersets
 NAME                BOUND NAMESPACES    STATUS
 example-clusterset                      1 ManagedCluster selected
@@ -93,7 +93,7 @@ it a "workspace namespace".
 ## A glance at the "ManagedClusterSet" API
 
 The `ManagedClusterSet` is a vanilla Kubernetes custom resource which can be
-checked by the command `kubectl get managedclusterset`:
+checked by the command `kubectl describe managedclusterset`:
 
 ```shell
 apiVersion: cluster.open-cluster-management.io/v1beta1
@@ -164,7 +164,7 @@ For easier management, we introduce a ManagedClusterSet called `default`.
 A `default` ManagedClusterSet will be automatically created initially. Any clusters not specifying a ManagedClusterSet will be added into the `default`. 
 The user can move the cluster from the default clusterset to another clusterset using the command:
 ```
-clusteradm clusterset set target-clusterset --clusters cluster-name
+clusteradm clusterset add target-clusterset --clusters cluster-name
 ```
 
 `default` clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
