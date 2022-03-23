@@ -149,6 +149,8 @@ tolerate the taint. Valid effects are
   decision if it has already been selected by the Placement.
   - `PreferNoSelect`. It means the scheduler tries not to select the cluster,
   rather than prohibiting Placements from selecting the cluster entirely.
+  (This is not implemented yet, currently clusters with effect `PreferNoSelect`
+  will always be selected.)
   - `NoSelectIfNew`. It means Placements are not allowed to select the cluster
   unless: 1) they tolerate the taint; 2) they have already had the cluster in
   their cluster decisions;
