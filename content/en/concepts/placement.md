@@ -120,7 +120,8 @@ same, and the operator is:
   can tolerate all taints of a particular category.
 - __Effect__ (optional). Effect indicates the taint effect to match. Empty means
 match all taint effects. When specified, allowed values are `NoSelect`,
-`PreferNoSelect` and `NoSelectIfNew`.
+`PreferNoSelect` and `NoSelectIfNew`. (`PreferNoSelect` is not implemented yet,
+currently clusters with effect `PreferNoSelect` will always be selected.)
 - __TolerationSeconds__ (optional). TolerationSeconds represents the period of
 time the toleration (which must be of effect `NoSelect`/`PreferNoSelect`,
 otherwise this field is ignored) tolerates the taint. The default value is nil,
