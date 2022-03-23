@@ -339,7 +339,8 @@ can tolerate all taints of a particular category.</li>
 </li>
 <li><strong>Effect</strong> (optional). Effect indicates the taint effect to match. Empty means
 match all taint effects. When specified, allowed values are <code>NoSelect</code>,
-<code>PreferNoSelect</code> and <code>NoSelectIfNew</code>.</li>
+<code>PreferNoSelect</code> and <code>NoSelectIfNew</code>. (<code>PreferNoSelect</code> is not implemented yet,
+currently clusters with effect <code>PreferNoSelect</code> will always be selected.)</li>
 <li><strong>TolerationSeconds</strong> (optional). TolerationSeconds represents the period of
 time the toleration (which must be of effect <code>NoSelect</code>/<code>PreferNoSelect</code>,
 otherwise this field is ignored) tolerates the taint. The default value is nil,

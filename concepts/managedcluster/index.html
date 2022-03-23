@@ -362,7 +362,9 @@ tolerate the taint. Valid effects are
 they tolerate this taint. The cluster will be removed from the placement
 decision if it has already been selected by the Placement.</li>
 <li><code>PreferNoSelect</code>. It means the scheduler tries not to select the cluster,
-rather than prohibiting Placements from selecting the cluster entirely.</li>
+rather than prohibiting Placements from selecting the cluster entirely.
+(This is not implemented yet, currently clusters with effect <code>PreferNoSelect</code>
+will always be selected.)</li>
 <li><code>NoSelectIfNew</code>. It means Placements are not allowed to select the cluster
 unless: 1) they tolerate the taint; 2) they have already had the cluster in
 their cluster decisions;</li>
