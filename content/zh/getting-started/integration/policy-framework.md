@@ -13,11 +13,15 @@ The policy framework provides governance capability to gain visibility, and driv
 
 ## Architecture
 
-- You can find the analysis of the architectural components [here](https://github.com/open-cluster-management/governance-policy-framework#architecture)
-
 <div style="text-align: center; padding: 20px;">
    <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
 </div>
+
+The governance policy framework is to distribute various supported policies to managed clusters and collect results to be sent to the hub cluster.
+  - [Policy propagator](https://github.com/open-cluster-management-io/governance-policy-propagator)
+  - [Policy spec sync](https://github.com/open-cluster-management-io/governance-policy-spec-sync)
+  - [Policy status sync](https://github.com/open-cluster-management-io/governance-policy-status-sync)
+  - [Policy template sync](https://github.com/open-cluster-management-io/governance-policy-template-sync)
 
 ## Prerequisite
 
