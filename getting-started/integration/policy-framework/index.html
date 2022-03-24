@@ -234,13 +234,16 @@ various security and configuration aspects to help IT administrators meet their 
 
 <!-- spellchecker-enable -->
 <h2 id="architecture">Architecture</h2>
-<ul>
-<li>You can find the analysis of the architectural components
-<a href="https://github.com/open-cluster-management/governance-policy-framework#architecture">here</a></li>
-</ul>
 <div style="text-align: center; padding: 20px;">
    <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
 </div>
+<p>The governance policy framework is to distribute various supported policies to managed clusters and collect results to be sent to the hub cluster.</p>
+<ul>
+<li><a href="https://github.com/open-cluster-management-io/governance-policy-propagator">Policy propagator</a></li>
+<li><a href="https://github.com/open-cluster-management-io/governance-policy-spec-sync">Policy spec sync</a></li>
+<li><a href="https://github.com/open-cluster-management-io/governance-policy-status-sync">Policy status sync</a></li>
+<li><a href="https://github.com/open-cluster-management-io/governance-policy-template-sync">Policy template sync</a></li>
+</ul>
 <h2 id="prerequisite">Prerequisite</h2>
 <p>You must meet the following prerequisites to install the policy framework:</p>
 <ul>
