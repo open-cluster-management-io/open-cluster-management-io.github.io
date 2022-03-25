@@ -19,6 +19,8 @@ __Contents__
 ## Prerequisites
 
 - The hub cluster should be `v1.19+`.
+  (To run on hub cluster version between \[`v1.12`, `v1.18`\], 
+  please manually enable feature gate "V1beta1CSRAPICompatibility").
 - The managed clusters should be `v1.11+`.
 
 You can always set up a local [KinD](https://kind.sigs.k8s.io/)
