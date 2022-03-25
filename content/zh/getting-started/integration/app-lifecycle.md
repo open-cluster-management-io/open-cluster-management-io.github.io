@@ -44,7 +44,7 @@ Deploy the subscription operators to the hub cluster.
 
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm install addon --names application-manager
+$ clusteradm install hub-addon --names application-manager
 Installing built-in application-manager add-on to the Hub cluster...
 $ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
