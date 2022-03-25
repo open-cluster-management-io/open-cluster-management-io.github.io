@@ -19,7 +19,7 @@ to have common/similar attributes e.g. purpose of use, deployed regions, etc.
 Each `ManagedClusterSet` can be managed/administrated by different hub admins,
 and their RBAC permissions can also be isolated by binding the cluster set to a
 "workspace namespace" in the hub cluster. The cluster set admin can flexibly
-operate the member clusters in the workspace namespace using [Placement](./placement.md)
+operate the member clusters in the workspace namespace using [Placement](../placement)
 API, etc.
 
 The following picture shows the hierarchies of how the cluster set works:
