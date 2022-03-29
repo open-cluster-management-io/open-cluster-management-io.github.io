@@ -90,7 +90,7 @@ The following movie shows how to bootstrap a hub cluster control plane and
 then register another cluster into the hub.
 
 <div style="text-align: center; padding: 20px;">
-   <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 60%">
+   <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 80%">
 </div>
 
 To try out the cluster registration, let's go on walk through the following
