@@ -242,9 +242,84 @@ managed cluster if the <code>ManifestWork</code> is created in a valid
 </ul>
 <h2 id="deploy-the-resource-to-a-targetd-cluster">Deploy the resource to a targetd cluster</h2>
 <p>Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.</p>
-<p>Connect to your hub cluster and run:</p>
+<p>Connect to your hub cluster and you have 2 options to create a <code>ManifestWork</code>:</p>
+<ol>
+<li>use <code>clusteradm</code> command</li>
+</ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --cluster &lt;cluster name&gt;
-</code></pre></div><p>This should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
+</code></pre></div><p>where kubernetes yaml file should be kubernetes definitions, a sample:</p>
+<pre><code>apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: my-sa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      serviceAccountName: my-sa
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+</code></pre><ol start="2">
+<li>use <code>kubectl</code> to create the <code>ManifestWork</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f &lt;kubernetes yaml file or directory&gt;
+</code></pre></div><p>where kubernetes yaml file should be kubernetes definitions wrapped by <code>ManifestWork</code>, a sample:</p>
+<pre><code>apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: example-manifestwork
+spec:
+  workload:
+    manifests:
+      - apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+          namespace: default
+          name: my-sa
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          namespace: default
+          name: nginx-deployment
+          labels:
+            app: nginx
+        spec:
+          replicas: 3
+          selector:
+            matchLabels:
+              app: nginx
+          template:
+            metadata:
+              labels:
+                app: nginx
+            spec:
+              serviceAccountName: my-sa
+              containers:
+                - name: nginx
+                  image: nginx:1.14.2
+                  ports:
+                    - containerPort: 80
+
+</code></pre><p>The above command should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm get works my-first-work --cluster &lt;cluster name&gt;
 </code></pre></div><p>If you have some change on the manifest files, you can apply the change to the targeted cluster by running:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --cluster &lt;cluster name&gt; --overwrite
