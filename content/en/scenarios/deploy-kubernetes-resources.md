@@ -29,13 +29,95 @@ we're going to use in the context.
 
 Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.
 
-Connect to your hub cluster and run:
+Connect to your hub cluster and you have 2 options to create a `ManifestWork`:
+
+1) use `clusteradm` command
 
 ```shell
 clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name>
 ```
 
-This should create a `ManifestWork` in cluster namespace of your hub cluster. To see the detailed status of this `ManifestWork`, you can run:
+where kubernetes yaml file should be kubernetes definitions, a sample:
+```
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: default
+  name: my-sa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      serviceAccountName: my-sa
+      containers:
+        - name: nginx
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+```
+
+2) use `kubectl` to create the `ManifestWork`
+
+```shell
+kubectl apply -f <kubernetes yaml file or directory>
+```
+
+where kubernetes yaml file should be kubernetes definitions wrapped by `ManifestWork`, a sample:
+```
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: example-manifestwork
+spec:
+  workload:
+    manifests:
+      - apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+          namespace: default
+          name: my-sa
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          namespace: default
+          name: nginx-deployment
+          labels:
+            app: nginx
+        spec:
+          replicas: 3
+          selector:
+            matchLabels:
+              app: nginx
+          template:
+            metadata:
+              labels:
+                app: nginx
+            spec:
+              serviceAccountName: my-sa
+              containers:
+                - name: nginx
+                  image: nginx:1.14.2
+                  ports:
+                    - containerPort: 80
+
+```
+
+The above command should create a `ManifestWork` in cluster namespace of your hub cluster. To see the detailed status of this `ManifestWork`, you can run:
 
 ```shell
 clusteradm get works my-first-work --cluster <cluster name>
