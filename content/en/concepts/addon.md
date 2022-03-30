@@ -17,7 +17,7 @@ addon should consist of two kinds of components:
   cluster like an ordinary kubernetes operator does.
   
 - __Addon Manager__: A kubernetes controller *in the hub cluster* that applies 
-  manifests to the managed clusters via the [ManifestWork](./manifestwork.md)
+  manifests to the managed clusters via the [ManifestWork](../manifestwork)
   api. In addition to resource dispatching, the manager can optionally manage
   the lifecycle of CSRs for the addon agents or even the RBAC permission bond
   to the CSRs' requesting identity.
