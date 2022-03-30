@@ -3,9 +3,40 @@ title: 发行版本
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.5.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.7.0`. Continue reading to view upcoming releases:
 
-## `v0.7.0`, on 25th, March 2022
+## `v0.7.0`, on 6th, April 2022
+
+The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in `clusteradm`. Notable changes including: 
+
+ - APIs including `placement`, `placementdecision`, `managedclusterset` and `managedclustersetbinding` are upgraded to `v1beta1`, `v1alpha1` version of these APIs are deprecated and will be removed in the next release.
+ - User can now use `clusteradm` to:
+   - create, bind and view `clusterset`
+   - create and view `work`
+   - check the controlplane status by using `hub-info` and `klusterlet-info` sub commands.
+   - upgrade hub and klusterlet
+- A default `managedclusterset` is created automatically and all clusters will be added to default `managedclusterset` by default. This feature can be disabled with feature gate `DefaultClusterSet` on registration controller.
+- Add the new `policyset` API that provides a way to logically group `policy` objects from a namespace, share placement, and report on overall status for the set in policy addon.
+
+See details in the release changelogs::
+- registration v0.7.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md)
+- work v0.7.0 [changelog](https://github.com/open-cluster-management-io/work/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md)
+- placement v0.4.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.4.0/CHANGELOG/CHANGELOG-v0.4.md)
+- addon-framework v0.3.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.3.0/CHANGELOG/CHANGELOG-v0.3.md)
+- registration-operator v0.7.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md)
+- cluster-proxy v0.2.0 [repo](https://github.com/open-cluster-management-io/cluster-proxy)
+- managed-serviceaccount v0.2.0 [repo](https://github.com/open-cluster-management-io/managed-serviceaccount)
+- clusteradm v0.2.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.2.0)
+- multicloud-operators-subscription v0.7.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.7.0)
+- multicloud-operators-channel v0.7.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.7.0)
+- governance policy propagator v0.7.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md)
+- config policy controller v0.7.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md)
+- policy spec sync controller v0.7.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-spec-sync/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md)
+- policy template sync controller v0.7.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-template-sync/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md)
+- policy status sync controller v0.7.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-status-sync/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md)
+
+
+There are 30+ contributors making contributions in this release, they are, @ChunxiAlexLuo, @dhaiducek, @elgnay, @haoqing0110, @hanqiuzh, @ilan-pinto, @ivan-cai, @JiahaoWei-RH, @jichenjc, @JustinKuli, @ldpliu, @mikeshng, @mgold1234, @morvencao, @mprahl, @nathanweatherly, @philipwu08, @qiujian16, @rcarrillocruz, @rokej, @skeeey, @TheRealHaoLiu, @vbelouso, @vMaroon, @TomerFi, @xauthulei, @xiangjingli, @xuezhaojun, @ycyaoxdu, @yue9944882, @zhujian7, @zhiweiyin318. Thanks for your contributions!
 
 ## `v0.6.0`, on 21st, January 2022
 
