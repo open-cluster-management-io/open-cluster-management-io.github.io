@@ -227,7 +227,14 @@ various security and configuration aspects to help IT administrators meet their 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#prerequisite">Prerequisite</a></li>
-        <li><a href="#install-from-prebuilt-images-on-quayio">Install from prebuilt images on Quay.io</a></li>
+        <li><a href="#install-the-policy-framework-hub-components">Install the policy-framework hub components</a>
+          <ul>
+            <li><a href="#install-via-clusteradm-cli">Install via Clusteradm CLI</a></li>
+            <li><a href="#install-from-source">Install from source</a></li>
+          </ul>
+        </li>
+        <li><a href="#verify-the-installation">Verify the installation</a></li>
+        <li><a href="#deploy-the-synchronization-components-to-the-managed-clusters">Deploy the synchronization components to the managed cluster(s)</a></li>
         <li><a href="#what-is-next">What is next</a></li>
       </ul></nav><hr></div>
 
@@ -237,7 +244,8 @@ various security and configuration aspects to help IT administrators meet their 
 <div style="text-align: center; padding: 20px;">
    <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
 </div>
-<p>The governance policy framework is to distribute various supported policies to managed clusters and collect results to be sent to the hub cluster.</p>
+<p>The governance policy framework distributes policies to managed clusters and collect results to send
+back to the hub cluster.</p>
 <ul>
 <li><a href="https://github.com/open-cluster-management-io/governance-policy-propagator">Policy propagator</a></li>
 <li><a href="https://github.com/open-cluster-management-io/governance-policy-spec-sync">Policy spec sync</a></li>
@@ -272,10 +280,19 @@ you do need to install the <code>PlacementRule</code> CRD with this command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
 </code></pre></div></li>
 </ul>
-<h2 id="install-from-prebuilt-images-on-quayio">Install from prebuilt images on Quay.io</h2>
-<p>Complete the following steps to install the policy framework from prebuilt images on Quay.io:</p>
-<ol>
-<li>
+<h2 id="install-the-policy-framework-hub-components">Install the policy-framework hub components</h2>
+<h3 id="install-via-clusteradm-cli">Install via Clusteradm CLI</h3>
+<p>Ensure <code>clusteradm</code> CLI is installed. Download and extract the
+<a href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For
+more details see the
+<a href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
+<p>Deploy the policy framework controllers to the hub cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the hub cluster</span>
+kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># Deploy the policy framework hub controllers</span>
+clusteradm install hub-addon --names policy-framework
+</code></pre></div><h3 id="install-from-source">Install from source</h3>
 <p>Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the
 <code>open-cluster-management</code> namespace on the hub cluster with the following commands:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the hub cluster</span>
@@ -301,13 +318,13 @@ kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color
 </ul>
 </li>
 </ul>
-</li>
-<li>
+<h2 id="verify-the-installation">Verify the installation</h2>
 <p>Ensure the pods are running on the hub with the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
 NAME                                           READY   STATUS    RESTARTS   AGE
 governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span style="color:#ae81ff">0</span>          94s
-</code></pre></div></li>
+</code></pre></div><h2 id="deploy-the-synchronization-components-to-the-managed-clusters">Deploy the synchronization components to the managed cluster(s)</h2>
+<ol>
 <li>
 <p>Export the hub cluster <code>kubeconfig</code> with the following command:</p>
 <p>For <code>kind</code> cluster:</p>
@@ -316,7 +333,9 @@ governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   <span style="co
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl config view --context<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> --minify --flatten &gt; <span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 <li>
-<p>Deploy the policy synchronization components to the managed cluster. Run the following commands:</p>
+<p>Deploy the policy synchronization components to each managed cluster. Run the following commands:</p>
+<p><strong>NOTE</strong>: The spec synchronization component should be skipped when deploying the synchronization
+components to a hub that is managing itself.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the managed cluster</span>
 kubectl config use-context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 

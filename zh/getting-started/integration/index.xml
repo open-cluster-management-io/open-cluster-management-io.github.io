@@ -48,8 +48,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capability to gain visibility, and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-   Architecture Prerequisite Install from prebuilt images on Quay.io What is next     Architecture  The governance policy framework is to distribute various supported policies to managed clusters and collect results to be sent to the hub cluster.
- Policy propagator Policy spec sync Policy status sync Policy template sync  Prerequisite You must meet the following prerequisites to install the policy framework:</description>
+   Architecture Prerequisite Install the policy-framework hub components  Install via Clusteradm CLI Install from source   Verify the installation Deploy the synchronization components to the managed cluster(s) What is next     Architecture  The governance policy framework distributes policies to managed clusters and collect results to send back to the hub cluster.</description>
     </item>
     
     <item>
