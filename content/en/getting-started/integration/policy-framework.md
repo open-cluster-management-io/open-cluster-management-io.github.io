@@ -144,8 +144,9 @@ governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   0          94s
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
-   # Set the managed cluster name
+   # Set the managed cluster name and create the namespace
    export MANAGED_CLUSTER_NAME=cluster1
+   kubectl create ns ${MANAGED_CLUSTER_NAME}
 
    # Deploy the spec synchronization component
    export COMPONENT="governance-policy-spec-sync"
