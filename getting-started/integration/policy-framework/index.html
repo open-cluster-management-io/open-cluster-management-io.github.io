@@ -350,8 +350,9 @@ kubectl -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="co
 export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io&#34;</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
-<span style="color:#75715e"># Set the managed cluster name</span>
+<span style="color:#75715e"># Set the managed cluster name and create the namespace</span>
 export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>cluster1
+kubectl create ns <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 
 <span style="color:#75715e"># Deploy the spec synchronization component</span>
 export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;governance-policy-spec-sync&#34;</span>
