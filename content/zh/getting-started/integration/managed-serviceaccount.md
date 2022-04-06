@@ -56,11 +56,11 @@ account:
 To install the managed service account addon to the OCM control plane, run:
 
 ```shell
-$ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
+$ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
 $ helm repo update
 $ helm search repo ocm
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/managed-serviceaccount          <...>           1.0.0       A Helm chart for Managed ServiceAccount Addon
+ocm/managed-serviceaccount          0.2.0           1.0.0       A Helm chart for Managed ServiceAccount Addon
 ...
 ```
 
