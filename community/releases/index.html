@@ -218,8 +218,41 @@
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
     <h1>Releases</h1>
-    <p>Open Cluster Management has approximately a three to four month release cycle. The current release is <code>v0.5.0</code>. Continue reading to view upcoming releases:</p>
-<h2 id="v070-on-25th-march-2022"><code>v0.7.0</code>, on 25th, March 2022</h2>
+    <p>Open Cluster Management has approximately a three to four month release cycle. The current release is <code>v0.7.0</code>. Continue reading to view upcoming releases:</p>
+<h2 id="v070-on-6th-april-2022"><code>v0.7.0</code>, on 6th, April 2022</h2>
+<p>The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in <code>clusteradm</code>. Notable changes including:</p>
+<ul>
+<li>APIs including <code>placement</code>, <code>placementdecision</code>, <code>managedclusterset</code> and <code>managedclustersetbinding</code> are upgraded to <code>v1beta1</code>, <code>v1alpha1</code> version of these APIs are deprecated and will be removed in the next release.</li>
+<li>User can now use <code>clusteradm</code> to:
+<ul>
+<li>create, bind and view <code>clusterset</code></li>
+<li>create and view <code>work</code></li>
+<li>check the controlplane status by using <code>hub-info</code> and <code>klusterlet-info</code> sub commands.</li>
+<li>upgrade hub and klusterlet</li>
+</ul>
+</li>
+<li>A default <code>managedclusterset</code> is created automatically and all clusters will be added to default <code>managedclusterset</code> by default. This feature can be disabled with feature gate <code>DefaultClusterSet</code> on registration controller.</li>
+<li>Add the new <code>policyset</code> API that provides a way to logically group <code>policy</code> objects from a namespace, share placement, and report on overall status for the set in policy addon.</li>
+</ul>
+<p>See details in the release changelogs::</p>
+<ul>
+<li>registration v0.7.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md">changelog</a></li>
+<li>work v0.7.0 <a href="https://github.com/open-cluster-management-io/work/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md">changelog</a></li>
+<li>placement v0.4.0 <a href="https://github.com/open-cluster-management-io/placement/blob/v0.4.0/CHANGELOG/CHANGELOG-v0.4.md">changelog</a></li>
+<li>addon-framework v0.3.0 <a href="https://github.com/open-cluster-management-io/addon-framework/blob/v0.3.0/CHANGELOG/CHANGELOG-v0.3.md">changelog</a></li>
+<li>registration-operator v0.7.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md">changelog</a></li>
+<li>cluster-proxy v0.2.0 <a href="https://github.com/open-cluster-management-io/cluster-proxy">repo</a></li>
+<li>managed-serviceaccount v0.2.0 <a href="https://github.com/open-cluster-management-io/managed-serviceaccount">repo</a></li>
+<li>clusteradm v0.2.0 <a href="https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.2.0">changelog</a></li>
+<li>multicloud-operators-subscription v0.7.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.7.0">changelog</a></li>
+<li>multicloud-operators-channel v0.7.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.7.0">changelog</a></li>
+<li>governance policy propagator v0.7.0 <a href="https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md">changelog</a></li>
+<li>config policy controller v0.7.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md">changelog</a></li>
+<li>policy spec sync controller v0.7.0 <a href="https://github.com/open-cluster-management-io/governance-policy-spec-sync/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md">changelog</a></li>
+<li>policy template sync controller v0.7.0 <a href="https://github.com/open-cluster-management-io/governance-policy-template-sync/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md">changelog</a></li>
+<li>policy status sync controller v0.7.0 <a href="https://github.com/open-cluster-management-io/governance-policy-status-sync/blob/main/CHANGELOG/CHANGELOG-v0.7.0.md">changelog</a></li>
+</ul>
+<p>There are 30+ contributors making contributions in this release, they are, @ChunxiAlexLuo, @dhaiducek, @elgnay, @haoqing0110, @hanqiuzh, @ilan-pinto, @ivan-cai, @JiahaoWei-RH, @jichenjc, @JustinKuli, @ldpliu, @mikeshng, @mgold1234, @morvencao, @mprahl, @nathanweatherly, @philipwu08, @qiujian16, @rcarrillocruz, @rokej, @skeeey, @TheRealHaoLiu, @vbelouso, @vMaroon, @TomerFi, @xauthulei, @xiangjingli, @xuezhaojun, @ycyaoxdu, @yue9944882, @zhujian7, @zhiweiyin318. Thanks for your contributions!</p>
 <h2 id="v060-on-21st-january-2022"><code>v0.6.0</code>, on 21st, January 2022</h2>
 <p>The Open Cluster Management team is proud to announce the release of OCM v0.6.0! We made many enhancements on core components and introduced some new addons.</p>
 <ul>
