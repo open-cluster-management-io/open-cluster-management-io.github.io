@@ -330,11 +330,11 @@ or configure the proxy agents no more.</p>
 </ul>
 <h2 id="installation">Installation</h2>
 <p>To install the cluster proxy addon to the OCM control plane, run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
 $ helm repo update
 $ helm search repo ocm
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-proxy                 	v0.1.1       	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy                
+ocm/cluster-proxy                 	0.2.0       	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy                
 ...
 </code></pre></div><p>Then run the following helm command to install the cluster-proxy addon:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm install -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\
