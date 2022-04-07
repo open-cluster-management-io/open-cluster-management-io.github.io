@@ -264,12 +264,12 @@ ocm/managed-serviceaccount       	0.2.0        	1.0.0      	A Helm chart <span s
 <p>By the following helm commands to install the addons:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm -n open-cluster-management-addon install cluster-proxy ocm/cluster-proxy
 $ helm -n open-cluster-management-addon install managed-serviceaccount ocm/managed-serviceaccount
-$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Delegating for secret discovery to &#34;managed-serviceaccount&#34; addon.</span>
-    <span style="color:#75715e"># Skip the option for manual secret management.</span>
-    --set manualSecretManagement<span style="color:#f92672">=</span>false <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Enabling konnectivity tunnels via &#34;cluster-proxy&#34; addon.</span>
-    <span style="color:#75715e"># Skip the option if the hub cluster and the managed clusters are already mutually accessible.</span>
+$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Delegating for secret discovery to &#34;managed-serviceaccount&#34; addon.                           \</span>
+    <span style="color:#75715e"># Skip the option for manual secret management.                                                \</span>
+    --set manualSecretManagement<span style="color:#f92672">=</span>false                                                             <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Enabling konnectivity tunnels via &#34;cluster-proxy&#34; addon.                                     \</span>
+    <span style="color:#75715e"># Skip the option if the hub cluster and the managed clusters are already mutually accessible. \</span>
     --set konnectivityEgress<span style="color:#f92672">=</span>true
 </code></pre></div><h3 id="confirm-addon-installation">Confirm addon installation</h3>
 <p>The commands above installs the addon manager into the hub cluster, and the
