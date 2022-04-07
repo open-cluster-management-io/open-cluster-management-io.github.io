@@ -55,12 +55,12 @@ By the following helm commands to install the addons:
 ```shell
 $ helm -n open-cluster-management-addon install cluster-proxy ocm/cluster-proxy
 $ helm -n open-cluster-management-addon install managed-serviceaccount ocm/managed-serviceaccount
-$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager \
-    # Delegating for secret discovery to "managed-serviceaccount" addon.
-    # Skip the option for manual secret management.
-    --set manualSecretManagement=false \
-    # Enabling konnectivity tunnels via "cluster-proxy" addon.
-    # Skip the option if the hub cluster and the managed clusters are already mutually accessible.
+$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager  \
+    # Delegating for secret discovery to "managed-serviceaccount" addon.                           \
+    # Skip the option for manual secret management.                                                \
+    --set manualSecretManagement=false                                                             \
+    # Enabling konnectivity tunnels via "cluster-proxy" addon.                                     \
+    # Skip the option if the hub cluster and the managed clusters are already mutually accessible. \
     --set konnectivityEgress=true
 ```
 
