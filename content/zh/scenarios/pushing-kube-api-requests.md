@@ -43,7 +43,7 @@ $ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases
 $ helm repo update
 $ helm search repo ocm
 NAME                             	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-gateway-addon-manager	1.3.1       	1.0.0      	A Helm chart for Cluster-Gateway Addon-Manager
+ocm/cluster-gateway-addon-manager	1.3.2      	1.0.0      	A Helm chart for Cluster-Gateway Addon-Manager
 ocm/cluster-proxy                	0.2.0        	1.0.0      	A Helm chart for Cluster-Proxy OCM Addon      
 ocm/managed-serviceaccount       	0.2.0        	1.0.0      	A Helm chart for Managed ServiceAccount Addon 
 ```

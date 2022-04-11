@@ -56,7 +56,7 @@ account:
 To install the managed service account addon to the OCM control plane, run:
 
 ```shell
-$ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
+$ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
 $ helm repo update
 $ helm search repo ocm
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
@@ -71,7 +71,7 @@ $ helm install -n open-cluster-management-addon --create-namespace \
     managed-serviceaccount  ocm/managed-serviceaccount
 $ kubectl -n open-cluster-management-addon get pod
 NAME                                                    READY   STATUS    RESTARTS   AGE
-managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   1          4d4h 
+managed-serviceaccount-addon-manager-5m9c95b7d8-xsb94   1/1     Running   1          4d4h 
 ...
 ```
 
