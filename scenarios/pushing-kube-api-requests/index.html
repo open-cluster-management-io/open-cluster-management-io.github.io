@@ -249,23 +249,23 @@ account:</p>
 <h2 id="installation">Installation</h2>
 <h3 id="adding-helm-chart-repo">Adding helm chart repo</h3>
 <p>Making sure the following OCM addons are discovered by your helm environment:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://open-cluster-management.oss-us-west-1.aliyuncs.com
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
 $ helm repo update
 $ helm search repo ocm
 NAME                             	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-gateway-addon-manager	1.1.10        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Gateway Addon-Manager
-ocm/cluster-proxy                	0.1.4        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy OCM Addon      
-ocm/managed-serviceaccount       	0.1.1        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon 
+ocm/cluster-gateway-addon-manager	1.3.2       	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Gateway Addon-Manager
+ocm/cluster-proxy                	0.2.0        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy OCM Addon      
+ocm/managed-serviceaccount       	0.2.0        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon 
 </code></pre></div><h3 id="install-the-ocm-addons">Install the OCM addons</h3>
 <p>By the following helm commands to install the addons:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm -n open-cluster-management-addon install cluster-proxy ocm/cluster-proxy
 $ helm -n open-cluster-management-addon install managed-serviceaccount ocm/managed-serviceaccount
-$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Delegating for secret discovery to &#34;managed-serviceaccount&#34; addon.</span>
-    <span style="color:#75715e"># Skip the option for manual secret management.</span>
-    --set manualSecretManagement<span style="color:#f92672">=</span>false <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Enabling konnectivity tunnels via &#34;cluster-proxy&#34; addon.</span>
-    <span style="color:#75715e"># Skip the option if the hub cluster and the managed clusters are already mutually accessible.</span>
+$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager  <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Delegating for secret discovery to &#34;managed-serviceaccount&#34; addon.                           \</span>
+    <span style="color:#75715e"># Skip the option for manual secret management.                                                \</span>
+    --set manualSecretManagement<span style="color:#f92672">=</span>false                                                             <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Enabling konnectivity tunnels via &#34;cluster-proxy&#34; addon.                                     \</span>
+    <span style="color:#75715e"># Skip the option if the hub cluster and the managed clusters are already mutually accessible. \</span>
     --set konnectivityEgress<span style="color:#f92672">=</span>true
 </code></pre></div><h3 id="confirm-addon-installation">Confirm addon installation</h3>
 <p>The commands above installs the addon manager into the hub cluster, and the
