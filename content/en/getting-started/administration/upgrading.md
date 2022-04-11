@@ -22,10 +22,10 @@ steps you should follow are:
 
 ## Before you begin
 
-You must have an existing OCM environment and there's supposed to be 
+You must have an existing OCM environment and there's supposed to be
 registration-operator running in your clusters. The registration-operators
 is supposed to be installed if you're previously following our recommended
-[quick start guide](https://open-cluster-management.io/getting-started/quick-start/) 
+[quick start guide](https://open-cluster-management.io/getting-started/quick-start/)
 to set up your OCM. The operator is responsible for helping you upgrade the
 other components on ease.
 
@@ -62,21 +62,57 @@ client		    version	:v0.1.0
 server release	version	: ...
 ```
 
-## Manual Upgrade
+## Upgrade OCM Components via Command-line tool
 
-### Hub Cluster 
+### Hub Cluster
+
+For example, to upgrade OCM components in the hub cluster, run the following
+command:
+
+```shell
+$ clusteradm upgrade clustermanager --bundle-version=0.7.0
+```
+
+Then `clusteradm` will make sure everything in the hub cluster is upgraded to
+the expected version. To check the latest status after the upgrade, continue to
+run the following command:
+
+```shell
+$ cluster get hub-info
+```
+
+### Managed Clusters
+
+To upgrade the OCM components in the managed clusters, switch the client context
+e.g. overriding `KUBECONFIG` environment variable, then simply run the following
+command:
+
+```shell
+$ clusteradm upgrade klusterlet --bundle-version=0.7.0
+```
+
+To check the status after the upgrade, continue running this command against the
+managed cluster:
+
+```shell
+$ clusteradm get klusterlet-info
+```
+
+##  Upgrade OCM Components via Manual Edit
+
+### Hub Cluster
 
 #### Upgrading the registration-operator
 
-Navigate into the namespace where you installed registration-operator (named 
-"open-cluster-management" by default) and edit the image version of its 
+Navigate into the namespace where you installed registration-operator (named
+"open-cluster-management" by default) and edit the image version of its
 deployment resource:
 
 ```shell
 $ kubectl -n open-cluster-management edit deployment cluster-manager
 ```
 
-Then update the image tag version to your target release version, which is 
+Then update the image tag version to your target release version, which is
 exactly the OCM's overall release version.
 
 ```diff
@@ -94,7 +130,7 @@ to prescribe the registration-operator to perform the automated upgrading:
 $ kubectl edit clustermanager cluster-manager
 ```
 
-In the content of `clustermanager` resource, you're supposed to see a few 
+In the content of `clustermanager` resource, you're supposed to see a few
 images listed in its spec:
 
 ```yaml
@@ -108,8 +144,8 @@ spec:
   placementImagePullSpec: quay.io/open-cluster-management/placement:<target release>
 ```
 
-Replacing the old release version to the latest and commit the changes will 
-trigger the process of background upgrading. Note that the status of upgrade 
+Replacing the old release version to the latest and commit the changes will
+trigger the process of background upgrading. Note that the status of upgrade
 can be actively tracked via the status of `clustermanager`, so if anything goes
 wrong during the upgrade it should also be reflected in that status.
 
@@ -118,7 +154,7 @@ wrong during the upgrade it should also be reflected in that status.
 
 #### Upgrading the registration-operator
 
-Similar to the process of upgrading hub's registration-operator, the only 
+Similar to the process of upgrading hub's registration-operator, the only
 difference you're supposed to notice when upgrading the managed cluster is
 the name of deployment. Note that before running the following command, you
 are expected to switch the context to access the managed clusters not the hub.
