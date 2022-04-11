@@ -229,15 +229,21 @@
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#before-you-begin">Before you begin</a></li>
         <li><a href="#upgrade-command-line-tool">Upgrade command-line tool</a></li>
-        <li><a href="#manual-upgrade">Manual Upgrade</a>
+        <li><a href="#upgrade-ocm-components-via-command-line-tool">Upgrade OCM Components via Command-line tool</a>
           <ul>
-            <li><a href="#hub-cluster">Hub Cluster</a>
+            <li><a href="#hub-cluster">Hub Cluster</a></li>
+            <li><a href="#managed-clusters">Managed Clusters</a></li>
+          </ul>
+        </li>
+        <li><a href="#upgrade-ocm-components-via-manual-edit">Upgrade OCM Components via Manual Edit</a>
+          <ul>
+            <li><a href="#hub-cluster-1">Hub Cluster</a>
               <ul>
                 <li><a href="#upgrading-the-registration-operator">Upgrading the registration-operator</a></li>
                 <li><a href="#upgrading-the-core-components">Upgrading the core components</a></li>
               </ul>
             </li>
-            <li><a href="#managed-clusters">Managed Clusters</a>
+            <li><a href="#managed-clusters-1">Managed Clusters</a>
               <ul>
                 <li><a href="#upgrading-the-registration-operator-1">Upgrading the registration-operator</a></li>
                 <li><a href="#upgrading-the-agent-components">Upgrading the agent components</a></li>
@@ -287,8 +293,25 @@ To get started with clusteradm, please visit https://open-cluster-management.io/
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm version
 client		    version	:v0.1.0
 server release	version	: ...
-</code></pre></div><h2 id="manual-upgrade">Manual Upgrade</h2>
+</code></pre></div><h2 id="upgrade-ocm-components-via-command-line-tool">Upgrade OCM Components via Command-line tool</h2>
 <h3 id="hub-cluster">Hub Cluster</h3>
+<p>For example, to upgrade OCM components in the hub cluster, run the following
+command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm upgrade clustermanager --bundle-version<span style="color:#f92672">=</span>0.7.0
+</code></pre></div><p>Then <code>clusteradm</code> will make sure everything in the hub cluster is upgraded to
+the expected version. To check the latest status after the upgrade, continue to
+run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cluster get hub-info
+</code></pre></div><h3 id="managed-clusters">Managed Clusters</h3>
+<p>To upgrade the OCM components in the managed clusters, switch the client context
+e.g. overriding <code>KUBECONFIG</code> environment variable, then simply run the following
+command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm upgrade klusterlet --bundle-version<span style="color:#f92672">=</span>0.7.0
+</code></pre></div><p>To check the status after the upgrade, continue running this command against the
+managed cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get klusterlet-info
+</code></pre></div><h2 id="upgrade-ocm-components-via-manual-edit">Upgrade OCM Components via Manual Edit</h2>
+<h3 id="hub-cluster-1">Hub Cluster</h3>
 <h4 id="upgrading-the-registration-operator">Upgrading the registration-operator</h4>
 <p>Navigate into the namespace where you installed registration-operator (named
 &ldquo;open-cluster-management&rdquo; by default) and edit the image version of its
@@ -317,7 +340,7 @@ images listed in its spec:</p>
 trigger the process of background upgrading. Note that the status of upgrade
 can be actively tracked via the status of <code>clustermanager</code>, so if anything goes
 wrong during the upgrade it should also be reflected in that status.</p>
-<h3 id="managed-clusters">Managed Clusters</h3>
+<h3 id="managed-clusters-1">Managed Clusters</h3>
 <h4 id="upgrading-the-registration-operator-1">Upgrading the registration-operator</h4>
 <p>Similar to the process of upgrading hub&rsquo;s registration-operator, the only
 difference you&rsquo;re supposed to notice when upgrading the managed cluster is
