@@ -62,7 +62,43 @@ client		    version	:v0.1.0
 server release	version	: ...
 ```
 
-## Manual Upgrade
+## Upgrade OCM Components via Command-line tool
+
+### Hub Cluster
+
+For example, to upgrade OCM components in the hub cluster, run the following 
+command:
+
+```shell
+$ clusteradm upgrade clustermanager --bundle-version=0.7.0
+```
+
+Then `clusteradm` will make sure everything in the hub cluster is upgraded to
+the expected version. To check the latest status after the upgrade, continue to
+run the following command:
+
+```shell
+$ cluster get hub-info
+```
+
+### Managed Clusters
+
+To upgrade the OCM components in the managed clusters, switch the client context
+e.g. overriding `KUBECONFIG` environment variable, then simply run the following 
+command:
+
+```shell
+$ clusteradm upgrade klusterlet --bundle-version=0.7.0
+```
+
+To check the status after the upgrade, continue running this command against the
+managed cluster:
+
+```shell
+$ clusteradm get klusterlet-info
+```
+
+##  Upgrade OCM Components via Manual Edit
 
 ### Hub Cluster 
 
