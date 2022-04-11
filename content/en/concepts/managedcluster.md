@@ -105,7 +105,7 @@ in the status of the `ManagedCluster`, e.g.:
 ```yaml
   status:
     version:
-      kubernetes: v1.20.11-aliyun.1
+      kubernetes: v1.20.11
     allocatable:
       cpu: 11700m
       ephemeral-storage: "342068531454"
