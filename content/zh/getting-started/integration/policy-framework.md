@@ -67,6 +67,15 @@ Deploy the policy framework controllers to the hub cluster:
 # Configure kubectl to point to the hub cluster
 kubectl config use-context ${CTX_HUB_CLUSTER}
 
+# Set the deployment namespace
+export HUB_NAMESPACE="open-cluster-management"
+
+# Set the hub cluster name
+export HUB_CLUSTER_NAME="hub"
+
+# Set the hub kubeconfig file
+export HUB_KUBECONFIG="hub-kubeconfig"
+
 # Deploy the policy framework hub controllers
 clusteradm install hub-addon --names policy-framework
 ```
@@ -83,6 +92,12 @@ kubectl config use-context ${CTX_HUB_CLUSTER}
 # Create the namespace
 export HUB_NAMESPACE="open-cluster-management"
 kubectl create ns ${HUB_NAMESPACE}
+
+# Set the hub cluster name
+export HUB_CLUSTER_NAME="hub"
+
+# Set the hub kubeconfig file
+export HUB_KUBECONFIG="hub-kubeconfig"
 
 # Apply the CRDs
 export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy"
@@ -144,8 +159,9 @@ governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   0          94s
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
-   # Set the managed cluster name
+   # Set the managed cluster name and create the namespace
    export MANAGED_CLUSTER_NAME=cluster1
+   kubectl create ns ${MANAGED_CLUSTER_NAME}
 
    # Deploy the spec synchronization component
    export COMPONENT="governance-policy-spec-sync"

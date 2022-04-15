@@ -67,6 +67,15 @@ Deploy the policy framework controllers to the hub cluster:
 # Configure kubectl to point to the hub cluster
 kubectl config use-context ${CTX_HUB_CLUSTER}
 
+# Set the deployment namespace
+export HUB_NAMESPACE="open-cluster-management"
+
+# Set the hub cluster name
+export HUB_CLUSTER_NAME="hub"
+
+# Set the hub kubeconfig file
+export HUB_KUBECONFIG="hub-kubeconfig"
+
 # Deploy the policy framework hub controllers
 clusteradm install hub-addon --names policy-framework
 ```
@@ -83,6 +92,12 @@ kubectl config use-context ${CTX_HUB_CLUSTER}
 # Create the namespace
 export HUB_NAMESPACE="open-cluster-management"
 kubectl create ns ${HUB_NAMESPACE}
+
+# Set the hub cluster name
+export HUB_CLUSTER_NAME="hub"
+
+# Set the hub kubeconfig file
+export HUB_KUBECONFIG="hub-kubeconfig"
 
 # Apply the CRDs
 export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy"
