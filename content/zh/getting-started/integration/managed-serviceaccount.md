@@ -107,6 +107,7 @@ Then the addon agent in each of the managed cluster is responsible for
 executing and refreshing the status of the `ManagedServiceAccount`, e.g.:
 
 ```shell
+$ kubectl describe ManagedServiceAccount -n cluster1
 ...
   status:
     conditions:
@@ -124,6 +125,13 @@ executing and refreshing the status of the `ManagedServiceAccount`, e.g.:
     tokenSecretRef:
       lastRefreshTimestamp: "2021-12-09T09:08:15Z"
       name: my-sample
+```
+
+The service account will be created in the managed cluster (assume the name is `cluster1`):
+```
+$ kubectl get sa my-sample -n open-cluster-management-managed-serviceaccount --context kind-cluster1
+NAME        SECRETS   AGE
+my-sample   1         9m57s
 ```
 
 The corresponding secret will also be created in the hub cluster, which is 
