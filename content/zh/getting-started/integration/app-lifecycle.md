@@ -95,7 +95,7 @@ NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicluster-operators-subscription   1/1     1            1           25s
 ```
 
-Create the `open-cluster-management-agent-addon` namespace on the managed cluster.
+Create the `open-cluster-management-agent-addon` namespace on the managed cluster and it's optional if `clusteradm` is used which create the ns during `join` action.
 
 ```Shell
 $ kubectl create ns open-cluster-management-agent-addon --context ${CTX_MANAGED_CLUSTER}
@@ -122,7 +122,7 @@ application-manager   1/1     1            1           103s
 
 ## What is next
 
-After a successful deployment, test the subscription operator with a `helm` subscription. Run the following command:
+After a successful deployment, test the subscription operator with a `helm` subscription. Run the following command where the examples/helmrepo-hub-channel locates at [here](https://github.com/open-cluster-management-io/multicloud-operators-subscription/tree/main/examples/helmrepo-hub-channel):
 
 ```Shell
 kubectl apply -f examples/helmrepo-hub-channel --context ${CTX_HUB_CLUSTER}
