@@ -288,7 +288,7 @@ $ make deploy-hub
 $ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 multicluster-operators-subscription   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           25s
-</code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster.</p>
+</code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster and it&rsquo;s optional if <code>clusteradm</code> is used which create the ns during <code>join</code> action.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl create ns open-cluster-management-agent-addon --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 namespace/open-cluster-management-agent-addon created
 </code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
@@ -302,7 +302,7 @@ application-manager   True
 NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
 application-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           103s
 </code></pre></div><h2 id="what-is-next">What is next</h2>
-<p>After a successful deployment, test the subscription operator with a <code>helm</code> subscription. Run the following command:</p>
+<p>After a successful deployment, test the subscription operator with a <code>helm</code> subscription. Run the following command where the examples/helmrepo-hub-channel locates at <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/tree/main/examples/helmrepo-hub-channel">here</a>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f examples/helmrepo-hub-channel --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>After a while, you should see the subscription is propagated to the managed cluster and the Helm app is installed. By default, when a subscribed applications is deployed to the target clusters, the applications are installed in the coresponding subscription namespace. To confirm, run the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get subscriptions.apps --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
