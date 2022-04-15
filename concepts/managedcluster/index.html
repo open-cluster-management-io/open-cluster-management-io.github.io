@@ -246,7 +246,8 @@
             </li>
           </ul>
         </li>
-        <li><a href="#managedclusterset">ManagedClusterSet</a></li>
+        <li><a href="#managed-clusters-certificate-rotation">Managed Cluster&rsquo;s certificate rotation</a></li>
+        <li><a href="#whats-next">What&rsquo;s next?</a></li>
       </ul></nav><hr></div>
 
 
@@ -459,25 +460,16 @@ effective cluster role resource:</p>
 <p>The admin of the managed cluster can disable the prescriptions from hub cluster
 by scaling the OCM klusterlet agents to <code>0</code>. Or just permanently deleting the
 agent components from the managed cluster.</p>
-<h2 id="managedclusterset">ManagedClusterSet</h2>
-<p><code>ManagedClusterSet</code> is a cluster scoped API on the hub cluster to define a
-group of <code>ManagedCluster</code>s. Practically it&rsquo;s a common case for hub cluster to
-group the existing managed clusters according to their deploying environment
-or data-center. For instance, you can create <code>dev</code>, <code>staging</code>, <code>prod</code>
-<code>ManagedClusterSet</code> for different purposes. Or you can create <code>north-america</code>,
-<code>europe</code>, <code>apac</code> <code>ManagedClusterSet</code> based on the region of the <code>ManagedCluster</code>.</p>
-<p>To add a <code>ManagedCluster</code> to a <code>ManagedClusterSet</code>, user needs to set a label
-<code>cluster.open-cluster-management.io/clusterset={clusterset name}</code> on the
-<code>ManagedCluster</code>. The user must have the <code>create</code> permission to
-<code>managedclusterset/join</code> resource to add a <code>ManagedCluster</code> to a
-<code>ManagedClusterSet</code>.</p>
-<p>An example of a <code>ManagedClusterSet</code> resource is shown in the following example.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: ManagedClusterSet
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: prod
-</code></pre></div><p>Furthermore, we can do advanced cluster matching/selecting within a
-<code>ManagedClusterSet</code> using the <a href="https://github.com/open-cluster-management-io/placement">placement</a>
+<h2 id="managed-clusters-certificate-rotation">Managed Cluster&rsquo;s certificate rotation</h2>
+<p>The certificates used by the agents from the managed cluster to talk to
+the hub control plane will be periodically rotated with an ephemeral and random
+identity. The following picture shows the automated certificate rotation works.</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/registration-process.png" alt="Registration Process" style="margin: 0 auto; width: 80%">
+</div>
+<h2 id="whats-next">What&rsquo;s next?</h2>
+<p>Furthermore, we can do advanced cluster matching/selecting within a
+<a href="./managedclusterset.md">managedclusterset</a> using the <a href="./placement.md">placement</a>
 module.</p>
 
 </div>
