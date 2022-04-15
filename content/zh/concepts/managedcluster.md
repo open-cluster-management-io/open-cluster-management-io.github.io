@@ -249,30 +249,18 @@ The admin of the managed cluster can disable the prescriptions from hub cluster
 by scaling the OCM klusterlet agents to `0`. Or just permanently deleting the 
 agent components from the managed cluster.
 
-## ManagedClusterSet
+## Managed Cluster's certificate rotation
 
-`ManagedClusterSet` is a cluster scoped API on the hub cluster to define a 
-group of `ManagedCluster`s. Practically it's a common case for hub cluster to 
-group the existing managed clusters according to their deploying environment
-or data-center. For instance, you can create `dev`, `staging`, `prod` 
-`ManagedClusterSet` for different purposes. Or you can create `north-america`, 
-`europe`, `apac` `ManagedClusterSet` based on the region of the `ManagedCluster`.
+The certificates used by the agents from the managed cluster to talk to
+the hub control plane will be periodically rotated with an ephemeral and random
+identity. The following picture shows the automated certificate rotation works.
 
-To add a `ManagedCluster` to a `ManagedClusterSet`, user needs to set a label 
-`cluster.open-cluster-management.io/clusterset={clusterset name}` on the 
-`ManagedCluster`. The user must have the `create` permission to 
-`managedclusterset/join` resource to add a `ManagedCluster` to a 
-`ManagedClusterSet`.
+<div style="text-align: center; padding: 20px;">
+   <img src="/registration-process.png" alt="Registration Process" style="margin: 0 auto; width: 80%">
+</div>
 
-An example of a `ManagedClusterSet` resource is shown in the following example.
+## What's next?
 
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: ManagedClusterSet
-metadata:
-  name: prod
-```
-
-Furthermore, we can do advanced cluster matching/selecting within a 
-`ManagedClusterSet` using the [placement](https://github.com/open-cluster-management-io/placement)
+Furthermore, we can do advanced cluster matching/selecting within a
+[managedclusterset](./managedclusterset.md) using the [placement](./placement.md)
 module.
