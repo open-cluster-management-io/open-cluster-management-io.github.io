@@ -5,7 +5,7 @@ weight: 4
 
 ## What is an add-on?
 
-Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various asepcts. Examples of add-ons includes:
+Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various aspects. Examples of add-ons includes:
 
 1. A tool to collect alert events in the managed cluster, and send to the hub cluster.
 2. A network solution that uses the hub to share the network info and establish connection among managed clusters.
