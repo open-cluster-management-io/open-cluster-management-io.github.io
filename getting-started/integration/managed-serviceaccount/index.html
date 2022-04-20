@@ -311,7 +311,8 @@ $ kubectl create -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div><p>Then the addon agent in each of the managed cluster is responsible for
 executing and refreshing the status of the <code>ManagedServiceAccount</code>, e.g.:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">...
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl describe ManagedServiceAccount -n cluster1
+...
   status:
     conditions:
     - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
@@ -328,7 +329,11 @@ executing and refreshing the status of the <code>ManagedServiceAccount</code>, e
     tokenSecretRef:
       lastRefreshTimestamp: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
       name: my-sample
-</code></pre></div><p>The corresponding secret will also be created in the hub cluster, which is
+</code></pre></div><p>The service account will be created in the managed cluster (assume the name is <code>cluster1</code>):</p>
+<pre><code>$ kubectl get sa my-sample -n open-cluster-management-managed-serviceaccount --context kind-cluster1
+NAME        SECRETS   AGE
+my-sample   1         9m57s
+</code></pre><p>The corresponding secret will also be created in the hub cluster, which is
 visible via:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n &lt;your cluster&gt; get secret my-sample  
 NAME        TYPE     DATA   AGE
