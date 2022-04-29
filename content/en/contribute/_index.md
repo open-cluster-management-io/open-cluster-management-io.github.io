@@ -3,7 +3,7 @@ title: Contribute
 weight: 5
 ---
 
-We know you've got great ideas for improving Open Cluster Management. So roll up your sleeves and come join us in the community!
+We know you've got great ideas for improving Open Cluster Management (OCM). So roll up your sleeves and come join us in the community!
 
 ## Getting Started
 
@@ -32,3 +32,9 @@ contribution. See the [DCO](https://github.com/open-cluster-management-io/commun
 ## Talk to Us
 - Follow the [Mailing group](https://groups.google.com/g/open-cluster-management)
 - Chat with us in the [#open-cluster-mgmt](https://kubernetes.slack.com/archives/C01GE7YSUUF) on Kubernetes Slack Channel
+
+## List of Contributors 
+
+OCM contributors' GitHub user IDs in alphabetical order:
+
+@AnthonyXu109 @birsanv @cadawson @champly @chenz4027 @chrisahl @ChunxiAlexLuo @ckandag @clyang82 @dberg1 @deads2k @dhaiducek @dockerymick @dongwangdw @elgnay @gparvin @gurnben @gyliu513 @hanqiuzh @haoqing0110 @hassenius @hchenxa @huiwq1990 @ianzhang366 @ilan-pinto @imiller0 @itdove @ivan-cai @Jaanki @JiahaoWei-RH @jichenjc @jnpacker @JustinKuli @kant @kim-fitness @kuanf @ldpliu @leena-jawale @luckyfengyong @marcolan018 @mdelder @mgold1234 @mikeshng @morvencao @mprahl @nathanweatherly @nirrozenbaum @nyechiel @panguicai008 @panpan0000 @pdettori @philipwu08 @pmorie @porridge @pugangxa @qiujian16 @ray-harris @rcarrillocruz @richiepiya @rokej @rwellon @sahare @SataQiu @sdminonne @serngawy @skeeey @stevemar @suigh @swopebe @TheRealHaoLiu @TomerFi @tphee @tpouyer @vbelouso @vincent-pli @vMaroon @wangglbj @willkutler @xauthulei @xiangjingli @xuezhaojun @xunpan @ycyaoxdu @yue9944882 @zhiweiyin318 @zhujian7 @zkayyali812
