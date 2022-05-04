@@ -22,7 +22,7 @@ You must meet the following prerequisites to install the policy controllers:
   the source.
 
 - Ensure the `open-cluster-management` _policy framework_ is installed. See
-  [Policy Framework](../policy-framework) for more information.
+  [Policy Framework](/getting-started/integration/policy-framework) for more information.
 
 ## Install the configuration policy controller
 
@@ -70,6 +70,9 @@ Application management's `PlacementRule` support you can use either placement im
 Perform the steps in the **Placement API** or the **Placement Rule API** section based on which
 placement API you desire to use.
 
+For more information on how to use a `ConfigurationPolicy`, read the
+[`Policy` API concept section](/getting-started/integration/policy-framework#policy).
+
 ### Placement API
 
 1. Run the following command to create a policy on the hub that uses `Placement`:
@@ -91,7 +94,7 @@ placement API you desire to use.
 
 3. Make sure the `default` namespace has a `ManagedClusterSetBinding` for a `ManagedClusterSet` with
    at least one managed cluster resource in the `ManagedClusterSet`. See
-   [Bind ManagedClusterSet to a namespace](../../../concepts/managedclusterset#bind-managedclusterset-to-a-namespace)
+   [Bind ManagedClusterSet to a namespace](/concepts/managedclusterset#bind-managedclusterset-to-a-namespace)
    for more information on this.
 
 4. To confirm that the managed cluster is selected by the `Placement`, run the following command:
@@ -172,9 +175,3 @@ that a placement method has been selected between `Placement` or `PlacementRule`
    NAME               READY   STATUS    RESTARTS   AGE
    sample-nginx-pod   1/1     Running   0          23s
    ```
-
-## More policies
-
-You can find more policies or contribute to the open policy repository,
-[policy-collection](https://github.com/open-cluster-management/policy-collection). Note that these
-policies all use the Application management `PlacementRule` API.
