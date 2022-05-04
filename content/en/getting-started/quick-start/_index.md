@@ -64,20 +64,19 @@ export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED
 
 ## Bootstrap via clusteradm CLI tool
 
-By this section, we will be bootstrapping your first running OCM environment
-with the help of OCM's native command-line tool `clusteradm`.
-
+In this section, we will be bootstrapping an OCM environment with the help of OCM's native
+`clusteradm` command-line tool.
 
 ### Install clusteradm CLI tool
 
-It's recommended to run the following one-liner to download and install **the 
-latest release** of `clusteradm`:
+It's recommended to run the following command to download and install **the
+latest release** of the `clusteradm` command-line tool:
 
 ```shell
 curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
 ```
 
-You can also install **the latest development version** (main branch) by:
+You can also install **the latest development version** (main branch) by running:
 
 ```shell
 # Installing clusteradm to $GOPATH/bin/
@@ -86,34 +85,33 @@ GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
 
 ### Overview of the registration process
 
-The following movie shows how to bootstrap a hub cluster control plane and 
-then register another cluster into the hub.
+The following video shows how to bootstrap a hub cluster control plane and
+register another cluster with the hub.
 
 <div style="text-align: center; padding: 20px;">
    <img src="/recording.mov.gif" alt="Cluster proxy architecture" style="margin: 0 auto; width: 80%">
 </div>
 
-To try out the cluster registration, let's go on walk through the following
-steps:
+To try out the cluster registration, let's walk through the following steps:
 
 ### Deploy a cluster manager on your hub cluster
 
-1. Bootstrap the Open Cluster Management control plane (.i.e the hub cluster):
+1. Bootstrap the Open Cluster Management control plane (i.e. the hub cluster):
 
    ```shell
-   # By default it installs latest release of OCM components.
+   # By default, it installs the latest release of the OCM components.
    # Use e.g. "--bundle-version=latest" to install latest development builds.
    clusteradm init --wait --context ${CTX_HUB_CLUSTER}
    ```
-   
-   By this command, `clusteradm` is helping you to install a [registration-operator](https://github.com/open-cluster-management-io/registration-operator)
-   into your hub cluster which is responsible for consistently installing 
-   and upgrading a few core components for your OCM environment.
-   
-   After the `init` command finishes, there's supposed to be a command generated 
-   on your console for you to move ahead registering your managed clusters. A 
-   sample of the generated command will be:
-   
+
+   The `clusteradm init` command installs the
+   [registration-operator](https://github.com/open-cluster-management-io/registration-operator)
+   on the hub cluster, which is responsible for consistently installing
+   and upgrading a few core components for the OCM environment.
+
+   After the `init` command completes, a generated command is output on the console to
+   register your managed clusters. An example of the generated command is shown below.
+
    ```shell
    # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
    clusteradm join \
@@ -122,10 +120,10 @@ steps:
         --wait \
         --cluster-name <cluster_name>
    ```
-   
-   It's recommended to save the command somewhere in your workstation for 
-   future use. If it's lost, you can use `clusteradm get token` to get the command again.
-   
+
+   It's recommended to save the command somewhere secure for future use. If it's lost, you can use
+   `clusteradm get token` to get the generated command again.
+
 2. Then you can check out the running instances of registration operator by:
 
    ```shell
@@ -133,7 +131,7 @@ steps:
    NAME                               READY   STATUS    RESTARTS   AGE
    cluster-manager-695d945d4d-5dn8k   1/1     Running   0          19d
    ```
-   
+
    Additionally, to check out the instances of OCM's hub control plane, run
    the following command:
 
@@ -146,9 +144,8 @@ steps:
    cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   0          19d
    ...
    ```
-   
-   The overall installation information is visible in the custom resource 
-   named `clustermanager`:
+
+   The overall installation information is visible on the `clustermanager` custom resource:
 
    ```shell
    kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
@@ -156,14 +153,14 @@ steps:
 
 ### Deploy a klusterlet agent on your managed cluster
 
-After all the pods of hub components get running, now your hub cluster is
+Once all the pods of the hub components are running, your hub cluster is
 all set. Let's move on to register your managed cluster into OCM.
-   
+
 1. Run the previously generated command from `init`. Note that you're supposed
-   to explicitly pass `--context` option if your managed cluster is created by
-   KinD because its kubeconfig are persisted in the same kubeconfig file of 
+   to explicitly pass the `--context` option if your managed cluster is created by
+   KinD because its kubeconfig is persisted in the same kubeconfig file of
    the hub cluster.
-   
+
    ```shell
    # NOTE: Switch kubeconfig to the managed cluster.
    # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
@@ -174,57 +171,55 @@ all set. Let's move on to register your managed cluster into OCM.
         --wait \
         --cluster-name "cluster1"    # Or other arbitrary unique name
    ```
-   
-2. Verify the installation of klusterlet registration agent in your managed clusters by:
+
+2. Verify the installation of the klusterlet registration agent in your managed clusters by running:
 
    ```shell
    kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
    NAME                                             READY   STATUS    RESTARTS   AGE
    klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
    ```
-   
-   Similar to `clustermanager`, the overall installation information is prescribed
-   by another custom resource called "klusterlet" which is only installed in your 
-   managed cluster:
-   
+
+   Similar to `clustermanager`, the overall installation information is described
+   by another custom resource called `klusterlet`, which is only installed on the
+   managed clusters. You may view this information by running:
+
    ```shell
    kubectl get klusterlet klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
    ```
 
-### Accept join request and verify
+### Accept the join request and verify
 
-After the OCM agent get deployed in your managed cluster gets running, it will 
-be sending a "handshake" to your hub cluster waiting for approvals from hub 
-cluster admin to manage the cluster for you. So in the next we will walk through 
-the steps of permitting the registration requests from the prespective of a 
-OCM's hub admin:
+After the OCM agent is running on your managed cluster, it will be sending a "handshake" to your
+hub cluster and waiting for an approval from the hub cluster admin. In this section, we will walk
+through accepting the registration requests from the prespective of an OCM's hub admin.
 
-1. Wait for the creation of CSR resources which will be created by your managed 
-   clusters' OCM agents into your hub cluster:
+1. Wait for the creation of the CSR object which will be created by your managed
+   clusters' OCM agents on the hub cluster:
 
    ```Shell
-   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1
+   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1  # or the previously chosen cluster name
    ```
 
-   A sample of pending CSR request will be:
+   An example of a pending CSR request is shown below:
 
    ```Shell
    cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
    ```
 
-2. Accept the join request using your `clusteradm` tool:
+2. Accept the join request using the `clusteradm` tool:
 
    ```Shell
    clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
    ```
-   
-   After running the `accept` command, the CSR from your managed cluster
-   named "cluster1" will be approved, and additionally it will prescribe
-   the OCM hub control plane to setup related resources (such as a namespace
-   named "cluster1" in the hub cluster) and RBAC permissions automatically
-   for you.
 
-3. Verify the installation of OCM agents in your managed clusters by:
+   After running the `accept` command, the CSR from your managed cluster
+   named "cluster1" will be approved. Additionally, it will instruct
+   the OCM hub control plane to setup related objects (such as a namespace
+   named "cluster1" in the hub cluster) and RBAC permissions automatically.
+
+3. Verify the installation of the OCM agents on your managed cluster by running:
+
    ```shell
    kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
    NAME                                             READY   STATUS    RESTARTS   AGE
@@ -232,13 +227,13 @@ OCM's hub admin:
    klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
    ```
 
-4. Verify `managedcluster` has been created successfully:
+4. Verify that the `cluster1` `ManagedCluster` object was created successfully by running:
 
    ```Shell
    kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
    ```
 
-   Then you will get a result resembling the following:
+   Then you should get a result that resembles the following:
 
    ```Shell
    NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
