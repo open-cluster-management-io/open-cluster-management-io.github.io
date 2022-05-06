@@ -3,14 +3,181 @@ title: Policy framework
 weight: 10
 ---
 
-The policy framework provides governance capability to gain visibility, and drive remediation for
-various security and configuration aspects to help IT administrators meet their requirements.
+The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies
+provide visibility and drive remediation for various security and configuration aspects to help IT
+administrators meet their requirements.
 
 <!-- spellchecker-disable -->
 
 {{< toc >}}
 
 <!-- spellchecker-enable -->
+
+## API Concepts
+
+### Overview
+
+The policy framework has the following API concepts:
+
+- *Policy Templates* are the policies that perform a desired check or action. For example,
+  [ConfigurationPolicy](/getting-started/integration/policy-controllers#install-the-configuration-policy-controller)
+  objects are embedded in `Policy` objects under the `policy-templates` array. These cannot be
+  deployed to managed clusters on their own.
+- A [`Policy`](#policy) is a grouping mechanism for *Policy Templates* and is the smallest
+  deployable unit on the hub cluster. Embedded *Policy Templates* are distributed to applicable
+  managed clusters and acted upon by the appropriate
+  [policy controller](/getting-started/integration/policy-controllers).
+- A [`PolicySet`](#policyset) is a grouping mechanism of `Policy` objects. Compliance of all grouped
+  `Policy` objects is summarized in the `PolicySet`. A `PolicySet` is a deployable unit and its
+  distribution is controlled by a [Placement](/concepts/placement).
+- A [`PlacementBinding`](#placementbinding) binds a [Placement](/concepts/placement) to a
+  `Policy` or `PolicySet`.
+
+### Policy
+
+A `Policy` is a grouping mechanism for *Policy Templates* and is the smallest deployable unit on the
+hub cluster. Embedded *Policy Templates* are distributed to applicable managed clusters and acted
+upon by the appropriate [policy controller](/getting-started/integration/policy-controllers).
+The compliance state and status of a `Policy` represents all embedded *Policy Templates* in the
+`Policy`. The distribution of `Policy` objects is controlled by a [Placement](/concepts/placement).
+
+View a simple example of a `Policy` that embeds a `ConfigurationPolicy` policy template to manage
+a namespace called "prod".
+
+```yaml
+apiVersion: policy.open-cluster-management.io/v1
+kind: Policy
+metadata:
+  name: policy-namespace
+  namespace: policies
+  annotations:
+    policy.open-cluster-management.io/standards: NIST SP 800-53
+    policy.open-cluster-management.io/categories: CM Configuration Management
+    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
+spec:
+  remediationAction: enforce
+  disabled: false
+  policy-templates:
+    - objectDefinition:
+        apiVersion: policy.open-cluster-management.io/v1
+        kind: ConfigurationPolicy
+        metadata:
+          name: policy-namespace-example
+        spec:
+          remediationAction: inform
+          severity: low
+          object-templates:
+            - complianceType: MustHave
+              objectDefinition:
+                kind: Namespace # must have namespace 'prod'
+                apiVersion: v1
+                metadata:
+                  name: prod
+```
+
+At first, you may notice the `annotations`. These are standard
+annotations that are for informational purposes and can be used by user interfaces, custom report
+scripts, or components that integrate with OCM.
+
+Next, you may notice the optional `spec.remediationAction` field. This dictates if the policy
+controller should `inform` or `enforce` when violations are found and overrides the
+`remediationAction` field on each policy template. When set to `inform`, the `Policy` will become
+noncompliant if the underlying policy templates detect that the desired state is not met. When set
+to `enforce`, the policy controller applies the desired state when necessary and feasible.
+
+The `policy-templates` array contains a single `ConfigurationPolicy` called
+`policy-namespace-example`. This `ConfigurationPolicy` has the `remediationAction` set to `inform`
+but it is overridden by the optional global `spec.remediationAction`. The `severity` is for
+informational purposes similar to the `annotations`.
+
+The most interesting part is the `object-templates` section under the embedded `ConfigurationPolicy`.
+This describes the `prod` `Namespace` object that the `Policy` applies to. The action that the
+`ConfigurationPolicy` will take is determined by the `complianceType`. In this case, it is set to
+`MustHave` which means the `prod` `Namespace` object will be created if it doesn't exist. Other
+compliance types include `MustNotHave` and `MustOnlyHave`. `MustNotHave` would delete the `prod`
+`Namespace` object. `MustOnlyHave` would ensure the `prod` `Namespace` object only exists with the
+fields defined in the `ConfigurationPolicy`.
+
+When the `Policy` is bound to a [`Placement`](/concepts/placement), the `Policy` status will
+report on each cluster that matched the bound `Placement`:
+
+```yaml
+status:
+  compliant: Compliant
+  placement:
+    - placement: placement-hub-cluster
+      placementBinding: binding-policy-namespace
+  status:
+    - clustername: local-cluster
+      clusternamespace: local-cluster
+      compliant: Compliant
+```
+
+To fully explore the `Policy` API, run the following command:
+
+```shell
+kubectl get crd policies.policy.open-cluster-management.io -o yaml 
+```
+
+To fully explore the `ConfigurationPolicy` API, run the following command:
+
+```shell
+kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml 
+```
+
+### PlacementBinding
+
+A `PlacementBinding` binds a [Placement](/concepts/placement) to a [`Policy`](#policy) or
+`PolicySet`.
+
+Below is an example of a `PlacementBinding` that binds the `policy-namespace` `Policy` to the
+`placement-hub-cluster` `Placement`.
+
+```yaml
+apiVersion: policy.open-cluster-management.io/v1
+kind: PlacementBinding
+metadata:
+  name: binding-policy-namespace
+  namespace: policies
+placementRef:
+  apiGroup: cluster.open-cluster-management.io
+  kind: Placement
+  name: placement-hub-cluster
+subjects:
+- apiGroup: policy.open-cluster-management.io
+  kind: Policy
+  name: policy-namespace
+```
+
+Once the `Policy` is bound, it will be distributed to and acted upon by the managed clusters that
+match the `Placement`.
+
+### PolicySet
+
+A `PolicySet` is a grouping mechanism of [`Policy`](#policy) objects. Compliance of all grouped
+`Policy` objects is summarized in the `PolicySet`. A `PolicySet` is a deployable unit and its
+distribution is controlled by a [Placement](/concepts/placement) when bound through a
+[`PlacementBinding`](#placementbinding).
+
+This enables a workflow where subject matter experts write `Policy` objects and then an IT
+administrator creates a `PolicySet` that groups the previously written `Policy` objects and binds
+the `PolicySet` to a `Placement` that deploys the `PolicySet`.
+
+An example of a `PolicySet` is shown below.
+
+```yaml
+apiVersion: policy.open-cluster-management.io/v1beta1
+kind: PolicySet
+metadata:
+  name: acm-hardening
+  namespace: policies
+spec:
+  description: Apply standard best practices for hardening your Open Cluster Management installation.
+  policies:
+    - policy-check-backups
+    - policy-managedclusteraddon-available
+    - policy-subscriptions
+```
 
 ## Architecture
 
