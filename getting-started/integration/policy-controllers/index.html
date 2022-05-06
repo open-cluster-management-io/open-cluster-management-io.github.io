@@ -233,7 +233,6 @@
             <li><a href="#final-steps-to-apply-the-policy">Final steps to apply the policy</a></li>
           </ul>
         </li>
-        <li><a href="#more-policies">More policies</a></li>
       </ul></nav><hr></div>
 
 
@@ -251,7 +250,7 @@ the source.</p>
 </li>
 <li>
 <p>Ensure the <code>open-cluster-management</code> <em>policy framework</em> is installed. See
-<a href="../policy-framework">Policy Framework</a> for more information.</p>
+<a href="/getting-started/integration/policy-framework">Policy Framework</a> for more information.</p>
 </li>
 </ul>
 <h2 id="install-the-configuration-policy-controller">Install the configuration policy controller</h2>
@@ -295,6 +294,8 @@ sample policy. You can use a policy that includes a <code>Placement</code> mappi
 Application management&rsquo;s <code>PlacementRule</code> support you can use either placement implementation.
 Perform the steps in the <strong>Placement API</strong> or the <strong>Placement Rule API</strong> section based on which
 placement API you desire to use.</p>
+<p>For more information on how to use a <code>ConfigurationPolicy</code>, read the
+<a href="/getting-started/integration/policy-framework#policy"><code>Policy</code> API concept section</a>.</p>
 <h3 id="placement-api">Placement API</h3>
 <ol>
 <li>
@@ -313,7 +314,7 @@ kubectl apply -n default -f https://raw.githubusercontent.com/gparvin/my-policie
 <li>
 <p>Make sure the <code>default</code> namespace has a <code>ManagedClusterSetBinding</code> for a <code>ManagedClusterSet</code> with
 at least one managed cluster resource in the <code>ManagedClusterSet</code>. See
-<a href="../../../concepts/managedclusterset#bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</a>
+<a href="/concepts/managedclusterset#bind-managedclusterset-to-a-namespace">Bind ManagedClusterSet to a namespace</a>
 for more information on this.</p>
 </li>
 <li>
@@ -382,10 +383,6 @@ NAME               READY   STATUS    RESTARTS   AGE
 sample-nginx-pod   1/1     Running   <span style="color:#ae81ff">0</span>          23s
 </code></pre></div></li>
 </ol>
-<h2 id="more-policies">More policies</h2>
-<p>You can find more policies or contribute to the open policy repository,
-<a href="https://github.com/open-cluster-management/policy-collection">policy-collection</a>. Note that these
-policies all use the Application management <code>PlacementRule</code> API.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
