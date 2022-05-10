@@ -31,6 +31,11 @@ Complete the following procedure to install the configuration policy controller:
 1. Deploy the `config-policy-controller` to the managed cluster with the following commands:
 
    ```Shell
+   # The context name of the clusters in your kubeconfig
+   # If the clusters are created by KinD, then the context name will the follow the pattern "kind-<cluster name>".
+   export CTX_HUB_CLUSTER=<your hub cluster context>           # export CTX_HUB_CLUSTER=kind-hub
+   export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED_CLUSTER=kind-cluster1
+
    # Configure kubectl to point to the managed cluster
    kubectl config use-context ${CTX_MANAGED_CLUSTER}
 
@@ -42,6 +47,9 @@ Complete the following procedure to install the configuration policy controller:
    export COMPONENT="config-policy-controller"
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/main/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_configurationpolicies.yaml
+
+   # Set the managed cluster name
+   export MANAGED_CLUSTER_NAME=<your managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
 
    # Deploy the controller
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${MANAGED_NAMESPACE}
