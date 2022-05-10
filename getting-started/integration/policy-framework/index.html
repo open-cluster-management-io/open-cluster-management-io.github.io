@@ -427,6 +427,15 @@ more details see the
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the hub cluster</span>
 kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 
+<span style="color:#75715e"># Set the deployment namespace</span>
+export HUB_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;open-cluster-management&#34;</span>
+
+<span style="color:#75715e"># Set the hub cluster name</span>
+export HUB_CLUSTER_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hub&#34;</span>
+
+<span style="color:#75715e"># Set the hub kubeconfig file</span>
+export HUB_KUBECONFIG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hub-kubeconfig&#34;</span>
+
 <span style="color:#75715e"># Deploy the policy framework hub controllers</span>
 clusteradm install hub-addon --names policy-framework
 </code></pre></div><h3 id="install-from-source">Install from source</h3>
@@ -438,6 +447,12 @@ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<
 <span style="color:#75715e"># Create the namespace</span>
 export HUB_NAMESPACE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;open-cluster-management&#34;</span>
 kubectl create ns <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># Set the hub cluster name</span>
+export HUB_CLUSTER_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hub&#34;</span>
+
+<span style="color:#75715e"># Set the hub kubeconfig file</span>
+export HUB_KUBECONFIG<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;hub-kubeconfig&#34;</span>
 
 <span style="color:#75715e"># Apply the CRDs</span>
 export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/main/deploy&#34;</span>
