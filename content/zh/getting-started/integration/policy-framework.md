@@ -223,7 +223,7 @@ You must meet the following prerequisites to install the policy framework:
 
 ### Install via Clusteradm CLI
 
-Ensure `clusteradm` CLI is installed. Download and extract the
+Ensure `clusteradm` CLI is installed and is newer than v0.2.0. Download and extract the
 [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For
 more details see the
 [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
