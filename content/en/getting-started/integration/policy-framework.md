@@ -231,6 +231,11 @@ more details see the
 Deploy the policy framework controllers to the hub cluster:
 
 ```Shell
+# The context name of the clusters in your kubeconfig
+# If the clusters are created by KinD, then the context name will the follow the pattern "kind-<cluster name>".
+export CTX_HUB_CLUSTER=<your hub cluster context>           # export CTX_HUB_CLUSTER=kind-hub
+export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED_CLUSTER=kind-cluster1
+
 # Configure kubectl to point to the hub cluster
 kubectl config use-context ${CTX_HUB_CLUSTER}
 
@@ -327,7 +332,7 @@ governance-policy-propagator-8c77f7f5f-kthvh   1/1     Running   0          94s
    kubectl apply -f ${GIT_PATH}/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
    # Set the managed cluster name and create the namespace
-   export MANAGED_CLUSTER_NAME=cluster1
+   export MANAGED_CLUSTER_NAME=<your managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
    kubectl create ns ${MANAGED_CLUSTER_NAME}
 
    # Deploy the spec synchronization component
