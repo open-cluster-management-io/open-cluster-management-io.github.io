@@ -424,7 +424,12 @@ you do need to install the <code>PlacementRule</code> CRD with this command:</p>
 more details see the
 <a href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
 <p>Deploy the policy framework controllers to the hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the hub cluster</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># The context name of the clusters in your kubeconfig</span>
+<span style="color:#75715e"># If the clusters are created by KinD, then the context name will the follow the pattern &#34;kind-&lt;cluster name&gt;&#34;.</span>
+export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
+export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;   <span style="color:#75715e"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
+
+<span style="color:#75715e"># Configure kubectl to point to the hub cluster</span>
 kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 
 <span style="color:#75715e"># Set the deployment namespace</span>
@@ -503,7 +508,7 @@ export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/governance-policy-propagator/main/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
 <span style="color:#75715e"># Set the managed cluster name and create the namespace</span>
-export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>cluster1
+export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your managed cluster name&gt;  <span style="color:#75715e"># export MANAGED_CLUSTER_NAME=cluster1</span>
 kubectl create ns <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
 
 <span style="color:#75715e"># Deploy the spec synchronization component</span>

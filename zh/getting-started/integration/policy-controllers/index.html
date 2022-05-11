@@ -262,7 +262,12 @@ the source.</p>
 <ol>
 <li>
 <p>Deploy the <code>config-policy-controller</code> to the managed cluster with the following commands:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Configure kubectl to point to the managed cluster</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># The context name of the clusters in your kubeconfig</span>
+<span style="color:#75715e"># If the clusters are created by KinD, then the context name will the follow the pattern &#34;kind-&lt;cluster name&gt;&#34;.</span>
+export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
+export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;   <span style="color:#75715e"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
+
+<span style="color:#75715e"># Configure kubectl to point to the managed cluster</span>
 kubectl config use-context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 
 <span style="color:#75715e"># Create the namespace for the controller</span>
@@ -273,6 +278,9 @@ kubectl create ns <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span st
 export COMPONENT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;config-policy-controller&#34;</span>
 export GIT_PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://raw.githubusercontent.com/open-cluster-management-io/</span><span style="color:#e6db74">${</span>COMPONENT<span style="color:#e6db74">}</span><span style="color:#e6db74">/main/deploy&#34;</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/crds/policy.open-cluster-management.io_configurationpolicies.yaml
+
+<span style="color:#75715e"># Set the managed cluster name</span>
+export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your managed cluster name&gt;  <span style="color:#75715e"># export MANAGED_CLUSTER_NAME=cluster1</span>
 
 <span style="color:#75715e"># Deploy the controller</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/operator.yaml -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
