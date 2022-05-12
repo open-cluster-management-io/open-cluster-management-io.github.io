@@ -24,9 +24,32 @@ You must meet the following prerequisites to install the policy controllers:
 - Ensure the `open-cluster-management` _policy framework_ is installed. See
   [Policy Framework](/getting-started/integration/policy-framework) for more information.
 
-## Install the configuration policy controller
+## Install the configuration policy controller to the managed cluster(s)
 
-Complete the following procedure to install the configuration policy controller:
+### Deploy via Clusteradm CLI
+
+Ensure `clusteradm` CLI is installed and is newer than v0.3.0. Download and extract the
+[clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For
+more details see the
+[clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
+
+1. Deploy the configuration policy controller to the managed cluster(s) (this command is the same
+   for a self-managed hub):
+
+   ```Shell
+   # Deploy the configuration policy controller
+   clusteradm addon enable addon --names config-policy-controller --clusters <cluster_name> --context ${CTX_MANAGED_CLUSTER}
+   ```
+
+2. Ensure the pod is running on the managed cluster with the following command:
+
+   ```Shell
+   $ kubectl get pods -n open-cluster-management-agent-addon
+   NAME                                               READY   STATUS    RESTARTS   AGE
+   config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   0          44s
+   ```
+
+### Deploy from source
 
 1. Deploy the `config-policy-controller` to the managed cluster with the following commands:
 
@@ -65,9 +88,7 @@ Complete the following procedure to install the configuration policy controller:
    ```Shell
    $ kubectl get pods -n ${MANAGED_NAMESPACE}
    NAME                                               READY   STATUS    RESTARTS   AGE
-   ...
    config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   0          44s
-   ...
    ```
 
 ## What is next
