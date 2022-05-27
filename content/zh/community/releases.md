@@ -7,7 +7,7 @@ Open Cluster Management has approximately a three to four month release cycle. T
 
 ## `v0.7.0`, on 6th, April 2022
 
-The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in `clusteradm`. Notable changes including: 
+The Open Cluster Management team is excited to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in `clusteradm`. Notable changes including: 
 
  - APIs including `placement`, `placementdecision`, `managedclusterset` and `managedclustersetbinding` are upgraded to `v1beta1`, `v1alpha1` version of these APIs are deprecated and will be removed in the next release.
  - User can now use `clusteradm` to:
@@ -72,7 +72,7 @@ There are 20+ contributors making contributions in this release, they are @champ
 
 ## `v0.5.0`, on 8th, November 2021
 
-Open Cluster Management team is proud to annouce the release of OCM v0.5.0! We made several enhancements on APIs
+Open Cluster Management team is proud to announce the release of OCM v0.5.0! We made several enhancements on APIs
 and addons which include:
 
 - [Support deleteOption in ManifestWork.](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/10-deletepropagationstrategy)
@@ -90,7 +90,7 @@ To see details of the changelogs in this release:
 - placement v0.2.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.2.0/CHANGELOG/CHANGELOG-v0.2.md)
 - addon-framework v0.1.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.1.0/CHANGELOG/CHANGELOG-v0.1.md)
 - registration-operator v0.5.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.5.0/CHANGELOG/CHANGELOG-v0.5.md)
-- multicloud-operators-subscription v0.5.0 [chagelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/blob/v0.5.0/CHANGELOG/CHANGELOG-v0.5.md)
+- multicloud-operators-subscription v0.5.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/blob/v0.5.0/CHANGELOG/CHANGELOG-v0.5.md)
 
 There are about 20+ contributors making contributions in this release, they are @haoqing0110, @hchenxa, @huiwq1990, @itdove, @kim-fitness, @mikeshng, @elgnay, @panpan0000, @philipwu08, @porridge, @qiujian16, @rokej, @skeeey, @suigh, @vincent-pli, @wzhanw, @xauthulei, @xiangjingli, @xuezhaojun, @yue9944882, @zhujian7, @zhiweiyin318. Thanks for your contributions!
 
