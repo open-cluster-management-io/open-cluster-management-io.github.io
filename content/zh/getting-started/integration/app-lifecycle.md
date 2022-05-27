@@ -61,7 +61,7 @@ Deploy the subscription add-on in corresponding managed cluster namespace on the
 
 ```Shell
 $ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm addon enable --name application-manager --cluster ${MANAGED_CLUSTER_NAME}
+$ clusteradm addon enable --names application-manager --clusters ${MANAGED_CLUSTER_NAME}
 Deploying application-manager add-on to managed cluster: <managed_cluster_name>.
 $ kubectl -n ${MANAGED_CLUSTER_NAME} get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
 NAME                  AVAILABLE   DEGRADED   PROGRESSING
