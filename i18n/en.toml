@@ -88,6 +88,9 @@ other = "Placement"
 [sidebar_addons]
 other = "Add-ons"
 
+[sidebar_policy]
+other = "Policy"
+
 [sidebar_getting_started]
 other = "Getting Started"
 
