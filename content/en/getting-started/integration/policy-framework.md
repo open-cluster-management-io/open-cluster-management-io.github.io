@@ -179,6 +179,99 @@ spec:
     - policy-subscriptions
 ```
 
+### Policy Templates
+
+Configuration policies support the inclusion of Golang text templates in the object 
+definitions. These templates are resolved at runtime either on the hub cluster or the 
+target managed cluster using configurations related to that cluster. This gives you the 
+ability to define configuration policies with dynamic content and to inform or enforce Kubernetes 
+resources that are customized to the target cluster.
+
+The template syntax must follow the Golang template language specification, 
+and the resource definition generated from the resolved template must be a valid YAML. 
+(See the [Golang documentation about package templates](https://golang.org/pkg/text/template/) 
+for more information.) Any errors in template validation appear as policy violations. 
+When you use a custom template function, the values are replaced at runtime.
+
+Template functions, such as resource-specific and generic `lookup` template functions, are 
+available for referencing Kubernetes resources on the cluster. The resource-specific functions 
+are used for convenience and makes content of the resources more accessible. In addition to these 
+functions, utility functions like `base64encode`, `base64decode`, `indent`, `autoindent`, `toInt`, 
+`toBool`, and more are also available.
+
+To conform templates to YAML syntax, templates must be set in the policy resource as 
+strings using quotes or a block character (`|` or `>`). This causes the resolved template value 
+to also be a string. To override this, consider using `toInt` or `toBool` as the final function 
+in the template to initiate further processing that forces the value to be interpreted 
+as an integer, or boolean.
+
+To bypass template processing you can either:
+- Override a single template by wrapping the template in additional braces. For example, the 
+  template `{{ template content }}` would become `{{ '{{ template content }}' }}`.
+- Override all templates in a `ConfigurationPolicy` by adding the 
+  `policy.open-cluster-management.io/disable-templates: "true"` annotation in the 
+  `ConfigurationPolicy` section of your `Policy`. Template processing will be bypassed for 
+  that `ConfigurationPolicy`.
+
+#### Hub cluster templates
+
+Hub cluster templates are used to define configuration policies that are dynamically 
+customized to the target cluster. This reduces the need to create separate policies 
+for each target cluster or hardcode configuration values in the policy definitions. 
+
+Hub cluster templates are based on Golang text template specifications, and the `{{hub … hub}}` 
+delimiter indicates a hub cluster template in a configuration policy.
+
+A configuration policy definition can contain both hub cluster and managed cluster 
+templates. Hub cluster templates are processed first on the hub cluster, then the policy 
+definition with resolved hub cluster templates is propagated to the target clusters. 
+On the managed cluster, the Configuration Policy controller processes any managed cluster 
+templates in the policy definition and then enforces or verifies the fully resolved object 
+definition.
+
+Policies are processed on the hub cluster only upon creation or after an update. Therefore, 
+hub cluster templates are only resolved to the data in the referenced resources upon policy 
+creation or update. Any changes to the referenced resources are not automatically synced 
+to the policies. 
+
+A special annotation, `policy.open-cluster-management.io/trigger-update` can be used to 
+indicate changes to the data referenced by the templates. Any change to the special annotation 
+value initiates template processing, and the latest contents of the referenced resource are 
+read and updated in the policy definition that is the propagator for processing on managed 
+clusters. A typical way to use this annotation is to increment the value by one each time.
+
+
+#### Template encryption details
+
+The encryption algorithm uses AES-CBC with 256-bit keys. Each encryption key is unique per 
+managed cluster and is automatically rotated every 30 days. This ensures that your decrypted 
+value is never stored in the policy on the managed cluster.
+
+To force an immediate encryption key rotation, delete the 
+`policy.open-cluster-management.io/last-rotated` annotation on the `policy-encryption-key` 
+Secret in the managed cluster namespace on the hub cluster. Policies are then reprocessed to 
+use the new encryption key.
+
+
+#### Template functions
+
+| Function | Description | Sample |
+| -------- | ----------- | ------ |
+| `fromSecret` | Returns the value of the given data key in the secret. | `PASSWORD: '{{ fromSecret "default" "localsecret" "PASSWORD" }}'` |
+| `fromConfigmap` | Returns the value of the given data key in the ConfigMap. | `log-file: '{{ fromConfigMap "default" "logs-config" "log-file" }}'` |
+| `fromClusterClaim` | Returns the value of `spec.value` in the `ClusterClaim` resource. | `platform: '{{ fromClusterClaim "platform.open-cluster-management.io" }}'` |
+| `lookup` | Returns the Kubernetes resource as a JSON compatible map. Note that if the requested resource does not exist, an empty map is returned. | `metrics-url: \|`<br />`http://{{ (lookup "v1" "Service" "default" "metrics").spec.clusterIP }}:8080` |
+| `base64enc` | Returns a `base64` encoded value of the input string. | `USER_NAME: '{{ fromConfigMap "default" "myconfigmap" "admin-user" \| base64enc }}'` |
+| `base64dec` | Returns a `base64` decoded value of the input string. | `app-name: \|`<br />`"{{ ( lookup "v1"  "Secret" "testns" "mytestsecret") .data.appname ) \| base64dec }}"` |
+| `indent` | Returns the input string indented by the given number of spaces. | `Ca-cert:  \|`<br />`{{ ( index ( lookup "v1" "Secret" "default" "mycert-tls"  ).data  "ca.pem"  ) \|  base64dec \| indent 4  }}` |
+| `autoindent` | Acts like the `indent` function but automatically determines the number of leading spaces needed based on the number of spaces before the template. | `Ca-cert:  \|`<br />`{{ ( index ( lookup "v1" "Secret" "default" "mycert-tls"  ).data  "ca.pem"  ) \|  base64dec \| autoindent }}` |
+| `toInt` | Returns the integer value of the string and ensures that the value is interpreted as an integer in the YAML. | `vlanid:  \|`<br />`{{ (fromConfigMap "site-config" "site1" "vlan")  \| toInt }}` |
+| `toBool` | Returns the boolean value of the input string and ensures that the value is interpreted as a boolean in the YAML. | `enabled:  \|`<br />`{{ (fromConfigMap "site-config" "site1" "enabled")  \| toBool }}` |
+| `protect` | Encrypts the input string. It is decrypted when the policy is evaluated. On the replicated policy in the managed cluster namespace, the resulting value might resemble the following: `$ocm_encrypted:okrrBqt72oI+3WT/0vxeI3vGa+wpLD7Z0ZxFMLvL204=` | `enabled: \|`<br />`{{hub "(lookup "route.openshift.io/v1" "Route" "openshift-authentication" "oauth-openshift").spec.host \| protect hub}}` |
+
+
+
+
 ## Architecture
 
 <div style="text-align: center; padding: 20px;">
