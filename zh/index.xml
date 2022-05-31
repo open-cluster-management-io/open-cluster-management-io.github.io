@@ -165,6 +165,16 @@ Prerequisite You must meet the following prerequisites to install the applicatio
     </item>
     
     <item>
+      <title>Policy</title>
+      <link>http://open-cluster-management.io/zh/concepts/policy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/policy/</guid>
+      <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
+ Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+    </item>
+    
+    <item>
       <title>多集群网络隧道</title>
       <link>http://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -190,7 +200,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-   API Concepts  Overview Policy PlacementBinding PolicySet   Architecture Prerequisite Install the policy-framework hub components  Install via Clusteradm CLI Install from source   Verify the installation Deploy the synchronization components to the managed cluster(s) What is next     API Concepts Overview The policy framework has the following API concepts:</description>
+   API Concepts Architecture Prerequisite Install the policy-framework hub components  Install via Clusteradm CLI Install from source   Verify the installation Deploy the synchronization components to the managed cluster(s) What is next     API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:</description>
     </item>
     
     <item>

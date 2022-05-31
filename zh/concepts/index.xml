@@ -68,5 +68,15 @@
  A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters. A tool to spread security policies to multiple clusters.</description>
     </item>
     
+    <item>
+      <title>Policy</title>
+      <link>http://open-cluster-management.io/zh/concepts/policy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/zh/concepts/policy/</guid>
+      <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
+ Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+    </item>
+    
   </channel>
 </rss>

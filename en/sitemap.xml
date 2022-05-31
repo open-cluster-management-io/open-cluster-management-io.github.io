@@ -102,6 +102,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/concepts/policy</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/blog</loc>
     </url>
     
@@ -135,6 +139,10 @@
     
     <url>
         <loc>http://open-cluster-management.io/config-policy-controller</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/governance-policy-addon-controller</loc>
     </url>
     
     <url>

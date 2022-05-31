@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"/>
+  <link rel="stylesheet" href="/main.css"/>
+  <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
+  <title>Open Cluster Management</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1PXKZXT157"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1PXKZXT157');
+  </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+    
+
+
+<input id="current-lang" type="hidden" value="zh">
+
+<header class="navbar navbar-expand-md navbar-dark bd-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
+    <div class="container-fluid flex-wrap flex-md-nowrap">
+      <a href="/zh/" class="navbar-brand">
+        <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
+        Open Cluster Management
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto ">
+          <li class="nav-item pe-2">
+            <a href="/zh/community" class="nav-link text-light">社区</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/contribute" class="nav-link text-light">贡献</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/concepts" class="nav-link text-light">文档</a>
+          </li>
+          <li class="nav-item dropdown pe-2">
+            
+            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
+            
+
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+              <li><a class="dropdown-item" href="#" id="to-en">English</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank">
+                <i class="bi bi-youtube"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+              <i class="bi bi-slack"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+</div>
+        <div class="row subject-padding">
+            <div class="col-2 col-md-3 padding-none sidebar-bgc">
+
+
+
+    
+
+
+<div class="sidebar-toggle sidebar-toggle-sm">
+    <button type="button" id="sidebarToggle" class="btn btn-info">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+<nav id="sidebar" class="sidebar-hide-sm">
+    <ul class="components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">架构</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">托管集群</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">资源下发</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedclusterset">托管集群分组</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">匹配路由</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">自定义插件</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/policy">Policy</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">中枢控制器</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/register-cluster">集群代理控制器</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">应用生命周期管理</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/cluster-proxy">多集群网络隧道</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy框架</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy控制器</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/managed-serviceaccount">托管多集群ServiceAccount</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/administration">运维管理</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/administration/upgrading">升级版本</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">部署Kubernetes资源</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/extending-managed-clusters">扩展集群模型</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/pushing-kube-api-requests">向托管集群推送Kube API请求</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">发行版本</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">社区规划</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+        <li style="padding-top: 10px; border-top: 2px solid #448a78;">
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io" target="_blank"><i class="bi bi-github"></i><span style="padding-left: 10px;">GitHub</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://kubernetes.slack.com/archives/C01GE7YSUUF" target="_blank"><i class="bi bi-slack"></i><span style="padding-left: 10px;">Slack</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://www.youtube.com/channel/UC7xxOh2jBM5Jfwt3fsBzOZw" target="_blank"><i class="bi bi-youtube"></i><span style="padding-left: 10px;">YouTube</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://groups.google.com/g/open-cluster-management" target="_blank"><i class="bi bi-envelope-fill"></i><span style="padding-left: 10px;">Mailing group</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://calendar.google.com/calendar/u/0/embed?src=openclustermanagement@gmail.com" target="_blank"><i class="bi bi-calendar-event-fill"></i><span style="padding-left: 10px;">Community meetings</span></a>
+        </li>
+    </ul>
+</nav>
+<script type="text/javascript" src="/sidebar.js"></script>
+</div>
+            <div class="col-10 col-md-9 padding-none">
+<div id="content">
+    <h1>Policy</h1>
+    <!-- spellchecker-disable -->
+
+
+
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#policy">Policy</a></li>
+        <li><a href="#placementbinding">PlacementBinding</a></li>
+        <li><a href="#policyset">PolicySet</a></li>
+        <li><a href="#policy-templates">Policy Templates</a>
+          <ul>
+            <li><a href="#hub-cluster-templates">Hub cluster templates</a></li>
+            <li><a href="#template-encryption-details">Template encryption details</a></li>
+            <li><a href="#template-functions">Template functions</a></li>
+          </ul>
+        </li>
+      </ul></nav><hr></div>
+
+
+<!-- spellchecker-enable -->
+<h2 id="overview">Overview</h2>
+<p>The policy framework has the following API concepts:</p>
+<ul>
+<li><em>Policy Templates</em> are the policies that perform a desired check or action. For example,
+<a href="/getting-started/integration/policy-controllers#install-the-configuration-policy-controller">ConfigurationPolicy</a>
+objects are embedded in <code>Policy</code> objects under the <code>policy-templates</code> array. These cannot be
+deployed to managed clusters on their own.</li>
+<li>A <a href="#policy"><code>Policy</code></a> is a grouping mechanism for <em>Policy Templates</em> and is the smallest
+deployable unit on the hub cluster. Embedded <em>Policy Templates</em> are distributed to applicable
+managed clusters and acted upon by the appropriate
+<a href="/getting-started/integration/policy-controllers">policy controller</a>.</li>
+<li>A <a href="#policyset"><code>PolicySet</code></a> is a grouping mechanism of <code>Policy</code> objects. Compliance of all grouped
+<code>Policy</code> objects is summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its
+distribution is controlled by a <a href="/concepts/placement">Placement</a>.</li>
+<li>A <a href="#placementbinding"><code>PlacementBinding</code></a> binds a <a href="/concepts/placement">Placement</a> to a <code>Policy</code>
+or <code>PolicySet</code>.</li>
+</ul>
+<h2 id="policy">Policy</h2>
+<p>A <code>Policy</code> is a grouping mechanism for <em>Policy Templates</em> and is the smallest deployable unit on the
+hub cluster. Embedded <em>Policy Templates</em> are distributed to applicable managed clusters and acted
+upon by the appropriate <a href="/getting-started/integration/policy-controllers">policy controller</a>. The
+compliance state and status of a <code>Policy</code> represents all embedded <em>Policy Templates</em> in the
+<code>Policy</code>. The distribution of <code>Policy</code> objects is controlled by a <a href="/concepts/placement">Placement</a>.</p>
+<p>View a simple example of a <code>Policy</code> that embeds a <code>ConfigurationPolicy</code> policy template to manage a
+namespace called &ldquo;prod&rdquo;.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: Policy
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: policy-namespace
+  <span style="color:#66d9ef">namespace</span>: policies
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">policy.open-cluster-management.io/standards</span>: NIST SP <span style="color:#ae81ff">800-53</span>
+    <span style="color:#66d9ef">policy.open-cluster-management.io/categories</span>: CM Configuration Management
+    <span style="color:#66d9ef">policy.open-cluster-management.io/controls</span>: CM<span style="color:#ae81ff">-2</span> Baseline Configuration
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">remediationAction</span>: enforce
+  <span style="color:#66d9ef">disabled</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">policy-templates</span>:
+    - <span style="color:#66d9ef">objectDefinition</span>:
+        <span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
+        <span style="color:#66d9ef">kind</span>: ConfigurationPolicy
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: policy-namespace-example
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">remediationAction</span>: inform
+          <span style="color:#66d9ef">severity</span>: low
+          <span style="color:#66d9ef">object-templates</span>:
+            - <span style="color:#66d9ef">complianceType</span>: MustHave
+              <span style="color:#66d9ef">objectDefinition</span>:
+                <span style="color:#66d9ef">kind</span>: Namespace <span style="color:#75715e"># must have namespace &#39;prod&#39;</span>
+                <span style="color:#66d9ef">apiVersion</span>: v1
+                <span style="color:#66d9ef">metadata</span>:
+                  <span style="color:#66d9ef">name</span>: prod
+</code></pre></div><p>At first, you may notice the <code>annotations</code>. These are standard annotations that are for
+informational purposes and can be used by user interfaces, custom report scripts, or components that
+integrate with OCM.</p>
+<p>Next, you may notice the optional <code>spec.remediationAction</code> field. This dictates if the policy
+controller should <code>inform</code> or <code>enforce</code> when violations are found and overrides the
+<code>remediationAction</code> field on each policy template. When set to <code>inform</code>, the <code>Policy</code> will become
+noncompliant if the underlying policy templates detect that the desired state is not met. When set
+to <code>enforce</code>, the policy controller applies the desired state when necessary and feasible.</p>
+<p>The <code>policy-templates</code> array contains a single <code>ConfigurationPolicy</code> called
+<code>policy-namespace-example</code>. This <code>ConfigurationPolicy</code> has the <code>remediationAction</code> set to <code>inform</code>
+but it is overridden by the optional global <code>spec.remediationAction</code>. The <code>severity</code> is for
+informational purposes similar to the <code>annotations</code>.</p>
+<p>The most interesting part is the <code>object-templates</code> section under the embedded
+<code>ConfigurationPolicy</code>. This describes the <code>prod</code> <code>Namespace</code> object that the <code>Policy</code> applies to.
+The action that the <code>ConfigurationPolicy</code> will take is determined by the <code>complianceType</code>. In this
+case, it is set to <code>MustHave</code> which means the <code>prod</code> <code>Namespace</code> object will be created if it
+doesn&rsquo;t exist. Other compliance types include <code>MustNotHave</code> and <code>MustOnlyHave</code>. <code>MustNotHave</code> would
+delete the <code>prod</code> <code>Namespace</code> object. <code>MustOnlyHave</code> would ensure the <code>prod</code> <code>Namespace</code> object only
+exists with the fields defined in the <code>ConfigurationPolicy</code>.</p>
+<p>When the <code>Policy</code> is bound to a <a href="/concepts/placement"><code>Placement</code></a>, the <code>Policy</code> status will report
+on each cluster that matched the bound <code>Placement</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">compliant</span>: Compliant
+  <span style="color:#66d9ef">placement</span>:
+    - <span style="color:#66d9ef">placement</span>: placement-hub-cluster
+      <span style="color:#66d9ef">placementBinding</span>: binding-policy-namespace
+  <span style="color:#66d9ef">status</span>:
+    - <span style="color:#66d9ef">clustername</span>: local-cluster
+      <span style="color:#66d9ef">clusternamespace</span>: local-cluster
+      <span style="color:#66d9ef">compliant</span>: Compliant
+</code></pre></div><p>To fully explore the <code>Policy</code> API, run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd policies.policy.open-cluster-management.io -o yaml
+</code></pre></div><p>To fully explore the <code>ConfigurationPolicy</code> API, run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
+</code></pre></div><h2 id="placementbinding">PlacementBinding</h2>
+<p>A <code>PlacementBinding</code> binds a <a href="/concepts/placement">Placement</a> to a <a href="#policy"><code>Policy</code></a> or
+<a href="#policyset"><code>PolicySet</code></a>.</p>
+<p>Below is an example of a <code>PlacementBinding</code> that binds the <code>policy-namespace</code> <code>Policy</code> to the
+<code>placement-hub-cluster</code> <code>Placement</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: PlacementBinding
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: binding-policy-namespace
+  <span style="color:#66d9ef">namespace</span>: policies
+<span style="color:#66d9ef">placementRef</span>:
+  <span style="color:#66d9ef">apiGroup</span>: cluster.open-cluster-management.io
+  <span style="color:#66d9ef">kind</span>: Placement
+  <span style="color:#66d9ef">name</span>: placement-hub-cluster
+<span style="color:#66d9ef">subjects</span>:
+  - <span style="color:#66d9ef">apiGroup</span>: policy.open-cluster-management.io
+    <span style="color:#66d9ef">kind</span>: Policy
+    <span style="color:#66d9ef">name</span>: policy-namespace
+</code></pre></div><p>Once the <code>Policy</code> is bound, it will be distributed to and acted upon by the managed clusters that
+match the <code>Placement</code>.</p>
+<h2 id="policyset">PolicySet</h2>
+<p>A <code>PolicySet</code> is a grouping mechanism of <a href="#policy"><code>Policy</code></a> objects. Compliance of all grouped
+<code>Policy</code> objects is summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its
+distribution is controlled by a <a href="/concepts/placement">Placement</a> when bound through a
+<a href="#placementbinding"><code>PlacementBinding</code></a>.</p>
+<p>This enables a workflow where subject matter experts write <code>Policy</code> objects and then an IT
+administrator creates a <code>PolicySet</code> that groups the previously written <code>Policy</code> objects and binds
+the <code>PolicySet</code> to a <code>Placement</code> that deploys the <code>PolicySet</code>.</p>
+<p>An example of a <code>PolicySet</code> is shown below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: PolicySet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: acm-hardening
+  <span style="color:#66d9ef">namespace</span>: policies
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">description</span>:
+    Apply standard best practices for hardening your Open Cluster Management installation.
+  <span style="color:#66d9ef">policies</span>:
+    - policy-check-backups
+    - policy-managedclusteraddon-available
+    - policy-subscriptions
+</code></pre></div><h2 id="policy-templates">Policy Templates</h2>
+<p>Configuration policies support the inclusion of Golang text templates in the object definitions.
+These templates are resolved at runtime either on the hub cluster or the target managed cluster
+using configurations related to that cluster. This gives you the ability to define configuration
+policies with dynamic content and to inform or enforce Kubernetes resources that are customized to
+the target cluster.</p>
+<p>The template syntax must follow the Golang template language specification, and the resource
+definition generated from the resolved template must be a valid YAML. (See the
+<a href="https://golang.org/pkg/text/template/">Golang documentation about package templates</a> for more
+information.) Any errors in template validation appear as policy violations. When you use a custom
+template function, the values are replaced at runtime.</p>
+<p>Template functions, such as resource-specific and generic <code>lookup</code> template functions, are available
+for referencing Kubernetes resources on the cluster. The resource-specific functions are used for
+convenience and makes content of the resources more accessible. In addition to these functions,
+utility functions like <code>base64encode</code>, <code>base64decode</code>, <code>indent</code>, <code>autoindent</code>, <code>toInt</code>, <code>toBool</code>,
+and more are also available.</p>
+<p>To conform templates to YAML syntax, templates must be set in the policy resource as strings using
+quotes or a block character (<code>|</code> or <code>&gt;</code>). This causes the resolved template value to also be a
+string. To override this, consider using <code>toInt</code> or <code>toBool</code> as the final function in the template
+to initiate further processing that forces the value to be interpreted as an integer, or boolean.</p>
+<p>To bypass template processing you can either:</p>
+<ul>
+<li>Override a single template by wrapping the template in additional braces. For example, the
+template <code>{{ template content }}</code> would become <code>{{ '{{ template content }}' }}</code>.</li>
+<li>Override all templates in a <code>ConfigurationPolicy</code> by adding the
+<code>policy.open-cluster-management.io/disable-templates: &quot;true&quot;</code> annotation in the
+<code>ConfigurationPolicy</code> section of your <code>Policy</code>. Template processing will be bypassed for that
+<code>ConfigurationPolicy</code>.</li>
+</ul>
+<h3 id="hub-cluster-templates">Hub cluster templates</h3>
+<p>Hub cluster templates are used to define configuration policies that are dynamically customized to
+the target cluster. This reduces the need to create separate policies for each target cluster or
+hardcode configuration values in the policy definitions.</p>
+<p>Hub cluster templates are based on Golang text template specifications, and the <code>{{hub … hub}}</code>
+delimiter indicates a hub cluster template in a configuration policy.</p>
+<p>A configuration policy definition can contain both hub cluster and managed cluster templates. Hub
+cluster templates are processed first on the hub cluster, then the policy definition with resolved
+hub cluster templates is propagated to the target clusters. On the managed cluster, the
+Configuration Policy controller processes any managed cluster templates in the policy definition and
+then enforces or verifies the fully resolved object definition.</p>
+<p>Policies are processed on the hub cluster only upon creation or after an update. Therefore, hub
+cluster templates are only resolved to the data in the referenced resources upon policy creation or
+update. Any changes to the referenced resources are not automatically synced to the policies.</p>
+<p>A special annotation, <code>policy.open-cluster-management.io/trigger-update</code> can be used to indicate
+changes to the data referenced by the templates. Any change to the special annotation value
+initiates template processing, and the latest contents of the referenced resource are read and
+updated in the policy definition that is the propagator for processing on managed clusters. A
+typical way to use this annotation is to increment the value by one each time.</p>
+<h3 id="template-encryption-details">Template encryption details</h3>
+<p>The encryption algorithm uses AES-CBC with 256-bit keys. Each encryption key is unique per managed
+cluster and is automatically rotated every 30 days. This ensures that your decrypted value is never
+stored in the policy on the managed cluster.</p>
+<p>To force an immediate encryption key rotation, delete the
+<code>policy.open-cluster-management.io/last-rotated</code> annotation on the <code>policy-encryption-key</code> Secret in
+the managed cluster namespace on the hub cluster. Policies are then reprocessed to use the new
+encryption key.</p>
+<h3 id="template-functions">Template functions</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fromSecret</code></td>
+<td>Returns the value of the given data key in the secret.</td>
+<td><code>PASSWORD: '{{ fromSecret &quot;default&quot; &quot;localsecret&quot; &quot;PASSWORD&quot; }}'</code></td>
+</tr>
+<tr>
+<td><code>fromConfigmap</code></td>
+<td>Returns the value of the given data key in the ConfigMap.</td>
+<td><code>log-file: '{{ fromConfigMap &quot;default&quot; &quot;logs-config&quot; &quot;log-file&quot; }}'</code></td>
+</tr>
+<tr>
+<td><code>fromClusterClaim</code></td>
+<td>Returns the value of <code>spec.value</code> in the <code>ClusterClaim</code> resource.</td>
+<td><code>platform: '{{ fromClusterClaim &quot;platform.open-cluster-management.io&quot; }}'</code></td>
+</tr>
+<tr>
+<td><code>lookup</code></td>
+<td>Returns the Kubernetes resource as a JSON compatible map. Note that if the requested resource does not exist, an empty map is returned.</td>
+<td><code>metrics-url: \|</code><br /><code>http://{{ (lookup &quot;v1&quot; &quot;Service&quot; &quot;default&quot; &quot;metrics&quot;).spec.clusterIP }}:8080</code></td>
+</tr>
+<tr>
+<td><code>base64enc</code></td>
+<td>Returns a <code>base64</code> encoded value of the input string.</td>
+<td><code>USER_NAME: '{{ fromConfigMap &quot;default&quot; &quot;myconfigmap&quot; &quot;admin-user&quot; \| base64enc }}'</code></td>
+</tr>
+<tr>
+<td><code>base64dec</code></td>
+<td>Returns a <code>base64</code> decoded value of the input string.</td>
+<td><code>app-name: \|</code><br /><code>&quot;{{ ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;testns&quot; &quot;mytestsecret&quot;) .data.appname ) \| base64dec }}&quot;</code></td>
+</tr>
+<tr>
+<td><code>indent</code></td>
+<td>Returns the input string indented by the given number of spaces.</td>
+<td><code>Ca-cert: \|</code><br /><code>{{ ( index ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;default&quot; &quot;mycert-tls&quot; ).data &quot;ca.pem&quot; ) \| base64dec \| indent 4 }}</code></td>
+</tr>
+<tr>
+<td><code>autoindent</code></td>
+<td>Acts like the <code>indent</code> function but automatically determines the number of leading spaces needed based on the number of spaces before the template.</td>
+<td><code>Ca-cert: \|</code><br /><code>{{ ( index ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;default&quot; &quot;mycert-tls&quot; ).data &quot;ca.pem&quot; ) \| base64dec \| autoindent }}</code></td>
+</tr>
+<tr>
+<td><code>toInt</code></td>
+<td>Returns the integer value of the string and ensures that the value is interpreted as an integer in the YAML.</td>
+<td><code>vlanid: \|</code><br /><code>{{ (fromConfigMap &quot;site-config&quot; &quot;site1&quot; &quot;vlan&quot;) \| toInt }}</code></td>
+</tr>
+<tr>
+<td><code>toBool</code></td>
+<td>Returns the boolean value of the input string and ensures that the value is interpreted as a boolean in the YAML.</td>
+<td><code>enabled: \|</code><br /><code>{{ (fromConfigMap &quot;site-config&quot; &quot;site1&quot; &quot;enabled&quot;) \| toBool }}</code></td>
+</tr>
+<tr>
+<td><code>protect</code></td>
+<td>Encrypts the input string. It is decrypted when the policy is evaluated. On the replicated policy in the managed cluster namespace, the resulting value resembles the following: <code>$ocm_encrypted:&lt;encrypted-value&gt;</code></td>
+<td><code>enabled: \|</code><br /><code>{{hub &quot;(lookup &quot;route.openshift.io/v1&quot; &quot;Route&quot; &quot;openshift-authentication&quot; &quot;oauth-openshift&quot;).spec.host \| protect hub}}</code></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<script type="text/javascript" src="/clipboard-copy.js"></script>
+</div>
+        </div>
+        <div class="row"><nav class="ocm navbar navbar-expand-lg navbar-dark py-3">
+  <div class="container-fluid flex-wrap flex-md-nowrap">
+    <div class="text-light">&copy; 2021 Open Cluster Management Authors. The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see <a href="https://www.linuxfoundation.org/trademark-usage/" target="_blank" style="color: #f8f9fa;">Trademark Usage</a></div>
+  </div>
+</nav>
+<script type="text/javascript" src="/lang.js"></script>
+</div>
+    </div>
+</body>
+</html>
