@@ -16,6 +16,9 @@ other = "是一个由开源社区驱动的混合云多集群管理平台。在�
 [subject_getting_started]
 other = "开始"
 
+[subject_join_our_slack]
+other = "加入我们的Slack"
+
 [feature_overview]
 other = "功能概览"
 

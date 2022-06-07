@@ -16,6 +16,9 @@ other = "is a community-driven project focused on multicluster and multicloud sc
 [subject_getting_started]
 other = "Get Started"
 
+[subject_join_our_slack]
+other = "Join our Slack"
+
 [feature_overview]
 other = "Feature Overview"
 
