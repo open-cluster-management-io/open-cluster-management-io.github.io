@@ -148,7 +148,7 @@ more details see the
 1. To deploy the synchronization components to a self-managed hub cluster:
 
    ```Shell
-   clusteradm addon enable --names governance-policy-framework --clusters <managed_hub_cluster_name> --hub --context ${CTX_HUB_CLUSTER}
+   clusteradm addon enable --names governance-policy-framework --clusters <managed_hub_cluster_name> --annotate addon.open-cluster-management.io/on-multicluster-hub=true --context ${CTX_HUB_CLUSTER}
    ```
 
    To deploy the synchronization components to a managed cluster:
