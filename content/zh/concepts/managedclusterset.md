@@ -95,15 +95,37 @@ it a "workspace namespace".
 The `ManagedClusterSet` is a vanilla Kubernetes custom resource which can be
 checked by the command `kubectl describe managedclusterset`:
 
-```shell
+```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: ManagedClusterSet
 metadata:
   name: example-clusterset
-spec: {}
+spec: 
+  clusterSelector:
+    selectorType: LegacyClusterSetLabel
 status:
   conditions:
   - lastTransitionTime: "2022-02-21T09:24:38Z"
+    message: 1 ManagedClusters selected
+    reason: ClustersSelected
+    status: "False"
+    type: ClusterSetEmpty
+```
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: ManagedClusterSet
+metadata:
+  name: example-openshift-clusterset
+spec:
+  clusterSelector:
+    labelSelector: 
+      matchLabels:
+        vendor: OpenShift
+    selectorType: LabelSelector
+status:
+  conditions:
+  - lastTransitionTime: "2022-06-20T08:23:28Z"
     message: 1 ManagedClusters selected
     reason: ClustersSelected
     status: "False"
@@ -170,3 +192,30 @@ clusteradm clusterset set target-clusterset --clusters cluster-name
 `default` clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
 [`- "--feature-gates=DefaultClusterSet=false"`](https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51) 
 
+## Global ManagedClusterSet
+
+For easier management, we also introduce a ManagedClusterSet called `global`. 
+A `global` ManagedClusterSet will be automatically created initially. The `global` ManagedClusterSet include all ManagedClusters.
+
+`global` clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
+[`- "--feature-gates=DefaultClusterSet=false"`](https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51) 
+
+`global` ManagedClusterSet detail:
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: ManagedClusterSet
+metadata:
+  name: global
+spec:
+  clusterSelector:
+    labelSelector: {}
+    selectorType: LabelSelector
+status:
+  conditions:
+  - lastTransitionTime: "2022-06-20T08:23:28Z"
+    message: 1 ManagedClusters selected
+    reason: ClustersSelected
+    status: "False"
+    type: ClusterSetEmpty
+```
