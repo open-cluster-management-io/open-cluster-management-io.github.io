@@ -249,6 +249,7 @@
           </ul>
         </li>
         <li><a href="#default-managedclusterset">Default ManagedClusterSet</a></li>
+        <li><a href="#global-managedclusterset">Global ManagedClusterSet</a></li>
       </ul></nav><hr></div>
 
 
@@ -312,18 +313,37 @@ it a &ldquo;workspace namespace&rdquo;.</p>
 <h2 id="a-glance-at-the-managedclusterset-api">A glance at the &ldquo;ManagedClusterSet&rdquo; API</h2>
 <p>The <code>ManagedClusterSet</code> is a vanilla Kubernetes custom resource which can be
 checked by the command <code>kubectl describe managedclusterset</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: ManagedClusterSet
-metadata:
-  name: example-clusterset
-spec: <span style="color:#f92672">{}</span>
-status:
-  conditions:
-  - lastTransitionTime: <span style="color:#e6db74">&#34;2022-02-21T09:24:38Z&#34;</span>
-    message: <span style="color:#ae81ff">1</span> ManagedClusters selected
-    reason: ClustersSelected
-    status: <span style="color:#e6db74">&#34;False&#34;</span>
-    type: ClusterSetEmpty
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: example-clusterset
+<span style="color:#66d9ef">spec</span>: 
+  <span style="color:#66d9ef">clusterSelector</span>:
+    <span style="color:#66d9ef">selectorType</span>: LegacyClusterSetLabel
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+  - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2022-02-21T09:24:38Z&#34;</span>
+    <span style="color:#66d9ef">message</span>: <span style="color:#ae81ff">1</span> ManagedClusters selected
+    <span style="color:#66d9ef">reason</span>: ClustersSelected
+    <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;False&#34;</span>
+    <span style="color:#66d9ef">type</span>: ClusterSetEmpty
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: example-openshift-clusterset
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">clusterSelector</span>:
+    <span style="color:#66d9ef">labelSelector</span>: 
+      <span style="color:#66d9ef">matchLabels</span>:
+        <span style="color:#66d9ef">vendor</span>: OpenShift
+    <span style="color:#66d9ef">selectorType</span>: LabelSelector
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+  - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2022-06-20T08:23:28Z&#34;</span>
+    <span style="color:#66d9ef">message</span>: <span style="color:#ae81ff">1</span> ManagedClusters selected
+    <span style="color:#66d9ef">reason</span>: ClustersSelected
+    <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;False&#34;</span>
+    <span style="color:#66d9ef">type</span>: ClusterSetEmpty
 </code></pre></div><h3 id="clusterset-rbac-permission-control">Clusterset RBAC permission control</h3>
 <h4 id="adding-member-cluster-to-a-clusterset">Adding member cluster to a clusterset</h4>
 <p>Adding a new member cluster to a clusterset requires RBAC permission of
@@ -368,7 +388,28 @@ The user can move the cluster from the default clusterset to another clusterset 
 <pre><code>clusteradm clusterset set target-clusterset --clusters cluster-name
 </code></pre><p><code>default</code> clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
 <a href="https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
-
+<h2 id="global-managedclusterset">Global ManagedClusterSet</h2>
+<p>For easier management, we also introduce a ManagedClusterSet called <code>global</code>.
+A <code>global</code> ManagedClusterSet will be automatically created initially. The <code>global</code> ManagedClusterSet include all ManagedClusters.</p>
+<p><code>global</code> clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
+<a href="https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
+<p><code>global</code> ManagedClusterSet detail:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: ManagedClusterSet
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: global
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">clusterSelector</span>:
+    <span style="color:#66d9ef">labelSelector</span>: {}
+    <span style="color:#66d9ef">selectorType</span>: LabelSelector
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+  - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2022-06-20T08:23:28Z&#34;</span>
+    <span style="color:#66d9ef">message</span>: <span style="color:#ae81ff">1</span> ManagedClusters selected
+    <span style="color:#66d9ef">reason</span>: ClustersSelected
+    <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;False&#34;</span>
+    <span style="color:#66d9ef">type</span>: ClusterSetEmpty
+</code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>
