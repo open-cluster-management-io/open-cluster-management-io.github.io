@@ -11,7 +11,7 @@ Open Cluster Management has approximately a three to four month release cycle. T
 
 The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in `clusteradm`. Notable changes including: 
 
- - APIs including `placement`, `placementdecision`, `managedclusterset` and `managedclustersetbinding` are upgraded to `v1beta1`, `v1alpha1` version of these APIs are deprecated and will be removed in the next release.
+ - APIs including `placement`, `placementdecision`, `managedclusterset` and `managedclustersetbinding` are upgraded to `v1beta1`, `v1alpha1` version of these APIs are deprecated and will be removed in the future.
  - User can now use `clusteradm` to:
    - create, bind and view `clusterset`
    - create and view `work`
