@@ -120,8 +120,25 @@ preparing environment for the newly registered cluster and cleaning up neatly
 upon kicking a managed cluster.
 
 <div style="text-align: center; padding: 20px;">
-   <img src="/double-optin-registration.png" alt="Clusterset" style="margin: 0 auto; width: 60%">
+   <img src="/double-optin-registration.png" alt="Double opt-in handshaking" style="margin: 0 auto; width: 60%">
 </div>
+
+### Cluster registration security model
+
+<div style="text-align: center; padding: 20px;">
+   <img src="/security-model.png" alt="Security model" style="margin: 0 auto; width: 60%">
+</div>
+
+The worker cluster admin can list and read any managed cluster’s CSR, 
+but those CSR cannot be used to impersonate due to the fact that CSR only 
+contains the certificate. The client authentication requires both the key and certificate. 
+The key is stored in each managed cluster, and it will not be transmitted across network.
+
+The worker cluster admin cannot approve his or her own cluster registration by default. 
+Two separate RBAC rules are needed to approve a cluster registration. 
+The permission to approve the CSR and the permission to accept the managed cluster. 
+Only the cluster admin on hub has both permissions and can accept the cluster registration request.
+The second accept permission is gated by a webhook.
 
 ### Cluster namespace 
 
