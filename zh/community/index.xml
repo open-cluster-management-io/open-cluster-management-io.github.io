@@ -17,7 +17,7 @@
       <guid>http://open-cluster-management.io/zh/community/releases/</guid>
       <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.7.0. Continue reading to view upcoming releases:
 v0.7.0, on 6th, April 2022 The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in clusteradm. Notable changes including:
- APIs including placement, placementdecision, managedclusterset and managedclustersetbinding are upgraded to v1beta1, v1alpha1 version of these APIs are deprecated and will be removed in the next release.</description>
+ APIs including placement, placementdecision, managedclusterset and managedclustersetbinding are upgraded to v1beta1, v1alpha1 version of these APIs are deprecated and will be removed in the future.</description>
     </item>
     
     <item>

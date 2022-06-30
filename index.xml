@@ -134,7 +134,7 @@ Ensure golang is installed, if you are planning to install from the source.</des
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/placement/</guid>
-      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer     Extensible scheduling Future work     API-CHANGE NOTE: Placement and PlacementDecision API is upgraded from v1alpha1 to v1beta1, v1alpha1 will be deprecated in OCM v0.7.0 and planned to be removed in OCM v0.8.0. The field spec.prioritizerPolicy.configurations.name in Placement API v1alpha1 is removed and replaced by spec.</description>
+      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer     Extensible scheduling Future work     API-CHANGE NOTE: Placement and PlacementDecision API is upgraded from v1alpha1 to v1beta1, v1alpha1 will be deprecated in OCM v0.7.0 and planned to be removed in the future. The field spec.prioritizerPolicy.configurations.name in Placement API v1alpha1 is removed and replaced by spec.</description>
     </item>
     
     <item>
