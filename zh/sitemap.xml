@@ -18,6 +18,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/zh/scenarios/distribute-workload-with-placement</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/zh/scenarios/extending-managed-clusters</loc>
     </url>
     
