@@ -103,6 +103,13 @@ other = "快速开始"
 [sidebar_core_components]
 other = "核心组件"
 
+[sidebar_developer-guides]
+other = "开发指南"
+
+[sidebar_addon-developer-guide]
+other = "Add-on 开发指南"
+
+
 [sidebar_cluster_manager]
 other = "中枢控制器"
 
