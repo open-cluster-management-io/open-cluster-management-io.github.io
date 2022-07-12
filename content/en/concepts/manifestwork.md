@@ -213,7 +213,80 @@ It is possible to create two `ManifestWorks` for the same cluster with the same 
 For example, the user can create two `Manifestworks` on cluster1, and both `Manifestworks` have the
 deployment resource `hello` in default namespace. If the content of the resource is different, the
 two `ManifestWorks` will fight and it is desired since each `ManifestWork` is treated as equal and
-each `ManifestWork` is declaring the ownership of the resource. 
+each `ManifestWork` is declaring the ownership of the resource. If there is another controller on 
+the managed cluster that tries to manipulate the resource applied by a `ManifestWork`, this
+controller will also fight with work agent.
 
 When one of the `ManifestWork` is deleted, the applied resource will not be removed no matter
 `DeleteOption` is set or not. The remaining `ManifestWork` will still keep the ownership of the resource.
+
+ To resolve such conflict, we introduce `updateStrategy` in `0.8.0` release. User can choose a different 
+ update strategy to alleviate the resource conflict.
+
+- `CreateOnly`: with this strategy, the work-agent will only ensure creation of the certain manifest if the 
+  resource does not exist. work-agent will not update the resource, hence the ownership of the whole resource
+  can be taken over by another `ManifestWork` or controller.
+- `ServerSideApply`: with this strategy, the work-agent will run server side apply for the certain manifest. The
+  default field manager is `work-agent`, and can be customized. If another `ManifestWork` or controller takes the
+  ownership of a certain field in the manifest, the original `ManifestWork` will report conflict. User can prune
+  the original `ManifestWork` so only field that it will own maintains.
+
+An example of using `ServerSideApply` strategy as following:
+
+1. User creates a `ManifestWork` with `ServerSideApply` specified:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: <target managed cluster>
+  name: hello-work-demo
+spec:
+  workload: ...
+  manifestConfigs:
+    - resourceIdentifier:
+        group: apps
+        resource: deployments
+        namespace: default
+        name: hello
+      updateStrategy:
+        type: ServerSideApply
+```
+
+2. User creates another `ManifestWork` with `ServerSideApply` but with different field manager.
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: <target managed cluster>
+  name: hello-work-replica-patch
+spec:
+  workload:
+    manifests:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: hello
+          namespace: default
+        spec:
+          replicas: 3
+  manifestConfigs:
+    - resourceIdentifier:
+        group: apps
+        resource: deployments
+        namespace: default
+        name: hello
+      updateStrategy:
+        type: ServerSideApply
+        serverSideApply:
+          force: true
+          fieldManager: work-agent-another
+```
+
+The second `ManifestWork` only defines `replicas` in the manifest, so it takes the ownership of `replicas`. If the
+first `ManifestWork` is updated to add `replicas` field with different value, it will get conflict condition and
+manifest will not be updated by it.
+
+In stead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also takes the ownership
+of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
