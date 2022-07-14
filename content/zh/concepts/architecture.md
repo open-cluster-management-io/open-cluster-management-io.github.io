@@ -63,7 +63,13 @@ OCM中每一个功能，都可以通过将原子能力模块化到单独的构�
 在中止注册方面，hub管理员可以通过拒绝集群证书的轮换来踢出已注册的集群，而从managed cluster管理员的角度来看，他可以通过暴力删除代理实例或撤销代理的RBAC授权的方式，来中止注册。请注意，hub控制器将自动为新注册的集群准备环境，并在踢出managed cluster时自动清理环境。
 
 <div style="text-align: center; padding: 20px;">
-   <img src="/double-optin-registration.png" alt="Clusterset" style="margin: 0 auto; width: 60%">
+   <img src="/double-optin-registration.png" alt="Double opt-in handshaking" style="margin: 0 auto; width: 60%">
+</div>
+
+### 安全模型
+
+<div style="text-align: center; padding: 20px;">
+   <img src="/security-model.png" alt="Security model" style="margin: 0 auto; width: 60%">
 </div>
 
 ### 集群命名空间
