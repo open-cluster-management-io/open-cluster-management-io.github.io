@@ -5,7 +5,41 @@ weight: -20
 
 Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.7.0`. Continue reading to view upcoming releases:
 
-## `v0.8.0`, planned on 8th, July 2022
+## `v0.8.0`, 8th, July 2022
+Open Cluster Management team is proud to annouce the release of OCM v0.8.0! It includes several enhancement on core compoenents and addons.
+Notable changes including:
+
+- `ManifestWork` update strategy: now user can set `ServerSideApply` or `CreateOnly` as the manifest update strategy to resolve potential
+  resource conflict in `ManifestWork`.
+- Global ClusterSet: when user enable the `DefaultClusterSet` feature gate, a global `ManagedClusterSet` will be auto-created including all
+  `ManagedCluster`s
+- Configuring feature gates for `klusterlet` and `cluster manager`: user can set feature gates when starting `klusterlet` and `cluster manager`.
+- Support host alaises for `klusterlet`: user can now set host aliases for `klusterlet`, it is especially useful in on-prem environment.
+- Running policy addon using `clusteradm`: user can now run policy addon directly using `clusteradm`
+
+Also we have added two new sub projects:
+
+- [multicluster-mesh](https://github.com/open-cluster-management-io/multicluster-mesh) is an  addon to deploy and configure istio across the clusters.
+- [ocm-vscode-extention](https://github.com/open-cluster-management-io/ocm-vscode-extension) is a vscode extension to operator/develop ocm project easily in vscode.
+
+See details in the release changelogs:
+
+### Core components
+- registration v0.8.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md)
+- work v0.8.0 [changelog](https://github.com/open-cluster-management-io/work/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md)
+- placement v0.8.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md)
+- addon-framework v0.4.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.4.0/CHANGELOG/CHANGELOG-v0.4.md)
+- registration-operator v0.8.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md)
+
+### Addons
+
+- multicloud-operators-subscription v0.8.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.8.0)
+- multicloud-operators-channel v0.8.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.8.0)
+- cluster-proxy v0.2.2 [repo](https://github.com/open-cluster-management-io/cluster-proxy)
+
+### CLI extentions
+
+- clusteradm v0.3.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.3.0)
 
 ## `v0.7.0`, on 6th, April 2022
 
