@@ -225,7 +225,42 @@
 <div id="content">
     <h1>Releases</h1>
     <p>Open Cluster Management has approximately a three to four month release cycle. The current release is <code>v0.7.0</code>. Continue reading to view upcoming releases:</p>
-<h2 id="v080-planned-on-8th-july-2022"><code>v0.8.0</code>, planned on 8th, July 2022</h2>
+<h2 id="v080-8th-july-2022"><code>v0.8.0</code>, 8th, July 2022</h2>
+<p>Open Cluster Management team is proud to annouce the release of OCM v0.8.0! It includes several enhancement on core compoenents and addons.
+Notable changes including:</p>
+<ul>
+<li><code>ManifestWork</code> update strategy: now user can set <code>ServerSideApply</code> or <code>CreateOnly</code> as the manifest update strategy to resolve potential
+resource conflict in <code>ManifestWork</code>.</li>
+<li>Global ClusterSet: when user enable the <code>DefaultClusterSet</code> feature gate, a global <code>ManagedClusterSet</code> will be auto-created including all
+<code>ManagedCluster</code>s</li>
+<li>Configuring feature gates for <code>klusterlet</code> and <code>cluster manager</code>: user can set feature gates when starting <code>klusterlet</code> and <code>cluster manager</code>.</li>
+<li>Support host alaises for <code>klusterlet</code>: user can now set host aliases for <code>klusterlet</code>, it is especially useful in on-prem environment.</li>
+<li>Running policy addon using <code>clusteradm</code>: user can now run policy addon directly using <code>clusteradm</code></li>
+</ul>
+<p>Also we have added two new sub projects:</p>
+<ul>
+<li><a href="https://github.com/open-cluster-management-io/multicluster-mesh">multicluster-mesh</a> is an  addon to deploy and configure istio across the clusters.</li>
+<li><a href="https://github.com/open-cluster-management-io/ocm-vscode-extension">ocm-vscode-extention</a> is a vscode extension to operator/develop ocm project easily in vscode.</li>
+</ul>
+<p>See details in the release changelogs:</p>
+<h3 id="core-components">Core components</h3>
+<ul>
+<li>registration v0.8.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
+<li>work v0.8.0 <a href="https://github.com/open-cluster-management-io/work/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
+<li>placement v0.8.0 <a href="https://github.com/open-cluster-management-io/placement/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
+<li>addon-framework v0.4.0 <a href="https://github.com/open-cluster-management-io/addon-framework/blob/v0.4.0/CHANGELOG/CHANGELOG-v0.4.md">changelog</a></li>
+<li>registration-operator v0.8.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
+</ul>
+<h3 id="addons">Addons</h3>
+<ul>
+<li>multicloud-operators-subscription v0.8.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.8.0">changelog</a></li>
+<li>multicloud-operators-channel v0.8.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.8.0">changelog</a></li>
+<li>cluster-proxy v0.2.2 <a href="https://github.com/open-cluster-management-io/cluster-proxy">repo</a></li>
+</ul>
+<h3 id="cli-extentions">CLI extentions</h3>
+<ul>
+<li>clusteradm v0.3.0 <a href="https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.3.0">changelog</a></li>
+</ul>
 <h2 id="v070-on-6th-april-2022"><code>v0.7.0</code>, on 6th, April 2022</h2>
 <p>The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in <code>clusteradm</code>. Notable changes including:</p>
 <ul>

@@ -16,7 +16,8 @@
       
       <guid>http://open-cluster-management.io/community/releases/</guid>
       <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.7.0. Continue reading to view upcoming releases:
-v0.8.0, planned on 8th, July 2022 v0.7.0, on 6th, April 2022 The Open Cluster Management team is exicted to announce the release of OCM v0.7.0! We mainly focused on enhancing user experience in this release by introducing a bunch of new commands in clusteradm. Notable changes including:</description>
+v0.8.0, 8th, July 2022 Open Cluster Management team is proud to annouce the release of OCM v0.8.0! It includes several enhancement on core compoenents and addons. Notable changes including:
+ ManifestWork update strategy: now user can set ServerSideApply or CreateOnly as the manifest update strategy to resolve potential resource conflict in ManifestWork.</description>
     </item>
     
     <item>
