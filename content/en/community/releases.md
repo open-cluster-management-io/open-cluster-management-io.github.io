@@ -35,11 +35,15 @@ See details in the release changelogs:
 
 - multicloud-operators-subscription v0.8.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.8.0)
 - multicloud-operators-channel v0.8.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.8.0)
-- cluster-proxy v0.2.2 [repo](https://github.com/open-cluster-management-io/cluster-proxy)
+- cluster-proxy v0.2.2 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.2.2)
+- multicluster-mesh v0.0.1 [changelog](https://github.com/open-cluster-management-io/multicluster-mesh/releases/tag/v0.0.1)
 
 ### CLI extentions
 
 - clusteradm v0.3.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.3.0)
+- ocm-vscode-extension 0.1.0 [changelog](https://github.com/open-cluster-management-io/ocm-vscode-extension/releases/tag/1.0.0)
+
+There are 30+ contributors making contributions in this release, they are, @ChunxiAlexLuo, @dhaiducek, @elgnay, @haoqing0110, @itdove, @ilan-pinto, @ivan-cai, @jichenjc, @JustinKuli, @ldpliu, @mikeshng, @mgold1234, @morvencao, @mprahl, @nathanweatherly, @philipwu08, @panguicai008, @Promacanthus, @qiujian16, @rokej, @skeeey, @SataQiu, @vbelouso, @xauthulei, @xiangjingli, @xuezhaojun, @ycyaoxdu, @yue9944882, @zhujian7, @zhiweiyin318. Thanks for your contributions!
 
 ## `v0.7.0`, on 6th, April 2022
 
