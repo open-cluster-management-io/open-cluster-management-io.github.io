@@ -3,10 +3,10 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.7.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.8.0`. Continue reading to view upcoming releases:
 
 ## `v0.8.0`, 8th, July 2022
-Open Cluster Management team is proud to annouce the release of OCM v0.8.0! It includes several enhancement on core compoenents and addons.
+Open Cluster Management team is proud to annouce the release of OCM v0.8.0! It includes several enhancement on core components and addons.
 Notable changes including:
 
 - `ManifestWork` update strategy: now user can set `ServerSideApply` or `CreateOnly` as the manifest update strategy to resolve potential
@@ -19,7 +19,7 @@ Notable changes including:
 
 Also we have added two new sub projects:
 
-- [multicluster-mesh](https://github.com/open-cluster-management-io/multicluster-mesh) is an  addon to deploy and configure istio across the clusters.
+- [multicluster-mesh](https://github.com/open-cluster-management-io/multicluster-mesh) is an addon to deploy and configure istio across the clusters.
 - [ocm-vscode-extention](https://github.com/open-cluster-management-io/ocm-vscode-extension) is a vscode extension to operator/develop ocm project easily in vscode.
 
 See details in the release changelogs:
@@ -37,6 +37,12 @@ See details in the release changelogs:
 - multicloud-operators-channel v0.8.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.8.0)
 - cluster-proxy v0.2.2 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.2.2)
 - multicluster-mesh v0.0.1 [changelog](https://github.com/open-cluster-management-io/multicluster-mesh/releases/tag/v0.0.1)
+- config-policy-controller v0.8.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.8.0.md)
+- governance-policy-spec-sync v0.8.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-spec-sync/blob/main/CHANGELOG/CHANGELOG-v0.8.0.md)
+- governance-policy-template-sync v0.8.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-template-sync/blob/main/CHANGELOG/CHANGELOG-v0.8.0.md)
+- governance-policy-status-sync v0.8.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-status-sync/blob/main/CHANGELOG/CHANGELOG-v0.8.0.md)
+- governance-policy-propagator v0.8.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.8.0.md)
+- governance-policy-addon-controller v0.8.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/blob/main/CHANGELOG/CHANGELOG-v0.8.0.md)
 
 ### CLI extentions
 
