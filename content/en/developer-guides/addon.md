@@ -13,22 +13,29 @@ This page is a developer guide about how to build an OCM add-on using addon-fram
 
 ## Overview
 
-Add-on is an extension which can work with multiple clusters based on the foundation components in open-cluster-management. 
+Add-on is an extension which can work with multiple clusters based on the foundation components in open-cluster-management.
+Add-ons are Open Cluster Management-based extensions that can be used to work with multiple clusters.
+Add-ons can support different configurations for different managed clusters, and can also be used to read data from the hub cluster. 
+For example, you might use the [managed-serviceaccount](https://github.com/open-cluster-management-io/managed-serviceaccount) add-on to collect the tokens from managed cluster back to the hub cluster,
+use the [cluster-proxy ](https://github.com/open-cluster-management-io/cluster-proxy) addon to establish a reverse proxy tunnels from the managed cluster to the hub cluster, etc.
+
 A typical add-on should consist of two kinds of components:
 
-**Add-on agent:** A component in the managed clusters that manages the managed clusters for the hub admins.
+**Add-on agent:** The components running in the managed clusters which can be any kubernetes resources, for example   
+it might be a container with permissions to access the hub cluster, an Operator, or an instance of Operator, etc.
 
-**Add-on manager:** A kubernetes controller in the hub cluster that applies the add-on agent manifests to the managed clusters 
+**Add-on manager:** A kubernetes controller in the hub cluster that generates and applies the add-on agent manifests to the managed clusters 
 via the ManifestWork API. The manager also can optionally manage the lifecycle of add-on.
 
 There are 2 API resources for add-on in the OCM hub cluster:
 
 **ClusterManagementAddOn:** This is a cluster-scoped resource which allows the user to discover which add-on is available 
-for the cluster manager and also provides metadata information about the add-on. 
+for the cluster manager and also provides metadata information about the add-on such as display name and description information. 
 The name of the `ClusterManagementAddOn` resource will be used for the namespace-scoped `ManagedClusterAddOn` resource.
 
-**ManagedClusterAddOn:** This is a namespace-scoped resource which is used by add-on managers to convey their states. 
-This resource should be created in the `ManagedCluster` namespace of the hub cluster.
+**ManagedClusterAddOn:** This is a namespace-scoped resource which is used to trigger the add-on agent to be installed 
+on the managed cluster, and should be created in the `ManagedCluster` namespace of the hub cluster. 
+`ManagedClusterAddOn` also holds the current state of an add-on.
 
 There is a library named [addon-framework](https://github.com/open-cluster-management-io/addon-framework) which provides 
 some simple user interfaces for developers to build their add-on managers easily.
@@ -44,6 +51,7 @@ We have some available add-ons in the OCM community:
 ## Write your first add-on
 
 Let's implement a simple add-on manager using addon-framework,  which deploys a busybox deployment in the managed cluster.
+You can find the example in [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/busybox).
 
 ### Implement the addon manager
 
@@ -145,7 +153,7 @@ cluster via `ManifestWork`.
 Now you can build your add-on manager as an image and deploy it on the hub cluster. 
 In addition to the deployment definition, there are also some additional resources to be deployed on the hub cluster.
 
-An example of the deployment manifests for the add-on manager is [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/deploy/addon/resources).
+An example of the deployment manifests for the add-on manager is [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/deploy/addon/busybox).
 
 #### RBAC of the addon manager
 
@@ -217,8 +225,6 @@ NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
 busybox                   1/1     1            1           2m
 ```
 
-
-
 ### Disable the add-on for a managed cluster
 
 You can delete the `ManagedClusterAddOn` CR in the managed cluster namespace of the hub cluster to disable the add-on for 
@@ -267,10 +273,10 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 
 1. **Lease**
 
-    The add-on agent maintains a `Lease` in its installation namespace with its status, the `registration agent` will 
+    The add-on agent maintains a `Lease` in its installation namespace with its status, the [registration agent](https://open-cluster-management.io/concepts/architecture/#registration) will 
     check this `Lease` to maintain the `AVAILABLE` status of the `ManagedClusterAddOn`.
 
-    The addon-framework provides a [leaseUpdater]([https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24](https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24)) interface which can make it easier.
+    The addon-framework provides a [leaseUpdater]([https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24) interface which can make it easier.
 
     ```go
     leaseUpdater := lease.NewLeaseUpdater(spokeKubeClient, addonName, installNamespace)
@@ -282,8 +288,9 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 2. **Work**
 
     `Work` health prober indicates the healthiness of the add-on is equal to the overall dispatching status of the 
-    corresponding the ManifestWork resources. It's applicable to those add-ons that don't have a local agent instance 
-    in the managed clusters. The add-on manager will check if the work is `Available` on the managed clusters. 
+    corresponding the ManifestWork resources. It's applicable to those add-ons that don't have a container agent 
+    in the managed clusters or don't expect to add `Lease` for the agent container. 
+    The add-on manager will check if the work is `Available` on the managed clusters. 
     In addition, the user can define a `HealthCheck` prober function to check more detailed status based on status 
     feedback from the `ManifestWork`.
 
@@ -374,7 +381,7 @@ The registration agent follows next steps to register an add-on:
 
 
 Now we build another add-on that is going to sync configmap from the hub cluster to the managed cluster. 
-The add-on code can be found [here]([https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld)) .
+The add-on code can be found [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld) .
 
 Specifically, since the addon agent needs to read configmap from the hub, we need to define the registration option for this addon.
 
@@ -540,8 +547,8 @@ The addon-framework supports helm charts or raw manifests as the add-on agent ma
 1. Copy the helm chart or raw manifests files into the add-on manager project. And define an `embed.FS` to embed the files 
    into your Go program.
 
-   The example using helm chart is [helloworld_helm addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm), 
-   and the example using raw manifests is [helloworld addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld).
+   The example using helm chart is [helloworld_helm addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld_helm), 
+   and the example using raw manifests is [helloworld addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld).
 
 2. Build different `agentAddons` using the `agentAddonFactory` instance with `BuildHelmAgentAddon` or `BuildTemplateAgentAddon`.
 
@@ -600,6 +607,28 @@ the annotations of `ManagedClusterAddOn`.
 The key of the Helm Chart values in annotation is `addon.open-cluster-management.io/values`,
 and the value should be a valid json string which has key-value format.
 
+### Hosted mode
+
+The addon-framework supports add-on in Hosted mode, that the agent manifests will be deployed outside the managed cluster.
+We can choose to run add-on in Hosted mode or Default mode if the managed cluster is imported to the hub in Hosted mode.
+By default, the add-on agent will run on the managed cluster(Default mode).
+We can add an annotation `addon.open-cluster-management.io/hosting-cluster-name` for the `ManagedClusterAddon`,
+so that the add-on agent will be deployed on the certain hosting cluster(Hosted mode), 
+the value of the annotation is the hosting cluster which should:
+
+* be a managed cluster of the hub as well.
+* be the same cluster where the managed cluster `klusterlet`(registration-agent & work-agent) runs.
+
+We defined a label `addon.open-cluster-management.io/hosted-manifest-location` to indicate which cluster the add-on 
+agent manifests should be deployed.
+
+* No matter what the value is, all manifests will be deployed on the managed cluster in Default mode.
+* When the label does not exist or the value is `managed`: the manifest will be deployed on the managed cluster in Hosted mode.
+* When the value is `hosting`: the manifest will be deployed on the hosting cluster in Hosted mode.
+* When the value is `none`: the manifest will not be deployed in Hosted mode.
+
+More details you can find in the [design](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/63-hosted-addon), 
+and we have an example in [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_hosted).
 
 ## Pre-delete hook
 
@@ -612,7 +641,7 @@ And the `Jobs` or `Pods` will be applied on the managed cluster by applying the 
 when the `ManagedClusterAddOn` is under deleting. 
 After the `Jobs` are `Completed` or `Pods` are in the `Succeeded` phase, all the deployed `ManifestWorks` will be deleted.
 
-You can find the example from [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm).
+You can find the example from [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld_helm).
 
 ## What happened under the scene
 
