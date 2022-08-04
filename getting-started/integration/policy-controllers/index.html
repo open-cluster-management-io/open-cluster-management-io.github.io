@@ -231,7 +231,12 @@
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#prerequisite">Prerequisite</a></li>
-        <li><a href="#install-the-configuration-policy-controller">Install the configuration policy controller</a></li>
+        <li><a href="#install-the-configuration-policy-controller-to-the-managed-clusters">Install the configuration policy controller to the managed cluster(s)</a>
+          <ul>
+            <li><a href="#deploy-via-clusteradm-cli">Deploy via Clusteradm CLI</a></li>
+            <li><a href="#deploy-from-source">Deploy from source</a></li>
+          </ul>
+        </li>
         <li><a href="#what-is-next">What is next</a>
           <ul>
             <li><a href="#placement-api">Placement API</a></li>
@@ -259,8 +264,27 @@ the source.</p>
 <a href="/getting-started/integration/policy-framework">Policy Framework</a> for more information.</p>
 </li>
 </ul>
-<h2 id="install-the-configuration-policy-controller">Install the configuration policy controller</h2>
-<p>Complete the following procedure to install the configuration policy controller:</p>
+<h2 id="install-the-configuration-policy-controller-to-the-managed-clusters">Install the configuration policy controller to the managed cluster(s)</h2>
+<h3 id="deploy-via-clusteradm-cli">Deploy via Clusteradm CLI</h3>
+<p>Ensure <code>clusteradm</code> CLI is installed and is newer than v0.3.0. Download and extract the
+<a href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For
+more details see the
+<a href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
+<ol>
+<li>
+<p>Deploy the configuration policy controller to the managed cluster(s) (this command is the same
+for a self-managed hub):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Deploy the configuration policy controller</span>
+clusteradm addon enable addon --names config-policy-controller --clusters &lt;cluster_name&gt; --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div></li>
+<li>
+<p>Ensure the pod is running on the managed cluster with the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n open-cluster-management-agent-addon
+NAME                                               READY   STATUS    RESTARTS   AGE
+config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span style="color:#ae81ff">0</span>          44s
+</code></pre></div></li>
+</ol>
+<h3 id="deploy-from-source">Deploy from source</h3>
 <ol>
 <li>
 <p>Deploy the <code>config-policy-controller</code> to the managed cluster with the following commands:</p>
@@ -297,9 +321,7 @@ for more information.</li>
 <p>Ensure the pod is running on the managed cluster with the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n <span style="color:#e6db74">${</span>MANAGED_NAMESPACE<span style="color:#e6db74">}</span>
 NAME                                               READY   STATUS    RESTARTS   AGE
-...
 config-policy-controller-7f8fb64d8c-pmfx4          1/1     Running   <span style="color:#ae81ff">0</span>          44s
-...
 </code></pre></div></li>
 </ol>
 <h2 id="what-is-next">What is next</h2>
