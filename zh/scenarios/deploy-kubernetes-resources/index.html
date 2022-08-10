@@ -253,11 +253,11 @@ managed cluster if the <code>ManifestWork</code> is created in a valid
 <h2 id="deploy-the-resource-to-a-targetd-cluster">Deploy the resource to a targetd cluster</h2>
 <p>Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.</p>
 <p>Connect to your hub cluster and run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --cluster &lt;cluster name&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt;
 </code></pre></div><p>This should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm get works my-first-work --cluster &lt;cluster name&gt;
 </code></pre></div><p>If you have some change on the manifest files, you can apply the change to the targeted cluster by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --cluster &lt;cluster name&gt; --overwrite
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt; --overwrite
 </code></pre></div><p>To remove the resources deployed on the targeted cluster, run:</p>
 <pre><code>kubectl delete manifestwork my-first-work -n &lt;cluster name&gt;
 </code></pre><h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
