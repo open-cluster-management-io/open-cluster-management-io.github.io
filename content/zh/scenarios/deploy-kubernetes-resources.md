@@ -32,7 +32,7 @@ Now you can deploy a set of kubernetes resources defined in files to any cluster
 Connect to your hub cluster and run:
 
 ```shell
-clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name>
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name>
 ```
 
 This should create a `ManifestWork` in cluster namespace of your hub cluster. To see the detailed status of this `ManifestWork`, you can run:
@@ -44,7 +44,7 @@ clusteradm get works my-first-work --cluster <cluster name>
 If you have some change on the manifest files, you can apply the change to the targeted cluster by running:
 
 ```shell
-clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name> --overwrite
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name> --overwrite
 ```
 
 To remove the resources deployed on the targeted cluster, run:

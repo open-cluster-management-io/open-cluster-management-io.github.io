@@ -34,7 +34,7 @@ Connect to your hub cluster and you have 2 options to create a `ManifestWork`:
 1) use `clusteradm` command
 
 ```shell
-clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name>
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name>
 ```
 
 where kubernetes yaml file should be kubernetes definitions, a sample:
@@ -126,7 +126,7 @@ clusteradm get works my-first-work --cluster <cluster name>
 If you have some change on the manifest files, you can apply the change to the targeted cluster by running:
 
 ```shell
-clusteradm create work my-first-work -f <kubernetes yaml file or directory> --cluster <cluster name> --overwrite
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name> --overwrite
 ```
 
 To remove the resources deployed on the targeted cluster, run:
