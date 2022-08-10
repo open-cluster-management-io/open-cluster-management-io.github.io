@@ -372,13 +372,28 @@ A <code>ManifestWork</code> can be defined as follows:</p>
                     - <span style="color:#66d9ef">containerPort</span>: <span style="color:#ae81ff">80</span>
 </code></pre></div><p>In this example:</p>
 <ul>
-<li>A <code>ManifestWork</code> named &ldquo;example-manifestwork&rdquo; will be created into a
-&ldquo;cluster namespace&rdquo; named &ldquo;cluster1&rdquo;.</li>
-<li>The resources in the <code>ManifestWork</code> including a service-account, a deployment
-will be created to the cluster &ldquo;cluster1&rdquo;.</li>
-<li>In the status of <code>ManifestWork</code> we can check out the aggregated status
+<li>
+<p>A <code>ManifestWork</code> named &ldquo;example-manifestwork&rdquo; will be created into a
+&ldquo;cluster namespace&rdquo; named &ldquo;cluster1&rdquo;.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get manifestwork -A --context kind-hub</span>
+NAMESPACE   NAME            AGE
+cluster1    my-first-work   2m59s
+</code></pre></div></li>
+<li>
+<p>The resources in the <code>ManifestWork</code> including a service-account, a deployment
+will be created to the cluster &ldquo;cluster1&rdquo;.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get deployment --context kind-cluster1</span>
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nginx-deployment   3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           4m10s
+
+<span style="color:#75715e"># kubectl get sa my-sa --context kind-cluster1</span>
+NAME    SECRETS   AGE
+my-sa   <span style="color:#ae81ff">1</span>         4m23s
+</code></pre></div></li>
+<li>
+<p>In the status of <code>ManifestWork</code> we can check out the aggregated status
 indicating whether the prescribed resources are successfully deployed by the
-conditions in the field <code>.status.conditions[*]</code>:
+conditions in the field <code>.status.conditions[*]</code>:</p>
 <ul>
 <li><code>Applied</code>: Whether <strong>all</strong> the resources from the spec are successfully
 applied since the last observed generation of <code>ManifestWork</code>.</li>
@@ -386,10 +401,12 @@ applied since the last observed generation of <code>ManifestWork</code>.</li>
 the target managed cluster.</li>
 </ul>
 </li>
-<li>Beside the aggregated status, the <code>ManifestWork</code> is also tracking the
+<li>
+<p>Beside the aggregated status, the <code>ManifestWork</code> is also tracking the
 per-resource status under <code>.status.resourceStatus[*]</code> where we can
 discriminate different resource types via the
-<code>.status.resourceStatus[*].resourceMeta</code> field. e.g.:</li>
+<code>.status.resourceStatus[*].resourceMeta</code> field. e.g.:</p>
+</li>
 </ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">resourceStatus</span>:
   <span style="color:#66d9ef">manifests</span>:
