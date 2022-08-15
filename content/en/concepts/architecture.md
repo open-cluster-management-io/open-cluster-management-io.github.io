@@ -110,7 +110,7 @@ reach out to our community so that we can converge in the future if possible.
 
 Practically the hub cluster and the managed cluster can be owned/maintained 
 by different admins, so in OCM we clearly separated the roles and make the
-cluster registration require approval from the both sides defencing unwelcome
+cluster registration require approval from the both sides defending from unwelcome
 requests. In terms of terminating the registration, the hub admin can kick
 out a registered cluster by denying the rotation of hub cluster's certificate,
 on the other hand from the perspective of a managed cluster's admin, he can
@@ -218,4 +218,4 @@ the hub and apply policies to the managed clusters.
 
 Automating the installation and upgrading of a few built-in modules in OCM. You
 can either deploy the operator standalone or delegate the registration operator 
-to the operator lifecyle framework.
+to the operator lifecycle framework.
