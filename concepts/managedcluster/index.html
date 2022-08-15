@@ -282,7 +282,7 @@ registration agent which requires a bootstrap kubeconfig e.g.:</p>
 </code></pre></div><p>A minimal RBAC permission required for the subject in the bootstrap kubeconfig
 will be:</p>
 <ul>
-<li><code>CertficateSigningRequest</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;watch&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;.</li>
+<li><code>CertificateSigningRequest</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;watch&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;.</li>
 <li><code>ManagedCluster</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;</li>
 </ul>
 <p>Note that ideally the bootstrap kubeconfig is supposed to live shortly
@@ -293,7 +293,7 @@ command-line tool <code>clusteradm</code> to manage the whole registration proce
 <h4 id="approving-registration">Approving registration</h4>
 <p>When we&rsquo;re registering a new cluster into OCM, the registration agent will be
 starting by creating an unaccepted <code>ManagedCluster</code> into the hub cluster along
-with a temporary <a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/">CertficateSigningRequest (CSR)</a>
+with a temporary <a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/">CertificateSigningRequest (CSR)</a>
 resource. The cluster will be accepted by the hub control plan, if the
 following requirements is meet:</p>
 <ul>
