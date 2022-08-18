@@ -279,7 +279,7 @@ more details see the
 <p>Deploy the configuration policy controller to the managed cluster(s) (this command is the same
 for a self-managed hub):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># Deploy the configuration policy controller</span>
-clusteradm addon enable addon --names config-policy-controller --clusters &lt;cluster_name&gt; --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+clusteradm addon enable addon --names config-policy-controller --clusters &lt;cluster_name&gt; --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 <li>
 <p>Ensure the pod is running on the managed cluster with the following command:</p>

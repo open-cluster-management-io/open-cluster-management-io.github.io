@@ -386,7 +386,7 @@ governance-policy-propagator-8c77f7f5f-kthvh               1/1     Running   <sp
 <p>To deploy the synchronization components to a self-managed hub cluster:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm addon enable --names governance-policy-framework --clusters &lt;managed_hub_cluster_name&gt; --annotate addon.open-cluster-management.io/on-multicluster-hub<span style="color:#f92672">=</span>true --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>To deploy the synchronization components to a managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm addon enable --names governance-policy-framework --clusters &lt;cluster_name&gt; --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm addon enable --names governance-policy-framework --clusters &lt;cluster_name&gt; --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 <li>
 <p>Verify that the pod is running on the managed cluster with the following command:</p>
