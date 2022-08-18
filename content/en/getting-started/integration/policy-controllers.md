@@ -38,7 +38,7 @@ more details see the
 
    ```Shell
    # Deploy the configuration policy controller
-   clusteradm addon enable addon --names config-policy-controller --clusters <cluster_name> --context ${CTX_MANAGED_CLUSTER}
+   clusteradm addon enable addon --names config-policy-controller --clusters <cluster_name> --context ${CTX_HUB_CLUSTER}
    ```
 
 2. Ensure the pod is running on the managed cluster with the following command:
