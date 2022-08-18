@@ -275,7 +275,7 @@ $ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gate
     --set konnectivityEgress<span style="color:#f92672">=</span>true
 </code></pre></div><h3 id="confirm-addon-installation">Confirm addon installation</h3>
 <p>The commands above installs the addon manager into the hub cluster, and the
-manager will creating <code>ManagedClusterAddon</code> automatically into the cluster
+manager will creating <code>ManagedClusterAddOn</code> automatically into the cluster
 namespaces representing the addon is plumbed into the managed cluster. In order
 to check their status, run:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A

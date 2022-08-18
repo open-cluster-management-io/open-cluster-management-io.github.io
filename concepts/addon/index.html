@@ -287,12 +287,12 @@ add-on can be registered to the hub cluster by creating:</p>
 </code></pre></div><p>The addon manager running on the hub is taking responsibility of configuring the
 installation of addon agents for each managed cluster. When a user wants to enable
 the add-on for a certain managed cluster, the user should create a
-<code>ManagedClusterAddon</code> resource on the cluster namespace. The name of the
-<code>ManagedClusterAddon</code> should be the same name of the corresponding
+<code>ManagedClusterAddOn</code> resource on the cluster namespace. The name of the
+<code>ManagedClusterAddOn</code> should be the same name of the corresponding
 <code>ClusterManagementAddon</code>. For instance, the following example enables <code>helloworld</code>
 add-on in &ldquo;cluster1&rdquo;:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddon
+<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: helloworld
   <span style="color:#66d9ef">namespace</span>: cluster1
@@ -367,7 +367,7 @@ with properties:
 upon discovering new clusters by setting the <code>InstallStrategy</code> from the
 <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>.
 On the other hand, the admin can also manually install the addon for the
-clusters by applying <code>ManagedClusterAddon</code> into their cluster namespace.</p>
+clusters by applying <code>ManagedClusterAddOn</code> into their cluster namespace.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
