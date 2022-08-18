@@ -73,14 +73,14 @@ spec:
 The addon manager running on the hub is taking responsibility of configuring the
 installation of addon agents for each managed cluster. When a user wants to enable 
 the add-on for a certain managed cluster, the user should create a 
-`ManagedClusterAddon` resource on the cluster namespace. The name of the 
-`ManagedClusterAddon` should be the same name of the corresponding 
+`ManagedClusterAddOn` resource on the cluster namespace. The name of the 
+`ManagedClusterAddOn` should be the same name of the corresponding 
 `ClusterManagementAddon`. For instance, the following example enables `helloworld` 
 add-on in "cluster1":
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ManagedClusterAddon
+kind: ManagedClusterAddOn
 metadata:
   name: helloworld
   namespace: cluster1
@@ -167,4 +167,4 @@ The addon manager can automatically install an addon to the managed clusters
 upon discovering new clusters by setting the `InstallStrategy` from the 
 [addon-framework](https://github.com/open-cluster-management-io/addon-framework).
 On the other hand, the admin can also manually install the addon for the 
-clusters by applying `ManagedClusterAddon` into their cluster namespace.
+clusters by applying `ManagedClusterAddOn` into their cluster namespace.

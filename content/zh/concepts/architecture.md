@@ -82,7 +82,7 @@ Kubernetes具有原生的，命名空间粒度的多租户软隔离，所以在O
 
 插件是一个通用概念，用于在OCM的可扩展性基础上，构建可选的，可插入的定制化。
 它可以是一个hub cluster上的控制器，或者只是managed cluster上的一个定制的代理，甚至或者是两者的结合。
-插件应该实现`ClusterManagementAddon`和`ManagedClusterAddon`的API，详细说明见[此处](https://open-cluster-management.io/concepts/addon/).
+插件应该实现`ClusterManagementAddon`和`ManagedClusterAddOn`的API，详细说明见[此处](https://open-cluster-management.io/concepts/addon/).
 
 ---
 

@@ -159,7 +159,7 @@ Addon is a general concept for the optional, pluggable customization built over
 the extensibility from OCM. It can be a controller in the hub cluster, or just 
 a customized agent in the managed cluster, or even the both collaborating 
 in peers. The addons are expected to implement the `ClusterManagementAddon` or
-`ManagedClusterAddon` API of which a detailed elaboration can be found [here](https://open-cluster-management.io/concepts/addon/).
+`ManagedClusterAddOn` API of which a detailed elaboration can be found [here](https://open-cluster-management.io/concepts/addon/).
 
 ---
 

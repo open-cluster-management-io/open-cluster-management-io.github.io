@@ -67,7 +67,7 @@ $ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gate
 ### Confirm addon installation
 
 The commands above installs the addon manager into the hub cluster, and the 
-manager will creating `ManagedClusterAddon` automatically into the cluster
+manager will creating `ManagedClusterAddOn` automatically into the cluster
 namespaces representing the addon is plumbed into the managed cluster. In order
 to check their status, run:
 

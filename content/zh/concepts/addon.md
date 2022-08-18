@@ -26,10 +26,10 @@ spec:
     displayName: helloworld
 ```
 
-An add-on should also have a controller running on the hub taking responsibility of add-on configuration for each managed cluster. When a user wants to enable the add-on for a certain managed cluster, the user should create a `ManagedClusterAddon` resource on the cluster namespace. The name of the `ManagedClusterAddon` should be the same name of the corresponding `ClusterManagementAddon`. For instance, the following example enables `helloworld` add-on in cluster1
+An add-on should also have a controller running on the hub taking responsibility of add-on configuration for each managed cluster. When a user wants to enable the add-on for a certain managed cluster, the user should create a `ManagedClusterAddOn` resource on the cluster namespace. The name of the `ManagedClusterAddOn` should be the same name of the corresponding `ClusterManagementAddon`. For instance, the following example enables `helloworld` add-on in cluster1
 
 ```yaml
-kind: ManagedClusterAddon
+kind: ManagedClusterAddOn
 metadata:
   name: helloworld
   namespace: cluster1
