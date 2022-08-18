@@ -154,7 +154,7 @@ more details see the
    To deploy the synchronization components to a managed cluster:
 
    ```Shell
-   clusteradm addon enable --names governance-policy-framework --clusters <cluster_name> --context ${CTX_MANAGED_CLUSTER}
+   clusteradm addon enable --names governance-policy-framework --clusters <cluster_name> --context ${CTX_HUB_CLUSTER}
    ```
 
 2. Verify that the pod is running on the managed cluster with the following command:
