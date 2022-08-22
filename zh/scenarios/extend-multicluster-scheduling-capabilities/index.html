@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"/>
+  <link rel="stylesheet" href="/main.css"/>
+  <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
+  <title>Open Cluster Management</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1PXKZXT157"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1PXKZXT157');
+  </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+    
+
+
+<input id="current-lang" type="hidden" value="zh">
+
+<header class="navbar navbar-expand-md navbar-dark bd-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
+    <div class="container-fluid flex-wrap flex-md-nowrap">
+      <a href="/zh/" class="navbar-brand">
+        <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
+        Open Cluster Management
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto ">
+          <li class="nav-item pe-2">
+            <a href="/zh/community" class="nav-link text-light">社区</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/contribute" class="nav-link text-light">贡献</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/concepts" class="nav-link text-light">文档</a>
+          </li>
+          <li class="nav-item dropdown pe-2">
+            
+            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
+            
+
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+              <li><a class="dropdown-item" href="#" id="to-en">English</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://www.youtube.com/c/OpenClusterManagement" target="_blank">
+                <i class="bi bi-youtube"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://kubernetes.slack.com/?redir=%2Farchives%2FC01GE7YSUUF" target="_blank">
+              <i class="bi bi-slack"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+</div>
+        <div class="row subject-padding">
+            <div class="col-2 col-md-3 padding-none sidebar-bgc">
+
+
+
+    
+
+
+<div class="sidebar-toggle sidebar-toggle-sm">
+    <button type="button" id="sidebarToggle" class="btn btn-info">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+<nav id="sidebar" class="sidebar-hide-sm">
+    <ul class="components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">架构</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">托管集群</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">资源下发</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedclusterset">托管集群分组</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">匹配路由</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">自定义插件</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/policy">Policy</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">中枢控制器</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/core/register-cluster">集群代理控制器</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">应用生命周期管理</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/cluster-proxy">多集群网络隧道</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy框架</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy控制器</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/managed-serviceaccount">托管多集群ServiceAccount</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/administration">运维管理</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/administration/upgrading">升级版本</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">部署Kubernetes资源</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/distribute-workload-with-placement">通过placement分发工作负载</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/extend-multicluster-scheduling-capabilities">扩展多集群调度能力</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/extending-managed-clusters">扩展集群模型</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/pushing-kube-api-requests">向托管集群推送Kube API请求</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">发行版本</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">社区规划</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+        <li style="padding-top: 10px; border-top: 2px solid #448a78;">
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io" target="_blank"><i class="bi bi-github"></i><span style="padding-left: 10px;">GitHub</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://kubernetes.slack.com/archives/C01GE7YSUUF" target="_blank"><i class="bi bi-slack"></i><span style="padding-left: 10px;">Slack</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://www.youtube.com/c/OpenClusterManagement" target="_blank"><i class="bi bi-youtube"></i><span style="padding-left: 10px;">YouTube</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://groups.google.com/g/open-cluster-management" target="_blank"><i class="bi bi-envelope-fill"></i><span style="padding-left: 10px;">Mailing group</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://calendar.google.com/calendar/u/0/embed?src=openclustermanagement@gmail.com" target="_blank"><i class="bi bi-calendar-event-fill"></i><span style="padding-left: 10px;">Community meetings</span></a>
+        </li>
+    </ul>
+</nav>
+<script type="text/javascript" src="/sidebar.js"></script>
+</div>
+            <div class="col-10 col-md-9 padding-none">
+<div id="content">
+    <h1>Extend the multicluster scheduling capabilities with placement</h1>
+    <p>The <code>Placement</code> API is used to dynamically select a set of <code>ManagedCluster</code> in one or multiple <code>ManagedClusterSets</code> so that the workloads can be deployed to these clusters. You can use placement to filter clusters by label or claim selector, also placement provides some default prioritizers which can be used to sort and select the most suitable clusters.</p>
+<p>One of the default prioritizers are ResourceAllocatableCPU and ResourceAllocatableMemory. They provide the capability to sort clusters based on the allocatable CPU and memory. However, when considering the resource based scheduling, there&rsquo;s a gap that the cluster’s &ldquo;AllocatableCPU&rdquo; and &ldquo;AllocatableMemory&rdquo; are static values that won’t change even if “the cluster is running out of resources&rdquo;. And in some cases, the prioritizer needs more extra data to calculate the score of the managed cluster. For example, there is a requirement to schedule based on resource monitoring data from the cluster. For this reason, we need a more extensible way to support scheduling based on customized scores.</p>
+<h2 id="what-is-placement-extensible-scheduling">What is Placement extensible scheduling?</h2>
+<p>OCM placement introduces an API <code>AddOnPlacementScore</code> to support scheduling based on customized scores. This API supports storing the customized scores and being used by placement. Details of the API&rsquo;s definition refer to <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_addonplacementscore.go">types_addonplacementscore.go</a>. An example of <code>AddOnPlacementScore</code> is as below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: AddOnPlacementScore
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: default
+  <span style="color:#66d9ef">namespace</span>: cluster1
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+  - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-10-28T08:31:39Z&#34;</span>
+    <span style="color:#66d9ef">message</span>: AddOnPlacementScore updated successfully
+    <span style="color:#66d9ef">reason</span>: AddOnPlacementScoreUpdated
+    <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+    <span style="color:#66d9ef">type</span>: AddOnPlacementScoreUpdated
+  <span style="color:#66d9ef">validUntil</span>: <span style="color:#e6db74">&#34;2021-10-29T18:31:39Z&#34;</span>
+  <span style="color:#66d9ef">scores</span>:
+  - <span style="color:#66d9ef">name</span>: <span style="color:#e6db74">&#34;cpuAvailable&#34;</span>
+    <span style="color:#66d9ef">value</span>: <span style="color:#ae81ff">66</span>
+  - <span style="color:#66d9ef">name</span>: <span style="color:#e6db74">&#34;memAvailable&#34;</span>
+    <span style="color:#66d9ef">value</span>: <span style="color:#ae81ff">55</span>
+</code></pre></div><ul>
+<li><code>conditions</code>. Conditions contain the different condition statuses for this <code>AddOnPlacementScore</code>.</li>
+<li><code>validUntil</code>. ValidUntil defines the valid time of the scores. After this time, the scores are considered to be invalid by placement. nil means never expire. The controller owning this resource should keep the scores up-to-date.</li>
+<li><code>scores</code>. Scores contain a list of score names and values of this managed cluster. In the above example, the API contains a list of customized scores: cpuAvailable and memAvailable.</li>
+</ul>
+<p>All the customized scores information is stored in <code>status</code>, as we don&rsquo;t expect end users to update it.</p>
+<ul>
+<li>As a score provider, a 3rd party controller could run on either hub or managed cluster, to maintain the lifecycle of <code>AddOnPlacementScore</code> and update the score into the <code>status</code>.</li>
+<li>As an end user, you need to know the resource name &ldquo;default&rdquo; and customized score name &ldquo;cpuAvailable&quot;and &ldquo;memAvailable&rdquo; , so you can specify the name in placement yaml to select clusters. For example, the below placement wants to select the top 3 clusters with the highest cpuAvailable score.
+<pre><code>apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: placement
+  namespace: ns1
+spec:
+  numberOfClusters: 3
+  prioritizerPolicy:
+    mode: Exact
+    configurations:
+      - scoreCoordinate:
+          type: AddOn
+          addOn:
+            resourceName: default
+            scoreName: cpuAvailable
+        weight: 1
+</code></pre></li>
+<li>In placement, if the end-user defines the scoreCoordinate type as AddOn, the placement controller will get the <code>AddOnPlacementScore</code> resource with the name &ldquo;default&rdquo; in each cluster&rsquo;s namespace, read score &ldquo;cpuAvailable&rdquo; in the score list, and use that score to sort clusters.</li>
+</ul>
+<p>You can refer to the <a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a> to learn more details about the design. In the design, how to maintain the lifecycle (create/update/delete) of the <code>AddOnPlacementScore</code> CRs is not covered, as we expect the customized score provider itself to manage it. In this article, we will use an example to show you how to implement a 3rd part controller to update your own scores and extend the multiple clusters scheduling capability with your own scores.</p>
+<h2 id="how-to-implement-a-customized-score-provider">How to implement a customized score provider</h2>
+<p>The example code is in GitHub repo <a href="https://github.com/JiahaoWei-RH/resource-usage-collect">resource-usage-collect</a>. It provides the score of the cluster&rsquo;s available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a> and can be installed as an addon plugin to update customized scores into <code>AddOnPlacementScore</code>. (This article won&rsquo;t talk many details about addon-framework, referring to <a href="https://open-cluster-management.io/concepts/">xxx</a> to learn how to develop an addon.)</p>
+<p>The resource-usage-collect addon follows the hub-agent architecture as below.
+<img src="extend-multicluster-scheduling-capabilities.png" alt="image"></p>
+<p>The resource-usage-collect addon contains a controller and an agent.</p>
+<ul>
+<li>On the hub cluster, the resource-usage-collect-controller is running. It is responsible for creating the <code>ManifestWork</code> for resource-usage-collect-agent in each cluster namespace.</li>
+<li>On each managed cluster, the work agent watches the <code>ManifestWork</code> and installs the resource-usage-collect-agent on each cluster. The resource-usage-collect-agent is the core part of this addon, it creates the <code>AddonPlacementScore</code> for each cluster on the Hub cluster, and refreshes the <code>scores</code> and <code>validUntil</code> every 60 seconds.</li>
+</ul>
+<p>When the <code>AddonPlacementScore</code> is ready, the end user can specify the customized core in a placement to select clusters.</p>
+<p>The working flow and logic of resource-usage-collect addon are quite easy to understand. Now let&rsquo;s follow the below steps to get started!</p>
+<p><strong>Prepare an OCM environment with 2 <code>ManagedClusters</code>.</strong></p>
+<ol>
+<li>Following <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment">setup dev environment by kind</a> to prepare an environment.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
+</code></pre></div><ol start="2">
+<li>Confirm there are 2 <code>ManagedCluster</code> and a default <code>ManagedClusterSet</code> created.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm get clusters
+NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERENETES VERSION
+cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
+cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
+
+$ clusteradm get clustersets
+NAME      BOUND NAMESPACES   STATUS
+default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
+</code></pre></div><ol start="3">
+<li>Bind the default <code>ManagedClusterSet</code> to default <code>Namespace</code>.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">clusteradm clusterset bind default --namespace default
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm get clustersets
+NAME      BOUND NAMESPACES   STATUS
+default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
+</code></pre></div><p><strong>Install the resource-usage-collect addon.</strong></p>
+<ol>
+<li>Git clone the source code.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone git@github.com:JiahaoWei-RH/resource-usage-collect.git 
+cd resource-usage-collect
+</code></pre></div><ol start="2">
+<li>Prepare the image.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># get imagebuilder first</span>
+go get github.com/openshift/imagebuilder/cmd/imagebuilder@v1.2.1
+export PATH<span style="color:#f92672">=</span>$PATH:<span style="color:#66d9ef">$(</span>go env GOPATH<span style="color:#66d9ef">)</span>/bin
+<span style="color:#75715e"># build image</span>
+make images
+</code></pre></div><ol start="3">
+<li>Deploy the resource-usage-collect addon.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make deploy
+</code></pre></div><ol start="4">
+<li>Verify the installation.</li>
+</ol>
+<p>On the hub cluster, verify the resource-usage-collect-controller pod is running.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n open-cluster-management | grep resource-usage-collect-controller
+resource-usage-collect-controller-55c58bbc5-t45dh   1/1     Running   <span style="color:#ae81ff">0</span>          71s
+</code></pre></div><p>On the hub cluster, verify the <code>AddonPlacementScore</code> is generated for each managed cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get addonplacementscore -A
+NAMESPACE   NAME                   AGE
+cluster1    resource-usage-score   3m23s
+cluster2    resource-usage-score   3m24s
+</code></pre></div><p>The <code>AddonPlacementScore</code> status should contain a list of scores as below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get addonplacementscore -n cluster1 resource-usage-score -oyaml
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: AddOnPlacementScore
+metadata:
+  creationTimestamp: <span style="color:#e6db74">&#34;2022-08-08T06:46:04Z&#34;</span>
+  generation: <span style="color:#ae81ff">1</span>
+  name: resource-usage-score
+  namespace: cluster1
+  resourceVersion: <span style="color:#e6db74">&#34;3907&#34;</span>
+  uid: 6c4280e4-38be-4d45-9c73-c18c84799781
+status:
+  scores:
+  - name: cpuAvailable
+    value: <span style="color:#ae81ff">12</span>
+  - name: memAvailable
+    value: <span style="color:#ae81ff">4</span>
+</code></pre></div><p>If <code>AddonPlacementScore</code> is not created or there are no scores in the status, go into the managed cluster, and check if the resource-usage-collect-agent pod is running well.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n default | grep resource-usage-collect-agent
+resource-usage-collect-agent-5b85cbf848-g5kqm   1/1     Running   <span style="color:#ae81ff">0</span>          2m
+</code></pre></div><p><strong>Select clusters with the customized scores.</strong></p>
+<p>If everything is running well, now you can try to create placement and select clusters with the customized scores.</p>
+<ol>
+<li>Create a placement to select 1 cluster with the highest cpuAvailable score.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
+</span><span style="color:#e6db74">kind: Placement
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: placement1
+</span><span style="color:#e6db74">  namespace: default
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  numberOfClusters: 1
+</span><span style="color:#e6db74">  clusterSets:
+</span><span style="color:#e6db74">    - default
+</span><span style="color:#e6db74">  prioritizerPolicy:
+</span><span style="color:#e6db74">    mode: Exact
+</span><span style="color:#e6db74">    configurations:
+</span><span style="color:#e6db74">      - scoreCoordinate:
+</span><span style="color:#e6db74">          type: AddOn
+</span><span style="color:#e6db74">          addOn:
+</span><span style="color:#e6db74">            resourceName: resource-usage-score
+</span><span style="color:#e6db74">            scoreName: cpuAvailable
+</span><span style="color:#e6db74">        weight: 1
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><ol start="2">
+<li>Verify the placement decision.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl describe placementdecision -n default | grep Status -A <span style="color:#ae81ff">3</span>
+Status:
+  Decisions:
+    Cluster Name:  cluster1
+    Reason:
+</code></pre></div><p>Cluster1 is selected by <code>PlacementDecision</code>.</p>
+<p>Running below command to get the customized score in <code>AddonPlacementScore</code> and the cluster score set by <code>Placement</code>.
+You can see that the &ldquo;cpuAvailable&rdquo; score is 12 in <code>AddonPlacementScore</code>, and this value is also the cluster score in <code>Placement</code> events, this indicates that placement is using the customized score to select clusters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get addonplacementscore -A -o<span style="color:#f92672">=</span>jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{range .items[*]}{.metadata.namespace}{&#34;\t&#34;}{.status.scores}{&#34;\n&#34;}{end}&#39;</span>
+cluster1        <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;cpuAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;memAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:4<span style="color:#f92672">}]</span>
+cluster2        <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;cpuAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;memAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:4<span style="color:#f92672">}]</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl describe placement -n default placement1 | grep Events -A <span style="color:#ae81ff">10</span>
+Events:
+  Type    Reason          Age   From                 Message
+  ----    ------          ----  ----                 -------
+  Normal  DecisionCreate  50s   placementController  Decision placement1-decision-1 is created with placement placement1 in namespace default
+  Normal  DecisionUpdate  50s   placementController  Decision placement1-decision-1 is updated with placement placement1 in namespace default
+  Normal  ScoreUpdate     50s   placementController  cluster1:12 cluster2:12
+</code></pre></div><p>Now you know how to install the resource-usage-collect addon and consume the customized score to select clusters. Next, let&rsquo;s take a deeper look into some key points when you consider implementing a customized score provider .</p>
+<h3 id="1-where-to-run-the-customized-score-provider">1. Where to run the customized score provider</h3>
+<p>The customized score provider could run on either hub or managed cluster. Combined with user stories, you should be able to distinguish whether the controller should be placed in a hub or a managed cluster.</p>
+<p>In our example, the customized score provider is developed with <a href="https://github.com/open-cluster-management-io/addon-framework">addon-famework</a>, it follows the hub-agent architecture. The resource-usage-collect-agent is the real score provider, it is installed on each managed cluster, it gets the available CPU and memory of the managed cluster, calculates a score, and updates it into <code>AddonPlacementScore</code>. The resource-usage-collect-controller just takes care of installing the agent.</p>
+<p>In other cases, for example, if you want to use the metrics from Thanos to calculate a score for each cluster, then the customized score provider only needs to be placed on the hub, as Thanos has all the metrics collected from each managed cluster.</p>
+<h3 id="2-how-to-maintain-the-addonplacementscore-cr-lifecycle">2. How to maintain the AddOnPlacementScore CR lifecycle</h3>
+<p>In our example, the code to maintain the <code>AddOnPlacementScore</code> CR is in <a href="https://github.com/JiahaoWei-RH/resource-usage-collect/blob/main/pkg/addon/agent/agent.go">pkg/addon/agent/agent.go</a>.</p>
+<ul>
+<li>
+<p>When should the score be created?</p>
+<p>The <code>AddOnPlacementScore</code> CR can be created with the existence of a ManagedCluster, or on demand for the purpose of reducing objects on the hub.</p>
+<p>In our example, the addon creates an <code>AddOnPlacementScore</code> for each Managed Cluster if it does not exist, and a score will be calculated when creating the CR for the first time.</p>
+</li>
+<li>
+<p>When should the score be updated?</p>
+<p>We recommend that you set <code>ValidUntil</code> when updating the score so that the placement controller can know if the score is still valid in case it failed to update for a long time.</p>
+<p>The score could be updated when your monitoring data changes, or at least you need to update it before it expires.</p>
+<p>In our example, in addition to recalculate and update the score every 60 seconds, the update will also be triggered when the node or pod resource in the managed cluster changes.</p>
+</li>
+</ul>
+<h3 id="3-how-to-calculate-the-score">3. How to calculate the score</h3>
+<p>The code to calculate the score is in <a href="https://github.com/JiahaoWei-RH/resource-usage-collect/blob/main/pkg/addon/agent/calculate.go">pkg/addon/agent/calculate.go</a>. A valid score must be in the range -100 to 100, you need to normalize the scores before updating it into <code>AddOnPlacementScore</code>.</p>
+<p>When normalizing the score, you might meet the below cases.</p>
+<ul>
+<li>
+<p>The score provider knows the max and min value of the customized scores.</p>
+<p>In this case, it is easy to achieve smooth mapping by formula. Suppose the actual value is X, and X is in the interval [min, max], then<code>score ＝ 200 * (x - min) / (max - min) - 100</code></p>
+</li>
+<li>
+<p>The score provider doesn&rsquo;t know the max and min value of the customized scores.</p>
+<p>In this case, you need to set a maximum and minimum value by yourself, as without a max and min value, is unachievable to map a single value X to the range [-100, 100].
+Then when the X is greater than this maximum value, the cluster can be considered healthy enough to deploy applications, and the score can be set as 100. And if X is less than the minimum value, the score can be set as -100.</p>
+<pre><code>if X &gt;= max
+  score = 100
+if X &lt;= min 
+  score = -100
+</code></pre></li>
+</ul>
+<p>In our example, the resource-usage-collect-agent running on each managed cluster doesn&rsquo;t have a whole picture view to know the max/min value of CPU/memory usage of all the clusters, so we manually set the max value as <code>MAXCPUCOUNT</code> and <code>MAXMEMCOUNT</code> in code, min value is set as 0. The score calculation formula can be simplified:  <code>score = x / max * 100</code>.</p>
+<h2 id="summary">Summary</h2>
+<p>In this article, we introduced what is the placement extensible scheduling and used an example to show how to implement a customized score provider. Also, this article list 3 key points the developer needs to consider when implementing a 3rd party score provider. Hope after reading this article, you can have a clear view of how placement extensible scheduling can help you extend the multicluster scheduling capabilities.</p>
+<p>Feel free to raise your question in the <a href="https://github.com/open-cluster-management-io/OCM/issues">Open-cluster-management-io GitHub community</a> or contact us using <a href="https://kubernetes.slack.com/archives/C01GE7YSUUF">Slack</a>.</p>
+
+</div>
+<script type="text/javascript" src="/clipboard-copy.js"></script>
+</div>
+        </div>
+        <div class="row"><nav class="ocm navbar navbar-expand-lg navbar-dark py-3">
+  <div class="container-fluid flex-wrap flex-md-nowrap">
+    <div class="text-light">&copy; 2021 Open Cluster Management Authors. The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see <a href="https://www.linuxfoundation.org/trademark-usage/" target="_blank" style="color: #f8f9fa;">Trademark Usage</a></div>
+  </div>
+</nav>
+<script type="text/javascript" src="/lang.js"></script>
+</div>
+    </div>
+</body>
+</html>

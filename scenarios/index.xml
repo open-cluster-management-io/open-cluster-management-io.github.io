@@ -31,6 +31,16 @@ If you define a valid Placement, the placement controller generates a correspond
     </item>
     
     <item>
+      <title>Extend the multicluster scheduling capabilities with placement</title>
+      <link>http://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities/</guid>
+      <description>The Placement API is used to dynamically select a set of ManagedCluster in one or multiple ManagedClusterSets so that the workloads can be deployed to these clusters. You can use placement to filter clusters by label or claim selector, also placement provides some default prioritizers which can be used to sort and select the most suitable clusters.
+One of the default prioritizers are ResourceAllocatableCPU and ResourceAllocatableMemory. They provide the capability to sort clusters based on the allocatable CPU and memory.</description>
+    </item>
+    
+    <item>
       <title>Extending managed clusters with custom attributes</title>
       <link>http://open-cluster-management.io/scenarios/extending-managed-clusters/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

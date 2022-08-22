@@ -30,6 +30,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/scenarios/extending-managed-clusters</loc>
     </url>
     
