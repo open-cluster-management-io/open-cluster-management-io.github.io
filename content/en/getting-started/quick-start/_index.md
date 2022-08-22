@@ -5,8 +5,8 @@ weight: 1
 
 After walking through our *Quick Start* guide you will:
 
-* Install and run OCM's command-line tool `clusteradm`.
-* Bootstrap an OCM's hub cluster as the multi-cluster control plan.
+* Install and run Open Cluster Management(OCM)'s command-line tool `clusteradm`.
+* Bootstrap an OCM's hub cluster as the multi-cluster control plane.
 * Register another cluster as OCM's managed cluster.
 * Approving the managed cluster to be controlled by hub cluster.
 
@@ -19,7 +19,7 @@ __Contents__
 ## Prerequisites
 
 - The hub cluster should be `v1.19+`.
-  (To run on hub cluster version between \[`v1.12`, `v1.18`\], 
+  (To run on hub cluster version between \[`v1.16`, `v1.18`\],
   please manually enable feature gate "V1beta1CSRAPICompatibility").
 - The managed clusters should be `v1.11+`.
 
@@ -27,7 +27,7 @@ You can always set up a local [KinD](https://kind.sigs.k8s.io/)
 environment on your workstation easily by following these [instructions](#setup-a-local-kind-environment)
 after meeting the following additional prerequisites:
 
-- KinD greater than `v0.9.0+`.
+- KinD greater than `v0.9.0+`, or the latest version is preferred.
   
 ## Environment
 
@@ -101,6 +101,7 @@ To try out the cluster registration, let's walk through the following steps:
    ```shell
    # By default, it installs the latest release of the OCM components.
    # Use e.g. "--bundle-version=latest" to install latest development builds.
+   # NOTE: For hub cluster version between v1.16 to v1.19 use the parameter: --use-bootstrap-token
    clusteradm init --wait --context ${CTX_HUB_CLUSTER}
    ```
 
