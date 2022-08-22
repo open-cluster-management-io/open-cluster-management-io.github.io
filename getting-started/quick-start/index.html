@@ -226,8 +226,8 @@
     <h1>Quick Start</h1>
     <p>After walking through our <em>Quick Start</em> guide you will:</p>
 <ul>
-<li>Install and run OCM&rsquo;s command-line tool <code>clusteradm</code>.</li>
-<li>Bootstrap an OCM&rsquo;s hub cluster as the multi-cluster control plan.</li>
+<li>Install and run Open Cluster Management(OCM)&lsquo;s command-line tool <code>clusteradm</code>.</li>
+<li>Bootstrap an OCM&rsquo;s hub cluster as the multi-cluster control plane.</li>
 <li>Register another cluster as OCM&rsquo;s managed cluster.</li>
 <li>Approving the managed cluster to be controlled by hub cluster.</li>
 </ul>
@@ -261,7 +261,7 @@
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>The hub cluster should be <code>v1.19+</code>.
-(To run on hub cluster version between [<code>v1.12</code>, <code>v1.18</code>],
+(To run on hub cluster version between [<code>v1.16</code>, <code>v1.18</code>],
 please manually enable feature gate &ldquo;V1beta1CSRAPICompatibility&rdquo;).</li>
 <li>The managed clusters should be <code>v1.11+</code>.</li>
 </ul>
@@ -269,7 +269,7 @@ please manually enable feature gate &ldquo;V1beta1CSRAPICompatibility&rdquo;).</
 environment on your workstation easily by following these <a href="#setup-a-local-kind-environment">instructions</a>
 after meeting the following additional prerequisites:</p>
 <ul>
-<li>KinD greater than <code>v0.9.0+</code>.</li>
+<li>KinD greater than <code>v0.9.0+</code>, or the latest version is preferred.</li>
 </ul>
 <h2 id="environment">Environment</h2>
 <p>In this section, we will be warming up by preparing your terminal environment
@@ -314,6 +314,7 @@ register another cluster with the hub.</p>
 <p>Bootstrap the Open Cluster Management control plane (i.e. the hub cluster):</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># By default, it installs the latest release of the OCM components.</span>
 <span style="color:#75715e"># Use e.g. &#34;--bundle-version=latest&#34; to install latest development builds.</span>
+<span style="color:#75715e"># NOTE: For hub cluster version between v1.16 to v1.19 use the parameter: --use-bootstrap-token</span>
 clusteradm init --wait --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>The <code>clusteradm init</code> command installs the
 <a href="https://github.com/open-cluster-management-io/registration-operator">registration-operator</a>
