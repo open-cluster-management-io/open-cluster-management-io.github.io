@@ -142,6 +142,9 @@ other = "部署Kubernetes资源"
 [sidebar_distribute_workload_with_placement]
 other = "通过placement分发工作负载"
 
+[sidebar_extend_multicluster_scheduling_capabilities]
+other = "扩展多集群调度能力"
+
 [sidebar_extend_managed_clusters]
 other = "扩展集群模型"
 
