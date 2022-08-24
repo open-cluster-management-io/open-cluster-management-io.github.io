@@ -112,6 +112,12 @@ other = "Klusterlet Agent"
 [sidebar_integrations]
 other = "Add-ons and Integrations"
 
+[sidebar_developer-guides]
+other = "Developer Guides"
+
+[sidebar_addon-developer-guide]
+other = "Add-on Developer Guide"
+
 [sidebar_administration]
 other = "Administration"
 
