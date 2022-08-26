@@ -287,9 +287,11 @@ spec:
 </ul>
 <p>You can refer to the <a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a> to learn more details about the design. In the design, how to maintain the lifecycle (create/update/delete) of the <code>AddOnPlacementScore</code> CRs is not covered, as we expect the customized score provider itself to manage it. In this article, we will use an example to show you how to implement a 3rd part controller to update your own scores and extend the multiple clusters scheduling capability with your own scores.</p>
 <h2 id="how-to-implement-a-customized-score-provider">How to implement a customized score provider</h2>
-<p>The example code is in GitHub repo <a href="https://github.com/JiahaoWei-RH/resource-usage-collect">resource-usage-collect</a>. It provides the score of the cluster&rsquo;s available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a> and can be installed as an addon plugin to update customized scores into <code>AddOnPlacementScore</code>. (This article won&rsquo;t talk many details about addon-framework, referring to <a href="https://open-cluster-management.io/concepts/">xxx</a> to learn how to develop an addon.)</p>
-<p>The resource-usage-collect addon follows the hub-agent architecture as below.
-<img src="extend-multicluster-scheduling-capabilities.png" alt="image"></p>
+<p>The example code is in GitHub repo <a href="https://github.com/JiahaoWei-RH/resource-usage-collect">resource-usage-collect</a>. It provides the score of the cluster&rsquo;s available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a> and can be installed as an addon plugin to update customized scores into <code>AddOnPlacementScore</code>. (This article won&rsquo;t talk many details about addon-framework, referring to <a href="https://open-cluster-management.io/developer-guides/addon/">Add-on Developer Guide</a> to learn how to develop an addon.)</p>
+<p>The resource-usage-collect addon follows the hub-agent architecture as below.</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/extend-multicluster-scheduling-capabilities.png" alt="Security model" style="margin: 0 auto; width: 60%">
+</div>
 <p>The resource-usage-collect addon contains a controller and an agent.</p>
 <ul>
 <li>On the hub cluster, the resource-usage-collect-controller is running. It is responsible for creating the <code>ManifestWork</code> for resource-usage-collect-agent in each cluster namespace.</li>
