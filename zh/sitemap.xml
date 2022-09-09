@@ -30,6 +30,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/zh/scenarios/integration-with-argocd</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/zh/getting-started/administration/upgrading</loc>
     </url>
     

@@ -51,6 +51,16 @@ The original cluster model in OCM &amp;ldquo;Managed Cluster&amp;rdquo; is desig
     </item>
     
     <item>
+      <title>Integration with Argo CD</title>
+      <link>http://open-cluster-management.io/scenarios/integration-with-argocd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/scenarios/integration-with-argocd/</guid>
+      <description>Argo CD is a declarative, GitOps continuous delivery tool, which allows developers to define and control deployment of Kubernetes application resources from within their existing Git workflow. By integrating Open Cluster Management (OCM) with Argo CD, it enables both automation and greater flexibility managing Argo CD Applications across a large number of OCM managed clusters.
+In this article, we want to show you how to integrate Argo CD with OCM and deploy application to OCM managed clusters by leveraging the Placement API, which supports multi-cluster scheduling.</description>
+    </item>
+    
+    <item>
       <title>Pushing Kubernetes API requests to the managed clusters</title>
       <link>http://open-cluster-management.io/scenarios/pushing-kube-api-requests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
