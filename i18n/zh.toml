@@ -155,6 +155,9 @@ other = "扩展多集群调度能力"
 [sidebar_extend_managed_clusters]
 other = "扩展集群模型"
 
+[sidebar_integration_with_argocd]
+other = "集成Argo CD"
+
 [sidebar_push_kube_api_requests]
 other = "向托管集群推送Kube API请求"
 
