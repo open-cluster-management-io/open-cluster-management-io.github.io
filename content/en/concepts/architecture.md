@@ -15,7 +15,7 @@ This page is an overview of open cluster management.
 
 __Open Cluster Management__ (OCM) is a powerful, modular, extensible platform 
 for Kubernetes multi-cluster orchestration. Learning from the past failing 
-lesson of building Kubernetes federation systems in the Kuberentes community, 
+lesson of building Kubernetes federation systems in the Kubernetes community, 
 in OCM we will be jumping out of the legacy centric, imperative architecture of
 [Kubefed v2](https://github.com/kubernetes-sigs/kubefed) and embracing the 
 "hub-agent" architecture which is identical to the original pattern of 
@@ -30,7 +30,7 @@ the two models we will be frequently using throughout the world of OCM:
   Kubernetes cluster hosting merely a few fundamental controllers and services. 
   
 * __Klusterlet__: Indicating the clusters that being managed by the hub 
-  cluster, might also called as "managed cluster" or "spoke cluster". The 
+  cluster. Klusterlet might also be called "managed cluster" or "spoke cluster". The 
   klusterlet is supposed to actively __pulling__ the latest prescriptions from
   the hub cluster and consistently reconciles the physical Kubernetes cluster
   to the expected state.
@@ -42,7 +42,7 @@ are de-coupling most of the multi-cluster operations generally into
 (1) computation/decision and (2) execution, and the actual execution against 
 the target cluster will be completely off-loaded into the managed cluster. The
 hub cluster won't directly request against the real clusters, instead it 
-just persists its prescriptions delcaratively for each cluster, and the 
+just persists its prescriptions declaratively for each cluster, and the 
 klusterlet will be actively pulling the prescriptions from the hub and doing
 the execution. Hence, the burden of the hub cluster will be greatly relieved
 because the hub cluster doesn't need to either deal with flooding events from 
@@ -94,7 +94,7 @@ and exporting the elementary `ManagedCluster` model.
 
 Another good example surfacing our modularity will be the [placement](https://open-cluster-management.io/concepts/placement/),
 a standalone module focusing at dynamically selecting the proper list of 
-the managed clusters from user's prescription. You can build any advanced 
+the managed clusters from the user's prescription. You can build any advanced 
 multi-cluster orchestration on the top of placement, e.g. multi-cluster
 workload re-balancing, multi-cluster helm charts replication, etc. On the
 other hand if you're not satisfied by the current capacities from our placement
@@ -132,7 +132,7 @@ upon kicking a managed cluster.
 The worker cluster admin can list and read any managed cluster’s CSR, 
 but those CSR cannot be used to impersonate due to the fact that CSR only 
 contains the certificate. The client authentication requires both the key and certificate. 
-The key is stored in each managed cluster, and it will not be transmitted across network.
+The key is stored in each managed cluster, and it will not be transmitted across the network.
 
 The worker cluster admin cannot approve his or her own cluster registration by default. 
 Two separate RBAC rules are needed to approve a cluster registration. 
@@ -170,7 +170,7 @@ be interested in the journey of OCM:
 
 ### Registration
 
-The core module of OCM managing the lifecycle of the managed clusters. The
+The core module of OCM manages the lifecycle of the managed clusters. The
 registration controller in the hub cluster can be intuitively compared to a 
 broker that represents and manages the hub cluster in terms of cluster 
 registration, while the registration agent working in the managed cluster
