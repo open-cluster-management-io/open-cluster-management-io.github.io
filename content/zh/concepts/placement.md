@@ -319,6 +319,65 @@ Refer to the
 [enhancements](https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md)
 to learn more.
 
+## Troubleshooting
+If no `PlacementDecision` generated after you creating `Placement`, you can run below commands to troubleshoot.
+
+### Check the `Placement` conditions
+
+For example:
+```bash
+$ kubectl describe placement <placement-name> 
+Name:         demo-placement
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+API Version:  cluster.open-cluster-management.io/v1beta1
+Kind:         Placement
+...
+Status:
+  Conditions:
+    Last Transition Time:       2022-09-30T07:39:45Z
+    Message:                    Placement configurations check pass
+    Reason:                     Succeedconfigured
+    Status:                     False
+    Type:                       PlacementMisconfigured
+    Last Transition Time:       2022-09-30T07:39:45Z
+    Message:                    No valid ManagedClusterSetBindings found in placement namespace
+    Reason:                     NoManagedClusterSetBindings
+    Status:                     False
+    Type:                       PlacementSatisfied
+  Number Of Selected Clusters:  0
+...
+```
+The Placement has 2 types of condition, `PlacementMisconfigured` and `PlacementSatisfied`.
+- If the condition `PlacementMisconfigured` is true, means your placement has configuration errors, the message tells you more details about the failure.
+- If the condition `PlacementSatisfied` is false, means no `ManagedCluster` satisfy this placement, the message tells you more details about the failure. 
+In this exmample, it is because no `ManagedClusterSetBindings` found in placement namespace.
+
+### Check the `Placement` events
+
+For example:
+```bash
+$ kubectl describe placement <placement-name> 
+Name:         demo-placement
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+API Version:  cluster.open-cluster-management.io/v1beta1
+Kind:         Placement
+...
+Events:
+  Type    Reason          Age   From                 Message
+  ----    ------          ----  ----                 -------
+  Normal  DecisionCreate  2m10s   placementController  Decision demo-placement-decision-1 is created with placement demo-placement in namespace default
+  Normal  DecisionUpdate  2m10s   placementController  Decision demo-placement-decision-1 is updated with placement demo-placement in namespace default
+  Normal  ScoreUpdate     2m10s   placementController  cluster1:0 cluster2:100 cluster3:200
+  Normal  DecisionUpdate  3s      placementController  Decision demo-placement-decision-1 is updated with placement demo-placement in namespace default
+  Normal  ScoreUpdate     3s      placementController  cluster1:200 cluster2:145 cluster3:189 cluster4:200
+```
+The placement controller will give a score to each filtered `ManagedCluster` and generate an event for it. When the cluster score
+changes, a new event will generate. You can check the score of each cluster in the `Placment` events, to know why some clusters with lower score are not selected.
+
 ## Future work
 
 In addition to selecting cluster by predicates, we are still working on other
