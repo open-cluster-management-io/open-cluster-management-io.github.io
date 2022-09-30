@@ -7,7 +7,7 @@ We know you've got great ideas for improving Open Cluster Management. So roll up
 
 ## Getting Started
 
-All contributions are welcome! Open Cluster Management uses the [Apache 2 license](https://www.apache.org/licenses/LICENSE-2.0). Please open issues for any bugs or problems you encounter, ask questions in the [#open-cluster-mgmt](https://kubernetes.slack.com/archives/C01GE7YSUUF) on Kubernetes Slack Channel, or get involved joining the open-cluster-management [mailing group](https://groups.google.com/g/open-cluster-management).
+All contributions are welcome! Open Cluster Management uses the [Apache 2 license](https://www.apache.org/licenses/LICENSE-2.0). Please open issues for any bugs or problems you encounter, ask questions in the [#open-cluster-mgmt](https://kubernetes.slack.com/channels/open-cluster-mgmt) on Kubernetes Slack Channel, or get involved joining the open-cluster-management [mailing group](https://groups.google.com/g/open-cluster-management).
 
 ## Contribute to the Source
 
@@ -31,4 +31,4 @@ contribution. See the [DCO](https://github.com/open-cluster-management-io/commun
 
 ## Talk to Us
 - Follow the [Mailing group](https://groups.google.com/g/open-cluster-management)
-- Chat with us in the [#open-cluster-mgmt](https://kubernetes.slack.com/archives/C01GE7YSUUF) on Kubernetes Slack Channel
+- Chat with us in the [#open-cluster-mgmt](https://kubernetes.slack.com/channels/open-cluster-mgmt) on Kubernetes Slack Channel

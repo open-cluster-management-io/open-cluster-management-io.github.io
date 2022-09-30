@@ -287,4 +287,4 @@ In our example, the resource-usage-collect-agent running on each managed cluster
 ## Summary
 In this article, we introduced what is the placement extensible scheduling and used an example to show how to implement a customized score provider. Also, this article list 3 key points the developer needs to consider when implementing a 3rd party score provider. Hope after reading this article, you can have a clear view of how placement extensible scheduling can help you extend the multicluster scheduling capabilities. 
 
-Feel free to raise your question in the [Open-cluster-management-io GitHub community](https://github.com/open-cluster-management-io/OCM/issues) or contact us using [Slack](https://kubernetes.slack.com/archives/C01GE7YSUUF).
+Feel free to raise your question in the [Open-cluster-management-io GitHub community](https://github.com/open-cluster-management-io/OCM/issues) or contact us using [Slack](https://kubernetes.slack.com/channels/open-cluster-mgmt).
