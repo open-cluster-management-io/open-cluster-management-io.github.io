@@ -311,8 +311,9 @@ NAME                                                    READY   STATUS    RESTAR
 managed-serviceaccount-addon-manager-5m9c95b7d8-xsb94   1/1     Running   <span style="color:#ae81ff">1</span>          4d4h 
 ...
 </code></pre></div><p>By default, the addon manager will be automatically discovering the addition or
-removal the managed clusters and installs the proxy agents into them on the
-fly. To check out the healthiness status of the proxy agents, we can run:</p>
+removal the managed clusters and installs the managed serviceaccount agents into
+them on the fly. To check out the healthiness status of the managed serviceaccount
+agents, we can run:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
 NAMESPACE         NAME                     AVAILABLE   DEGRADED   PROGRESSING
 &lt;cluster name&gt;    managed-serviceaccount   True  
