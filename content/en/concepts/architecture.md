@@ -67,7 +67,7 @@ off the connection with the hub cluster without shutting the whole multi-cluster
 control plane down.
 
 <div style="text-align: center; padding: 20px;">
-    <img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto; width: 50%">
+    <img src="https://github.com/open-cluster-management-io/OCM/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto; width: 50%">
 </div>
 
 
