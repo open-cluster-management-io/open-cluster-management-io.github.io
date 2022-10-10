@@ -36,7 +36,7 @@ hub cluster的负担将会大大减轻，因为hub cluster既不需要处理来�
 如果发生任何意外，klusterlet的管理员只需快速的切断与hub cluster的连接，而无需关闭整个多集群控制平面。
 
 <div style="text-align: center; padding: 20px;">
-    <img src="https://github.com/open-cluster-management-io/community/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto; width: 50%">
+    <img src="https://github.com/open-cluster-management-io/OCM/raw/main/assets/ocm-arch.png" alt="Architecture diagram" style="margin: 0 auto; width: 50%">
 </div>
 
 这种“hub-agent”的架构，还最小化了注册新集群到hub时，对于网络的要求。
