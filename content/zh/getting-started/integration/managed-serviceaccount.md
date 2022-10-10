@@ -24,7 +24,7 @@ and access a Kubernetes cluster:
 - Valid X.509 certificate-key pair 
 - Service account bearer token
   
-The service account token will be automatically and persisted as a secret 
+The service account token will be automatically persisted as a secret 
 resource inside the hosting Kubernetes clusters upon creation, which is commonly
 used for the ["in-cluster"](https://github.com/kubernetes/client-go/tree/master/examples/in-cluster-client-configuration)
 client. However, in terms of OCM, the hub cluster is completely an external 
@@ -68,7 +68,7 @@ Then run the following helm command to continue the installation:
 
 ```shell
 $ helm install -n open-cluster-management-addon --create-namespace \
-    cluster-proxy ocm/cluster-proxy 
+    managed-serviceaccount  ocm/managed-serviceaccount
 $ kubectl -n open-cluster-management-addon get pod
 NAME                                                    READY   STATUS    RESTARTS   AGE
 managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   1          4d4h 
@@ -76,8 +76,9 @@ managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   1     
 ```
 
 By default, the addon manager will be automatically discovering the addition or
-removal the managed clusters and installs the proxy agents into them on the 
-fly. To check out the healthiness status of the proxy agents, we can run:
+removal the managed clusters and installs the managed serviceaccount agents into 
+them on the fly. To check out the healthiness status of the managed serviceaccount 
+agents, we can run:
 
 ```shell
 $ kubectl get managedclusteraddon -A
