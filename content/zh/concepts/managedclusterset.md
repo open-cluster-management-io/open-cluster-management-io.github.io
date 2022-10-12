@@ -9,6 +9,12 @@ weight: 2
 
 <!-- spellchecker-enable -->
 
+**API-CHANGE NOTE**:
+The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1alpha1 version will no longer be served in in OCM v0.9.0.
+- Migrate manifests and API clients to use the `ManagedClusterSet` and `PlacementDecision` API v1beta1 version, available since OCM v0.5.0.
+- All existing persisted objects are accessible via the new API.
+- No notable changes
+
 ## What is ManagedClusterSet?
 
 `ManagedClusterSet` is a cluster scoped API in the hub cluster for grouping a
@@ -50,7 +56,7 @@ example-clusterset                      No ManagedCluster selected
 ```
 
 The newly created cluster set will be empty by default, so we can move on adding
-member clusters to the set.
+member clusters to the set. 
 
 ### Adding a ManagedCluster to a ManagedClusterSet
 
@@ -136,7 +142,7 @@ status:
 
 #### Adding member cluster to a clusterset
 
-Adding a new member cluster to a clusterset requires RBAC permission of
+Adding a new member cluster to a clusterset requires RBAC permission of 
 updating the managed cluster and `managedclustersets/join` subresource. We can
 manually apply the following clusterrole to allow a hub user to manipulate
 that clusterset:

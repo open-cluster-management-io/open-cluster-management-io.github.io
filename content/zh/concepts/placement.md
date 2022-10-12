@@ -10,10 +10,11 @@ weight: 3
 <!-- spellchecker-enable -->
 
 **API-CHANGE NOTE**:
-`Placement` and `PlacementDecision` API is upgraded from v1alpha1 to v1beta1,
-v1alpha1 will be deprecated in OCM v0.7.0 and planned to be removed in the
-future. The field `spec.prioritizerPolicy.configurations.name` in `Placement`
-API v1alpha1 is removed and replaced by
+The `Placement` and `PlacementDecision` API v1alpha1 version will no longer be served in in OCM v0.9.0.
+- Migrate manifests and API clients to use the `Placement` and `PlacementDecision` API v1beta1 version, available since OCM v0.7.0.
+- All existing persisted objects are accessible via the new API.
+- Notable changes:
+  - The field `spec.prioritizerPolicy.configurations.name` in `Placement` API v1alpha1 is removed and replaced by
 `spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn` in v1beta1.
 
 
