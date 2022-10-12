@@ -267,6 +267,13 @@
 
 
 <!-- spellchecker-enable -->
+<p><strong>API-CHANGE NOTE</strong>:
+The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1alpha1 version will no longer be served in in OCM v0.9.0.</p>
+<ul>
+<li>Migrate manifests and API clients to use the <code>ManagedClusterSet</code> and <code>PlacementDecision</code> API v1beta1 version, available since OCM v0.5.0.</li>
+<li>All existing persisted objects are accessible via the new API.</li>
+<li>No notable changes</li>
+</ul>
 <h2 id="what-is-managedclusterset">What is ManagedClusterSet?</h2>
 <p><code>ManagedClusterSet</code> is a cluster scoped API in the hub cluster for grouping a
 few managed clusters into a &ldquo;set&rdquo; so that hub admin can operate these clusters

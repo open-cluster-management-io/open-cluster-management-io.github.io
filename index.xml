@@ -147,7 +147,7 @@ Ensure golang is installed, if you are planning to install from the source.</des
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/managedclusterset/</guid>
-      <description>What is ManagedClusterSet? Operates ManagedClusterSet using clusteradm  Creating a ManagedClusterSet Adding a ManagedCluster to a ManagedClusterSet Bind the clusterset to a workspace namespace   A glance at the &amp;ldquo;ManagedClusterSet&amp;rdquo; API  Clusterset RBAC permission control  Adding member cluster to a clusterset Binding a clusterset to a namespace     Default ManagedClusterSet Global ManagedClusterSet     What is ManagedClusterSet? ManagedClusterSet is a cluster scoped API in the hub cluster for grouping a few managed clusters into a &amp;ldquo;set&amp;rdquo; so that hub admin can operate these clusters altogether in a higher level.</description>
+      <description>What is ManagedClusterSet? Operates ManagedClusterSet using clusteradm  Creating a ManagedClusterSet Adding a ManagedCluster to a ManagedClusterSet Bind the clusterset to a workspace namespace   A glance at the &amp;ldquo;ManagedClusterSet&amp;rdquo; API  Clusterset RBAC permission control  Adding member cluster to a clusterset Binding a clusterset to a namespace     Default ManagedClusterSet Global ManagedClusterSet     API-CHANGE NOTE: The ManagedClusterSet and ManagedClusterSetBinding API v1alpha1 version will no longer be served in in OCM v0.</description>
     </item>
     
     <item>
@@ -165,7 +165,8 @@ Ensure golang is installed, if you are planning to install from the source.</des
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/placement/</guid>
-      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer     Extensible scheduling Future work     API-CHANGE NOTE: Placement and PlacementDecision API is upgraded from v1alpha1 to v1beta1, v1alpha1 will be deprecated in OCM v0.7.0 and planned to be removed in the future. The field spec.prioritizerPolicy.configurations.name in Placement API v1alpha1 is removed and replaced by spec.</description>
+      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer     Extensible scheduling Future work     API-CHANGE NOTE: The Placement and PlacementDecision API v1alpha1 version will no longer be served in in OCM v0.9.0.
+ Migrate manifests and API clients to use the Placement and PlacementDecision API v1beta1 version, available since OCM v0.7.0. All existing persisted objects are accessible via the new API.</description>
     </item>
     
     <item>
