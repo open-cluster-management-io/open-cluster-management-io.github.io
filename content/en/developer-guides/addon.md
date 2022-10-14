@@ -351,12 +351,10 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests")
                     BuildTemplateAgentAddon()
 ```
 
-
-
 ### Register your add-on
 
 In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication. 
-For example,an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent 
+For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent 
 needs to access the exposed service on the hub cluster.
 
 The addon-framework supports a solution that the addon can access the `kube-apiserver` with a kube style API or 
@@ -538,6 +536,117 @@ NAME                              TYPE                                  DATA   A
 helloworld-hub-kubeconfig         Opaque                                3      9m52s
 ```
 
+### Add your add-on agent supported configurations 
+
+For some cases, you want to specify the configurations for your add-on agent, for example, you may want to use a configuration to configure your add-on agent image or use a configuration to configure your add-on agent node Selector and tolerations to make the agent to run on specific nodes.
+
+The addon-framework supports re-rendering the add-on agent deployment when the add-on agent configurations are changed.
+
+You can choose the [`AddOnDeploymentConfig`](https://github.com/open-cluster-management-io/api/blob/main/addon/v1alpha1/types_addondeploymentconfig.go) API as the configuration for your add-on agent, it supports setting customized variables and node placement for your add-on agent deployment, and meanwhile you can also choose your own configuration.
+
+You can do the following steps to reference your configurations in your add-on APIs with add-on framework
+
+1. Add the supported configuration types in your add-on `ClusterManagementAddOn`, we support to add mutiple different configuration types in the `ClusterManagementAddOn`, for example
+
+    ```yaml
+    apiVersion: addon.open-cluster-management.io/v1alpha1
+    kind: ClusterManagementAddOn
+    metadata:
+      name: helloworldhelm
+    spec:
+      # the add-on supported configurations
+      supportedConfigs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+      - resource: configmaps
+    ```
+
+   In this example, the `helloworldhelm` add-on supports using `AddOnDeploymentConfig` and `ConfigMap` as its configuration, and you can specify one default configuration for one configuration type, for example
+
+   ```yaml
+    apiVersion: addon.open-cluster-management.io/v1alpha1
+    kind: ClusterManagementAddOn
+    metadata:
+      name: helloworldhelm
+    spec:
+      # the add-on supported configurations
+      supportedConfigs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+        # the default config for helloworldhelm 
+        defaultConfig:
+          name: deploy-config
+          namespace: open-cluster-management
+      - resource: configmaps
+   ```
+
+   Thus, all helloworldhelm add-ons on each managed cluster have one same default configuration `open-cluster-management/deploy-config`
+
+2. Register the supported configuration types when building one `AgentAddon` with `AgentAddonFactory`
+
+3. Implement a `GetValuesFunc` to transform the configuration to add-on framework `Values` object and add the `GetValuesFunc` to the `AgentAddonFactory`, for example
+
+    ```go
+    agentAddon, err := addonfactory.NewAgentAddonFactory("helloworldhelm", helloworld_helm.FS, "manifests/charts/helloworld").
+        // register the supported configuration types
+        WithConfigGVRs(
+          schema.GroupVersionResource{Version: "v1", Resource: "configmaps"},
+          schema.GroupVersionResource{Group: "addon.open-cluster-management.io", Version: "v1alpha1", Resource: "addondeploymentconfigs"},
+        ).
+        WithGetValuesFuncs(
+          // get the AddOnDeloymentConfig object and transform it to Values object
+          addonfactory.GetAddOnDeloymentConfigValues(
+            addonfactory.NewAddOnDeloymentConfigGetter(addonClient),
+            addonfactory.ToAddOnNodePlacementValues,
+          ),
+          // get the ConfigMap object and transform it to Values object
+          helloworld_helm.GetImageValues(kubeClient),
+        ).WithAgentRegistrationOption(registrationOption).
+        BuildHelmAgentAddon()
+    ```
+
+    In this example, we register the `ConfigMap` and `AddOnDeploymentConfig` as the `helloworldhelm` add-on configuration. We use add-on framework
+    help function [`GetAddOnDeloymentConfigValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/addonfactory/addondeploymentconfig.go#L47) to transform the `AddOnDeploymentConfig`, and we implemented the [`GetImageValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/helloworld_helm/helloworld_helm.go#L64) function to
+    transform the `ConfigMap`, you can find more details for add-on framework `Values` from the [Values definitionn](#values-definition) part.
+
+4. Add the `get`, `list` and `watch` permissions to an add-on `clusterrole`, for example, the [clusterrole](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/helloworld-helm/resources/cluster_role.yaml) of `helloworldhelm` should have the following permissions
+
+  ```yaml
+  kind: ClusterRole
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: helloworldhelm-addon
+  rules:
+    - apiGroups: [""]
+      resources: ["configmaps"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["addon.open-cluster-management.io"]
+      resources: ["addondeploymentconfigs"]
+      verbs: ["get", "list", "watch"]
+  ```
+
+To configure add-on, the add-on user need reference their configuration objects in `ManagedClusterAddOn`, for example
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: helloworldhelm
+  namespace: cluster1
+spec:
+  installNamespace: open-cluster-management-agent-addon
+  configs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    name: deploy-config
+    namespace: cluster1
+  - resource: configmaps 
+    name: image-config
+    namespace: cluster1
+```
+
+In this example, the add-on user reference the configuration `cluster1/deploy-config` and `cluster1/image-config` for `helloworldhelm` on `cluster1`. When the configuration references are added to an add-on, the add-on framework will show them in the status of `ManagedClusterAddOn` and render the add-on once, during the rendering process, the add-on framework will callback the `GetValuesFunc`s to transform the add-on configuraton object to add-on framework `Values` object and use `Values` object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again. 
+
 ## Build an addon using helm charts or raw manifests.
 
 ### Building steps
@@ -573,7 +682,6 @@ The addon-framework supports helm charts or raw manifests as the add-on agent ma
 
 3. Add the agentAddon to the addon manager.
 4. Start the addon manager.
-
 
 ### Values definition
 
