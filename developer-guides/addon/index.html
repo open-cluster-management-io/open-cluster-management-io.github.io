@@ -264,6 +264,7 @@
             <li><a href="#monitor-addon-healthiness">Monitor addon healthiness</a></li>
             <li><a href="#automatic-installation">Automatic installation</a></li>
             <li><a href="#register-your-add-on">Register your add-on</a></li>
+            <li><a href="#add-your-add-on-agent-supported-configurations">Add your add-on agent supported configurations</a></li>
           </ul>
         </li>
         <li><a href="#build-an-addon-using-helm-charts-or-raw-manifests">Build an addon using helm charts or raw manifests.</a>
@@ -516,7 +517,7 @@ The addon-framework also provides a configuration called <code>InstallStrategy</
                     <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
 </code></pre></div><h3 id="register-your-add-on">Register your add-on</h3>
 <p>In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication.
-For example,an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent
+For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent
 needs to access the exposed service on the hub cluster.</p>
 <p>The addon-framework supports a solution that the addon can access the <code>kube-apiserver</code> with a kube style API or
 other endpoints on the hub cluster with client certificate authentication after it is registered using <code>CSR</code>.</p>
@@ -658,7 +659,99 @@ The addon agent can mount the secret to get the hub kubeConfig to connect with t
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get secret -n default
 NAME                              TYPE                                  DATA   AGE
 helloworld-hub-kubeconfig         Opaque                                <span style="color:#ae81ff">3</span>      9m52s
-</code></pre></div><h2 id="build-an-addon-using-helm-charts-or-raw-manifests">Build an addon using helm charts or raw manifests.</h2>
+</code></pre></div><h3 id="add-your-add-on-agent-supported-configurations">Add your add-on agent supported configurations</h3>
+<p>For some cases, you want to specify the configurations for your add-on agent, for example, you may want to use a configuration to configure your add-on agent image or use a configuration to configure your add-on agent node Selector and tolerations to make the agent to run on specific nodes.</p>
+<p>The addon-framework supports re-rendering the add-on agent deployment when the add-on agent configurations are changed.</p>
+<p>You can choose the <a href="https://github.com/open-cluster-management-io/api/blob/main/addon/v1alpha1/types_addondeploymentconfig.go"><code>AddOnDeploymentConfig</code></a> API as the configuration for your add-on agent, it supports setting customized variables and node placement for your add-on agent deployment, and meanwhile you can also choose your own configuration.</p>
+<p>You can do the following steps to reference your configurations in your add-on APIs with add-on framework</p>
+<ol>
+<li>
+<p>Add the supported configuration types in your add-on <code>ClusterManagementAddOn</code>, we support to add mutiple different configuration types in the <code>ClusterManagementAddOn</code>, for example</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: helloworldhelm
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#75715e"># the add-on supported configurations</span>
+  <span style="color:#66d9ef">supportedConfigs</span>:
+  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
+    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
+  - <span style="color:#66d9ef">resource</span>: configmaps
+</code></pre></div><p>In this example, the <code>helloworldhelm</code> add-on supports using <code>AddOnDeploymentConfig</code> and <code>ConfigMap</code> as its configuration, and you can specify one default configuration for one configuration type, for example</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"> <span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+ <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+ <span style="color:#66d9ef">metadata</span>:
+   <span style="color:#66d9ef">name</span>: helloworldhelm
+ <span style="color:#66d9ef">spec</span>:
+   <span style="color:#75715e"># the add-on supported configurations</span>
+   <span style="color:#66d9ef">supportedConfigs</span>:
+   - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
+     <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
+     <span style="color:#75715e"># the default config for helloworldhelm </span>
+     <span style="color:#66d9ef">defaultConfig</span>:
+       <span style="color:#66d9ef">name</span>: deploy-config
+       <span style="color:#66d9ef">namespace</span>: open-cluster-management
+   - <span style="color:#66d9ef">resource</span>: configmaps
+</code></pre></div><p>Thus, all helloworldhelm add-ons on each managed cluster have one same default configuration <code>open-cluster-management/deploy-config</code></p>
+</li>
+<li>
+<p>Register the supported configuration types when building one <code>AgentAddon</code> with <code>AgentAddonFactory</code></p>
+</li>
+<li>
+<p>Implement a <code>GetValuesFunc</code> to transform the configuration to add-on framework <code>Values</code> object and add the <code>GetValuesFunc</code> to the <code>AgentAddonFactory</code>, for example</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#e6db74">&#34;helloworldhelm&#34;</span>, <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/charts/helloworld&#34;</span>).
+    <span style="color:#75715e">// register the supported configuration types
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">WithConfigGVRs</span>(
+      <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionResource</span>{<span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1&#34;</span>, <span style="color:#a6e22e">Resource</span>: <span style="color:#e6db74">&#34;configmaps&#34;</span>},
+      <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionResource</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>, <span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1alpha1&#34;</span>, <span style="color:#a6e22e">Resource</span>: <span style="color:#e6db74">&#34;addondeploymentconfigs&#34;</span>},
+    ).
+    <span style="color:#a6e22e">WithGetValuesFuncs</span>(
+      <span style="color:#75715e">// get the AddOnDeloymentConfig object and transform it to Values object
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetAddOnDeloymentConfigValues</span>(
+        <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAddOnDeloymentConfigGetter</span>(<span style="color:#a6e22e">addonClient</span>),
+        <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">ToAddOnNodePlacementValues</span>,
+      ),
+      <span style="color:#75715e">// get the ConfigMap object and transform it to Values object
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">GetImageValues</span>(<span style="color:#a6e22e">kubeClient</span>),
+    ).<span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
+    <span style="color:#a6e22e">BuildHelmAgentAddon</span>()
+</code></pre></div><p>In this example, we register the <code>ConfigMap</code> and <code>AddOnDeploymentConfig</code> as the <code>helloworldhelm</code> add-on configuration. We use add-on framework
+help function <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/addonfactory/addondeploymentconfig.go#L47"><code>GetAddOnDeloymentConfigValues</code></a> to transform the <code>AddOnDeploymentConfig</code>, and we implemented the <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/helloworld_helm/helloworld_helm.go#L64"><code>GetImageValues</code></a> function to
+transform the <code>ConfigMap</code>, you can find more details for add-on framework <code>Values</code> from the <a href="#values-definition">Values definitionn</a> part.</p>
+</li>
+<li>
+<p>Add the <code>get</code>, <code>list</code> and <code>watch</code> permissions to an add-on <code>clusterrole</code>, for example, the <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/helloworld-helm/resources/cluster_role.yaml">clusterrole</a> of <code>helloworldhelm</code> should have the following permissions</p>
+</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterRole
+<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: helloworldhelm-addon
+<span style="color:#66d9ef">rules</span>:
+  - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+    <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;configmaps&#34;</span>]
+    <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+  - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
+    <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;addondeploymentconfigs&#34;</span>]
+    <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</code></pre></div><p>To configure add-on, the add-on user need reference their configuration objects in <code>ManagedClusterAddOn</code>, for example</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: helloworldhelm
+  <span style="color:#66d9ef">namespace</span>: cluster1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">installNamespace</span>: open-cluster-management-agent-addon
+  <span style="color:#66d9ef">configs</span>:
+  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
+    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
+    <span style="color:#66d9ef">name</span>: deploy-config
+    <span style="color:#66d9ef">namespace</span>: cluster1
+  - <span style="color:#66d9ef">resource</span>: configmaps 
+    <span style="color:#66d9ef">name</span>: image-config
+    <span style="color:#66d9ef">namespace</span>: cluster1
+</code></pre></div><p>In this example, the add-on user reference the configuration <code>cluster1/deploy-config</code> and <code>cluster1/image-config</code> for <code>helloworldhelm</code> on <code>cluster1</code>. When the configuration references are added to an add-on, the add-on framework will show them in the status of <code>ManagedClusterAddOn</code> and render the add-on once, during the rendering process, the add-on framework will callback the <code>GetValuesFunc</code>s to transform the add-on configuraton object to add-on framework <code>Values</code> object and use <code>Values</code> object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again.</p>
+<h2 id="build-an-addon-using-helm-charts-or-raw-manifests">Build an addon using helm charts or raw manifests.</h2>
 <h3 id="building-steps">Building steps</h3>
 <p>The addon-framework supports helm charts or raw manifests as the add-on agent manifests. The building steps are the same:</p>
 <ol>
