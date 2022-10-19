@@ -268,7 +268,9 @@
 
 <!-- spellchecker-enable -->
 <p><strong>API-CHANGE NOTE</strong>:
-The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1alpha1 version will no longer be served in in OCM v0.9.0.</p>
+The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1alpha1 version will no longer be served in OCM v0.9.0.
+The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1beta1 version will be deprecated in OCM v0.9.0.
+For Hosted Mode, The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API only support v1beta1 in OCM v0.9.0</p>
 <ul>
 <li>Migrate manifests and API clients to use the <code>ManagedClusterSet</code> and <code>PlacementDecision</code> API v1beta1 version, available since OCM v0.5.0.</li>
 <li>All existing persisted objects are accessible via the new API.</li>
@@ -333,13 +335,13 @@ it a &ldquo;workspace namespace&rdquo;.</p>
 <h2 id="a-glance-at-the-managedclusterset-api">A glance at the &ldquo;ManagedClusterSet&rdquo; API</h2>
 <p>The <code>ManagedClusterSet</code> is a vanilla Kubernetes custom resource which can be
 checked by the command <code>kubectl describe managedclusterset</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta2
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: example-clusterset
 <span style="color:#66d9ef">spec</span>: 
   <span style="color:#66d9ef">clusterSelector</span>:
-    <span style="color:#66d9ef">selectorType</span>: LegacyClusterSetLabel
+    <span style="color:#66d9ef">selectorType</span>: ExclusiveClusterSetLabel
 <span style="color:#66d9ef">status</span>:
   <span style="color:#66d9ef">conditions</span>:
   - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2022-02-21T09:24:38Z&#34;</span>
@@ -347,7 +349,7 @@ checked by the command <code>kubectl describe managedclusterset</code>:</p>
     <span style="color:#66d9ef">reason</span>: ClustersSelected
     <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;False&#34;</span>
     <span style="color:#66d9ef">type</span>: ClusterSetEmpty
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta2
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: example-openshift-clusterset
@@ -414,7 +416,7 @@ A <code>global</code> ManagedClusterSet will be automatically created initially.
 <p><code>global</code> clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
 <a href="https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
 <p><code>global</code> ManagedClusterSet detail:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta2
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: global
