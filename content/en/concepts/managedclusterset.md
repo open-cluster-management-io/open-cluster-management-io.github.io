@@ -10,7 +10,9 @@ weight: 2
 <!-- spellchecker-enable -->
 
 **API-CHANGE NOTE**:
-The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1alpha1 version will no longer be served in in OCM v0.9.0.
+The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1alpha1 version will no longer be served in OCM v0.9.0.
+The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1beta1 version will be deprecated in OCM v0.9.0.
+For Hosted Mode, The `ManagedClusterSet` and `ManagedClusterSetBinding` API only support v1beta1 in OCM v0.9.0
 - Migrate manifests and API clients to use the `ManagedClusterSet` and `PlacementDecision` API v1beta1 version, available since OCM v0.5.0.
 - All existing persisted objects are accessible via the new API.
 - No notable changes
@@ -102,13 +104,13 @@ The `ManagedClusterSet` is a vanilla Kubernetes custom resource which can be
 checked by the command `kubectl describe managedclusterset`:
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
+apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSet
 metadata:
   name: example-clusterset
 spec: 
   clusterSelector:
-    selectorType: LegacyClusterSetLabel
+    selectorType: ExclusiveClusterSetLabel
 status:
   conditions:
   - lastTransitionTime: "2022-02-21T09:24:38Z"
@@ -119,7 +121,7 @@ status:
 ```
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
+apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSet
 metadata:
   name: example-openshift-clusterset
@@ -209,7 +211,7 @@ A `global` ManagedClusterSet will be automatically created initially. The `globa
 `global` ManagedClusterSet detail:
 
 ```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
+apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSet
 metadata:
   name: global
