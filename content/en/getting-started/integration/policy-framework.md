@@ -32,6 +32,11 @@ The governance policy framework distributes policies to managed clusters and col
 send back to the hub cluster.
 
 - [Policy propagator](https://github.com/open-cluster-management-io/governance-policy-propagator)
+- [Policy framework addon](https://github.com/open-cluster-management-io/governance-policy-framework-addon)
+
+Note that in OCM versions newer than 0.8.x, the following controllers were consolidated into the
+[policy framework addon](https://github.com/open-cluster-management-io/governance-policy-framework-addon).
+
 - [Policy spec sync](https://github.com/open-cluster-management-io/governance-policy-spec-sync)
 - [Policy status sync](https://github.com/open-cluster-management-io/governance-policy-status-sync)
 - [Policy template sync](https://github.com/open-cluster-management-io/governance-policy-template-sync)
@@ -119,7 +124,7 @@ more details see the
    export HUB_KUBECONFIG="hub-kubeconfig"
 
    # Apply the CRDs
-   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/v0.8.0/deploy"
+   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/v0.9.0/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policies.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_placementbindings.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policyautomations.yaml
@@ -157,21 +162,18 @@ more details see the
    clusteradm addon enable --names governance-policy-framework --clusters <cluster_name> --context ${CTX_HUB_CLUSTER}
    ```
 
-2. Verify that the pod is running on the managed cluster with the following command:
+2. Verify that the
+   [governance-policy-framework-addon controller](https://github.com/open-cluster-management-io/governance-policy-framework-addon)
+   pod is running on the managed cluster with the following command:
 
    ```Shell
    $ kubectl get pods -n open-cluster-management-agent-addon
-   NAME                                               READY   STATUS    RESTARTS   AGE
-   governance-policy-framework-57579b7c-652zj         3/3     Running   0          87s
+   NAME                                                     READY   STATUS    RESTARTS   AGE
+   governance-policy-framework-addon-57579b7c-652zj         1/1     Running   0          87s
    ```
 
-   **NOTE**: A self-managed hub deployment will only have 2 containers in the pod as opposed to the
-   `3/3` shown in the example.
-
-   - See more about the synchronization components:
-     - [policy-spec-sync](https://github.com/open-cluster-management-io/governance-policy-spec-sync)
-     - [policy-status-sync](https://github.com/open-cluster-management-io/governance-policy-status-sync)
-     - [policy-template-sync](https://github.com/open-cluster-management-io/governance-policy-template-sync)
+   **NOTE**: If you are using clusteradm v0.3.x or older, the pod will be called `governance-policy-framework` and
+   have a container per synchronization component (2 on a self-managed Hub, or 3 on a managed cluster).
 
 ### Deploy from source
 
@@ -189,12 +191,17 @@ more details see the
    kubectl config view --context=${CTX_HUB_CLUSTER} --minify --flatten > ${HUB_KUBECONFIG}
    ```
 
-2. Deploy the policy synchronization components to each managed cluster. Run the following commands:
+2. Deploy the
+   [policy synchronization component](https://github.com/open-cluster-management-io/governance-policy-framework-addon)
+   to each managed cluster. Run the following commands:
 
-   **NOTE**: The spec synchronization component should be skipped when deploying the synchronization
-   components to a hub that is managing itself.
+   **NOTE**: The `--disable-spec-sync` flag should be set to `true` in the `governance-policy-framework-addon` container
+   arguments when deploying the synchronization component to a hub that is managing itself.
 
    ```Shell
+   # Set whether or not this is being deployed on the Hub
+   export DEPLOY_ON_HUB=false
+
    # Configure kubectl to point to the managed cluster
    kubectl config use-context ${CTX_MANAGED_CLUSTER}
 
@@ -207,44 +214,26 @@ more details see the
 
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
-   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/v0.8.0/deploy/crds/policy.open-cluster-management.io_policies.yaml
+   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/v0.9.0/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
    # Set the managed cluster name and create the namespace
    export MANAGED_CLUSTER_NAME=<your managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
    kubectl create ns ${MANAGED_CLUSTER_NAME}
 
-   # Deploy the spec synchronization component
-   export COMPONENT="governance-policy-spec-sync"
-   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.8.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
-   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
-
-   # Deploy the status synchronization component
-   export COMPONENT="governance-policy-status-sync"
-   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.8.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
-   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
-
-   # Deploy the template synchronization component
-   export COMPONENT="governance-policy-template-sync"
-   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.8.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
-   kubectl set env deployment/${COMPONENT} -n ${MANAGED_NAMESPACE} --containers="${COMPONENT}" WATCH_NAMESPACE=${MANAGED_CLUSTER_NAME}
+   # Deploy the synchronization component
+   export COMPONENT="governance-policy-framework-addon"
+   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.9.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl patch deployment governance-policy-framework-addon -n ${MANAGED_NAMESPACE} \
+     -p "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"governance-policy-framework-addon\",\"args\":[\"--hub-cluster-configfile=/var/run/klusterlet/kubeconfig\", \"--cluster-namespace=${MANAGED_CLUSTER_NAME}\", \"--enable-lease=true\", \"--log-level=2\", \"--disable-spec-sync=${DEPLOY_ON_HUB}\"]}]}}}}"
    ```
-
-   - See more about the synchronization components:
-     - [policy-spec-sync](https://github.com/open-cluster-management-io/governance-policy-spec-sync)
-     - [policy-status-sync](https://github.com/open-cluster-management-io/governance-policy-status-sync)
-     - [policy-template-sync](https://github.com/open-cluster-management-io/governance-policy-template-sync)
 
 3. Verify that the pods are running on the managed cluster with the following command:
 
    ```Shell
    $ kubectl get pods -n ${MANAGED_NAMESPACE}
-   NAME                                               READY   STATUS    RESTARTS   AGE
-   governance-policy-spec-sync-6474b6d898-tmkw6       1/1     Running   0          2m14s
-   governance-policy-status-sync-84cbb795df-pgbgt     1/1     Running   0          2m14s
-   governance-policy-template-sync-759b9b556f-mx46t   1/1     Running   0          2m14s
+   NAME                                                READY   STATUS    RESTARTS   AGE
+   governance-policy-framework-addon-6474b6d898-tmkw6  1/1     Running   0          2m14s
    ```
-
-   **NOTE**: A hub that is managing itself should not have the `policy-spec-sync` pod deployed.
 
 ## What is next
 
