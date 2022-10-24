@@ -398,14 +398,19 @@ definition generated from the resolved template must be a valid YAML. (See the
 information.) Any errors in template validation appear as policy violations. When you use a custom
 template function, the values are replaced at runtime.</p>
 <p>Template functions, such as resource-specific and generic <code>lookup</code> template functions, are available
-for referencing Kubernetes resources on the cluster. The resource-specific functions are used for
-convenience and makes content of the resources more accessible. In addition to these functions,
-utility functions like <code>base64encode</code>, <code>base64decode</code>, <code>indent</code>, <code>autoindent</code>, <code>toInt</code>, <code>toBool</code>,
-and more are also available.</p>
-<p>To conform templates to YAML syntax, templates must be set in the policy resource as strings using
+for referencing Kubernetes resources on the hub cluster (using the <code>{{hub ... hub}}</code> delimiters), or
+managed cluster (using the <code>{{ ... }}</code> delimiters). See the
+<a href="#hub-cluster-templates">Hub cluster templates section</a> for more details. The resource-specific
+functions are used for convenience and makes content of the resources more accessible. If you use
+the generic function, <code>lookup</code>, which is more advanced, it is best to be familiar with the YAML
+structure of the resource that is being looked up. In addition to these functions, utility functions
+like <code>base64encode</code>, <code>base64decode</code>, <code>indent</code>, <code>autoindent</code>, <code>toInt</code>, and <code>toBool</code> are also
+available.</p>
+<p>To conform templates with YAML syntax, templates must be set in the policy resource as strings using
 quotes or a block character (<code>|</code> or <code>&gt;</code>). This causes the resolved template value to also be a
 string. To override this, consider using <code>toInt</code> or <code>toBool</code> as the final function in the template
-to initiate further processing that forces the value to be interpreted as an integer, or boolean.</p>
+to initiate further processing that forces the value to be interpreted as an integer or boolean
+respectively.</p>
 <p>To bypass template processing you can either:</p>
 <ul>
 <li>Override a single template by wrapping the template in additional braces. For example, the
@@ -426,9 +431,10 @@ cluster templates are processed first on the hub cluster, then the policy defini
 hub cluster templates is propagated to the target clusters. On the managed cluster, the
 Configuration Policy controller processes any managed cluster templates in the policy definition and
 then enforces or verifies the fully resolved object definition.</p>
-<p>Policies are processed on the hub cluster only upon creation or after an update. Therefore, hub
-cluster templates are only resolved to the data in the referenced resources upon policy creation or
-update. Any changes to the referenced resources are not automatically synced to the policies.</p>
+<p>In OCM versions 0.9.x and older, policies are processed on the hub cluster only upon creation or
+after an update. Therefore, hub cluster templates are only resolved to the data in the referenced
+resources upon policy creation or update. Any changes to the referenced resources are not
+automatically synced to the policies.</p>
 <p>A special annotation, <code>policy.open-cluster-management.io/trigger-update</code> can be used to indicate
 changes to the data referenced by the templates. Any change to the special annotation value
 initiates template processing, and the latest contents of the referenced resource are read and
@@ -509,6 +515,33 @@ encryption key.</p>
 </tr>
 </tbody>
 </table>
+<p>Additionally, OCM supports the following template functions that are included from the <code>sprig</code> open
+source project:</p>
+<ul>
+<li><code>cat</code></li>
+<li><code>contains</code></li>
+<li><code>default</code></li>
+<li><code>empty</code></li>
+<li><code>fromJson</code></li>
+<li><code>hasPrefix</code></li>
+<li><code>hasSuffix</code></li>
+<li><code>join</code></li>
+<li><code>list</code></li>
+<li><code>lower</code></li>
+<li><code>mustFromJson</code></li>
+<li><code>quote</code></li>
+<li><code>replace</code></li>
+<li><code>semver</code></li>
+<li><code>semverCompare</code></li>
+<li><code>split</code></li>
+<li><code>splitn</code></li>
+<li><code>ternary</code></li>
+<li><code>trim</code></li>
+<li><code>until</code></li>
+<li><code>untilStep</code></li>
+<li><code>upper</code></li>
+</ul>
+<p>See the <a href="https://masterminds.github.io/sprig">Sprig documentation</a> for more details.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
