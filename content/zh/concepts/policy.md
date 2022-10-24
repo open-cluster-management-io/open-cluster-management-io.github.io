@@ -189,15 +189,20 @@ information.) Any errors in template validation appear as policy violations. Whe
 template function, the values are replaced at runtime.
 
 Template functions, such as resource-specific and generic `lookup` template functions, are available
-for referencing Kubernetes resources on the cluster. The resource-specific functions are used for
-convenience and makes content of the resources more accessible. In addition to these functions,
-utility functions like `base64encode`, `base64decode`, `indent`, `autoindent`, `toInt`, `toBool`,
-and more are also available.
+for referencing Kubernetes resources on the hub cluster (using the `{{hub ... hub}}` delimiters), or
+managed cluster (using the `{{ ... }}` delimiters). See the
+[Hub cluster templates section](#hub-cluster-templates) for more details. The resource-specific
+functions are used for convenience and makes content of the resources more accessible. If you use
+the generic function, `lookup`, which is more advanced, it is best to be familiar with the YAML
+structure of the resource that is being looked up. In addition to these functions, utility functions
+like `base64encode`, `base64decode`, `indent`, `autoindent`, `toInt`, and `toBool` are also
+available.
 
-To conform templates to YAML syntax, templates must be set in the policy resource as strings using
+To conform templates with YAML syntax, templates must be set in the policy resource as strings using
 quotes or a block character (`|` or `>`). This causes the resolved template value to also be a
 string. To override this, consider using `toInt` or `toBool` as the final function in the template
-to initiate further processing that forces the value to be interpreted as an integer, or boolean.
+to initiate further processing that forces the value to be interpreted as an integer or boolean
+respectively.
 
 To bypass template processing you can either:
 
@@ -223,9 +228,10 @@ hub cluster templates is propagated to the target clusters. On the managed clust
 Configuration Policy controller processes any managed cluster templates in the policy definition and
 then enforces or verifies the fully resolved object definition.
 
-Policies are processed on the hub cluster only upon creation or after an update. Therefore, hub
-cluster templates are only resolved to the data in the referenced resources upon policy creation or
-update. Any changes to the referenced resources are not automatically synced to the policies.
+In OCM versions 0.9.x and older, policies are processed on the hub cluster only upon creation or
+after an update. Therefore, hub cluster templates are only resolved to the data in the referenced
+resources upon policy creation or update. Any changes to the referenced resources are not
+automatically synced to the policies.
 
 A special annotation, `policy.open-cluster-management.io/trigger-update` can be used to indicate
 changes to the data referenced by the templates. Any change to the special annotation value
@@ -259,3 +265,31 @@ encryption key.
 | `toInt`            | Returns the integer value of the string and ensures that the value is interpreted as an integer in the YAML.                                                                                                        | `vlanid: \|`<br />`{{ (fromConfigMap "site-config" "site1" "vlan") \| toInt }}`                                                              |
 | `toBool`           | Returns the boolean value of the input string and ensures that the value is interpreted as a boolean in the YAML.                                                                                                   | `enabled: \|`<br />`{{ (fromConfigMap "site-config" "site1" "enabled") \| toBool }}`                                                         |
 | `protect`          | Encrypts the input string. It is decrypted when the policy is evaluated. On the replicated policy in the managed cluster namespace, the resulting value resembles the following: `$ocm_encrypted:<encrypted-value>` | `enabled: \|`<br />`{{hub "(lookup "route.openshift.io/v1" "Route" "openshift-authentication" "oauth-openshift").spec.host \| protect hub}}` |
+
+Additionally, OCM supports the following template functions that are included from the `sprig` open
+source project:
+
+- `cat`
+- `contains`
+- `default`
+- `empty`
+- `fromJson`
+- `hasPrefix`
+- `hasSuffix`
+- `join`
+- `list`
+- `lower`
+- `mustFromJson`
+- `quote`
+- `replace`
+- `semver`
+- `semverCompare`
+- `split`
+- `splitn`
+- `ternary`
+- `trim`
+- `until`
+- `untilStep`
+- `upper`
+
+See the [Sprig documentation](https://masterminds.github.io/sprig) for more details.
