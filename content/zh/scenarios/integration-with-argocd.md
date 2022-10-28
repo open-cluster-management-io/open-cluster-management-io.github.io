@@ -11,6 +11,9 @@ Before starting with the following steps, we suggest you understand the content 
 - [Argo CD ApplicationSet](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/). It adds Application automation and seeks to improve multi-cluster support and cluster multitenant support within Argo CD.
 - [OCM Placement API](https://open-cluster-management.io/concepts/placement/). It is used to dynamically select a set of [ManagedClusters](https://open-cluster-management.io/concepts/managedcluster/) in one or multiple [ManagedClusterSets](https://open-cluster-management.io/concepts/managedclusterset) so that the workloads can be deployed to these clusters.
 
+The first half of the
+[KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
+also covers the integration with ArgoCD.
 
 ### How it works
 
