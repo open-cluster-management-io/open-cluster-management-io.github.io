@@ -68,7 +68,7 @@ more details see the
 
    # Apply the CRD
    export COMPONENT="config-policy-controller"
-   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/v0.8.0/deploy"
+   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/v0.9.0/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_configurationpolicies.yaml
 
    # Set the managed cluster name

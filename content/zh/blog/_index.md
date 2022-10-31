@@ -13,6 +13,10 @@ weight: 6
 
 [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf) authored by [Maggie Chen](https://github.com/chenz4027) and [Matt Prahl](https://github.com/mprahl)
 
+## Jan 12, 2022
+
+[Using the Open Cluster Management Placement for Multicluster Scheduling](https://cloud.redhat.com/blog/using-the-open-cluster-management-placement-for-multicluster-scheduling) authored by [Jian Qiu](https://github.com/qiujian16), [Le Yang](https://github.com/elgnay) and [Qing Hao](https://github.com/haoqing0110)
+
 ## Oct 12, 2021
 
 [Using the Open Cluster Management Add-on Framework to Develop a Managed Cluster Add-on](https://cloud.redhat.com/blog/using-the-open-cluster-management-add-on-framework-to-develop-a-managed-cluster-add-on) authored by [Jian Qiu](https://github.com/qiujian16), [Le Yang](https://github.com/elgnay) and [Wei Liu](https://github.com/skeeey)
