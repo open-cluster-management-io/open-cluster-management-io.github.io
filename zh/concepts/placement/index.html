@@ -259,11 +259,12 @@
             <li><a href="#prioritizers">Prioritizers</a>
               <ul>
                 <li><a href="#score-based-prioritizer">Score-based prioritizer</a></li>
+                <li><a href="#extensible-scheduling">Extensible scheduling</a></li>
               </ul>
             </li>
           </ul>
         </li>
-        <li><a href="#extensible-scheduling">Extensible scheduling</a></li>
+        <li><a href="#placementdecisions">PlacementDecisions</a></li>
         <li><a href="#troubleshooting">Troubleshooting</a>
           <ul>
             <li><a href="#check-the-placement-conditions">Check the <code>Placement</code> conditions</a></li>
@@ -296,10 +297,8 @@ their advanced workload i.e. <strong>multi-cluster scheduling</strong>.</p>
 separated Kubernetes API <code>Placement</code> and <code>PlacementDecision</code>. As is shown in
 the following picture, we prescribe the scheduling policy in the spec of
 <code>Placement</code> API and the placement controller in the hub will help us to
-dynamically select a slice of managed clusters from the given cluster sets.</p>
-<p>Note that the scheduling result in the <code>PlacementDecision</code> API is designed to
-be paginated with its page index as the name&rsquo;s suffix to avoid &ldquo;too large
-object&rdquo; issue from the underlying Kubernetes API framework.</p>
+dynamically select a slice of managed clusters from the given cluster sets.
+The selected clusters will be listed in <code>PlacementDecision</code>.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/placement-explain.png" alt="Placement" style="margin: 0 auto; width: 60%">
 </div>
@@ -529,26 +528,7 @@ negative weight indicates wanting to select the last ones.</li>
 </ul>
 </li>
 </ul>
-<p>A slice of <code>PlacementDecision</code> will be created by placement controller in the
-same namespace, each with a label of
-<code>cluster.open-cluster-management.io/placement={placement name}</code>.
-<code>PlacementDecision</code> contains the results of the cluster selection as seen in the
-following examples.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: PlacementDecision
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">labels</span>:
-    <span style="color:#66d9ef">cluster.open-cluster-management.io/placement</span>: placement1
-  <span style="color:#66d9ef">name</span>: placement1-decision<span style="color:#ae81ff">-1</span>
-  <span style="color:#66d9ef">namespace</span>: default
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">decisions</span>:
-    - <span style="color:#66d9ef">clusterName</span>: cluster1
-    - <span style="color:#66d9ef">clusterName</span>: cluster2
-    - <span style="color:#66d9ef">clusterName</span>: cluster3
-</code></pre></div><p><code>PlacementDecision</code> can be consumed by another operand to decide how the
-workload should be placed in multiple clusters.</p>
-<h2 id="extensible-scheduling">Extensible scheduling</h2>
+<h4 id="extensible-scheduling">Extensible scheduling</h4>
 <p>In placement resource based scheduling, in some cases the prioritizer needs
 extra data (more than the default value provided by ManagedCluster) to calculate
 the score of the managed cluster. For example, schedule the clusters based on
@@ -562,9 +542,37 @@ placement yaml to select clusters.</li>
 cluster, to maintain the lifecycle of <code>AddOnPlacementScore</code> and update score
 into it.</li>
 </ul>
+<p><a href="https://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities/">Extend the multicluster scheduling capabilities with placement</a>
+introduces how to implement a customized score provider.</p>
 <p>Refer to the
 <a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a>
 to learn more.</p>
+<h2 id="placementdecisions">PlacementDecisions</h2>
+<p>A slice of <code>PlacementDecision</code> will be created by placement controller in the
+same namespace, each with a label of
+<code>cluster.open-cluster-management.io/placement={placement name}</code>.
+<code>PlacementDecision</code> contains the results of the cluster selection as seen in the
+following examples.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: PlacementDecision
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">cluster.open-cluster-management.io/placement</span>: placement1
+  <span style="color:#66d9ef">name</span>: placement1-decision<span style="color:#ae81ff">-1</span>
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">decisions</span>:
+    - <span style="color:#66d9ef">clusterName</span>: cluster1
+    - <span style="color:#66d9ef">clusterName</span>: cluster2
+    - <span style="color:#66d9ef">clusterName</span>: cluster3
+</code></pre></div><p>The <code>status.decisions</code> lists the top N clusters with highest score and ordered
+by names. The <code>status.decisions</code> changes over time, the scheduling result update
+based on what endpoints exist.</p>
+<p>The scheduling result in the <code>PlacementDecision</code> API is designed to
+be paginated with its page index as the name&rsquo;s suffix to avoid &ldquo;too large
+object&rdquo; issue from the underlying Kubernetes API framework.</p>
+<p><code>PlacementDecision</code> can be consumed by another operand to decide how the
+workload should be placed in multiple clusters.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <p>If no <code>PlacementDecision</code> generated after you creating <code>Placement</code>, you can run below commands to troubleshoot.</p>
 <h3 id="check-the-placement-conditions">Check the <code>Placement</code> conditions</h3>
@@ -623,8 +631,6 @@ advanced features including</p>
 <ul>
 <li><a href="https://github.com/open-cluster-management-io/community/issues/49">Various workload spread
 policies</a>.</li>
-<li><a href="https://github.com/open-cluster-management-io/community/issues/52">Usage based
-scheduling</a>.</li>
 </ul>
 
 </div>
