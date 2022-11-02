@@ -30,10 +30,7 @@ separated Kubernetes API `Placement` and `PlacementDecision`. As is shown in
 the following picture, we prescribe the scheduling policy in the spec of
 `Placement` API and the placement controller in the hub will help us to
 dynamically select a slice of managed clusters from the given cluster sets.
-
-Note that the scheduling result in the `PlacementDecision` API is designed to
-be paginated with its page index as the name's suffix to avoid "too large
-object" issue from the underlying Kubernetes API framework.
+The selected clusters will be listed in `PlacementDecision`.
 
 <div style="text-align: center; padding: 20px;">
    <img src="/placement-explain.png" alt="Placement" style="margin: 0 auto; width: 60%">
@@ -277,7 +274,30 @@ spec:
       A higher weight indicates that the prioritizer weights more in the cluster
       selection, while 0 weight indicates that the prioritizer is disabled. A
       negative weight indicates wanting to select the last ones.
+
+#### Extensible scheduling
+In placement resource based scheduling, in some cases the prioritizer needs
+extra data (more than the default value provided by ManagedCluster) to calculate
+the score of the managed cluster. For example, schedule the clusters based on
+cpu or memory usage data of the clusters fetched from a monitoring system.
+
+So we provide a new API `AddOnPlacementScore` to support a more extensible way
+to schedule based on customized scores.
+- As a user, as mentioned in the above section, can specify the score in
+placement yaml to select clusters.
+- As a score provider, a 3rd party controller could run on either hub or managed
+cluster, to maintain the lifecycle of `AddOnPlacementScore` and update score
+into it.
+
+[Extend the multicluster scheduling capabilities with placement](https://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities/)
+introduces how to implement a customized score provider.
+
+Refer to the
+[enhancements](https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md)
+to learn more.
       
+## PlacementDecisions
+
 A slice of `PlacementDecision` will be created by placement controller in the
 same namespace, each with a label of
 `cluster.open-cluster-management.io/placement={placement name}`.
@@ -292,33 +312,23 @@ metadata:
     cluster.open-cluster-management.io/placement: placement1
   name: placement1-decision-1
   namespace: default
-spec:
+status:
   decisions:
     - clusterName: cluster1
     - clusterName: cluster2
     - clusterName: cluster3
 ```
 
+The `status.decisions` lists the top N clusters with highest score and ordered
+by names. The `status.decisions` changes over time, the scheduling result update
+based on what endpoints exist.
+
+The scheduling result in the `PlacementDecision` API is designed to
+be paginated with its page index as the name's suffix to avoid "too large
+object" issue from the underlying Kubernetes API framework.
+
 `PlacementDecision` can be consumed by another operand to decide how the
 workload should be placed in multiple clusters.
-
-## Extensible scheduling
-In placement resource based scheduling, in some cases the prioritizer needs
-extra data (more than the default value provided by ManagedCluster) to calculate
-the score of the managed cluster. For example, schedule the clusters based on
-cpu or memory usage data of the clusters fetched from a monitoring system.
-
-So we provide a new API `AddOnPlacementScore` to support a more extensible way
-to schedule based on customized scores.
-- As a user, as mentioned in the above section, can specify the score in
-placement yaml to select clusters.
-- As a score provider, a 3rd party controller could run on either hub or managed
-cluster, to maintain the lifecycle of `AddOnPlacementScore` and update score
-into it.
-
-Refer to the
-[enhancements](https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md)
-to learn more.
 
 ## Troubleshooting
 If no `PlacementDecision` generated after you creating `Placement`, you can run below commands to troubleshoot.
@@ -386,5 +396,3 @@ advanced features including
 
 - [Various workload spread
 policies](https://github.com/open-cluster-management-io/community/issues/49).
-- [Usage based
-scheduling](https://github.com/open-cluster-management-io/community/issues/52).
