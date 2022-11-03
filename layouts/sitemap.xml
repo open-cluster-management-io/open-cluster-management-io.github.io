@@ -9,6 +9,15 @@
         <loc>http://open-cluster-management.io/api?go-get=1</loc>
     </url>
     <url>
+        <loc>http://open-cluster-management.io/registration?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/work?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/placement?go-get=1</loc>
+    </url>
+    <url>
         <loc>http://open-cluster-management.io/clusteradm?go-get=1</loc>
     </url>
     <url>
