@@ -65,7 +65,7 @@ To exercise this feature you must take the following steps:
 
 <div>
    <img src="/snippets-from-palette.gif" alt="Resources Snippets">
-</div>
+</div><br>
 
 ### Bootstrap Project
 
@@ -81,7 +81,7 @@ To exercise this feature you must take the following steps:
 
 <div>
    <img src="/new-project.gif" alt="Bootstrap Project">
-</div>
+</div><br>
 
 ### Create Local Environment
 
@@ -102,7 +102,7 @@ To exercise this feature you must take the following steps:
 
 <div>
    <img src="/create-local-env.gif" alt="Create Local Environment" style="margin: 0 auto; width: 95%">
-</div>
+</div><br>
 
 ### Manage Existing Resources
 
@@ -116,7 +116,7 @@ To exercise this feature you must take the following steps:
 
 <div>
    <img src="/mng-existing-resources.gif" alt="Create Local Environment" style="margin: 0 auto; width: 95%">
-</div>
+</div><br>
 
 ## Related materials
 
