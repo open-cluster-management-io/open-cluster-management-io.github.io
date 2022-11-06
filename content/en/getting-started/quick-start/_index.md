@@ -255,5 +255,6 @@ Now you have the OCM control plane with at least one managed cluster connected! 
 - [Visit kubernetes apiserver of managedcluster from cluster-proxy](/scenarios/pushing-kube-api-requests)
 - Visit [integration](/getting-started/integration) to check if any certain OCM addon will meet your use cases.
   - [Deploy Policies onto a managed cluster](/getting-started/integration/policy-framework)
+- [Use the VScode Extension to easily generate kubernetes resources and track your cluster](/developer-guides/vscode-extension)
 
 To understand more about OCM API details, see [Core components](/getting-started/core).
