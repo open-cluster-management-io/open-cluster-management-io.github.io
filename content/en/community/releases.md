@@ -3,7 +3,40 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.8.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.9.0`. Continue reading to view upcoming releases:
+
+## `v0.9.0`, 21st, October 2022
+
+Open Cluster Management team is proud to announce the release of OCM v0.9.0! Here are some main features included in this release:
+
+- De-escalate Work Agent Privilege on Managed Clusters
+  In previous iterations of OCM, the Work Agent process is run with admin privileges on managed clusters. This release, to exercise the principle of least privilege, OCM supports defining a non-root identity within each ManifestWork object, allowing end users to give the agent only necessary permissions to interact with the clusters which they manage.
+- Support referencing the AddOn configuration with AddOn APIs 
+  For some add-ons, they want to run with configuration, we enhance the add-on APIs to support reference add-on configuration, and in add-on framework, we support to trigger re-rendering the add-on deployment if its configuration is changed
+- Allow Targeting Specific Services within Managed Clusters
+  The cluster-proxy add-on supports the exposure of services from within managed clusters to hub clusters, even across Virtual Private Clouds. Originally all traffic was routed through the Kubernetes API server on each managed cluster, increasing load on the node hosting the API server. Now the proxy agent  add-on supports specifying a particular target service within a cluster, allowing for better load balancing of requests made by hub clusters and more granular control of what resources/APIs are exposed to hub clusters.
+- Upgraded ManagedClusterSet API to v1beta2
+  Update the ClusterSet API and gradually remove legacy custom resources, as well as allow for transformation of legacy resources into analogous v1beta2 resources. v1alpha1 APIs are removed.
+- Consolidate the policy add-on template, status, and spec synchronization controllers into a single repository, [governance-policy-framework-addon](https://github.com/open-cluster-management-io/governance-policy-framework-addon)
+- Application add-on is now able to expose custom Prometheus metrics via the Git subscription. See the [metric documentation](https://github.com/open-cluster-management-io/multicloud-operators-subscription/blob/v0.9.0/docs/metrics.md) for more details.
+
+### Core components
+- registration v0.9.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md)
+- work v0.9.0 [changelog](https://github.com/open-cluster-management-io/work/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md)
+- placement v0.9.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md)
+- addon-framework v0.5.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.5.0/CHANGELOG/CHANGELOG-v0.5.md)
+- registration-operator v0.9.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md)
+
+### Addons
+- config-policy-controller v0.9.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.9.0.md)
+- governance-policy-framework-addon v0.9.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/blob/main/CHANGELOG/CHANGELOG-v0.9.0.md)
+- governance-policy-propagator v0.9.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.9.0.md)
+- governance-policy-addon-controller v0.9.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/blob/main/CHANGELOG/CHANGELOG-v0.9.0.md)
+- multicloud-operators-subscription v0.9.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.9.0)
+- multicloud-operators-channel v0.9.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.9.0)
+- multicloud-integrations v0.9.0 [release note](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.9.0)
+
+The release annoucement is also publishded in [blog](https://www.cncf.io/blog/2022/10/31/open-cluster-management-november-2022-update/). Thanks for all your contribution!
 
 ## `v0.8.0`, 8th, July 2022
 Open Cluster Management team is proud to annouce the release of OCM v0.8.0! It includes several enhancement on core components and addons.
