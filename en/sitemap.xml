@@ -126,6 +126,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/developer-guides/vscode-extension</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/blog</loc>
     </url>
     

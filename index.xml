@@ -196,10 +196,9 @@ Ensure golang is installed, if you are planning to install from the source.</des
       
       <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Architecture Prerequisite Install via Clusteradm CLI tool Install from source What is next     Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
+   Architecture Prerequisite Install via Clusteradm CLI tool Install from source What is next  Try this out       Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
 Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
-  Ensure kubectl and kustomize are installed.
-  Ensure the open-cluster-management cluster manager is installed.</description>
+  Ensure kubectl and kustomize are installed.</description>
     </item>
     
     <item>
@@ -229,6 +228,15 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       <guid>http://open-cluster-management.io/concepts/policy/</guid>
       <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
  Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+    </item>
+    
+    <item>
+      <title>VScode Extension</title>
+      <link>http://open-cluster-management.io/developer-guides/vscode-extension/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/developer-guides/vscode-extension/</guid>
+      <description>The OCM VScode Extension is a UI tool for OCM related Kubernetes resources. The extension has been built upon Visual Studio Code and offers additional OCM administrative and monitoring features in order to improve operational efficiency and accelerate development within engineering teams. The OCM VScode Extension provides tons of useful features, including easy to generate OCM related Kubernetes resources, automated local OCM environment creation and a simple and convenient monitoring view for cluster resources.</description>
     </item>
     
     <item>
