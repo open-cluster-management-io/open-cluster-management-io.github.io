@@ -139,6 +139,9 @@ other = "Cluster proxy"
 [sidebar_managed_serviceaccount]
 other = "Managed service account"
 
+[sidebar_vscode_extension]
+other = "VScode Extension"
+
 [sidebar_scenarios]
 other = "Scenarios"
 
