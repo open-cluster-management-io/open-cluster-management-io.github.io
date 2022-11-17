@@ -3,7 +3,10 @@ title: VScode Extension
 weight: 5
 ---
 
-The OCM [VScode Extension][vscode-ext-git-repo] helps quickly create Open Cluster Management (OCM) applications.
+The OCM [VScode Extension][vscode-ext-git-repo] is a UI tool for OCM related Kubernetes resources.
+The extension has been built upon Visual Studio Code and offers additional OCM administrative and monitoring features in order to improve operational efficiency and accelerate development within engineering teams.
+The OCM VScode Extension provides tons of useful features, including easy to generate OCM related Kubernetes resources, automated local OCM environment creation and a simple and convenient monitoring view for cluster resources.
+Having an effective UI tool for managing your cluster is key to a healthy environment. With the right user interface, you can administer changes to the cluster, track resources, and troubleshoot issues more efficiently, without having to use numerous additional CLI tools.
 
 <!-- spellchecker-disable -->
 
