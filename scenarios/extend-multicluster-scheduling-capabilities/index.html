@@ -293,7 +293,7 @@ spec:
 </ul>
 <p>You can refer to the <a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md">enhancements</a> to learn more details about the design. In the design, how to maintain the lifecycle (create/update/delete) of the <code>AddOnPlacementScore</code> CRs is not covered, as we expect the customized score provider itself to manage it. In this article, we will use an example to show you how to implement a 3rd part controller to update your own scores and extend the multiple clusters scheduling capability with your own scores.</p>
 <h2 id="how-to-implement-a-customized-score-provider">How to implement a customized score provider</h2>
-<p>The example code is in GitHub repo <a href="https://github.com/JiahaoWei-RH/resource-usage-collect">resource-usage-collect</a>. It provides the score of the cluster&rsquo;s available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a> and can be installed as an addon plugin to update customized scores into <code>AddOnPlacementScore</code>. (This article won&rsquo;t talk many details about addon-framework, referring to <a href="https://open-cluster-management.io/developer-guides/addon/">Add-on Developer Guide</a> to learn how to develop an addon.)</p>
+<p>The example code is in GitHub repo <a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/resource-usage-collect-addon">resource-usage-collect-addon</a>. It provides the score of the cluster&rsquo;s available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a> and can be installed as an addon plugin to update customized scores into <code>AddOnPlacementScore</code>. (This article won&rsquo;t talk many details about addon-framework, referring to <a href="https://open-cluster-management.io/developer-guides/addon/">Add-on Developer Guide</a> to learn how to develop an addon.)</p>
 <p>The resource-usage-collect addon follows the hub-agent architecture as below.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/extend-multicluster-scheduling-capabilities.png" alt="Security model" style="margin: 0 auto; width: 60%">
@@ -332,16 +332,17 @@ default   default            <span style="color:#ae81ff">2</span> ManagedCluster
 <ol>
 <li>Git clone the source code.</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone git@github.com:JiahaoWei-RH/resource-usage-collect.git 
-cd resource-usage-collect
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone git@github.com:open-cluster-management-io/addon-contrib.git 
+cd addon-contrib/resource-usage-collect-addon
 </code></pre></div><ol start="2">
 <li>Prepare the image.</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># get imagebuilder first</span>
-go get github.com/openshift/imagebuilder/cmd/imagebuilder@v1.2.1
-export PATH<span style="color:#f92672">=</span>$PATH:<span style="color:#66d9ef">$(</span>go env GOPATH<span style="color:#66d9ef">)</span>/bin
-<span style="color:#75715e"># build image</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Set image name, this is an optional step.</span>
+export IMAGE_NAME<span style="color:#f92672">=</span>quay.io/haoqing/resource-usage-collect-addon:latest
+<span style="color:#75715e"># Build image</span>
 make images
+</code></pre></div><p>If your are using kind, load image into kind cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kind load docker-image $IMAGE_NAME --name &lt;cluster_name&gt; <span style="color:#75715e"># kind load docker-image $IMAGE_NAME --name hub</span>
 </code></pre></div><ol start="3">
 <li>Deploy the resource-usage-collect addon.</li>
 </ol>
@@ -429,7 +430,7 @@ Events:
 <p>In our example, the customized score provider is developed with <a href="https://github.com/open-cluster-management-io/addon-framework">addon-famework</a>, it follows the hub-agent architecture. The resource-usage-collect-agent is the real score provider, it is installed on each managed cluster, it gets the available CPU and memory of the managed cluster, calculates a score, and updates it into <code>AddonPlacementScore</code>. The resource-usage-collect-controller just takes care of installing the agent.</p>
 <p>In other cases, for example, if you want to use the metrics from Thanos to calculate a score for each cluster, then the customized score provider only needs to be placed on the hub, as Thanos has all the metrics collected from each managed cluster.</p>
 <h3 id="2-how-to-maintain-the-addonplacementscore-cr-lifecycle">2. How to maintain the AddOnPlacementScore CR lifecycle</h3>
-<p>In our example, the code to maintain the <code>AddOnPlacementScore</code> CR is in <a href="https://github.com/JiahaoWei-RH/resource-usage-collect/blob/main/pkg/addon/agent/agent.go">pkg/addon/agent/agent.go</a>.</p>
+<p>In our example, the code to maintain the <code>AddOnPlacementScore</code> CR is in <a href="https://github.com/open-cluster-management-io/addon-contrib/blob/main/resource-usage-collect-addon/pkg/addon/agent/agent.go">pkg/addon/agent/agent.go</a>.</p>
 <ul>
 <li>
 <p>When should the score be created?</p>
@@ -444,7 +445,7 @@ Events:
 </li>
 </ul>
 <h3 id="3-how-to-calculate-the-score">3. How to calculate the score</h3>
-<p>The code to calculate the score is in <a href="https://github.com/JiahaoWei-RH/resource-usage-collect/blob/main/pkg/addon/agent/calculate.go">pkg/addon/agent/calculate.go</a>. A valid score must be in the range -100 to 100, you need to normalize the scores before updating it into <code>AddOnPlacementScore</code>.</p>
+<p>The code to calculate the score is in <a href="https://github.com/open-cluster-management-io/addon-contrib/blob/main/resource-usage-collect-addon/pkg/addon/agent/calculate.go">pkg/addon/agent/calculate.go</a>. A valid score must be in the range -100 to 100, you need to normalize the scores before updating it into <code>AddOnPlacementScore</code>.</p>
 <p>When normalizing the score, you might meet the below cases.</p>
 <ul>
 <li>
