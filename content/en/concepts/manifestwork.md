@@ -290,3 +290,51 @@ manifest will not be updated by it.
 
 In stead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also takes the ownership
 of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
+
+# Permission setting for work agent
+
+All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
+clusterRole `admin`(instead of the `cluster-admin`) and other [necessary](https://github.com/open-cluster-management-io/registration-operator/blob/v0.9.1/manifests/klusterlet/managed/klusterlet-work-clusterrole-execution.yaml)
+permission for the managed cluster. So if the workload manifests to be applied on the managed cluster exceeds the
+permission of `admin`, for example some Customer Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
+reflected on the ManifestWork status.
+
+To prevent this, the service account `klusterlet-work-sa` used by the work-agent needs to be given the corresponding
+permissions. There are two ways:
+- create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account on the managed
+  cluster directly.
+- create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account on the hub
+  cluster by another ManifestWork, below is an example use ManifestWork to give `klusterlet-work-sa` permission for
+  resource `machines.cluster.x-k8s.io`
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: permission-set
+spec:
+  workload:
+    manifests:
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRole
+        metadata:
+          name: open-cluster-management:klusterlet-work:my-role
+        rules:
+          # Allow agent to managed machines
+          - apiGroups: ["cluster.x-k8s.io"]
+            resources: ["machines"]
+            verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRoleBinding
+        metadata:
+          name: open-cluster-management:klusterlet-work:my-binding
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: open-cluster-management:klusterlet-work:my-role
+        subjects:
+          - kind: ServiceAccount
+            name: klusterlet-work-sa
+            namespace: open-cluster-management-agent
+```
