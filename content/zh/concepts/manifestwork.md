@@ -294,18 +294,26 @@ of `replicas`, and the update of `replicas` field in the first `ManifestWork` wi
 # Permission setting for work agent
 
 All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
-clusterRole `admin`(instead of the `cluster-admin`) and other [necessary](https://github.com/open-cluster-management-io/registration-operator/blob/v0.9.1/manifests/klusterlet/managed/klusterlet-work-clusterrole-execution.yaml)
-permission for the managed cluster. So if the workload manifests to be applied on the managed cluster exceeds the
-permission of `admin`, for example some Customer Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
+following permission for the managed cluster:
+- clusterRole `admin`(instead of the `cluster-admin`) to apply kubernetes common resources
+- managing `customresourcedefinitions`, but can not manage a specific custom resource instance
+- managing `clusterrolebindings`, `rolebindings`, `clusterroles`, `roles`, including the `bind` and `escalate`
+  permission, this is why we can grant work-agent service account extra permissions using ManifestWork
+
+So if the workload manifests to be applied on the managed cluster exceeds the above permission, for example some
+Customer Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
 reflected on the ManifestWork status.
 
 To prevent this, the service account `klusterlet-work-sa` used by the work-agent needs to be given the corresponding
-permissions. There are two ways:
-- create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account on the managed
-  cluster directly.
-- create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account on the hub
-  cluster by another ManifestWork, below is an example use ManifestWork to give `klusterlet-work-sa` permission for
-  resource `machines.cluster.x-k8s.io`
+permissions. There are several ways:
+- add permission on the managed cluster directly, we can
+  - aggregate the new clusterRole for your to-be-applied resources to the existing `admin` clusterRole
+  - OR create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
+- add permission on the hub cluster by another ManifestWork, the ManifestWork includes
+  - an aggregated clusterRole for your to-be-applied resources to the existing `admin` clusterRole
+  - OR role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
+
+Below is an example use ManifestWork to give `klusterlet-work-sa` permission for resource `machines.cluster.x-k8s.io`
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
