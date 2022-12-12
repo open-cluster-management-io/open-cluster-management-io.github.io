@@ -202,4 +202,7 @@
     <url>
         <loc>http://open-cluster-management.io/ocm-kustomize-generator-plugins?go-get=1</loc>
     </url>
+    <url>
+        <loc>http://open-cluster-management.io/multicluster-controlplane?go-get=1</loc>
+    </url>
 </urlset>
