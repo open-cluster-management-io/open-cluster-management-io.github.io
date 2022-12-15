@@ -79,6 +79,9 @@ other = "Architecture"
 [sidebar_managed_cluster]
 other = "ManagedCluster"
 
+[sidebar_cluster_claim]
+other = "ClusterClaim"
+
 [ sidebar_managed_cluster_set ]
 other = "ManagedClusterSet"
 
