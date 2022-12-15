@@ -247,9 +247,51 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>社区规划</h1>
-    <p>The Open Cluster Management community uses <a href="https://github.com/orgs/open-cluster-management-io/projects/2/views/9">GitHub Project</a> to track the progress of the project.</p>
+    <h1>ClusterClaim</h1>
+    <!-- spellchecker-disable -->
 
+
+
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#what-is-clusterclaim">What is ClusterClaim?</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#example">Example</a></li>
+      </ul></nav><hr></div>
+
+
+<!-- spellchecker-enable -->
+<h2 id="what-is-clusterclaim">What is ClusterClaim?</h2>
+<p><code>ClusterClaim</code> is a cluster-scoped API available to users on a managed cluster.
+The <code>ClusterClaim</code> objects are collected from the managed cluster and saved into
+the status of the corresponding <code>ManagedCluster</code> object on the hub.</p>
+<h2 id="usage">Usage</h2>
+<p><code>ClusterCaim</code> is used to specify additional properties of the managed cluster like
+the clusterID, version, vendor and cloud provider. We defined some reserved <code>ClusterClaims</code>
+like <code>id.k8s.io</code> which is a unique identifier for the managed cluster.</p>
+<p>In addition to the reserved <code>ClusterClaims</code>, users can also customize 20 <code>ClusterClaims</code> by default.
+The maximum count of customized <code>ClusterClaims</code> can be configured via the flag
+<code>max-custom-cluster-claims</code> of registration agent on the managed cluster.</p>
+<p>The <code>ClusterClaim</code> with the label <code>open-cluster-management.io/spoke-only</code> will not be synced
+to the status of <code>ManagedCluster</code>.</p>
+<h2 id="example">Example</h2>
+<p>Here is a <code>ClusterClaim</code> example specifying a <code>id.k8s.io</code>:</p>
+<pre><code>apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: id.k8s.io
+spec:
+  value: myCluster
+</code></pre><p>After applying the <code>ClusterClaim</code> above to any managed cluster, the value of the <code>ClusterClaim</code>
+is reflected in the <code>ManagedCluster</code> on the hub cluster:</p>
+<pre><code>apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata: ...
+spec: ...
+status:
+  clusterClaims:
+    - name: id.k8s.io
+      value: myCluster
+</code></pre>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

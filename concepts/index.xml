@@ -20,6 +20,16 @@
     </item>
     
     <item>
+      <title>ClusterClaim</title>
+      <link>http://open-cluster-management.io/concepts/clusterclaim/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/concepts/clusterclaim/</guid>
+      <description>What is ClusterClaim? Usage Example     What is ClusterClaim? ClusterClaim is a cluster-scoped API available to users on a managed cluster. The ClusterClaim objects are collected from the managed cluster and saved into the status of the corresponding ManagedCluster object on the hub.
+Usage ClusterCaim is used to specify additional properties of the managed cluster like the clusterID, version, vendor and cloud provider. We defined some reserved ClusterClaims like id.</description>
+    </item>
+    
+    <item>
       <title>ManagedCluster</title>
       <link>http://open-cluster-management.io/concepts/managedcluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

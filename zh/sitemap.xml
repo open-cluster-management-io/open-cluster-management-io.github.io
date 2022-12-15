@@ -54,6 +54,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/zh/concepts/clusterclaim</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/zh/getting-started/core/register-cluster</loc>
     </url>
     
