@@ -10,9 +10,13 @@ weight: 2
 <!-- spellchecker-enable -->
 
 **API-CHANGE NOTE**:
+
 The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1alpha1 version will no longer be served in OCM v0.9.0.
+
 The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1beta1 version will be deprecated in OCM v0.9.0.
+
 For Hosted Mode, The `ManagedClusterSet` and `ManagedClusterSetBinding` API only support v1beta1 in OCM v0.9.0
+
 - Migrate manifests and API clients to use the `ManagedClusterSet` and `PlacementDecision` API v1beta1 version, available since OCM v0.5.0.
 - All existing persisted objects are accessible via the new API.
 - No notable changes
@@ -24,17 +28,12 @@ few managed clusters into a "set" so that hub admin can operate these clusters
 altogether in a higher level. The concept is inspired by the an [enhancement](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api#terminology)
 from the Kubernetes SIG-Multicluster. Member clusters in the set are supposed
 to have common/similar attributes e.g. purpose of use, deployed regions, etc.
-Each `ManagedClusterSet` can be managed/administrated by different hub admins,
-and their RBAC permissions can also be isolated by binding the cluster set to a
-"workspace namespace" in the hub cluster. The cluster set admin can flexibly
-operate the member clusters in the workspace namespace using [Placement](../placement)
-API, etc.
 
-The following picture shows the hierarchies of how the cluster set works:
-
-<div style="text-align: center; padding: 20px;">
-   <img src="/clusterset-explain.png" alt="Clusterset" style="margin: 0 auto; width: 90%">
-</div>
+`ManagedClusterSetBinding` is a namespace scoped API in the hub cluster to project
+a `ManagedClusterSet` into a certain namespace. Each `ManagedClusterSet` can be 
+managed/administrated by different hub admins, and their RBAC permissions can 
+also be isolated by binding the `ManagedClusterSet` to a "workspace namespace" in 
+the hub cluster via `ManagedClusterSetBinding`.
 
 Note that `ManagedClusterSet` and "workspace namespace" has an __M*N__
 relationship:
@@ -43,6 +42,15 @@ relationship:
   of that namespace can operate the member clusters from both sets.
 - Bind one cluster set to multiple workspace namespace indicates that the
   cluster set can be operated from all the bound namespaces at the same time.
+
+The cluster set admin can flexibly operate the member clusters in the workspace 
+namespace using [Placement](../placement) API, etc.
+
+The following picture shows the hierarchies of how the cluster set works:
+
+<div style="text-align: center; padding: 20px;">
+   <img src="/clusterset-explain.png" alt="Clusterset" style="margin: 0 auto; width: 90%">
+</div>
 
 ## Operates ManagedClusterSet using clusteradm
 
@@ -78,7 +86,7 @@ Now the cluster set contains 1 valid cluster, and in order to operate that
 cluster set we are supposed to bind it to an existing namespace to make it a
 "workspace namespace".
 
-### Bind the clusterset to a workspace namespace
+### Binding the ManagedClusterSet to a workspace namespace
 
 Running the following command to bind the cluster set to a namespace. Note that
 the namespace __SHALL NOT__ be an existing "cluster namespace" (i.e. the
@@ -101,7 +109,7 @@ it a "workspace namespace".
 ## A glance at the "ManagedClusterSet" API
 
 The `ManagedClusterSet` is a vanilla Kubernetes custom resource which can be
-checked by the command `kubectl describe managedclusterset`:
+checked by the command `kubectl get managedclusterset -oyaml`:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta2
@@ -138,6 +146,26 @@ status:
     reason: ClustersSelected
     status: "False"
     type: ClusterSetEmpty
+```
+
+The `ManagedClusterSetBinding` can also be checked by the command 
+`kubectl get managedclustersetbinding -n <workspace-namespace> -oyaml`:
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSetBinding
+metadata:
+  name: example-clusterset
+  namespace: default
+spec:
+  clusterSet: example-clusterset
+status:
+  conditions:
+  - lastTransitionTime: "2022-12-19T09:55:10Z"
+    message: ""
+    reason: ClusterSetBound
+    status: "True"
+    type: Bound
 ```
 
 ### Clusterset RBAC permission control
