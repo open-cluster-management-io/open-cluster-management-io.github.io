@@ -258,7 +258,7 @@
           <ul>
             <li><a href="#creating-a-managedclusterset">Creating a ManagedClusterSet</a></li>
             <li><a href="#adding-a-managedcluster-to-a-managedclusterset">Adding a ManagedCluster to a ManagedClusterSet</a></li>
-            <li><a href="#bind-the-clusterset-to-a-workspace-namespace">Bind the clusterset to a workspace namespace</a></li>
+            <li><a href="#binding-the-managedclusterset-to-a-workspace-namespace">Binding the ManagedClusterSet to a workspace namespace</a></li>
           </ul>
         </li>
         <li><a href="#a-glance-at-the-managedclusterset-api">A glance at the &ldquo;ManagedClusterSet&rdquo; API</a>
@@ -277,10 +277,10 @@
 
 
 <!-- spellchecker-enable -->
-<p><strong>API-CHANGE NOTE</strong>:
-The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1alpha1 version will no longer be served in OCM v0.9.0.
-The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1beta1 version will be deprecated in OCM v0.9.0.
-For Hosted Mode, The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API only support v1beta1 in OCM v0.9.0</p>
+<p><strong>API-CHANGE NOTE</strong>:</p>
+<p>The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1alpha1 version will no longer be served in OCM v0.9.0.</p>
+<p>The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1beta1 version will be deprecated in OCM v0.9.0.</p>
+<p>For Hosted Mode, The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API only support v1beta1 in OCM v0.9.0</p>
 <ul>
 <li>Migrate manifests and API clients to use the <code>ManagedClusterSet</code> and <code>PlacementDecision</code> API v1beta1 version, available since OCM v0.5.0.</li>
 <li>All existing persisted objects are accessible via the new API.</li>
@@ -291,16 +291,12 @@ For Hosted Mode, The <code>ManagedClusterSet</code> and <code>ManagedClusterSetB
 few managed clusters into a &ldquo;set&rdquo; so that hub admin can operate these clusters
 altogether in a higher level. The concept is inspired by the an <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api#terminology">enhancement</a>
 from the Kubernetes SIG-Multicluster. Member clusters in the set are supposed
-to have common/similar attributes e.g. purpose of use, deployed regions, etc.
-Each <code>ManagedClusterSet</code> can be managed/administrated by different hub admins,
-and their RBAC permissions can also be isolated by binding the cluster set to a
-&ldquo;workspace namespace&rdquo; in the hub cluster. The cluster set admin can flexibly
-operate the member clusters in the workspace namespace using <a href="../placement">Placement</a>
-API, etc.</p>
-<p>The following picture shows the hierarchies of how the cluster set works:</p>
-<div style="text-align: center; padding: 20px;">
-   <img src="/clusterset-explain.png" alt="Clusterset" style="margin: 0 auto; width: 90%">
-</div>
+to have common/similar attributes e.g. purpose of use, deployed regions, etc.</p>
+<p><code>ManagedClusterSetBinding</code> is a namespace scoped API in the hub cluster to project
+a <code>ManagedClusterSet</code> into a certain namespace. Each <code>ManagedClusterSet</code> can be
+managed/administrated by different hub admins, and their RBAC permissions can
+also be isolated by binding the <code>ManagedClusterSet</code> to a &ldquo;workspace namespace&rdquo; in
+the hub cluster via <code>ManagedClusterSetBinding</code>.</p>
 <p>Note that <code>ManagedClusterSet</code> and &ldquo;workspace namespace&rdquo; has an <strong>M*N</strong>
 relationship:</p>
 <ul>
@@ -309,6 +305,12 @@ of that namespace can operate the member clusters from both sets.</li>
 <li>Bind one cluster set to multiple workspace namespace indicates that the
 cluster set can be operated from all the bound namespaces at the same time.</li>
 </ul>
+<p>The cluster set admin can flexibly operate the member clusters in the workspace
+namespace using <a href="../placement">Placement</a> API, etc.</p>
+<p>The following picture shows the hierarchies of how the cluster set works:</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/clusterset-explain.png" alt="Clusterset" style="margin: 0 auto; width: 90%">
+</div>
 <h2 id="operates-managedclusterset-using-clusteradm">Operates ManagedClusterSet using clusteradm</h2>
 <h3 id="creating-a-managedclusterset">Creating a ManagedClusterSet</h3>
 <p>Running the following command to create an example cluster set:</p>
@@ -329,7 +331,7 @@ example-clusterset                      <span style="color:#ae81ff">1</span> Man
 <p>Now the cluster set contains 1 valid cluster, and in order to operate that
 cluster set we are supposed to bind it to an existing namespace to make it a
 &ldquo;workspace namespace&rdquo;.</p>
-<h3 id="bind-the-clusterset-to-a-workspace-namespace">Bind the clusterset to a workspace namespace</h3>
+<h3 id="binding-the-managedclusterset-to-a-workspace-namespace">Binding the ManagedClusterSet to a workspace namespace</h3>
 <p>Running the following command to bind the cluster set to a namespace. Note that
 the namespace <strong>SHALL NOT</strong> be an existing &ldquo;cluster namespace&rdquo; (i.e. the
 namespace has the same name of a registered managed cluster).</p>
@@ -344,7 +346,7 @@ example-clusterset  default             <span style="color:#ae81ff">1</span> Man
 it a &ldquo;workspace namespace&rdquo;.</p>
 <h2 id="a-glance-at-the-managedclusterset-api">A glance at the &ldquo;ManagedClusterSet&rdquo; API</h2>
 <p>The <code>ManagedClusterSet</code> is a vanilla Kubernetes custom resource which can be
-checked by the command <code>kubectl describe managedclusterset</code>:</p>
+checked by the command <code>kubectl get managedclusterset -oyaml</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta2
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
@@ -376,6 +378,22 @@ checked by the command <code>kubectl describe managedclusterset</code>:</p>
     <span style="color:#66d9ef">reason</span>: ClustersSelected
     <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;False&#34;</span>
     <span style="color:#66d9ef">type</span>: ClusterSetEmpty
+</code></pre></div><p>The <code>ManagedClusterSetBinding</code> can also be checked by the command
+<code>kubectl get managedclustersetbinding -n &lt;workspace-namespace&gt; -oyaml</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta2
+<span style="color:#66d9ef">kind</span>: ManagedClusterSetBinding
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: example-clusterset
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">clusterSet</span>: example-clusterset
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">conditions</span>:
+  - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2022-12-19T09:55:10Z&#34;</span>
+    <span style="color:#66d9ef">message</span>: <span style="color:#e6db74">&#34;&#34;</span>
+    <span style="color:#66d9ef">reason</span>: ClusterSetBound
+    <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+    <span style="color:#66d9ef">type</span>: Bound
 </code></pre></div><h3 id="clusterset-rbac-permission-control">Clusterset RBAC permission control</h3>
 <h4 id="adding-member-cluster-to-a-clusterset">Adding member cluster to a clusterset</h4>
 <p>Adding a new member cluster to a clusterset requires RBAC permission of
