@@ -165,12 +165,17 @@ all set. Let's move on to register your managed cluster into OCM.
    ```shell
    # NOTE: Switch kubeconfig to the managed cluster.
    # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+   # NOTE: If there is no ca data in kube-public namespace of the hub cluster, 
+   # the flag --ca-file should be set to provide a valid hub ca file to help set 
+   # up the external client.
    clusteradm join \
         --context ${CTX_MANAGED_CLUSTER} \
         --hub-token <your token data> \
         --hub-apiserver <your hub cluster endpoint> \
         --wait \
         --cluster-name "cluster1"    # Or other arbitrary unique name
+        [--force-internal-endpoint-lookup]
+        [--ca-file <your hub ca file>]
    ```
 
 2. Verify the installation of the klusterlet registration agent in your managed clusters by running:
