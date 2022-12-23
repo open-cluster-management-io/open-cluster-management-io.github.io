@@ -55,45 +55,11 @@ You can find the example in [here](https://github.com/open-cluster-management-io
 
 ### Implement the addon manager
 
-First, you should create a folder in your Go project, for example, the folder name is `manifests`. The manifest files 
-deployed on the managed cluster are put in this folder.
+First, create your Go project, and the project should contain a `main.go` file and a folder `manifests`. The folder name 
+can be customized, the example uses `manifests` as the folder name.`main.go` contains the Go code of the addon manager. 
+`manifests` contains the addon agent's manifest files to be deployed on the managed cluster.
 
-In this example, the manifest to be deployed on managed cluster is a busybox deployment.
-
-```
-kind: Deployment
-apiVersion: apps/v1
-metadata:
- name: busybox
- namespace: open-cluster-management-agent-addon
-spec:
- replicas: 1
- selector:
-   matchLabels:
-     addon: busybox
- template:
-   metadata:
-     labels:
-       addon: busybox
-   spec:
-     containers:
-       - name: busybox
-         image: busybox
-         imagePullPolicy: IfNotPresent
-         args:
-           - "sleep"
-           - "3600"
-```
-
-
-Next, define an `embed.FS` to embed the files in `manifests` folder.
-
-And then you need to build an `agentAddon` using the `agentAddonFactory`, and tell the `agentAddonFactory` the name of 
-the add-on and the agent manifests.
-
-Finally, you just add the `agentAddon` to the `addonManager` and start the `addonManager`.
-
-The `main.go` file like this:
+The `main.go` file is like this:
 
 ```go
 package main
@@ -145,15 +111,71 @@ func main() {
 }
 ```
 
-The add-on manager will watch the `ManagedClusterAddOn`, and deploy the add-on agent manifests to the targeted managed 
-cluster via `ManifestWork`.
+You need to define an `embed.FS` to embed the files in `manifests` folder.
+
+And then you need to build an `agentAddon` using the `agentAddonFactory`, and tell the `agentAddonFactory` the name of 
+the add-on and the agent manifests.
+
+Finally, you just add the `agentAddon` to the `addonManager` and start the `addonManager`.
+
+With above code, the addon manager is implemented. Next is to implement the addon agent part. In this example, the add-on agent 
+manifest to be deployed on managed cluster is a busybox deployment.
+
+Create file `deployment.yaml` in `manifests` folder, the `deployment.yaml` is like this: 
+
+```
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+ name: busybox
+ namespace: open-cluster-management-agent-addon
+spec:
+ replicas: 1
+ selector:
+   matchLabels:
+     addon: busybox
+ template:
+   metadata:
+     labels:
+       addon: busybox
+   spec:
+     containers:
+       - name: busybox
+         image: busybox
+         imagePullPolicy: IfNotPresent
+         args:
+           - "sleep"
+           - "3600"
+```
+
+Then you can follow next section to [deploy the add-on manager on your hub cluster](##deploy-the-add-on-manager-on-your-hub-cluster). The add-on manager will watch the `ManagedClusterAddOn`, and deploy the add-on agent manifests to the targeted managed cluster via `ManifestWork`.
 
 ### Deploy the add-on manager on your hub cluster
 
 Now you can build your add-on manager as an image and deploy it on the hub cluster. 
-In addition to the deployment definition, there are also some additional resources to be deployed on the hub cluster.
 
-An example of the deployment manifests for the add-on manager is [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/deploy/addon/busybox).
+Following below steps to build the image for the [example](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/busybox). This image contains several example addon managers, including the busybox example.
+
+```bash
+git clone https://github.com/open-cluster-management-io/addon-framework.git
+cd addon-framework
+make images
+```
+
+In addition to the deployment definition, there are also some additional resources to be deployed on the hub cluster. An example of the deployment manifests for the add-on manager is [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/deploy/addon/busybox).
+Following below steps to deploy the add-on manager.
+
+```bash
+make deploy-busybox
+```
+
+With the add-on manager deployed, you can see the `busybox-addon-controller` running in namespace `open-cluster-management` on the hub cluster.
+
+```bash
+$ oc get pods -n open-cluster-management
+NAME                                       READY   STATUS    RESTARTS   AGE
+busybox-addon-controller-d977665d5-x28qc   1/1     Running   0          27m
+```
 
 #### RBAC of the addon manager
 
@@ -167,7 +189,7 @@ There are some minimum required permissions for the addon manager controller to 
 #### ClusterManagementAddOn
 
 From a user’s perspective, to install the addon to the hub cluster the hub admin should register a globally-unique 
-`ClusterManagementAddOn` resource as a singleton placeholder in the hub cluster. For instance, the `ClusterManagementAddOn` 
+`ClusterManagementAddOn` resource as a singleton placeholder in the hub cluster. For instance, the [`ClusterManagementAddOn`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/busybox/resources/busybox_clustermanagementaddon.yaml) 
 for the busybox-addon:
 
 ```yaml
@@ -351,12 +373,10 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests")
                     BuildTemplateAgentAddon()
 ```
 
-
-
 ### Register your add-on
 
 In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication. 
-For example,an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent 
+For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent 
 needs to access the exposed service on the hub cluster.
 
 The addon-framework supports a solution that the addon can access the `kube-apiserver` with a kube style API or 
@@ -538,6 +558,117 @@ NAME                              TYPE                                  DATA   A
 helloworld-hub-kubeconfig         Opaque                                3      9m52s
 ```
 
+### Add your add-on agent supported configurations 
+
+For some cases, you want to specify the configurations for your add-on agent, for example, you may want to use a configuration to configure your add-on agent image or use a configuration to configure your add-on agent node Selector and tolerations to make the agent to run on specific nodes.
+
+The addon-framework supports re-rendering the add-on agent deployment when the add-on agent configurations are changed.
+
+You can choose the [`AddOnDeploymentConfig`](https://github.com/open-cluster-management-io/api/blob/main/addon/v1alpha1/types_addondeploymentconfig.go) API as the configuration for your add-on agent, it supports setting customized variables and node placement for your add-on agent deployment, and meanwhile you can also choose your own configuration.
+
+You can do the following steps to reference your configurations in your add-on APIs with add-on framework
+
+1. Add the supported configuration types in your add-on `ClusterManagementAddOn`, we support to add mutiple different configuration types in the `ClusterManagementAddOn`, for example
+
+    ```yaml
+    apiVersion: addon.open-cluster-management.io/v1alpha1
+    kind: ClusterManagementAddOn
+    metadata:
+      name: helloworldhelm
+    spec:
+      # the add-on supported configurations
+      supportedConfigs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+      - resource: configmaps
+    ```
+
+   In this example, the `helloworldhelm` add-on supports using `AddOnDeploymentConfig` and `ConfigMap` as its configuration, and you can specify one default configuration for one configuration type, for example
+
+   ```yaml
+    apiVersion: addon.open-cluster-management.io/v1alpha1
+    kind: ClusterManagementAddOn
+    metadata:
+      name: helloworldhelm
+    spec:
+      # the add-on supported configurations
+      supportedConfigs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+        # the default config for helloworldhelm 
+        defaultConfig:
+          name: deploy-config
+          namespace: open-cluster-management
+      - resource: configmaps
+   ```
+
+   Thus, all helloworldhelm add-ons on each managed cluster have one same default configuration `open-cluster-management/deploy-config`
+
+2. Register the supported configuration types when building one `AgentAddon` with `AgentAddonFactory`
+
+3. Implement a `GetValuesFunc` to transform the configuration to add-on framework `Values` object and add the `GetValuesFunc` to the `AgentAddonFactory`, for example
+
+    ```go
+    agentAddon, err := addonfactory.NewAgentAddonFactory("helloworldhelm", helloworld_helm.FS, "manifests/charts/helloworld").
+        // register the supported configuration types
+        WithConfigGVRs(
+          schema.GroupVersionResource{Version: "v1", Resource: "configmaps"},
+          schema.GroupVersionResource{Group: "addon.open-cluster-management.io", Version: "v1alpha1", Resource: "addondeploymentconfigs"},
+        ).
+        WithGetValuesFuncs(
+          // get the AddOnDeloymentConfig object and transform it to Values object
+          addonfactory.GetAddOnDeloymentConfigValues(
+            addonfactory.NewAddOnDeloymentConfigGetter(addonClient),
+            addonfactory.ToAddOnNodePlacementValues,
+          ),
+          // get the ConfigMap object and transform it to Values object
+          helloworld_helm.GetImageValues(kubeClient),
+        ).WithAgentRegistrationOption(registrationOption).
+        BuildHelmAgentAddon()
+    ```
+
+    In this example, we register the `ConfigMap` and `AddOnDeploymentConfig` as the `helloworldhelm` add-on configuration. We use add-on framework
+    help function [`GetAddOnDeloymentConfigValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/addonfactory/addondeploymentconfig.go#L47) to transform the `AddOnDeploymentConfig`, and we implemented the [`GetImageValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/helloworld_helm/helloworld_helm.go#L64) function to
+    transform the `ConfigMap`, you can find more details for add-on framework `Values` from the [Values definition](#values-definition) part.
+
+4. Add the `get`, `list` and `watch` permissions to an add-on `clusterrole`, for example, the [clusterrole](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/helloworld-helm/resources/cluster_role.yaml) of `helloworldhelm` should have the following permissions
+
+  ```yaml
+  kind: ClusterRole
+  apiVersion: rbac.authorization.k8s.io/v1
+  metadata:
+    name: helloworldhelm-addon
+  rules:
+    - apiGroups: [""]
+      resources: ["configmaps"]
+      verbs: ["get", "list", "watch"]
+    - apiGroups: ["addon.open-cluster-management.io"]
+      resources: ["addondeploymentconfigs"]
+      verbs: ["get", "list", "watch"]
+  ```
+
+To configure add-on, the add-on user need reference their configuration objects in `ManagedClusterAddOn`, for example
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: helloworldhelm
+  namespace: cluster1
+spec:
+  installNamespace: open-cluster-management-agent-addon
+  configs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    name: deploy-config
+    namespace: cluster1
+  - resource: configmaps 
+    name: image-config
+    namespace: cluster1
+```
+
+In this example, the add-on user reference the configuration `cluster1/deploy-config` and `cluster1/image-config` for `helloworldhelm` on `cluster1`. When the configuration references are added to an add-on, the add-on framework will show them in the status of `ManagedClusterAddOn` and render the add-on once, during the rendering process, the add-on framework will callback the `GetValuesFunc`s to transform the add-on configuraton object to add-on framework `Values` object and use `Values` object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again. 
+
 ## Build an addon using helm charts or raw manifests.
 
 ### Building steps
@@ -547,8 +678,8 @@ The addon-framework supports helm charts or raw manifests as the add-on agent ma
 1. Copy the helm chart or raw manifests files into the add-on manager project. And define an `embed.FS` to embed the files 
    into your Go program.
 
-   The example using helm chart is [helloworld_helm addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld_helm), 
-   and the example using raw manifests is [helloworld addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld).
+   The example using helm chart is [helloworld_helm addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm), 
+   and the example using raw manifests is [helloworld addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld).
 
 2. Build different `agentAddons` using the `agentAddonFactory` instance with `BuildHelmAgentAddon` or `BuildTemplateAgentAddon`.
 
@@ -573,7 +704,6 @@ The addon-framework supports helm charts or raw manifests as the add-on agent ma
 
 3. Add the agentAddon to the addon manager.
 4. Start the addon manager.
-
 
 ### Values definition
 
@@ -641,7 +771,7 @@ And the `Jobs` or `Pods` will be applied on the managed cluster by applying the 
 when the `ManagedClusterAddOn` is under deleting. 
 After the `Jobs` are `Completed` or `Pods` are in the `Succeeded` phase, all the deployed `ManifestWorks` will be deleted.
 
-You can find the example from [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld_helm).
+You can find the example from [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm).
 
 ## What happened under the scene
 
