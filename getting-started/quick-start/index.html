@@ -380,12 +380,17 @@ KinD because its kubeconfig is persisted in the same kubeconfig file of
 the hub cluster.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># NOTE: Switch kubeconfig to the managed cluster.</span>
 <span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
+<span style="color:#75715e"># NOTE: If there is no ca data in kube-public namespace of the hub cluster,</span> 
+<span style="color:#75715e"># the flag --ca-file should be set to provide a valid hub ca file to help set</span> 
+<span style="color:#75715e"># up the external client.</span>
 clusteradm join <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --wait <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>     --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span>    <span style="color:#75715e"># Or other arbitrary unique name</span>
+     <span style="color:#f92672">[</span>--force-internal-endpoint-lookup<span style="color:#f92672">]</span>
+     <span style="color:#f92672">[</span>--ca-file &lt;your hub ca file&gt;<span style="color:#f92672">]</span>
 </code></pre></div></li>
 <li>
 <p>Verify the installation of the klusterlet registration agent in your managed clusters by running:</p>
