@@ -183,13 +183,11 @@ nav > div.container-fluid {
 #content ul {
   font-weight: 400;
   line-height: 2em;
-  font-size: 1.15em;
 }
 
 #content ul ul {
   font-weight: 400;
   line-height: 1.5em;
-  font-size: 1em;
 }
 
 #content pre {
