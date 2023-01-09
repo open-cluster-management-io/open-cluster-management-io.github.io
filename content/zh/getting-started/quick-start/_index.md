@@ -66,7 +66,7 @@ kind create cluster --name ${MANAGED_CLUSTER_NAME}
    clusteradm join --context ${CTX_MANAGED_CLUSTER} --hub-token <token_data> --hub-apiserver https://126.0.0.1:39242 --cluster-name ${MANAGED_CLUSTER_NAME}
    ```
 
-### 接受注册请求并且校验 
+### 接受注册请求并且校验
 
 1. 等待中枢集群上CSR请求对象被成功创建出来:
 
@@ -113,5 +113,3 @@ kind create cluster --name ${MANAGED_CLUSTER_NAME}
 - [将kubernetes资源部署到一个被管理集群中](/scenarios/deploy-kubernetes-resources)
 - [通过cluster-proxy直接访问被管理集群的kube-apiserver](/scenarios/pushing-kube-api-requests)
 - 访问[integration](/getting-started/integration)查看各种OCM插件是否能够帮助你解决多集群管理问题。
-
-想要了解更多OCM API细节, 请查看[Core components](/getting-started/core).

@@ -51,11 +51,10 @@ You must meet the following prerequisites to install the policy framework:
 - Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from
   the source.
 
-- Ensure the `open-cluster-management` _cluster manager_ is installed. See
-  [Cluster Manager](/getting-started/core/cluster-manager) for more information.
+- Ensure the `open-cluster-management` _cluster manager_ is installed. [Start the control plane](/getting-started/installation/start-the-control-plane) for more information.
 
 - Ensure the `open-cluster-management` _klusterlet_ is installed. See
-  [Klusterlet](/getting-started/core/register-cluster) for more information.
+  [Register a cluster](/getting-started/installation/register-a-cluster) for more information.
 
 - If you are using `PlacementRules` with your policies, ensure the `open-cluster-management`
   _application_ is installed . See

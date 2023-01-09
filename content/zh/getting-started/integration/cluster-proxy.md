@@ -19,7 +19,7 @@ sub-project [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserv
 
 The original architecture of OCM allows a cluster from anywhere to be
 registered and managed by OCM's control plane (i.e. the hub cluster)
-as long as the [klusterlet agent](https://open-cluster-management.io/getting-started/core/register-cluster/)
+as long as the [klusterlet agent](https://open-cluster-management.io/getting-started/installation/register-a-cluster/)
 can reach hub cluster's endpoint. So the minimal requirement for the
 managed cluster's network infrastructure in OCM is "klusterlet -> hub"
 connectivity. However, there are still some cases where the components
@@ -52,7 +52,7 @@ control plan network connectivity for us:
   which is the traffic ingress of proxy tunnel.
 - __Proxy Agent__: A mTLS Grpc agent that maintains the tunnel between the
   server and is also the egress of the proxy tunnel.
-- __Konnectivity Client__: The SDK library for talking through the tunnel.  
+- __Konnectivity Client__: The SDK library for talking through the tunnel.
   Applicable to any Golang client of which the `Dialer` is overridable.
   Note that for non-golang clients, the proxy server also supports
   HTTP-Connect based proxying as alternative.
@@ -104,8 +104,8 @@ To install the cluster proxy addon to the OCM control plane, run:
 $ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
 $ helm repo update
 $ helm search repo ocm
-NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-proxy                 	0.2.0       	1.0.0      	A Helm chart for Cluster-Proxy                
+NAME                              	CHART VERSION	APP VERSION	DESCRIPTION
+ocm/cluster-proxy                 	0.2.0       	1.0.0      	A Helm chart for Cluster-Proxy
 ...
 ```
 
@@ -113,7 +113,7 @@ Then run the following helm command to install the cluster-proxy addon:
 
 ```shell
 $ helm install -n open-cluster-management-addon --create-namespace \
-    cluster-proxy ocm/cluster-proxy 
+    cluster-proxy ocm/cluster-proxy
 $ kubectl -n open-cluster-management-addon get deploy
 NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
 cluster-proxy                          3/3     3            3           24h
@@ -133,8 +133,8 @@ the fly. To check out the healthiness status of the proxy agents, we can run:
 ```shell
 $  kubectl get managedclusteraddon -A
 NAMESPACE     NAME                     AVAILABLE   DEGRADED   PROGRESSING
-<cluster#1>   cluster-proxy            True                   
-<cluster#2>   cluster-proxy            True                   
+<cluster#1>   cluster-proxy            True
+<cluster#2>   cluster-proxy            True
 ```
 
 The proxy agent distributed in the managed cluster will be periodically
