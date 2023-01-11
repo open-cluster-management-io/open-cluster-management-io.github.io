@@ -151,8 +151,8 @@ nav > div.container-fluid {
 
 .supports-grid {
   display: grid;
-  grid-gap: 2.375rem;
-  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1.6rem;
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .supports-logo {
@@ -165,7 +165,7 @@ nav > div.container-fluid {
 }
 
 .tencent-logo {
-  padding: 70px;
+  padding: 2rem;
 }
 
 .cncf-logo {
