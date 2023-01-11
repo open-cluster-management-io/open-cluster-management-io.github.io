@@ -13,6 +13,16 @@ weight: 6
 
 [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf) authored by [Maggie Chen](https://github.com/chenz4027) and [Matt Prahl](https://github.com/mprahl)
 
+[KubeCon NA 2022 - OCM Workload distribution with Placement API](/kubecon-na-2022-ocm-workload-distribution-with-placement-api.pdf) authored by [Qing Hao](https://github.com/haoqing0110), [Jian Qiu](https://github.com/qiujian16) and [Le Yang](https://github.com/elgnay)
+
+## Sep 26, 2022
+
+[Karmada and Open Cluster Management: two new approaches to the multicluster fleet management challenge](https://www.cncf.io/blog/2022/09/26/karmada-and-open-cluster-management-two-new-approaches-to-the-multicluster-fleet-management-challenge/) authored by [David Eads](https://github.com/deads2k) and [Kevin Wang](https://github.com/kevin-wangzefeng)
+
+## Sep 15, 2022
+
+[Extending the Multicluster Scheduling Capabilities with Open Cluster Management Placement](https://cloud.redhat.com/blog/extending-the-multicluster-scheduling-capabilities-with-open-cluster-management-placement) authored by [Qing Hao](https://github.com/haoqing0110)
+
 ## Jan 12, 2022
 
 [Using the Open Cluster Management Placement for Multicluster Scheduling](https://cloud.redhat.com/blog/using-the-open-cluster-management-placement-for-multicluster-scheduling) authored by [Jian Qiu](https://github.com/qiujian16), [Le Yang](https://github.com/elgnay) and [Qing Hao](https://github.com/haoqing0110)
