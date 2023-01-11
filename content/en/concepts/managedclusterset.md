@@ -15,21 +15,21 @@ The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1alpha1 version will
 
 The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1beta1 version will be deprecated in OCM v0.9.0.
 
-For Hosted Mode, The `ManagedClusterSet` and `ManagedClusterSetBinding` API only support v1beta1 in OCM v0.9.0
+For Hosted Mode, The `ManagedClusterSet` and `ManagedClusterSetBinding` API only support v1beta1 in OCM v0.9.0.
 
 - Migrate manifests and API clients to use the `ManagedClusterSet` and `PlacementDecision` API v1beta1 version, available since OCM v0.5.0.
 - All existing persisted objects are accessible via the new API.
-- No notable changes
+- No notable changes.
 
 ## What is ManagedClusterSet?
 
-`ManagedClusterSet` is a cluster scoped API in the hub cluster for grouping a
+`ManagedClusterSet` is a cluster-scoped API in the hub cluster for grouping a
 few managed clusters into a "set" so that hub admin can operate these clusters
-altogether in a higher level. The concept is inspired by the an [enhancement](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api#terminology)
+altogether in a higher level. The concept is inspired by the [enhancement](https://github.com/kubernetes/enhancements/tree/master/keps/sig-multicluster/1645-multi-cluster-services-api#terminology)
 from the Kubernetes SIG-Multicluster. Member clusters in the set are supposed
 to have common/similar attributes e.g. purpose of use, deployed regions, etc.
 
-`ManagedClusterSetBinding` is a namespace scoped API in the hub cluster to project
+`ManagedClusterSetBinding` is a namespace-scoped API in the hub cluster to project
 a `ManagedClusterSet` into a certain namespace. Each `ManagedClusterSet` can be 
 managed/administrated by different hub admins, and their RBAC permissions can 
 also be isolated by binding the `ManagedClusterSet` to a "workspace namespace" in 
@@ -61,8 +61,16 @@ Running the following command to create an example cluster set:
 ```shell
 $ clusteradm create clusterset example-clusterset
 $ clusteradm get clustersets
-NAME                BOUND NAMESPACES    STATUS
-example-clusterset                      No ManagedCluster selected
+<ManagedClusterSet>
+└── <default>
+│   ├── <BoundNamespace>
+│   ├── <Status> No ManagedCluster selected
+└── <example-clusterset>
+│   ├── <BoundNamespace>
+│   ├── <Status> No ManagedCluster selected
+└── <global>
+    └── <BoundNamespace>
+    └── <Status> 1 ManagedClusters selected
 ```
 
 The newly created cluster set will be empty by default, so we can move on adding
@@ -75,11 +83,19 @@ Running the following command to add a cluster to the set:
 ```shell
 $ clusteradm clusterset set example-clusterset --clusters managed1
 $ clusteradm get clustersets
-NAME                BOUND NAMESPACES    STATUS
-example-clusterset                      1 ManagedCluster selected
+<ManagedClusterSet>
+└── <default>
+│   ├── <BoundNamespace>
+│   ├── <Status> No ManagedCluster selected
+└── <example-clusterset>
+│   ├── <BoundNamespace>
+│   ├── <Status> 1 ManagedClusters selected
+└── <global>
+    └── <BoundNamespace>
+    └── <Status> 1 ManagedClusters selected
 ```
 
-Note that adding a cluster to a clusterset will require the admin to have
+Note that adding a cluster to a cluster set will require the admin to have
 "managedclustersets/join" access in the hub cluster.
 
 Now the cluster set contains 1 valid cluster, and in order to operate that
@@ -99,8 +115,16 @@ that namespace to its member clusters. And the bind process requires
 ```shell
 $ clusteradm clusterset bind example-clusterset --namespace default
 $ clusteradm get clustersets
-NAME                BOUND NAMESPACES    STATUS
-example-clusterset  default             1 ManagedCluster selected
+<ManagedClusterSet>
+└── <default>
+│   ├── <BoundNamespace>
+│   ├── <Status> No ManagedCluster selected
+└── <example-clusterset>
+│   ├── <Status> 1 ManagedClusters selected
+│   ├── <BoundNamespace> default
+└── <global>
+    └── <BoundNamespace>
+    └── <Status> 1 ManagedClusters selected
 ```
 
 So far we successfully created a new cluster set containing 1 cluster and bind
@@ -109,7 +133,7 @@ it a "workspace namespace".
 ## A glance at the "ManagedClusterSet" API
 
 The `ManagedClusterSet` is a vanilla Kubernetes custom resource which can be
-checked by the command `kubectl get managedclusterset -oyaml`:
+checked by the command `kubectl get managedclusterset <cluster set name> -o yaml`:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta2
@@ -149,7 +173,7 @@ status:
 ```
 
 The `ManagedClusterSetBinding` can also be checked by the command 
-`kubectl get managedclustersetbinding -n <workspace-namespace> -oyaml`:
+`kubectl get managedclustersetbinding <cluster set name> -n <workspace-namespace> -oyaml`:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta2
