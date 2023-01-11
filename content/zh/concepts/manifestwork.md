@@ -11,7 +11,7 @@ weight: 2
 
 ## What is `ManifestWork`
 
-`ManifestWork` is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a `ManifestWork` resource must be created in the cluster namespace. A work agent implemented in [work](https://github.com/open-cluster-management-io/work) project is run on the managed cluster and monitors the `ManifestWork` resource in the cluster namespace on the hub cluster.
+`ManifestWork` is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a `ManifestWork` resource must be created in the cluster namespace. A work agent implemented in [work](https://github.com/open-cluster-management-io/work) project is run on the managed cluster and monitors the `ManifestWork` resource in the cluster namespace on the hub cluster.
 
 An example of `ManifestWork` to deploy a deployment to the managed cluster is shown in the following example.
 
@@ -93,8 +93,8 @@ status:
 
 ### Fine-grained field values tracking
 
-Optionally, we can let the work agent aggregate and report certain fields from
-the distributed resources to the hub clusters by setting `FeedbackRule` for
+Optionally, we can let the work agent aggregate and report certain fields from 
+the distributed resources to the hub clusters by setting `FeedbackRule` for 
 the `ManifestWork`:
 
 ```yaml
@@ -117,20 +117,20 @@ spec:
               path: '.status.conditions[?(@.type=="Available")].status'
 ```
 
-The feedback rules prescribe the work agent to periodically get the latest
+The feedback rules prescribe the work agent to periodically get the latest 
 states of the resources, and scrape merely those expected fields from them,
 which is helpful for trimming the payload size of the status. Note that the
 collected feedback values on the `ManifestWork` will not be updated unless
-the latest value is changed/different from the previous recorded value.
+the latest value is changed/different from the previous recorded value. 
 Currently, it supports two kinds of `FeedbackRule`:
 
 - `WellKnownStatus`: Using the pre-built template of feedback values for those
   well-known kubernetes resources.
 - `JSONPaths`: A valid [Kubernetes JSON-Path](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
-  that selects a scalar field from the resource. Currently supported types are
+  that selects a scalar field from the resource. Currently supported types are 
   **Integer**, **String** and **Boolean**.
 
-The default feedback value scraping interval is 30 second, and we can override
+The default feedback value scraping interval is 30 second, and we can override 
 it by setting `--status-sync-interval` on your work agent. Too short period can
 cause excessive burden to the control plane of the managed cluster, so generally
 a recommended lower bound for the interval is 5 second.
@@ -173,7 +173,7 @@ To ensure the resources applied by `ManifestWork` are reliably recorded, the wor
 
 ### Delete options
 
-User can explicitly choose not to garbage collect the applied resources when a `ManifestWork` is deleted. the user should specify the `deleteOption` in the `ManifestWork`. By default, `deleteOption` is set as `Foreground`
+User can explicitly choose not to garbage collect the applied resources when a `ManifestWork` is deleted. The user should specify the `deleteOption` in the `ManifestWork`. By default, `deleteOption` is set as `Foreground` 
 which means the applied resources on the spoke will be deleted with the removal of `ManifestWork`. User can set it to
 `Orphan` so the applied resources will not be deleted. Here is an example:
 
@@ -212,7 +212,7 @@ spec:
 It is possible to create two `ManifestWorks` for the same cluster with the same resource defined.
 For example, the user can create two `Manifestworks` on cluster1, and both `Manifestworks` have the
 deployment resource `hello` in default namespace. If the content of the resource is different, the
-two `ManifestWorks` will fight and it is desired since each `ManifestWork` is treated as equal and
+two `ManifestWorks` will fight, and it is desired since each `ManifestWork` is treated as equal and
 each `ManifestWork` is declaring the ownership of the resource. If there is another controller on 
 the managed cluster that tries to manipulate the resource applied by a `ManifestWork`, this
 controller will also fight with work agent.
@@ -288,7 +288,7 @@ The second `ManifestWork` only defines `replicas` in the manifest, so it takes t
 first `ManifestWork` is updated to add `replicas` field with different value, it will get conflict condition and
 manifest will not be updated by it.
 
-In stead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also takes the ownership
+Instead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also take the ownership
 of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
 
 # Permission setting for work agent
@@ -345,4 +345,112 @@ spec:
           - kind: ServiceAccount
             name: klusterlet-work-sa
             namespace: open-cluster-management-agent
+```
+
+## Treating defaulting/immutable fields in API
+
+The kube-apiserver sets the defaulting/immutable fields for some APIs if the user does not set them. And it may fail to 
+deploy these APIs using `ManifestWork`. Because in the reconcile loop, the work agent will try to update the immutable 
+or default field after comparing the desired manifest in the `ManifestWork` and existing resource in the cluster, and 
+the update will fail or not take effect.
+
+Let's use Job as an example. The kube-apiserver will set a default selector and label on the Pod of Job if the user does 
+not set `spec.Selector` in the Job. The fields are immutable, so the `ManifestWork` will report `AppliedManifestFailed` 
+when we apply a Job without `spec.Selector` using `ManifestWork`. 
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: exmaple-job
+spec:
+  workload:
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: pi
+          namespace: default
+        spec:
+          template:
+            spec:
+              containers:
+              - name: pi
+                image: perl:5.34.0
+                command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+              restartPolicy: Never
+          backoffLimit: 4
+```
+
+There are 2 options to fix this issue.
+
+1. Specify the fields manually if they are configurable. For example, set `spec.manualSelector=true` and your own labels 
+   in the `spec.selector` of the Job, and set the same labels for the containers. 
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: exmaple-job-1
+spec:
+  workload:    
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: pi
+          namespace: default
+        spec:
+          manualSelector: true
+          selector:
+            matchLabels:
+              job: pi
+          template:
+            metadata:
+              labels:
+                job: pi
+            spec:
+              containers:
+              - name: pi
+                image: perl:5.34.0
+                command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+              restartPolicy: Never
+          backoffLimit: 4
+```
+
+1. Set the [updateStrategy ServerSideApply](#resource-race-and-adoption) in the `ManifestWork` for the API.
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: exmaple-job
+spec:
+  manifestConfigs:
+    - resourceIdentifier:
+        group: batch
+        resource: jobs
+        namespace: default
+        name: pi
+      updateStrategy:
+        type: ServerSideApply
+  workload:
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: pi
+          namespace: default
+        spec:
+          template:
+            spec:
+              containers:
+              - name: pi
+                image: perl:5.34.0
+                command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+              restartPolicy: Never
+          backoffLimit: 4
 ```
