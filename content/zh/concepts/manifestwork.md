@@ -290,3 +290,59 @@ manifest will not be updated by it.
 
 In stead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also takes the ownership
 of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
+
+# Permission setting for work agent
+
+All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
+following permission for the managed cluster:
+- clusterRole `admin`(instead of the `cluster-admin`) to apply kubernetes common resources
+- managing `customresourcedefinitions`, but can not manage a specific custom resource instance
+- managing `clusterrolebindings`, `rolebindings`, `clusterroles`, `roles`, including the `bind` and `escalate`
+  permission, this is why we can grant work-agent service account extra permissions using ManifestWork
+
+So if the workload manifests to be applied on the managed cluster exceeds the above permission, for example some
+Customer Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
+reflected on the ManifestWork status.
+
+To prevent this, the service account `klusterlet-work-sa` used by the work-agent needs to be given the corresponding
+permissions. There are several ways:
+- add permission on the managed cluster directly, we can
+  - aggregate the new clusterRole for your to-be-applied resources to the existing `admin` clusterRole
+  - OR create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
+- add permission on the hub cluster by another ManifestWork, the ManifestWork includes
+  - an aggregated clusterRole for your to-be-applied resources to the existing `admin` clusterRole
+  - OR role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
+
+Below is an example use ManifestWork to give `klusterlet-work-sa` permission for resource `machines.cluster.x-k8s.io`
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: permission-set
+spec:
+  workload:
+    manifests:
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRole
+        metadata:
+          name: open-cluster-management:klusterlet-work:my-role
+        rules:
+          # Allow agent to managed machines
+          - apiGroups: ["cluster.x-k8s.io"]
+            resources: ["machines"]
+            verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRoleBinding
+        metadata:
+          name: open-cluster-management:klusterlet-work:my-binding
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: open-cluster-management:klusterlet-work:my-role
+        subjects:
+          - kind: ServiceAccount
+            name: klusterlet-work-sa
+            namespace: open-cluster-management-agent
+```
