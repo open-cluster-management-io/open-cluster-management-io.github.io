@@ -107,27 +107,7 @@ ManagedClusters, they allow a Placement to repel a set of ManagedClusters in
 predicates stage.
 
 Tolerations are applied to Placements, and allow Placements to select
-ManagedClusters with matching taints. In `tolerations` section, it includes the
-following fields:
-- __Key__ (optional). Key is the taint key that the toleration applies to.
-- __Value__ (optional). Value is the taint value the toleration matches to.
-- __Operator__ (optional). Operator represents a key's relationship to the
-value. Valid operators are `Exists` and `Equal`. Defaults to `Equal`. A
-toleration "matches" a taint if the keys are the same and the effects are the
-same, and the operator is:
-  - `Equal`. The operator is Equal and the values are equal.
-  - `Exists`. Exists is equivalent to wildcard for value, so that a placement
-  can tolerate all taints of a particular category.
-- __Effect__ (optional). Effect indicates the taint effect to match. Empty means
-match all taint effects. When specified, allowed values are `NoSelect`,
-`PreferNoSelect` and `NoSelectIfNew`. (`PreferNoSelect` is not implemented yet,
-currently clusters with effect `PreferNoSelect` will always be selected.)
-- __TolerationSeconds__ (optional). TolerationSeconds represents the period of
-time the toleration (which must be of effect `NoSelect`/`PreferNoSelect`,
-otherwise this field is ignored) tolerates the taint. The default value is nil,
-which indicates it tolerates the taint forever. The start time of counting the
-TolerationSeconds should be the `TimeAdded` in Taint, not the cluster scheduled
-time or `TolerationSeconds` added time.
+ManagedClusters with matching taints. 
 
 The following example shows how to tolerate clusters with taints.
 
@@ -155,8 +135,8 @@ The following example shows how to tolerate clusters with taints.
     apiVersion: cluster.open-cluster-management.io/v1beta1
     kind: Placement
     metadata:
-      name: placement1
-      namespace: default
+      name: placement
+      namespace: ns1
     spec:
       tolerations:
         - key: gpu
@@ -193,8 +173,8 @@ The following example shows how to tolerate clusters with taints.
     apiVersion: cluster.open-cluster-management.io/v1alpha1
     kind: Placement
     metadata:
-      name: demo4
-      namespace: demo1
+      name: placement
+      namespace: ns1
     spec:
       tolerations:
         - key: cluster.open-cluster-management.io/unreachable
@@ -202,39 +182,116 @@ The following example shows how to tolerate clusters with taints.
           tolerationSeconds: 300
     ```
 
-### Prioritizers
+In `tolerations` section, it includes the
+following fields:
+- __Key__ (optional). Key is the taint key that the toleration applies to.
+- __Value__ (optional). Value is the taint value the toleration matches to.
+- __Operator__ (optional). Operator represents a key's relationship to the
+value. Valid operators are `Exists` and `Equal`. Defaults to `Equal`. A
+toleration "matches" a taint if the keys are the same and the effects are the
+same, and the operator is:
+  - `Equal`. The operator is Equal and the values are equal.
+  - `Exists`. Exists is equivalent to wildcard for value, so that a placement
+  can tolerate all taints of a particular category.
+- __Effect__ (optional). Effect indicates the taint effect to match. Empty means
+match all taint effects. When specified, allowed values are `NoSelect`,
+`PreferNoSelect` and `NoSelectIfNew`. (`PreferNoSelect` is not implemented yet,
+currently clusters with effect `PreferNoSelect` will always be selected.)
+- __TolerationSeconds__ (optional). TolerationSeconds represents the period of
+time the toleration (which must be of effect `NoSelect`/`PreferNoSelect`,
+otherwise this field is ignored) tolerates the taint. The default value is nil,
+which indicates it tolerates the taint forever. The start time of counting the
+TolerationSeconds should be the `TimeAdded` in Taint, not the cluster scheduled
+time or `TolerationSeconds` added time.
 
+### Prioritizers
 
 #### Score-based prioritizer
 
 In `prioritizerPolicy` section, you can define the policy of prioritizers.
-For instance, you can select 2 clusters with the largest memory available and
-the largest addon score cpuratio, and pin the placementdecisions as seen in the
-following examples.
 
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Placement
-metadata:
-  name: placement1
-  namespace: default
-spec:
-  numberOfClusters: 2
-  prioritizerPolicy:
-    mode: Exact
-    configurations:
-      - scoreCoordinate:
-          builtIn: ResourceAllocatableMemory
-      - scoreCoordinate:
-          builtIn: Steady
-        weight: 3
-      - scoreCoordinate:
-          type: AddOn
-          addOn:
-            resourceName: default
-            scoreName: cpuratio
-```
+The following example shows how to select clusters with prioritizers.
 
+- Select a cluster with the largest allocatable memory.
+
+    ```yaml
+    apiVersion: cluster.open-cluster-management.io/v1beta1
+    kind: Placement
+    metadata:
+      name: placement
+      namespace: ns1
+    spec:
+      numberOfClusters: 1
+      prioritizerPolicy:
+        configurations:
+          - scoreCoordinate:
+              builtIn: ResourceAllocatableMemory
+    ```
+
+    The prioritizer policy has default mode additive and default prioritizers `Steady` and `Balance`. 
+    
+    In the above example, the prioritizers actually come into effect are `Steady`, `Balance` and `ResourceAllocatableMemory`.
+
+    And the end of this section has more description about the prioritizer policy mode and default prioritizers.
+
+- Select a cluster with the largest allocatable CPU and memory, and make placement sensitive to resource changes.
+
+    ```yaml
+    apiVersion: cluster.open-cluster-management.io/v1beta1
+    kind: Placement
+    metadata:
+      name: placement
+      namespace: ns1
+    spec:
+      numberOfClusters: 1
+      prioritizerPolicy:
+        configurations:
+          - scoreCoordinate:
+              builtIn: ResourceAllocatableCPU
+            weight: 2
+          - scoreCoordinate:
+              builtIn: ResourceAllocatableMemory
+            weight: 2
+    ```
+
+    The prioritizer policy has default mode additive and default prioritizers `Steady` and `Balance`, and their default 
+    weight is 1.
+
+    In the above example, the prioritizers actually come into effect are `Steady` with weight 1, `Balance` with weight 1, 
+    `ResourceAllocatableCPU` with weight 2 and `ResourceAllocatableMemory` with weight 2. The cluster score will be a 
+    combination of the 4 prioritizers score. Since `ResourceAllocatableCPU` and `ResourceAllocatableMemory` have higher 
+    weight, they will be weighted more in the results, and make placement sensitive to resource changes.
+
+    And the end of this section has more description about the prioritizer weight and how the final score is calculated.
+
+- Select two clusters with the largest addon score CPU ratio, and pin the placement decisions.
+
+  ```yaml
+  apiVersion: cluster.open-cluster-management.io/v1beta1
+  kind: Placement
+  metadata:
+    name: placement
+    namespace: ns1
+  spec:
+    numberOfClusters: 2
+    prioritizerPolicy:
+      mode: Exact
+      configurations:
+        - scoreCoordinate:
+            builtIn: Steady
+          weight: 3
+        - scoreCoordinate:
+            type: AddOn
+            addOn:
+              resourceName: default
+              scoreName: cpuratio
+  ```
+
+  In the above example, explicitly define the mode as exact. The prioritizers actually come into effect are `Steady` with 
+  weight 3 and addon score cpuratio with weight 1. Go into the [Extensible scheduling](#extensible-scheduling) section 
+  to learn more about addon score.
+
+In `prioritizerPolicy` section, it includes the following fields:
 - `mode` is either `Exact`, `Additive` or `""`, where `""` is `Additive` by default.
     - In `Additive` mode, any prioritizer not explicitly enumerated is enabled
     in its default `Configurations`, in which `Steady` and `Balance` prioritizers have
