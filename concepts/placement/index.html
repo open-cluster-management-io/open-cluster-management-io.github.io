@@ -359,32 +359,7 @@ selection of managed clusters more flexibly.</p>
 ManagedClusters, they allow a Placement to repel a set of ManagedClusters in
 predicates stage.</p>
 <p>Tolerations are applied to Placements, and allow Placements to select
-ManagedClusters with matching taints. In <code>tolerations</code> section, it includes the
-following fields:</p>
-<ul>
-<li><strong>Key</strong> (optional). Key is the taint key that the toleration applies to.</li>
-<li><strong>Value</strong> (optional). Value is the taint value the toleration matches to.</li>
-<li><strong>Operator</strong> (optional). Operator represents a key&rsquo;s relationship to the
-value. Valid operators are <code>Exists</code> and <code>Equal</code>. Defaults to <code>Equal</code>. A
-toleration &ldquo;matches&rdquo; a taint if the keys are the same and the effects are the
-same, and the operator is:
-<ul>
-<li><code>Equal</code>. The operator is Equal and the values are equal.</li>
-<li><code>Exists</code>. Exists is equivalent to wildcard for value, so that a placement
-can tolerate all taints of a particular category.</li>
-</ul>
-</li>
-<li><strong>Effect</strong> (optional). Effect indicates the taint effect to match. Empty means
-match all taint effects. When specified, allowed values are <code>NoSelect</code>,
-<code>PreferNoSelect</code> and <code>NoSelectIfNew</code>. (<code>PreferNoSelect</code> is not implemented yet,
-currently clusters with effect <code>PreferNoSelect</code> will always be selected.)</li>
-<li><strong>TolerationSeconds</strong> (optional). TolerationSeconds represents the period of
-time the toleration (which must be of effect <code>NoSelect</code>/<code>PreferNoSelect</code>,
-otherwise this field is ignored) tolerates the taint. The default value is nil,
-which indicates it tolerates the taint forever. The start time of counting the
-TolerationSeconds should be the <code>TimeAdded</code> in Taint, not the cluster scheduled
-time or <code>TolerationSeconds</code> added time.</li>
-</ul>
+ManagedClusters with matching taints.</p>
 <p>The following example shows how to tolerate clusters with taints.</p>
 <ul>
 <li>
@@ -405,8 +380,8 @@ time or <code>TolerationSeconds</code> added time.</li>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement1
-  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">tolerations</span>:
     - <span style="color:#66d9ef">key</span>: gpu
@@ -436,8 +411,8 @@ be transferred to another available managed cluster after 5 minutes.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: demo4
-  <span style="color:#66d9ef">namespace</span>: demo1
+  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">tolerations</span>:
     - <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
@@ -445,24 +420,91 @@ be transferred to another available managed cluster after 5 minutes.</p>
       <span style="color:#66d9ef">tolerationSeconds</span>: <span style="color:#ae81ff">300</span>
 </code></pre></div></li>
 </ul>
+<p>In <code>tolerations</code> section, it includes the
+following fields:</p>
+<ul>
+<li><strong>Key</strong> (optional). Key is the taint key that the toleration applies to.</li>
+<li><strong>Value</strong> (optional). Value is the taint value the toleration matches to.</li>
+<li><strong>Operator</strong> (optional). Operator represents a key&rsquo;s relationship to the
+value. Valid operators are <code>Exists</code> and <code>Equal</code>. Defaults to <code>Equal</code>. A
+toleration &ldquo;matches&rdquo; a taint if the keys are the same and the effects are the
+same, and the operator is:
+<ul>
+<li><code>Equal</code>. The operator is Equal and the values are equal.</li>
+<li><code>Exists</code>. Exists is equivalent to wildcard for value, so that a placement
+can tolerate all taints of a particular category.</li>
+</ul>
+</li>
+<li><strong>Effect</strong> (optional). Effect indicates the taint effect to match. Empty means
+match all taint effects. When specified, allowed values are <code>NoSelect</code>,
+<code>PreferNoSelect</code> and <code>NoSelectIfNew</code>. (<code>PreferNoSelect</code> is not implemented yet,
+currently clusters with effect <code>PreferNoSelect</code> will always be selected.)</li>
+<li><strong>TolerationSeconds</strong> (optional). TolerationSeconds represents the period of
+time the toleration (which must be of effect <code>NoSelect</code>/<code>PreferNoSelect</code>,
+otherwise this field is ignored) tolerates the taint. The default value is nil,
+which indicates it tolerates the taint forever. The start time of counting the
+TolerationSeconds should be the <code>TimeAdded</code> in Taint, not the cluster scheduled
+time or <code>TolerationSeconds</code> added time.</li>
+</ul>
 <h3 id="prioritizers">Prioritizers</h3>
 <h4 id="score-based-prioritizer">Score-based prioritizer</h4>
-<p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers.
-For instance, you can select 2 clusters with the largest memory available and
-the largest addon score cpuratio, and pin the placementdecisions as seen in the
-following examples.</p>
+<p>In <code>prioritizerPolicy</code> section, you can define the policy of prioritizers.</p>
+<p>The following example shows how to select clusters with prioritizers.</p>
+<ul>
+<li>
+<p>Select a cluster with the largest allocatable memory.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement1
-  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">namespace</span>: ns1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">prioritizerPolicy</span>:
+    <span style="color:#66d9ef">configurations</span>:
+      - <span style="color:#66d9ef">scoreCoordinate</span>:
+          <span style="color:#66d9ef">builtIn</span>: ResourceAllocatableMemory
+</code></pre></div><p>The prioritizer policy has default mode additive and default prioritizers <code>Steady</code> and <code>Balance</code>.</p>
+<p>In the above example, the prioritizers actually come into effect are <code>Steady</code>, <code>Balance</code> and <code>ResourceAllocatableMemory</code>.</p>
+<p>And the end of this section has more description about the prioritizer policy mode and default prioritizers.</p>
+</li>
+<li>
+<p>Select a cluster with the largest allocatable CPU and memory, and make placement sensitive to resource changes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">namespace</span>: ns1
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">prioritizerPolicy</span>:
+    <span style="color:#66d9ef">configurations</span>:
+      - <span style="color:#66d9ef">scoreCoordinate</span>:
+          <span style="color:#66d9ef">builtIn</span>: ResourceAllocatableCPU
+        <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">2</span>
+      - <span style="color:#66d9ef">scoreCoordinate</span>:
+          <span style="color:#66d9ef">builtIn</span>: ResourceAllocatableMemory
+        <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">2</span>
+</code></pre></div><p>The prioritizer policy has default mode additive and default prioritizers <code>Steady</code> and <code>Balance</code>, and their default
+weight is 1.</p>
+<p>In the above example, the prioritizers actually come into effect are <code>Steady</code> with weight 1, <code>Balance</code> with weight 1,
+<code>ResourceAllocatableCPU</code> with weight 2 and <code>ResourceAllocatableMemory</code> with weight 2. The cluster score will be a
+combination of the 4 prioritizers score. Since <code>ResourceAllocatableCPU</code> and <code>ResourceAllocatableMemory</code> have higher
+weight, they will be weighted more in the results, and make placement sensitive to resource changes.</p>
+<p>And the end of this section has more description about the prioritizer weight and how the final score is calculated.</p>
+</li>
+<li>
+<p>Select two clusters with the largest addon score CPU ratio, and pin the placement decisions.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">2</span>
   <span style="color:#66d9ef">prioritizerPolicy</span>:
     <span style="color:#66d9ef">mode</span>: Exact
     <span style="color:#66d9ef">configurations</span>:
-      - <span style="color:#66d9ef">scoreCoordinate</span>:
-          <span style="color:#66d9ef">builtIn</span>: ResourceAllocatableMemory
       - <span style="color:#66d9ef">scoreCoordinate</span>:
           <span style="color:#66d9ef">builtIn</span>: Steady
         <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">3</span>
@@ -471,7 +513,13 @@ following examples.</p>
           <span style="color:#66d9ef">addOn</span>:
             <span style="color:#66d9ef">resourceName</span>: default
             <span style="color:#66d9ef">scoreName</span>: cpuratio
-</code></pre></div><ul>
+</code></pre></div><p>In the above example, explicitly define the mode as exact. The prioritizers actually come into effect are <code>Steady</code> with
+weight 3 and addon score cpuratio with weight 1. Go into the <a href="#extensible-scheduling">Extensible scheduling</a> section
+to learn more about addon score.</p>
+</li>
+</ul>
+<p>In <code>prioritizerPolicy</code> section, it includes the following fields:</p>
+<ul>
 <li><code>mode</code> is either <code>Exact</code>, <code>Additive</code> or <code>&quot;&quot;</code>, where <code>&quot;&quot;</code> is <code>Additive</code> by default.
 <ul>
 <li>In <code>Additive</code> mode, any prioritizer not explicitly enumerated is enabled
