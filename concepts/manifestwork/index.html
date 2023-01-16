@@ -261,7 +261,11 @@
           </ul>
         </li>
         <li><a href="#resource-race-and-adoption">Resource Race and Adoption</a></li>
-      </ul></nav><hr></div>
+      </ul>
+    </li>
+    <li><a href="#permission-setting-for-work-agent">Permission setting for work agent</a></li>
+  </ul>
+</nav><hr></div>
 
 
 <!-- spellchecker-enable -->
@@ -504,7 +508,65 @@ first <code>ManifestWork</code> is updated to add <code>replicas</code> field wi
 manifest will not be updated by it.</p>
 <p>In stead of create the second <code>ManifestWork</code>, user can also set HPA for this deployment. HPA will also takes the ownership
 of <code>replicas</code>, and the update of <code>replicas</code> field in the first <code>ManifestWork</code> will return conflict condition.</p>
-
+<h1 id="permission-setting-for-work-agent">Permission setting for work agent</h1>
+<p>All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
+following permission for the managed cluster:</p>
+<ul>
+<li>clusterRole <code>admin</code>(instead of the <code>cluster-admin</code>) to apply kubernetes common resources</li>
+<li>managing <code>customresourcedefinitions</code>, but can not manage a specific custom resource instance</li>
+<li>managing <code>clusterrolebindings</code>, <code>rolebindings</code>, <code>clusterroles</code>, <code>roles</code>, including the <code>bind</code> and <code>escalate</code>
+permission, this is why we can grant work-agent service account extra permissions using ManifestWork</li>
+</ul>
+<p>So if the workload manifests to be applied on the managed cluster exceeds the above permission, for example some
+Customer Resource instances, there will be an error <code>... is forbidden: User &quot;system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa&quot; cannot get resource ...</code>
+reflected on the ManifestWork status.</p>
+<p>To prevent this, the service account <code>klusterlet-work-sa</code> used by the work-agent needs to be given the corresponding
+permissions. There are several ways:</p>
+<ul>
+<li>add permission on the managed cluster directly, we can
+<ul>
+<li>aggregate the new clusterRole for your to-be-applied resources to the existing <code>admin</code> clusterRole</li>
+<li>OR create role/clusterRole roleBinding/clusterRoleBinding for the <code>klusterlet-work-sa</code> service account</li>
+</ul>
+</li>
+<li>add permission on the hub cluster by another ManifestWork, the ManifestWork includes
+<ul>
+<li>an aggregated clusterRole for your to-be-applied resources to the existing <code>admin</code> clusterRole</li>
+<li>OR role/clusterRole roleBinding/clusterRoleBinding for the <code>klusterlet-work-sa</code> service account</li>
+</ul>
+</li>
+</ul>
+<p>Below is an example use ManifestWork to give <code>klusterlet-work-sa</code> permission for resource <code>machines.cluster.x-k8s.io</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: permission-set
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+        <span style="color:#66d9ef">kind</span>: ClusterRole
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: open-cluster-management:klusterlet-work:my-role
+        <span style="color:#66d9ef">rules</span>:
+          <span style="color:#75715e"># Allow agent to managed machines</span>
+          - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;cluster.x-k8s.io&#34;</span>]
+            <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;machines&#34;</span>]
+            <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;create&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;patch&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>]
+      - <span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+        <span style="color:#66d9ef">kind</span>: ClusterRoleBinding
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: open-cluster-management:klusterlet-work:my-binding
+        <span style="color:#66d9ef">roleRef</span>:
+          <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
+          <span style="color:#66d9ef">kind</span>: ClusterRole
+          <span style="color:#66d9ef">name</span>: open-cluster-management:klusterlet-work:my-role
+        <span style="color:#66d9ef">subjects</span>:
+          - <span style="color:#66d9ef">kind</span>: ServiceAccount
+            <span style="color:#66d9ef">name</span>: klusterlet-work-sa
+            <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent
+</code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

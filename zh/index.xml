@@ -170,7 +170,7 @@ The ManagedClusterSet and ManagedClusterSetBinding API v1alpha1 version will no 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/zh/concepts/manifestwork/</guid>
-      <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption     What is ManifestWork ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace. A work agent implemented in work project is run on the managed cluster and monitors the ManifestWork resource in the cluster namespace on the hub cluster.</description>
+      <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption   Permission setting for work agent   What is ManifestWork ManifestWork is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
     </item>
     
     <item>
