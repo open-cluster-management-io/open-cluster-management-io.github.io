@@ -267,14 +267,15 @@
         <li><a href="#resource-race-and-adoption">Resource Race and Adoption</a></li>
       </ul>
     </li>
-    <li><a href="#permission-setting-for-work-agent">Permission setting for work agent</a></li>
-  </ul>
-</nav><hr></div>
+    <li><a href="#permission-setting-for-work-agent">Permission setting for work agent</a>
+      <ul>
+        <li><a href="#treating-defaultingimmutable-fields-in-api">Treating defaulting/immutable fields in API</a></li>
+      </ul></nav><hr></div>
 
 
 <!-- spellchecker-enable -->
 <h2 id="what-is-manifestwork">What is <code>ManifestWork</code></h2>
-<p><code>ManifestWork</code> is to define a group of Kubernetes resource on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
+<p><code>ManifestWork</code> is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a <code>ManifestWork</code> resource must be created in the cluster namespace. A work agent implemented in <a href="https://github.com/open-cluster-management-io/work">work</a> project is run on the managed cluster and monitors the <code>ManifestWork</code> resource in the cluster namespace on the hub cluster.</p>
 <p>An example of <code>ManifestWork</code> to deploy a deployment to the managed cluster is shown in the following example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork
@@ -412,7 +413,7 @@ a recommended lower bound for the interval is 5 second.</p>
 </code></pre></div><h2 id="garbage-collection">Garbage collection</h2>
 <p>To ensure the resources applied by <code>ManifestWork</code> are reliably recorded, the work agent creates an <code>AppliedManifestWork</code> on the managed cluster for each <code>ManifestWork</code> as an anchor for resources relating to <code>ManifestWork</code>. When <code>ManifestWork</code> is deleted, work agent runs a <code>Foreground deletion</code>, that <code>ManifestWork</code> will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.</p>
 <h3 id="delete-options">Delete options</h3>
-<p>User can explicitly choose not to garbage collect the applied resources when a <code>ManifestWork</code> is deleted. the user should specify the <code>deleteOption</code> in the <code>ManifestWork</code>. By default, <code>deleteOption</code> is set as <code>Foreground</code>
+<p>User can explicitly choose not to garbage collect the applied resources when a <code>ManifestWork</code> is deleted. The user should specify the <code>deleteOption</code> in the <code>ManifestWork</code>. By default, <code>deleteOption</code> is set as <code>Foreground</code>
 which means the applied resources on the spoke will be deleted with the removal of <code>ManifestWork</code>. User can set it to
 <code>Orphan</code> so the applied resources will not be deleted. Here is an example:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
@@ -442,7 +443,7 @@ which means the applied resources on the spoke will be deleted with the removal 
 <p>It is possible to create two <code>ManifestWorks</code> for the same cluster with the same resource defined.
 For example, the user can create two <code>Manifestworks</code> on cluster1, and both <code>Manifestworks</code> have the
 deployment resource <code>hello</code> in default namespace. If the content of the resource is different, the
-two <code>ManifestWorks</code> will fight and it is desired since each <code>ManifestWork</code> is treated as equal and
+two <code>ManifestWorks</code> will fight, and it is desired since each <code>ManifestWork</code> is treated as equal and
 each <code>ManifestWork</code> is declaring the ownership of the resource. If there is another controller on
 the managed cluster that tries to manipulate the resource applied by a <code>ManifestWork</code>, this
 controller will also fight with work agent.</p>
@@ -510,7 +511,7 @@ the original <code>ManifestWork</code> so only field that it will own maintains.
 </code></pre></div><p>The second <code>ManifestWork</code> only defines <code>replicas</code> in the manifest, so it takes the ownership of <code>replicas</code>. If the
 first <code>ManifestWork</code> is updated to add <code>replicas</code> field with different value, it will get conflict condition and
 manifest will not be updated by it.</p>
-<p>In stead of create the second <code>ManifestWork</code>, user can also set HPA for this deployment. HPA will also takes the ownership
+<p>Instead of create the second <code>ManifestWork</code>, user can also set HPA for this deployment. HPA will also take the ownership
 of <code>replicas</code>, and the update of <code>replicas</code> field in the first <code>ManifestWork</code> will return conflict condition.</p>
 <h1 id="permission-setting-for-work-agent">Permission setting for work agent</h1>
 <p>All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
@@ -570,6 +571,103 @@ permissions. There are several ways:</p>
           - <span style="color:#66d9ef">kind</span>: ServiceAccount
             <span style="color:#66d9ef">name</span>: klusterlet-work-sa
             <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent
+</code></pre></div><h2 id="treating-defaultingimmutable-fields-in-api">Treating defaulting/immutable fields in API</h2>
+<p>The kube-apiserver sets the defaulting/immutable fields for some APIs if the user does not set them. And it may fail to
+deploy these APIs using <code>ManifestWork</code>. Because in the reconcile loop, the work agent will try to update the immutable
+or default field after comparing the desired manifest in the <code>ManifestWork</code> and existing resource in the cluster, and
+the update will fail or not take effect.</p>
+<p>Let&rsquo;s use Job as an example. The kube-apiserver will set a default selector and label on the Pod of Job if the user does
+not set <code>spec.Selector</code> in the Job. The fields are immutable, so the <code>ManifestWork</code> will report <code>AppliedManifestFailed</code>
+when we apply a Job without <code>spec.Selector</code> using <code>ManifestWork</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: exmaple-job
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: batch/v1
+        <span style="color:#66d9ef">kind</span>: Job
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: pi
+          <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">containers</span>:
+              - <span style="color:#66d9ef">name</span>: pi
+                <span style="color:#66d9ef">image</span>: perl:<span style="color:#ae81ff">5.34.0</span>
+                <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;perl&#34;</span>,  <span style="color:#e6db74">&#34;-Mbignum=bpi&#34;</span>, <span style="color:#e6db74">&#34;-wle&#34;</span>, <span style="color:#e6db74">&#34;print bpi(2000)&#34;</span>]
+              <span style="color:#66d9ef">restartPolicy</span>: Never
+          <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">4</span>
+</code></pre></div><p>There are 2 options to fix this issue.</p>
+<ol>
+<li>Specify the fields manually if they are configurable. For example, set <code>spec.manualSelector=true</code> and your own labels
+in the <code>spec.selector</code> of the Job, and set the same labels for the containers.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: exmaple-job<span style="color:#ae81ff">-1</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:    
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: batch/v1
+        <span style="color:#66d9ef">kind</span>: Job
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: pi
+          <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">manualSelector</span>: <span style="color:#66d9ef">true</span>
+          <span style="color:#66d9ef">selector</span>:
+            <span style="color:#66d9ef">matchLabels</span>:
+              <span style="color:#66d9ef">job</span>: pi
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">metadata</span>:
+              <span style="color:#66d9ef">labels</span>:
+                <span style="color:#66d9ef">job</span>: pi
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">containers</span>:
+              - <span style="color:#66d9ef">name</span>: pi
+                <span style="color:#66d9ef">image</span>: perl:<span style="color:#ae81ff">5.34.0</span>
+                <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;perl&#34;</span>,  <span style="color:#e6db74">&#34;-Mbignum=bpi&#34;</span>, <span style="color:#e6db74">&#34;-wle&#34;</span>, <span style="color:#e6db74">&#34;print bpi(2000)&#34;</span>]
+              <span style="color:#66d9ef">restartPolicy</span>: Never
+          <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">4</span>
+</code></pre></div><ol>
+<li>Set the <a href="#resource-race-and-adoption">updateStrategy ServerSideApply</a> in the <code>ManifestWork</code> for the API.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: exmaple-job
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">manifestConfigs</span>:
+    - <span style="color:#66d9ef">resourceIdentifier</span>:
+        <span style="color:#66d9ef">group</span>: batch
+        <span style="color:#66d9ef">resource</span>: jobs
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">name</span>: pi
+      <span style="color:#66d9ef">updateStrategy</span>:
+        <span style="color:#66d9ef">type</span>: ServerSideApply
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: batch/v1
+        <span style="color:#66d9ef">kind</span>: Job
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: pi
+          <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">containers</span>:
+              - <span style="color:#66d9ef">name</span>: pi
+                <span style="color:#66d9ef">image</span>: perl:<span style="color:#ae81ff">5.34.0</span>
+                <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;perl&#34;</span>,  <span style="color:#e6db74">&#34;-Mbignum=bpi&#34;</span>, <span style="color:#e6db74">&#34;-wle&#34;</span>, <span style="color:#e6db74">&#34;print bpi(2000)&#34;</span>]
+              <span style="color:#66d9ef">restartPolicy</span>: Never
+          <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">4</span>
 </code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
