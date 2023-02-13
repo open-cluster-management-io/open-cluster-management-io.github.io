@@ -103,14 +103,14 @@ other = "Getting Started"
 [sidebar_quick_start]
 other = "Quick Start"
 
-[sidebar_core_components]
-other = "Core Components"
+[sidebar_installation]
+other = "Installation"
 
-[sidebar_cluster_manager]
-other = "Cluster Manager"
+[sidebar_start_the_control_plane]
+other = "Start the Control Plane"
 
-[sidebar_register_cluster]
-other = "Klusterlet Agent"
+[sidebar_register_a_cluster]
+other = "Register a Cluster"
 
 [sidebar_integrations]
 other = "Add-ons and Integrations"

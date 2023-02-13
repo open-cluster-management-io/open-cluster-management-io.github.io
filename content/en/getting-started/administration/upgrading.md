@@ -9,15 +9,13 @@ weight: 1
 
 <!-- spellchecker-enable -->
 
-This page provides the suggested steps to upgrade your OCM environment 
-including both the hub cluster and the managed clusters. Overall the major 
+This page provides the suggested steps to upgrade your OCM environment
+including both the hub cluster and the managed clusters. Overall the major
 steps you should follow are:
 
 - Read the release notes to confirm the latest OCM release version. _(Note that
   some add-ons' version might be different from OCM's overall release version.)_
 - Upgrade your command line tools `clusteradm`
-- Upgrade your [hub cluster](https://open-cluster-management.io/getting-started/core/cluster-manager/)
-- Upgrade your [managed clusters](https://open-cluster-management.io/getting-started/core/register-cluster/)
 
 
 ## Before you begin

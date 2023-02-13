@@ -103,8 +103,8 @@ other = "安装"
 [sidebar_quick_start]
 other = "快速开始"
 
-[sidebar_core_components]
-other = "核心组件"
+[sidebar_installation]
+other = "部署"
 
 [sidebar_developer-guides]
 other = "开发指南"
@@ -112,12 +112,11 @@ other = "开发指南"
 [sidebar_addon-developer-guide]
 other = "Add-on 开发指南"
 
+[sidebar_start_the_control_plane]
+other = "启动控制面"
 
-[sidebar_cluster_manager]
-other = "中枢控制器"
-
-[sidebar_register_cluster]
-other = "集群代理控制器"
+[sidebar_register_a_cluster]
+other = "注册一个集群"
 
 [sidebar_integrations]
 other = "插件和集成"

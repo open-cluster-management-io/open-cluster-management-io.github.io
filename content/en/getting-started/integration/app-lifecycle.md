@@ -25,9 +25,9 @@ You must meet the following prerequisites to install the application lifecycle m
 
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
-- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Cluster Manager](/getting-started/core/cluster-manager) for more information.
+- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Start the control plane](/getting-started/installation/start-the-control-plane) for more information.
 
-- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Klusterlet](/getting-started/core/register-cluster) for more information.
+- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Register a cluster](/getting-started/installation/register-a-cluster) for more information.
 
 ## Install via Clusteradm CLI tool
 

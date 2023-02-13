@@ -1,5 +1,5 @@
 ---
-title: Core Components
+title: Installation
 weight: 2
 ---
 
