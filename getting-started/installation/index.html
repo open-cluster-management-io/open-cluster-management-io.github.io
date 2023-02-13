@@ -26,15 +26,13 @@
 
 
 
-    
 
-
-<input id="current-lang" type="hidden" value="zh">
+<input id="current-lang" type="hidden" value="en">
 
 <header class="navbar navbar-expand-md navbar-dark bd-navbar">
   <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
     <div class="container-fluid flex-wrap flex-md-nowrap">
-      <a href="/zh/" class="navbar-brand">
+      <a href="/" class="navbar-brand">
         <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
         Open Cluster Management
       </a>
@@ -44,22 +42,22 @@
       <div class="collapse navbar-collapse" id="navmenu">
         <ul class="navbar-nav ms-auto ">
           <li class="nav-item pe-2">
-            <a href="/zh/community" class="nav-link text-light">社区</a>
+            <a href="/community" class="nav-link text-light">Community</a>
           </li>
           <li class="nav-item pe-2">
-            <a href="/zh/contribute" class="nav-link text-light">贡献</a>
+            <a href="/contribute" class="nav-link text-light">Contribute</a>
           </li>
           <li class="nav-item pe-2">
-            <a href="/zh/concepts" class="nav-link text-light">文档</a>
+            <a href="/concepts" class="nav-link text-light">Document</a>
           </li>
           <li class="nav-item dropdown pe-2">
             
-            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
+            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
             
 
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               
-              <li><a class="dropdown-item" href="#" id="to-en">English</a></li>
+              <li><a class="dropdown-item" href="#" id="to-zh">中文</a></li>
               
             </ul>
           </li>
@@ -89,8 +87,6 @@
 
 
 
-    
-
 
 <div class="sidebar-toggle sidebar-toggle-sm">
     <button type="button" id="sidebarToggle" class="btn btn-info">
@@ -100,131 +96,131 @@
 <nav id="sidebar" class="sidebar-hide-sm">
     <ul class="components">
         <li id="concepts">
-            <a class="navlink" href="/zh/concepts">概念</a>
+            <a class="navlink" href="/concepts">Concepts</a>
             <ul class="collapse">
                 <li>
-                    <a class="navlink" href="/zh/concepts/architecture">架构</a>
+                    <a class="navlink" href="/concepts/architecture">Architecture</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/clusterclaim">集群声明</a>
+                    <a class="navlink" href="/concepts/clusterclaim">ClusterClaim</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/managedcluster">托管集群</a>
+                    <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/manifestwork">资源下发</a>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/managedclusterset">托管集群分组</a>
+                    <a class="navlink" href="/concepts/managedclusterset">ManagedClusterSet</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/placement">匹配路由</a>
+                    <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/addon">自定义插件</a>
+                    <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/policy">Policy</a>
+                    <a class="navlink" href="/concepts/policy">Policy</a>
                 </li>
             </ul>
         </li>
         <li id="getting-started">
-            <a class="navlink" href="/zh/getting-started">安装</a>
+            <a class="navlink" href="/getting-started">Getting Started</a>
             <ul class="collapse">
                 <li>
-                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                    <a class="navlink" href="/getting-started/quick-start">Quick Start</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <a class="navlink" href="/getting-started/installation">Installation</a>
                     <ul class="collapse">
                         <li>
-                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">中枢控制器</a>
+                            <a class="navlink" href="/getting-started/installation/start-the-control-plane">Start the Control Plane</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/core/register-cluster">集群代理控制器</a>
+                            <a class="navlink" href="/getting-started/installation/register-a-cluster">Register a Cluster</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <a class="navlink" href="/getting-started/integration">Add-ons and Integrations</a>
                     <ul class="collapse">
                         <li>
-                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">应用生命周期管理</a>
+                            <a class="navlink" href="/getting-started/integration/app-lifecycle">Application lifecycle management</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/integration/cluster-proxy">多集群网络隧道</a>
+                            <a class="navlink" href="/getting-started/integration/cluster-proxy">Cluster proxy</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy框架</a>
+                            <a class="navlink" href="/getting-started/integration/policy-framework">Policy framework</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy控制器</a>
+                            <a class="navlink" href="/getting-started/integration/policy-controllers">Policy controllers</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/integration/managed-serviceaccount">托管多集群ServiceAccount</a>
+                            <a class="navlink" href="/getting-started/integration/managed-serviceaccount">Managed service account</a>
                         </li>
                     </ul>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/getting-started/administration">运维管理</a>
+                    <a class="navlink" href="/getting-started/administration">Administration</a>
                     <ul class="collapse">
                         <li>
-                            <a class="navlink" href="/zh/getting-started/administration/upgrading">升级版本</a>
+                            <a class="navlink" href="/getting-started/administration/upgrading">Upgrading</a>
                         </li>
                     </ul>
                 </li>
             </ul>
         </li>
         <li id="developer-guides">
-            <a class="navlink" href="/zh/developer-guides">开发指南</a>
+            <a class="navlink" href="/developer-guides">Developer Guides</a>
             <ul class="collapse">
                 <li>
-                    <a class="navlink" href="/zh/developer-guides/addon">Add-on 开发指南</a>
+                    <a class="navlink" href="/developer-guides/addon">Add-on Developer Guide</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/developer-guides/vscode-extension">VScode Extension</a>
+                    <a class="navlink" href="/developer-guides/vscode-extension">VScode Extension</a>
                 </li>
             </ul>
         </li>
         <li id="scenarios">
-            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <a class="navlink" href="/scenarios">Scenarios</a>
             <ul class="collapse">
                 <li>
-                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">部署Kubernetes资源</a>
+                    <a class="navlink" href="/scenarios/deploy-kubernetes-resources">Deploy Kubernetes Resources</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/scenarios/distribute-workload-with-placement">通过placement分发工作负载</a>
+                    <a class="navlink" href="/scenarios/distribute-workload-with-placement">Distribute Workload With Placement</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/scenarios/extend-multicluster-scheduling-capabilities">扩展多集群调度能力</a>
+                    <a class="navlink" href="/scenarios/extend-multicluster-scheduling-capabilities">Extend Multicluster Scheduling Capabilities</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/scenarios/extending-managed-clusters">扩展集群模型</a>
+                    <a class="navlink" href="/scenarios/extending-managed-clusters">Extend Managed Clusters</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/scenarios/integration-with-argocd">集成Argo CD</a>
-                </li>                
+                    <a class="navlink" href="/scenarios/integration-with-argocd">Integration with Argo CD</a>
+                </li>
                 <li>
-                    <a class="navlink" href="/zh/scenarios/pushing-kube-api-requests">向托管集群推送Kube API请求</a>
+                    <a class="navlink" href="/scenarios/pushing-kube-api-requests">Pushing Kube API Requests to the Managed Clusters</a>
                 </li>
             </ul>
         </li>
         <li id="community">
-            <a class="navlink" href="/zh/community">社区</a>
+            <a class="navlink" href="/community">Community</a>
             <ul class="collapse">
                 <li>
-                    <a class="navlink" href="/zh/community/releases">发行版本</a>
+                    <a class="navlink" href="/community/releases">Releases</a>
                 </li>
                 <li >
-                    <a class="navlink" href="/zh/community/roadmap">社区规划</a>
+                    <a class="navlink" href="/community/roadmap">Roadmap</a>
                 </li>
             </ul>
         </li>
         <li id="contribute">
-            <a class="navlink" href="/zh/contribute">贡献</a>
+            <a class="navlink" href="/contribute">Contribute</a>
         </li>
         <li id="blog">
-            <a class="navlink" href="/zh/blog">博客</a>
+            <a class="navlink" href="/blog">Blog</a>
         </li>
         <li style="padding-top: 10px; border-top: 2px solid #448a78;">
             <a class="navlink resource" href="https://github.com/open-cluster-management-io" target="_blank"><i class="bi bi-github"></i><span style="padding-left: 10px;">GitHub</span></a>
@@ -247,7 +243,7 @@
 </div>
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
-    <h1>核心组件</h1>
+    <h1>Installation</h1>
     <p>Install the core control plane that includes cluster registration and manifests distribution on the hub cluster.</p>
 <p>Install the klusterlet agent on the managed cluster so that it can be registered and managed by the hub cluster.</p>
 <!-- spellchecker-disable -->
@@ -263,7 +259,7 @@
       <li>
       
         <span>
-          <a href="/zh/getting-started/core/cluster-manager/" class="gdoc-toc__entry">Cluster manager</a>
+          <a href="/getting-started/installation/start-the-control-plane/" class="gdoc-toc__entry">Start the control plane</a>
         </span>
       
 
@@ -278,7 +274,7 @@
       <li>
       
         <span>
-          <a href="/zh/getting-started/core/register-cluster/" class="gdoc-toc__entry">Klusterlet agent</a>
+          <a href="/getting-started/installation/register-a-cluster/" class="gdoc-toc__entry">Register a cluster</a>
         </span>
       
 

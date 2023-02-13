@@ -14,10 +14,6 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/core/cluster-manager</loc>
-    </url>
-    
-    <url>
         <loc>http://open-cluster-management.io/concepts</loc>
     </url>
     
@@ -50,6 +46,10 @@
     </url>
     
     <url>
+        <loc>http://open-cluster-management.io/getting-started/installation/start-the-control-plane</loc>
+    </url>
+    
+    <url>
         <loc>http://open-cluster-management.io/getting-started/administration/upgrading</loc>
     </url>
     
@@ -58,11 +58,7 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/core</loc>
-    </url>
-    
-    <url>
-        <loc>http://open-cluster-management.io/getting-started/core/register-cluster</loc>
+        <loc>http://open-cluster-management.io/getting-started/installation</loc>
     </url>
     
     <url>
@@ -75,6 +71,10 @@
     
     <url>
         <loc>http://open-cluster-management.io/concepts/manifestwork</loc>
+    </url>
+    
+    <url>
+        <loc>http://open-cluster-management.io/getting-started/installation/register-a-cluster</loc>
     </url>
     
     <url>

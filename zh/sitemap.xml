@@ -10,7 +10,7 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/getting-started/core/cluster-manager</loc>
+        <loc>http://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane</loc>
     </url>
     
     <url>
@@ -58,7 +58,7 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/getting-started/core/register-cluster</loc>
+        <loc>http://open-cluster-management.io/zh/getting-started/installation/register-a-cluster</loc>
     </url>
     
     <url>
@@ -74,7 +74,7 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/zh/getting-started/core</loc>
+        <loc>http://open-cluster-management.io/zh/getting-started/installation</loc>
     </url>
     
     <url>

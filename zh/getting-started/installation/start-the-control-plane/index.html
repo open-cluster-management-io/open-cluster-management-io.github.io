@@ -135,13 +135,13 @@
                     <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/getting-started/core">核心组件</a>
+                    <a class="navlink" href="/zh/getting-started/installation">部署</a>
                     <ul class="collapse">
                         <li>
-                            <a class="navlink" href="/zh/getting-started/core/cluster-manager">中枢控制器</a>
+                            <a class="navlink" href="/zh/getting-started/installation/start-the-control-plane">启动控制面</a>
                         </li>
                         <li>
-                            <a class="navlink" href="/zh/getting-started/core/register-cluster">集群代理控制器</a>
+                            <a class="navlink" href="/zh/getting-started/installation/register-a-cluster">注册一个集群</a>
                         </li>
                     </ul>
                 </li>
@@ -203,7 +203,7 @@
                 </li>
                 <li>
                     <a class="navlink" href="/zh/scenarios/integration-with-argocd">集成Argo CD</a>
-                </li>                
+                </li>
                 <li>
                     <a class="navlink" href="/zh/scenarios/pushing-kube-api-requests">向托管集群推送Kube API请求</a>
                 </li>
@@ -247,8 +247,8 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>Klusterlet agent</h1>
-    <p>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.</p>
+    <h1>Cluster manager</h1>
+    <p>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.</p>
 <!-- spellchecker-disable -->
 
 
@@ -257,8 +257,6 @@
         <li><a href="#prerequisite">Prerequisite</a></li>
         <li><a href="#install-from-source">Install from source</a></li>
         <li><a href="#install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</a></li>
-        <li><a href="#what-is-next">What is next</a></li>
-        <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ul></nav><hr></div>
 
 
@@ -266,86 +264,28 @@
 <h2 id="prerequisite">Prerequisite</h2>
 <p>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize</a> are installed.</p>
 <p>Ensure <a href="https://golang.org/doc/install">golang</a> is installed, if you are planning to install from the source.</p>
-<p>Ensure the open-cluster-management cluster manager is installed on the hub cluster. See <a href="../cluster-manager">Cluster manager</a> for more information.</p>
-<p>Prepare another Kubernetes cluster to function as the managed cluster. For example, use <a href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create another cluster as described in the following instructions. To use <code>kind</code>, you will need <a href="https://docs.docker.com/get-started">docker</a> installed and running.</p>
-<p>Set the following environment variables that will be used throughout to simplify the instructions:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your managed cluster name&gt;     <span style="color:#75715e"># export MANAGED_CLUSTER_NAME=cluster1</span>
-export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;   <span style="color:#75715e"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
-</code></pre></div><p>Then create the managed cluster with <code>kind</code>, run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># kind delete cluster --name ${MANAGED_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted</span>
-kind create cluster --name <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
-</code></pre></div><p>If you are using OKD, OpenShift, you will need to prepare a kubeconfig with <code>certificate-authority-data</code>, <code>client-certificate-data</code> and <code>client-key-data</code>. By default, it&rsquo;s located in <code>auth/kubeconfig</code> under your installation folder.</p>
-<h2 id="install-from-source">Install from source</h2>
-<p>If you have not already done so, clone the <code>registration-operator</code>.</p>
+<p>Prepare one Kubernetes cluster to function as the hub. For example, use <a href="https://kind.sigs.k8s.io/docs/user/quick-start">kind</a> to create a hub cluster. To use <code>kind</code>, you will need <a href="https://docs.docker.com/get-started">docker</a> installed and running.</p>
+<p>If you are running OS X, you&rsquo;ll also need to install <code>gnu-sed</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">brew install gnu-sed
+</code></pre></div><p>Set the following environment variable that will be used throughout to simplify the instructions:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export HUB_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your hub cluster name&gt;             <span style="color:#75715e"># export HUB_CLUSTER_NAME=hub</span>
+export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
+export HUB_KUBECONFIG<span style="color:#f92672">=</span>&lt;your hub cluster kubeconfig file&gt;    <span style="color:#75715e"># export HUB_KUBECONFIG=~/hub-kubeconfig</span>
+</code></pre></div><p>Then create the hub cluster with <code>kind</code>, run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># kind delete cluster --name ${HUB_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted</span>
+kind create cluster --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span>
+kind get kubeconfig --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span> --internal &gt; <span style="color:#e6db74">${</span>HUB_KUBECONFIG<span style="color:#e6db74">}</span>
+</code></pre></div><h2 id="install-from-source">Install from source</h2>
+<p>Clone the <code>registration-operator</code></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/registration-operator
-</code></pre></div><p>Ensure the <code>kubectl</code> context is set to point to the managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl config use-context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Deploy agent on a managed <code>kind</code> cluster.</p>
+</code></pre></div><p>Ensure the <code>kubectl</code> context is set to point to the hub cluster:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div><p>Deploy hub</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">cd registration-operator
-make deploy-spoke <span style="color:#75715e"># make deploy-spoke GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
+export KUBECONFIG<span style="color:#f92672">=</span>$HOME/.kube/config <span style="color:#75715e"># set a env variable KUBECONFIG to kubeconfig file path</span>
+make deploy-hub <span style="color:#75715e"># make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version</span>
 </code></pre></div><h2 id="install-community-operator-from-operatorhubio">Install community operator from OperatorHub.io</h2>
-<p>If you are using OKD, OpenShift, or have <code>OLM</code> installed in your cluster, you can install the klusterlet agent community operator with a released version from <a href="https://operatorhub.io/operator/klusterlet">OperatorHub.io</a>.</p>
-<h2 id="what-is-next">What is next</h2>
-<p>After a successful deployment, a <code>certificatesigningrequest</code> and a <code>managedcluster</code> will be created on the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get csr --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                              AGE   REQUESTOR                       CONDITION
-<span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>-&lt;suffix&gt;   41s   kubernetes-admin                Pending
-csr-&lt;suffix&gt;                      76m   system:node:hub-control-plane   Approved,Issued
-$ kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                    HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-<span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>  false          https://localhost                           57s
-</code></pre></div><p>Next approve the certificate and set managecluster to be accepted by the hub with following commands:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl certificate approve <span style="color:#f92672">{</span>csr name<span style="color:#f92672">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-kubectl patch managedcluster <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> -p<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{&#34;spec&#34;:{&#34;hubAcceptsClient&#34;:true}}&#39;</span> --type<span style="color:#f92672">=</span>merge --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Run <code>kubectl get managedcluster --context ${CTX_HUB_CLUSTER}</code> again on the hub cluster. You should be able to see that the managed cluster is registered now.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-<span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>   true           https://localhost      True     True        7m58s
-</code></pre></div><p>If the managed cluster status is not true, refer to <a href="#troubleshooting">Troubleshooting</a> to debug on your cluster.</p>
-<p>After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a <code>manifest-work.yaml</code> as shown in this example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManifestWork
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: mw<span style="color:#ae81ff">-01</span>
-  <span style="color:#66d9ef">namespace</span>: ${MANAGED_CLUSTER_NAME}
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">workload</span>:
-    <span style="color:#66d9ef">manifests</span>:
-      - <span style="color:#66d9ef">apiVersion</span>: v1
-        <span style="color:#66d9ef">kind</span>: Pod
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">name</span>: hello
-          <span style="color:#66d9ef">namespace</span>: default
-        <span style="color:#66d9ef">spec</span>:
-          <span style="color:#66d9ef">containers</span>:
-            - <span style="color:#66d9ef">name</span>: hello
-              <span style="color:#66d9ef">image</span>: busybox
-              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span>]
-          <span style="color:#66d9ef">restartPolicy</span>: OnFailure
-</code></pre></div><p>Apply the yaml file to the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f manifest-work.yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Verify that the <code>manifestwork</code> resource was applied to the hub.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get manifestwork/mw-01 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> -o yaml
-</code></pre></div><p>Check on the managed cluster and see the <em>hello</em> Pod has been deployed from the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl -n default get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME    READY   STATUS    RESTARTS   AGE
-hello   1/1     Running   <span style="color:#ae81ff">0</span>          108s
-</code></pre></div><h2 id="troubleshooting">Troubleshooting</h2>
-<ul>
-<li>
-<p>The managed cluster status is not true.</p>
-<p>For example, the result below is shown when checking managedcluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-<span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> true           https://localhost               Unknown     46m
-</code></pre></div><p>There are many reasons for this problem. You can use the commands below to get more debug info. If the provided info doesn&rsquo;t help, please log an issue to us.</p>
-<p>On the hub cluster, check the managedcluster status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> -o yaml
-</code></pre></div><p>On the hub cluster, check the lease status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get lease -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>On the managed cluster, check the klusterlet status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get klusterlet -o yaml --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></li>
-</ul>
+<p>If you are using OKD, OpenShift, or have <code>OLM</code> installed in your cluster, you can install the cluster manager community operator with a released version from <a href="https://operatorhub.io/operator/cluster-manager">OperatorHub.io</a>.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

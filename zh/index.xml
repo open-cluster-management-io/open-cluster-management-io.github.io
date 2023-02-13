@@ -31,10 +31,10 @@ v0.9.0, 21st, October 2022 Open Cluster Management team is proud to announce the
     
     <item>
       <title>Cluster manager</title>
-      <link>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</link>
+      <link>http://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/core/cluster-manager/</guid>
+      <guid>http://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</guid>
       <description>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
    Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite Ensure kubectl and kustomize are installed.
 Ensure golang is installed, if you are planning to install from the source.
@@ -136,10 +136,10 @@ Usage ClusterCaim is used to specify additional properties of the managed cluste
     
     <item>
       <title>Klusterlet agent</title>
-      <link>http://open-cluster-management.io/zh/getting-started/core/register-cluster/</link>
+      <link>http://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/core/register-cluster/</guid>
+      <guid>http://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</guid>
       <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
    Prerequisite Install from source Install community operator from OperatorHub.io What is next Troubleshooting     Prerequisite Ensure kubectl and kustomize are installed.
 Ensure golang is installed, if you are planning to install from the source.</description>

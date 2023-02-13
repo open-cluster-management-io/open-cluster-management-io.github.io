@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Installation on Open Cluster Management</title>
+    <link>http://open-cluster-management.io/getting-started/installation/</link>
+    <description>Recent content in Installation on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	<atom:link href="http://open-cluster-management.io/getting-started/installation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Start the control plane</title>
+      <link>http://open-cluster-management.io/getting-started/installation/start-the-control-plane/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/getting-started/installation/start-the-control-plane/</guid>
+      <description>Prerequisite Install clusteradm CLI tool Bootstrap a cluster manager Check out the running instances of the control plane     Prerequisite  The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Ensure kubectl and kustomize are installed.  Install clusteradm CLI tool It&amp;rsquo;s recommended to run the following command to download and install the latest release of the clusteradm command-line tool:</description>
+    </item>
+    
+    <item>
+      <title>Register a cluster</title>
+      <link>http://open-cluster-management.io/getting-started/installation/register-a-cluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/getting-started/installation/register-a-cluster/</guid>
+      <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
+   Prerequisite Install clusteradm CLI tool Bootstrap a klusterlet Accept the join request and verify Apply a Manifestwork  Troubleshooting       Prerequisite  The managed clusters should be v1.11+. Ensure kubectl and kustomize are installed.</description>
+    </item>
+    
+  </channel>
+</rss>
