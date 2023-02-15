@@ -98,3 +98,31 @@ The overall installation information is visible on the `clustermanager` custom r
 ```shell
 kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
 ```
+
+## Uninstall the OCM from the control plane
+
+Before uninstalling the OCM components from your clusters, please detach the 
+managed cluster from the control plane.
+
+```shell
+clusteradm clean --context ${CTX_HUB_CLUSTER}
+```
+
+Check the instances of OCM's hub control plane are removed.
+
+```shell
+kubectl -n open-cluster-management-hub get pod --context ${CTX_HUB_CLUSTER}
+No resources found in open-cluster-management-hub namespace.
+```
+
+```shell
+kubectl -n open-cluster-management get pod --context ${CTX_HUB_CLUSTER}
+No resources found in open-cluster-management namespace.
+```
+
+Check the `clustermanager` resource is removed from the control plane.
+
+```shell
+kubectl get clustermanager --context ${CTX_HUB_CLUSTER}
+error: the server doesn't have a resource type "clustermanager"
+```

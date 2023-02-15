@@ -206,3 +206,25 @@ hello   1/1     Running   0          108s
   ```Shell
   kubectl get klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
   ```
+
+## Detach the cluster from hub
+
+Remove the resources generated when registering with the hub cluster.
+
+```Shell
+clusteradm unjoin --cluster-name "cluster1" --context ${CTX_MANAGED_CLUSTER}
+```
+
+Check the installation of the OCM agent is removed from the managed cluster.
+
+```Shell
+kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
+No resources found in open-cluster-management-agent namespace.
+```
+
+Check the klusterlet is removed from the managed cluster.
+
+```Shell
+kubectl get klusterlet --context ${CTX_MANAGED_CLUSTER}
+error: the server doesn't have a resource type "klusterlet
+```
