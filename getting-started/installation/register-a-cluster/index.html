@@ -259,6 +259,7 @@
             <li><a href="#troubleshooting">Troubleshooting</a></li>
           </ul>
         </li>
+        <li><a href="#detach-the-cluster-from-hub">Detach the cluster from hub</a></li>
       </ul></nav><hr></div>
 
 
@@ -397,7 +398,16 @@ NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get klusterlet -o yaml --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div></li>
 </ul>
-
+<h2 id="detach-the-cluster-from-hub">Detach the cluster from hub</h2>
+<p>Remove the resources generated when registering with the hub cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm unjoin --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div><p>Check the installation of the OCM agent is removed from the managed cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl -n open-cluster-management-agent get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+No resources found in open-cluster-management-agent namespace.
+</code></pre></div><p>Check the klusterlet is removed from the managed cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get klusterlet --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+error: the server doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a resource type <span style="color:#e6db74">&#34;klusterlet
+</span></code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

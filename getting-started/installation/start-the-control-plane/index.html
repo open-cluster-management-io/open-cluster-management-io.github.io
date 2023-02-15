@@ -253,6 +253,7 @@
         <li><a href="#install-clusteradm-cli-tool">Install clusteradm CLI tool</a></li>
         <li><a href="#bootstrap-a-cluster-manager">Bootstrap a cluster manager</a></li>
         <li><a href="#check-out-the-running-instances-of-the-control-plane">Check out the running instances of the control plane</a></li>
+        <li><a href="#uninstall-the-ocm-from-the-control-plane">Uninstall the OCM from the control plane</a></li>
       </ul></nav><hr></div>
 
 
@@ -311,6 +312,18 @@ cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   <sp
 ...
 </code></pre></div><p>The overall installation information is visible on the <code>clustermanager</code> custom resource:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get clustermanager cluster-manager -o yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div><h2 id="uninstall-the-ocm-from-the-control-plane">Uninstall the OCM from the control plane</h2>
+<p>Before uninstalling the OCM components from your clusters, please detach the
+managed cluster from the control plane.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm clean --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div><p>Check the instances of OCM&rsquo;s hub control plane are removed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management-hub get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+No resources found in open-cluster-management-hub namespace.
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+No resources found in open-cluster-management namespace.
+</code></pre></div><p>Check the <code>clustermanager</code> resource is removed from the control plane.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get clustermanager --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+error: the server doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a resource type <span style="color:#e6db74">&#34;clustermanager&#34;</span>
 </code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
