@@ -14,6 +14,8 @@ weight: 1
 - The hub cluster should be `v1.19+`.
   (To run on hub cluster version between \[`v1.16`, `v1.18`\],
   please manually enable feature gate "V1beta1CSRAPICompatibility").
+- Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don't support it can't be used as the hub.
+For example: [EKS](https://github.com/aws/containers-roadmap/issues/1856).
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
 ## Install clusteradm CLI tool
