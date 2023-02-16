@@ -106,7 +106,7 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/getting-started/installation/start-the-control-plane/</guid>
-      <description>Prerequisite Install clusteradm CLI tool Bootstrap a cluster manager Check out the running instances of the control plane Uninstall the OCM from the control plane     Prerequisite  The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Ensure kubectl and kustomize are installed.  Install clusteradm CLI tool It&amp;rsquo;s recommended to run the following command to download and install the latest release of the clusteradm command-line tool:</description>
+      <description>Prerequisite Install clusteradm CLI tool Bootstrap a cluster manager Check out the running instances of the control plane Uninstall the OCM from the control plane     Prerequisite  The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don&amp;rsquo;t support it can&amp;rsquo;t be used as the hub.</description>
     </item>
     
     <item>
