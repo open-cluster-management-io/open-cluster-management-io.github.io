@@ -5,6 +5,28 @@ weight: -20
 
 Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.9.0`. Continue reading to view upcoming releases:
 
+## `0.10.0`, 17th, Feb 2023
+
+Open Cluster Management team is proud to announce the release of OCM v0.10.0! We mainly focus on bug fix, code refactor and stabality
+enhancement in this release. Also we worked on several important design proposals on addon lifecycle enhancement and manifestwork
+orchestration which will be implemented in the next release. Here are some main features included in this release:
+
+### Core components
+- registration v0.10.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- work v0.10.0[changelog](https://github.com/open-cluster-management-io/work/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- placement v0.10.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- addon-framework v0.6.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.6.0/CHANGELOG/CHANGELOG-v0.6.md)
+- registration-operator v0.9.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- clusteradm  v0.5.1 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.5.1/CHANGELOG.md)
+
+### Addons
+- config-policy-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
+- governance-policy-framework-addon v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
+- governance-policy-propagator v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
+- governance-policy-addon-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
+- multicloud-operators-subscription v0.10.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.10.0)
+- multicloud-operators-channel v0.10.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.10.0)
+
 ## `v0.9.0`, 21st, October 2022
 
 Open Cluster Management team is proud to announce the release of OCM v0.9.0! Here are some main features included in this release:
