@@ -7,8 +7,8 @@ Open Cluster Management has approximately a three to four month release cycle. T
 
 ## `0.10.0`, 17th, Feb 2023
 
-Open Cluster Management team is proud to announce the release of OCM v0.10.0! We mainly focus on bug fix, code refactor and stabality
-enhancement in this release. Also we worked on several important design proposals on addon lifecycle enhancement and manifestwork
+The Open Cluster Management team is proud to announce the release of OCM v0.10.0! We mainly focused on bug fixes, code refactoring, and code stability 
+in this release. Also we worked on several important design proposals on addon lifecycle enhancement and manifestwork
 orchestration which will be implemented in the next release. Here are some main features included in this release:
 
 ### Core components
