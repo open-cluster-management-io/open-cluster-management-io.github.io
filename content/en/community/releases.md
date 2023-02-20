@@ -10,6 +10,7 @@ Open Cluster Management has approximately a three to four month release cycle. T
 The Open Cluster Management team is proud to announce the release of OCM v0.10.0! We mainly focused on bug fixes, code refactoring, and code stability 
 in this release. Also we worked on several important design proposals on addon lifecycle enhancement and manifestwork
 orchestration which will be implemented in the next release. Here are some main features included in this release:
+- Argo CD hub-spoke / pull model application delivery integration. See [argocd-pull-integration repo](https://github.com/open-cluster-management-io/argocd-pull-integration) for more details.
 - Policy templating is enhanced so that when a referenced object is updated, the template is also updated.
 - A Policy or ConfigurationPolicy can specify dependencies on another policy having a specified status before taking action.
 - A raw string with go templates can be provided in `object-templates-raw` to the ConfigurationPolicy, allowing dynamically generated objects through the use of functions like `{{ range ... }}`.
