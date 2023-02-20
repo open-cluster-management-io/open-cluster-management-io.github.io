@@ -23,10 +23,10 @@ orchestration which will be implemented in the next release. Here are some main 
 - clusteradm  v0.5.1 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.5.1/CHANGELOG.md)
 
 ### Addons
-- config-policy-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
-- governance-policy-framework-addon v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
-- governance-policy-propagator v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
-- governance-policy-addon-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/blob/main/CHANGELOG/CHANGELOG-v0.10.0.md)
+- config-policy-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.10.0)
+- governance-policy-framework-addon v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.10.0)
+- governance-policy-propagator v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.10.0)
+- governance-policy-addon-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.10.0)
 - multicloud-operators-subscription v0.10.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.10.0)
 - multicloud-operators-channel v0.10.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.10.0)
 
