@@ -42,7 +42,7 @@ feature called [konnectivity egress-selector](https://kubernetes.io/docs/tasks/e
 which is majorly for setting up a TCP-level proxy for kube-apiserver
 to get access to the node/cluster network. Here are a few terms we need
 to clarify before we elaborate on how the cluster proxy resolve multi-cluster
-control plan network connectivity for us:
+control plane network connectivity for us:
 
 - __Proxy Tunnel__: A Grpc long connection that multiplexes and transmits
   TCP-level traffic from the proxy servers to the proxy agents. Note that
