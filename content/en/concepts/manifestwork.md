@@ -420,7 +420,7 @@ spec:
           backoffLimit: 4
 ```
 
-1. Set the [updateStrategy ServerSideApply](#resource-race-and-adoption) in the `ManifestWork` for the API.
+2. Set the [updateStrategy ServerSideApply](#resource-race-and-adoption) in the `ManifestWork` for the API.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
@@ -454,3 +454,95 @@ spec:
               restartPolicy: Never
           backoffLimit: 4
 ```
+
+## Dynamic identity authorization
+
+All manifests in `ManifestWork` are applied by the work-agent using the mounted service account to raise requests
+against the managed cluster by default. And the work agent has very high permission to access the managed cluster which
+means that any hub user with write access to the `ManifestWork` resources will be able to dispatch any resources that
+the work-agent can manipulate to the managed cluster.
+
+The executor subject feature(introduced in release `0.9.0`) provides a way to clarify the owner identity(executor) of the `ManifestWork` before it
+takes effect so that we can explicitly check whether the executor has sufficient permission in the managed cluster.
+
+The following example clarifies the owner "executor1" of the `ManifestWork`, so before the work-agent applies the
+"default/test" `ConfigMap` to the managed cluster, it will first check whether the `ServiceAccount` "default/executor"
+has the permission to apply this `ConfigMap`
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: example-manifestwork
+spec:
+  executor:
+    subject:
+      type: ServiceAccount
+      serviceAccount:
+        namespace: default
+        name: executor1
+  workload:
+    manifests:
+      - apiVersion: v1
+        data:
+          a: b
+        kind: ConfigMap
+        metadata:
+          namespace: default
+          name: test
+```
+
+Not any hub user can specify any executor at will. Hub users can only use the executor for which they have an
+`execute-as`(virtual verb) permission. For example, hub users bound to the following Role can use the "executor1"
+`ServiceAccount` in the "default" namespace on the managed cluster.
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cluster1-executor1
+  namespace: cluster1
+rules:
+- apiGroups:
+  - work.open-cluster-management.io
+  resources:
+  - manifestworks
+  verbs:
+  - execute-as
+  resourcenames:
+  - system:serviceaccount:default:executor1
+```
+
+For backward compatibility, if the executor is absent, the work agent will keep using the mounted service account to
+apply resources. But using the executor is encouraged, so we have a feature gate `NilExecutorValidating` to control
+whether any hub user is allowed to not set the executor. It is disabled by default, we can use the following
+configuration to the `ClusterManager` to enable it. When it is enabled, not setting executor will be regarded as using
+the "/klusterlet-work-sa" (namespace is empty, name is klusterlet-work-sa) virtual service account on the managed
+cluster for permission verification, which means only hub users with "execute-as" permissions on the
+"system:serviceaccount::klusterlet-work-sa" `ManifestWork` are allowed not to set the executor.
+
+```yaml
+spec:
+  workConfiguration:
+    featureGates:
+    - feature: NilExecutorValidating
+      mode: Enable
+```
+
+Work-agent uses the SubjectAccessReview API to check whether an executor has permission to the manifest resources, which
+will cause a large number of SAR requests to the managed cluster API-server, so we provided a new feature gate
+`ExecutorValidatingCaches`(in release `0.10.0`) to cache the result of the executor's permission to the manifest
+resource, it is only works when the managed cluster uses
+[RBAC mode authorization](https://kubernetes.io/docs/reference/access-authn-authz/authorization/#authorization-modules),
+and is disabled by default as well, but can be enabled by using the following configuration for `Klusterlet`:
+
+```yaml
+spec:
+  workConfiguration:
+    featureGates:
+    - feature: ExecutorValidatingCaches
+      mode: Enable
+```
+
+Enhancement proposal: [Work Executor Group](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/34-work-executor-group)
