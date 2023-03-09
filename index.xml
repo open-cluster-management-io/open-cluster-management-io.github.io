@@ -402,20 +402,20 @@ Prerequisite You must meet the following prerequisites to install the applicatio
     </item>
     
     <item>
-      <title>Open Cluster Management Kustomize Generator Plugins</title>
-      <link>http://open-cluster-management.io/ocm-kustomize-generator-plugins/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>http://open-cluster-management.io/ocm-kustomize-generator-plugins/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Placements</title>
       <link>http://open-cluster-management.io/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/placement/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Policy Generator Plugin</title>
+      <link>http://open-cluster-management.io/policy-generator-plugin/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/policy-generator-plugin/</guid>
       <description></description>
     </item>
     

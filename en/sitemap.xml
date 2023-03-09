@@ -214,11 +214,11 @@
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/ocm-kustomize-generator-plugins</loc>
+        <loc>http://open-cluster-management.io/placement</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/placement</loc>
+        <loc>http://open-cluster-management.io/policy-generator-plugin</loc>
     </url>
     
     <url>
@@ -284,7 +284,7 @@
         <loc>http://open-cluster-management.io/governance-policy-template-sync?go-get=1</loc>
     </url>
     <url>
-        <loc>http://open-cluster-management.io/ocm-kustomize-generator-plugins?go-get=1</loc>
+        <loc>http://open-cluster-management.io/policy-generator-plugin?go-get=1</loc>
     </url>
     <url>
         <loc>http://open-cluster-management.io/multicluster-controlplane?go-get=1</loc>
