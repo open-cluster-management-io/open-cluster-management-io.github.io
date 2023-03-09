@@ -266,6 +266,7 @@
     <li><a href="#permission-setting-for-work-agent">Permission setting for work agent</a>
       <ul>
         <li><a href="#treating-defaultingimmutable-fields-in-api">Treating defaulting/immutable fields in API</a></li>
+        <li><a href="#dynamic-identity-authorization">Dynamic identity authorization</a></li>
       </ul></nav><hr></div>
 
 
@@ -631,7 +632,7 @@ in the <code>spec.selector</code> of the Job, and set the same labels for the co
                 <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;perl&#34;</span>,  <span style="color:#e6db74">&#34;-Mbignum=bpi&#34;</span>, <span style="color:#e6db74">&#34;-wle&#34;</span>, <span style="color:#e6db74">&#34;print bpi(2000)&#34;</span>]
               <span style="color:#66d9ef">restartPolicy</span>: Never
           <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">4</span>
-</code></pre></div><ol>
+</code></pre></div><ol start="2">
 <li>Set the <a href="#resource-race-and-adoption">updateStrategy ServerSideApply</a> in the <code>ManifestWork</code> for the API.</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
@@ -664,7 +665,79 @@ in the <code>spec.selector</code> of the Job, and set the same labels for the co
                 <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;perl&#34;</span>,  <span style="color:#e6db74">&#34;-Mbignum=bpi&#34;</span>, <span style="color:#e6db74">&#34;-wle&#34;</span>, <span style="color:#e6db74">&#34;print bpi(2000)&#34;</span>]
               <span style="color:#66d9ef">restartPolicy</span>: Never
           <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">4</span>
-</code></pre></div>
+</code></pre></div><h2 id="dynamic-identity-authorization">Dynamic identity authorization</h2>
+<p>All manifests in <code>ManifestWork</code> are applied by the work-agent using the mounted service account to raise requests
+against the managed cluster by default. And the work agent has very high permission to access the managed cluster which
+means that any hub user with write access to the <code>ManifestWork</code> resources will be able to dispatch any resources that
+the work-agent can manipulate to the managed cluster.</p>
+<p>The executor subject feature(introduced in release <code>0.9.0</code>) provides a way to clarify the owner identity(executor) of the <code>ManifestWork</code> before it
+takes effect so that we can explicitly check whether the executor has sufficient permission in the managed cluster.</p>
+<p>The following example clarifies the owner &ldquo;executor1&rdquo; of the <code>ManifestWork</code>, so before the work-agent applies the
+&ldquo;default/test&rdquo; <code>ConfigMap</code> to the managed cluster, it will first check whether the <code>ServiceAccount</code> &ldquo;default/executor&rdquo;
+has the permission to apply this <code>ConfigMap</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: example-manifestwork
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">executor</span>:
+    <span style="color:#66d9ef">subject</span>:
+      <span style="color:#66d9ef">type</span>: ServiceAccount
+      <span style="color:#66d9ef">serviceAccount</span>:
+        <span style="color:#66d9ef">namespace</span>: default
+        <span style="color:#66d9ef">name</span>: executor1
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: v1
+        <span style="color:#66d9ef">data</span>:
+          <span style="color:#66d9ef">a</span>: b
+        <span style="color:#66d9ef">kind</span>: ConfigMap
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">name</span>: test
+</code></pre></div><p>Not any hub user can specify any executor at will. Hub users can only use the executor for which they have an
+<code>execute-as</code>(virtual verb) permission. For example, hub users bound to the following Role can use the &ldquo;executor1&rdquo;
+<code>ServiceAccount</code> in the &ldquo;default&rdquo; namespace on the managed cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: Role
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: cluster1-executor1
+  <span style="color:#66d9ef">namespace</span>: cluster1
+<span style="color:#66d9ef">rules</span>:
+- <span style="color:#66d9ef">apiGroups</span>:
+  - work.open-cluster-management.io
+  <span style="color:#66d9ef">resources</span>:
+  - manifestworks
+  <span style="color:#66d9ef">verbs</span>:
+  - execute-as
+  <span style="color:#66d9ef">resourcenames</span>:
+  - system:serviceaccount:default:executor1
+</code></pre></div><p>For backward compatibility, if the executor is absent, the work agent will keep using the mounted service account to
+apply resources. But using the executor is encouraged, so we have a feature gate <code>NilExecutorValidating</code> to control
+whether any hub user is allowed to not set the executor. It is disabled by default, we can use the following
+configuration to the <code>ClusterManager</code> to enable it. When it is enabled, not setting executor will be regarded as using
+the &ldquo;/klusterlet-work-sa&rdquo; (namespace is empty, name is klusterlet-work-sa) virtual service account on the managed
+cluster for permission verification, which means only hub users with &ldquo;execute-as&rdquo; permissions on the
+&ldquo;system:serviceaccount::klusterlet-work-sa&rdquo; <code>ManifestWork</code> are allowed not to set the executor.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workConfiguration</span>:
+    <span style="color:#66d9ef">featureGates</span>:
+    - <span style="color:#66d9ef">feature</span>: NilExecutorValidating
+      <span style="color:#66d9ef">mode</span>: Enable
+</code></pre></div><p>Work-agent uses the SubjectAccessReview API to check whether an executor has permission to the manifest resources, which
+will cause a large number of SAR requests to the managed cluster API-server, so we provided a new feature gate
+<code>ExecutorValidatingCaches</code>(in release <code>0.10.0</code>) to cache the result of the executor&rsquo;s permission to the manifest
+resource, it is only works when the managed cluster uses
+<a href="https://kubernetes.io/docs/reference/access-authn-authz/authorization/#authorization-modules">RBAC mode authorization</a>,
+and is disabled by default as well, but can be enabled by using the following configuration for <code>Klusterlet</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workConfiguration</span>:
+    <span style="color:#66d9ef">featureGates</span>:
+    - <span style="color:#66d9ef">feature</span>: ExecutorValidatingCaches
+      <span style="color:#66d9ef">mode</span>: Enable
+</code></pre></div><p>Enhancement proposal: <a href="https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/34-work-executor-group">Work Executor Group</a></p>
+
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

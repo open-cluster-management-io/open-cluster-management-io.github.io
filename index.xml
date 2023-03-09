@@ -152,7 +152,7 @@ The ManagedClusterSet and ManagedClusterSetBinding API v1alpha1 version will no 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://open-cluster-management.io/concepts/manifestwork/</guid>
-      <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption   Permission setting for work agent  Treating defaulting/immutable fields in API     What is ManifestWork ManifestWork is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
+      <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption   Permission setting for work agent  Treating defaulting/immutable fields in API Dynamic identity authorization     What is ManifestWork ManifestWork is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
     </item>
     
     <item>
