@@ -510,7 +510,7 @@ rules:
   - manifestworks
   verbs:
   - execute-as
-  resourcenames:
+  resourceNames:
   - system:serviceaccount:default:executor1
 ```
 
