@@ -711,7 +711,7 @@ has the permission to apply this <code>ConfigMap</code></p>
   - manifestworks
   <span style="color:#66d9ef">verbs</span>:
   - execute-as
-  <span style="color:#66d9ef">resourcenames</span>:
+  <span style="color:#66d9ef">resourceNames</span>:
   - system:serviceaccount:default:executor1
 </code></pre></div><p>For backward compatibility, if the executor is absent, the work agent will keep using the mounted service account to
 apply resources. But using the executor is encouraged, so we have a feature gate <code>NilExecutorValidating</code> to control
