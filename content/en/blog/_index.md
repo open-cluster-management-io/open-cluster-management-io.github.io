@@ -9,6 +9,10 @@ weight: 6
 
 <!-- spellchecker-enable -->
 
+## Jan 19, 2023
+
+[How to distribute workloads using Open Cluster Management](https://developers.redhat.com/articles/2023/01/19/how-distribute-workloads-using-open-cluster-management) authored by [Tomer Figenblat](https://github.com/TomerFi)
+
 ## Oct 26, 2022
 
 [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf) authored by [Maggie Chen](https://github.com/chenz4027) and [Matt Prahl](https://github.com/mprahl)
