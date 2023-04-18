@@ -7,6 +7,9 @@ other = "贡献"
 [header_document]
 other = "文档"
 
+[header_blog]
+other = "博客"
+
 [subject_title]
 other = "轻松接管部署在任何地方的Kubernetes集群。"
 
