@@ -7,6 +7,9 @@ other = "Contribute"
 [header_document]
 other = "Document"
 
+[header_blog]
+other = "Blog"
+
 [subject_title]
 other = "Make working with many Kubernetes clusters super easy regardless of where they are deployed"
 
