@@ -3,21 +3,16 @@ title: Blog
 weight: 6
 ---
 
-<!-- spellchecker-disable -->
-
-{{< toc >}}
-
-<!-- spellchecker-enable -->
 ----
 ### [How to distribute workloads using Open Cluster Management](https://developers.redhat.com/articles/2023/01/19/how-distribute-workloads-using-open-cluster-management)
 - Authors: [Tomer Figenblat](https://github.com/TomerFi)
 - Date: Jan 19, 2023
 ----
-### [KubeCon NA 2022 - OCM Workload distribution with Placement API](/static/kubecon-na-2022-ocm-workload-distribution-with-placement-api.pdf)
+### [KubeCon NA 2022 - OCM Workload distribution with Placement API](/kubecon-na-2022-ocm-workload-distribution-with-placement-api.pdf)
 - Authors: [Qing Hao](https://github.com/haoqing0110), [Jian Qiu](https://github.com/qiujian16) and [Le Yang](https://github.com/elgnay)
 - Date: Oct 26, 2022
 ----
-### [KubeCon NA 2022 - OCM Multicluster App & Config Management](/static/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
+### [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
 - Authors: [Maggie Chen](https://github.com/chenz4027) and [Matt Prahl](https://github.com/mprahl)
 - Date: Oct 26, 2022
 ----
@@ -48,12 +43,3 @@ weight: 6
 ### [Setting up Open Cluster Management the hard way](https://github.com/sdminonne/ocm-the-hard-way)
 - Authors: [Dario Minonne](https://github.com/sdminonne) 
 - Date: April 22, 2021
-
-
-
-
-
-
-
-
-
