@@ -2,6 +2,9 @@
 title: 博客
 weight: 6
 ---
+### [通过OCM及插件，访问不同VPC下的集群](/zh/blog/access-cluster-in-different-vps/)
+- Authors: [薛昭](https://github.com/xuezhaojun)
+- Date: 2023年4月20日
 ----
 ### [How to distribute workloads using Open Cluster Management](https://developers.redhat.com/articles/2023/01/19/how-distribute-workloads-using-open-cluster-management)
 - Authors: [Tomer Figenblat](https://github.com/TomerFi)
@@ -16,7 +19,7 @@ weight: 6
 - Date: Oct 26, 2022
 ----
 ### [Karmada and Open Cluster Management: two new approaches to the multicluster fleet management challenge](https://www.cncf.io/blog/2022/09/26/karmada-and-open-cluster-management-two-new-approaches-to-the-multicluster-fleet-management-challenge/)
-- Authors: [David Eads](https://github.com/deads2k) and [Kevin Wang](https://github.com/kevin-wangzefeng) 
+- Authors: [David Eads](https://github.com/deads2k) and [Kevin Wang](https://github.com/kevin-wangzefeng)
 - Date: Sep 26, 2022
 ----
 ### [Extending the Multicluster Scheduling Capabilities with Open Cluster Management Placement](https://cloud.redhat.com/blog/extending-the-multicluster-scheduling-capabilities-with-open-cluster-management-placement)
@@ -35,10 +38,10 @@ weight: 6
 - Authors: [Min Kim](https://github.com/yue9944882) and [Jian Qiu](https://github.com/qiujian16)
 - Date: Sep 22, 2021
 ----
-### [Put together a user walk through for the basic Open Cluster Management API using `kind`, `olm`, and other open source technologies](https://github.com/mdelder/open-cluster-management-getting-started) 
+### [Put together a user walk through for the basic Open Cluster Management API using `kind`, `olm`, and other open source technologies](https://github.com/mdelder/open-cluster-management-getting-started)
 - Authors: [Michael Elder](https://github.com/mdelder)
 - Date: May 24, 2021
 ----
 ### [Setting up Open Cluster Management the hard way](https://github.com/sdminonne/ocm-the-hard-way)
-- Authors: [Dario Minonne](https://github.com/sdminonne) 
+- Authors: [Dario Minonne](https://github.com/sdminonne)
 - Date: April 22, 2021
