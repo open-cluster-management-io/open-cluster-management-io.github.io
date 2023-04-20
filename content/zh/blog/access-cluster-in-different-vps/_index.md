@@ -30,7 +30,7 @@ title: 通过OCM访问不同VPC下的集群
 
 管理员希望通过VPC-1中的集群（后文称“管理集群”）为用户提供统一的访问入口，使用户可以访问VPC-2中的集群（后文称“受管集群”）。
 
-![](/zh/blog/access-cluster-in-different-vps/assets/diagram-1.png)
+![](./assets/diagram-1.png)
 
 ### OCM是什么？
 
@@ -40,7 +40,7 @@ OCM 全称为 Open Cluster Management，旨在解决多集群场景下的集群�
 
 注册过程不要求受管集群向管理集群暴露访问接口。
 
-![](/zh/blog/access-cluster-in-different-vps/assets/diagram-2.png)
+![](./assets/diagram-2.png)
 
 更多有关于OCM的架构细节，请参考[官方文档](https://open-cluster-management.io/concepts/architecture/)。
 
@@ -52,7 +52,7 @@ cluster-proxy是使用OCM的[addon-framework](https://github.com/open-cluster-ma
 
 需要注意的是，cluster-proxy建立的GRPC通道只是保证了管理集群到被管理集群的网络连通性，如果用户想访问被管理集群的APIServer或者其他服务，仍需要从被管理集群获得相应的认证秘钥和权限。
 
-![](/zh/blog/access-cluster-in-different-vps/assets/diagram-3.png)
+![](./assets/diagram-3.png)
 
 更多有关cluster-proxy的信息，请参考[官方文档](https://open-cluster-management.io/getting-started/integration/cluster-proxy/)。
 
@@ -66,7 +66,7 @@ Managed-serviceaccount（后文简写为：MSA）也是利用OCM的[addon-framew
 
 由此集群管理员可以在hub上通过MSA来获得访问被管理集群APIServer的token。当然这个token现在还没有被赋予权限，只要管理员为该token绑定相应的Role，就可以实现访问被管理集群的权限控制。
 
-![](/zh/blog/access-cluster-in-different-vps/assets/diagram-4.png)
+![](./assets/diagram-4.png)
 
 更多有关managed-serviceaccount的信息，请参考[官方文档](https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/)。
 
