@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css"/>
+  <link rel="stylesheet" href="/main.css"/>
+  <link rel="shortcut icon" type="image/svg" href="/ocm.svg">
+  <title>Open Cluster Management</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1PXKZXT157"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1PXKZXT157');
+  </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+    
+
+
+<input id="current-lang" type="hidden" value="zh">
+
+<header class="navbar navbar-expand-md navbar-dark bd-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
+    <div class="container-fluid flex-wrap flex-md-nowrap">
+      <a href="/zh/" class="navbar-brand">
+        <img src="/ocm.svg" alt="" width="30" height="24" class="align-text-top">
+        Open Cluster Management
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navmenu">
+        <ul class="navbar-nav ms-auto ">
+          <li class="nav-item pe-2">
+            <a href="/zh/community" class="nav-link text-light">社区</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/contribute" class="nav-link text-light">贡献</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/concepts" class="nav-link text-light">文档</a>
+          </li>
+          <li class="nav-item pe-2">
+            <a href="/zh/blog" class="nav-link text-light">博客</a>
+          </li>
+          <li class="nav-item dropdown pe-2">
+            
+            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">中文</a>
+            
+
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              
+              <li><a class="dropdown-item" href="#" id="to-en">English</a></li>
+              
+            </ul>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://www.youtube.com/c/OpenClusterManagement" target="_blank">
+                <i class="bi bi-youtube"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://github.com/open-cluster-management-io" target="_blank">
+              <i class="bi bi-github"></i>
+            </a>
+          </li>
+          <li class="nav-item pe-2">
+            <a class="nav-link text-light" href="https://kubernetes.slack.com/channels/open-cluster-mgmt" target="_blank">
+              <i class="bi bi-slack"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+</div>
+        <div class="row subject-padding">
+            <div class="col-lg-2 col-md-3 padding-none sidebar-bgc">
+
+
+
+    
+
+
+<div class="sidebar-toggle sidebar-toggle-sm">
+    <button type="button" id="sidebarToggle" class="btn btn-info">
+        <i class="bi bi-list"></i>
+    </button>
+</div>
+<nav id="sidebar" class="sidebar-hide-sm">
+    <ul class="components">
+        <li id="concepts">
+            <a class="navlink" href="/zh/concepts">概念</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/concepts/architecture">架构</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/clusterclaim">集群声明</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedcluster">托管集群</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">资源下发</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/managedclusterset">托管集群分组</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/placement">匹配路由</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/addon">自定义插件</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/policy">Policy</a>
+                </li>
+            </ul>
+        </li>
+        <li id="getting-started">
+            <a class="navlink" href="/zh/getting-started">安装</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/installation">部署</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/installation/start-the-control-plane">启动控制面</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/installation/register-a-cluster">注册一个集群</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">应用生命周期管理</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/cluster-proxy">多集群网络隧道</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-framework">Policy框架</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/policy-controllers">Policy控制器</a>
+                        </li>
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/integration/managed-serviceaccount">托管多集群ServiceAccount</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/getting-started/administration">运维管理</a>
+                    <ul class="collapse">
+                        <li>
+                            <a class="navlink" href="/zh/getting-started/administration/upgrading">升级版本</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li id="developer-guides">
+            <a class="navlink" href="/zh/developer-guides">开发指南</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/developer-guides/addon">Add-on 开发指南</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/developer-guides/vscode-extension">VScode Extension</a>
+                </li>
+            </ul>
+        </li>
+        <li id="scenarios">
+            <a class="navlink" href="/zh/scenarios">应用场景</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/scenarios/deploy-kubernetes-resources">部署Kubernetes资源</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/distribute-workload-with-placement">通过placement分发工作负载</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/extend-multicluster-scheduling-capabilities">扩展多集群调度能力</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/extending-managed-clusters">扩展集群模型</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/integration-with-argocd">集成Argo CD</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/scenarios/pushing-kube-api-requests">向托管集群推送Kube API请求</a>
+                </li>
+            </ul>
+        </li>
+        <li id="community">
+            <a class="navlink" href="/zh/community">社区</a>
+            <ul class="collapse">
+                <li>
+                    <a class="navlink" href="/zh/community/releases">发行版本</a>
+                </li>
+                <li >
+                    <a class="navlink" href="/zh/community/roadmap">社区规划</a>
+                </li>
+            </ul>
+        </li>
+        <li id="contribute">
+            <a class="navlink" href="/zh/contribute">贡献</a>
+        </li>
+        <li id="blog">
+            <a class="navlink" href="/zh/blog">博客</a>
+        </li>
+        <li style="padding-top: 10px; border-top: 2px solid #448a78;">
+            <a class="navlink resource" href="https://github.com/open-cluster-management-io" target="_blank"><i class="bi bi-github"></i><span style="padding-left: 10px;">GitHub</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://kubernetes.slack.com/channels/open-cluster-mgmt" target="_blank"><i class="bi bi-slack"></i><span style="padding-left: 10px;">Slack</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://www.youtube.com/c/OpenClusterManagement" target="_blank"><i class="bi bi-youtube"></i><span style="padding-left: 10px;">YouTube</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://groups.google.com/g/open-cluster-management" target="_blank"><i class="bi bi-envelope-fill"></i><span style="padding-left: 10px;">Mailing group</span></a>
+        </li>
+        <li>
+            <a class="navlink resource" href="https://calendar.google.com/calendar/u/0/embed?src=openclustermanagement@gmail.com" target="_blank"><i class="bi bi-calendar-event-fill"></i><span style="padding-left: 10px;">Community meetings</span></a>
+        </li>
+    </ul>
+</nav>
+<script type="text/javascript" src="/sidebar.js"></script>
+</div>
+            <div class="col-lg-10 col-md-9 padding-none">
+<div id="content">
+    <h1>通过OCM访问不同VPC下的集群</h1>
+    <p>2022年4月20日 <a href="https://github.com/xuezhaojun">薛昭</a></p>
+
+
+
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#问题背景">问题背景</a></li>
+        <li><a href="#基本概念">基本概念</a>
+          <ul>
+            <li><a href="#ocm是什么">OCM是什么？</a></li>
+            <li><a href="#cluster-proxy是什么">cluster-proxy是什么？</a></li>
+            <li><a href="#managed-serviceaccount是什么">managed-serviceaccount是什么？</a></li>
+          </ul>
+        </li>
+        <li><a href="#样例">样例</a></li>
+        <li><a href="#总结">总结</a></li>
+      </ul></nav><hr></div>
+
+
+<h2 id="问题背景">问题背景</h2>
+<p>当我们拥有多个集群时，一个很常见的需求是：不同的用户希望能访问位于不同VPC下的集群。比如，开发人员希望能够在测试集群部署应用，或者运维人员希望能够在生产集群上进行故障排查。</p>
+<p>作为多个集群的管理员，为了实现该需求，需要在各个集群为用户：</p>
+<ol>
+<li>绑定Role。</li>
+<li>提供访问配置（证书或Token）。</li>
+<li>提供访问入口。</li>
+</ol>
+<p>但是，这种方式有以下几个问题：</p>
+<ul>
+<li>网络隔离：集群位于私有数据中心，那么管理员就需要为集群用户进行特殊的网络配置，比如建立VPN或者跳板机。</li>
+<li>网络安全：为用户暴露的集群端口，会增加集群的安全风险。</li>
+<li>配置过期：证书中的秘钥和Token都有过期时间，管理员需要定期为用户做配置更新。</li>
+</ul>
+<p>而通过安装OCM以及cluster-proxy，managed-serviceaccount两个插件，管理员则可以在不暴露集群端口的情况下，为不同用户提供统一访问入口，并方便地管理不同用户的访问权限。</p>
+<h2 id="基本概念">基本概念</h2>
+<p>以下，我们通过一个简单的例子来解释OCM以及cluster-proxy，managed-serviceaccount的基本概念。</p>
+<p>假设我们有3个集群，分别位于两个不同的VPC中，其中VPC-1中的集群可以被所有用户访问，而VPC-2中的2个集群只能被管理员访问。</p>
+<p>管理员希望通过VPC-1中的集群（后文称“管理集群”）为用户提供统一的访问入口，使用户可以访问VPC-2中的集群（后文称“受管集群”）。</p>
+<p><img src="/zh/blog/access-cluster-in-different-vps/assets/diagram-1.png" alt=""></p>
+<h3 id="ocm是什么">OCM是什么？</h3>
+<p>OCM 全称为 Open Cluster Management，旨在解决多集群场景下的集群注册管理，工作负载分发，以及动态的资源配置等功能。</p>
+<p>安装OCM之后，我们可以将受管集群注册加入管理集群，完成注册后，在管理集群中会创建一个与受管集群注册名相同的命名空间。比如，受管集群以cluster1注册到管理集群，那么就会对应创建一个名为cluster1的命名空间。在管理集群上，我们可以通过这些不同的命令空间来区分多个受管集群的资源。</p>
+<p>注册过程不要求受管集群向管理集群暴露访问接口。</p>
+<p><img src="/zh/blog/access-cluster-in-different-vps/assets/diagram-2.png" alt=""></p>
+<p>更多有关于OCM的架构细节，请参考<a href="https://open-cluster-management.io/concepts/architecture/">官方文档</a>。</p>
+<h3 id="cluster-proxy是什么">cluster-proxy是什么？</h3>
+<p>cluster-proxy是使用OCM的<a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>实现的一个基于 <a href="https://github.com/kubernetes-sigs/apiserver-network-proxy">apiserver-network-proxy</a>（后文简写为：ANP）的插件。插件安装后，会在管理集群上安装ANP的组件proxy-server，在受管集群上安装ANP的组件proxy-agent。</p>
+<p>接着proxy-agent通过管理集群上暴露的端口，向proxy-server发送注册请求，并建立一条全双工通信的GRPC管道。</p>
+<p>需要注意的是，cluster-proxy建立的GRPC通道只是保证了管理集群到被管理集群的网络连通性，如果用户想访问被管理集群的APIServer或者其他服务，仍需要从被管理集群获得相应的认证秘钥和权限。</p>
+<p><img src="/zh/blog/access-cluster-in-different-vps/assets/diagram-3.png" alt=""></p>
+<p>更多有关cluster-proxy的信息，请参考<a href="https://open-cluster-management.io/getting-started/integration/cluster-proxy/">官方文档</a>。</p>
+<h3 id="managed-serviceaccount是什么">managed-serviceaccount是什么？</h3>
+<p>Managed-serviceaccount（后文简写为：MSA）也是利用OCM的<a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>实现的插件。</p>
+<p>安装该插件后，可以在管理集群上配置<code>ManagedServiceAcccount</code>的CR，插件会根据此CR的<code>spec</code>配置，在目标受管集群的<code>open-cluster-management-managed-serviceaccount</code>命名空间内，创建一个与CR同名的<code>ServiceAccount</code>。</p>
+<p>接着插件会将此<code>ServiceAccount</code>生成的对应token数据同步回管理集群，并在受管集群的命令空间中创建一个同名的<code>Secret</code>，用于保存该token。整个token的数据同步都是在OCM提供的MTLS连接中进行，从而确保token不会被第三方探查到。</p>
+<p>由此集群管理员可以在hub上通过MSA来获得访问被管理集群APIServer的token。当然这个token现在还没有被赋予权限，只要管理员为该token绑定相应的Role，就可以实现访问被管理集群的权限控制。</p>
+<p><img src="/zh/blog/access-cluster-in-different-vps/assets/diagram-4.png" alt=""></p>
+<p>更多有关managed-serviceaccount的信息，请参考<a href="https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/">官方文档</a>。</p>
+<h2 id="样例">样例</h2>
+<p>接下来通过一个简单的例子来演示如何使用OCM，cluster-proxy，managed-serviceaccount来实现跨VPC访问集群。</p>
+<p>首先从管理员视角，我们通过脚本快速创建一个基于<a href="https://kind.sigs.k8s.io/">kind</a>的多集群环境，其中具有一个管理集群（hub），以及两个受管集群（cluster1, cluster2）。并且 cluster1, cluster2 会通过 OCM 注册到了 hub。</p>
+<p>该脚本还会为我们安装OCM的CLI工具<a href="https://github.com/open-cluster-management-io/clusteradm">clusteradm</a>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -L &lt;https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh&gt; | bash
+</code></pre></div><p>然后，管理员还需要安装两个插件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装 cluster-proxy</span>
+helm install <span style="color:#ae81ff">\\</span>
+    -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\\</span>
+    cluster-proxy ocm/cluster-proxy
+
+<span style="color:#75715e"># 安装 managed-service</span>
+helm install <span style="color:#ae81ff">\\</span>
+    -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\\</span>
+    managed-serviceaccount ocm/managed-serviceaccount
+
+<span style="color:#75715e"># 验证 cluster-proxy 已安装</span>
+clusteradm get addon cluster-proxy
+
+<span style="color:#75715e"># 验证 managed-serviceaccount 已安装</span>
+clusteradm get addon managed-serviceaccount
+</code></pre></div><p>完成安装后，管理员希望给用户能够访问cluster1，他需要通过以下命令创建一个在hub的命令空间cluster1中，创建一个MSA的CR：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">apiVersion: authentication.open-cluster-management.io/v1alpha1
+</span><span style="color:#e6db74">kind: ManagedServiceAccount
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: dep
+</span><span style="color:#e6db74">  namespace: cluster1
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  rotation: {}
+</span><span style="color:#e6db74">EOF</span>
+
+<span style="color:#75715e"># 检查Token是否已同步回管理集群hub，并保存为名为dep的Secret</span>
+kubectl get secret -n cluster1
+NAME                  TYPE                                  DATA   AGE
+default-token-r89gs   kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      6d22h
+dep                   Opaque                                <span style="color:#ae81ff">2</span>      6d21h
+</code></pre></div><p>接着，管理员需要通过OCM的<a href="https://open-cluster-management.io/concepts/manifestwork/">Manifestwork</a>, 即工作负载分发功能，在cluster1上创建一个<code>ClusterRole</code>，给dep绑定了cluster1上的对应权限：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建ClusterRole, 仅具有操作Deployment的权限</span>
+clusteradm create work dep-role --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
+</span><span style="color:#e6db74">kind: ClusterRole
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: dep-role
+</span><span style="color:#e6db74">rules:
+</span><span style="color:#e6db74">- apiGroups: [&#34;apps&#34;]
+</span><span style="color:#e6db74">  resources: [&#34;deployments&#34;]
+</span><span style="color:#e6db74">  verbs: [&#34;get&#34;, &#34;watch&#34;, &#34;list&#34;, &#34;create&#34;, &#34;update&#34;, &#34;patch&#34;, &#34;delete&#34;]
+</span><span style="color:#e6db74">EOF</span>
+
+<span style="color:#75715e"># 绑定ClusterRole</span>
+clusteradm create work dep-rolebinding --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
+</span><span style="color:#e6db74">kind: ClusterRoleBinding
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: dep-rolebinding
+</span><span style="color:#e6db74">roleRef:
+</span><span style="color:#e6db74">  apiGroup: rbac.authorization.k8s.io
+</span><span style="color:#e6db74">  kind: ClusterRole
+</span><span style="color:#e6db74">  name: dep-role
+</span><span style="color:#e6db74">subjects:
+</span><span style="color:#e6db74">  - kind: ServiceAccount
+</span><span style="color:#e6db74">    name: dep
+</span><span style="color:#e6db74">    namespace: open-cluster-management-managed-serviceaccount
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>完成之后，用户便可以通过cluteradm，来操作cluster1上<code>Deployments</code>了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">clusteradm proxy kubectl --cluster<span style="color:#f92672">=</span>cluster1 --sa<span style="color:#f92672">=</span>dep -i
+Please enter the kubectl command and use <span style="color:#e6db74">&#34;exit&#34;</span> to quit the interactive mode
+kubectl&gt; get deployments -A
+NAMESPACE                                        NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system                                      coredns                              2/2     <span style="color:#ae81ff">2</span>            <span style="color:#ae81ff">2</span>           20d
+local-path-storage                               local-path-provisioner               1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+open-cluster-management-agent                    klusterlet-registration-agent        1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+open-cluster-management-agent                    klusterlet-work-agent                1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+open-cluster-management-cluster-proxy            cluster-proxy-proxy-agent            3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           20d
+open-cluster-management-managed-serviceaccount   managed-serviceaccount-addon-agent   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+open-cluster-management                          klusterlet                           3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           20d
+<span style="color:#75715e"># 用户没有权限访问cluster1上的pods，请求被拒绝</span>
+kubectl&gt; get pods -A
+Error from server <span style="color:#f92672">(</span>Forbidden<span style="color:#f92672">)</span>: pods is forbidden: User <span style="color:#e6db74">&#34;system:serviceaccount:open-cluster-management-managed-serviceaccount:dep&#34;</span> cannot list resource <span style="color:#e6db74">&#34;pods&#34;</span> in API group <span style="color:#e6db74">&#34;&#34;</span> at the cluster scope
+</code></pre></div><p>值得注意的是，为使用<code>clusteradm</code>访问cluster1, 还需要为用户配置了以下权限：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># 获取MSA的token</span>
+<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: Role
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: user
+  <span style="color:#66d9ef">namespace</span>: cluster1
+<span style="color:#66d9ef">rules</span>:
+- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;secrets&#34;</span>]
+  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
+- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;authentication.open-cluster-management.io&#34;</span>]
+  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;managedserviceaccounts&#34;</span>]
+  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
+---
+<span style="color:#75715e"># 通过portforward的在本地映射cluster-proxy的Service</span>
+<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: Role
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: user-cluster-proxy
+  <span style="color:#66d9ef">namespace</span>: open-cluster-management-cluster-proxy
+<span style="color:#66d9ef">rules</span>:
+- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;pods&#34;</span>]
+  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>]
+- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;pods/portforward&#34;</span>]
+  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;create&#34;</span>]
+---
+<span style="color:#75715e"># 运行命令前对相关Resource进行检查</span>
+<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: ClusterRole
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: user
+<span style="color:#66d9ef">rules</span>:
+- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;cluster.open-cluster-management.io&#34;</span>]
+  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;managedclusters&#34;</span>]
+  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get, &#34;</span>list<span style="color:#e6db74">&#34;]
+</span><span style="color:#e6db74">- apiGroups: [&#34;</span>addon.open-cluster-management.io<span style="color:#e6db74">&#34;]
+</span><span style="color:#e6db74">  resources: [&#34;</span>clustermanagementaddons<span style="color:#e6db74">&#34;]
+</span><span style="color:#e6db74">  verbs: [&#34;</span>get<span style="color:#e6db74">&#34;]
+</span><span style="color:#e6db74">- apiGroups: [&#34;</span>proxy.open-cluster-management.io<span style="color:#e6db74">&#34;]
+</span><span style="color:#e6db74">  resources: [&#34;</span>managedproxyconfigurations<span style="color:#e6db74">&#34;]
+</span><span style="color:#e6db74">  verbs: [&#34;</span>get&#34;]
+</code></pre></div><h2 id="总结">总结</h2>
+<p>本文介绍了如何使用OCM来为用户提供访问不同VPC下集群的功能，通过这种方式，管理员不再需要对集群网络进行特殊配置，也不再需要为用户提供和维护多个集群的访问凭证，所有用户都通过统一的访问接口访问各个集群，增加了系统的安全性和易用性。</p>
+<p>目前，OCM的<code>cluster-proxy</code>和<code>managed-serviceaccount</code>功能还处于初期阶段，未来我们还不断的完善其功能，欢迎大家试用并提出宝贵的意见和建议。</p>
+
+</div>
+<script type="text/javascript" src="/clipboard-copy.js"></script>
+</div>
+        </div>
+        <div class="row"><nav class="ocm navbar navbar-expand-lg navbar-dark py-3">
+  <div class="container-fluid flex-wrap flex-md-nowrap">
+    <div class="text-light">&copy; 2021 Open Cluster Management Authors. The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see <a href="https://www.linuxfoundation.org/trademark-usage/" target="_blank" style="color: #f8f9fa;">Trademark Usage</a></div>
+  </div>
+</nav>
+<script type="text/javascript" src="/lang.js"></script>
+</div>
+    </div>
+</body>
+</html>
