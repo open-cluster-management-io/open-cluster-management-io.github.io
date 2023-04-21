@@ -315,7 +315,7 @@ spec:
 kind: ManifestWork
 metadata:
   namespace: cluster1
-  name: example-manifestwork
+  name: my-first-work
 spec:
   workload:
     manifests:
@@ -361,7 +361,7 @@ A <code>ManifestWork</code> can be defined as follows:</p>
 <span style="color:#66d9ef">kind</span>: ManifestWork
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">namespace</span>: cluster1
-  <span style="color:#66d9ef">name</span>: example-manifestwork
+  <span style="color:#66d9ef">name</span>: my-first-work
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">workload</span>:
     <span style="color:#66d9ef">manifests</span>:
@@ -396,7 +396,7 @@ A <code>ManifestWork</code> can be defined as follows:</p>
 </code></pre></div><p>In this example:</p>
 <ul>
 <li>
-<p>A <code>ManifestWork</code> named &ldquo;example-manifestwork&rdquo; will be created into a
+<p>A <code>ManifestWork</code> named &ldquo;my-first-work&rdquo; will be created into a
 &ldquo;cluster namespace&rdquo; named &ldquo;cluster1&rdquo;.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get manifestwork -A --context kind-hub</span>
 NAMESPACE   NAME            AGE
@@ -471,7 +471,7 @@ cluster and replacing the previously persisted <code>AppliedManifestWork</code>
 connected to the same <code>ManifestWork</code> after the latest resources are applied.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl --context kind-cluster1 get appliedmanifestwork
 NAME                                                                                                   AGE
-ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-example-manifestwork                  59m
+ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-my-first-work                  59m
 </code></pre></div><p>Note that if the work agent was disconnected from the hub control plane for
 a period of time and missed the new updates upon <code>ManifestWork</code>. The work
 agent will be catching up the latest state of <code>ManifestWork</code> as soon as it
