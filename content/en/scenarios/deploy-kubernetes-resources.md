@@ -82,7 +82,7 @@ apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
 metadata:
   namespace: cluster1
-  name: example-manifestwork
+  name: my-first-work
 spec:
   workload:
     manifests:
@@ -144,7 +144,7 @@ A `ManifestWork` can be defined as follows:
   kind: ManifestWork
   metadata:
     namespace: cluster1
-    name: example-manifestwork
+    name: my-first-work
   spec:
     workload:
       manifests:
@@ -180,7 +180,7 @@ A `ManifestWork` can be defined as follows:
 
 In this example:
 
-- A `ManifestWork` named "example-manifestwork" will be created into a 
+- A `ManifestWork` named "my-first-work" will be created into a
   "cluster namespace" named "cluster1".
 
   ```shell
@@ -265,7 +265,7 @@ The work agent will be dynamically computing a hash
   ```shell
   $ kubectl --context kind-cluster1 get appliedmanifestwork
   NAME                                                                                                   AGE
-  ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-example-manifestwork                  59m
+  ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-my-first-work                  59m
   ```
 
   Note that if the work agent was disconnected from the hub control plane for
