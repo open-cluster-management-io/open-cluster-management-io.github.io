@@ -7,7 +7,7 @@ title: 详解ocm klusterlet秘钥管理机制
 {{< toc >}}
 
 ## 概述
-在`open-cluster-management`中，为了使控制面有更好的可扩展性，我们使用了`hub-spoke`的架构：即集中的控制面（hub）只
+在`open-cluster-management`中，为了使控制面有更好的可扩展性，我们使用了`hub-spoke`的架构：即集中的控制面（hub只
 负责处理控制面的资源和数据而无需访问被管理的集群；每个被管理集群（spoke）运行一个称为`klusterlet`的agent访问控制面获取
 需要执行的任务。在这个过程中，`klusterlet`需要拥有访问`hub`集群的秘钥才能和`hub`安全通信。确保秘钥的安全性是非常重要的，
 因为如果这个秘钥被泄露的话有可能导致对hub集群的恶意访问或者窃取敏感信息，特别是当`ocm`的被管理集群分布在不同的公有云中的时候。
@@ -28,11 +28,7 @@ title: 详解ocm klusterlet秘钥管理机制
 
 ### 基于`CertificateSigniningRequest`的mutual tls
 
-<<<<<<< HEAD
 使用`kubernetes`的`CertificateSigniningRequest`（[CSR](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)）API可以方便的生成客户认证证书。这个机制可以让`klusterlet`在第一次
-=======
-使用`kubernetes`的`CertificateSigniningRequest`（CSR）API可以方便的生成客户认证证书。这个机制可以让`klusterlet`在第一次
->>>>>>> ocm registration deepdive
 启动访问`hub`集群时使用一个权限很小的秘钥来创建CSR。当CSR返回了生成的证书后，`klusterlet`就可以用后续生成的带有更大访问权限的
 证书来访问`hub`集群。在使用csr的过程中，`klusterlet`的私钥不会在网络中传输而是一直保存在被管理集群中；只有CSR的公钥和初始阶段需要的
 小权限秘钥（bootstrap secret）会在不同集群间传输。这就最大程度的保证秘钥不会在传输过程中被泄露出去。
