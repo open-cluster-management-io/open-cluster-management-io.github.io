@@ -2,6 +2,10 @@
 title: 博客
 weight: 6
 ---
+### [详解ocm klusterlet秘钥管理机制](/zh/blog/registration-deepdive/)
+- Authors: [邱见](https://github.com/qiujian16)
+- Date: 2023年4月26日
+----
 ### [通过OCM及插件，访问不同VPC下的集群](/zh/blog/access-cluster-in-different-vps/)
 - Authors: [薛昭](https://github.com/xuezhaojun)
 - Date: 2023年4月20日
