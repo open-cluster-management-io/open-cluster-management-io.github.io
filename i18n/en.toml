@@ -130,6 +130,9 @@ other = "Administration"
 [sidebar_administration_upgrading]
 other = "Upgrading"
 
+[sidebar_administration_monitoring]
+other = "Monitoring"
+
 [sidebar_apps]
 other = "Application lifecycle management"
 
