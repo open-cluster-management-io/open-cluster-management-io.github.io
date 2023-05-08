@@ -249,51 +249,48 @@
 </div>
             <div class="col-10 col-md-9 padding-none">
 <div id="content">
-    <h1>ClusterClaim</h1>
-    <!-- spellchecker-disable -->
-
+    <h1>Monitoring OCM using Prometheus-Operator</h1>
+    
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#what-is-clusterclaim">What is ClusterClaim?</a></li>
-        <li><a href="#usage">Usage</a></li>
-        <li><a href="#example">Example</a></li>
+        <li><a href="#before-you-get-started">Before you get started</a></li>
+        <li><a href="#monitoring-the-control-plane-resource-usage">Monitoring the control-plane resource usage.</a></li>
+        <li><a href="#visualized-with-grafana">Visualized with Grafana</a></li>
       </ul></nav><hr></div>
 
 
-<!-- spellchecker-enable -->
-<h2 id="what-is-clusterclaim">What is ClusterClaim?</h2>
-<p><code>ClusterClaim</code> is a cluster-scoped API available to users on a managed cluster.
-The <code>ClusterClaim</code> objects are collected from the managed cluster and saved into
-the status of the corresponding <code>ManagedCluster</code> object on the hub.</p>
-<h2 id="usage">Usage</h2>
-<p><code>ClusterCaim</code> is used to specify additional properties of the managed cluster like
-the clusterID, version, vendor and cloud provider. We defined some reserved <code>ClusterClaims</code>
-like <code>id.k8s.io</code> which is a unique identifier for the managed cluster.</p>
-<p>In addition to the reserved <code>ClusterClaims</code>, users can also customize 20 <code>ClusterClaims</code> by default.
-The maximum count of customized <code>ClusterClaims</code> can be configured via the flag
-<code>max-custom-cluster-claims</code> of registration agent on the managed cluster.</p>
-<p>The <code>ClusterClaim</code> with the label <code>open-cluster-management.io/spoke-only</code> will not be synced
-to the status of <code>ManagedCluster</code>.</p>
-<h2 id="example">Example</h2>
-<p>Here is a <code>ClusterClaim</code> example specifying a <code>id.k8s.io</code>:</p>
-<pre><code>apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: ClusterClaim
-metadata:
-  name: id.k8s.io
-spec:
-  value: myCluster
-</code></pre><p>After applying the <code>ClusterClaim</code> above to any managed cluster, the value of the <code>ClusterClaim</code>
-is reflected in the <code>ManagedCluster</code> on the hub cluster:</p>
-<pre><code>apiVersion: cluster.open-cluster-management.io/v1
-kind: ManagedCluster
-metadata: ...
-spec: ...
-status:
-  clusterClaims:
-    - name: id.k8s.io
-      value: myCluster
-</code></pre>
+<p>In this page, we provide a way to monitor your OCM environment using Prometheus-Operator.</p>
+<h2 id="before-you-get-started">Before you get started</h2>
+<p>You must have a OCM environment setuped. You can also follow our recommended <a href="https://open-cluster-management.io/getting-started/quick-start/">quick start guide</a> to set up a playgroud OCM environment.</p>
+<p>And then please <a href="https://prometheus-operator.dev/docs/prologue/quick-start/">install the Prometheus-Operator</a> in your hub cluster. You can also run the following commands copied from the official doc:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone https://github.com/prometheus-operator/kube-prometheus.git
+cd kube-prometheus
+
+<span style="color:#75715e"># Create the namespace and CRDs, and then wait for them to be availble before creating the remaining resources</span>
+kubectl create -f manifests/setup
+
+<span style="color:#75715e"># Wait until the &#34;servicemonitors&#34; CRD is created. The message &#34;No resources found&#34; means success in this context.</span>
+<span style="color:#66d9ef">until</span> kubectl get servicemonitors --all-namespaces ; <span style="color:#66d9ef">do</span> date; sleep 1; echo <span style="color:#e6db74">&#34;&#34;</span>; <span style="color:#66d9ef">done</span>
+
+kubectl create -f manifests/
+</code></pre></div><h2 id="monitoring-the-control-plane-resource-usage">Monitoring the control-plane resource usage.</h2>
+<p>You can use <code>kubectl proxy</code> to open prometheus UI in your browser on <a href="http://localhost:9090/">localhost:9090</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl --namespace monitoring port-forward svc/prometheus-k8s <span style="color:#ae81ff">9090</span>
+</code></pre></div><p>The following queries are to monitor the control-plane pods&rsquo; cpu usage, memory usage and apirequestcount for critical CRs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rate<span style="color:#f92672">(</span>container_cpu_usage_seconds_total<span style="color:#f92672">{</span>namespace<span style="color:#f92672">=</span>~<span style="color:#e6db74">&#34;open-cluster-management.*&#34;</span><span style="color:#f92672">}[</span>3m<span style="color:#f92672">])</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">container_memory_working_set_bytes<span style="color:#f92672">{</span>namespace<span style="color:#f92672">=</span>~<span style="color:#e6db74">&#34;open-cluster-management.*&#34;</span><span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rate<span style="color:#f92672">(</span>apiserver_request_total<span style="color:#f92672">{</span>resource<span style="color:#f92672">=</span>~<span style="color:#e6db74">&#34;managedclusters|managedclusteraddons|managedclustersetbindings|managedclustersets|addonplacementscores|placementdecisions|placements|manifestworks|manifestworkreplicasets&#34;</span><span style="color:#f92672">}[</span>1m<span style="color:#f92672">])</span>
+</code></pre></div><h2 id="visualized-with-grafana">Visualized with Grafana</h2>
+<p>We provide a intial grafana dashboard for you to visualize the metrics. But you can also customize your own dashboard.</p>
+<p>First, use the following command to proxy grafana service:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl --namespace monitoring port-forward svc/grafana <span style="color:#ae81ff">3000</span>
+</code></pre></div><p>Next, open the grafana UI in your browser on <a href="http://localhost:3000/login">localhost:3000</a>.</p>
+<p>Click the &ldquo;Import Dashboard&rdquo; and run the following command to copy a sample dashboard and paste it to the grafana:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl https://raw.githubusercontent.com/open-cluster-management-io/open-cluster-management-io.github.io/main/content/en/getting-started/administration/assets/grafana-sample.json | pbcopy
+</code></pre></div><p>Then, you will get a sample grafana dashboard that you can fine-tune further:</p>
+<p><img src="/sample-grafana.png" alt="grafana"></p>
+
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

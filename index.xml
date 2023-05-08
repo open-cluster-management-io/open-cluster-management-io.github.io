@@ -90,6 +90,17 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
     </item>
     
     <item>
+      <title>Monitoring OCM using Prometheus-Operator</title>
+      <link>http://open-cluster-management.io/getting-started/administration/monitoring/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://open-cluster-management.io/getting-started/administration/monitoring/</guid>
+      <description>Before you get started Monitoring the control-plane resource usage. Visualized with Grafana     In this page, we provide a way to monitor your OCM environment using Prometheus-Operator.
+Before you get started You must have a OCM environment setuped. You can also follow our recommended quick start guide to set up a playgroud OCM environment.
+And then please install the Prometheus-Operator in your hub cluster.</description>
+    </item>
+    
+    <item>
       <title>Pushing Kubernetes API requests to the managed clusters</title>
       <link>http://open-cluster-management.io/scenarios/pushing-kube-api-requests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
