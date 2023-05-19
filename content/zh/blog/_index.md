@@ -2,6 +2,10 @@
 title: 博客
 weight: 6
 ---
+### [ocm placement调度器大规模性能测试报告](/zh/blog/performance-placement/)
+- Authors: [刘党朋](https://github.com/ldpliu)
+- Date: 2023年5月26日
+---
 ### [使用OCM Placement让多集群调度更具可扩展性](/zh/blog/extend-multicluster-scheduling-capabilities/)
 - Authors: [郝青](https://github.com/haoqing0110)
 - Date: 2023年5月10日
