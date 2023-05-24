@@ -1,6 +1,11 @@
 ---
 title: 博客
 weight: 6
+
+---
+### [详解OCM add-on插件](/zh/blog/addon-introduction/)
+- Authors: [殷智伟](https://github.com/zhiweiyin318)
+- Date: 2023年5月24日
 ---
 ### [使用OCM Placement让多集群调度更具可扩展性](/zh/blog/extend-multicluster-scheduling-capabilities/)
 - Authors: [郝青](https://github.com/haoqing0110)
