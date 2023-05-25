@@ -4,6 +4,35 @@ weight: -20
 ---
 
 Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.9.0`. Continue reading to view upcoming releases:
+## `0.11.0`, 1, June 2023
+
+The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
+
+- Addon install strategy and rolling upgrade: a new component `addon-manager` is introduced to handle the addon installation and upgrade.
+  User can not specify the installation and upgrade strategy of the addon by referencing placement on `ClusterManagementAddon` API. The
+  feature is in the alpha stage and can be enabled by setting `feature-gates=AddonManagement=true` when running `clusteradm init`.
+- ManifestWorkReplicaSet: it is a new API introduced in this release to deploy `ManifestWork` to multiple clusters by placement. Users can
+  create a `ManifestWorkReplicaSet` together with `Placement` in the same namespace to spread the `ManifestWork` to multiple clusters, or
+  use the command `clusteradm create work <work name> -f <manifest yaml> --placement <namespace>/<placement name> -r`. The
+  feature is in the alpha stage and can be enabled by setting `feature-gates=ManifestWorkReplicaSet=true` when running `clusteradm init`.
+- Registration auto approve: user can configure a list of user id to auto approve the registration which makes cluster registration simpler
+  in some scenarios. The feature is in the alpha stage and can be enabled by setting `feature-gates=ManagedClusterAutoApproval=true` when running `clusteradm init`.
+  With this feautre enabled, the user does not need to run `accept` command on hub after `join` command.
+- ManifestWork can return structured result: previously the feedback mechanism in `ManifestWork` can only return scalar value. In this
+  release, we add the support to return a structured value in the format of json string. To enable this feature, user can add `feature-gates=RawFeedbackJsonString=true`
+  when running `clusteradm join` command.
+
+### Core components
+- registration v0.11.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- work v0.11.0 [changelog](https://github.com/open-cluster-management-io/work/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- placement v0.11.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- addon-framework v0.7.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md)
+- registration-operator v0.11.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- clusteradm  v0.6.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.6.0/CHANGELOG.md)
+
+### Addons
+- cluster-proxy v0.3.0 [repo](https://github.com/open-cluster-management-io/cluster-proxy)
+- managed-serviceaccount v0.3.0 [repo](https://github.com/open-cluster-management-io/managed-serviceaccount)
 
 ## `0.10.0`, 17th, Feb 2023
 
