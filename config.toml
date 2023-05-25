@@ -1,4 +1,4 @@
-baseURL = "http://open-cluster-management.io"
+baseURL = "https://open-cluster-management.io"
 title = "Open Cluster Management"
 theme = "ocmTheme"
 
