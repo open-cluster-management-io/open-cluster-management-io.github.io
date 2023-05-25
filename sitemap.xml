@@ -2,12 +2,12 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	
 	<sitemap>
-	   	<loc>http://open-cluster-management.io/en/sitemap.xml</loc>
+	   	<loc>https://open-cluster-management.io/en/sitemap.xml</loc>
 		
 	</sitemap>
 	
 	<sitemap>
-	   	<loc>http://open-cluster-management.io/zh/sitemap.xml</loc>
+	   	<loc>https://open-cluster-management.io/zh/sitemap.xml</loc>
 		
 	</sitemap>
 	

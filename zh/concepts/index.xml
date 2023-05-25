@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>概念 on Open Cluster Management</title>
-    <link>http://open-cluster-management.io/zh/concepts/</link>
+    <link>https://open-cluster-management.io/zh/concepts/</link>
     <description>Recent content in 概念 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	<atom:link href="http://open-cluster-management.io/zh/concepts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://open-cluster-management.io/zh/concepts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>架构</title>
-      <link>http://open-cluster-management.io/zh/concepts/architecture/</link>
+      <link>https://open-cluster-management.io/zh/concepts/architecture/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/architecture/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/architecture/</guid>
       <description>本页是open cluster management的概览。
    概览  hub-agent” 架构 模块化和可扩展性   概念  集群注册: “双重确认握手” 安全模型 集群命名空间 插件   构建块  Registration Work Placement Application lifecycle Governance and risk Registration operator       概览 Open Cluster Management (OCM) 是用于Kubernetes多集群编排的一个功能强大，模块化，可扩展的平台。 通过吸取过去在Kubernetes社区构建联邦系统的失败教训，在OCM中，我们将跳出过去Kubefed v2那种中心化，命令式的架构，并拥抱与Kubernetes中“hub-kubelet”原始模式一致的“hub-agent”架构。 因此在OCM中，我们的多集群控制平面，被直观的建模为“Hub”, 而相对的，每一个被“Hub”管理的集群则为“Klusterlet”，这个名字也明显是受到了“kubelet”的启发。 以下是对于两个模型更加详细的解释，我们将在OCM的世界中频繁的使用这两个模型：
   Hub Cluster: 表示运行着OCM多集群控制平面的集群。通常hub cluster应该是一个轻量级的Kubernetes集群，仅仅托管着一些基础的控制器和服务。
@@ -24,48 +24,48 @@
     
     <item>
       <title>ClusterClaim</title>
-      <link>http://open-cluster-management.io/zh/concepts/clusterclaim/</link>
+      <link>https://open-cluster-management.io/zh/concepts/clusterclaim/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/clusterclaim/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/clusterclaim/</guid>
       <description>What is ClusterClaim? Usage Example     What is ClusterClaim? ClusterClaim is a cluster-scoped API available to users on a managed cluster. The ClusterClaim objects are collected from the managed cluster and saved into the status of the corresponding ManagedCluster object on the hub.
 Usage ClusterCaim is used to specify additional properties of the managed cluster like the clusterID, version, vendor and cloud provider. We defined some reserved ClusterClaims like id.</description>
     </item>
     
     <item>
       <title>托管集群</title>
-      <link>http://open-cluster-management.io/zh/concepts/managedcluster/</link>
+      <link>https://open-cluster-management.io/zh/concepts/managedcluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/managedcluster/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/managedcluster/</guid>
       <description>What is ManagedCluster?  Cluster registration and acceptance  Bootstrapping registration Approving registration   Cluster heartbeats and status Cluster taints and tolerations  Taints of ManagedClusters Tolerations of Placements   Cluster removal  Unregister from hub cluster Unregister from the managed cluster     Managed Cluster&amp;rsquo;s certificate rotation What&amp;rsquo;s next?     What is ManagedCluster? ManagedCluster is a cluster scoped API in the hub cluster representing the registered or pending-for-acceptance Kubernetes clusters in OCM.</description>
     </item>
     
     <item>
       <title>托管集群分组</title>
-      <link>http://open-cluster-management.io/zh/concepts/managedclusterset/</link>
+      <link>https://open-cluster-management.io/zh/concepts/managedclusterset/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/managedclusterset/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/managedclusterset/</guid>
       <description>What is ManagedClusterSet? Operates ManagedClusterSet using clusteradm  Creating a ManagedClusterSet Adding a ManagedCluster to a ManagedClusterSet Binding the ManagedClusterSet to a workspace namespace   A glance at the &amp;ldquo;ManagedClusterSet&amp;rdquo; API  Clusterset RBAC permission control  Adding member cluster to a clusterset Binding a clusterset to a namespace     Default ManagedClusterSet Global ManagedClusterSet     API-CHANGE NOTE:
 The ManagedClusterSet and ManagedClusterSetBinding API v1alpha1 version will no longer be served in OCM v0.</description>
     </item>
     
     <item>
       <title>资源下发</title>
-      <link>http://open-cluster-management.io/zh/concepts/manifestwork/</link>
+      <link>https://open-cluster-management.io/zh/concepts/manifestwork/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/manifestwork/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/manifestwork/</guid>
       <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption   Permission setting for work agent  Treating defaulting/immutable fields in API Dynamic identity authorization     What is ManifestWork ManifestWork is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
     </item>
     
     <item>
       <title>匹配路由</title>
-      <link>http://open-cluster-management.io/zh/concepts/placement/</link>
+      <link>https://open-cluster-management.io/zh/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/placement/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/placement/</guid>
       <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer Extensible scheduling     PlacementDecisions Troubleshooting  Check the Placement conditions Check the Placement events   Future work     API-CHANGE NOTE:
 The Placement and PlacementDecision API v1alpha1 version will no longer be served in OCM v0.9.0.
  Migrate manifests and API clients to use the Placement and PlacementDecision API v1beta1 version, available since OCM v0.</description>
@@ -73,20 +73,20 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
     
     <item>
       <title>自定义插件</title>
-      <link>http://open-cluster-management.io/zh/concepts/addon/</link>
+      <link>https://open-cluster-management.io/zh/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/addon/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/addon/</guid>
       <description>What is an add-on? Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various aspects. Examples of add-ons includes:
  A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters. A tool to spread security policies to multiple clusters.</description>
     </item>
     
     <item>
       <title>Policy</title>
-      <link>http://open-cluster-management.io/zh/concepts/policy/</link>
+      <link>https://open-cluster-management.io/zh/concepts/policy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/policy/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/policy/</guid>
       <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
  Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
     </item>

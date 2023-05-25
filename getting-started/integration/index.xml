@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Add-ons and Integrations on Open Cluster Management</title>
-    <link>http://open-cluster-management.io/getting-started/integration/</link>
+    <link>https://open-cluster-management.io/getting-started/integration/</link>
     <description>Recent content in Add-ons and Integrations on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	<atom:link href="http://open-cluster-management.io/getting-started/integration/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://open-cluster-management.io/getting-started/integration/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Application lifecycle management</title>
-      <link>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</link>
+      <link>https://open-cluster-management.io/getting-started/integration/app-lifecycle/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
+      <guid>https://open-cluster-management.io/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
    Architecture Prerequisite Install via Clusteradm CLI tool Install from source What is next  Try this out       Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
 Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
@@ -23,39 +23,39 @@ Prerequisite You must meet the following prerequisites to install the applicatio
     
     <item>
       <title>Cluster proxy</title>
-      <link>http://open-cluster-management.io/getting-started/integration/cluster-proxy/</link>
+      <link>https://open-cluster-management.io/getting-started/integration/cluster-proxy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/getting-started/integration/cluster-proxy/</guid>
+      <guid>https://open-cluster-management.io/getting-started/integration/cluster-proxy/</guid>
       <description>Cluster proxy is an OCM addon providing L4 network connectivity from hub cluster to the managed clusters without any additional requirement to the managed cluster&amp;rsquo;s network infrastructure by leveraging the Kubernetes official SIG sub-project apiserver-network-proxy.
    Background  About apiserver-network-proxy   Architecture Prerequisite Installation Usage  Command-line tools Example code   More insight  Troubleshooting Related materials       Background The original architecture of OCM allows a cluster from anywhere to be registered and managed by OCM&amp;rsquo;s control plane (i.</description>
     </item>
     
     <item>
       <title>Managed service account</title>
-      <link>http://open-cluster-management.io/getting-started/integration/managed-serviceaccount/</link>
+      <link>https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/getting-started/integration/managed-serviceaccount/</guid>
+      <guid>https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/</guid>
       <description>Background Prerequisite Installation Usage Related materials     Managed Service Account is an OCM addon enabling a hub cluster admin to manage service account across multiple clusters on ease. By controlling the creation and removal of the service account, the addon agent will project and rotate the corresponding token back to the hub cluster which is very useful for the Kube API client from the hub cluster to request against the managed clusters.</description>
     </item>
     
     <item>
       <title>Policy framework</title>
-      <link>http://open-cluster-management.io/getting-started/integration/policy-framework/</link>
+      <link>https://open-cluster-management.io/getting-started/integration/policy-framework/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
+      <guid>https://open-cluster-management.io/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
    API Concepts Architecture Prerequisite Install the governance-policy-framework hub components  Install via Clusteradm CLI Install from source   Deploy the synchronization components to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next     API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:</description>
     </item>
     
     <item>
       <title>Policy controllers</title>
-      <link>http://open-cluster-management.io/getting-started/integration/policy-controllers/</link>
+      <link>https://open-cluster-management.io/getting-started/integration/policy-controllers/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
+      <guid>https://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
       <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
    Prerequisite Install the configuration policy controller to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next  Placement API Placement Rule API Final steps to apply the policy       Prerequisite You must meet the following prerequisites to install the policy controllers:</description>
     </item>

@@ -2,29 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Developer Guides on Open Cluster Management</title>
-    <link>http://open-cluster-management.io/developer-guides/</link>
+    <link>https://open-cluster-management.io/developer-guides/</link>
     <description>Recent content in Developer Guides on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	<atom:link href="http://open-cluster-management.io/developer-guides/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://open-cluster-management.io/developer-guides/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Add-on Developer Guide</title>
-      <link>http://open-cluster-management.io/developer-guides/addon/</link>
+      <link>https://open-cluster-management.io/developer-guides/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/developer-guides/addon/</guid>
+      <guid>https://open-cluster-management.io/developer-guides/addon/</guid>
       <description>This page is a developer guide about how to build an OCM add-on using addon-framework.
    Overview Write your first add-on  Implement the addon manager Deploy the add-on manager on your hub cluster  RBAC of the addon manager ClusterManagementAddOn   Enable the add-on for a managed cluster. Disable the add-on for a managed cluster What’s the next   Add-on agent configurations  Monitor addon healthiness Automatic installation Register your add-on Add your add-on agent supported configurations   Build an addon using helm charts or raw manifests.</description>
     </item>
     
     <item>
       <title>VScode Extension</title>
-      <link>http://open-cluster-management.io/developer-guides/vscode-extension/</link>
+      <link>https://open-cluster-management.io/developer-guides/vscode-extension/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/developer-guides/vscode-extension/</guid>
+      <guid>https://open-cluster-management.io/developer-guides/vscode-extension/</guid>
       <description>The OCM VScode Extension is a UI tool for OCM related Kubernetes resources. The extension has been built upon Visual Studio Code and offers additional OCM administrative and monitoring features in order to improve operational efficiency and accelerate development within engineering teams. The OCM VScode Extension provides tons of useful features, including easy to generate OCM related Kubernetes resources, automated local OCM environment creation and a simple and convenient monitoring view for cluster resources.</description>
     </item>
     

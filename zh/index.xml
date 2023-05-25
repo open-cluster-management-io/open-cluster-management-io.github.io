@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Open Cluster Management</title>
-    <link>http://open-cluster-management.io/zh/</link>
+    <link>https://open-cluster-management.io/zh/</link>
     <description>Recent content on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	<atom:link href="http://open-cluster-management.io/zh/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://open-cluster-management.io/zh/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>发行版本</title>
-      <link>http://open-cluster-management.io/zh/community/releases/</link>
+      <link>https://open-cluster-management.io/zh/community/releases/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/community/releases/</guid>
+      <guid>https://open-cluster-management.io/zh/community/releases/</guid>
       <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.9.0. Continue reading to view upcoming releases:
 v0.9.0, 21st, October 2022 Open Cluster Management team is proud to announce the release of OCM v0.9.0! Here are some main features included in this release:
  De-escalate Work Agent Privilege on Managed Clusters In previous iterations of OCM, the Work Agent process is run with admin privileges on managed clusters.</description>
@@ -22,19 +22,19 @@ v0.9.0, 21st, October 2022 Open Cluster Management team is proud to announce the
     
     <item>
       <title>社区规划</title>
-      <link>http://open-cluster-management.io/zh/community/roadmap/</link>
+      <link>https://open-cluster-management.io/zh/community/roadmap/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/community/roadmap/</guid>
+      <guid>https://open-cluster-management.io/zh/community/roadmap/</guid>
       <description>The Open Cluster Management community uses GitHub Project to track the progress of the project.</description>
     </item>
     
     <item>
       <title>Cluster manager</title>
-      <link>http://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</guid>
       <description>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
    Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite Ensure kubectl and kustomize are installed.
 Ensure golang is installed, if you are planning to install from the source.
@@ -43,10 +43,10 @@ Prepare one Kubernetes cluster to function as the hub. For example, use kind to 
     
     <item>
       <title>Deploy Kubernetes resources to the managed clusters</title>
-      <link>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</link>
+      <link>https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</guid>
+      <guid>https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</guid>
       <description>After bootstrapping an OCM environment of at least one managed clusters, now it&amp;rsquo;s time to begin your first journey of deploying Kubernetes resources into your managed clusters with OCM&amp;rsquo;s ManifestWork API.
 Prerequisites Before we get start with the following tutorial, let&amp;rsquo;s clarify a few terms we&amp;rsquo;re going to use in the context.
   Cluster namespace: After a managed cluster is successfully registered into the hub. The hub registration controller will be automatically provisioning a cluster namespace dedicated for the cluster of which the name will be same as the managed cluster.</description>
@@ -54,69 +54,69 @@ Prerequisites Before we get start with the following tutorial, let&amp;rsquo;s c
     
     <item>
       <title>Distribute workload with placement selected managed clusters</title>
-      <link>http://open-cluster-management.io/zh/scenarios/distribute-workload-with-placement/</link>
+      <link>https://open-cluster-management.io/zh/scenarios/distribute-workload-with-placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/scenarios/distribute-workload-with-placement/</guid>
+      <guid>https://open-cluster-management.io/zh/scenarios/distribute-workload-with-placement/</guid>
       <description>The Placement API is used to dynamically select a set of ManagedCluster in one or multiple ManagedClusterSets so that the workloads can be deployed to these clusters.
 If you define a valid Placement, the placement controller generates a corresponding PlacementDecision with the selected clusters listed in the status. As an end-user, you can parse the selected clusters and then operate on the target clusters. You can also integrate a high-level workload orchestrator with the PlacementDecision to leverage its scheduling capabilities.</description>
     </item>
     
     <item>
       <title>Extend the multicluster scheduling capabilities with placement</title>
-      <link>http://open-cluster-management.io/zh/scenarios/extend-multicluster-scheduling-capabilities/</link>
+      <link>https://open-cluster-management.io/zh/scenarios/extend-multicluster-scheduling-capabilities/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/scenarios/extend-multicluster-scheduling-capabilities/</guid>
+      <guid>https://open-cluster-management.io/zh/scenarios/extend-multicluster-scheduling-capabilities/</guid>
       <description>The Placement API is used to dynamically select a set of ManagedCluster in one or multiple ManagedClusterSets so that the workloads can be deployed to these clusters. You can use placement to filter clusters by label or claim selector, also placement provides some default prioritizers which can be used to sort and select the most suitable clusters.
 One of the default prioritizers are ResourceAllocatableCPU and ResourceAllocatableMemory. They provide the capability to sort clusters based on the allocatable CPU and memory.</description>
     </item>
     
     <item>
       <title>Extending managed clusters with custom attributes</title>
-      <link>http://open-cluster-management.io/zh/scenarios/extending-managed-clusters/</link>
+      <link>https://open-cluster-management.io/zh/scenarios/extending-managed-clusters/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/scenarios/extending-managed-clusters/</guid>
+      <guid>https://open-cluster-management.io/zh/scenarios/extending-managed-clusters/</guid>
       <description>Under some cases we need a convenient way to extend OCM&amp;rsquo;s Managed Cluster data model so that our own custom multi-cluster system can easily work over the OCM&amp;rsquo;s native cluster api otherwise we will have to maintain an additional Kubernetes&amp;rsquo; CustomResourceDefinition in the project. OCM definitely supports developers to decorate the cluster api with minimal effort, and in the following content we will walk through that briefly.
 The original cluster model in OCM &amp;ldquo;Managed Cluster&amp;rdquo; is designed to be a neat and light-weight placeholder resource of which the spec doesn&amp;rsquo;t require any additional information other than &amp;ldquo;whether the cluster is accepted or not&amp;rdquo; i.</description>
     </item>
     
     <item>
       <title>Integration with Argo CD</title>
-      <link>http://open-cluster-management.io/zh/scenarios/integration-with-argocd/</link>
+      <link>https://open-cluster-management.io/zh/scenarios/integration-with-argocd/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/scenarios/integration-with-argocd/</guid>
+      <guid>https://open-cluster-management.io/zh/scenarios/integration-with-argocd/</guid>
       <description>Argo CD is a declarative, GitOps continuous delivery tool, which allows developers to define and control deployment of Kubernetes application resources from within their existing Git workflow. By integrating Open Cluster Management (OCM) with Argo CD, it enables both automation and greater flexibility managing Argo CD Applications across a large number of OCM managed clusters.
 In this article, we want to show you how to integrate Argo CD with OCM and deploy application to OCM managed clusters by leveraging the Placement API, which supports multi-cluster scheduling.</description>
     </item>
     
     <item>
       <title>Upgrading your OCM environment</title>
-      <link>http://open-cluster-management.io/zh/getting-started/administration/upgrading/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/administration/upgrading/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/administration/upgrading/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/administration/upgrading/</guid>
       <description>Before you begin Upgrade command-line tool Upgrade OCM Components via Command-line tool  Hub Cluster Managed Clusters   Upgrade OCM Components via Manual Edit  Hub Cluster  Upgrading the registration-operator Upgrading the core components   Managed Clusters  Upgrading the registration-operator Upgrading the agent components Confirm the upgrade         This page provides the suggested steps to upgrade your OCM environment including both the hub cluster and the managed clusters.</description>
     </item>
     
     <item>
       <title>向托管集群推送Kubernetes API请求</title>
-      <link>http://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests/</link>
+      <link>https://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests/</guid>
+      <guid>https://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests/</guid>
       <description>By following the instructions in this document, an OCM hub admin will be able to &amp;ldquo;push&amp;rdquo; Kubernetes API requests to the managed clusters. The benefit of using this method for &amp;ldquo;pushing&amp;rdquo; requests in OCM is that we don&amp;rsquo;t need to explicitly configure any API endpoint for the managed clusters or provide any client credentials as preparation. We just need to enable/install the following OCM addons:
  Cluster-Proxy: Setting up the konnectivity tunnels between the hub cluster and the managed clusters so the hub cluster can connect/access the managed cluster from anywhere.</description>
     </item>
     
     <item>
       <title>架构</title>
-      <link>http://open-cluster-management.io/zh/concepts/architecture/</link>
+      <link>https://open-cluster-management.io/zh/concepts/architecture/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/architecture/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/architecture/</guid>
       <description>本页是open cluster management的概览。
    概览  hub-agent” 架构 模块化和可扩展性   概念  集群注册: “双重确认握手” 安全模型 集群命名空间 插件   构建块  Registration Work Placement Application lifecycle Governance and risk Registration operator       概览 Open Cluster Management (OCM) 是用于Kubernetes多集群编排的一个功能强大，模块化，可扩展的平台。 通过吸取过去在Kubernetes社区构建联邦系统的失败教训，在OCM中，我们将跳出过去Kubefed v2那种中心化，命令式的架构，并拥抱与Kubernetes中“hub-kubelet”原始模式一致的“hub-agent”架构。 因此在OCM中，我们的多集群控制平面，被直观的建模为“Hub”, 而相对的，每一个被“Hub”管理的集群则为“Klusterlet”，这个名字也明显是受到了“kubelet”的启发。 以下是对于两个模型更加详细的解释，我们将在OCM的世界中频繁的使用这两个模型：
   Hub Cluster: 表示运行着OCM多集群控制平面的集群。通常hub cluster应该是一个轻量级的Kubernetes集群，仅仅托管着一些基础的控制器和服务。
@@ -126,20 +126,20 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
     
     <item>
       <title>ClusterClaim</title>
-      <link>http://open-cluster-management.io/zh/concepts/clusterclaim/</link>
+      <link>https://open-cluster-management.io/zh/concepts/clusterclaim/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/clusterclaim/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/clusterclaim/</guid>
       <description>What is ClusterClaim? Usage Example     What is ClusterClaim? ClusterClaim is a cluster-scoped API available to users on a managed cluster. The ClusterClaim objects are collected from the managed cluster and saved into the status of the corresponding ManagedCluster object on the hub.
 Usage ClusterCaim is used to specify additional properties of the managed cluster like the clusterID, version, vendor and cloud provider. We defined some reserved ClusterClaims like id.</description>
     </item>
     
     <item>
       <title>Klusterlet agent</title>
-      <link>http://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</guid>
       <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
    Prerequisite Install from source Install community operator from OperatorHub.io What is next Troubleshooting     Prerequisite Ensure kubectl and kustomize are installed.
 Ensure golang is installed, if you are planning to install from the source.</description>
@@ -147,38 +147,38 @@ Ensure golang is installed, if you are planning to install from the source.</des
     
     <item>
       <title>托管集群</title>
-      <link>http://open-cluster-management.io/zh/concepts/managedcluster/</link>
+      <link>https://open-cluster-management.io/zh/concepts/managedcluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/managedcluster/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/managedcluster/</guid>
       <description>What is ManagedCluster?  Cluster registration and acceptance  Bootstrapping registration Approving registration   Cluster heartbeats and status Cluster taints and tolerations  Taints of ManagedClusters Tolerations of Placements   Cluster removal  Unregister from hub cluster Unregister from the managed cluster     Managed Cluster&amp;rsquo;s certificate rotation What&amp;rsquo;s next?     What is ManagedCluster? ManagedCluster is a cluster scoped API in the hub cluster representing the registered or pending-for-acceptance Kubernetes clusters in OCM.</description>
     </item>
     
     <item>
       <title>托管集群分组</title>
-      <link>http://open-cluster-management.io/zh/concepts/managedclusterset/</link>
+      <link>https://open-cluster-management.io/zh/concepts/managedclusterset/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/managedclusterset/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/managedclusterset/</guid>
       <description>What is ManagedClusterSet? Operates ManagedClusterSet using clusteradm  Creating a ManagedClusterSet Adding a ManagedCluster to a ManagedClusterSet Binding the ManagedClusterSet to a workspace namespace   A glance at the &amp;ldquo;ManagedClusterSet&amp;rdquo; API  Clusterset RBAC permission control  Adding member cluster to a clusterset Binding a clusterset to a namespace     Default ManagedClusterSet Global ManagedClusterSet     API-CHANGE NOTE:
 The ManagedClusterSet and ManagedClusterSetBinding API v1alpha1 version will no longer be served in OCM v0.</description>
     </item>
     
     <item>
       <title>资源下发</title>
-      <link>http://open-cluster-management.io/zh/concepts/manifestwork/</link>
+      <link>https://open-cluster-management.io/zh/concepts/manifestwork/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/manifestwork/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/manifestwork/</guid>
       <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption   Permission setting for work agent  Treating defaulting/immutable fields in API Dynamic identity authorization     What is ManifestWork ManifestWork is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
     </item>
     
     <item>
       <title>匹配路由</title>
-      <link>http://open-cluster-management.io/zh/concepts/placement/</link>
+      <link>https://open-cluster-management.io/zh/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/placement/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/placement/</guid>
       <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer Extensible scheduling     PlacementDecisions Troubleshooting  Check the Placement conditions Check the Placement events   Future work     API-CHANGE NOTE:
 The Placement and PlacementDecision API v1alpha1 version will no longer be served in OCM v0.9.0.
  Migrate manifests and API clients to use the Placement and PlacementDecision API v1beta1 version, available since OCM v0.</description>
@@ -186,30 +186,30 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
     
     <item>
       <title>自定义插件</title>
-      <link>http://open-cluster-management.io/zh/concepts/addon/</link>
+      <link>https://open-cluster-management.io/zh/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/addon/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/addon/</guid>
       <description>What is an add-on? Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various aspects. Examples of add-ons includes:
  A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters. A tool to spread security policies to multiple clusters.</description>
     </item>
     
     <item>
       <title>Add-on Developer Guide</title>
-      <link>http://open-cluster-management.io/zh/developer-guides/addon/</link>
+      <link>https://open-cluster-management.io/zh/developer-guides/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/developer-guides/addon/</guid>
+      <guid>https://open-cluster-management.io/zh/developer-guides/addon/</guid>
       <description>This page is a developer guide about how to build an OCM add-on using addon-framework.
    Overview Write your first add-on  Implement the addon manager Deploy the add-on manager on your hub cluster  RBAC of the addon manager ClusterManagementAddOn   Enable the add-on for a managed cluster. Disable the add-on for a managed cluster What’s the next   Add-on agent configurations  Monitor addon healthiness Automatic installation Register your add-on Add your add-on agent supported configurations   Build an addon using helm charts or raw manifests.</description>
     </item>
     
     <item>
       <title>Application lifecycle management</title>
-      <link>http://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
    Architecture Prerequisite Install via Clusteradm CLI tool Install from source What is next     Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
 Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
@@ -219,49 +219,49 @@ Prerequisite You must meet the following prerequisites to install the applicatio
     
     <item>
       <title>Policy</title>
-      <link>http://open-cluster-management.io/zh/concepts/policy/</link>
+      <link>https://open-cluster-management.io/zh/concepts/policy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/concepts/policy/</guid>
+      <guid>https://open-cluster-management.io/zh/concepts/policy/</guid>
       <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
  Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
     </item>
     
     <item>
       <title>多集群网络隧道</title>
-      <link>http://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/</guid>
       <description>Cluster proxy is an OCM addon providing L4 network connectivity from hub cluster to the managed clusters without any additional requirement to the managed cluster&amp;rsquo;s network infrastructure by leveraging the Kubernetes official SIG sub-project apiserver-network-proxy.
    Background  About apiserver-network-proxy   Architecture Prerequisite Installation Usage  Command-line tools Example code   More insight  Troubleshooting Related materials       Background The original architecture of OCM allows a cluster from anywhere to be registered and managed by OCM&amp;rsquo;s control plane (i.</description>
     </item>
     
     <item>
       <title>托管多集群ServiceAccount</title>
-      <link>http://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount/</guid>
       <description>Background Prerequisite Installation Usage Related materials     Managed Service Account is an OCM addon enabling a hub cluster admin to manage service account across multiple clusters on ease. By controlling the creation and removal of the service account, the addon agent will project and rotate the corresponding token back to the hub cluster which is very useful for the Kube API client from the hub cluster to request against the managed clusters.</description>
     </item>
     
     <item>
       <title>Policy framework</title>
-      <link>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-framework/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
    API Concepts Architecture Prerequisite Install the governance-policy-framework hub components  Install via Clusteradm CLI Install from source   Deploy the synchronization components to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next     API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:</description>
     </item>
     
     <item>
       <title>Policy controllers</title>
-      <link>http://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</guid>
       <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
    Prerequisite Install the configuration policy controller to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next  Placement API Placement Rule API Final steps to apply the policy       Prerequisite You must meet the following prerequisites to install the policy controllers:</description>
     </item>

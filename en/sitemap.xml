@@ -2,235 +2,235 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     
     <url>
-        <loc>http://open-cluster-management.io/community/releases</loc>
+        <loc>https://open-cluster-management.io/community/releases</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/community/roadmap</loc>
+        <loc>https://open-cluster-management.io/community/roadmap</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/architecture</loc>
+        <loc>https://open-cluster-management.io/concepts/architecture</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts</loc>
+        <loc>https://open-cluster-management.io/concepts</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios/deploy-kubernetes-resources</loc>
+        <loc>https://open-cluster-management.io/scenarios/deploy-kubernetes-resources</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios/distribute-workload-with-placement</loc>
+        <loc>https://open-cluster-management.io/scenarios/distribute-workload-with-placement</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities</loc>
+        <loc>https://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios/extending-managed-clusters</loc>
+        <loc>https://open-cluster-management.io/scenarios/extending-managed-clusters</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios/integration-with-argocd</loc>
+        <loc>https://open-cluster-management.io/scenarios/integration-with-argocd</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/administration/monitoring</loc>
+        <loc>https://open-cluster-management.io/getting-started/administration/monitoring</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios/pushing-kube-api-requests</loc>
+        <loc>https://open-cluster-management.io/scenarios/pushing-kube-api-requests</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/quick-start</loc>
+        <loc>https://open-cluster-management.io/getting-started/quick-start</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/installation/start-the-control-plane</loc>
+        <loc>https://open-cluster-management.io/getting-started/installation/start-the-control-plane</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/administration/upgrading</loc>
+        <loc>https://open-cluster-management.io/getting-started/administration/upgrading</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/clusterclaim</loc>
+        <loc>https://open-cluster-management.io/concepts/clusterclaim</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/installation</loc>
+        <loc>https://open-cluster-management.io/getting-started/installation</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/managedcluster</loc>
+        <loc>https://open-cluster-management.io/concepts/managedcluster</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/managedclusterset</loc>
+        <loc>https://open-cluster-management.io/concepts/managedclusterset</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/manifestwork</loc>
+        <loc>https://open-cluster-management.io/concepts/manifestwork</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/installation/register-a-cluster</loc>
+        <loc>https://open-cluster-management.io/getting-started/installation/register-a-cluster</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/placement</loc>
+        <loc>https://open-cluster-management.io/concepts/placement</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/scenarios</loc>
+        <loc>https://open-cluster-management.io/scenarios</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/addon</loc>
+        <loc>https://open-cluster-management.io/concepts/addon</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/community</loc>
+        <loc>https://open-cluster-management.io/community</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/developer-guides</loc>
+        <loc>https://open-cluster-management.io/developer-guides</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/developer-guides/addon</loc>
+        <loc>https://open-cluster-management.io/developer-guides/addon</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration</loc>
+        <loc>https://open-cluster-management.io/getting-started/integration</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/administration</loc>
+        <loc>https://open-cluster-management.io/getting-started/administration</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/app-lifecycle</loc>
+        <loc>https://open-cluster-management.io/getting-started/integration/app-lifecycle</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/cluster-proxy</loc>
+        <loc>https://open-cluster-management.io/getting-started/integration/cluster-proxy</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/contribute</loc>
+        <loc>https://open-cluster-management.io/contribute</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/managed-serviceaccount</loc>
+        <loc>https://open-cluster-management.io/getting-started/integration/managed-serviceaccount</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/concepts/policy</loc>
+        <loc>https://open-cluster-management.io/concepts/policy</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/developer-guides/vscode-extension</loc>
+        <loc>https://open-cluster-management.io/developer-guides/vscode-extension</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/blog</loc>
+        <loc>https://open-cluster-management.io/blog</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/policy-framework</loc>
+        <loc>https://open-cluster-management.io/getting-started/integration/policy-framework</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started/integration/policy-controllers</loc>
+        <loc>https://open-cluster-management.io/getting-started/integration/policy-controllers</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/getting-started</loc>
+        <loc>https://open-cluster-management.io/getting-started</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/addon-framework</loc>
+        <loc>https://open-cluster-management.io/addon-framework</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/api</loc>
+        <loc>https://open-cluster-management.io/api</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/clusteradm</loc>
+        <loc>https://open-cluster-management.io/clusteradm</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/cluster-proxy</loc>
+        <loc>https://open-cluster-management.io/cluster-proxy</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/config-policy-controller</loc>
+        <loc>https://open-cluster-management.io/config-policy-controller</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-addon-controller</loc>
+        <loc>https://open-cluster-management.io/governance-policy-addon-controller</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-framework-addon</loc>
+        <loc>https://open-cluster-management.io/governance-policy-framework-addon</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-propagator</loc>
+        <loc>https://open-cluster-management.io/governance-policy-propagator</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-spec-sync</loc>
+        <loc>https://open-cluster-management.io/governance-policy-spec-sync</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-status-sync</loc>
+        <loc>https://open-cluster-management.io/governance-policy-status-sync</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-template-sync</loc>
+        <loc>https://open-cluster-management.io/governance-policy-template-sync</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/managed-serviceaccount</loc>
+        <loc>https://open-cluster-management.io/managed-serviceaccount</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/multicloud-operators-channel</loc>
+        <loc>https://open-cluster-management.io/multicloud-operators-channel</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/multicloud-operators-subscription</loc>
+        <loc>https://open-cluster-management.io/multicloud-operators-subscription</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/multicluster-controlplane</loc>
+        <loc>https://open-cluster-management.io/multicluster-controlplane</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io</loc>
+        <loc>https://open-cluster-management.io</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/placement</loc>
+        <loc>https://open-cluster-management.io/placement</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/policy-generator-plugin</loc>
+        <loc>https://open-cluster-management.io/policy-generator-plugin</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/registration</loc>
+        <loc>https://open-cluster-management.io/registration</loc>
     </url>
     
     <url>
-        <loc>http://open-cluster-management.io/work</loc>
+        <loc>https://open-cluster-management.io/work</loc>
     </url>
     
     <url>

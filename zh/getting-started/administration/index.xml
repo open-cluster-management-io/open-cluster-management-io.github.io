@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Administration on Open Cluster Management</title>
-    <link>http://open-cluster-management.io/zh/getting-started/administration/</link>
+    <link>https://open-cluster-management.io/zh/getting-started/administration/</link>
     <description>Recent content in Administration on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
     
-	<atom:link href="http://open-cluster-management.io/zh/getting-started/administration/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://open-cluster-management.io/zh/getting-started/administration/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Upgrading your OCM environment</title>
-      <link>http://open-cluster-management.io/zh/getting-started/administration/upgrading/</link>
+      <link>https://open-cluster-management.io/zh/getting-started/administration/upgrading/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://open-cluster-management.io/zh/getting-started/administration/upgrading/</guid>
+      <guid>https://open-cluster-management.io/zh/getting-started/administration/upgrading/</guid>
       <description>Before you begin Upgrade command-line tool Upgrade OCM Components via Command-line tool  Hub Cluster Managed Clusters   Upgrade OCM Components via Manual Edit  Hub Cluster  Upgrading the registration-operator Upgrading the core components   Managed Clusters  Upgrading the registration-operator Upgrading the agent components Confirm the upgrade         This page provides the suggested steps to upgrade your OCM environment including both the hub cluster and the managed clusters.</description>
     </item>
     
