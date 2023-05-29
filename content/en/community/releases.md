@@ -3,13 +3,13 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.9.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.11.0`. Continue reading to view upcoming releases:
 ## `0.11.0`, 1, June 2023
 
 The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
 
 - Addon install strategy and rolling upgrade: a new component `addon-manager` is introduced to handle the addon installation and upgrade.
-  User can not specify the installation and upgrade strategy of the addon by referencing placement on `ClusterManagementAddon` API. The
+  User can specify the installation and upgrade strategy of the addon by referencing placement on `ClusterManagementAddon` API. The
   feature is in the alpha stage and can be enabled by setting `feature-gates=AddonManagement=true` when running `clusteradm init`.
 - ManifestWorkReplicaSet: it is a new API introduced in this release to deploy `ManifestWork` to multiple clusters by placement. Users can
   create a `ManifestWorkReplicaSet` together with `Placement` in the same namespace to spread the `ManifestWork` to multiple clusters, or
@@ -21,6 +21,8 @@ The Open Cluster Management team is proud to announce the release of OCM v0.11.0
 - ManifestWork can return structured result: previously the feedback mechanism in `ManifestWork` can only return scalar value. In this
   release, we add the support to return a structured value in the format of json string. To enable this feature, user can add `feature-gates=RawFeedbackJsonString=true`
   when running `clusteradm join` command.
+- Policies added support for syncing [Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/) manifests directly (previously a ConfigurationPolicy was needed to sync Gatekeeper manifests).
+- Templates were enhanced to lookup objects by label, and added `copySecretData` and `copyConfigMapData` functions to fetch the entire `data` contents of the respective object
 
 ### Core components
 - registration v0.11.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
@@ -33,6 +35,10 @@ The Open Cluster Management team is proud to announce the release of OCM v0.11.0
 ### Addons
 - cluster-proxy v0.3.0 [repo](https://github.com/open-cluster-management-io/cluster-proxy)
 - managed-serviceaccount v0.3.0 [repo](https://github.com/open-cluster-management-io/managed-serviceaccount)
+- config-policy-controller v0.11.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.11.0)
+- governance-policy-framework-addon v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.11.0)
+- governance-policy-propagator v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.11.0)
+- governance-policy-addon-controller v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.11.0)
 
 ## `0.10.0`, 17th, Feb 2023
 
