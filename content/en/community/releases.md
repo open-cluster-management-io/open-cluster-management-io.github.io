@@ -22,7 +22,8 @@ The Open Cluster Management team is proud to announce the release of OCM v0.11.0
   release, we add the support to return a structured value in the format of json string. To enable this feature, user can add `feature-gates=RawFeedbackJsonString=true`
   when running `clusteradm join` command.
 - Policies added support for syncing [Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/) manifests directly (previously a ConfigurationPolicy was needed to sync Gatekeeper manifests).
-- Templates were enhanced to lookup objects by label, and added `copySecretData` and `copyConfigMapData` functions to fetch the entire `data` contents of the respective object
+- Templates were enhanced to lookup objects by label, and added `copySecretData` and `copyConfigMapData` functions to fetch the entire `data` contents of the respective object.
+- Improved the integration of the ArgoCD pull model by aggregating the status of deployed resources in the managed clusters and presenting it in the hub cluster's `MulticlusterApplicationSetReport` custom resource.
 
 ### Core components
 - registration v0.11.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
@@ -37,8 +38,14 @@ The Open Cluster Management team is proud to announce the release of OCM v0.11.0
 - managed-serviceaccount v0.3.0 [repo](https://github.com/open-cluster-management-io/managed-serviceaccount)
 - config-policy-controller v0.11.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.11.0)
 - governance-policy-framework-addon v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.11.0)
-- governance-policy-propagator v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.11.0)
+- governance-policy-propagator v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.11.0)
 - governance-policy-addon-controller v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.11.0)
+- multicloud-operators-subscription v0.11.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.11.0)
+- multicloud-operators-channel v0.11.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.11.0)
+- multicloud-integrations v0.11.0 [release note](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.11.0)
+
+We are pleased to welcome several new contributors to the community: @aii-nozomu-oki, @serngawy, @maleck13, @fgiloux, @USER0308, @youhangwang, @TheRealJon, @skitt, @yiraeChristineKim
+@iranzo, @nirs, @akram, @pajikos, @Arhell, @levenhagen, @eemurphy, @bellpr, @o-farag. Thanks for your contributions!
 
 ## `0.10.0`, 17th, Feb 2023
 
