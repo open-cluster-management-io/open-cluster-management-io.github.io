@@ -70,6 +70,7 @@ spec:
     displayName: helloworld
 ```
 
+### Enable the add-on manually
 The addon manager running on the hub is taking responsibility of configuring the
 installation of addon agents for each managed cluster. When a user wants to enable 
 the add-on for a certain managed cluster, the user should create a 
@@ -88,11 +89,86 @@ spec:
   installNamespace: helloworld
 ```
 
-Last but not least, a neat uninstallation of the addon is also supported by simply
-deleting the corresponding `ClusterManagementAddon` resource from the hub cluster
-which is the "root" of the whole addon. The OCM platform will automatically sanitize
-the hub cluster for you after the uninstalling by removing all the components either
-in the hub cluster or in the manage clusters.
+### Enable the add-on automatically
+If the addon is developed with [automatic installation](https://open-cluster-management.io/developer-guides/addon/#automatic-installation),
+which support [auto-install by cluster discovery](#auto-install-by-cluster-discovery), 
+then the `ManagedClusterAddOn` will be created for all managed cluster namespaces 
+automatically, or be created for the selected managed cluster namespaces automatically.
+
+### Enable the add-on by install strategy
+If the addon is not developed with [automatic installation](https://open-cluster-management.io/developer-guides/addon/#automatic-installation),
+the user can choose to define a `installStrategy` in `ClusterManagementAddon` to 
+specify on which clusters the `ManagedClusterAddon` should be enabled. For instance, 
+the following example enables `helloworld` add-on on the clusters with aws label. 
+
+If the addon have [supported configurations](https://open-cluster-management.io/developer-guides/addon/#add-your-add-on-agent-supported-configurations), 
+can also define configurations used for add-on on the selected clusters, this 
+will override the `defaultConfig` defined in `spec.supportedConfigs`.
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  addOnMeta:
+    displayName: helloworld
+  installStrategy:
+    type: Placements
+    placements:
+    - name: placement-aws
+      namespace: default
+      configs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+        name: deploy-config
+        namespace: open-cluster-management
+```
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: placement-aws
+  namespace: default
+spec:
+  predicates:
+    - requiredClusterSelector:
+        claimSelector:
+          matchExpressions:
+            - key: platform.open-cluster-management.io
+              operator: In
+              values:
+                - aws
+```
+
+Notice that `installStrategy` is still in experimental stage, not enabled by default. 
+To make it work, need extra 2 steps: 
+
+1. Add annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"` explicitly 
+in `ClusterManagementAddon`.
+2. Enable "AddonManagement" featureGates in `ClusterManager` as below.
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+...
+  addOnManagerConfiguration:
+    featureGates:
+    - feature: AddonManagement
+      mode: Enable
+  addOnManagerImagePullSpec: quay.io/open-cluster-management/addon-manager:latest
+```
+Once enabled, a new deployment cluster-manager-addon-manager-controller will be running.
+```bash
+# oc get deploy -n open-cluster-management-hub  cluster-manager-addon-manager-controller
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+cluster-manager-addon-manager-controller   1/1     1            1           19m
+```
 
 ### Add-on healthiness
 
@@ -109,6 +185,12 @@ The addon agent are expected to report its healthiness periodically as long as i
 running. Also the versioning of the addon agent can be reflected in the resources 
 optionally so that we can control the upgrading the agents progressively.
 
+### Clean the add-ons
+Last but not least, a neat uninstallation of the addon is also supported by simply
+deleting the corresponding `ClusterManagementAddon` resource from the hub cluster
+which is the "root" of the whole addon. The OCM platform will automatically sanitize
+the hub cluster for you after the uninstalling by removing all the components either
+in the hub cluster or in the manage clusters.
 
 ## Examples
 
