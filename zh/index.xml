@@ -190,8 +190,8 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/concepts/addon/</guid>
-      <description>What is an add-on? Open-cluster-management has a mechanism to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in various aspects. Examples of add-ons includes:
- A tool to collect alert events in the managed cluster, and send to the hub cluster. A network solution that uses the hub to share the network info and establish connection among managed clusters. A tool to spread security policies to multiple clusters.</description>
+      <description>What is an add-on? Open-cluster-management has a built-in mechanism named addon-framework to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in custom cases. A typical addon should consist of two kinds of components:
+  Addon Agent: A kubernetes controller in the managed cluster that manages the managed cluster for the hub admins. A typical addon agent is expected to be working by subscribing the prescriptions (e.</description>
     </item>
     
     <item>
