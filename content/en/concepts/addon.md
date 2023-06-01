@@ -96,12 +96,14 @@ then the `ManagedClusterAddOn` will be created for all managed cluster namespace
 automatically, or be created for the selected managed cluster namespaces automatically.
 
 ### Enable the add-on by install strategy
-If the addon is not developed with [automatic installation](https://open-cluster-management.io/developer-guides/addon/#automatic-installation),
-the user can choose to define a `installStrategy` in `ClusterManagementAddon` to 
-specify on which clusters the `ManagedClusterAddon` should be enabled. For instance, 
-the following example enables `helloworld` add-on on the clusters with aws label. 
+If the addon is developed following the guidelines mentioned in [managing the add-on agent lifecycle by addon-manager](https://open-cluster-management.io/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager), 
+the user can define an `installStrategy` in the `ClusterManagementAddOn` 
+to specify on which clusters the `ManagedClusterAddOn` should be enabled.
 
-If the addon have [supported configurations](https://open-cluster-management.io/developer-guides/addon/#add-your-add-on-agent-supported-configurations), 
+For example, the following example enables the `helloworld` add-on on clusters 
+with the aws label.
+
+Additionally, if the addon has [supported configurations](https://open-cluster-management.io/developer-guides/addon/#add-your-add-on-agent-supported-configurations),
 can also define configurations used for add-on on the selected clusters, this 
 will override the `defaultConfig` defined in `spec.supportedConfigs`.
 
@@ -147,9 +149,8 @@ spec:
 Notice that `installStrategy` is still in experimental stage, not enabled by default. 
 To make it work, need extra 2 steps: 
 
-1. Add annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"` explicitly 
-in `ClusterManagementAddon`.
-2. Enable "AddonManagement" featureGates in `ClusterManager` as below.
+1. Enable "AddonManagement" featureGates in `ClusterManager` as below.
+
 ```yaml
 apiVersion: operator.open-cluster-management.io/v1
 kind: ClusterManager
@@ -163,11 +164,53 @@ spec:
       mode: Enable
   addOnManagerImagePullSpec: quay.io/open-cluster-management/addon-manager:latest
 ```
-Once enabled, a new deployment cluster-manager-addon-manager-controller will be running.
+
+Once enabled, a new deployment cluster-manager-addon-manager-controller will be 
+running.
+
 ```bash
 # oc get deploy -n open-cluster-management-hub  cluster-manager-addon-manager-controller
 NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
 cluster-manager-addon-manager-controller   1/1     1            1           19m
+```
+
+2. Add annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"`
+explicitly in `ClusterManagementAddon`.
+
+#### Add-on rollout strategy
+
+With the rollout strategy defined in the `ClusterManagementAddOn` API, users can 
+control the upgrade behavior of the addon when there are changes in the supported 
+configurations.
+
+For example, if the add-on user updates the "deploy-config" and wants to apply 
+the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will 
+apply the change each time. The rollout strategy can be defined as follows:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  addOnMeta:
+    displayName: helloworld
+  installStrategy:
+    type: Placements
+    placements:
+    - name: placement-aws
+      namespace: default
+      configs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+        name: deploy-config
+        namespace: open-cluster-management
+      rolloutStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxConcurrentlyUpdating: 25%
 ```
 
 ### Add-on healthiness

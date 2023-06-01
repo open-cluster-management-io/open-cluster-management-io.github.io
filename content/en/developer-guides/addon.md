@@ -790,3 +790,167 @@ This architecture graph shows how the coordination between add-on manager and ad
    And will create an add-on deploy `ManifestWork` in the managed cluster namespace once the `ManagedClusterAddOn` is created in this managed cluster namespace.
 5. The work agent will apply the manifests in the `ManifestWork` on the managed cluster.
 6. The add-on agent will mount the secret created by the registration agent to get the hub kubeConfig to connect with the hub cluster.
+
+## Managing the add-on agent lifecycle by addon-manager
+
+The add-on agent lifecycle can now be managed by a new component called 
+`addon-manager` starting from OCM v0.11.0. This is achieved through enhancements 
+to the `ClusterManagementAddOn` and `ManagedClusterAddOn` APIs.
+
+1. Install strategy
+
+With the install strategy defined in the `ClusterManagementAddOn` API, users can 
+configure which clusters the related `ManagedClusterAddon` should be enabled by 
+referencing the `Placement`. For example, enabling the `helloworld` add-on on 
+clusters labeled with aws. (Before OCM v0.11.0, the [automatic installation strategy](#automatic-installation)
+is hardcoded in the code.)
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  addOnMeta:
+    displayName: helloworld
+  installStrategy:
+    type: Placements
+    placements:
+    - name: placement-aws
+      namespace: default
+```
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: placement-aws
+  namespace: default
+spec:
+  predicates:
+    - requiredClusterSelector:
+        claimSelector:
+          matchExpressions:
+            - key: platform.open-cluster-management.io
+              operator: In
+              values:
+                - aws
+```
+
+2. Rollout strategy
+
+With the rollout strategy defined in the `ClusterManagementAddOn` API, users can 
+control the upgrade behavior of the add-on when there are changes in the [supported configurations](#add-your-add-on-agent-supported-configurations).
+
+For example, if the add-on user updates the "deploy-config" and wants to apply 
+the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will 
+apply the change each time.
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  addOnMeta:
+    displayName: helloworld
+  installStrategy:
+    type: Placements
+    placements:
+    - name: placement-aws
+      namespace: default
+      configs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+        name: deploy-config
+        namespace: open-cluster-management
+      rolloutStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxConcurrentlyUpdating: 25%
+```
+
+The latest addon-framework already implements the installStrategy and rolloutStrategy. 
+Add-on developers only need to upgrade to the latest addon-framework and API in 
+the `go.mod` file with a minor code change to support the scenarios mentioned above.
+
+1. Modify the `go.mod` file to use the latest addon-framework and API versions.
+
+```
+open-cluster-management.io/addon-framework v0.7.0
+open-cluster-management.io/api v0.11.0
+```
+
+2. Remove the `WithInstallStrategy()` function described in the [automatic installation](#automatic-installation) 
+section since it conflicts with the install strategy defined in the `ClusterManagementAddOn` API level.
+
+With the above changes, you can now enable the "AddonManagement" feature gates 
+in `ClusterManager` and let the new component `addon-manager` manage the add-ons.
+
+3. Enable the "AddonManagement" feature gates in `ClusterManager` as shown below.
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+...
+  addOnManagerConfiguration:
+    featureGates:
+    - feature: AddonManagement
+      mode: Enable
+  addOnManagerImagePullSpec: quay.io/open-cluster-management/addon-manager:latest
+```
+
+Once enabled, a new deployment `cluster-manager-addon-manager-controller` will be running.
+
+```bash
+# oc get deploy -n open-cluster-management-hub  cluster-manager-addon-manager-controller
+NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
+cluster-manager-addon-manager-controller   1/1     1            1           19m
+```
+
+4. Claim that the addon is managed by `addon-manager` by adding the annotation 
+`addon.open-cluster-management.io/lifecycle: "addon-manager"` explicitly in the 
+`ClusterManagementAddOn`.
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+...
+```
+
+5. Define the `installStrategy` and `rolloutStrategy` in the `ClusterManagementAddOn` 
+as shown in the example above. Note that the rollout strategy is triggered by 
+changes in configurations, so if the addon does not have [supported cofingurations](#add-your-add-on-agent-supported-configurations), 
+the rollout strategy will not take effect.
+
+For addons that upgrade the addon-framework to the latest version but want to 
+keep the current installation and upgrade behavior, the installStrategy type 
+should be set to "Manual". Do not add the annotation 
+`addon.open-cluster-management.io/lifecycle` or set it to "self".
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "self"
+  name: managed-serviceaccount
+spec:
+  installStrategy:
+    type: Manual
+```
+
+For addons using addon-framework version v0.6.1 and earlier, the addon will 
+maintain its current installation and upgrade behavior, and the new component 
+`addon-manager` will have no impact on it.
