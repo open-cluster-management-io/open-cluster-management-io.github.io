@@ -177,6 +177,17 @@ The ManagedClusterSet and ManagedClusterSetBinding API v1alpha1 version will no 
     </item>
     
     <item>
+      <title>ManifestWorkReplicaSet</title>
+      <link>https://open-cluster-management.io/concepts/manifestworkreplicaset/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/concepts/manifestworkreplicaset/</guid>
+      <description>What is ManifestWorkReplicaSet Status tracking Release and Enable Feature     What is ManifestWorkReplicaSet ManifestWorkReplicaSet is an aggregator API that use Manifestwork and Placement to create manifeswork for the placement selected clusters.
+An example of ManifestWorkReplicaSet to deploy a CronJob and Namespace for a group of clusters selected by a placement.
+apiVersion: work.open-cluster-management.io/v1alpha1 kind: ManifestWorkReplicaSet metadata: name: mwrset-cronjob namespace: ocm-ns spec: placementRefs: - name: placement-byname # Name of a created Placement manifestWorkTemplate: deleteOption: propagationPolicy: SelectivelyOrphan selectivelyOrphans: orphaningRules: - group: &amp;#39;&amp;#39; name: ocm-ns namespace: &amp;#39;&amp;#39; resource: Namespace manifestConfigs: - feedbackRules: - jsonPaths: - name: lastScheduleTime path: .</description>
+    </item>
+    
+    <item>
       <title>Placement</title>
       <link>https://open-cluster-management.io/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

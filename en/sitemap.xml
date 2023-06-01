@@ -82,6 +82,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/concepts/manifestworkreplicaset</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/concepts/placement</loc>
     </url>
     
