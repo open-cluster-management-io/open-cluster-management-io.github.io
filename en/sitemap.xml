@@ -218,6 +218,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/ocm</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io</loc>
     </url>
     
@@ -296,5 +300,8 @@
     </url>
     <url>
         <loc>http://open-cluster-management.io/multicluster-controlplane?go-get=1</loc>
+    </url>
+    <url>
+        <loc>http://open-cluster-management.io/ocm?go-get=1</loc>
     </url>
 </urlset>
