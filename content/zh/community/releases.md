@@ -3,7 +3,74 @@ title: 发行版本
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.9.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.11.0`. Continue reading to view upcoming releases:
+## `0.11.0`, 1, June 2023
+
+The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
+
+- Addon install strategy and rolling upgrade: a new component `addon-manager` is introduced to handle the addon installation and upgrade.
+  User can specify the installation and upgrade strategy of the addon by referencing placement on `ClusterManagementAddon` API. The
+  feature is in the alpha stage and can be enabled by setting `feature-gates=AddonManagement=true` when running `clusteradm init`.
+- ManifestWorkReplicaSet: it is a new API introduced in this release to deploy `ManifestWork` to multiple clusters by placement. Users can
+  create a `ManifestWorkReplicaSet` together with `Placement` in the same namespace to spread the `ManifestWork` to multiple clusters, or
+  use the command `clusteradm create work <work name> -f <manifest yaml> --placement <namespace>/<placement name> -r`. The
+  feature is in the alpha stage and can be enabled by setting `feature-gates=ManifestWorkReplicaSet=true` when running `clusteradm init`.
+- Registration auto approve: user can configure a list of user id to auto approve the registration which makes cluster registration simpler
+  in some scenarios. The feature is in the alpha stage and can be enabled by setting `feature-gates=ManagedClusterAutoApproval=true` when running `clusteradm init`.
+  With this feautre enabled, the user does not need to run `accept` command on hub after `join` command.
+- ManifestWork can return structured result: previously the feedback mechanism in `ManifestWork` can only return scalar value. In this
+  release, we add the support to return a structured value in the format of json string. To enable this feature, user can add `feature-gates=RawFeedbackJsonString=true`
+  when running `clusteradm join` command.
+- Policies added support for syncing [Gatekeeper](https://open-policy-agent.github.io/gatekeeper/website/) manifests directly (previously a ConfigurationPolicy was needed to sync Gatekeeper manifests).
+- Templates were enhanced to lookup objects by label, and added `copySecretData` and `copyConfigMapData` functions to fetch the entire `data` contents of the respective object.
+- Improved the integration of the ArgoCD pull model by aggregating the status of deployed resources in the managed clusters and presenting it in the hub cluster's `MulticlusterApplicationSetReport` custom resource.
+
+### Core components
+- registration v0.11.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- work v0.11.0 [changelog](https://github.com/open-cluster-management-io/work/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- placement v0.11.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- addon-framework v0.7.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.7.0/CHANGELOG/CHANGELOG-v0.7.md)
+- registration-operator v0.11.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md)
+- clusteradm  v0.6.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.6.0/CHANGELOG.md)
+
+### Addons
+- cluster-proxy v0.3.0 [repo](https://github.com/open-cluster-management-io/cluster-proxy)
+- managed-serviceaccount v0.3.0 [repo](https://github.com/open-cluster-management-io/managed-serviceaccount)
+- config-policy-controller v0.11.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.11.0)
+- governance-policy-framework-addon v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.11.0)
+- governance-policy-propagator v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.11.0)
+- governance-policy-addon-controller v0.11.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.11.0)
+- multicloud-operators-subscription v0.11.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.11.0)
+- multicloud-operators-channel v0.11.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.11.0)
+- multicloud-integrations v0.11.0 [release note](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.11.0)
+
+We are pleased to welcome several new contributors to the community: @aii-nozomu-oki, @serngawy, @maleck13, @fgiloux, @USER0308, @youhangwang. Thanks for your contributions!
+
+## `0.10.0`, 17th, Feb 2023
+
+The Open Cluster Management team is proud to announce the release of OCM v0.10.0! We mainly focused on bug fixes, code refactoring, and code stability
+in this release. Also we worked on several important design proposals on addon lifecycle enhancement and manifestwork
+orchestration which will be implemented in the next release. Here are some main features included in this release:
+- Argo CD hub-spoke / pull model application delivery integration. See [argocd-pull-integration repo](https://github.com/open-cluster-management-io/argocd-pull-integration) for more details.
+- Policy templating is enhanced so that when a referenced object is updated, the template is also updated.
+- A Policy or ConfigurationPolicy can specify dependencies on another policy having a specified status before taking action.
+- A raw string with go templates can be provided in `object-templates-raw` to the ConfigurationPolicy, allowing dynamically generated objects through the use of functions like `{{ range ... }}`.
+
+### Core components
+- registration v0.10.0 [changelog](https://github.com/open-cluster-management-io/registration/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- work v0.10.0[changelog](https://github.com/open-cluster-management-io/work/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- placement v0.10.0 [changelog](https://github.com/open-cluster-management-io/placement/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- addon-framework v0.6.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/blob/v0.6.0/CHANGELOG/CHANGELOG-v0.6.md)
+- registration-operator v0.9.0 [changelog](https://github.com/open-cluster-management-io/registration-operator/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md)
+- clusteradm  v0.5.1 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.5.1/CHANGELOG.md)
+
+### Addons
+- config-policy-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.10.0)
+- governance-policy-framework-addon v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.10.0)
+- governance-policy-propagator v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.10.0)
+- governance-policy-addon-controller v0.10.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.10.0)
+- multicloud-operators-subscription v0.10.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.10.0)
+- multicloud-operators-channel v0.10.0 [release note](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.10.0)
 
 ## `v0.9.0`, 21st, October 2022
 
