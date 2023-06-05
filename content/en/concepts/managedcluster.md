@@ -88,7 +88,7 @@ gracefully with permission and validity under control.
 
 
 Note that the functionality mentioned above are all managed by OCM's
-[registration](https://github.com/open-cluster-management-io/registration)
+[registration](https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration)
 sub-project, which is the "root dependency" in the OCM world. It includes
 an agent in the managed cluster to register to the hub and a controller in
 the hub cluster to coordinate with the agent.
