@@ -30,9 +30,9 @@ from the Kubernetes SIG-Multicluster. Member clusters in the set are supposed
 to have common/similar attributes e.g. purpose of use, deployed regions, etc.
 
 `ManagedClusterSetBinding` is a namespace-scoped API in the hub cluster to project
-a `ManagedClusterSet` into a certain namespace. Each `ManagedClusterSet` can be 
-managed/administrated by different hub admins, and their RBAC permissions can 
-also be isolated by binding the `ManagedClusterSet` to a "workspace namespace" in 
+a `ManagedClusterSet` into a certain namespace. Each `ManagedClusterSet` can be
+managed/administrated by different hub admins, and their RBAC permissions can
+also be isolated by binding the `ManagedClusterSet` to a "workspace namespace" in
 the hub cluster via `ManagedClusterSetBinding`.
 
 Note that `ManagedClusterSet` and "workspace namespace" has an __M*N__
@@ -43,7 +43,7 @@ relationship:
 - Bind one cluster set to multiple workspace namespace indicates that the
   cluster set can be operated from all the bound namespaces at the same time.
 
-The cluster set admin can flexibly operate the member clusters in the workspace 
+The cluster set admin can flexibly operate the member clusters in the workspace
 namespace using [Placement](../placement) API, etc.
 
 The following picture shows the hierarchies of how the cluster set works:
@@ -74,7 +74,7 @@ $ clusteradm get clustersets
 ```
 
 The newly created cluster set will be empty by default, so we can move on adding
-member clusters to the set. 
+member clusters to the set.
 
 ### Adding a ManagedCluster to a ManagedClusterSet
 
@@ -140,7 +140,7 @@ apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSet
 metadata:
   name: example-clusterset
-spec: 
+spec:
   clusterSelector:
     selectorType: ExclusiveClusterSetLabel
 status:
@@ -159,7 +159,7 @@ metadata:
   name: example-openshift-clusterset
 spec:
   clusterSelector:
-    labelSelector: 
+    labelSelector:
       matchLabels:
         vendor: OpenShift
     selectorType: LabelSelector
@@ -172,7 +172,7 @@ status:
     type: ClusterSetEmpty
 ```
 
-The `ManagedClusterSetBinding` can also be checked by the command 
+The `ManagedClusterSetBinding` can also be checked by the command
 `kubectl get managedclustersetbinding <cluster set name> -n <workspace-namespace> -oyaml`:
 
 ```yaml
@@ -196,7 +196,7 @@ status:
 
 #### Adding member cluster to a clusterset
 
-Adding a new member cluster to a clusterset requires RBAC permission of 
+Adding a new member cluster to a clusterset requires RBAC permission of
 updating the managed cluster and `managedclustersets/join` subresource. We can
 manually apply the following clusterrole to allow a hub user to manipulate
 that clusterset:
@@ -242,23 +242,23 @@ rules:
 
 ## Default ManagedClusterSet
 
-For easier management, we introduce a ManagedClusterSet called `default`. 
-A `default` ManagedClusterSet will be automatically created initially. Any clusters not specifying a ManagedClusterSet will be added into the `default`. 
+For easier management, we introduce a ManagedClusterSet called `default`.
+A `default` ManagedClusterSet will be automatically created initially. Any clusters not specifying a ManagedClusterSet will be added into the `default`.
 The user can move the cluster from the default clusterset to another clusterset using the command:
 ```
 clusteradm clusterset set target-clusterset --clusters cluster-name
 ```
 
 `default` clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
-[`- "--feature-gates=DefaultClusterSet=false"`](https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51) 
+[`- "--feature-gates=DefaultClusterSet=false"`](https://github.com/open-cluster-management-io/ocm/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51)
 
 ## Global ManagedClusterSet
 
-For easier management, we also introduce a ManagedClusterSet called `global`. 
+For easier management, we also introduce a ManagedClusterSet called `global`.
 A `global` ManagedClusterSet will be automatically created initially. The `global` ManagedClusterSet include all ManagedClusters.
 
 `global` clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
-[`- "--feature-gates=DefaultClusterSet=false"`](https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51) 
+[`- "--feature-gates=DefaultClusterSet=false"`](https://github.com/open-cluster-management-io/ocm/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51)
 
 `global` ManagedClusterSet detail:
 

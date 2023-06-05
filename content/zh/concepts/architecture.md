@@ -19,7 +19,7 @@ __Open Cluster Management__ (OCM) 是用于Kubernetes多集群编排的一个功
 以下是对于两个模型更加详细的解释，我们将在OCM的世界中频繁的使用这两个模型：
 
 * __Hub Cluster__: 表示运行着OCM多集群控制平面的集群。通常hub cluster应该是一个轻量级的Kubernetes集群，仅仅托管着一些基础的控制器和服务。
-  
+
 * __Klusterlet__: 表示由hub cluster管理着的集群，也被称为“managed cluster”或“spoke cluster”。klusterlet应该主动的从hub cluster __拉取__ 最新的处方，并持续将物理的Kubernetes集群调和到预期状态。
 
 ### hub-agent” 架构
@@ -47,7 +47,7 @@ hub cluster的负担将会大大减轻，因为hub cluster既不需要处理来�
 ### 模块化和可扩展性
 
 OCM不仅会给您带来流畅的用户体验，让您轻松管理多个集群，而且对进一步定制或二次开发同样友好。
-OCM中每一个功能，都可以通过将原子能力模块化到单独的构建块中，来实现自由拔插，除了了一个名为[registration](https://github.com/open-cluster-management-io/registration)的强制性核心模块，此模块负责控制managed控制器的生命周期，并导出基本的`ManagedCluster`模型。
+OCM中每一个功能，都可以通过将原子能力模块化到单独的构建块中，来实现自由拔插，除了了一个名为[registration](https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration)的强制性核心模块，此模块负责控制managed控制器的生命周期，并导出基本的`ManagedCluster`模型。
 
 另一个展示我们模块化能力的好例子是[placement](https://open-cluster-management.io/concepts/placement/)，该独立模块专注于从动态的从用户的处方中，选择合适的managed cluster列表。
 你可以在placement的基础上，构建任何高级的多集群编排方案，比如：多集群工作负载再平衡，多集群helm图表副本等。
@@ -107,7 +107,7 @@ placement模块和执行是完全解耦的，placement的输出结果仅为`Plac
 ### Application lifecycle
 
 __应用生命周期（application lifecycle）__ 定义了用于管理你的managed cluster上应用资源的过程。
-一个多集群应用依然使用Kubernetes规范，但同时具有应用额外的自动化及对各个集群上资源生命周期的管理。 
+一个多集群应用依然使用Kubernetes规范，但同时具有应用额外的自动化及对各个集群上资源生命周期的管理。
 多集群应用允许你在多个集群部署资源，同时维护着易于协调的服务路由，以及对应用各个方面Kubernetes资源更新的完全控制。
 
 ### Governance and risk

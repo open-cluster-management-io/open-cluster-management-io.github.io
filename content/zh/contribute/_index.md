@@ -13,7 +13,7 @@ All contributions are welcome! Open Cluster Management uses the [Apache 2 licens
 
 - Join the [Mailing group](https://groups.google.com/g/open-cluster-management)
 - Attend an upcoming [Community meetings](https://github.com/open-cluster-management-io/community/projects/1)
-- Fork the [repository](https://github.com/open-cluster-management-io) you wish to work on. For example, [API](https://github.com/open-cluster-management-io/api),[Registration](https://github.com/open-cluster-management-io/registration), etc.
+- Fork the [repository](https://github.com/open-cluster-management-io) you wish to work on. For example, [API](https://github.com/open-cluster-management-io/api),[ocm](https://github.com/open-cluster-management-io/ocm), etc.
 - Get started by following the `CONTRIBUTING.md` guide in the repository you wish to work on
 
 ## Get Involved / File a Bug

@@ -56,7 +56,7 @@ Call `clusteradm init`:
 ```
 
 The `clusteradm init` command installs the
-[registration-operator](https://github.com/open-cluster-management-io/registration-operator)
+[registration-operator](https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration-operator)
 on the hub cluster, which is responsible for consistently installing
 and upgrading a few core components for the OCM environment.
 
@@ -103,7 +103,7 @@ kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
 
 ## Uninstall the OCM from the control plane
 
-Before uninstalling the OCM components from your clusters, please detach the 
+Before uninstalling the OCM components from your clusters, please detach the
 managed cluster from the control plane.
 
 ```shell

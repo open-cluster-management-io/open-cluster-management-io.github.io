@@ -69,7 +69,7 @@ rules:
 
 ## 实现细节
 
-所有认证授权和秘钥管理的代码实现都在[registration](https://github.com/open-cluster-management-io/registration)组件中。大概的流程
+所有认证授权和秘钥管理的代码实现都在[registration](https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration)组件中。大概的流程
 如下图所示
 
 ![](./assets/registration-process.png)
