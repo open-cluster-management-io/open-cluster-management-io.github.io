@@ -15,9 +15,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/community/releases/</guid>
-      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.9.0. Continue reading to view upcoming releases:
-v0.9.0, 21st, October 2022 Open Cluster Management team is proud to announce the release of OCM v0.9.0! Here are some main features included in this release:
- De-escalate Work Agent Privilege on Managed Clusters In previous iterations of OCM, the Work Agent process is run with admin privileges on managed clusters.</description>
+      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.11.0. Continue reading to view upcoming releases:
+0.11.0, 1, June 2023 The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
+ Addon install strategy and rolling upgrade: a new component addon-manager is introduced to handle the addon installation and upgrade.</description>
     </item>
     
     <item>
