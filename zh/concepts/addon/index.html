@@ -335,11 +335,12 @@ which support <a href="#auto-install-by-cluster-discovery">auto-install by clust
 then the <code>ManagedClusterAddOn</code> will be created for all managed cluster namespaces
 automatically, or be created for the selected managed cluster namespaces automatically.</p>
 <h3 id="enable-the-add-on-by-install-strategy">Enable the add-on by install strategy</h3>
-<p>If the addon is not developed with <a href="https://open-cluster-management.io/developer-guides/addon/#automatic-installation">automatic installation</a>,
-the user can choose to define a <code>installStrategy</code> in <code>ClusterManagementAddon</code> to
-specify on which clusters the <code>ManagedClusterAddon</code> should be enabled. For instance,
-the following example enables <code>helloworld</code> add-on on the clusters with aws label.</p>
-<p>If the addon have <a href="https://open-cluster-management.io/developer-guides/addon/#add-your-add-on-agent-supported-configurations">supported configurations</a>,
+<p>If the addon is developed following the guidelines mentioned in <a href="https://open-cluster-management.io/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager">managing the add-on agent lifecycle by addon-manager</a>,
+the user can define an <code>installStrategy</code> in the <code>ClusterManagementAddOn</code>
+to specify on which clusters the <code>ManagedClusterAddOn</code> should be enabled.</p>
+<p>For example, the following example enables the <code>helloworld</code> add-on on clusters
+with the aws label.</p>
+<p>Additionally, if the addon has <a href="https://open-cluster-management.io/developer-guides/addon/#add-your-add-on-agent-supported-configurations">supported configurations</a>,
 can also define configurations used for add-on on the selected clusters, this
 will override the <code>defaultConfig</code> defined in <code>spec.supportedConfigs</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
@@ -378,8 +379,6 @@ will override the <code>defaultConfig</code> defined in <code>spec.supportedConf
 </code></pre></div><p>Notice that <code>installStrategy</code> is still in experimental stage, not enabled by default.
 To make it work, need extra 2 steps:</p>
 <ol>
-<li>Add annotation <code>addon.open-cluster-management.io/lifecycle: &quot;addon-manager&quot;</code> explicitly
-in <code>ClusterManagementAddon</code>.</li>
 <li>Enable &ldquo;AddonManagement&rdquo; featureGates in <code>ClusterManager</code> as below.</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: operator.open-cluster-management.io/v1
@@ -393,10 +392,45 @@ in <code>ClusterManagementAddon</code>.</li>
     - <span style="color:#66d9ef">feature</span>: AddonManagement
       <span style="color:#66d9ef">mode</span>: Enable
   <span style="color:#66d9ef">addOnManagerImagePullSpec</span>: quay.io/open-cluster-management/addon-manager:latest
-</code></pre></div><p>Once enabled, a new deployment cluster-manager-addon-manager-controller will be running.</p>
+</code></pre></div><p>Once enabled, a new deployment cluster-manager-addon-manager-controller will be
+running.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># oc get deploy -n open-cluster-management-hub  cluster-manager-addon-manager-controller</span>
 NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
 cluster-manager-addon-manager-controller   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           19m
+</code></pre></div><ol start="2">
+<li>Add annotation <code>addon.open-cluster-management.io/lifecycle: &quot;addon-manager&quot;</code>
+explicitly in <code>ClusterManagementAddon</code>.</li>
+</ol>
+<h4 id="add-on-rollout-strategy">Add-on rollout strategy</h4>
+<p>With the rollout strategy defined in the <code>ClusterManagementAddOn</code> API, users can
+control the upgrade behavior of the addon when there are changes in the supported
+configurations.</p>
+<p>For example, if the add-on user updates the &ldquo;deploy-config&rdquo; and wants to apply
+the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will
+apply the change each time. The rollout strategy can be defined as follows:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: helloworld
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">addOnMeta</span>:
+    <span style="color:#66d9ef">displayName</span>: helloworld
+  <span style="color:#66d9ef">installStrategy</span>:
+    <span style="color:#66d9ef">type</span>: Placements
+    <span style="color:#66d9ef">placements</span>:
+    - <span style="color:#66d9ef">name</span>: placement-aws
+      <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">configs</span>:
+      - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
+        <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
+        <span style="color:#66d9ef">name</span>: deploy-config
+        <span style="color:#66d9ef">namespace</span>: open-cluster-management
+      <span style="color:#66d9ef">rolloutStrategy</span>:
+        <span style="color:#66d9ef">type</span>: RollingUpdate
+        <span style="color:#66d9ef">rollingUpdate</span>:
+          <span style="color:#66d9ef">maxConcurrentlyUpdating</span>: <span style="color:#ae81ff">25</span>%
 </code></pre></div><h3 id="add-on-healthiness">Add-on healthiness</h3>
 <p>The healthiness of the addon instances are visible when we list the addons via
 kubectl:</p>
