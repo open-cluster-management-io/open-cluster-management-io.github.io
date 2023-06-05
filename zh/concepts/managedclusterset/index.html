@@ -381,7 +381,7 @@ checked by the command <code>kubectl get managedclusterset &lt;cluster set name&
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">name</span>: example-clusterset
-<span style="color:#66d9ef">spec</span>: 
+<span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">clusterSelector</span>:
     <span style="color:#66d9ef">selectorType</span>: ExclusiveClusterSetLabel
 <span style="color:#66d9ef">status</span>:
@@ -397,7 +397,7 @@ checked by the command <code>kubectl get managedclusterset &lt;cluster set name&
   <span style="color:#66d9ef">name</span>: example-openshift-clusterset
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">clusterSelector</span>:
-    <span style="color:#66d9ef">labelSelector</span>: 
+    <span style="color:#66d9ef">labelSelector</span>:
       <span style="color:#66d9ef">matchLabels</span>:
         <span style="color:#66d9ef">vendor</span>: OpenShift
     <span style="color:#66d9ef">selectorType</span>: LabelSelector
@@ -467,12 +467,12 @@ A <code>default</code> ManagedClusterSet will be automatically created initially
 The user can move the cluster from the default clusterset to another clusterset using the command:</p>
 <pre><code>clusteradm clusterset set target-clusterset --clusters cluster-name
 </code></pre><p><code>default</code> clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
-<a href="https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
+<a href="https://github.com/open-cluster-management-io/ocm/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
 <h2 id="global-managedclusterset">Global ManagedClusterSet</h2>
 <p>For easier management, we also introduce a ManagedClusterSet called <code>global</code>.
 A <code>global</code> ManagedClusterSet will be automatically created initially. The <code>global</code> ManagedClusterSet include all ManagedClusters.</p>
 <p><code>global</code> clusterset is an alpha feature that can be disabled by disabling the feature gate in registration controller as:
-<a href="https://github.com/open-cluster-management-io/registration-operator/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
+<a href="https://github.com/open-cluster-management-io/ocm/commit/55bc274d795ad0befc71f05aecd08810a4abfba1#diff-1026afceb1a224783dbf517bc281e71c1640636f5f001338f8185a0b4398b3d9R51"><code>- &quot;--feature-gates=DefaultClusterSet=false&quot;</code></a></p>
 <p><code>global</code> ManagedClusterSet detail:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta2
 <span style="color:#66d9ef">kind</span>: ManagedClusterSet

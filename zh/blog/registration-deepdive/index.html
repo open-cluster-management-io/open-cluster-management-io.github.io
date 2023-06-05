@@ -321,7 +321,7 @@
 </code></pre></div><p>将认证和授权的流程分开的原因是通常情况下<code>hub</code>集群具有<code>approve CSR</code>权限的用户和&quot;允许klusterlet接入hub&quot;集群的用户并不完全一致。以上
 机制就可以保证即使用户拥有<code>approve CSR</code>的权限也不能给任意的<code>klusterlet</code>赋予接入<code>hub</code>集群的权限。</p>
 <h2 id="实现细节">实现细节</h2>
-<p>所有认证授权和秘钥管理的代码实现都在<a href="https://github.com/open-cluster-management-io/registration">registration</a>组件中。大概的流程
+<p>所有认证授权和秘钥管理的代码实现都在<a href="https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration">registration</a>组件中。大概的流程
 如下图所示</p>
 <p><img src="./assets/registration-process.png" alt=""></p>
 <p>当<code>registration-agent</code>在被管理集群中启动后，会首先在自己的<code>namespace</code>里查找是否有<code>hub-kubeconfig</code>的秘钥并验证这个秘钥是否合法。

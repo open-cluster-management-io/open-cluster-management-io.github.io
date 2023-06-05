@@ -293,7 +293,7 @@ export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster c
  <span style="color:#75715e"># NOTE: For hub cluster version between v1.16 to v1.19 use the parameter: --use-bootstrap-token</span>
  clusteradm init --wait --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div><p>The <code>clusteradm init</code> command installs the
-<a href="https://github.com/open-cluster-management-io/registration-operator">registration-operator</a>
+<a href="https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration-operator">registration-operator</a>
 on the hub cluster, which is responsible for consistently installing
 and upgrading a few core components for the OCM environment.</p>
 <p>After the <code>init</code> command completes, a generated command is output on the console to
