@@ -3,9 +3,8 @@ title: Policy framework
 weight: 10
 ---
 
-The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies
-provide visibility and drive remediation for various security and configuration aspects to help IT
-administrators meet their requirements.
+The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility
+and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
 
 <!-- spellchecker-disable -->
 
@@ -15,8 +14,8 @@ administrators meet their requirements.
 
 ## API Concepts
 
-View the [Policy API](/concepts/policy) page for additional details about the Policy API managed by
-the Policy Framework components, including:
+View the [Policy API](/concepts/policy) page for additional details about the Policy API managed by the Policy Framework
+components, including:
 
 - [`Policy`](/concepts/policy#policy)
 - [`PolicySet`](/concepts/policy#policyset)
@@ -28,8 +27,8 @@ the Policy Framework components, including:
    <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
 </div>
 
-The governance policy framework distributes policies to managed clusters and collects results to
-send back to the hub cluster.
+The governance policy framework distributes policies to managed clusters and collects results to send back to the hub
+cluster.
 
 - [Policy propagator](https://github.com/open-cluster-management-io/governance-policy-propagator)
 - [Policy framework addon](https://github.com/open-cluster-management-io/governance-policy-framework-addon)
@@ -48,8 +47,7 @@ You must meet the following prerequisites to install the policy framework:
 - Ensure [`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl) and
   [`kustomize`](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
-- Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from
-  the source.
+- Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
 - Ensure the `open-cluster-management` _cluster manager_ is installed. See
   [Start the control plane](/getting-started/installation/start-the-control-plane) for more information.
@@ -57,11 +55,10 @@ You must meet the following prerequisites to install the policy framework:
 - Ensure the `open-cluster-management` _klusterlet_ is installed. See
   [Register a cluster](/getting-started/installation/register-a-cluster) for more information.
 
-- If you are using `PlacementRules` with your policies, ensure the `open-cluster-management`
-  _application_ is installed . See
-  [Application management](/getting-started/integration/app-lifecycle) for more information. If you
-  are using the default `Placement` API, you can skip the Application management installation, but
-  you do need to install the `PlacementRule` CRD with this command:
+- If you are using `PlacementRules` with your policies, ensure the `open-cluster-management` _application_ is installed
+  . See [Application management](/getting-started/integration/app-lifecycle) for more information. If you are using the
+  default `Placement` API, you can skip the Application management installation, but you do need to install the
+  `PlacementRule` CRD with this command:
 
   ```Shell
   kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml
@@ -72,8 +69,7 @@ You must meet the following prerequisites to install the policy framework:
 ### Install via Clusteradm CLI
 
 Ensure `clusteradm` CLI is installed and is at least v0.3.0. Download and extract the
-[clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For
-more details see the
+[clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the
 [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
 
 1. Deploy the policy framework controllers to the hub cluster:
@@ -106,8 +102,8 @@ more details see the
 
 ### Install from source
 
-1. Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the
-   `open-cluster-management` namespace on the hub cluster with the following commands:
+1. Deploy the policy Custom Resource Definitions (CRD) and policy propagator component to the `open-cluster-management`
+   namespace on the hub cluster with the following commands:
 
    ```Shell
    # Configure kubectl to point to the hub cluster
@@ -124,7 +120,7 @@ more details see the
    export HUB_KUBECONFIG="hub-kubeconfig"
 
    # Apply the CRDs
-   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/v0.9.0/deploy"
+   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/v0.11.0/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policies.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_placementbindings.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policyautomations.yaml
@@ -172,8 +168,8 @@ more details see the
    governance-policy-framework-addon-57579b7c-652zj         1/1     Running   0          87s
    ```
 
-   **NOTE**: If you are using clusteradm v0.3.x or older, the pod will be called `governance-policy-framework` and
-   have a container per synchronization component (2 on a self-managed Hub, or 3 on a managed cluster).
+   **NOTE**: If you are using clusteradm v0.3.x or older, the pod will be called `governance-policy-framework` and have
+   a container per synchronization component (2 on a self-managed Hub, or 3 on a managed cluster).
 
 ### Deploy from source
 
@@ -214,7 +210,7 @@ more details see the
 
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
-   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/v0.9.0/deploy/crds/policy.open-cluster-management.io_policies.yaml
+   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/v0.11.0/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
    # Set the managed cluster name and create the namespace
    export MANAGED_CLUSTER_NAME=<your managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
@@ -222,7 +218,7 @@ more details see the
 
    # Deploy the synchronization component
    export COMPONENT="governance-policy-framework-addon"
-   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.9.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.11.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
    kubectl patch deployment governance-policy-framework-addon -n ${MANAGED_NAMESPACE} \
      -p "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"governance-policy-framework-addon\",\"args\":[\"--hub-cluster-configfile=/var/run/klusterlet/kubeconfig\", \"--cluster-namespace=${MANAGED_CLUSTER_NAME}\", \"--enable-lease=true\", \"--log-level=2\", \"--disable-spec-sync=${DEPLOY_ON_HUB}\"]}]}}}}"
    ```

@@ -65,7 +65,7 @@ spec:
           remediationAction: inform
           severity: low
           object-templates:
-            - complianceType: MustHave
+            - complianceType: musthave
               objectDefinition:
                 kind: Namespace # must have namespace 'prod'
                 apiVersion: v1
@@ -91,9 +91,9 @@ informational purposes similar to the `annotations`.
 The most interesting part is the `object-templates` section under the embedded
 `ConfigurationPolicy`. This describes the `prod` `Namespace` object that the `Policy` applies to.
 The action that the `ConfigurationPolicy` will take is determined by the `complianceType`. In this
-case, it is set to `MustHave` which means the `prod` `Namespace` object will be created if it
-doesn't exist. Other compliance types include `MustNotHave` and `MustOnlyHave`. `MustNotHave` would
-delete the `prod` `Namespace` object. `MustOnlyHave` would ensure the `prod` `Namespace` object only
+case, it is set to `musthave` which means the `prod` `Namespace` object will be created if it
+doesn't exist. Other compliance types include `mustnothave` and `mustonlyhave`. `mustnothave` would
+delete the `prod` `Namespace` object. `mustonlyhave` would ensure the `prod` `Namespace` object only
 exists with the fields defined in the `ConfigurationPolicy`.
 
 When the `Policy` is bound to a [`Placement`](/concepts/placement), the `Policy` status will report
