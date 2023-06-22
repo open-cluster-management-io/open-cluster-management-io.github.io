@@ -76,8 +76,8 @@ for registering a new cluster to the hub. Any cluster that can reach the
 endpoint of the hub cluster will be able to be managed, even a random KinD
 sandbox cluster on your laptop. That is because the prescriptions are
 effectively __pulled__ from the hub instead of __pushing__. In addition to
-that, OCM also provides a [addon](https://open-cluster-management.io/concepts/addon/)
-named ["cluster-proxy"](https://open-cluster-management.io/getting-started/integration/cluster-proxy/)
+that, OCM also provides a [addon]({{< ref "/concepts/addon" >}})
+named ["cluster-proxy"]({{< ref "/getting-started/integration/cluster-proxy" >}})
 which automatically manages a reverse proxy tunnel for proactive access to the
 managed clusters by leveraging on the Kubernetes' subproject [konnectivity](https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/).
 
@@ -92,7 +92,7 @@ building blocks, except for the mandatory core module named [registration](https
 which is responsible for controlling the lifecycle of a managed controller
 and exporting the elementary `ManagedCluster` model.
 
-Another good example surfacing our modularity will be the [placement](https://open-cluster-management.io/concepts/placement/),
+Another good example surfacing our modularity will be the [placement]({{< ref "/concepts/placement" >}}),
 a standalone module focusing at dynamically selecting the proper list of
 the managed clusters from the user's prescription. You can build any advanced
 multi-cluster orchestration on the top of placement, e.g. multi-cluster
@@ -159,7 +159,7 @@ Addon is a general concept for the optional, pluggable customization built over
 the extensibility from OCM. It can be a controller in the hub cluster, or just
 a customized agent in the managed cluster, or even the both collaborating
 in peers. The addons are expected to implement the `ClusterManagementAddon` or
-`ManagedClusterAddOn` API of which a detailed elaboration can be found [here](https://open-cluster-management.io/concepts/addon/).
+`ManagedClusterAddOn` API of which a detailed elaboration can be found [here]({{< ref "/concepts/addon" >}}).
 
 ---
 
@@ -183,7 +183,7 @@ probing each other's healthiness. i.e. the cluster heartbeats.
 
 The module for dispatching resources from the hub cluster to the managed
 clusters, which can be easily done by writing a `ManifestWork` resource into
-a cluster namespace. See more details about the API [here](https://open-cluster-management.io/concepts/manifestwork/).
+a cluster namespace. See more details about the API [here]({{< ref "/concepts/manifestwork" >}}).
 
 ### Placement
 

@@ -14,12 +14,12 @@ and drive remediation for various security and configuration aspects to help IT 
 
 ## API Concepts
 
-View the [Policy API](/concepts/policy) page for additional details about the Policy API managed by the Policy Framework
+View the [Policy API]({{< ref "/concepts/policy" >}}) page for additional details about the Policy API managed by the Policy Framework
 components, including:
 
-- [`Policy`](/concepts/policy#policy)
-- [`PolicySet`](/concepts/policy#policyset)
-- [`PlacementBinding`](/concepts/policy#placementbinding)
+- [`Policy`]({{< ref "/concepts/policy#policy" >}})
+- [`PolicySet`]({{< ref "/concepts/policy#policyset" >}})
+- [`PlacementBinding`]({{< ref "/concepts/policy#placementbinding" >}})
 
 ## Architecture
 
@@ -50,13 +50,13 @@ You must meet the following prerequisites to install the policy framework:
 - Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
 - Ensure the `open-cluster-management` _cluster manager_ is installed. See
-  [Start the control plane](/getting-started/installation/start-the-control-plane) for more information.
+  [Start the control plane]({{< ref "/getting-started/installation/start-the-control-plane" >}}) for more information.
 
 - Ensure the `open-cluster-management` _klusterlet_ is installed. See
-  [Register a cluster](/getting-started/installation/register-a-cluster) for more information.
+  [Register a cluster]({{< ref "/getting-started/installation/register-a-cluster" >}}) for more information.
 
 - If you are using `PlacementRules` with your policies, ensure the `open-cluster-management` _application_ is installed
-  . See [Application management](/getting-started/integration/app-lifecycle) for more information. If you are using the
+  . See [Application management]({{< ref "/getting-started/integration/app-lifecycle" >}}) for more information. If you are using the
   default `Placement` API, you can skip the Application management installation, but you do need to install the
   `PlacementRule` CRD with this command:
 

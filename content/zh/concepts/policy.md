@@ -15,15 +15,15 @@ The policy framework has the following API concepts:
 
 - [_Policy Templates_](#managed-cluster-policy-controllers) are the policies that perform a desired check or action. For
   example,
-  [ConfigurationPolicy](/getting-started/integration/policy-controllers#install-the-configuration-policy-controller)
+  [ConfigurationPolicy]({{< ref "/getting-started/integration/policy-controllers#install-the-configuration-policy-controller" >}})
   objects are embedded in `Policy` objects under the `policy-templates` array.
 - A [`Policy`](#policy) is a grouping mechanism for _Policy Templates_ and is the smallest deployable unit on the hub
   cluster. Embedded _Policy Templates_ are distributed to applicable managed clusters and acted upon by the appropriate
-  [policy controller](/getting-started/integration/policy-controllers).
+  [policy controller]({{< ref "/getting-started/integration/policy-controllers" >}}).
 - A [`PolicySet`](#policyset) is a grouping mechanism of `Policy` objects. Compliance of all grouped `Policy` objects is
   summarized in the `PolicySet`. A `PolicySet` is a deployable unit and its distribution is controlled by a
-  [Placement](/concepts/placement).
-- A [`PlacementBinding`](#placementbinding) binds a [Placement](/concepts/placement) to a `Policy` or `PolicySet`.
+  [Placement]({{< ref "/concepts/placement" >}}).
+- A [`PlacementBinding`](#placementbinding) binds a [Placement]({{< ref "/concepts/placement" >}}) to a `Policy` or `PolicySet`.
 
 The second half of the
 [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
@@ -33,9 +33,9 @@ also covers an overview of the Policy addon.
 
 A `Policy` is a grouping mechanism for _Policy Templates_ and is the smallest deployable unit on the hub cluster.
 Embedded _Policy Templates_ are distributed to applicable managed clusters and acted upon by the appropriate
-[policy controller](/getting-started/integration/policy-controllers). The compliance state and status of a `Policy`
+[policy controller]({{< ref "/getting-started/integration/policy-controllers" >}}). The compliance state and status of a `Policy`
 represents all embedded _Policy Templates_ in the `Policy`. The distribution of `Policy` objects is controlled by a
-[Placement](/concepts/placement).
+[Placement]({{< ref "/concepts/placement" >}}).
 
 View a simple example of a `Policy` that embeds a `ConfigurationPolicy` policy template to manage a namespace called
 "prod".
@@ -90,11 +90,11 @@ that the `ConfigurationPolicy` applies to. The action that the `ConfigurationPol
 doesn't exist. Other compliance types include `mustnothave` and `mustonlyhave`. `mustnothave` would delete the `prod`
 `Namespace` object. `mustonlyhave` would ensure the `prod` `Namespace` object only exists with the fields defined in the
 `ConfigurationPolicy`. See the
-[`ConfigurationPolicy` page](/getting-started/integration/policy-controllers/configuration-policy) for more information
+[`ConfigurationPolicy` page]({{< ref "/getting-started/integration/policy-controllers/configuration-policy" >}}) for more information
 or see the [templating in configuration policies](#templating-in-configuration-policies) topic for advanced templating
 use cases with `ConfigurationPolicy`.
 
-When the `Policy` is bound to a [`Placement`](/concepts/placement) using a [`PlacementBinding`](#placementbinding), the
+When the `Policy` is bound to a [`Placement`]({{< ref "/concepts/placement" >}}) using a [`PlacementBinding`](#placementbinding), the
 `Policy` status will report on each cluster that matches the bound `Placement`:
 
 ```yaml
@@ -123,7 +123,7 @@ kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
 
 ## PlacementBinding
 
-A `PlacementBinding` binds a [Placement](/concepts/placement) to a [`Policy`](#policy) or [`PolicySet`](#policyset).
+A `PlacementBinding` binds a [Placement]({{< ref "/concepts/placement" >}}) to a [`Policy`](#policy) or [`PolicySet`](#policyset).
 
 Below is an example of a `PlacementBinding` that binds the `policy-namespace` `Policy` to the `placement-hub-cluster`
 `Placement`.
@@ -150,7 +150,7 @@ Once the `Policy` is bound, it will be distributed to and acted upon by the mana
 
 A `PolicySet` is a grouping mechanism of [`Policy`](#policy) objects. Compliance of all grouped `Policy` objects is
 summarized in the `PolicySet`. A `PolicySet` is a deployable unit and its distribution is controlled by a
-[Placement](/concepts/placement) when bound through a [`PlacementBinding`](#placementbinding).
+[Placement]({{< ref "/concepts/placement" >}}) when bound through a [`PlacementBinding`](#placementbinding).
 
 This enables a workflow where subject matter experts write `Policy` objects and then an IT administrator creates a
 `PolicySet` that groups the previously written `Policy` objects and binds the `PolicySet` to a `Placement` that deploys
@@ -185,7 +185,7 @@ controller on the managed cluster. The policy framework supports delivering the 
   Compliance types include `musthave`, `mustnothave`, and `mustonlyhave`. `musthave` means the object should have the
   listed keys and values as a subset of the larger object. `mustnothave` means an object matching the listed keys and
   values should not exist. `mustonlyhave` ensures objects only exist with the keys and values exactly as defined. See
-  the page on [Configuration Policy](/getting-started/integration/policy-controllers/configuration-policy) for more
+  the page on [Configuration Policy]({{< ref "/getting-started/integration/policy-controllers/configuration-policy" >}}) for more
   information.
 
 - Open Policy Agent Gatekeeper
@@ -193,7 +193,7 @@ controller on the managed cluster. The policy framework supports delivering the 
   Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
   policies that are run with the Open Policy Agent (OPA). Gatekeeper `ConstraintTemplates` and constraints can be
   provided in an OCM `Policy` to sync to managed clusters that have Gatekeeper installed on them. See the page on
-  [Gatekeeper integration](/getting-started/integration/policy-controllers/gatekeeper) for more information.
+  [Gatekeeper integration]({{< ref "/getting-started/integration/policy-controllers/gatekeeper" >}}) for more information.
 
 ## Templating in configuration policies
 

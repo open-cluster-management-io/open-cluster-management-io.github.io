@@ -110,6 +110,6 @@ kind create cluster --name ${MANAGED_CLUSTER_NAME}
 
 你已经成功创建了OCM管理组件并接入了至少一个被管理集群！让我们开始接下来的OCM旅程。
 
-- [将kubernetes资源部署到一个被管理集群中](/scenarios/deploy-kubernetes-resources)
-- [通过cluster-proxy直接访问被管理集群的kube-apiserver](/scenarios/pushing-kube-api-requests)
-- 访问[integration](/getting-started/integration)查看各种OCM插件是否能够帮助你解决多集群管理问题。
+- [将kubernetes资源部署到一个被管理集群中]({{< ref "/scenarios/deploy-kubernetes-resources" >}})
+- [通过cluster-proxy直接访问被管理集群的kube-apiserver]({{< ref "/scenarios/pushing-kube-api-requests" >}})
+- 访问[integration]({{< ref "/getting-started/integration" >}})查看各种OCM插件是否能够帮助你解决多集群管理问题。

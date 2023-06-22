@@ -23,7 +23,7 @@ we're going to use in the context.
 - __ManifestWork__: A custom resource in the hub cluster that groups a list 
   of kubernetes resources together and meant for dispatching them into the 
   managed cluster if the `ManifestWork` is created in a valid 
-  `cluster namespace`, see details in this [page](https://open-cluster-management.io/concepts/manifestwork/).
+  `cluster namespace`, see details in this [page]({{< ref "/concepts/manifestwork" >}}).
 
 ## Deploy the resource to a targetd cluster
 

@@ -64,7 +64,7 @@ You can refer to the [enhancements](https://github.com/open-cluster-management-i
 
 ## How to implement a customized score provider
 
-The example code is in GitHub repo [resource-usage-collect-addon](https://github.com/open-cluster-management-io/addon-contrib/tree/main/resource-usage-collect-addon). It provides the score of the cluster's available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM [addon-framework](https://github.com/open-cluster-management-io/addon-framework) and can be installed as an addon plugin to update customized scores into `AddOnPlacementScore`. (This article won't talk many details about addon-framework, referring to [Add-on Developer Guide](https://open-cluster-management.io/developer-guides/addon/) to learn how to develop an addon.)
+The example code is in GitHub repo [resource-usage-collect-addon](https://github.com/open-cluster-management-io/addon-contrib/tree/main/resource-usage-collect-addon). It provides the score of the cluster's available CPU and available memory, which can reflect the cluster’s real-time resource utilization. It is developed with OCM [addon-framework](https://github.com/open-cluster-management-io/addon-framework) and can be installed as an addon plugin to update customized scores into `AddOnPlacementScore`. (This article won't talk many details about addon-framework, referring to [Add-on Developer Guide]({{< ref "/developer-guides/addon" >}}) to learn how to develop an addon.)
 
 The resource-usage-collect addon follows the hub-agent architecture as below.
 <div style="text-align: center; padding: 20px;">

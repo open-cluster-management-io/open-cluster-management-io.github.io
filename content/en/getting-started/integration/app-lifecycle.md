@@ -25,9 +25,9 @@ You must meet the following prerequisites to install the application lifecycle m
 
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
-- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Start the control plane](/getting-started/installation/start-the-control-plane) for more information.
+- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Start the control plane]({{< ref "/getting-started/installation/start-the-control-plane" >}}) for more information.
 
-- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Register a cluster](/getting-started/installation/register-a-cluster) for more information.
+- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Register a cluster]({{< ref "/getting-started/installation/register-a-cluster" >}}) for more information.
 
 ## Install via Clusteradm CLI tool
 
@@ -142,6 +142,6 @@ nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     0    
 
 ### Try this out
 
-Let [VScode Extension](/developer-guides/vscode-extension) help you out!
+Let [VScode Extension]({{< ref "/developer-guides/vscode-extension" >}}) help you out!
 
 Create a Bootstrap Project specifically tailored to your channel type, with all the Custom Resource (CR) templates you will need already auto-generated to get you started!

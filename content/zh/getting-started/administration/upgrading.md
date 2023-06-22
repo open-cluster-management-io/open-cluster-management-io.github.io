@@ -22,7 +22,7 @@ steps you should follow are:
 You must have an existing OCM environment and there's supposed to be
 registration-operator running in your clusters. The registration-operators
 is supposed to be installed if you're previously following our recommended
-[quick start guide](https://open-cluster-management.io/getting-started/quick-start/)
+[quick start guide]({{< ref "/getting-started/quick-start" >}})
 to set up your OCM. The operator is responsible for helping you upgrade the
 other components on ease.
 

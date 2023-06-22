@@ -22,7 +22,7 @@ You must meet the following prerequisites to install the configuration policy co
 - Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
 - Ensure the `open-cluster-management` _policy framework_ is installed. See
-  [Policy Framework](/getting-started/integration/policy-framework) for more information.
+  [Policy Framework]({{< ref "/getting-started/integration/policy-framework" >}}) for more information.
 
 ## Installing the configuration policy controller
 
@@ -96,7 +96,7 @@ support you can use either placement implementation. Perform the steps in the **
 API** section based on which placement API you desire to use.
 
 For more information on how to use a `ConfigurationPolicy`, read the
-[`Policy` API concept section](/getting-started/integration/policy-framework#policy).
+[`Policy` API concept section]({{< ref "/getting-started/integration/policy-framework#policy" >}}).
 
 ### Placement API
 
@@ -119,7 +119,7 @@ For more information on how to use a `ConfigurationPolicy`, read the
 
 3. Make sure the `default` namespace has a `ManagedClusterSetBinding` for a `ManagedClusterSet` with at least one
    managed cluster resource in the `ManagedClusterSet`. See
-   [Bind ManagedClusterSet to a namespace](/concepts/managedclusterset#bind-managedclusterset-to-a-namespace) for more
+   [Bind ManagedClusterSet to a namespace]({{< ref "/concepts/managedclusterset#bind-managedclusterset-to-a-namespace" >}}) for more
    information on this.
 
 4. To confirm that the managed cluster is selected by the `Placement`, run the following command:
