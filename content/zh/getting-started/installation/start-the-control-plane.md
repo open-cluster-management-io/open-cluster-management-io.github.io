@@ -1,9 +1,7 @@
 ---
-title: Cluster manager
+title: Start the control plane
 weight: 1
 ---
-
-The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
 
 <!-- spellchecker-disable -->
 
@@ -13,55 +11,120 @@ The are two ways to install the core control plane of open cluster management th
 
 ## Prerequisite
 
-Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
+- The hub cluster should be `v1.19+`.
+  (To run on hub cluster version between \[`v1.16`, `v1.18`\],
+  please manually enable feature gate "V1beta1CSRAPICompatibility").
+- Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don't support it can't be used as the hub.
+For example: [EKS](https://github.com/aws/containers-roadmap/issues/1856).
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
-Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
+## Install clusteradm CLI tool
 
-Prepare one Kubernetes cluster to function as the hub. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create a hub cluster. To use `kind`, you will need [docker](https://docs.docker.com/get-started) installed and running.
+It's recommended to run the following command to download and install **the
+latest release** of the `clusteradm` command-line tool:
 
-If you are running OS X, you'll also need to install `gnu-sed`:
-
-```Shell
-brew install gnu-sed
+```shell
+curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
 ```
 
-Set the following environment variable that will be used throughout to simplify the instructions:
+You can also install **the latest development version** (main branch) by running:
 
-```Shell
-export HUB_CLUSTER_NAME=<your hub cluster name>             # export HUB_CLUSTER_NAME=hub
-export CTX_HUB_CLUSTER=<your hub cluster context>           # export CTX_HUB_CLUSTER=kind-hub
-export HUB_KUBECONFIG=<your hub cluster kubeconfig file>    # export HUB_KUBECONFIG=~/hub-kubeconfig
+```shell
+# Installing clusteradm to $GOPATH/bin/
+GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
 ```
 
-Then create the hub cluster with `kind`, run:
+## Bootstrap a cluster manager
 
-```Shell
-# kind delete cluster --name ${HUB_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted
-kind create cluster --name ${HUB_CLUSTER_NAME}
-kind get kubeconfig --name ${HUB_CLUSTER_NAME} --internal > ${HUB_KUBECONFIG}
+Before actually installing the OCM components into your clusters, export
+the following environment variables in your terminal before running our
+command-line tool `clusteradm` so that it can correctly discriminate the
+hub cluster.
+
+```shell
+# The context name of the clusters in your kubeconfig
+export CTX_HUB_CLUSTER=<your hub cluster context>
 ```
 
-## Install from source
+Call `clusteradm init`:
 
-Clone the `registration-operator`
-
-```Shell
-git clone https://github.com/open-cluster-management-io/registration-operator
+ ```shell
+  # By default, it installs the latest release of the OCM components.
+  # Use e.g. "--bundle-version=latest" to install latest development builds.
+  # NOTE: For hub cluster version between v1.16 to v1.19 use the parameter: --use-bootstrap-token
+  clusteradm init --wait --context ${CTX_HUB_CLUSTER}
 ```
 
-Ensure the `kubectl` context is set to point to the hub cluster:
+The `clusteradm init` command installs the
+[registration-operator](https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration-operator)
+on the hub cluster, which is responsible for consistently installing
+and upgrading a few core components for the OCM environment.
 
-```Shell
-kubectl config use-context ${CTX_HUB_CLUSTER}
+After the `init` command completes, a generated command is output on the console to
+register your managed clusters. An example of the generated command is shown below.
+
+```shell
+clusteradm join \
+    --hub-token <your token data> \
+    --hub-apiserver <your hub kube-apiserver endpoint> \
+    --wait \
+    --cluster-name <cluster_name>
 ```
 
-Deploy hub
+It's recommended to save the command somewhere secure for future use. If it's lost, you can use
+`clusteradm get token` to get the generated command again.
 
-```Shell
-cd registration-operator
-export KUBECONFIG=$HOME/.kube/config # set a env variable KUBECONFIG to kubeconfig file path
-make deploy-hub # make deploy-hub GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
+## Check out the running instances of the control plane
+
+```shell
+kubectl -n open-cluster-management get pod --context ${CTX_HUB_CLUSTER}
+NAME                               READY   STATUS    RESTARTS   AGE
+cluster-manager-695d945d4d-5dn8k   1/1     Running   0          19d
 ```
 
-## Install community operator from OperatorHub.io
-If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the cluster manager community operator with a released version from [OperatorHub.io](https://operatorhub.io/operator/cluster-manager).
+Additionally, to check out the instances of OCM's hub control plane, run
+the following command:
+
+```shell
+kubectl -n open-cluster-management-hub get pod --context ${CTX_HUB_CLUSTER}
+NAME                               READY   STATUS    RESTARTS   AGE
+cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   0          19d
+cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   0          19d
+cluster-manager-registration-webhook-59c9b89499-n7m2x      1/1     Running   0          19d
+cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   0          19d
+...
+```
+
+The overall installation information is visible on the `clustermanager` custom resource:
+
+```shell
+kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
+```
+
+## Uninstall the OCM from the control plane
+
+Before uninstalling the OCM components from your clusters, please detach the
+managed cluster from the control plane.
+
+```shell
+clusteradm clean --context ${CTX_HUB_CLUSTER}
+```
+
+Check the instances of OCM's hub control plane are removed.
+
+```shell
+kubectl -n open-cluster-management-hub get pod --context ${CTX_HUB_CLUSTER}
+No resources found in open-cluster-management-hub namespace.
+```
+
+```shell
+kubectl -n open-cluster-management get pod --context ${CTX_HUB_CLUSTER}
+No resources found in open-cluster-management namespace.
+```
+
+Check the `clustermanager` resource is removed from the control plane.
+
+```shell
+kubectl get clustermanager --context ${CTX_HUB_CLUSTER}
+error: the server doesn't have a resource type "clustermanager"
+```
