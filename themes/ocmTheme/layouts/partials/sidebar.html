@@ -14,7 +14,7 @@
     <ul class="components">
         <li id="concepts">
             <a class="navlink" href="{{ $rootPath }}/concepts">{{ i18n "sidebar_concepts" }}</a>
-            <ul class="collapse">
+            <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/concepts")) "show" "" }}">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/concepts/architecture">{{ i18n "sidebar_architecture" }}</a>
                 </li>
@@ -43,7 +43,7 @@
         </li>
         <li id="getting-started">
             <a class="navlink" href="{{ $rootPath }}/getting-started">{{ i18n "sidebar_getting_started" }}</a>
-            <ul class="collapse">
+            <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/getting-started")) "show" "" }}">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/getting-started/quick-start">{{ i18n "sidebar_quick_start" }}</a>
                 </li>
@@ -60,7 +60,7 @@
                 </li>
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/getting-started/integration">{{ i18n "sidebar_integrations" }}</a>
-                    <ul class="collapse">
+                    <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/getting-started/integration")) "show" "" }}">
                         <li>
                             <a class="navlink" href="{{ $rootPath }}/getting-started/integration/app-lifecycle">{{ i18n "sidebar_apps" }}</a>
                         </li>
@@ -80,7 +80,7 @@
                 </li>
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/getting-started/administration">{{ i18n "sidebar_administration" }}</a>
-                    <ul class="collapse">
+                    <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/getting-started/administration")) "show" "" }}">
                         <li>
                             <a class="navlink" href="{{ $rootPath }}/getting-started/administration/upgrading">{{ i18n "sidebar_administration_upgrading" }}</a>
                         </li>
@@ -93,7 +93,7 @@
         </li>
         <li id="developer-guides">
             <a class="navlink" href="{{ $rootPath }}/developer-guides">{{ i18n "sidebar_developer-guides" }}</a>
-            <ul class="collapse">
+            <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/developer-guides")) "show" "" }}">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/developer-guides/addon">{{ i18n "sidebar_addon-developer-guide" }}</a>
                 </li>
@@ -104,7 +104,7 @@
         </li>
         <li id="scenarios">
             <a class="navlink" href="{{ $rootPath }}/scenarios">{{ i18n "sidebar_scenarios" }}</a>
-            <ul class="collapse">
+            <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/scenarios")) "show" "" }}">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/scenarios/deploy-kubernetes-resources">{{ i18n "sidebar_deploy_kubernetes_resources" }}</a>
                 </li>
@@ -127,7 +127,7 @@
         </li>
         <li id="community">
             <a class="navlink" href="{{ $rootPath }}/community">{{ i18n "sidebar_community" }}</a>
-            <ul class="collapse">
+            <ul class="collapse {{ cond (strings.HasPrefix .Page.RelPermalink (print $rootPath "/community")) "show" "" }}">
                 <li>
                     <a class="navlink" href="{{ $rootPath }}/community/releases">{{ i18n "sidebar_releases" }}</a>
                 </li>

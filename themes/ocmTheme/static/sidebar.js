@@ -8,28 +8,23 @@ $(document).ready(function () {
         rootPath = $('#'+paths[0])
     }
 
+    // Parse for longest matching path
+    navPath = ''
+    navLink = null
     rootPath.find('a.navlink').each(function() {
-        href = $(this).attr('href')
-        if (pathname == (href + '/')) {
-            // highlight the current link
-            $(this).css({'background':'#fff', 'color': '#7386D5'})
-
-            // unfold parents ul
-            $(this).parents('ul.collapse').each(function() {
-                $(this).addClass('show')
-            })
-
-            // unfold sibling ul
-            $(this).siblings('ul.collapse').each(function() {
-                $(this).addClass('show')
-            })
-
-            return
+        href = $(this).attr('href') + '/'
+        if (pathname.includes(href) && href.length > navPath.length) {
+            navPath = href
+            navLink = $(this)
         }
     })
 
+    if (navLink) {
+        // highlight the current link
+        navLink.css({'background':'#fff', 'color': '#7386D5'})
+    }
+    
     $('#sidebarToggle').on('click', function () {
-        console.log('toggle sidebar');
         $('#sidebar').toggle()
     });
 });
