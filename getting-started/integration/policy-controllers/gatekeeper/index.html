@@ -249,32 +249,136 @@
 </div>
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
-    <h1>Policy controllers</h1>
-    <p>The <a href="/concepts/policy">Policy API</a> on the hub delivers the policies defined in <code>spec.policy-templates</code> to the managed
-clusters via the <a href="/getting-started/integration/policy-framework">policy framework controllers</a>. Once on the managed
-cluster, these <em>Policy Templates</em> are acted upon by the associated controller on the managed cluster. The policy
-framework supports delivering the <em>Policy Template</em> kinds listed.</p>
+    <h1>Open Policy Agent Gatekeeper</h1>
+    <p><a href="https://open-policy-agent.github.io/gatekeeper/website/">Gatekeeper</a> is a validating webhook with auditing capabilities
+that can enforce custom resource definition-based policies that are run with the Open Policy Agent (OPA). Gatekeeper
+constraints can be used to evaluate Kubernetes resource compliance. You can leverage OPA as the policy engine, and use
+Rego as the policy language.</p>
 <!-- spellchecker-disable -->
 
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#configuration-policygetting-startedintegrationpolicy-controllersconfiguration-policy"><a href="/getting-started/integration/policy-controllers/configuration-policy">Configuration policy</a></a></li>
-        <li><a href="#open-policy-agent-gatekeepergetting-startedintegrationpolicy-controllersgatekeeper"><a href="/getting-started/integration/policy-controllers/gatekeeper">Open Policy Agent Gatekeeper</a></a></li>
+        <li><a href="#installing-gatekeeper">Installing Gatekeeper</a></li>
+        <li><a href="#sample-gatekeeper-policy">Sample Gatekeeper policy</a></li>
       </ul></nav><hr></div>
 
 
 <!-- spellchecker-enable -->
-<h2 id="configuration-policygetting-startedintegrationpolicy-controllersconfiguration-policy"><a href="/getting-started/integration/policy-controllers/configuration-policy">Configuration policy</a></h2>
-<p>The <code>ConfigurationPolicy</code> is provided by OCM and defines Kubernetes manifests to compare with objects that currently
-exist on the cluster. The action that the <code>ConfigurationPolicy</code> will take is determined by its <code>complianceType</code>.
-Compliance types include <code>musthave</code>, <code>mustnothave</code>, and <code>mustonlyhave</code>. <code>musthave</code> means the object should have the
-listed keys and values as a subset of the larger object. <code>mustnothave</code> means an object matching the listed keys and
-values should not exist. <code>mustonlyhave</code> ensures objects only exist with the keys and values exactly as defined.</p>
-<h2 id="open-policy-agent-gatekeepergetting-startedintegrationpolicy-controllersgatekeeper"><a href="/getting-started/integration/policy-controllers/gatekeeper">Open Policy Agent Gatekeeper</a></h2>
-<p>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
-policies that are run with the Open Policy Agent (OPA). Gatekeeper <code>ConstraintTemplates</code> and constraints can be
-provided in an OCM <code>Policy</code> to sync to managed clusters that have Gatekeeper installed on them.</p>
+<h2 id="installing-gatekeeper">Installing Gatekeeper</h2>
+<p>See the <a href="https://open-policy-agent.github.io/gatekeeper/website/docs/install">Gatekeeper documentation</a> to install the
+desired version of Gatekeeper to the managed cluster.</p>
+<h2 id="sample-gatekeeper-policy">Sample Gatekeeper policy</h2>
+<p>Gatekeeper policies are written using constraint templates and constraints. View the following YAML examples that use
+Gatekeeper constraints in an OCM <code>Policy</code>:</p>
+<ul>
+<li>
+<p><code>ConstraintTemplates</code> and constraints: Use the Gatekeeper integration feature by using OCM policies for multicluster
+distribution of Gatekeeper constraints and Gatekeeper audit results aggregation on the hub cluster. The following
+example defines a Gatekeeper <code>ConstraintTemplate</code> and constraint (<code>K8sRequiredLabels</code>) to ensure the &ldquo;gatekeeper&rdquo;
+label is set on all namespaces:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: Policy
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: require-gatekeeper-labels-on-ns
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">remediationAction</span>: inform <span style="color:#75715e"># (1)</span>
+  <span style="color:#66d9ef">disabled</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">policy-templates</span>:
+    - <span style="color:#66d9ef">objectDefinition</span>:
+        <span style="color:#66d9ef">apiVersion</span>: templates.gatekeeper.sh/v1beta1
+        <span style="color:#66d9ef">kind</span>: ConstraintTemplate
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: k8srequiredlabels
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">crd</span>:
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">names</span>:
+                <span style="color:#66d9ef">kind</span>: K8sRequiredLabels
+              <span style="color:#66d9ef">validation</span>:
+                <span style="color:#66d9ef">openAPIV3Schema</span>:
+                  <span style="color:#66d9ef">properties</span>:
+                    <span style="color:#66d9ef">labels</span>:
+                      <span style="color:#66d9ef">type</span>: array
+                      <span style="color:#66d9ef">items</span>: string
+          <span style="color:#66d9ef">targets</span>:
+            - <span style="color:#66d9ef">target</span>: admission.k8s.gatekeeper.sh
+              <span style="color:#66d9ef">rego</span>: <span style="color:#e6db74">|
+</span><span style="color:#e6db74">                package k8srequiredlabels</span>
+                violation[{<span style="color:#66d9ef">&#34;msg&#34;: msg, &#34;details&#34;: {&#34;missing_labels&#34;: </span>missing}}] {
+                  provided := {label | input.review.object.metadata.labels[label]}
+                  required := {label | label := input.parameters.labels[_]}
+                  missing := required - provided
+                  count(missing) &gt; <span style="color:#ae81ff">0</span>
+                  msg := sprintf(<span style="color:#e6db74">&#34;you must provide labels: %v&#34;</span>, [missing])
+                }
+    - <span style="color:#66d9ef">objectDefinition</span>:
+        <span style="color:#66d9ef">apiVersion</span>: constraints.gatekeeper.sh/v1beta1
+        <span style="color:#66d9ef">kind</span>: K8sRequiredLabels
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: ns-must-have-gk
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">enforcementAction</span>: dryrun
+          <span style="color:#66d9ef">match</span>:
+            <span style="color:#66d9ef">kinds</span>:
+              - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+                <span style="color:#66d9ef">kinds</span>: [<span style="color:#e6db74">&#34;Namespace&#34;</span>]
+          <span style="color:#66d9ef">parameters</span>:
+            <span style="color:#66d9ef">labels</span>: [<span style="color:#e6db74">&#34;gatekeeper&#34;</span>]
+</code></pre></div><ol>
+<li>Since the remediationAction is set to &ldquo;inform&rdquo;, the <code>enforcementAction</code> field of the Gatekeeper constraint is
+overridden to &ldquo;warn&rdquo;. This means that Gatekeeper detects and warns you about creating or updating a namespace that
+is missing the &ldquo;gatekeeper&rdquo; label. If the policy <code>remediationAction</code> is set to &ldquo;enforce&rdquo;, the Gatekeeper constraint
+<code>enforcementAction</code> field is overridden to &ldquo;deny&rdquo;. In this context, this configuration prevents any user from
+creating or updating a namespace that is missing the gatekeeper label.</li>
+</ol>
+<p>With the previous policy, you might receive the following policy status message:</p>
+<blockquote>
+<p>warn - you must provide labels: {&ldquo;gatekeeper&rdquo;} (on Namespace default); warn - you must provide labels:
+{&ldquo;gatekeeper&rdquo;} (on Namespace gatekeeper-system).</p>
+</blockquote>
+<p>Once a policy containing Gatekeeper constraints or <code>ConstraintTemplates</code> is deleted, the constraints and
+<code>ConstraintTemplates</code> are also deleted from the managed cluster.</p>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>The Gatekeeper audit functionality runs every minute by default. Audit results are sent back to the hub cluster to
+be viewed in the OCM policy status of the managed cluster.</li>
+</ul>
+</li>
+<li>
+<p>Auditing Gatekeeper events: The following example uses an OCM
+<a href="getting-started/integration/configuration-policy">configuration policy</a> within an OCM policy to check for Kubernetes
+API requests denied by the Gatekeeper admission webhook:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: Policy
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: policy-gatekeeper-admission
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">remediationAction</span>: inform
+  <span style="color:#66d9ef">disabled</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#66d9ef">policy-templates</span>:
+    - <span style="color:#66d9ef">objectDefinition</span>:
+      <span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
+      <span style="color:#66d9ef">kind</span>: ConfigurationPolicy
+      <span style="color:#66d9ef">metadata</span>:
+        <span style="color:#66d9ef">name</span>: policy-gatekeeper-admission
+      <span style="color:#66d9ef">spec</span>:
+        <span style="color:#66d9ef">remediationAction</span>: inform <span style="color:#75715e"># will be overridden by remediationAction in parent policy</span>
+        <span style="color:#66d9ef">severity</span>: low
+        <span style="color:#66d9ef">object-templates</span>:
+          - <span style="color:#66d9ef">complianceType</span>: mustnothave
+            <span style="color:#66d9ef">objectDefinition</span>:
+              <span style="color:#66d9ef">apiVersion</span>: v1
+              <span style="color:#66d9ef">kind</span>: Event
+              <span style="color:#66d9ef">metadata</span>:
+                <span style="color:#66d9ef">namespace</span>: gatekeeper-system <span style="color:#75715e"># set it to the actual namespace where gatekeeper is running if different</span>
+                <span style="color:#66d9ef">annotations</span>:
+                  <span style="color:#66d9ef">constraint_action</span>: deny
+                  <span style="color:#66d9ef">constraint_kind</span>: K8sRequiredLabels
+                  <span style="color:#66d9ef">constraint_name</span>: ns-must-have-gk
+                  <span style="color:#66d9ef">event_type</span>: violation
+</code></pre></div></li>
+</ul>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

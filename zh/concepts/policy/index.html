@@ -263,11 +263,12 @@
         <li><a href="#policy">Policy</a></li>
         <li><a href="#placementbinding">PlacementBinding</a></li>
         <li><a href="#policyset">PolicySet</a></li>
-        <li><a href="#policy-templates">Policy Templates</a>
+        <li><a href="#managed-cluster-policy-controllers">Managed cluster policy controllers</a></li>
+        <li><a href="#templating-in-configuration-policies">Templating in configuration policies</a>
           <ul>
-            <li><a href="#hub-cluster-templates">Hub cluster templates</a></li>
-            <li><a href="#template-encryption-details">Template encryption details</a></li>
-            <li><a href="#template-functions">Template functions</a></li>
+            <li><a href="#hub-cluster-templating-in-configuration-policies">Hub cluster templating in configuration policies</a></li>
+            <li><a href="#templating-value-encryption">Templating value encryption</a></li>
+            <li><a href="#templating-functions">Templating functions</a></li>
           </ul>
         </li>
       </ul></nav><hr></div>
@@ -277,31 +278,29 @@
 <h2 id="overview">Overview</h2>
 <p>The policy framework has the following API concepts:</p>
 <ul>
-<li><em>Policy Templates</em> are the policies that perform a desired check or action. For example,
+<li><a href="#managed-cluster-policy-controllers"><em>Policy Templates</em></a> are the policies that perform a desired check or action. For
+example,
 <a href="/getting-started/integration/policy-controllers#install-the-configuration-policy-controller">ConfigurationPolicy</a>
-objects are embedded in <code>Policy</code> objects under the <code>policy-templates</code> array. These cannot be
-deployed to managed clusters on their own.</li>
-<li>A <a href="#policy"><code>Policy</code></a> is a grouping mechanism for <em>Policy Templates</em> and is the smallest
-deployable unit on the hub cluster. Embedded <em>Policy Templates</em> are distributed to applicable
-managed clusters and acted upon by the appropriate
+objects are embedded in <code>Policy</code> objects under the <code>policy-templates</code> array.</li>
+<li>A <a href="#policy"><code>Policy</code></a> is a grouping mechanism for <em>Policy Templates</em> and is the smallest deployable unit on the hub
+cluster. Embedded <em>Policy Templates</em> are distributed to applicable managed clusters and acted upon by the appropriate
 <a href="/getting-started/integration/policy-controllers">policy controller</a>.</li>
-<li>A <a href="#policyset"><code>PolicySet</code></a> is a grouping mechanism of <code>Policy</code> objects. Compliance of all grouped
-<code>Policy</code> objects is summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its
-distribution is controlled by a <a href="/concepts/placement">Placement</a>.</li>
-<li>A <a href="#placementbinding"><code>PlacementBinding</code></a> binds a <a href="/concepts/placement">Placement</a> to a <code>Policy</code>
-or <code>PolicySet</code>.</li>
+<li>A <a href="#policyset"><code>PolicySet</code></a> is a grouping mechanism of <code>Policy</code> objects. Compliance of all grouped <code>Policy</code> objects is
+summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its distribution is controlled by a
+<a href="/concepts/placement">Placement</a>.</li>
+<li>A <a href="#placementbinding"><code>PlacementBinding</code></a> binds a <a href="/concepts/placement">Placement</a> to a <code>Policy</code> or <code>PolicySet</code>.</li>
 </ul>
 <p>The second half of the
 <a href="/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf">KubeCon NA 2022 - OCM Multicluster App &amp; Config Management</a>
 also covers an overview of the Policy addon.</p>
 <h2 id="policy">Policy</h2>
-<p>A <code>Policy</code> is a grouping mechanism for <em>Policy Templates</em> and is the smallest deployable unit on the
-hub cluster. Embedded <em>Policy Templates</em> are distributed to applicable managed clusters and acted
-upon by the appropriate <a href="/getting-started/integration/policy-controllers">policy controller</a>. The
-compliance state and status of a <code>Policy</code> represents all embedded <em>Policy Templates</em> in the
-<code>Policy</code>. The distribution of <code>Policy</code> objects is controlled by a <a href="/concepts/placement">Placement</a>.</p>
-<p>View a simple example of a <code>Policy</code> that embeds a <code>ConfigurationPolicy</code> policy template to manage a
-namespace called &ldquo;prod&rdquo;.</p>
+<p>A <code>Policy</code> is a grouping mechanism for <em>Policy Templates</em> and is the smallest deployable unit on the hub cluster.
+Embedded <em>Policy Templates</em> are distributed to applicable managed clusters and acted upon by the appropriate
+<a href="/getting-started/integration/policy-controllers">policy controller</a>. The compliance state and status of a <code>Policy</code>
+represents all embedded <em>Policy Templates</em> in the <code>Policy</code>. The distribution of <code>Policy</code> objects is controlled by a
+<a href="/concepts/placement">Placement</a>.</p>
+<p>View a simple example of a <code>Policy</code> that embeds a <code>ConfigurationPolicy</code> policy template to manage a namespace called
+&ldquo;prod&rdquo;.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: Policy
 <span style="color:#66d9ef">metadata</span>:
@@ -324,33 +323,33 @@ namespace called &ldquo;prod&rdquo;.</p>
           <span style="color:#66d9ef">remediationAction</span>: inform
           <span style="color:#66d9ef">severity</span>: low
           <span style="color:#66d9ef">object-templates</span>:
-            - <span style="color:#66d9ef">complianceType</span>: MustHave
+            - <span style="color:#66d9ef">complianceType</span>: musthave
               <span style="color:#66d9ef">objectDefinition</span>:
                 <span style="color:#66d9ef">kind</span>: Namespace <span style="color:#75715e"># must have namespace &#39;prod&#39;</span>
                 <span style="color:#66d9ef">apiVersion</span>: v1
                 <span style="color:#66d9ef">metadata</span>:
                   <span style="color:#66d9ef">name</span>: prod
-</code></pre></div><p>At first, you may notice the <code>annotations</code>. These are standard annotations that are for
-informational purposes and can be used by user interfaces, custom report scripts, or components that
-integrate with OCM.</p>
-<p>Next, you may notice the optional <code>spec.remediationAction</code> field. This dictates if the policy
-controller should <code>inform</code> or <code>enforce</code> when violations are found and overrides the
-<code>remediationAction</code> field on each policy template. When set to <code>inform</code>, the <code>Policy</code> will become
-noncompliant if the underlying policy templates detect that the desired state is not met. When set
+</code></pre></div><p>The <code>annotations</code> are standard annotations for informational purposes and can be used by user interfaces, custom report
+scripts, or components that integrate with OCM.</p>
+<p>The optional <code>spec.remediationAction</code> field dictates whether the policy controller should <code>inform</code> or <code>enforce</code> when
+violations are found and overrides the <code>remediationAction</code> field on each policy template. When set to <code>inform</code>, the
+<code>Policy</code> will become noncompliant if the underlying policy templates detect that the desired state is not met. When set
 to <code>enforce</code>, the policy controller applies the desired state when necessary and feasible.</p>
-<p>The <code>policy-templates</code> array contains a single <code>ConfigurationPolicy</code> called
-<code>policy-namespace-example</code>. This <code>ConfigurationPolicy</code> has the <code>remediationAction</code> set to <code>inform</code>
-but it is overridden by the optional global <code>spec.remediationAction</code>. The <code>severity</code> is for
-informational purposes similar to the <code>annotations</code>.</p>
-<p>The most interesting part is the <code>object-templates</code> section under the embedded
-<code>ConfigurationPolicy</code>. This describes the <code>prod</code> <code>Namespace</code> object that the <code>Policy</code> applies to.
-The action that the <code>ConfigurationPolicy</code> will take is determined by the <code>complianceType</code>. In this
-case, it is set to <code>MustHave</code> which means the <code>prod</code> <code>Namespace</code> object will be created if it
-doesn&rsquo;t exist. Other compliance types include <code>MustNotHave</code> and <code>MustOnlyHave</code>. <code>MustNotHave</code> would
-delete the <code>prod</code> <code>Namespace</code> object. <code>MustOnlyHave</code> would ensure the <code>prod</code> <code>Namespace</code> object only
-exists with the fields defined in the <code>ConfigurationPolicy</code>.</p>
-<p>When the <code>Policy</code> is bound to a <a href="/concepts/placement"><code>Placement</code></a>, the <code>Policy</code> status will report
-on each cluster that matched the bound <code>Placement</code>:</p>
+<p>The <code>policy-templates</code> array contains an array of <a href="#managed-cluster-policy-controllers"><em>Policy Templates</em></a>. Here a
+single <code>ConfigurationPolicy</code> called <code>policy-namespace-example</code> defines a <code>Namespace</code> manifest to compare with objects on
+the cluster. It has the <code>remediationAction</code> set to <code>inform</code> but it is overridden by the optional global
+<code>spec.remediationAction</code>. The <code>severity</code> is for informational purposes similar to the <code>annotations</code>.</p>
+<p>Inside of the embedded <code>ConfigurationPolicy</code>, the <code>object-templates</code> section describes the <code>prod</code> <code>Namespace</code> object
+that the <code>ConfigurationPolicy</code> applies to. The action that the <code>ConfigurationPolicy</code> will take is determined by the
+<code>complianceType</code>. In this case, it is set to <code>musthave</code> which means the <code>prod</code> <code>Namespace</code> object will be created if it
+doesn&rsquo;t exist. Other compliance types include <code>mustnothave</code> and <code>mustonlyhave</code>. <code>mustnothave</code> would delete the <code>prod</code>
+<code>Namespace</code> object. <code>mustonlyhave</code> would ensure the <code>prod</code> <code>Namespace</code> object only exists with the fields defined in the
+<code>ConfigurationPolicy</code>. See the
+<a href="/getting-started/integration/policy-controllers/configuration-policy"><code>ConfigurationPolicy</code> page</a> for more information
+or see the <a href="#templating-in-configuration-policies">templating in configuration policies</a> topic for advanced templating
+use cases with <code>ConfigurationPolicy</code>.</p>
+<p>When the <code>Policy</code> is bound to a <a href="/concepts/placement"><code>Placement</code></a> using a <a href="#placementbinding"><code>PlacementBinding</code></a>, the
+<code>Policy</code> status will report on each cluster that matches the bound <code>Placement</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">status</span>:
   <span style="color:#66d9ef">compliant</span>: Compliant
   <span style="color:#66d9ef">placement</span>:
@@ -365,10 +364,9 @@ on each cluster that matched the bound <code>Placement</code>:</p>
 </code></pre></div><p>To fully explore the <code>ConfigurationPolicy</code> API, run the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
 </code></pre></div><h2 id="placementbinding">PlacementBinding</h2>
-<p>A <code>PlacementBinding</code> binds a <a href="/concepts/placement">Placement</a> to a <a href="#policy"><code>Policy</code></a> or
-<a href="#policyset"><code>PolicySet</code></a>.</p>
-<p>Below is an example of a <code>PlacementBinding</code> that binds the <code>policy-namespace</code> <code>Policy</code> to the
-<code>placement-hub-cluster</code> <code>Placement</code>.</p>
+<p>A <code>PlacementBinding</code> binds a <a href="/concepts/placement">Placement</a> to a <a href="#policy"><code>Policy</code></a> or <a href="#policyset"><code>PolicySet</code></a>.</p>
+<p>Below is an example of a <code>PlacementBinding</code> that binds the <code>policy-namespace</code> <code>Policy</code> to the <code>placement-hub-cluster</code>
+<code>Placement</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: PlacementBinding
 <span style="color:#66d9ef">metadata</span>:
@@ -382,16 +380,14 @@ on each cluster that matched the bound <code>Placement</code>:</p>
   - <span style="color:#66d9ef">apiGroup</span>: policy.open-cluster-management.io
     <span style="color:#66d9ef">kind</span>: Policy
     <span style="color:#66d9ef">name</span>: policy-namespace
-</code></pre></div><p>Once the <code>Policy</code> is bound, it will be distributed to and acted upon by the managed clusters that
-match the <code>Placement</code>.</p>
+</code></pre></div><p>Once the <code>Policy</code> is bound, it will be distributed to and acted upon by the managed clusters that match the <code>Placement</code>.</p>
 <h2 id="policyset">PolicySet</h2>
-<p>A <code>PolicySet</code> is a grouping mechanism of <a href="#policy"><code>Policy</code></a> objects. Compliance of all grouped
-<code>Policy</code> objects is summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its
-distribution is controlled by a <a href="/concepts/placement">Placement</a> when bound through a
-<a href="#placementbinding"><code>PlacementBinding</code></a>.</p>
-<p>This enables a workflow where subject matter experts write <code>Policy</code> objects and then an IT
-administrator creates a <code>PolicySet</code> that groups the previously written <code>Policy</code> objects and binds
-the <code>PolicySet</code> to a <code>Placement</code> that deploys the <code>PolicySet</code>.</p>
+<p>A <code>PolicySet</code> is a grouping mechanism of <a href="#policy"><code>Policy</code></a> objects. Compliance of all grouped <code>Policy</code> objects is
+summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its distribution is controlled by a
+<a href="/concepts/placement">Placement</a> when bound through a <a href="#placementbinding"><code>PlacementBinding</code></a>.</p>
+<p>This enables a workflow where subject matter experts write <code>Policy</code> objects and then an IT administrator creates a
+<code>PolicySet</code> that groups the previously written <code>Policy</code> objects and binds the <code>PolicySet</code> to a <code>Placement</code> that deploys
+the <code>PolicySet</code>.</p>
 <p>An example of a <code>PolicySet</code> is shown below.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: PolicySet
@@ -399,75 +395,88 @@ the <code>PolicySet</code> to a <code>Placement</code> that deploys the <code>Po
   <span style="color:#66d9ef">name</span>: acm-hardening
   <span style="color:#66d9ef">namespace</span>: policies
 <span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">description</span>:
-    Apply standard best practices for hardening your Open Cluster Management installation.
+  <span style="color:#66d9ef">description</span>: Apply standard best practices for hardening your Open Cluster Management installation.
   <span style="color:#66d9ef">policies</span>:
     - policy-check-backups
     - policy-managedclusteraddon-available
     - policy-subscriptions
-</code></pre></div><h2 id="policy-templates">Policy Templates</h2>
-<p>Configuration policies support the inclusion of Golang text templates in the object definitions.
-These templates are resolved at runtime either on the hub cluster or the target managed cluster
-using configurations related to that cluster. This gives you the ability to define configuration
-policies with dynamic content and to inform or enforce Kubernetes resources that are customized to
-the target cluster.</p>
-<p>The template syntax must follow the Golang template language specification, and the resource
-definition generated from the resolved template must be a valid YAML. (See the
-<a href="https://golang.org/pkg/text/template/">Golang documentation about package templates</a> for more
-information.) Any errors in template validation appear as policy violations. When you use a custom
-template function, the values are replaced at runtime.</p>
-<p>Template functions, such as resource-specific and generic <code>lookup</code> template functions, are available
-for referencing Kubernetes resources on the hub cluster (using the <code>{{hub ... hub}}</code> delimiters), or
-managed cluster (using the <code>{{ ... }}</code> delimiters). See the
-<a href="#hub-cluster-templates">Hub cluster templates section</a> for more details. The resource-specific
-functions are used for convenience and makes content of the resources more accessible. If you use
-the generic function, <code>lookup</code>, which is more advanced, it is best to be familiar with the YAML
-structure of the resource that is being looked up. In addition to these functions, utility functions
-like <code>base64encode</code>, <code>base64decode</code>, <code>indent</code>, <code>autoindent</code>, <code>toInt</code>, and <code>toBool</code> are also
-available.</p>
-<p>To conform templates with YAML syntax, templates must be set in the policy resource as strings using
-quotes or a block character (<code>|</code> or <code>&gt;</code>). This causes the resolved template value to also be a
-string. To override this, consider using <code>toInt</code> or <code>toBool</code> as the final function in the template
-to initiate further processing that forces the value to be interpreted as an integer or boolean
-respectively.</p>
+</code></pre></div><h2 id="managed-cluster-policy-controllers">Managed cluster policy controllers</h2>
+<p>The <a href="#policy"><code>Policy</code></a> on the hub delivers the policies defined in <code>spec.policy-templates</code> to the managed clusters via
+the policy framework controllers. Once on the managed cluster, these <em>Policy Templates</em> are acted upon by the associated
+controller on the managed cluster. The policy framework supports delivering the <em>Policy Template</em> kinds listed here:</p>
+<ul>
+<li>
+<p>Configuration policy</p>
+<p>The <code>ConfigurationPolicy</code> is provided by OCM and defines Kubernetes manifests to compare with objects that currently
+exist on the cluster. The action that the <code>ConfigurationPolicy</code> will take is determined by its <code>complianceType</code>.
+Compliance types include <code>musthave</code>, <code>mustnothave</code>, and <code>mustonlyhave</code>. <code>musthave</code> means the object should have the
+listed keys and values as a subset of the larger object. <code>mustnothave</code> means an object matching the listed keys and
+values should not exist. <code>mustonlyhave</code> ensures objects only exist with the keys and values exactly as defined. See
+the page on <a href="/getting-started/integration/policy-controllers/configuration-policy">Configuration Policy</a> for more
+information.</p>
+</li>
+<li>
+<p>Open Policy Agent Gatekeeper</p>
+<p>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
+policies that are run with the Open Policy Agent (OPA). Gatekeeper <code>ConstraintTemplates</code> and constraints can be
+provided in an OCM <code>Policy</code> to sync to managed clusters that have Gatekeeper installed on them. See the page on
+<a href="/getting-started/integration/policy-controllers/gatekeeper">Gatekeeper integration</a> for more information.</p>
+</li>
+</ul>
+<h2 id="templating-in-configuration-policies">Templating in configuration policies</h2>
+<p>Configuration policies support the inclusion of Golang text templates in the object definitions. These templates are
+resolved at runtime either on the hub cluster or the target managed cluster using configurations related to that
+cluster. This gives you the ability to define configuration policies with dynamic content and to inform or enforce
+Kubernetes resources that are customized to the target cluster.</p>
+<p>The template syntax must follow the Golang template language specification, and the resource definition generated from
+the resolved template must be a valid YAML. (See the
+<a href="https://golang.org/pkg/text/template/">Golang documentation about package templates</a> for more information.) Any errors
+in template validation appear as policy violations. When you use a custom template function, the values are replaced at
+runtime.</p>
+<p>Template functions, such as resource-specific and generic <code>lookup</code> template functions, are available for referencing
+Kubernetes resources on the hub cluster (using the <code>{{hub ... hub}}</code> delimiters), or managed cluster (using the
+<code>{{ ... }}</code> delimiters). See the <a href="#hub-cluster-templates">Hub cluster templates section</a> for more details. The
+resource-specific functions are used for convenience and makes content of the resources more accessible. If you use the
+generic function, <code>lookup</code>, which is more advanced, it is best to be familiar with the YAML structure of the resource
+that is being looked up. In addition to these functions, utility functions like <code>base64encode</code>, <code>base64decode</code>,
+<code>indent</code>, <code>autoindent</code>, <code>toInt</code>, and <code>toBool</code> are also available.</p>
+<p>To conform templates with YAML syntax, templates must be set in the policy resource as strings using quotes or a block
+character (<code>|</code> or <code>&gt;</code>). This causes the resolved template value to also be a string. To override this, consider using
+<code>toInt</code> or <code>toBool</code> as the final function in the template to initiate further processing that forces the value to be
+interpreted as an integer or boolean respectively.</p>
 <p>To bypass template processing you can either:</p>
 <ul>
-<li>Override a single template by wrapping the template in additional braces. For example, the
-template <code>{{ template content }}</code> would become <code>{{ '{{ template content }}' }}</code>.</li>
+<li>Override a single template by wrapping the template in additional braces. For example, the template
+<code>{{ template content }}</code> would become <code>{{ '{{ template content }}' }}</code>.</li>
 <li>Override all templates in a <code>ConfigurationPolicy</code> by adding the
-<code>policy.open-cluster-management.io/disable-templates: &quot;true&quot;</code> annotation in the
-<code>ConfigurationPolicy</code> section of your <code>Policy</code>. Template processing will be bypassed for that
-<code>ConfigurationPolicy</code>.</li>
+<code>policy.open-cluster-management.io/disable-templates: &quot;true&quot;</code> annotation in the <code>ConfigurationPolicy</code> section of your
+<code>Policy</code>. Template processing will be bypassed for that <code>ConfigurationPolicy</code>.</li>
 </ul>
-<h3 id="hub-cluster-templates">Hub cluster templates</h3>
-<p>Hub cluster templates are used to define configuration policies that are dynamically customized to
-the target cluster. This reduces the need to create separate policies for each target cluster or
-hardcode configuration values in the policy definitions.</p>
-<p>Hub cluster templates are based on Golang text template specifications, and the <code>{{hub … hub}}</code>
-delimiter indicates a hub cluster template in a configuration policy.</p>
-<p>A configuration policy definition can contain both hub cluster and managed cluster templates. Hub
-cluster templates are processed first on the hub cluster, then the policy definition with resolved
-hub cluster templates is propagated to the target clusters. On the managed cluster, the
-Configuration Policy controller processes any managed cluster templates in the policy definition and
-then enforces or verifies the fully resolved object definition.</p>
-<p>In OCM versions 0.9.x and older, policies are processed on the hub cluster only upon creation or
-after an update. Therefore, hub cluster templates are only resolved to the data in the referenced
-resources upon policy creation or update. Any changes to the referenced resources are not
-automatically synced to the policies.</p>
-<p>A special annotation, <code>policy.open-cluster-management.io/trigger-update</code> can be used to indicate
-changes to the data referenced by the templates. Any change to the special annotation value
-initiates template processing, and the latest contents of the referenced resource are read and
-updated in the policy definition that is the propagator for processing on managed clusters. A
-typical way to use this annotation is to increment the value by one each time.</p>
-<h3 id="template-encryption-details">Template encryption details</h3>
-<p>The encryption algorithm uses AES-CBC with 256-bit keys. Each encryption key is unique per managed
-cluster and is automatically rotated every 30 days. This ensures that your decrypted value is never
-stored in the policy on the managed cluster.</p>
-<p>To force an immediate encryption key rotation, delete the
-<code>policy.open-cluster-management.io/last-rotated</code> annotation on the <code>policy-encryption-key</code> Secret in
-the managed cluster namespace on the hub cluster. Policies are then reprocessed to use the new
-encryption key.</p>
-<h3 id="template-functions">Template functions</h3>
+<h3 id="hub-cluster-templating-in-configuration-policies">Hub cluster templating in configuration policies</h3>
+<p>Hub cluster templates are used to define configuration policies that are dynamically customized to the target cluster.
+This reduces the need to create separate policies for each target cluster or hardcode configuration values in the policy
+definitions.</p>
+<p>Hub cluster templates are based on Golang text template specifications, and the <code>{{hub … hub}}</code> delimiter indicates a
+hub cluster template in a configuration policy.</p>
+<p>A configuration policy definition can contain both hub cluster and managed cluster templates. Hub cluster templates are
+processed first on the hub cluster, then the policy definition with resolved hub cluster templates is propagated to the
+target clusters. On the managed cluster, the Configuration Policy controller processes any managed cluster templates in
+the policy definition and then enforces or verifies the fully resolved object definition.</p>
+<p>In OCM versions 0.9.x and older, policies are processed on the hub cluster only upon creation or after an update.
+Therefore, hub cluster templates are only resolved to the data in the referenced resources upon policy creation or
+update. Any changes to the referenced resources are not automatically synced to the policies.</p>
+<p>A special annotation, <code>policy.open-cluster-management.io/trigger-update</code> can be used to indicate changes to the data
+referenced by the templates. Any change to the special annotation value initiates template processing, and the latest
+contents of the referenced resource are read and updated in the policy definition that is the propagator for processing
+on managed clusters. A typical way to use this annotation is to increment the value by one each time.</p>
+<h3 id="templating-value-encryption">Templating value encryption</h3>
+<p>The encryption algorithm uses AES-CBC with 256-bit keys. Each encryption key is unique per managed cluster and is
+automatically rotated every 30 days. This ensures that your decrypted value is never stored in the policy on the managed
+cluster.</p>
+<p>To force an immediate encryption key rotation, delete the <code>policy.open-cluster-management.io/last-rotated</code> annotation on
+the <code>policy-encryption-key</code> Secret in the managed cluster namespace on the hub cluster. Policies are then reprocessed to
+use the new encryption key.</p>
+<h3 id="templating-functions">Templating functions</h3>
 <table>
 <thead>
 <tr>
@@ -534,8 +543,7 @@ encryption key.</p>
 </tr>
 </tbody>
 </table>
-<p>Additionally, OCM supports the following template functions that are included from the <code>sprig</code> open
-source project:</p>
+<p>Additionally, OCM supports the following template functions that are included from the <code>sprig</code> open source project:</p>
 <ul>
 <li><code>cat</code></li>
 <li><code>contains</code></li>

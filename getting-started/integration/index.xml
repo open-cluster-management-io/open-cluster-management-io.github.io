@@ -50,15 +50,5 @@ Prerequisite You must meet the following prerequisites to install the applicatio
    API Concepts Architecture Prerequisite Install the governance-policy-framework hub components  Install via Clusteradm CLI Install from source   Deploy the synchronization components to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next     API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:</description>
     </item>
     
-    <item>
-      <title>Policy controllers</title>
-      <link>https://open-cluster-management.io/getting-started/integration/policy-controllers/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://open-cluster-management.io/getting-started/integration/policy-controllers/</guid>
-      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
-   Prerequisite Install the configuration policy controller to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next  Placement API Placement Rule API Final steps to apply the policy       Prerequisite You must meet the following prerequisites to install the policy controllers:</description>
-    </item>
-    
   </channel>
 </rss>

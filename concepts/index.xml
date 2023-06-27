@@ -95,8 +95,8 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/concepts/policy/</guid>
-      <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
- Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+      <description>Overview Policy PlacementBinding PolicySet Managed cluster policy controllers Templating in configuration policies  Hub cluster templating in configuration policies Templating value encryption Templating functions       Overview The policy framework has the following API concepts:
+ Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
     </item>
     
   </channel>

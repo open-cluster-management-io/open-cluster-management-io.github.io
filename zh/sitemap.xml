@@ -138,11 +138,19 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-framework</loc>
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers</loc>
+        <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper</loc>
     </url>
     
     <url>

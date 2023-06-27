@@ -223,8 +223,8 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/concepts/policy/</guid>
-      <description>Overview Policy PlacementBinding PolicySet Policy Templates  Hub cluster templates Template encryption details Template functions       Overview The policy framework has the following API concepts:
- Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. These cannot be deployed to managed clusters on their own. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+      <description>Overview Policy PlacementBinding PolicySet Managed cluster policy controllers Templating in configuration policies  Hub cluster templating in configuration policies Templating value encryption Templating functions       Overview The policy framework has the following API concepts:
+ Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
     </item>
     
     <item>
@@ -257,13 +257,23 @@ Prerequisite You must meet the following prerequisites to install the applicatio
     </item>
     
     <item>
-      <title>Policy controllers</title>
-      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</link>
+      <title>Configuration Policy</title>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</guid>
-      <description>After policy framework is installed, you can install the policy controllers to the managed clusters.
-   Prerequisite Install the configuration policy controller to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next  Placement API Placement Rule API Final steps to apply the policy       Prerequisite You must meet the following prerequisites to install the policy controllers:</description>
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/</guid>
+      <description>The ConfigurationPolicy defines Kubernetes manifests to compare with objects that currently exist on the cluster. The Configuration policy controller is provided by Open Cluster Management and runs on managed clusters.
+   Prerequisites Installing the configuration policy controller  Deploy via Clusteradm CLI Deploy from source   Sample configuration policy  Placement API Placement Rule API Final steps to apply the policy       Prerequisites You must meet the following prerequisites to install the configuration policy controller:</description>
+    </item>
+    
+    <item>
+      <title>Open Policy Agent Gatekeeper</title>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/</guid>
+      <description>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based policies that are run with the Open Policy Agent (OPA). Gatekeeper constraints can be used to evaluate Kubernetes resource compliance. You can leverage OPA as the policy engine, and use Rego as the policy language.
+   Installing Gatekeeper Sample Gatekeeper policy     Installing Gatekeeper See the Gatekeeper documentation to install the desired version of Gatekeeper to the managed cluster.</description>
     </item>
     
   </channel>

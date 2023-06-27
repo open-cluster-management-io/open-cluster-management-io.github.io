@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Policy controllers on Open Cluster Management</title>
+    <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/</link>
+    <description>Recent content in Policy controllers on Open Cluster Management</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	<atom:link href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Configuration Policy</title>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/</guid>
+      <description>The ConfigurationPolicy defines Kubernetes manifests to compare with objects that currently exist on the cluster. The Configuration policy controller is provided by Open Cluster Management and runs on managed clusters.
+   Prerequisites Installing the configuration policy controller  Deploy via Clusteradm CLI Deploy from source   Sample configuration policy  Placement API Placement Rule API Final steps to apply the policy       Prerequisites You must meet the following prerequisites to install the configuration policy controller:</description>
+    </item>
+    
+    <item>
+      <title>Open Policy Agent Gatekeeper</title>
+      <link>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/</guid>
+      <description>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based policies that are run with the Open Policy Agent (OPA). Gatekeeper constraints can be used to evaluate Kubernetes resource compliance. You can leverage OPA as the policy engine, and use Rego as the policy language.
+   Installing Gatekeeper Sample Gatekeeper policy     Installing Gatekeeper See the Gatekeeper documentation to install the desired version of Gatekeeper to the managed cluster.</description>
+    </item>
+    
+  </channel>
+</rss>
