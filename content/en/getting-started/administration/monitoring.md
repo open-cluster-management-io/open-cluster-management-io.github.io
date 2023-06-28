@@ -9,7 +9,7 @@ In this page, we provide a way to monitor your OCM environment using Prometheus-
 
 ## Before you get started
 
-You must have a OCM environment setuped. You can also follow our recommended [quick start guide](https://open-cluster-management.io/getting-started/quick-start/) to set up a playgroud OCM environment.
+You must have a OCM environment setuped. You can also follow our recommended [quick start guide]({{< ref "/getting-started/quick-start" >}}) to set up a playgroud OCM environment.
 
 And then please [install the Prometheus-Operator](https://prometheus-operator.dev/docs/prologue/quick-start/) in your hub cluster. You can also run the following commands copied from the official doc:
 

@@ -1,5 +1,5 @@
 ---
-title: Klusterlet agent
+title: Register a cluster
 weight: 2
 ---
 
@@ -13,84 +13,123 @@ After the cluster manager is installed on the hub cluster, you need to install t
 
 ## Prerequisite
 
-Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
+- The managed clusters should be `v1.11+`.
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
-Ensure [golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
+## Install clusteradm CLI tool
 
-Ensure the open-cluster-management cluster manager is installed on the hub cluster. See [Cluster manager](../cluster-manager) for more information.
+It's recommended to run the following command to download and install **the
+latest release** of the `clusteradm` command-line tool:
 
-Prepare another Kubernetes cluster to function as the managed cluster. For example, use [kind](https://kind.sigs.k8s.io/docs/user/quick-start) to create another cluster as described in the following instructions. To use `kind`, you will need [docker](https://docs.docker.com/get-started) installed and running.
-
-Set the following environment variables that will be used throughout to simplify the instructions:
-
-```Shell
-export MANAGED_CLUSTER_NAME=<your managed cluster name>     # export MANAGED_CLUSTER_NAME=cluster1
-export CTX_MANAGED_CLUSTER=<your managed cluster context>   # export CTX_MANAGED_CLUSTER=kind-cluster1
+```shell
+curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
 ```
 
-Then create the managed cluster with `kind`, run:
+You can also install **the latest development version** (main branch) by running:
 
-```Shell
-# kind delete cluster --name ${MANAGED_CLUSTER_NAME} # if the kind cluster is previously created and can be safely deleted
-kind create cluster --name ${MANAGED_CLUSTER_NAME}
+```shell
+# Installing clusteradm to $GOPATH/bin/
+GO111MODULE=off go get -u open-cluster-management.io/clusteradm/...
 ```
 
-If you are using OKD, OpenShift, you will need to prepare a kubeconfig with `certificate-authority-data`, `client-certificate-data` and `client-key-data`. By default, it's located in `auth/kubeconfig` under your installation folder.
+## Bootstrap a klusterlet
 
-## Install from source
-
-If you have not already done so, clone the `registration-operator`.
-
-```Shell
-git clone https://github.com/open-cluster-management-io/registration-operator
-```
-
-Ensure the `kubectl` context is set to point to the managed cluster:
+Before actually installing the OCM components into your clusters, export
+the following environment variables in your terminal before running our
+command-line tool `clusteradm` so that it can correctly discriminate the managed cluster:
 
 ```Shell
-kubectl config use-context ${CTX_MANAGED_CLUSTER}
+# The context name of the clusters in your kubeconfig
+export CTX_HUB_CLUSTER=<your hub cluster context>
+export CTX_MANAGED_CLUSTER=<your managed cluster context>
 ```
 
-Deploy agent on a managed `kind` cluster.
+Copy the previously generated command -- `clusteradm join`, and add the arguments respectively based
+on the different distribution.
 
-```Shell
-cd registration-operator
-make deploy-spoke # make deploy-spoke GO_REQUIRED_MIN_VERSION:= # if you see warnings regarding go version
-```
+**NOTE**: If there is no configmap `kube-root-ca.crt` in kube-public namespace of the hub cluster,
+the flag --ca-file should be set to provide a valid hub ca file to help set
+up the external client.
 
-## Install community operator from OperatorHub.io
+{{< tabs name="clusteradm join" >}}{{% tab name="kind" %}}
+  ```shell
+  # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \    # Or other arbitrary unique name
+      --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab name="k3s, openshift 4.X" %}}
+  ```shell
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \   # Or other arbitrary unique name
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{< /tabs >}}
 
-If you are using OKD, OpenShift, or have `OLM` installed in your cluster, you can install the klusterlet agent community operator with a released version from [OperatorHub.io](https://operatorhub.io/operator/klusterlet).
+## Accept the join request and verify
 
-## What is next
+After the OCM agent is running on your managed cluster, it will be sending a "handshake" to your
+hub cluster and waiting for an approval from the hub cluster admin. In this section, we will walk
+through accepting the registration requests from the prespective of an OCM's hub admin.
 
-After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will be created on the hub cluster.
+1. Wait for the creation of the CSR object which will be created by your managed
+   clusters' OCM agents on the hub cluster:
 
-```Shell
-$ kubectl get csr --context ${CTX_HUB_CLUSTER}
-NAME                              AGE   REQUESTOR                       CONDITION
-${MANAGED_CLUSTER_NAME}-<suffix>   41s   kubernetes-admin                Pending
-csr-<suffix>                      76m   system:node:hub-control-plane   Approved,Issued
-$ kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
-NAME                    HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-${MANAGED_CLUSTER_NAME}  false          https://localhost                           57s
-```
+   ```Shell
+   kubectl get csr -w --context ${CTX_HUB_CLUSTER} | grep cluster1  # or the previously chosen cluster name
+   ```
 
-Next approve the certificate and set managecluster to be accepted by the hub with following commands:
+   An example of a pending CSR request is shown below:
 
-```Shell
-kubectl certificate approve {csr name} --context ${CTX_HUB_CLUSTER}
-kubectl patch managedcluster ${MANAGED_CLUSTER_NAME} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge --context ${CTX_HUB_CLUSTER}
-```
+   ```Shell
+   cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+   ```
 
-Run `kubectl get managedcluster --context ${CTX_HUB_CLUSTER}` again on the hub cluster. You should be able to see that the managed cluster is registered now.
+2. Accept the join request using the `clusteradm` tool:
 
-```Shell
-NAME                     HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-${MANAGED_CLUSTER_NAME}   true           https://localhost      True     True        7m58s
-```
+   ```Shell
+   clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
+   ```
+
+   After running the `accept` command, the CSR from your managed cluster
+   named "cluster1" will be approved. Additionally, it will instruct
+   the OCM hub control plane to setup related objects (such as a namespace
+   named "cluster1" in the hub cluster) and RBAC permissions automatically.
+
+3. Verify the installation of the OCM agents on your managed cluster by running:
+
+   ```shell
+   kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
+   NAME                                             READY   STATUS    RESTARTS   AGE
+   klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   0          19d
+   klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   0          19d
+   ```
+
+4. Verify that the `cluster1` `ManagedCluster` object was created successfully by running:
+
+   ```Shell
+   kubectl get managedcluster --context ${CTX_HUB_CLUSTER}
+   ```
+
+   Then you should get a result that resembles the following:
+
+   ```Shell
+   NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
+   cluster1   true           <your endpoint>           True     True        5m23s
+   ```
 
 If the managed cluster status is not true, refer to [Troubleshooting](#troubleshooting) to debug on your cluster.
+
+## Apply a Manifestwork
 
 After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a `manifest-work.yaml` as shown in this example:
 
@@ -136,9 +175,9 @@ NAME    READY   STATUS    RESTARTS   AGE
 hello   1/1     Running   0          108s
 ```
 
-## Troubleshooting
+### Troubleshooting
 
-- The managed cluster status is not true.
+- **If the managed cluster status is not true.**
 
   For example, the result below is shown when checking managedcluster.
 
@@ -167,3 +206,25 @@ hello   1/1     Running   0          108s
   ```Shell
   kubectl get klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
   ```
+
+## Detach the cluster from hub
+
+Remove the resources generated when registering with the hub cluster.
+
+```Shell
+clusteradm unjoin --cluster-name "cluster1" --context ${CTX_MANAGED_CLUSTER}
+```
+
+Check the installation of the OCM agent is removed from the managed cluster.
+
+```Shell
+kubectl -n open-cluster-management-agent get pod --context ${CTX_MANAGED_CLUSTER}
+No resources found in open-cluster-management-agent namespace.
+```
+
+Check the klusterlet is removed from the managed cluster.
+
+```Shell
+kubectl get klusterlet --context ${CTX_MANAGED_CLUSTER}
+error: the server doesn't have a resource type "klusterlet
+```

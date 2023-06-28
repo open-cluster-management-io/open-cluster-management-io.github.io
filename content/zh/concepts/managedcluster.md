@@ -13,7 +13,7 @@ weight: 2
 
 `ManagedCluster` is a cluster scoped API in the hub cluster representing the
 registered or pending-for-acceptance Kubernetes clusters in OCM. The
-[klusterlet agent](https://open-cluster-management.io/getting-started/installation/register-a-cluster/)
+[klusterlet agent]({{< ref "/getting-started/installation/register-a-cluster" >}})
 working in the managed cluster is expected to actively maintain/refresh the
 status of the corresponding `ManagedCluster` resource on the hub cluster.
 On the other hand, removing the `ManagedCluster` from the hub cluster indicates
@@ -73,7 +73,7 @@ $ clusteradm accept --clusters <cluster name>
 Upon the approval, the registration agent will observe the signed certificate
 and persist them as a local secret named "hub-kubeconfig-secret" (by default
 in the "open-cluster-management-agent" namespace) which will be mounted to the
-other fundamental components of klusterlet such as the [work](https://open-cluster-management.io/concepts/manifestwork/)
+other fundamental components of klusterlet such as the [work]({{< ref "/concepts/manifestwork" >}})
 agent. In a word, if you can find your "hub-kubeconfig-secret" successfully
 present in your managed cluster, the cluster registration is all set!
 

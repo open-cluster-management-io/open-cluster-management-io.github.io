@@ -2,15 +2,15 @@
 title: 博客
 weight: 6
 ---
-### [使用OCM Placement让多集群调度更具可扩展性](/zh/blog/extend-multicluster-scheduling-capabilities/)
+### [使用OCM Placement让多集群调度更具可扩展性]({{< ref "/blog/extend-multicluster-scheduling-capabilities" >}})
 - Authors: [郝青](https://github.com/haoqing0110)
 - Date: 2023年5月10日
 ----
-### [详解ocm klusterlet秘钥管理机制](/zh/blog/registration-deepdive/)
+### [详解ocm klusterlet秘钥管理机制]({{< ref "/blog/registration-deepdive" >}})
 - Authors: [邱见](https://github.com/qiujian16)
 - Date: 2023年4月26日
 ----
-### [通过OCM及插件，访问不同VPC下的集群](/zh/blog/access-cluster-in-different-vps/)
+### [通过OCM及插件，访问不同VPC下的集群]({{< ref "/blog/access-cluster-in-different-vps" >}})
 - Authors: [薛昭](https://github.com/xuezhaojun)
 - Date: 2023年4月20日
 ----

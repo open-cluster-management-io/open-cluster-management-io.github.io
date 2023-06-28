@@ -19,7 +19,7 @@ sub-project [apiserver-network-proxy](https://github.com/kubernetes-sigs/apiserv
 
 The original architecture of OCM allows a cluster from anywhere to be
 registered and managed by OCM's control plane (i.e. the hub cluster)
-as long as a [klusterlet agent](https://open-cluster-management.io/getting-started/installation/register-a-cluster/)
+as long as a [klusterlet agent]({{< ref "/getting-started/installation/register-a-cluster" >}})
 can reach hub cluster's endpoint. So the minimal requirement for the
 managed cluster's network infrastructure in OCM is "klusterlet -> hub"
 connectivity. However, there are still some cases where the components
@@ -62,7 +62,7 @@ control plane network connectivity for us:
 
 
 Cluster proxy runs inside OCM's hub cluster as an addon manager which is
-developed based on the [Addon-Framework](https://open-cluster-management.io/concepts/addon/).
+developed based on the [Addon-Framework]({{< ref "/concepts/addon" >}}).
 The addon manager of cluster proxy will be responsible for:
 
 1. Managing the installation of proxy servers in the hub cluster.

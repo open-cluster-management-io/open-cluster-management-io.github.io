@@ -87,7 +87,7 @@ spec:
 ```
 
 Note that the distinction between label-selecting and claim-selecting is
-elaborated in [this page](https://open-cluster-management.io/scenarios/extending-managed-clusters/)
+elaborated in [this page]({{< ref "/scenarios/extending-managed-clusters" >}})
 about how to extend attributes for the managed clusters.
 
 #### Taints/Tolerations
@@ -347,7 +347,7 @@ placement yaml to select clusters.
 cluster, to maintain the lifecycle of `AddOnPlacementScore` and update score
 into it.
 
-[Extend the multi-cluster scheduling capabilities with placement](https://open-cluster-management.io/scenarios/extend-multicluster-scheduling-capabilities/)
+[Extend the multi-cluster scheduling capabilities with placement]({{< ref "/scenarios/extend-multicluster-scheduling-capabilities" >}})
 introduces how to implement a customized score provider.
 
 Refer to the

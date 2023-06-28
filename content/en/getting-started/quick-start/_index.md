@@ -20,14 +20,14 @@ Run the following command to quickly setup a hub cluster and 2 managed clusters 
 curl -L https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
 ```
 
-If you want to setup OCM in a production environment or on a different kubernetes distribution, please refer to the [Start the control plane](/getting-started/installation/start-the-control-plane) and [Register a cluster](/getting-started/installation/register-a-cluster) guides.
+If you want to setup OCM in a production environment or on a different kubernetes distribution, please refer to the [Start the control plane]({{< ref "/getting-started/installation/start-the-control-plane" >}}) and [Register a cluster]({{< ref "/getting-started/installation/register-a-cluster" >}}) guides.
 
 ## What is next
 
 Now you have the OCM control plane with 2 managed clusters connected! Let's start your OCM journey.
 
-- [Deploy kubernetes resources onto a managed cluster](/scenarios/deploy-kubernetes-resources)
-- [Visit kubernetes apiserver of managedcluster from cluster-proxy](/scenarios/pushing-kube-api-requests)
-- Visit [integration](/getting-started/integration) to check if any certain OCM addon will meet your use cases.
-  - [Deploy Policies onto a managed cluster](/getting-started/integration/policy-framework)
-- [Use the OCM VScode Extension to easily generate OCM related Kubernetes resources and track your cluster](/developer-guides/vscode-extension)
+- [Deploy kubernetes resources onto a managed cluster]({{< ref "/scenarios/deploy-kubernetes-resources" >}})
+- [Visit kubernetes apiserver of managedcluster from cluster-proxy]({{< ref "/scenarios/pushing-kube-api-requests" >}})
+- Visit [integration]({{< ref "/getting-started/integration" >}}) to check if any certain OCM addon will meet your use cases.
+  - [Deploy Policies onto a managed cluster]({{< ref "/getting-started/integration/policy-framework" >}})
+- [Use the OCM VScode Extension to easily generate OCM related Kubernetes resources and track your cluster]({{< ref "/developer-guides/vscode-extension" >}})

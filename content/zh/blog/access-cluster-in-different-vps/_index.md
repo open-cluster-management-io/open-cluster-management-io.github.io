@@ -42,7 +42,7 @@ OCM 全称为 Open Cluster Management，旨在解决多集群场景下的集群�
 
 ![](./assets/diagram-2.png)
 
-更多有关于OCM的架构细节，请参考[官方文档](https://open-cluster-management.io/concepts/architecture/)。
+更多有关于OCM的架构细节，请参考[官方文档]({{< ref "/concepts/architecture" >}})。
 
 ### cluster-proxy是什么？
 
@@ -54,7 +54,7 @@ cluster-proxy是使用OCM的[addon-framework](https://github.com/open-cluster-ma
 
 ![](./assets/diagram-3.png)
 
-更多有关cluster-proxy的信息，请参考[官方文档](https://open-cluster-management.io/getting-started/integration/cluster-proxy/)。
+更多有关cluster-proxy的信息，请参考[官方文档]({{< ref "/getting-started/integration/cluster-proxy" >}})。
 
 ### managed-serviceaccount是什么？
 
@@ -68,7 +68,7 @@ Managed-serviceaccount（后文简写为：MSA）也是利用OCM的[addon-framew
 
 ![](./assets/diagram-4.png)
 
-更多有关managed-serviceaccount的信息，请参考[官方文档](https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/)。
+更多有关managed-serviceaccount的信息，请参考[官方文档]({{< ref "/getting-started/integration/managed-serviceaccount" >}})。
 
 ## 样例
 
@@ -122,7 +122,7 @@ default-token-r89gs   kubernetes.io/service-account-token   3      6d22h
 dep                   Opaque                                2      6d21h
 ```
 
-接着，管理员需要通过OCM的[Manifestwork](https://open-cluster-management.io/concepts/manifestwork/), 即工作负载分发功能，在cluster1上创建一个`ClusterRole`，给dep绑定了cluster1上的对应权限：
+接着，管理员需要通过OCM的[Manifestwork]({{< ref "/concepts/manifestwork" >}}), 即工作负载分发功能，在cluster1上创建一个`ClusterRole`，给dep绑定了cluster1上的对应权限：
 
 ```bash
 # 创建ClusterRole, 仅具有操作Deployment的权限

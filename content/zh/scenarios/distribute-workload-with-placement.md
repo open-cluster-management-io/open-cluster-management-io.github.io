@@ -13,10 +13,10 @@ status. As an end-user, you can parse the selected clusters and then operate on
 the target clusters. You can also integrate a high-level workload orchestrator
 with the `PlacementDecision` to leverage its scheduling capabilities.
 
-For example, with OCM addon [policy](https://open-cluster-management.io/getting-started/integration/policy-controllers/)
+For example, with OCM addon [policy]({{< ref "/getting-started/integration/policy-controllers" >}})
 installed, a `Policy` that includes a `Placement` mapping can distribute the
 `Policy` to the managed clusters, details see this [example](https://open-cluster-management.io/getting-started/integration/policy-controllers/#placement-api).
-OCM addon [application lifecycle management](https://open-cluster-management.io/getting-started/integration/app-lifecycle/)
+OCM addon [application lifecycle management]({{< ref "/getting-started/integration/app-lifecycle" >}})
 will also use placement to deploy applications in the future.
 
 Some popular open source projects also integrate with the `Placement` API. For
@@ -34,20 +34,20 @@ And in this article, we want to show you how to use `clusteradm` to deploy
 
 Before starting with the following steps, suggest you understand the content below.
 
-- [__Placement__](https://open-cluster-management.io/concepts/placement/):
-The `Placement` API is used to dynamically select a set of [`ManagedCluster`](https://open-cluster-management.io/concepts/managedcluster/)
-in one or multiple [`ManagedClusterSets`](https://open-cluster-management.io/concepts/managedclusterset)
+- [__Placement__]({{< ref "/concepts/placement" >}}):
+The `Placement` API is used to dynamically select a set of [`ManagedCluster`]({{< ref "/concepts/managedcluster" >}})
+in one or multiple [`ManagedClusterSets`]({{< ref "/concepts/managedclusterset" >}})
 so that higher-level users can either replicate Kubernetes resources to the
 member clusters or run their advanced workload i.e. multi-cluster scheduling.
 
-- [__ManifestWork__](https://open-cluster-management.io/concepts/manifestwork/):
+- [__ManifestWork__]({{< ref "/concepts/manifestwork" >}}):
 A custom resource in the hub cluster that groups a list of Kubernetes resources
 together and is meant for dispatching them into the managed cluster if the
 `ManifestWork` is created in a valid `cluster namespace`.
 
 ## Deploy manifestwork to placement selected managed clusters
 
-In [deploy Kubernetes resources to the managed clusters](https://open-cluster-management.io/scenarios/deploy-kubernetes-resources/),
+In [deploy Kubernetes resources to the managed clusters]({{< ref "/scenarios/deploy-kubernetes-resources" >}}),
 it shows you how to use `clusteradm` to create a `ManifestWork` and deploy it
 onto a specific managed clusters. As `Placement` can dynamically select a set of
 `ManagedCluster`, the next steps will show you how `clusteradm` leverages
