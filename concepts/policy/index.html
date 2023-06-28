@@ -276,15 +276,15 @@
 <ul>
 <li><a href="#managed-cluster-policy-controllers"><em>Policy Templates</em></a> are the policies that perform a desired check or action. For
 example,
-<a href="/getting-started/integration/policy-controllers#install-the-configuration-policy-controller">ConfigurationPolicy</a>
+<a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/#install-the-configuration-policy-controller">ConfigurationPolicy</a>
 objects are embedded in <code>Policy</code> objects under the <code>policy-templates</code> array.</li>
 <li>A <a href="#policy"><code>Policy</code></a> is a grouping mechanism for <em>Policy Templates</em> and is the smallest deployable unit on the hub
 cluster. Embedded <em>Policy Templates</em> are distributed to applicable managed clusters and acted upon by the appropriate
-<a href="/getting-started/integration/policy-controllers">policy controller</a>.</li>
+<a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/">policy controller</a>.</li>
 <li>A <a href="#policyset"><code>PolicySet</code></a> is a grouping mechanism of <code>Policy</code> objects. Compliance of all grouped <code>Policy</code> objects is
 summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its distribution is controlled by a
-<a href="/concepts/placement">Placement</a>.</li>
-<li>A <a href="#placementbinding"><code>PlacementBinding</code></a> binds a <a href="/concepts/placement">Placement</a> to a <code>Policy</code> or <code>PolicySet</code>.</li>
+<a href="https://open-cluster-management.io/concepts/placement/">Placement</a>.</li>
+<li>A <a href="#placementbinding"><code>PlacementBinding</code></a> binds a <a href="https://open-cluster-management.io/concepts/placement/">Placement</a> to a <code>Policy</code> or <code>PolicySet</code>.</li>
 </ul>
 <p>The second half of the
 <a href="/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf">KubeCon NA 2022 - OCM Multicluster App &amp; Config Management</a>
@@ -292,9 +292,9 @@ also covers an overview of the Policy addon.</p>
 <h2 id="policy">Policy</h2>
 <p>A <code>Policy</code> is a grouping mechanism for <em>Policy Templates</em> and is the smallest deployable unit on the hub cluster.
 Embedded <em>Policy Templates</em> are distributed to applicable managed clusters and acted upon by the appropriate
-<a href="/getting-started/integration/policy-controllers">policy controller</a>. The compliance state and status of a <code>Policy</code>
+<a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/">policy controller</a>. The compliance state and status of a <code>Policy</code>
 represents all embedded <em>Policy Templates</em> in the <code>Policy</code>. The distribution of <code>Policy</code> objects is controlled by a
-<a href="/concepts/placement">Placement</a>.</p>
+<a href="https://open-cluster-management.io/concepts/placement/">Placement</a>.</p>
 <p>View a simple example of a <code>Policy</code> that embeds a <code>ConfigurationPolicy</code> policy template to manage a namespace called
 &ldquo;prod&rdquo;.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
@@ -341,10 +341,10 @@ that the <code>ConfigurationPolicy</code> applies to. The action that the <code>
 doesn&rsquo;t exist. Other compliance types include <code>mustnothave</code> and <code>mustonlyhave</code>. <code>mustnothave</code> would delete the <code>prod</code>
 <code>Namespace</code> object. <code>mustonlyhave</code> would ensure the <code>prod</code> <code>Namespace</code> object only exists with the fields defined in the
 <code>ConfigurationPolicy</code>. See the
-<a href="/getting-started/integration/policy-controllers/configuration-policy"><code>ConfigurationPolicy</code> page</a> for more information
+<a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/configuration-policy/"><code>ConfigurationPolicy</code> page</a> for more information
 or see the <a href="#templating-in-configuration-policies">templating in configuration policies</a> topic for advanced templating
 use cases with <code>ConfigurationPolicy</code>.</p>
-<p>When the <code>Policy</code> is bound to a <a href="/concepts/placement"><code>Placement</code></a> using a <a href="#placementbinding"><code>PlacementBinding</code></a>, the
+<p>When the <code>Policy</code> is bound to a <a href="https://open-cluster-management.io/concepts/placement/"><code>Placement</code></a> using a <a href="#placementbinding"><code>PlacementBinding</code></a>, the
 <code>Policy</code> status will report on each cluster that matches the bound <code>Placement</code>:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">status</span>:
   <span style="color:#66d9ef">compliant</span>: Compliant
@@ -360,7 +360,7 @@ use cases with <code>ConfigurationPolicy</code>.</p>
 </code></pre></div><p>To fully explore the <code>ConfigurationPolicy</code> API, run the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
 </code></pre></div><h2 id="placementbinding">PlacementBinding</h2>
-<p>A <code>PlacementBinding</code> binds a <a href="/concepts/placement">Placement</a> to a <a href="#policy"><code>Policy</code></a> or <a href="#policyset"><code>PolicySet</code></a>.</p>
+<p>A <code>PlacementBinding</code> binds a <a href="https://open-cluster-management.io/concepts/placement/">Placement</a> to a <a href="#policy"><code>Policy</code></a> or <a href="#policyset"><code>PolicySet</code></a>.</p>
 <p>Below is an example of a <code>PlacementBinding</code> that binds the <code>policy-namespace</code> <code>Policy</code> to the <code>placement-hub-cluster</code>
 <code>Placement</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
@@ -380,7 +380,7 @@ use cases with <code>ConfigurationPolicy</code>.</p>
 <h2 id="policyset">PolicySet</h2>
 <p>A <code>PolicySet</code> is a grouping mechanism of <a href="#policy"><code>Policy</code></a> objects. Compliance of all grouped <code>Policy</code> objects is
 summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its distribution is controlled by a
-<a href="/concepts/placement">Placement</a> when bound through a <a href="#placementbinding"><code>PlacementBinding</code></a>.</p>
+<a href="https://open-cluster-management.io/concepts/placement/">Placement</a> when bound through a <a href="#placementbinding"><code>PlacementBinding</code></a>.</p>
 <p>This enables a workflow where subject matter experts write <code>Policy</code> objects and then an IT administrator creates a
 <code>PolicySet</code> that groups the previously written <code>Policy</code> objects and binds the <code>PolicySet</code> to a <code>Placement</code> that deploys
 the <code>PolicySet</code>.</p>
@@ -408,7 +408,7 @@ exist on the cluster. The action that the <code>ConfigurationPolicy</code> will 
 Compliance types include <code>musthave</code>, <code>mustnothave</code>, and <code>mustonlyhave</code>. <code>musthave</code> means the object should have the
 listed keys and values as a subset of the larger object. <code>mustnothave</code> means an object matching the listed keys and
 values should not exist. <code>mustonlyhave</code> ensures objects only exist with the keys and values exactly as defined. See
-the page on <a href="/getting-started/integration/policy-controllers/configuration-policy">Configuration Policy</a> for more
+the page on <a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/configuration-policy/">Configuration Policy</a> for more
 information.</p>
 </li>
 <li>
@@ -416,7 +416,7 @@ information.</p>
 <p>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
 policies that are run with the Open Policy Agent (OPA). Gatekeeper <code>ConstraintTemplates</code> and constraints can be
 provided in an OCM <code>Policy</code> to sync to managed clusters that have Gatekeeper installed on them. See the page on
-<a href="/getting-started/integration/policy-controllers/gatekeeper">Gatekeeper integration</a> for more information.</p>
+<a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/gatekeeper/">Gatekeeper integration</a> for more information.</p>
 </li>
 </ul>
 <h2 id="templating-in-configuration-policies">Templating in configuration policies</h2>

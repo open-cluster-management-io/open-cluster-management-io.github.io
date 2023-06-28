@@ -297,20 +297,20 @@
 <p>安装OCM之后，我们可以将受管集群注册加入管理集群，完成注册后，在管理集群中会创建一个与受管集群注册名相同的命名空间。比如，受管集群以cluster1注册到管理集群，那么就会对应创建一个名为cluster1的命名空间。在管理集群上，我们可以通过这些不同的命令空间来区分多个受管集群的资源。</p>
 <p>注册过程不要求受管集群向管理集群暴露访问接口。</p>
 <p><img src="./assets/diagram-2.png" alt=""></p>
-<p>更多有关于OCM的架构细节，请参考<a href="https://open-cluster-management.io/concepts/architecture/">官方文档</a>。</p>
+<p>更多有关于OCM的架构细节，请参考<a href="https://open-cluster-management.io/zh/concepts/architecture/">官方文档</a>。</p>
 <h3 id="cluster-proxy是什么">cluster-proxy是什么？</h3>
 <p>cluster-proxy是使用OCM的<a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>实现的一个基于 <a href="https://github.com/kubernetes-sigs/apiserver-network-proxy">apiserver-network-proxy</a>（后文简写为：ANP）的插件。插件安装后，会在管理集群上安装ANP的组件proxy-server，在受管集群上安装ANP的组件proxy-agent。</p>
 <p>接着proxy-agent通过管理集群上暴露的端口，向proxy-server发送注册请求，并建立一条全双工通信的GRPC管道。</p>
 <p>需要注意的是，cluster-proxy建立的GRPC通道只是保证了管理集群到被管理集群的网络连通性，如果用户想访问被管理集群的APIServer或者其他服务，仍需要从被管理集群获得相应的认证秘钥和权限。</p>
 <p><img src="./assets/diagram-3.png" alt=""></p>
-<p>更多有关cluster-proxy的信息，请参考<a href="https://open-cluster-management.io/getting-started/integration/cluster-proxy/">官方文档</a>。</p>
+<p>更多有关cluster-proxy的信息，请参考<a href="https://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/">官方文档</a>。</p>
 <h3 id="managed-serviceaccount是什么">managed-serviceaccount是什么？</h3>
 <p>Managed-serviceaccount（后文简写为：MSA）也是利用OCM的<a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>实现的插件。</p>
 <p>安装该插件后，可以在管理集群上配置<code>ManagedServiceAcccount</code>的CR，插件会根据此CR的<code>spec</code>配置，在目标受管集群的<code>open-cluster-management-managed-serviceaccount</code>命名空间内，创建一个与CR同名的<code>ServiceAccount</code>。</p>
 <p>接着插件会将此<code>ServiceAccount</code>生成的对应token数据同步回管理集群，并在受管集群的命令空间中创建一个同名的<code>Secret</code>，用于保存该token。整个token的数据同步都是在OCM提供的MTLS连接中进行，从而确保token不会被第三方探查到。</p>
 <p>由此集群管理员可以在hub上通过MSA来获得访问被管理集群APIServer的token。当然这个token现在还没有被赋予权限，只要管理员为该token绑定相应的Role，就可以实现访问被管理集群的权限控制。</p>
 <p><img src="./assets/diagram-4.png" alt=""></p>
-<p>更多有关managed-serviceaccount的信息，请参考<a href="https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/">官方文档</a>。</p>
+<p>更多有关managed-serviceaccount的信息，请参考<a href="https://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount/">官方文档</a>。</p>
 <h2 id="样例">样例</h2>
 <p>接下来通过一个简单的例子来演示如何使用OCM，cluster-proxy，managed-serviceaccount来实现跨VPC访问集群。</p>
 <p>首先从管理员视角，我们通过脚本快速创建一个基于<a href="https://kind.sigs.k8s.io/">kind</a>的多集群环境，其中具有一个管理集群（hub），以及两个受管集群（cluster1, cluster2）。并且 cluster1, cluster2 会通过 OCM 注册到了 hub。</p>
@@ -348,7 +348,7 @@ kubectl get secret -n cluster1
 NAME                  TYPE                                  DATA   AGE
 default-token-r89gs   kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      6d22h
 dep                   Opaque                                <span style="color:#ae81ff">2</span>      6d21h
-</code></pre></div><p>接着，管理员需要通过OCM的<a href="https://open-cluster-management.io/concepts/manifestwork/">Manifestwork</a>, 即工作负载分发功能，在cluster1上创建一个<code>ClusterRole</code>，给dep绑定了cluster1上的对应权限：</p>
+</code></pre></div><p>接着，管理员需要通过OCM的<a href="https://open-cluster-management.io/zh/concepts/manifestwork/">Manifestwork</a>, 即工作负载分发功能，在cluster1上创建一个<code>ClusterRole</code>，给dep绑定了cluster1上的对应权限：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建ClusterRole, 仅具有操作Deployment的权限</span>
 clusteradm create work dep-role --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1

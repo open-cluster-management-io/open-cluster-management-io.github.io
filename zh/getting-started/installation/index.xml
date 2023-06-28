@@ -10,26 +10,22 @@
     
     
     <item>
-      <title>Cluster manager</title>
+      <title>Start the control plane</title>
       <link>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</guid>
-      <description>The are two ways to install the core control plane of open cluster management that includes cluster registration and manifests distribution.
-   Prerequisite Install from source Install community operator from OperatorHub.io     Prerequisite Ensure kubectl and kustomize are installed.
-Ensure golang is installed, if you are planning to install from the source.
-Prepare one Kubernetes cluster to function as the hub. For example, use kind to create a hub cluster.</description>
+      <description>Prerequisite Install clusteradm CLI tool Bootstrap a cluster manager Check out the running instances of the control plane Uninstall the OCM from the control plane     Prerequisite  The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don&amp;rsquo;t support it can&amp;rsquo;t be used as the hub.</description>
     </item>
     
     <item>
-      <title>Klusterlet agent</title>
+      <title>Register a cluster</title>
       <link>https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</guid>
       <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
-   Prerequisite Install from source Install community operator from OperatorHub.io What is next Troubleshooting     Prerequisite Ensure kubectl and kustomize are installed.
-Ensure golang is installed, if you are planning to install from the source.</description>
+   Prerequisite Install clusteradm CLI tool Bootstrap a klusterlet Accept the join request and verify Apply a Manifestwork  Troubleshooting   Detach the cluster from hub     Prerequisite  The managed clusters should be v1.</description>
     </item>
     
   </channel>

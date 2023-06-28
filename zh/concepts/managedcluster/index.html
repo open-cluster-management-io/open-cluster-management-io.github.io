@@ -291,7 +291,7 @@
 <h2 id="what-is-managedcluster">What is ManagedCluster?</h2>
 <p><code>ManagedCluster</code> is a cluster scoped API in the hub cluster representing the
 registered or pending-for-acceptance Kubernetes clusters in OCM. The
-<a href="https://open-cluster-management.io/getting-started/installation/register-a-cluster/">klusterlet agent</a>
+<a href="https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/">klusterlet agent</a>
 working in the managed cluster is expected to actively maintain/refresh the
 status of the corresponding <code>ManagedCluster</code> resource on the hub cluster.
 On the other hand, removing the <code>ManagedCluster</code> from the hub cluster indicates
@@ -337,7 +337,7 @@ to true in the spec.</li>
 </code></pre></div><p>Upon the approval, the registration agent will observe the signed certificate
 and persist them as a local secret named &ldquo;hub-kubeconfig-secret&rdquo; (by default
 in the &ldquo;open-cluster-management-agent&rdquo; namespace) which will be mounted to the
-other fundamental components of klusterlet such as the <a href="https://open-cluster-management.io/concepts/manifestwork/">work</a>
+other fundamental components of klusterlet such as the <a href="https://open-cluster-management.io/zh/concepts/manifestwork/">work</a>
 agent. In a word, if you can find your &ldquo;hub-kubeconfig-secret&rdquo; successfully
 present in your managed cluster, the cluster registration is all set!</p>
 <p>Overall the registration process in OCM is called <code>double opt-in</code> mechanism,

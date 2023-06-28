@@ -262,10 +262,10 @@ corresponding <code>PlacementDecision</code> with the selected clusters listed i
 status. As an end-user, you can parse the selected clusters and then operate on
 the target clusters. You can also integrate a high-level workload orchestrator
 with the <code>PlacementDecision</code> to leverage its scheduling capabilities.</p>
-<p>For example, with OCM addon <a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/">policy</a>
+<p>For example, with OCM addon <a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/">policy</a>
 installed, a <code>Policy</code> that includes a <code>Placement</code> mapping can distribute the
 <code>Policy</code> to the managed clusters, details see this <a href="https://open-cluster-management.io/getting-started/integration/policy-controllers/#placement-api">example</a>.
-OCM addon <a href="https://open-cluster-management.io/getting-started/integration/app-lifecycle/">application lifecycle management</a>
+OCM addon <a href="https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/">application lifecycle management</a>
 will also use placement to deploy applications in the future.</p>
 <p>Some popular open source projects also integrate with the <code>Placement</code> API. For
 example <a href="https://github.com/argoproj/argo-cd">Argo</a>, it can leverage the
@@ -280,21 +280,21 @@ workload scheduling.</p>
 <p>Before starting with the following steps, suggest you understand the content below.</p>
 <ul>
 <li>
-<p><a href="https://open-cluster-management.io/concepts/placement/"><strong>Placement</strong></a>:
-The <code>Placement</code> API is used to dynamically select a set of <a href="https://open-cluster-management.io/concepts/managedcluster/"><code>ManagedCluster</code></a>
-in one or multiple <a href="https://open-cluster-management.io/concepts/managedclusterset"><code>ManagedClusterSets</code></a>
+<p><a href="https://open-cluster-management.io/zh/concepts/placement/"><strong>Placement</strong></a>:
+The <code>Placement</code> API is used to dynamically select a set of <a href="https://open-cluster-management.io/zh/concepts/managedcluster/"><code>ManagedCluster</code></a>
+in one or multiple <a href="https://open-cluster-management.io/zh/concepts/managedclusterset/"><code>ManagedClusterSets</code></a>
 so that higher-level users can either replicate Kubernetes resources to the
 member clusters or run their advanced workload i.e. multi-cluster scheduling.</p>
 </li>
 <li>
-<p><a href="https://open-cluster-management.io/concepts/manifestwork/"><strong>ManifestWork</strong></a>:
+<p><a href="https://open-cluster-management.io/zh/concepts/manifestwork/"><strong>ManifestWork</strong></a>:
 A custom resource in the hub cluster that groups a list of Kubernetes resources
 together and is meant for dispatching them into the managed cluster if the
 <code>ManifestWork</code> is created in a valid <code>cluster namespace</code>.</p>
 </li>
 </ul>
 <h2 id="deploy-manifestwork-to-placement-selected-managed-clusters">Deploy manifestwork to placement selected managed clusters</h2>
-<p>In <a href="https://open-cluster-management.io/scenarios/deploy-kubernetes-resources/">deploy Kubernetes resources to the managed clusters</a>,
+<p>In <a href="https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/">deploy Kubernetes resources to the managed clusters</a>,
 it shows you how to use <code>clusteradm</code> to create a <code>ManifestWork</code> and deploy it
 onto a specific managed clusters. As <code>Placement</code> can dynamically select a set of
 <code>ManagedCluster</code>, the next steps will show you how <code>clusteradm</code> leverages

@@ -10,10 +10,6 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane</loc>
-    </url>
-    
-    <url>
         <loc>https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources</loc>
     </url>
     
@@ -31,6 +27,10 @@
     
     <url>
         <loc>https://open-cluster-management.io/zh/scenarios/integration-with-argocd</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane</loc>
     </url>
     
     <url>

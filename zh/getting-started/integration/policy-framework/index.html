@@ -282,12 +282,12 @@ and drive remediation for various security and configuration aspects to help IT 
 
 <!-- spellchecker-enable -->
 <h2 id="api-concepts">API Concepts</h2>
-<p>View the <a href="/concepts/policy">Policy API</a> page for additional details about the Policy API managed by the Policy Framework
+<p>View the <a href="https://open-cluster-management.io/zh/concepts/policy/">Policy API</a> page for additional details about the Policy API managed by the Policy Framework
 components, including:</p>
 <ul>
-<li><a href="/concepts/policy#policy"><code>Policy</code></a></li>
-<li><a href="/concepts/policy#policyset"><code>PolicySet</code></a></li>
-<li><a href="/concepts/policy#placementbinding"><code>PlacementBinding</code></a></li>
+<li><a href="https://open-cluster-management.io/zh/concepts/policy/#policy"><code>Policy</code></a></li>
+<li><a href="https://open-cluster-management.io/zh/concepts/policy/#policyset"><code>PolicySet</code></a></li>
+<li><a href="https://open-cluster-management.io/zh/concepts/policy/#placementbinding"><code>PlacementBinding</code></a></li>
 </ul>
 <h2 id="architecture">Architecture</h2>
 <div style="text-align: center; padding: 20px;">
@@ -318,15 +318,15 @@ cluster.</p>
 </li>
 <li>
 <p>Ensure the <code>open-cluster-management</code> <em>cluster manager</em> is installed. See
-<a href="/getting-started/installation/start-the-control-plane">Start the control plane</a> for more information.</p>
+<a href="https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/">Start the control plane</a> for more information.</p>
 </li>
 <li>
 <p>Ensure the <code>open-cluster-management</code> <em>klusterlet</em> is installed. See
-<a href="/getting-started/installation/register-a-cluster">Register a cluster</a> for more information.</p>
+<a href="https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/">Register a cluster</a> for more information.</p>
 </li>
 <li>
 <p>If you are using <code>PlacementRules</code> with your policies, ensure the <code>open-cluster-management</code> <em>application</em> is installed
-. See <a href="/getting-started/integration/app-lifecycle">Application management</a> for more information. If you are using the
+. See <a href="https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/">Application management</a> for more information. If you are using the
 default <code>Placement</code> API, you can skip the Application management installation, but you do need to install the
 <code>PlacementRule</code> CRD with this command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/multicloud-operators-subscription/main/deploy/hub-common/apps.open-cluster-management.io_placementrules_crd.yaml

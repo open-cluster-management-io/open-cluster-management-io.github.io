@@ -317,11 +317,11 @@ hub cluster的负担将会大大减轻，因为hub cluster既不需要处理来�
 <p>这种“hub-agent”的架构，还最小化了注册新集群到hub时，对于网络的要求。
 任何集群，只要可以连接到hub cluster的端点，都可以被管理，甚至是一个在你笔记本上的随机KinD沙盒集群。
 这是因为处方是从hub上 <strong>拉下来</strong> 而非 <strong>推上去</strong> 的。
-除此之外，OCM还提供了一个名为<a href="https://open-cluster-management.io/getting-started/integration/cluster-proxy/">&ldquo;cluster-proxy&rdquo;</a>的<a href="https://open-cluster-management.io/concepts/addon/">addon</a>，它可以自动管理一个反向代理隧道，以利用Kubernetes的子项目<a href="https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/">konnectivity</a>来主动访问managed cluster。</p>
+除此之外，OCM还提供了一个名为<a href="https://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/">&ldquo;cluster-proxy&rdquo;</a>的<a href="https://open-cluster-management.io/zh/concepts/addon/">addon</a>，它可以自动管理一个反向代理隧道，以利用Kubernetes的子项目<a href="https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/">konnectivity</a>来主动访问managed cluster。</p>
 <h3 id="模块化和可扩展性">模块化和可扩展性</h3>
 <p>OCM不仅会给您带来流畅的用户体验，让您轻松管理多个集群，而且对进一步定制或二次开发同样友好。
 OCM中每一个功能，都可以通过将原子能力模块化到单独的构建块中，来实现自由拔插，除了了一个名为<a href="https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration">registration</a>的强制性核心模块，此模块负责控制managed控制器的生命周期，并导出基本的<code>ManagedCluster</code>模型。</p>
-<p>另一个展示我们模块化能力的好例子是<a href="https://open-cluster-management.io/concepts/placement/">placement</a>，该独立模块专注于从动态的从用户的处方中，选择合适的managed cluster列表。
+<p>另一个展示我们模块化能力的好例子是<a href="https://open-cluster-management.io/zh/concepts/placement/">placement</a>，该独立模块专注于从动态的从用户的处方中，选择合适的managed cluster列表。
 你可以在placement的基础上，构建任何高级的多集群编排方案，比如：多集群工作负载再平衡，多集群helm图表副本等。
 另外，如果您对我们placement模块当前的能力不满意，您同样可以快速切出并使用您自己的定制来替换它，同时联系我们的社区，以便我们在未来可能的情况下进行融合。</p>
 <hr>
@@ -343,7 +343,7 @@ OCM中每一个功能，都可以通过将原子能力模块化到单独的构�
 <h3 id="插件">插件</h3>
 <p>插件是一个通用概念，用于在OCM的可扩展性基础上，构建可选的，可插入的定制化。
 它可以是一个hub cluster上的控制器，或者只是managed cluster上的一个定制的代理，甚至或者是两者的结合。
-插件应该实现<code>ClusterManagementAddon</code>和<code>ManagedClusterAddOn</code>的API，详细说明见<a href="https://open-cluster-management.io/concepts/addon/">此处</a>.</p>
+插件应该实现<code>ClusterManagementAddon</code>和<code>ManagedClusterAddOn</code>的API，详细说明见<a href="https://open-cluster-management.io/zh/concepts/addon/">此处</a>.</p>
 <hr>
 <h2 id="构建块">构建块</h2>
 <p>以下是你在OCM之旅中，可能会感兴趣的常用模块和子项目列表：</p>
@@ -351,7 +351,7 @@ OCM中每一个功能，都可以通过将原子能力模块化到单独的构�
 <p>这是OCM管理managed cluster生命周期的核心模块。hub cluster中的注册控制器（registration controller）可以直观的看作为一个代表和管理hub cluster上集群注册的broker，而在managed cluster上运行的注册代理则是另一个代表managed cluster的broker。
 在一次成功的注册后，注册控制器和代理将会持续的探查对方的健康状态，即集群心跳。</p>
 <h3 id="work">Work</h3>
-<p>此模块可以通过将一个<code>ManifestWork</code>的资源写入集群命名空间，非常方便的把资源从hub cluster调度到managed cluster上。更多API细节见<a href="https://open-cluster-management.io/concepts/manifestwork/">此处</a>。</p>
+<p>此模块可以通过将一个<code>ManifestWork</code>的资源写入集群命名空间，非常方便的把资源从hub cluster调度到managed cluster上。更多API细节见<a href="https://open-cluster-management.io/zh/concepts/manifestwork/">此处</a>。</p>
 <h3 id="placement">Placement</h3>
 <p>此模块通过用标签（labels）进行集群分组，或通过集群声明（cluster-claims）的方式，进行跨集群构建自定义高级拓扑。
 placement模块和执行是完全解耦的，placement的输出结果仅为<code>PlacementDecision</code>API中匹配的集群名字列表，因此该决策输出的消费者控制器（consumer controller），可以通过简单的查看决策API，来发现拓扑或发现manaegd cluster上的可用变化。</p>

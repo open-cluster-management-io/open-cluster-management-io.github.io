@@ -254,8 +254,8 @@
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
     <h1>Policy controllers</h1>
-    <p>The <a href="/concepts/policy">Policy API</a> on the hub delivers the policies defined in <code>spec.policy-templates</code> to the managed
-clusters via the <a href="/getting-started/integration/policy-framework">policy framework controllers</a>. Once on the managed
+    <p>The <a href="https://open-cluster-management.io/zh/concepts/policy/">Policy API</a> on the hub delivers the policies defined in <code>spec.policy-templates</code> to the managed
+clusters via the <a href="https://open-cluster-management.io/zh/getting-started/integration/policy-framework/">policy framework controllers</a>. Once on the managed
 cluster, these <em>Policy Templates</em> are acted upon by the associated controller on the managed cluster. The policy
 framework supports delivering the <em>Policy Template</em> kinds listed.</p>
 <!-- spellchecker-disable -->
@@ -263,19 +263,19 @@ framework supports delivering the <em>Policy Template</em> kinds listed.</p>
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#configuration-policygetting-startedintegrationpolicy-controllersconfiguration-policy"><a href="/getting-started/integration/policy-controllers/configuration-policy">Configuration policy</a></a></li>
-        <li><a href="#open-policy-agent-gatekeepergetting-startedintegrationpolicy-controllersgatekeeper"><a href="/getting-started/integration/policy-controllers/gatekeeper">Open Policy Agent Gatekeeper</a></a></li>
+        <li><a href="#configuration-policyhahahugoshortcode-s3-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/">Configuration policy</a></a></li>
+        <li><a href="#open-policy-agent-gatekeeperhahahugoshortcode-s4-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/">Open Policy Agent Gatekeeper</a></a></li>
       </ul></nav><hr></div>
 
 
 <!-- spellchecker-enable -->
-<h2 id="configuration-policygetting-startedintegrationpolicy-controllersconfiguration-policy"><a href="/getting-started/integration/policy-controllers/configuration-policy">Configuration policy</a></h2>
+<h2 id="configuration-policyhahahugoshortcode-s3-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/">Configuration policy</a></h2>
 <p>The <code>ConfigurationPolicy</code> is provided by OCM and defines Kubernetes manifests to compare with objects that currently
 exist on the cluster. The action that the <code>ConfigurationPolicy</code> will take is determined by its <code>complianceType</code>.
 Compliance types include <code>musthave</code>, <code>mustnothave</code>, and <code>mustonlyhave</code>. <code>musthave</code> means the object should have the
 listed keys and values as a subset of the larger object. <code>mustnothave</code> means an object matching the listed keys and
 values should not exist. <code>mustonlyhave</code> ensures objects only exist with the keys and values exactly as defined.</p>
-<h2 id="open-policy-agent-gatekeepergetting-startedintegrationpolicy-controllersgatekeeper"><a href="/getting-started/integration/policy-controllers/gatekeeper">Open Policy Agent Gatekeeper</a></h2>
+<h2 id="open-policy-agent-gatekeeperhahahugoshortcode-s4-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/">Open Policy Agent Gatekeeper</a></h2>
 <p>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
 policies that are run with the Open Policy Agent (OPA). Gatekeeper <code>ConstraintTemplates</code> and constraints can be
 provided in an OCM <code>Policy</code> to sync to managed clusters that have Gatekeeper installed on them.</p>
