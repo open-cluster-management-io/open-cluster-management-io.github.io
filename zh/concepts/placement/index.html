@@ -281,6 +281,7 @@
           <ul>
             <li><a href="#check-the-placement-conditions">Check the <code>Placement</code> conditions</a></li>
             <li><a href="#check-the-placement-events">Check the <code>Placement</code> events</a></li>
+            <li><a href="#debug">Debug</a></li>
           </ul>
         </li>
         <li><a href="#future-work">Future work</a></li>
@@ -686,7 +687,19 @@ Events:
   Normal  ScoreUpdate     3s      placementController  cluster1:200 cluster2:145 cluster3:189 cluster4:200
 </code></pre></div><p>The placement controller will give a score to each filtered <code>ManagedCluster</code> and generate an event for it. When the cluster score
 changes, a new event will generate. You can check the score of each cluster in the <code>Placment</code> events, to know why some clusters with lower score are not selected.</p>
-<h2 id="future-work">Future work</h2>
+<h3 id="debug">Debug</h3>
+<p>If you want to know more defails of how clusters are selected in each step, can following below step to access the debug endpoint.</p>
+<p>Create clusterrole &ldquo;debugger&rdquo; to access debug path and bind this to anonymous user.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create clusterrole <span style="color:#e6db74">&#34;debugger&#34;</span> --verb<span style="color:#f92672">=</span>get --non-resource-url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/debug/*&#34;</span>
+kubectl create clusterrolebinding debugger --clusterrole<span style="color:#f92672">=</span>debugger --user<span style="color:#f92672">=</span>system:anonymous
+</code></pre></div><p>Export placement 8443 port to local.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl port-forward -n open-cluster-management-hub deploy/cluster-manager-placement-controller 8443:8443
+</code></pre></div><p>Curl below url to debug one specific placement.</p>
+<pre><code>curl -k  https://127.0.0.1:8443/debug/placements/&lt;namespace&gt;/&lt;name&gt;
+</code></pre><p>For example, the environment has a <code>Placement</code> named placement1 in default namespace, which selects 2 <code>ManagedClusters</code>, the output would be like:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -k  https://127.0.0.1:8443/debug/placements/default/placement1
+<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;filteredPiplieResults&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Predicate&#34;</span>,<span style="color:#e6db74">&#34;filteredClusters&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;cluster1&#34;</span>,<span style="color:#e6db74">&#34;cluster2&#34;</span><span style="color:#f92672">]}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Predicate,TaintToleration&#34;</span>,<span style="color:#e6db74">&#34;filteredClusters&#34;</span>:<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;cluster1&#34;</span>,<span style="color:#e6db74">&#34;cluster2&#34;</span><span style="color:#f92672">]}]</span>,<span style="color:#e6db74">&#34;prioritizeResults&#34;</span>:<span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Balance&#34;</span>,<span style="color:#e6db74">&#34;weight&#34;</span>:1,<span style="color:#e6db74">&#34;scores&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;cluster1&#34;</span>:100,<span style="color:#e6db74">&#34;cluster2&#34;</span>:100<span style="color:#f92672">}}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;Steady&#34;</span>,<span style="color:#e6db74">&#34;weight&#34;</span>:1,<span style="color:#e6db74">&#34;scores&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;cluster1&#34;</span>:100,<span style="color:#e6db74">&#34;cluster2&#34;</span>:100<span style="color:#f92672">}}]}</span>
+</code></pre></div><h2 id="future-work">Future work</h2>
 <p>In addition to selecting cluster by predicates, we are still working on other
 advanced features including</p>
 <ul>
