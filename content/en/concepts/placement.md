@@ -447,6 +447,34 @@ Events:
 The placement controller will give a score to each filtered `ManagedCluster` and generate an event for it. When the cluster score
 changes, a new event will generate. You can check the score of each cluster in the `Placment` events, to know why some clusters with lower score are not selected.
 
+### Debug
+If you want to know more defails of how clusters are selected in each step, can following below step to access the debug endpoint.
+
+Create clusterrole "debugger" to access debug path and bind this to anonymous user.
+
+```bash
+kubectl create clusterrole "debugger" --verb=get --non-resource-url="/debug/*"
+kubectl create clusterrolebinding debugger --clusterrole=debugger --user=system:anonymous
+```
+
+Export placement 8443 port to local.
+
+```bash
+kubectl port-forward -n open-cluster-management-hub deploy/cluster-manager-placement-controller 8443:8443
+```
+
+Curl below url to debug one specific placement.
+```
+curl -k  https://127.0.0.1:8443/debug/placements/<namespace>/<name>
+```
+
+For example, the environment has a `Placement` named placement1 in default namespace, which selects 2 `ManagedClusters`, the output would be like:
+
+```bash
+$ curl -k  https://127.0.0.1:8443/debug/placements/default/placement1
+{"filteredPiplieResults":[{"name":"Predicate","filteredClusters":["cluster1","cluster2"]},{"name":"Predicate,TaintToleration","filteredClusters":["cluster1","cluster2"]}],"prioritizeResults":[{"name":"Balance","weight":1,"scores":{"cluster1":100,"cluster2":100}},{"name":"Steady","weight":1,"scores":{"cluster1":100,"cluster2":100}}]}
+```
+
 ## Future work
 
 In addition to selecting cluster by predicates, we are still working on other
