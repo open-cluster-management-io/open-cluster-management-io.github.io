@@ -356,3 +356,9 @@ nav > div.container-fluid {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+@media (max-width: 374px) {
+  .navbar-brand span {
+    display: none;
+  }
+}
