@@ -15,7 +15,7 @@ This page is a developer guide about how to build an OCM add-on using addon-fram
 
 Add-on is an extension which can work with multiple clusters based on the foundation components in open-cluster-management.
 Add-ons are Open Cluster Management-based extensions that can be used to work with multiple clusters.
-Add-ons can support different configurations for different managed clusters, and can also be used to read data from the hub cluster. 
+Add-ons can support different configurations for different managed clusters, and can also be used to read data from the hub cluster.
 For example, you might use the [managed-serviceaccount](https://github.com/open-cluster-management-io/managed-serviceaccount) add-on to collect the tokens from managed cluster back to the hub cluster,
 use the [cluster-proxy ](https://github.com/open-cluster-management-io/cluster-proxy) addon to establish a reverse proxy tunnels from the managed cluster to the hub cluster, etc.
 
@@ -24,20 +24,20 @@ A typical add-on should consist of two kinds of components:
 **Add-on agent:** The components running in the managed clusters which can be any kubernetes resources, for example   
 it might be a container with permissions to access the hub cluster, an Operator, or an instance of Operator, etc.
 
-**Add-on manager:** A kubernetes controller in the hub cluster that generates and applies the add-on agent manifests to the managed clusters 
+**Add-on manager:** A kubernetes controller in the hub cluster that generates and applies the add-on agent manifests to the managed clusters
 via the ManifestWork API. The manager also can optionally manage the lifecycle of add-on.
 
 There are 2 API resources for add-on in the OCM hub cluster:
 
-**ClusterManagementAddOn:** This is a cluster-scoped resource which allows the user to discover which add-on is available 
-for the cluster manager and also provides metadata information about the add-on such as display name and description information. 
+**ClusterManagementAddOn:** This is a cluster-scoped resource which allows the user to discover which add-on is available
+for the cluster manager and also provides metadata information about the add-on such as display name and description information.
 The name of the `ClusterManagementAddOn` resource will be used for the namespace-scoped `ManagedClusterAddOn` resource.
 
-**ManagedClusterAddOn:** This is a namespace-scoped resource which is used to trigger the add-on agent to be installed 
-on the managed cluster, and should be created in the `ManagedCluster` namespace of the hub cluster. 
+**ManagedClusterAddOn:** This is a namespace-scoped resource which is used to trigger the add-on agent to be installed
+on the managed cluster, and should be created in the `ManagedCluster` namespace of the hub cluster.
 `ManagedClusterAddOn` also holds the current state of an add-on.
 
-There is a library named [addon-framework](https://github.com/open-cluster-management-io/addon-framework) which provides 
+There is a library named [addon-framework](https://github.com/open-cluster-management-io/addon-framework) which provides
 some simple user interfaces for developers to build their add-on managers easily.
 
 We have some available add-ons in the OCM community:
@@ -55,8 +55,8 @@ You can find the example in [here](https://github.com/open-cluster-management-io
 
 ### Implement the addon manager
 
-First, create your Go project, and the project should contain a `main.go` file and a folder `manifests`. The folder name 
-can be customized, the example uses `manifests` as the folder name.`main.go` contains the Go code of the addon manager. 
+First, create your Go project, and the project should contain a `main.go` file and a folder `manifests`. The folder name
+can be customized, the example uses `manifests` as the folder name. `main.go` contains the Go code of the addon manager.
 `manifests` contains the addon agent's manifest files to be deployed on the managed cluster.
 
 The `main.go` file is like this:
@@ -113,15 +113,15 @@ func main() {
 
 You need to define an `embed.FS` to embed the files in `manifests` folder.
 
-And then you need to build an `agentAddon` using the `agentAddonFactory`, and tell the `agentAddonFactory` the name of 
+And then you need to build an `agentAddon` using the `agentAddonFactory`, and tell the `agentAddonFactory` the name of
 the add-on and the agent manifests.
 
 Finally, you just add the `agentAddon` to the `addonManager` and start the `addonManager`.
 
-With above code, the addon manager is implemented. Next is to implement the addon agent part. In this example, the add-on agent 
+With above code, the addon manager is implemented. Next is to implement the addon agent part. In this example, the add-on agent
 manifest to be deployed on managed cluster is a busybox deployment.
 
-Create file `deployment.yaml` in `manifests` folder, the `deployment.yaml` is like this: 
+Create file `deployment.yaml` in `manifests` folder, the `deployment.yaml` is like this:
 
 ```
 kind: Deployment
@@ -152,7 +152,7 @@ Then you can follow next section to [deploy the add-on manager on your hub clust
 
 ### Deploy the add-on manager on your hub cluster
 
-Now you can build your add-on manager as an image and deploy it on the hub cluster. 
+Now you can build your add-on manager as an image and deploy it on the hub cluster.
 
 Following below steps to build the image for the [example](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/busybox). This image contains several example addon managers, including the busybox example.
 
@@ -188,8 +188,8 @@ There are some minimum required permissions for the addon manager controller to 
 
 #### ClusterManagementAddOn
 
-From a user’s perspective, to install the addon to the hub cluster the hub admin should register a globally-unique 
-`ClusterManagementAddOn` resource as a singleton placeholder in the hub cluster. For instance, the [`ClusterManagementAddOn`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/busybox/resources/busybox_clustermanagementaddon.yaml) 
+From a user’s perspective, to install the addon to the hub cluster the hub admin should register a globally-unique
+`ClusterManagementAddOn` resource as a singleton placeholder in the hub cluster. For instance, the [`ClusterManagementAddOn`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/busybox/resources/busybox_clustermanagementaddon.yaml)
 for the busybox-addon:
 
 ```yaml
@@ -205,8 +205,8 @@ spec:
 
 ### Enable the add-on for a managed cluster.
 
-Now your addon-manager is running on the hub cluster. 
-To deploy the busybox add-on agent to a certain managed cluster, you need to create a `ManagedClusterAddOn` in the 
+Now your addon-manager is running on the hub cluster.
+To deploy the busybox add-on agent to a certain managed cluster, you need to create a `ManagedClusterAddOn` in the
 managed cluster namespace of hub cluster.
 
 ```yaml
@@ -219,7 +219,7 @@ spec:
  installNamespace: open-cluster-management-agent-addon
 ```
 
-You can set any existing namespace in the managed cluster as the `installNamespace` here, and the add-on manager will 
+You can set any existing namespace in the managed cluster as the `installNamespace` here, and the add-on manager will
 deploy the add-on agent manifests in this namespace of the managed cluster.
 
 > Note: `open-cluster-management-agent-addon` is our default namespace to install the add-on agent manifests in the managed cluster.
@@ -230,7 +230,7 @@ You can also use the `clusteradm` command to enable the busybox-addon for the ma
 $ clusteradm addon enable --names busybox-addon --namespace open-cluster-management-agent-addon --clusters cluster1
 ```
 
-After enabling the add-on for the managed cluster, you can find a `ManifestWork` named `addon-busybox-addon-deploy` is 
+After enabling the add-on for the managed cluster, you can find a `ManifestWork` named `addon-busybox-addon-deploy` is
 deploying on the managed cluster namespace of the hub cluster.
 
 ```bash
@@ -249,8 +249,8 @@ busybox                   1/1     1            1           2m
 
 ### Disable the add-on for a managed cluster
 
-You can delete the `ManagedClusterAddOn` CR in the managed cluster namespace of the hub cluster to disable the add-on for 
-the managed cluster.The created `ManifestWork` will be deleted and the add-on agent manifests will be removed from the 
+You can delete the `ManagedClusterAddOn` CR in the managed cluster namespace of the hub cluster to disable the add-on for
+the managed cluster.The created `ManifestWork` will be deleted and the add-on agent manifests will be removed from the
 managed cluster too.
 
 You also can use the `clusteradm` command to disable the add-on for a managed cluster.
@@ -265,14 +265,14 @@ You can also use the `clusteradm` command to disable the add-ons for all managed
 $ clusteradm addon disable --names busybox-addon --all-clusters true
 ```
 
-If you delete the `ClusterManagementAddOn` on the hub cluster, the `ManagedClusterAddOn` CRs in all managed cluster 
+If you delete the `ClusterManagementAddOn` on the hub cluster, the `ManagedClusterAddOn` CRs in all managed cluster
 namespaces will be deleted too.
 
 
 ### What’s the next
 
-However, this add-on just ensures a pod to run on the managed cluster, and you cannot see the status of the addon, 
-and there are not any functionality to manage the clusters. The addon-framework also provides other configurations 
+However, this add-on just ensures a pod to run on the managed cluster, and you cannot see the status of the addon,
+and there are not any functionality to manage the clusters. The addon-framework also provides other configurations
 for add-on developers.
 
 ```bash
@@ -295,36 +295,36 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 
 1. **Lease**
 
-    The add-on agent maintains a `Lease` in its installation namespace with its status, the [registration agent](https://open-cluster-management.io/concepts/architecture/#registration) will 
-    check this `Lease` to maintain the `AVAILABLE` status of the `ManagedClusterAddOn`.
+   The add-on agent maintains a `Lease` in its installation namespace with its status, the [registration agent](https://open-cluster-management.io/concepts/architecture/#registration) will
+   check this `Lease` to maintain the `AVAILABLE` status of the `ManagedClusterAddOn`.
 
-    The addon-framework provides a [leaseUpdater]([https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24) interface which can make it easier.
+   The addon-framework provides a [leaseUpdater]([https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24) interface which can make it easier.
 
     ```go
     leaseUpdater := lease.NewLeaseUpdater(spokeKubeClient, addonName, installNamespace)
     go leaseUpdater.Start(context.Background())
     ```
 
-    `Lease` is the default prober type for add-on, there is nothing to configure for the add-on manager.
+   `Lease` is the default prober type for add-on, there is nothing to configure for the add-on manager.
 
 2. **Work**
 
-    `Work` health prober indicates the healthiness of the add-on is equal to the overall dispatching status of the 
-    corresponding the ManifestWork resources. It's applicable to those add-ons that don't have a container agent 
-    in the managed clusters or don't expect to add `Lease` for the agent container. 
-    The add-on manager will check if the work is `Available` on the managed clusters. 
-    In addition, the user can define a `HealthCheck` prober function to check more detailed status based on status 
-    feedback from the `ManifestWork`.
+   `Work` health prober indicates the healthiness of the add-on is equal to the overall dispatching status of the
+   corresponding ManifestWork resources. It's applicable to those add-ons that don't have a container agent
+   in the managed clusters or don't expect to add `Lease` for the agent container.
+   The add-on manager will check if the work is `Available` on the managed clusters.
+   In addition, the user can define a `HealthCheck` prober function to check more detailed status based on status
+   feedback from the `ManifestWork`.
 
-    It is required to define a `HealthProber` instance first. Here is an example to check if the `availableReplicas` of 
-    add-on agent deployment is more than 1. If yes, it will set the `AVAILABLE` status of `ManagedClusterAddOn` to `true`. 
-    Otherwise, the `AVAILABLE` status of `ManagedClusterAddOn` will be false.
+   It is required to define a `HealthProber` instance first. Here is an example to check if the `availableReplicas` of
+   add-on agent deployment is more than 1. If yes, it will set the `AVAILABLE` status of `ManagedClusterAddOn` to `true`.
+   Otherwise, the `AVAILABLE` status of `ManagedClusterAddOn` will be false.
 
     ```go
     healthProber := utils.NewDeploymentProber(types.NamespacedName{Name: "workprober-addon-agent", Namespace: "open-cluster-management-agent-addon"})
     ```
-   
-    And then you can configure the `HealthProber` to the agentAddon.
+
+   And then you can configure the `HealthProber` to the agentAddon.
 
     ```go
     agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests").
@@ -332,9 +332,25 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
                         BuildTemplateAgentAddon()
     ```
 
-3. **None**
+3. **DeploymentAvailability**
 
-    If you want to check and maintain the `AVAILABLE` status of `ManagedClusterAddOn` by yourself, set the type of `healthProber` to none.
+   `DeploymentAvailability` health prober indicates the healthiness of the add-on is connected to the availability of
+   the corresponding agent deployment resources on the managed cluster. It's applicable to those add-ons that running
+   `Deployment` type workload on the managed cluster. The add-on manager will check if the `availableReplicas` of the
+   add-on agent deployment is more than 1 to set the addon Status.
+
+   Set the type of `healthProber` to `DeploymentAvailability` to enable this prober.
+
+    ```go
+    healthProber := &agent.HealthProber{
+        Type: agent.HealthProberTypeDeploymentAvailability,
+    }
+    ```
+
+4. **None**
+
+   If you want to check and maintain the `AVAILABLE` status of `ManagedClusterAddOn` by yourself, set the type of
+   `healthProber` to `None`.
 
     ```go
     healthProber := &agent.HealthProber{
@@ -343,6 +359,10 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
     ```
 
 ### Automatic installation
+
+NOTE: This is deprecated since v0.12.0. Please use the `InstallStrategy` in
+[Managing the add-on agent lifecycle by addon-manager](#managing-the-add-on-agent-lifecycle-by-addon-manager) section
+instead.
 
 In the busybox add-on example, you need to create a `ManagedClusterAddOn` CR to enable the add-on manually.  
 The addon-framework also provides a configuration called `InstallStrategy` to support installing addon automatically.
@@ -375,32 +395,32 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests")
 
 ### Register your add-on
 
-In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication. 
-For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent 
+In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication.
+For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent
 needs to access the exposed service on the hub cluster.
 
-The addon-framework supports a solution that the addon can access the `kube-apiserver` with a kube style API or 
+The addon-framework supports a solution that the addon can access the `kube-apiserver` with a kube style API or
 other endpoints on the hub cluster with client certificate authentication after it is registered using `CSR`.
 
-The addon-framework provides an interface to help add-on manager to save the add-on configuration information to 
+The addon-framework provides an interface to help add-on manager to save the add-on configuration information to
 its corresponding `ManagedClusterAddOns`.
 
-On the managed cluster, the registration agent watches `ManagedClusterAddOns` on the hub cluster. 
+On the managed cluster, the registration agent watches `ManagedClusterAddOns` on the hub cluster.
 The registration agent follows next steps to register an add-on:
 
 1. The registration agent creates a `CSR` request with its own hub kubeConfig to register the add-on to the hub cluster.
-2. On the hub cluster, the add-on manager approves the `CSR` request. The addon-framework also provides 
+2. On the hub cluster, the add-on manager approves the `CSR` request. The addon-framework also provides
    an interface which the add-on manager can implement it to approve its `CSR` automatically.
-3. After the `CSR` request is approved on the hub cluster, the registration agent gets the certificate from 
+3. After the `CSR` request is approved on the hub cluster, the registration agent gets the certificate from
    the `CSR` request and saves the client certificate to a secret in the add-on agent install namespace.
-   If the `SignerName` is `kubernetes.io/kube-apiserver-client`, the secret name will be `{addon name}-hub-kubeconfig`. 
+   If the `SignerName` is `kubernetes.io/kube-apiserver-client`, the secret name will be `{addon name}-hub-kubeconfig`.
    Otherwise, the secret name will be `{addon name}-{signer name}-client-cert`.
 4. The add-on agent can mount the secret to get the client certificate to connect with the hub cluster or the custom service endpoint.
-5. When the certificate of managed cluster addon is about to expire, the registration agent will send a request to 
+5. When the certificate of managed cluster addon is about to expire, the registration agent will send a request to
    rotate the certificate on the hub cluster, the addon manager will approve the certificate rotation request.
 
 
-Now we build another add-on that is going to sync configmap from the hub cluster to the managed cluster. 
+Now we build another add-on that is going to sync configmap from the hub cluster to the managed cluster.
 The add-on code can be found [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld) .
 
 Specifically, since the addon agent needs to read configmap from the hub, we need to define the registration option for this addon.
@@ -415,7 +435,7 @@ func NewRegistrationOption(kubeConfig *rest.Config, addonName, agentName string)
 }
 ```
 
-`CSRConfigurations` returns a list of `CSR` configuration for the addd-on agent in a managed cluster. The `CSR` will 
+`CSRConfigurations` returns a list of `CSR` configuration for the addd-on agent in a managed cluster. The `CSR` will
 be created from the managed cluster for add-on agent with each `CSRConfiguration`.
 
 ```go
@@ -440,11 +460,11 @@ The original Kubernetes `CSR` API only supports three built-in signers:
 * kubernetes.io/kube-apiserver-client-kubelet
 * kubernetes.io/kubelet-serving
 
-However, in some cases, we need to sign additional custom certificates for the add-on agents which are not used for connecting any kube-apiserver. 
-The add-on manager can be serving as a custom `CSR` `signer` controller based on the addon-framework’s extensibility by implementing the signing logic. 
+However, in some cases, we need to sign additional custom certificates for the add-on agents which are not used for connecting any kube-apiserver.
+The add-on manager can be serving as a custom `CSR` `signer` controller based on the addon-framework’s extensibility by implementing the signing logic.
 The addon-framework will also keep rotating the certificates automatically for the add-on after successfully signing the certificates.
 
-`CSRApproveCheck` checks whether the add-on agent registration should be approved by the add-on manager. 
+`CSRApproveCheck` checks whether the add-on agent registration should be approved by the add-on manager.
 The `utils.DefaultCSRApprover` is implemented to auto-approve all the `CSRs`. A better `CSR check` is recommended to include:
 
 1. The validity of the requester's requesting identity.
@@ -452,8 +472,8 @@ The `utils.DefaultCSRApprover` is implemented to auto-approve all the `CSRs`. A 
 
 If the function is not set, the registration and certificate renewal of the add-on agent needs to be approved manually on the hub cluster.
 
-`PermissionConfig` defines a function for an add-on to set up RBAC permissions on the hub cluster after the `CSR` is approved. 
-In this example, it will create a role in the managed cluster namespace with *get/list/watch* configmaps permissions, 
+`PermissionConfig` defines a function for an add-on to set up RBAC permissions on the hub cluster after the `CSR` is approved.
+In this example, it will create a role in the managed cluster namespace with *get/list/watch* configmaps permissions,
 and bind the role to the group defined in `CSRConfigurations`.
 
 Configure the registrationOption to the agentAddon.
@@ -495,7 +515,7 @@ status:
 ```
 
 In this example, the addon requires a `CSR` access hub kube-api (with singer name `kubernetes.io/kube-apiserver-client`).
-After the `CSR` is created on the hub cluster, the add-on manager will check the signer, group and subject of the `CSRs` 
+After the `CSR` is created on the hub cluster, the add-on manager will check the signer, group and subject of the `CSRs`
 to verify whether the `CSR` is valid. If all fields are valid, the add-on manager will approve the `CSR`.
 
 ```yaml
@@ -549,7 +569,7 @@ subjects:
   name: system:open-cluster-management:cluster:cluster1:addon:helloworld
 ```
 
-The registration agent will create a kubeConfig secret named `<add-on name>-hub-kubeconfig` in the `addonInstallNamesapce`. 
+The registration agent will create a kubeConfig secret named `<add-on name>-hub-kubeconfig` in the `addonInstallNamesapce`.
 The addon agent can mount the secret to get the hub kubeConfig to connect with the hub cluster to *get/list/watch* the Configmaps.
 
 ```bash
@@ -558,7 +578,7 @@ NAME                              TYPE                                  DATA   A
 helloworld-hub-kubeconfig         Opaque                                3      9m52s
 ```
 
-### Add your add-on agent supported configurations 
+### Add your add-on agent supported configurations
 
 For some cases, you want to specify the configurations for your add-on agent, for example, you may want to use a configuration to configure your add-on agent image or use a configuration to configure your add-on agent node Selector and tolerations to make the agent to run on specific nodes.
 
@@ -568,7 +588,7 @@ You can choose the [`AddOnDeploymentConfig`](https://github.com/open-cluster-man
 
 You can do the following steps to reference your configurations in your add-on APIs with add-on framework
 
-1. Add the supported configuration types in your add-on `ClusterManagementAddOn`, we support to add mutiple different configuration types in the `ClusterManagementAddOn`, for example
+1. Add the supported configuration types in your add-on `ClusterManagementAddOn`, we support to add multiple different configuration types in the `ClusterManagementAddOn`, for example
 
     ```yaml
     apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -606,7 +626,7 @@ You can do the following steps to reference your configurations in your add-on A
 
 2. Register the supported configuration types when building one `AgentAddon` with `AgentAddonFactory`
 
-3. Implement a `GetValuesFunc` to transform the configuration to add-on framework `Values` object and add the `GetValuesFunc` to the `AgentAddonFactory`, for example
+3. Implement a `GetValuesFunc` to transform the configuration to addon-framework `Values` object and add the `GetValuesFunc` to the `AgentAddonFactory`, for example
 
     ```go
     agentAddon, err := addonfactory.NewAgentAddonFactory("helloworldhelm", helloworld_helm.FS, "manifests/charts/helloworld").
@@ -627,9 +647,9 @@ You can do the following steps to reference your configurations in your add-on A
         BuildHelmAgentAddon()
     ```
 
-    In this example, we register the `ConfigMap` and `AddOnDeploymentConfig` as the `helloworldhelm` add-on configuration. We use add-on framework
-    help function [`GetAddOnDeloymentConfigValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/addonfactory/addondeploymentconfig.go#L47) to transform the `AddOnDeploymentConfig`, and we implemented the [`GetImageValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/helloworld_helm/helloworld_helm.go#L64) function to
-    transform the `ConfigMap`, you can find more details for add-on framework `Values` from the [Values definition](#values-definition) part.
+   In this example, we register the `ConfigMap` and `AddOnDeploymentConfig` as the `helloworldhelm` add-on configuration. We use add-on framework
+   help function [`GetAddOnDeloymentConfigValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/addonfactory/addondeploymentconfig.go#L47) to transform the `AddOnDeploymentConfig`, and we implemented the [`GetImageValues`](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/helloworld_helm/helloworld_helm.go#L64) function to
+   transform the `ConfigMap`, you can find more details for add-on framework `Values` from the [Values definition](#values-definition) part.
 
 4. Add the `get`, `list` and `watch` permissions to an add-on `clusterrole`, for example, the [clusterrole](https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/helloworld-helm/resources/cluster_role.yaml) of `helloworldhelm` should have the following permissions
 
@@ -667,7 +687,7 @@ spec:
     namespace: cluster1
 ```
 
-In this example, the add-on user reference the configuration `cluster1/deploy-config` and `cluster1/image-config` for `helloworldhelm` on `cluster1`. When the configuration references are added to an add-on, the add-on framework will show them in the status of `ManagedClusterAddOn` and render the add-on once, during the rendering process, the add-on framework will callback the `GetValuesFunc`s to transform the add-on configuraton object to add-on framework `Values` object and use `Values` object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again. 
+In this example, the add-on user reference the configuration `cluster1/deploy-config` and `cluster1/image-config` for `helloworldhelm` on `cluster1`. When the configuration references are added to an add-on, the add-on framework will show them in the status of `ManagedClusterAddOn` and render the add-on once, during the rendering process, the add-on framework will callback the `GetValuesFunc`s to transform the add-on configuraton object to add-on framework `Values` object and use `Values` object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again.
 
 ## Build an addon using helm charts or raw manifests.
 
@@ -675,10 +695,10 @@ In this example, the add-on user reference the configuration `cluster1/deploy-co
 
 The addon-framework supports helm charts or raw manifests as the add-on agent manifests. The building steps are the same:
 
-1. Copy the helm chart or raw manifests files into the add-on manager project. And define an `embed.FS` to embed the files 
+1. Copy the helm chart or raw manifests files into the add-on manager project. And define an `embed.FS` to embed the files
    into your Go program.
 
-   The example using helm chart is [helloworld_helm addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm), 
+   The example using helm chart is [helloworld_helm addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm),
    and the example using raw manifests is [helloworld addon](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld).
 
 2. Build different `agentAddons` using the `agentAddonFactory` instance with `BuildHelmAgentAddon` or `BuildTemplateAgentAddon`.
@@ -691,8 +711,8 @@ The addon-framework supports helm charts or raw manifests as the add-on agent ma
                         WithAgentRegistrationOption(registrationOption).
                         BuildHelmAgentAddon()
     ```
-   
-    For raw manifests building:
+
+   For raw manifests building:
 
     ```go
     agentAddon, err := addonfactory.NewAgentAddonFactory(helloworld.AddonName, helloworld.FS, "manifests/templates").
@@ -726,30 +746,30 @@ In the list of `GetValuesFuncs`, the values from the big index Func will overrid
 
 The built-in values will override the values obtained from the list of `GetValuesFuncs`.
 
-The Variable names in Values should begin with lowercase. So the best practice is to define a json struct for the values, 
+The Variable names in Values should begin with lowercase. So the best practice is to define a json struct for the values,
 and convert it to Values using the `JsonStructToValues`.
 
 Values from annotation of `ManagedClusterAddOn`
 
-The addon-framework supports a helper `GetValuesFunc` named `GetValuesFromAddonAnnotation` which can get values from 
+The addon-framework supports a helper `GetValuesFunc` named `GetValuesFromAddonAnnotation` which can get values from
 the annotations of `ManagedClusterAddOn`.
 
 The key of the Helm Chart values in annotation is `addon.open-cluster-management.io/values`,
 and the value should be a valid json string which has key-value format.
 
-### Hosted mode
+## Hosted mode
 
 The addon-framework supports add-on in Hosted mode, that the agent manifests will be deployed outside the managed cluster.
 We can choose to run add-on in Hosted mode or Default mode if the managed cluster is imported to the hub in Hosted mode.
 By default, the add-on agent will run on the managed cluster(Default mode).
 We can add an annotation `addon.open-cluster-management.io/hosting-cluster-name` for the `ManagedClusterAddon`,
-so that the add-on agent will be deployed on the certain hosting cluster(Hosted mode), 
+so that the add-on agent will be deployed on the certain hosting cluster(Hosted mode),
 the value of the annotation is the hosting cluster which should:
 
 * be a managed cluster of the hub as well.
 * be the same cluster where the managed cluster `klusterlet`(registration-agent & work-agent) runs.
 
-We defined a label `addon.open-cluster-management.io/hosted-manifest-location` to indicate which cluster the add-on 
+We defined a label `addon.open-cluster-management.io/hosted-manifest-location` to indicate which cluster the add-on
 agent manifests should be deployed.
 
 * No matter what the value is, all manifests will be deployed on the managed cluster in Default mode.
@@ -757,18 +777,18 @@ agent manifests should be deployed.
 * When the value is `hosting`: the manifest will be deployed on the hosting cluster in Hosted mode.
 * When the value is `none`: the manifest will not be deployed in Hosted mode.
 
-More details you can find in the [design](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/63-hosted-addon), 
+More details you can find in the [design](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/63-hosted-addon),
 and we have an example in [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_hosted).
 
 ## Pre-delete hook
 
-The addon-framework provides a hook manifest before delete the add-on. 
+The addon-framework provides a hook manifest before delete the add-on.
 The hook manifest supports `Jobs` or `Pods` to do some cleanup work before the add-on agent is deleted on the managed cluster.
 
-You need only add the label `open-cluster-management.io/addon-pre-delete` to the `Jobs` or `Pods`in the add-on manifests. 
-The `Jobs` or `Pods` will not be applied until the `ManagedClusterAddOn` is deleted. 
-And the `Jobs` or `Pods` will be applied on the managed cluster by applying the manifestWork named `addon-<addon name>-pre-delete` 
-when the `ManagedClusterAddOn` is under deleting. 
+You need only add the label `open-cluster-management.io/addon-pre-delete` to the `Jobs` or `Pods`in the add-on manifests.
+The `Jobs` or `Pods` will not be applied until the `ManagedClusterAddOn` is deleted.
+And the `Jobs` or `Pods` will be applied on the managed cluster by applying the manifestWork named `addon-<addon name>-pre-delete`
+when the `ManagedClusterAddOn` is under deleting.
 After the `Jobs` are `Completed` or `Pods` are in the `Succeeded` phase, all the deployed `ManifestWorks` will be deleted.
 
 You can find the example from [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm).
@@ -784,24 +804,24 @@ This architecture graph shows how the coordination between add-on manager and ad
 
 1. The registration agent creates a `CSR` request with its own hub kubeConfig to register the add-on to the hub cluster.
 2. On the hub cluster, the add-on manager approves the `CSR` request.
-3. After the `CSR` request is approved on the hub cluster, the registration agent gets the certificate from the `CSR` request 
+3. After the `CSR` request is approved on the hub cluster, the registration agent gets the certificate from the `CSR` request
    to establish the hub kubeConfig and save the hub kubeConfig to a secret in the managed cluster addon namespace.
-4. The add-on manager is watching the `ManagedClusterAddOn` for all managed cluster namespaces. 
+4. The add-on manager is watching the `ManagedClusterAddOn` for all managed cluster namespaces.
    And will create an add-on deploy `ManifestWork` in the managed cluster namespace once the `ManagedClusterAddOn` is created in this managed cluster namespace.
 5. The work agent will apply the manifests in the `ManifestWork` on the managed cluster.
 6. The add-on agent will mount the secret created by the registration agent to get the hub kubeConfig to connect with the hub cluster.
 
 ## Managing the add-on agent lifecycle by addon-manager
 
-The add-on agent lifecycle can now be managed by a new component called 
-`addon-manager` starting from OCM v0.11.0. This is achieved through enhancements 
+The add-on agent lifecycle can now be managed by a new component called
+`addon-manager` starting from OCM v0.11.0. This is achieved through enhancements
 to the `ClusterManagementAddOn` and `ManagedClusterAddOn` APIs.
 
 1. Install strategy
 
-With the install strategy defined in the `ClusterManagementAddOn` API, users can 
-configure which clusters the related `ManagedClusterAddon` should be enabled by 
-referencing the `Placement`. For example, enabling the `helloworld` add-on on 
+With the install strategy defined in the `ClusterManagementAddOn` API, users can
+configure which clusters the related `ManagedClusterAddon` should be enabled by
+referencing the `Placement`. For example, enabling the `helloworld` add-on on
 clusters labeled with aws. (Before OCM v0.11.0, the [automatic installation strategy](#automatic-installation)
 is hardcoded in the code.)
 
@@ -841,11 +861,11 @@ spec:
 
 2. Rollout strategy
 
-With the rollout strategy defined in the `ClusterManagementAddOn` API, users can 
+With the rollout strategy defined in the `ClusterManagementAddOn` API, users can
 control the upgrade behavior of the add-on when there are changes in the [supported configurations](#add-your-add-on-agent-supported-configurations).
 
-For example, if the add-on user updates the "deploy-config" and wants to apply 
-the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will 
+For example, if the add-on user updates the "deploy-config" and wants to apply
+the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will
 apply the change each time.
 
 ```yaml
@@ -874,8 +894,8 @@ spec:
           maxConcurrentlyUpdating: 25%
 ```
 
-The latest addon-framework already implements the installStrategy and rolloutStrategy. 
-Add-on developers only need to upgrade to the latest addon-framework and API in 
+The latest addon-framework already implements the installStrategy and rolloutStrategy.
+Add-on developers only need to upgrade to the latest addon-framework and API in
 the `go.mod` file with a minor code change to support the scenarios mentioned above.
 
 1. Modify the `go.mod` file to use the latest addon-framework and API versions.
@@ -885,10 +905,10 @@ open-cluster-management.io/addon-framework v0.7.0
 open-cluster-management.io/api v0.11.0
 ```
 
-2. Remove the `WithInstallStrategy()` function described in the [automatic installation](#automatic-installation) 
-section since it conflicts with the install strategy defined in the `ClusterManagementAddOn` API level.
+2. Remove the `WithInstallStrategy()` function described in the [automatic installation](#automatic-installation)
+   section since it conflicts with the install strategy defined in the `ClusterManagementAddOn` API level.
 
-With the above changes, you can now enable the "AddonManagement" feature gates 
+With the above changes, you can now enable the "AddonManagement" feature gates
 in `ClusterManager` and let the new component `addon-manager` manage the add-ons.
 
 3. Enable the "AddonManagement" feature gates in `ClusterManager` as shown below.
@@ -915,9 +935,9 @@ NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
 cluster-manager-addon-manager-controller   1/1     1            1           19m
 ```
 
-4. Claim that the addon is managed by `addon-manager` by adding the annotation 
-`addon.open-cluster-management.io/lifecycle: "addon-manager"` explicitly in the 
-`ClusterManagementAddOn`.
+4. Claim that the addon is managed by `addon-manager` by adding the annotation
+   `addon.open-cluster-management.io/lifecycle: "addon-manager"` explicitly in the
+   `ClusterManagementAddOn`.
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -929,14 +949,14 @@ metadata:
 ...
 ```
 
-5. Define the `installStrategy` and `rolloutStrategy` in the `ClusterManagementAddOn` 
-as shown in the example above. Note that the rollout strategy is triggered by 
-changes in configurations, so if the addon does not have [supported cofingurations](#add-your-add-on-agent-supported-configurations), 
-the rollout strategy will not take effect.
+5. Define the `installStrategy` and `rolloutStrategy` in the `ClusterManagementAddOn`
+   as shown in the example above. Note that the rollout strategy is triggered by
+   changes in configurations, so if the addon does not have [supported cofingurations](#add-your-add-on-agent-supported-configurations),
+   the rollout strategy will not take effect.
 
-For addons that upgrade the addon-framework to the latest version but want to 
-keep the current installation and upgrade behavior, the installStrategy type 
-should be set to "Manual". Do not add the annotation 
+For addons that upgrade the addon-framework to the latest version but want to
+keep the current installation and upgrade behavior, the installStrategy type
+should be set to "Manual". Do not add the annotation
 `addon.open-cluster-management.io/lifecycle` or set it to "self".
 
 ```yaml
@@ -951,6 +971,231 @@ spec:
     type: Manual
 ```
 
-For addons using addon-framework version v0.6.1 and earlier, the addon will 
-maintain its current installation and upgrade behavior, and the new component 
+For addons using addon-framework version v0.6.1 and earlier, the addon will
+maintain its current installation and upgrade behavior, and the new component
 `addon-manager` will have no impact on it.
+
+## Build an addon with addon template
+
+Using the addon-framework to develop an addon requires developers to implement the interface defined in the
+addon-framework via code and deploy a dedicated addon manager deployment on the hub cluster.
+But if the addon you are trying to develop:
+- not going to support hosted mode
+- the crucial agent workload that needs to be deployed to the managed cluster is a `Deployment`
+- no other customized API is needed to configure the addon besides the `AddOnDeploymentConfig`
+
+you can have a try with the new API `AddOnTemplate` introduced from OCM v0.12.0 to build the addon, which can get rid
+of coding, and only need to define some yaml files to build an addon.
+
+Using `AddOnTemplate` to build an addon, the `AddonManagement` feature gate must not be disabled in
+`ClusterManager.spec.addOnManagerConfiguration` and `Klusterlet.spec.registrationConfiguration`
+
+Enhancement proposal: [Add-on Template](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/82-addon-template)
+
+### Steps to build an addon with addon template
+
+1. Create an `AddOnTemplate` object to define the addon:
+   The `AddOnTemplate` API provides two parts of information to build an addon:
+    - `manifests`: what resources will be deployed to the managed cluster
+    - `registration`: how to register the addon to the hub cluster
+
+   For example, the following yaml file defines the `hello-template` addon, which will:
+    - deploy a `Deployment`, a `ServiceAccount`, and a `ClusterRoleBinding` to the managed cluster
+    - register the addon to the hub cluster, and make the addon agent(Deployment hello-template-agent):
+        - have the permission to access resources defined in the `cm-admin` clusterRole in the <managed-cluster-name>
+          namespace on the hub cluster(KubeClient type registration, CurrentCluster)
+        - have the permission to access resources defined in the `cm-reader` Role in the `open-cluster-management`
+          namespace on the hub cluster(KubeClient type registration, SingleNamespace)
+        - have the credential to access the customized endpoint(CustomSigner type registration)
+
+   ```yaml
+   apiVersion: addon.open-cluster-management.io/v1alpha1
+   kind: AddOnTemplate
+   metadata:
+     name: hello-template
+   spec:
+     addonName: hello-template
+     agentSpec: # required
+         workload:
+           manifests:
+             - kind: Deployment
+               apiVersion: apps/v1
+               metadata:
+                 name: hello-template-agent
+                 namespace: open-cluster-management-agent-addon
+                 labels:
+                   app: hello-template-agent
+               spec:
+                 replicas: 1
+                 selector:
+                   matchLabels:
+                     app: hello-template-agent
+                 template:
+                   metadata:
+                     labels:
+                       app: hello-template-agent
+                   spec:
+                     serviceAccountName: hello-template-agent-sa
+                     containers:
+                       - name: helloworld-agent
+                         image: quay.io/open-cluster-management/addon-examples:latest
+                         imagePullPolicy: IfNotPresent
+                         args:
+                           - "/helloworld"
+                           - "agent"
+                           - "--cluster-name={{CLUSTER_NAME}}"
+                           - "--addon-namespace=open-cluster-management-agent-addon"
+                           - "--addon-name=hello-template"
+                           - "--hub-kubeconfig={{HUB_KUBECONFIG}}"
+                           - "--v={{LOG_LEVEL}}" # addonDeploymentConfig variables
+             - kind: ServiceAccount
+               apiVersion: v1
+               metadata:
+                 name: hello-template-agent-sa
+                 namespace: open-cluster-management-agent-addon
+             - kind: ClusterRoleBinding
+               apiVersion: rbac.authorization.k8s.io/v1
+               metadata:
+                 name: hello-template-agent
+               roleRef:
+                 apiGroup: rbac.authorization.k8s.io
+                 kind: ClusterRole
+                 name: cluster-admin
+               subjects:
+                 - kind: ServiceAccount
+                   name: hello-template-agent-sa
+                   namespace: open-cluster-management-agent-addon
+     registration: # optional
+       # kubeClient or custom signer, if kubeClient, user and group is in a certain format.
+       # user is "system:open-cluster-management:cluster:{clusterName}:addon:{addonName}:agent:{agentName}"
+       # group is ["system:open-cluster-management:cluster:{clusterName}:addon:{addonName}",
+       #           "system:open-cluster-management:addon:{addonName}", "system:authenticated"]
+       - type: KubeClient
+         kubeClient:
+           hubPermissions:
+             - type: CurrentCluster
+               roleRef:
+                 apiGroup: rbac.authorization.k8s.io
+                 kind: ClusterRole
+                 name: cm-admin # should be created by user
+             - type: SingleNamespace
+               roleRef:
+                 apiGroup: rbac.authorization.k8s.io
+                 kind: Role
+                 name: cm-reader # should be created by user
+               singleNamespace:
+                 namespace: open-cluster-management
+       - type: CustomSigner
+         # addon-manager only generates the credential for the agent to authenticate to the hub cluster, not responsible
+         # for the authroization which should be taken care of by the user
+         customSigner:
+           signerName: example.com/signer-test
+           subject:
+             user: user-test
+             groups:
+               - group-test
+             organizationUnit:
+               - organization-test
+           signingCA:
+             # type is "kubernetes.io/tls", namespace is "open-cluster-management-agent-addon", user needs to grant the
+             # permission to the addon-manager(service account open-cluster-management-hub/addon-manager-controller-sa)
+             # to access the secret
+             name: ca-secret
+   ```
+
+2. Create a `ClusterManagementAddOn` to declare this is template type addon which should be managed by the
+   addon-manager:
+
+   ```yaml
+   apiVersion: addon.open-cluster-management.io/v1alpha1
+   kind: ClusterManagementAddOn
+   metadata:
+     name: hello-template
+     annotations:
+       addon.open-cluster-management.io/lifecycle: "addon-manager"
+   spec:
+     addOnMeta:
+       description: hello-template is a addon built with addon template
+       displayName: hello-template
+     supportedConfigs: # declare it is a template type addon
+     - group: addon.open-cluster-management.io
+       resource: addontemplates
+       defaultConfig:
+         name: hello-template
+   ```
+
+3. Create a `ManagedClusterAddOn` to enable the addon on `cluster1`
+
+   ```yaml
+   apiVersion: addon.open-cluster-management.io/v1alpha1
+   kind: ManagedClusterAddOn
+   metadata:
+     name: hello-template
+     namespace: cluster1
+   spec:
+     installNamespace: open-cluster-management-agent-addon
+   ```
+
+### Use variables in the addon template
+
+Users can use variables in the addonTemplate.agentSpec.workload.manifests field in the form of `{{VARIABLE_NAME}}`, it
+is similar to go template syntax but not identical, only String value is supported. And there are two types of
+variables:
+
+1. built-in variables;
+    - constant parameters(can not be overridden by user's variables):
+        - `CLUSTER_NAME`: name of the managed cluster(e.g cluster1)
+    - default parameters(can be overridden by user's variables)
+        - `HUB_KUBECONFIG`: path of the kubeconfig to access the hub cluster, default value is
+          `/managed/hub-kubeconfig/kubeconfig`
+2. Customize variables; Variables defines in addonDeploymentConfig.customizedVariables can be used.
+
+### Using kubeconfig/certificates in the addon agent Deployment
+
+The addon manager will inject volumes into the addon agent deployments based on the `addonTemplate.spec.registration`
+field.
+
+1. If there is a `KubeClient` type registration, the hub kubeconfig will be injected to the deployments defined in the
+   addon template, so users can use the hub kubeconfig located at `/managed/hub-kubeconfig/kubeconfig` to access the hub
+
+   ```yaml
+   ...
+   spec:
+     containers:
+       - name: addon-agent
+         ...
+         volumeMounts:
+           - mountPath: /managed/hub-kubeconfig
+             name: hub-kubeconfig
+     volumes:
+       - name: hub-kubeconfig
+         secret:
+           defaultMode: 420
+           secretName: <addon-name>-hub-kubeconfig
+   ...
+   ```
+
+2. If there is a `CustomSigner` type registration, the secret signed via the custom signer defined in the
+   `CustomSignerRegistrationConfig` will be injected to the deployments defined in the addon template, so users can use
+   the certificate located at `/managed/<signer-name>/tls.crt` and `/managed/<signer-name>/tls.key`
+
+   ```yaml
+   ...
+   spec:
+     containers:
+       - name: addon-agent
+         ...
+         volumeMounts:
+           - mountPath: /managed/<signer-name> # if the signer name contains "/", it will be replaced by "-"
+             name: cert-<signer-name>
+     volumes:
+       - name: cert-<signer-name> # if the signer name contains "/", it will be replaced by "-"
+         secret:
+           defaultMode: 420
+           secretName: <addon-name>-<signer-name>-client-cert # if the signer name contains "/", it will be replaced by "-"
+   ```
+
+### health probe of the template type addon
+
+Since we only support the `Deployment` resource as the crucial agent runtime workload, the addon-manager will check if
+the deployment is available, if not, the addon will be considered as unhealthy.
