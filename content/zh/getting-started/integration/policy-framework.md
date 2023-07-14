@@ -24,7 +24,7 @@ components, including:
 ## Architecture
 
 <div style="text-align: center; padding: 20px;">
-   <img src="/policy-framework-architecture-diagram.jpg" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
+   <img src="/policy-framework-architecture-diagram.png" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
 </div>
 
 The governance policy framework distributes policies to managed clusters and collects results to send back to the hub
