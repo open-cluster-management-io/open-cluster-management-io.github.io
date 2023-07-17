@@ -16,56 +16,67 @@ In hosted mode:
 - We can use this ability to run the klusterlet on the hub cluster, so we do not need to expose the hub cluster to the
   managed cluster, and accordingly, we expose the managed cluster to the hub.
 
+Enhancement proposal: [Running deployments of cluster-manager and klusterlet outside of Hub and ManagedCluster](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/33-hosted-deploy-mode)
+
+This article will use 3 kind clusters to show you how to deploy cluster manager(outside the hub cluster) and klusterlet(
+outside the managed) in hosted mode.
+
 ## Prerequisites
 
-At present, there are examples of hosted mode deploying in the registration-operator repository. This article will
-demonstrate in this way. In the future, we will make `clusteradm` to support deploy cluster manager and klusterlet in
-hosted mode
+1. Three kind clusters: management cluster, hub cluster and managed cluster. The cluster manager and klusterlet will be
+   deployed on the management cluster, and the managed cluster will be imported to the hub cluster as name `cluster1`.
 
-```shell
-git clone https://github.com/open-cluster-management-io/registration-operator.git
-cd registration-operator
-```
+   ```shell
+   export KUBECONFIG=$HOME/.kube/config
+
+   kind create cluster --name hub
+
+   kind create cluster --name managed
+
+   # the following config is useful for deploying the cluster manager in hosted mode
+   cat <<EOF | kind create cluster --name management --config=-
+   kind: Cluster
+   apiVersion: kind.x-k8s.io/v1alpha4
+   nodes:
+   - role: control-plane
+     extraPortMappings:
+     - containerPort: 30443
+       hostPort: 30443
+       protocol: TCP
+     - containerPort: 31443
+       hostPort: 31443
+       protocol: TCP
+   EOF
+   ```
+
+2. The [ocm repo](https://github.com/open-cluster-management-io/ocm) code will be used to deploy cluster manager and
+   klusterlet in hosted mode.
+
+   ```shell
+   git clone --depth 1 https://github.com/open-cluster-management-io/ocm.git
+   ```
+
+3. The `clusteradm` binary, only required if you want to use `clusteradm` to deploy klusterlet in hosted mode.(The
+   cluster manager is not supported to deploy by `clusteradm` in hosted mode at present), to install `clusteradm`, you
+   can refer to [this]({{< ref "/getting-started/installation/start-the-control-plane#install-clusteradm-cli-tool" >}}).
 
 ## Deploy cluster manager in hosted mode
 
-1. Set the env variable KUBECONFIG to kubeconfig file path.
+At present, the cluster manager can not be deployed by `clusteradm` in hosted mode, but we can leverage some `make`
+commands to deploy it.
+
+1. Get the EXTERNAL_HUB_KUBECONFIG kubeconfig, cluster manager will be deployed on the management cluster, so we need
+   the kubeconfig of the hub cluster to connect to the hub cluster.
 
     ```shell
-    export KUBECONFIG=$HOME/.kube/config
-    ```
-
-2. Create 3 Kind clusters: management/hosting cluster(cluster manager will deploy on this cluster), hub cluster and a
-   managed cluster.
-
-    ``` shell
-    kind create cluster --name hub
-    cat <<EOF | kind create cluster --name management --config=-
-    kind: Cluster
-    apiVersion: kind.x-k8s.io/v1alpha4
-    nodes:
-    - role: control-plane
-      extraPortMappings:
-      - containerPort: 30443
-        hostPort: 30443
-        protocol: TCP
-      - containerPort: 31443
-        hostPort: 31443
-        protocol: TCP
-    EOF
-    kind create cluster --name managed
-    ```
-
-3. Get the EXTERNAL_HUB_KUBECONFIG kubeconfig.
-
-    ```shell
+    cd ocm
     kind get kubeconfig --name hub --internal > ./.external-hub-kubeconfig
     ```
 
-4. Switch to management cluster and deploy hub components.
+2. Switch to management cluster and deploy hub components.
 
     ```shell
-    kubectl config use-context {management-context}
+    kubectl config use-context kind-management
     make deploy-hub-hosted
     ```
 
@@ -92,7 +103,7 @@ cd registration-operator
                 port: 31443
     ```
 
-5. After deploy hub successfully, the user needs to expose webhook-servers in the management cluster manually.
+3. After deploy hub successfully, the user needs to expose webhook-servers in the management cluster manually.
 
     ```shell
     cat <<EOF | kubectl apply -f -
@@ -124,7 +135,7 @@ cd registration-operator
     EOF
     ```
 
-6. Now we can check components are deployed on the management cluster
+4. Now we can check components are deployed on the management cluster
 
     ```shell
     ╰─# kubectl config use-context kind-management
@@ -145,22 +156,27 @@ cd registration-operator
 
 ## Deploy klusterlet in hosted mode
 
-1. Make sure there are 3 clusters, management, hub and managed cluster, and the cluster manager is deployed in Default
-   or Hosted mode successfully.
-2. Set the env variable HUB_KUBECONFIG and EXTERNAL_MANAGED_KUBECONFIG.
+After the cluster manager is deployed successfully, we can deploy the klusterlet in hosted mode.
+
+### Using make commands
+
+We can use `make` commands to deploy klusterlet in hosted mode no matter the cluster manager is deployed in hosted mode
+or default mode
+
+1. Set the env variable HUB_KUBECONFIG and EXTERNAL_MANAGED_KUBECONFIG.
 
     ```shell
-    export HUB_KUBECONFIG={HUB_KUBECONFIG_PATH}
-    expoet EXTERNAL_MANAGED_KUBECONFIG={MANAGED_KUBECONFIG_PATH}
-    # if they are kind clusters, please also set:
-    kind get kubeconfig --name {kind-hub-cluster-name} --internal > {HUB_KUBECONFIG_PATH}
-    kind get kubeconfig --name {kind-managed-cluster-name} --internal > {MANAGED_KUBECONFIG_PATH}
+    cd ocm
+    kind get kubeconfig --name hub --internal > ./.hub-kubeconfig
+    export HUB_KUBECONFIG=./.hub-kubeconfig
+    kind get kubeconfig --name managed --internal > ./.external-managed-kubeconfig
+    export EXTERNAL_MANAGED_KUBECONFIG=./.external-managed-kubeconfig
     ```
 
-3. Switch to management context and deploy agent components on management cluster.
+2. Switch to management context and deploy agent components on management cluster.
     ```shell
-    kubectl config use-context {management-context}
-    make deploy-spoke-hosted
+    kubectl config use-context kind-management
+    MANAGED_CLUSTER_NAME=cluster1 KLUSTERLET_NAME=klusterlet make deploy-spoke-hosted
     ```
 
    the command `make deploy-spoke-hosted` will create a klusterlet CR in Hosted mode, and create an
@@ -186,35 +202,65 @@ cd registration-operator
           mode: Enable
     ```
 
-4. After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will be created on the hub.
+### Using clusteradm
+
+We can use `clusteradm` to deploy klusterlet in hosted mode if the cluster manager is deployed in default mode. Since
+the clusteraadm doesn't support to deploy cluster manager in hosted mode yet.
+
+1. Get the hub token, the output of the following command will include the hub token:
+
+    ```shell
+    kubectl config use-context kind-hub
+    clusteradm init # if the cluster has not been initialized
+    # OR
+    clusteradm get token # if the cluster has already been initialized
+    ```
+
+2. Join the managed cluster in hosted mode
+
+    ```yaml
+    kind get kubeconfig --name managed --internal > ./.external-managed-kubeconfig
+    kubectl config use-context kind-management
+    clusteradm join --hub-token <tokenID.tokenSecret> \
+      --hub-apiserver <hub_apiserver_url> \
+      --cluster-name cluster1 \
+      --mode hosted \
+      --managed-cluster-kubeconfig ./.external-managed-kubeconfig \
+      --force-internal-endpoint-lookup=true
+    ```
+
+### Accept the managed cluster
+
+1. After a successful deployment, a `certificatesigningrequest` and a `managedcluster` will be created on the hub.
    Switch to hub context, then accept the managed cluster and approve the CSR.
 
    ```shell
-   kubectl config use-context {hub-context}
-   kubectl get csr
-   kubectl certificate approve {csr name}
-   kubectl patch managedcluster {cluster name} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
+   kubectl config use-context kind-hub
+   kubectl get csr --no-headers | awk '{ print $1 }' | xargs -n 1 kubectl certificate approve
+   kubectl get managedcluster --no-headers | awk '{ print $1 }' | xargs -n 1 -I {} kubectl patch managedcluster {} -p='{"spec":{"hubAcceptsClient":true}}' --type=merge
    kubectl get managedcluster # the managed cluster should be AVAILABLE=true
    ```
 
-5. Now we can check components are deployed on the management cluster
+2. Now we can check components are deployed on the management cluster
 
     ```shell
+    ╰─# kubectl config use-context kind-management
+    Switched to context "kind-management".
     ╰─# kubectl get pod -n open-cluster-management
     NAME                              READY   STATUS    RESTARTS   AGE
     klusterlet-b669cfcc7-j69fb        1/1     Running   0          27m
-    ╰─# kubectl get klusterlet klusterlet
+    ╰─# kubectl get klusterlet
     NAME         AGE
     klusterlet   27m
-    ╰─# kubectl get pod -n klusterlet
+    ╰─# kubectl get pod -n <klusterlet-name>
     NAME                                            READY   STATUS    RESTARTS   AGE
     klusterlet-registration-agent-5d5bcbc8c-7m2t5   1/1     Running   0          11m
     klusterlet-work-agent-97778d688-vdwmp           1/1     Running   0          6m47s
     ```
 
 NOTE:
-- Whether cluster manager and klusterlet are deployed in hosted mode has no dependency, which means that they can
-  be combined in any deployment mode. For example: cluster manager default mode and klusterlet hosted mode.
+- There is no dependency on whether cluster manager and klusterlet are deployed in hosted mode, which means they can be
+  combined in any deployment mode. For example cluster manager default mode and klusterlet hosted mode.
 - The management/hosting cluster of cluster manager and klusterlet can be the same cluster or different clusters.
 
 ## Deploy addon agent in hosted mode
