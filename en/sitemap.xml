@@ -194,6 +194,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/governance-policy-nucleus</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/governance-policy-propagator</loc>
     </url>
     
