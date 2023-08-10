@@ -984,6 +984,7 @@ But if the addon you are trying to develop:
 - not going to support hosted mode
 - the crucial agent workload that needs to be deployed to the managed cluster is a `Deployment`
 - no other customized API is needed to configure the addon besides the `AddOnDeploymentConfig`
+- no need to run anything on the hub cluster other than managing the addon agent
 
 you can have a try with the new API `AddOnTemplate` introduced from OCM v0.12.0 to build the addon, which can get rid
 of coding, and only need to define some yaml files to build an addon.
@@ -1083,7 +1084,11 @@ Enhancement proposal: [Add-on Template](https://github.com/open-cluster-manageme
                roleRef:
                  apiGroup: rbac.authorization.k8s.io
                  kind: Role
-                 name: cm-reader # should be created by user
+                 # should be created by user; the addon manager will grant the permission to the agent, so if the
+                 # role/clusterRole contains some permissions that the addon manager doesn't have, user needs to grant
+                 # the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),
+                 # otherwise the addon manager will fail to grant the permission to the agent
+                 name: cm-reader
                singleNamespace:
                  namespace: open-cluster-management
        - type: CustomSigner
@@ -1099,7 +1104,7 @@ Enhancement proposal: [Add-on Template](https://github.com/open-cluster-manageme
                - organization-test
            signingCA:
              # type is "kubernetes.io/tls", namespace is "open-cluster-management-agent-addon", user needs to grant the
-             # permission to the addon-manager(service account open-cluster-management-hub/addon-manager-controller-sa)
+             # permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa)
              # to access the secret
              name: ca-secret
    ```
