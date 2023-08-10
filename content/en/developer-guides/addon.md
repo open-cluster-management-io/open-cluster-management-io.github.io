@@ -51,7 +51,7 @@ We have some available add-ons in the OCM community:
 ## Write your first add-on
 
 Let's implement a simple add-on manager using addon-framework,  which deploys a busybox deployment in the managed cluster.
-You can find the example in [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/busybox).
+You can find the example in [here](https://github.com/open-cluster-management-io/addon-framework/tree/4172c567862306031ac0405f82eb4f7b4d74b30a/cmd/example/busybox).
 
 ### Implement the addon manager
 
@@ -154,7 +154,8 @@ Then you can follow next section to [deploy the add-on manager on your hub clust
 
 Now you can build your add-on manager as an image and deploy it on the hub cluster.
 
-Following below steps to build the image for the [example](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/busybox). This image contains several example addon managers, including the busybox example.
+Following below steps to build the image for the [example](https://github.com/open-cluster-management-io/addon-framework/tree/4172c567862306031ac0405f82eb4f7b4d74b30a/cmd/example/busybox).
+This image contains several example addon managers, including the busybox example.
 
 ```bash
 git clone https://github.com/open-cluster-management-io/addon-framework.git
@@ -421,7 +422,7 @@ The registration agent follows next steps to register an add-on:
 
 
 Now we build another add-on that is going to sync configmap from the hub cluster to the managed cluster.
-The add-on code can be found [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/cmd/helloworld) .
+The add-on code can be found [here](https://github.com/open-cluster-management-io/addon-framework/tree/4172c567862306031ac0405f82eb4f7b4d74b30a/cmd/example/helloworld) .
 
 Specifically, since the addon agent needs to read configmap from the hub, we need to define the registration option for this addon.
 
