@@ -1049,6 +1049,7 @@ But if the addon you are trying to develop:</p>
 <li>not going to support hosted mode</li>
 <li>the crucial agent workload that needs to be deployed to the managed cluster is a <code>Deployment</code></li>
 <li>no other customized API is needed to configure the addon besides the <code>AddOnDeploymentConfig</code></li>
+<li>no need to run anything on the hub cluster other than managing the addon agent</li>
 </ul>
 <p>you can have a try with the new API <code>AddOnTemplate</code> introduced from OCM v0.12.0 to build the addon, which can get rid
 of coding, and only need to define some yaml files to build an addon.</p>
@@ -1150,7 +1151,11 @@ namespace on the hub cluster(KubeClient type registration, SingleNamespace)</li>
             <span style="color:#66d9ef">roleRef</span>:
               <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
               <span style="color:#66d9ef">kind</span>: Role
-              <span style="color:#66d9ef">name</span>: cm-reader <span style="color:#75715e"># should be created by user</span>
+              <span style="color:#75715e"># should be created by user; the addon manager will grant the permission to the agent, so if the</span>
+              <span style="color:#75715e"># role/clusterRole contains some permissions that the addon manager doesn&#39;t have, user needs to grant</span>
+              <span style="color:#75715e"># the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),</span>
+              <span style="color:#75715e"># otherwise the addon manager will fail to grant the permission to the agent</span>
+              <span style="color:#66d9ef">name</span>: cm-reader
             <span style="color:#66d9ef">singleNamespace</span>:
               <span style="color:#66d9ef">namespace</span>: open-cluster-management
     - <span style="color:#66d9ef">type</span>: CustomSigner
@@ -1166,7 +1171,7 @@ namespace on the hub cluster(KubeClient type registration, SingleNamespace)</li>
             - organization-test
         <span style="color:#66d9ef">signingCA</span>:
           <span style="color:#75715e"># type is &#34;kubernetes.io/tls&#34;, namespace is &#34;open-cluster-management-agent-addon&#34;, user needs to grant the</span>
-          <span style="color:#75715e"># permission to the addon-manager(service account open-cluster-management-hub/addon-manager-controller-sa)</span>
+          <span style="color:#75715e"># permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa)</span>
           <span style="color:#75715e"># to access the secret</span>
           <span style="color:#66d9ef">name</span>: ca-secret
 </code></pre></div></li>
