@@ -277,23 +277,23 @@ The maximum count of customized <code>ClusterClaims</code> can be configured via
 to the status of <code>ManagedCluster</code>.</p>
 <h2 id="example">Example</h2>
 <p>Here is a <code>ClusterClaim</code> example specifying a <code>id.k8s.io</code>:</p>
-<pre><code>apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: ClusterClaim
-metadata:
-  name: id.k8s.io
-spec:
-  value: myCluster
-</code></pre><p>After applying the <code>ClusterClaim</code> above to any managed cluster, the value of the <code>ClusterClaim</code>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterClaim
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: id.k8s.io
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">value</span>: myCluster
+</code></pre></div><p>After applying the <code>ClusterClaim</code> above to any managed cluster, the value of the <code>ClusterClaim</code>
 is reflected in the <code>ManagedCluster</code> on the hub cluster:</p>
-<pre><code>apiVersion: cluster.open-cluster-management.io/v1
-kind: ManagedCluster
-metadata: ...
-spec: ...
-status:
-  clusterClaims:
-    - name: id.k8s.io
-      value: myCluster
-</code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManagedCluster
+<span style="color:#66d9ef">metadata</span>: ...
+<span style="color:#66d9ef">spec</span>: ...
+<span style="color:#66d9ef">status</span>:
+  <span style="color:#66d9ef">clusterClaims</span>:
+    - <span style="color:#66d9ef">name</span>: id.k8s.io
+      <span style="color:#66d9ef">value</span>: myCluster
+</code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>
