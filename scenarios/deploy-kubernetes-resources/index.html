@@ -276,88 +276,89 @@ managed cluster if the <code>ManifestWork</code> is created in a valid
 <p>Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.</p>
 <p>Connect to your hub cluster and you have 2 options to create a <code>ManifestWork</code>:</p>
 <ol>
-<li>use <code>clusteradm</code> command</li>
-</ol>
+<li>
+<p>Use <code>clusteradm</code> command</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt;
 </code></pre></div><p>where kubernetes yaml file should be kubernetes definitions, a sample:</p>
-<pre><code>apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: default
-  name: my-sa
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
+<span style="color:#66d9ef">kind</span>: ServiceAccount
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">name</span>: my-sa
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: default
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      serviceAccountName: my-sa
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 80
-</code></pre><ol start="2">
-<li>use <code>kubectl</code> to create the <code>ManifestWork</code></li>
-</ol>
+<span style="color:#66d9ef">apiVersion</span>: apps/v1
+<span style="color:#66d9ef">kind</span>: Deployment
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: default
+  <span style="color:#66d9ef">name</span>: nginx-deployment
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">app</span>: nginx
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
+  <span style="color:#66d9ef">selector</span>:
+    <span style="color:#66d9ef">matchLabels</span>:
+      <span style="color:#66d9ef">app</span>: nginx
+  <span style="color:#66d9ef">template</span>:
+    <span style="color:#66d9ef">metadata</span>:
+      <span style="color:#66d9ef">labels</span>:
+        <span style="color:#66d9ef">app</span>: nginx
+    <span style="color:#66d9ef">spec</span>:
+      <span style="color:#66d9ef">serviceAccountName</span>: my-sa
+      <span style="color:#66d9ef">containers</span>:
+        - <span style="color:#66d9ef">name</span>: nginx
+          <span style="color:#66d9ef">image</span>: nginx:<span style="color:#ae81ff">1.14.2</span>
+          <span style="color:#66d9ef">ports</span>:
+            - <span style="color:#66d9ef">containerPort</span>: <span style="color:#ae81ff">80</span>
+</code></pre></div></li>
+<li>
+<p>Use <code>kubectl</code> to create the <code>ManifestWork</code></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f &lt;kubernetes yaml file or directory&gt;
 </code></pre></div><p>where kubernetes yaml file should be kubernetes definitions wrapped by <code>ManifestWork</code>, a sample:</p>
-<pre><code>apiVersion: work.open-cluster-management.io/v1
-kind: ManifestWork
-metadata:
-  namespace: cluster1
-  name: my-first-work
-spec:
-  workload:
-    manifests:
-      - apiVersion: v1
-        kind: ServiceAccount
-        metadata:
-          namespace: default
-          name: my-sa
-      - apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          namespace: default
-          name: nginx-deployment
-          labels:
-            app: nginx
-        spec:
-          replicas: 3
-          selector:
-            matchLabels:
-              app: nginx
-          template:
-            metadata:
-              labels:
-                app: nginx
-            spec:
-              serviceAccountName: my-sa
-              containers:
-                - name: nginx
-                  image: nginx:1.14.2
-                  ports:
-                    - containerPort: 80
-
-</code></pre><p>The above command should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: my-first-work
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: v1
+        <span style="color:#66d9ef">kind</span>: ServiceAccount
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">name</span>: my-sa
+      - <span style="color:#66d9ef">apiVersion</span>: apps/v1
+        <span style="color:#66d9ef">kind</span>: Deployment
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">namespace</span>: default
+          <span style="color:#66d9ef">name</span>: nginx-deployment
+          <span style="color:#66d9ef">labels</span>:
+            <span style="color:#66d9ef">app</span>: nginx
+        <span style="color:#66d9ef">spec</span>:
+          <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
+          <span style="color:#66d9ef">selector</span>:
+            <span style="color:#66d9ef">matchLabels</span>:
+              <span style="color:#66d9ef">app</span>: nginx
+          <span style="color:#66d9ef">template</span>:
+            <span style="color:#66d9ef">metadata</span>:
+              <span style="color:#66d9ef">labels</span>:
+                <span style="color:#66d9ef">app</span>: nginx
+            <span style="color:#66d9ef">spec</span>:
+              <span style="color:#66d9ef">serviceAccountName</span>: my-sa
+              <span style="color:#66d9ef">containers</span>:
+                - <span style="color:#66d9ef">name</span>: nginx
+                  <span style="color:#66d9ef">image</span>: nginx:<span style="color:#ae81ff">1.14.2</span>
+                  <span style="color:#66d9ef">ports</span>:
+                    - <span style="color:#66d9ef">containerPort</span>: <span style="color:#ae81ff">80</span>
+</code></pre></div></li>
+</ol>
+<p>The above command should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm get works my-first-work --cluster &lt;cluster name&gt;
 </code></pre></div><p>If you have some change on the manifest files, you can apply the change to the targeted cluster by running:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt; --overwrite
 </code></pre></div><p>To remove the resources deployed on the targeted cluster, run:</p>
-<pre><code>kubectl delete manifestwork my-first-work -n &lt;cluster name&gt;
-</code></pre><h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete manifestwork my-first-work -n &lt;cluster name&gt;
+</code></pre></div><h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
 <p>Say we would like to deploy a nginx together with a service account into &ldquo;cluster1&rdquo;.
 A <code>ManifestWork</code> can be defined as follows:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
@@ -401,18 +402,18 @@ A <code>ManifestWork</code> can be defined as follows:</p>
 <li>
 <p>A <code>ManifestWork</code> named &ldquo;my-first-work&rdquo; will be created into a
 &ldquo;cluster namespace&rdquo; named &ldquo;cluster1&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get manifestwork -A --context kind-hub</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A --context kind-hub
 NAMESPACE   NAME            AGE
 cluster1    my-first-work   2m59s
 </code></pre></div></li>
 <li>
 <p>The resources in the <code>ManifestWork</code> including a service-account, a deployment
 will be created to the cluster &ldquo;cluster1&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get deployment --context kind-cluster1</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get deployment --context kind-cluster1
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           4m10s
 
-<span style="color:#75715e"># kubectl get sa my-sa --context kind-cluster1</span>
+$ kubectl get sa my-sa --context kind-cluster1
 NAME    SECRETS   AGE
 my-sa   <span style="color:#ae81ff">1</span>         4m23s
 </code></pre></div></li>
