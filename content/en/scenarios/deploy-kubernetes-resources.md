@@ -7,7 +7,6 @@ After bootstrapping an OCM environment of at least one managed clusters, now
 it's time to begin your first journey of deploying Kubernetes resources into
 your managed clusters with OCM's `ManifestWork` API.
 
-
 ## Prerequisites
 
 Before we get start with the following tutorial, let's clarify a few terms
@@ -18,7 +17,7 @@ we're going to use in the context.
   provisioning a `cluster namespace` dedicated for the cluster of which the 
   name will be same as the managed cluster. The `cluster namespace` is used 
   for storing any custom resources/configurations that effectively belongs 
-  to the managed cluster. 
+  to the managed cluster.
   
 - __ManifestWork__: A custom resource in the hub cluster that groups a list 
   of kubernetes resources together and meant for dispatching them into the 
@@ -31,53 +30,116 @@ Now you can deploy a set of kubernetes resources defined in files to any cluster
 
 Connect to your hub cluster and you have 2 options to create a `ManifestWork`:
 
-1) use `clusteradm` command
+ 1) Use `clusteradm` command
 
-```shell
-clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name>
-```
+    ```shell
+    clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name>
+    ```
 
-where kubernetes yaml file should be kubernetes definitions, a sample:
-```
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: default
-  name: my-sa
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: default
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: nginx
-  template:
+    where kubernetes yaml file should be kubernetes definitions, a sample:
+
+    ```yaml
+    apiVersion: v1
+    kind: ServiceAccount
     metadata:
+      namespace: default
+      name: my-sa
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      namespace: default
+      name: nginx-deployment
       labels:
         app: nginx
     spec:
-      serviceAccountName: my-sa
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 80
-```
+      replicas: 3
+      selector:
+        matchLabels:
+          app: nginx
+      template:
+        metadata:
+          labels:
+            app: nginx
+        spec:
+          serviceAccountName: my-sa
+          containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+                - containerPort: 80
+    ```
 
-2) use `kubectl` to create the `ManifestWork`
+  2) Use `kubectl` to create the `ManifestWork`
+
+      ```shell
+      kubectl apply -f <kubernetes yaml file or directory>
+      ```
+
+      where kubernetes yaml file should be kubernetes definitions wrapped by `ManifestWork`, a sample:
+
+      ```yaml
+      apiVersion: work.open-cluster-management.io/v1
+      kind: ManifestWork
+      metadata:
+        namespace: cluster1
+        name: my-first-work
+      spec:
+        workload:
+          manifests:
+            - apiVersion: v1
+              kind: ServiceAccount
+              metadata:
+                namespace: default
+                name: my-sa
+            - apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                namespace: default
+                name: nginx-deployment
+                labels:
+                  app: nginx
+              spec:
+                replicas: 3
+                selector:
+                  matchLabels:
+                    app: nginx
+                template:
+                  metadata:
+                    labels:
+                      app: nginx
+                  spec:
+                    serviceAccountName: my-sa
+                    containers:
+                      - name: nginx
+                        image: nginx:1.14.2
+                        ports:
+                          - containerPort: 80
+        ```
+
+The above command should create a `ManifestWork` in cluster namespace of your hub cluster. To see the detailed status of this `ManifestWork`, you can run:
 
 ```shell
-kubectl apply -f <kubernetes yaml file or directory>
+clusteradm get works my-first-work --cluster <cluster name>
 ```
 
-where kubernetes yaml file should be kubernetes definitions wrapped by `ManifestWork`, a sample:
+If you have some change on the manifest files, you can apply the change to the targeted cluster by running:
+
+```shell
+clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name> --overwrite
 ```
+
+To remove the resources deployed on the targeted cluster, run:
+
+```shell
+kubectl delete manifestwork my-first-work -n <cluster name>
+```
+## What happens behind the scene
+
+Say we would like to deploy a nginx together with a service account into "cluster1".
+A `ManifestWork` can be defined as follows:
+
+```yaml
 apiVersion: work.open-cluster-management.io/v1
 kind: ManifestWork
 metadata:
@@ -114,69 +176,7 @@ spec:
                   image: nginx:1.14.2
                   ports:
                     - containerPort: 80
-
 ```
-
-The above command should create a `ManifestWork` in cluster namespace of your hub cluster. To see the detailed status of this `ManifestWork`, you can run:
-
-```shell
-clusteradm get works my-first-work --cluster <cluster name>
-```
-
-If you have some change on the manifest files, you can apply the change to the targeted cluster by running:
-
-```shell
-clusteradm create work my-first-work -f <kubernetes yaml file or directory> --clusters <cluster name> --overwrite
-```
-
-To remove the resources deployed on the targeted cluster, run:
-
-```
-kubectl delete manifestwork my-first-work -n <cluster name>
-```
-## What happens behind the scene
-
-Say we would like to deploy a nginx together with a service account into "cluster1". 
-A `ManifestWork` can be defined as follows:
-
-  ```yaml
-  apiVersion: work.open-cluster-management.io/v1
-  kind: ManifestWork
-  metadata:
-    namespace: cluster1
-    name: my-first-work
-  spec:
-    workload:
-      manifests:
-        - apiVersion: v1
-          kind: ServiceAccount
-          metadata:
-            namespace: default
-            name: my-sa
-        - apiVersion: apps/v1
-          kind: Deployment
-          metadata:
-            namespace: default
-            name: nginx-deployment
-            labels:
-              app: nginx
-          spec:
-            replicas: 3
-            selector:
-              matchLabels:
-                app: nginx
-            template:
-              metadata:
-                labels:
-                  app: nginx
-              spec:
-                serviceAccountName: my-sa
-                containers:
-                  - name: nginx
-                    image: nginx:1.14.2
-                    ports:
-                      - containerPort: 80
-  ```
 
 In this example:
 
@@ -184,7 +184,7 @@ In this example:
   "cluster namespace" named "cluster1".
 
   ```shell
-  # kubectl get manifestwork -A --context kind-hub
+  $ kubectl get manifestwork -A --context kind-hub
   NAMESPACE   NAME            AGE
   cluster1    my-first-work   2m59s
   ```
@@ -193,11 +193,11 @@ In this example:
   will be created to the cluster "cluster1".
 
   ```shell
-  # kubectl get deployment --context kind-cluster1
+  $ kubectl get deployment --context kind-cluster1
   NAME               READY   UP-TO-DATE   AVAILABLE   AGE
   nginx-deployment   3/3     3            3           4m10s
 
-  # kubectl get sa my-sa --context kind-cluster1
+  $ kubectl get sa my-sa --context kind-cluster1
   NAME    SECRETS   AGE
   my-sa   1         4m23s
   ```
