@@ -3,10 +3,9 @@ title: Extend the multicluster scheduling capabilities with placement
 weight: 1
 ---
 
-The `Placement` API is used to dynamically select a set of `ManagedCluster` in one or multiple `ManagedClusterSets` so that the workloads can be deployed to these clusters. You can use placement to filter clusters by label or claim selector, also placement provides some default prioritizers which can be used to sort and select the most suitable clusters. 
+The `Placement` API is used to dynamically select a set of `ManagedCluster` in one or multiple `ManagedClusterSets` so that the workloads can be deployed to these clusters. You can use placement to filter clusters by label or claim selector, also placement provides some default prioritizers which can be used to sort and select the most suitable clusters.
 
-
-One of the default prioritizers are ResourceAllocatableCPU and ResourceAllocatableMemory. They provide the capability to sort clusters based on the allocatable CPU and memory. However, when considering the resource based scheduling, there's a gap that the cluster’s "AllocatableCPU" and "AllocatableMemory" are static values that won’t change even if “the cluster is running out of resources". And in some cases, the prioritizer needs more extra data to calculate the score of the managed cluster. For example, there is a requirement to schedule based on resource monitoring data from the cluster. For this reason, we need a more extensible way to support scheduling based on customized scores.
+One of the default prioritizers are ResourceAllocatableCPU and ResourceAllocatableMemory. They provide the capability to sort clusters based on the allocatable CPU and memory. However, when considering the resource based scheduling, there's a gap that the cluster’s "AllocatableCPU" and "AllocatableMemory" are static values that won’t change even if "the cluster is running out of resources". And in some cases, the prioritizer needs more extra data to calculate the score of the managed cluster. For example, there is a requirement to schedule based on resource monitoring data from the cluster. For this reason, we need a more extensible way to support scheduling based on customized scores.
 
 ## What is Placement extensible scheduling?
 
@@ -40,7 +39,7 @@ status:
 All the customized scores information is stored in `status`, as we don't expect end users to update it. 
 * As a score provider, a 3rd party controller could run on either hub or managed cluster, to maintain the lifecycle of `AddOnPlacementScore` and update the score into the `status`.
 * As an end user, you need to know the resource name "default" and customized score name "cpuAvailable"and "memAvailable" , so you can specify the name in placement yaml to select clusters. For example, the below placement wants to select the top 3 clusters with the highest cpuAvailable score.
-  ```
+  ```yaml
   apiVersion: cluster.open-cluster-management.io/v1beta1
   kind: Placement
   metadata:
@@ -71,11 +70,11 @@ The resource-usage-collect addon follows the hub-agent architecture as below.
    <img src="/extend-multicluster-scheduling-capabilities.png" alt="Security model" style="margin: 0 auto; width: 60%">
 </div>
 
-The resource-usage-collect addon contains a controller and an agent. 
+The resource-usage-collect addon contains a controller and an agent.
 - On the hub cluster, the resource-usage-collect-controller is running. It is responsible for creating the `ManifestWork` for resource-usage-collect-agent in each cluster namespace. 
 - On each managed cluster, the work agent watches the `ManifestWork` and installs the resource-usage-collect-agent on each cluster. The resource-usage-collect-agent is the core part of this addon, it creates the `AddonPlacementScore` for each cluster on the Hub cluster, and refreshes the `scores` and `validUntil` every 60 seconds.
 
-When the `AddonPlacementScore` is ready, the end user can specify the customized core in a placement to select clusters. 
+When the `AddonPlacementScore` is ready, the end user can specify the customized core in a placement to select clusters.
 
 The working flow and logic of resource-usage-collect addon are quite easy to understand. Now let's follow the below steps to get started!
 
@@ -87,7 +86,7 @@ curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/
 2. Confirm there are 2 `ManagedCluster` and a default `ManagedClusterSet` created.
 ```bash
 $ clusteradm get clusters
-NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERENETES VERSION
+NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERNETES VERSION
 cluster1   true       True        default      24    49265496Ki   v1.23.4
 cluster2   true       True        default      24    49265496Ki   v1.23.4
 
@@ -217,7 +216,7 @@ Status:
     Reason:
 ```
 
-Cluster1 is selected by `PlacementDecision`. 
+Cluster1 is selected by `PlacementDecision`.
 
 Running below command to get the customized score in `AddonPlacementScore` and the cluster score set by `Placement`.
 You can see that the "cpuAvailable" score is 12 in `AddonPlacementScore`, and this value is also the cluster score in `Placement` events, this indicates that placement is using the customized score to select clusters.
@@ -238,7 +237,7 @@ Events:
   Normal  ScoreUpdate     50s   placementController  cluster1:12 cluster2:12
 ```
 
-Now you know how to install the resource-usage-collect addon and consume the customized score to select clusters. Next, let's take a deeper look into some key points when you consider implementing a customized score provider .
+Now you know how to install the resource-usage-collect addon and consume the customized score to select clusters. Next, let's take a deeper look into some key points when you consider implementing a customized score provider.
 
 ### 1. Where to run the customized score provider 
 
@@ -268,18 +267,19 @@ In our example, the code to maintain the `AddOnPlacementScore` CR is in [pkg/add
 
 ### 3. How to calculate the score
 
-The code to calculate the score is in [pkg/addon/agent/calculate.go](https://github.com/open-cluster-management-io/addon-contrib/blob/main/resource-usage-collect-addon/pkg/addon/agent/calculate.go). A valid score must be in the range -100 to 100, you need to normalize the scores before updating it into `AddOnPlacementScore`. 
+The code to calculate the score is in [pkg/addon/agent/calculate.go](https://github.com/open-cluster-management-io/addon-contrib/blob/main/resource-usage-collect-addon/pkg/addon/agent/calculate.go). A valid score must be in the range -100 to 100, you need to normalize the scores before updating it into `AddOnPlacementScore`.
 
 When normalizing the score, you might meet the below cases.
 
 - The score provider knows the max and min value of the customized scores.
 
-  In this case, it is easy to achieve smooth mapping by formula. Suppose the actual value is X, and X is in the interval [min, max], then`score ＝ 200 * (x - min) / (max - min) - 100`
+  In this case, it is easy to achieve smooth mapping by formula. Suppose the actual value is X, and X is in the interval [min, max], then `score ＝ 200 * (x - min) / (max - min) - 100` .
 
 - The score provider doesn't know the max and min value of the customized scores.
 
   In this case, you need to set a maximum and minimum value by yourself, as without a max and min value, is unachievable to map a single value X to the range [-100, 100].
-Then when the X is greater than this maximum value, the cluster can be considered healthy enough to deploy applications, and the score can be set as 100. And if X is less than the minimum value, the score can be set as -100.
+
+  Then when the X is greater than this maximum value, the cluster can be considered healthy enough to deploy applications, and the score can be set as 100. And if X is less than the minimum value, the score can be set as -100.
   ```
   if X >= max
     score = 100
@@ -287,9 +287,10 @@ Then when the X is greater than this maximum value, the cluster can be considere
     score = -100
   ```
 
-In our example, the resource-usage-collect-agent running on each managed cluster doesn't have a whole picture view to know the max/min value of CPU/memory usage of all the clusters, so we manually set the max value as `MAXCPUCOUNT` and `MAXMEMCOUNT` in code, min value is set as 0. The score calculation formula can be simplified:  `score = x / max * 100`.
+In our example, the resource-usage-collect-agent running on each managed cluster doesn't have a whole picture view to know the max/min value of CPU/memory usage of all the clusters, so we manually set the max value as `MAXCPUCOUNT` and `MAXMEMCOUNT` in code, min value is set as 0. The score calculation formula can be simplified: `score = x / max * 100`.
 
 ## Summary
-In this article, we introduced what is the placement extensible scheduling and used an example to show how to implement a customized score provider. Also, this article list 3 key points the developer needs to consider when implementing a 3rd party score provider. Hope after reading this article, you can have a clear view of how placement extensible scheduling can help you extend the multicluster scheduling capabilities. 
+
+In this article, we introduced what is the placement extensible scheduling and used an example to show how to implement a customized score provider. Also, this article list 3 key points the developer needs to consider when implementing a 3rd party score provider. Hope after reading this article, you can have a clear view of how placement extensible scheduling can help you extend the multicluster scheduling capabilities.
 
 Feel free to raise your question in the [Open-cluster-management-io GitHub community](https://github.com/open-cluster-management-io/OCM/issues) or contact us using [Slack](https://kubernetes.slack.com/channels/open-cluster-mgmt).
