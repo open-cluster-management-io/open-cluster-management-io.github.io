@@ -20,8 +20,8 @@ OCM addon [application lifecycle management]({{< ref "/getting-started/integrati
 will also use placement to deploy applications in the future.
 
 Some popular open source projects also integrate with the `Placement` API. For
-example [Argo](https://github.com/argoproj/argo-cd), it can leverage the
-generated `PlacementDecision` to drive the assignment of Argo Applications to a
+example [Argo CD](https://github.com/argoproj/argo-cd), it can leverage the
+generated `PlacementDecision` to drive the assignment of Argo CD Applications to a
 desired set of clusters, details see this [example](https://github.com/argoproj/applicationset/tree/master/examples/clusterDecisionResource).
 And [KubeVela](https://github.com/kubevela/kubevela), as an implementation of
 the open application model, also will take advantage of the `Placement` API for
@@ -57,170 +57,170 @@ managed clusters.
 1) Following [setup dev environment by kind](https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment)
 to prepare an environment.
 
-```shell
-curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
-```
+    ```shell
+    curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
+    ```
 
 2) Confirm there are 2 `ManagedCluster` and a default `ManagedClusterSet` created.
 
-```shell
-$ clusteradm get clusters
-NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERENETES VERSION
-cluster1   true       True        default      24    49265496Ki   v1.23.4
-cluster2   true       True        default      24    49265496Ki   v1.23.4
+    ```shell
+    $ clusteradm get clusters
+    NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERNETES VERSION
+    cluster1   true       True        default      24    49265496Ki   v1.23.4
+    cluster2   true       True        default      24    49265496Ki   v1.23.4
 
-$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default                      2 ManagedClusters selected
-```
+    $ clusteradm get clustersets
+    NAME      BOUND NAMESPACES   STATUS
+    default                      2 ManagedClusters selected
+    ```
 
 3) Bind the default `ManagedClusterSet` to default `Namespace`.
 
-```shell
-clusteradm clusterset bind default --namespace default
-```
+    ```shell
+    clusteradm clusterset bind default --namespace default
+    ```
 
-```shell
-$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default   default            2 ManagedClusters selected
-```
+    ```shell
+    $ clusteradm get clustersets
+    NAME      BOUND NAMESPACES   STATUS
+    default   default            2 ManagedClusters selected
+    ```
 
-Note: click [here](https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm)
-to see more details about how to operate `ManagedClusterSet` using `clusteradm`.
+    Note: click [here](https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm)
+    to see more details about how to operate `ManagedClusterSet` using `clusteradm`.
 
-4) Create a `Placement` placement1 to select the 2 clusters in default `ManagedClusterSet`.
+4) Create a `Placement` placement1 to select the two clusters in default `ManagedClusterSet`.
 
-```shell
-cat << EOF | kubectl apply -f -
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Placement
-metadata:
-  name: placement1
-  namespace: default
-spec:
-  numberOfClusters: 2
-  clusterSets:
-    - default
-EOF
-```
+    ```shell
+    cat << EOF | kubectl apply -f -
+    apiVersion: cluster.open-cluster-management.io/v1beta1
+    kind: Placement
+    metadata:
+      name: placement1
+      namespace: default
+    spec:
+      numberOfClusters: 2
+      clusterSets:
+        - default
+    EOF
+    ```
 
 5) Use `clusteradm` command to create `ManifestWork` my-first-work with
 `Placement` placement1.
 
-```shell
-clusteradm create work my-first-work -f work.yaml --placement default/placement1
-```
+    ```shell
+    clusteradm create work my-first-work -f work.yaml --placement default/placement1
+    ```
 
-The `work.yaml` contains kubernetes resource definitions, for sample:
+    The `work.yaml` contains kubernetes resource definitions, for sample:
 
-```shell
-$ cat work.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: default
-  name: my-sa
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: default
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: nginx
-  template:
+    ```shell
+    $ cat work.yaml
+    apiVersion: v1
+    kind: ServiceAccount
     metadata:
+      namespace: default
+      name: my-sa
+    ---
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      namespace: default
+      name: nginx-deployment
       labels:
         app: nginx
     spec:
-      serviceAccountName: my-sa
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: 80
-```
+      replicas: 3
+      selector:
+        matchLabels:
+          app: nginx
+      template:
+        metadata:
+          labels:
+            app: nginx
+        spec:
+          serviceAccountName: my-sa
+          containers:
+            - name: nginx
+              image: nginx:1.14.2
+              ports:
+                - containerPort: 80
+    ```
 
 6) Check the `ManifestWork`, it should be distributed to both cluster1 and cluster2.
 
-```shell
-$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   28s
-cluster2    my-first-work   28s
-```
+    ```shell
+    $ kubectl get manifestwork -A
+    NAMESPACE   NAME            AGE
+    cluster1    my-first-work   28s
+    cluster2    my-first-work   28s
+    ```
 
-7) Update the `Placement` placement1 to select only 1 managed cluster.
+7) Update the `Placement` placement1 to select only one managed cluster.
 
-```shell
-kubectl patch placement placement1 --patch '{"spec": {"clusterSets": ["default"],"numberOfClusters": 1}}' --type=merge
-```
+    ```shell
+    kubectl patch placement placement1 --patch '{"spec": {"clusterSets": ["default"],"numberOfClusters": 1}}' --type=merge
+    ```
 
 8) As the placement decision changes, running below command to reschedule
 `ManifestWork` my-first-work to the newly selected cluster.
 
-```shell
-clusteradm create work my-first-work -f work.yaml --placement default/placement1 --overwrite
-```
+    ```shell
+    clusteradm create work my-first-work -f work.yaml --placement default/placement1 --overwrite
+    ```
 
 9) Check the `ManifestWork` again, now it's only deployed to cluster1.
 
-```shell
-$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   18m
-```
+    ```shell
+    $ kubectl get manifestwork -A
+    NAMESPACE   NAME            AGE
+    cluster1    my-first-work   18m
+    ```
 
 ## What happens behind the scene
 
 The main idea is that `clusteradm` parse the selected clusters generated by
 `Placement`, and fill in that as `ManifestWork` namespace. Then create the
-`ManifestWork` and it would be distributed to a set of clusters. Let's see more
-details.
+`ManifestWork` and it would be distributed to a set of clusters.
+Let's see more details.
 
 1) `Placement` placement1 generates a `PlacementDecision` placement1-decision-1.
 
-```shell
-✗ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement=placement1 -oyaml
-apiVersion: v1
-items:
-- apiVersion: cluster.open-cluster-management.io/v1beta1
-  kind: PlacementDecision
-  metadata:
-    creationTimestamp: "2022-07-06T15:03:12Z"
-    generation: 1
-    labels:
-      cluster.open-cluster-management.io/placement: placement1
-    name: placement1-decision-1
-    namespace: default
-    ownerReferences:
+    ```shell
+    $ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement=placement1 -oyaml
+    apiVersion: v1
+    items:
     - apiVersion: cluster.open-cluster-management.io/v1beta1
-      blockOwnerDeletion: true
-      controller: true
-      kind: Placement
-      name: placement1
-      uid: aa339f57-0eb7-4260-8d4d-f30c1379fd35
-    resourceVersion: "47679"
-    uid: 9f948619-1647-429d-894d-81e11dd8bcf1
-  status:
-    decisions:
-    - clusterName: cluster1
-      reason: ""
-    - clusterName: cluster2
-      reason: ""
-kind: List
-metadata:
-  resourceVersion: ""
-  selfLink: ""
-```
+      kind: PlacementDecision
+      metadata:
+        creationTimestamp: "2022-07-06T15:03:12Z"
+        generation: 1
+        labels:
+          cluster.open-cluster-management.io/placement: placement1
+        name: placement1-decision-1
+        namespace: default
+        ownerReferences:
+        - apiVersion: cluster.open-cluster-management.io/v1beta1
+          blockOwnerDeletion: true
+          controller: true
+          kind: Placement
+          name: placement1
+          uid: aa339f57-0eb7-4260-8d4d-f30c1379fd35
+        resourceVersion: "47679"
+        uid: 9f948619-1647-429d-894d-81e11dd8bcf1
+      status:
+        decisions:
+        - clusterName: cluster1
+          reason: ""
+        - clusterName: cluster2
+          reason: ""
+    kind: List
+    metadata:
+      resourceVersion: ""
+      selfLink: ""
+    ```
 
-2) `clusteradm` get the `PlacementDecision` generated by `PlacmentDecision`
+2) `clusteradm` get the `PlacementDecision` generated by `Placment`
 placement1 with label `cluster.open-cluster-management.io/placement: placement1`,
 reference [code](https://github.com/open-cluster-management-io/clusteradm/pull/247/files#diff-0f96f91e259a6a6ce0f2231444a4991174b43bc206d34897be3be897279124eaR157).
 Then parse the clusterName cluster1 and cluster2, fill in that as `ManifestWork`
@@ -228,9 +228,9 @@ namespace, reference [code](https://github.com/open-cluster-management-io/cluste
 Then installs `ManifestWork` to namespace cluster1 and cluster2,
 which will finally be distributed to the two clusters.
 
-```shell
-$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   28s
-cluster2    my-first-work   28s
-```
+    ```shell
+    $ kubectl get manifestwork -A
+    NAMESPACE   NAME            AGE
+    cluster1    my-first-work   28s
+    cluster2    my-first-work   28s
+    ```
