@@ -268,8 +268,8 @@ installed, a <code>Policy</code> that includes a <code>Placement</code> mapping 
 OCM addon <a href="https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/">application lifecycle management</a>
 will also use placement to deploy applications in the future.</p>
 <p>Some popular open source projects also integrate with the <code>Placement</code> API. For
-example <a href="https://github.com/argoproj/argo-cd">Argo</a>, it can leverage the
-generated <code>PlacementDecision</code> to drive the assignment of Argo Applications to a
+example <a href="https://github.com/argoproj/argo-cd">Argo CD</a>, it can leverage the
+generated <code>PlacementDecision</code> to drive the assignment of Argo CD Applications to a
 desired set of clusters, details see this <a href="https://github.com/argoproj/applicationset/tree/master/examples/clusterDecisionResource">example</a>.
 And <a href="https://github.com/kubevela/kubevela">KubeVela</a>, as an implementation of
 the open application model, also will take advantage of the <code>Placement</code> API for
@@ -301,33 +301,33 @@ onto a specific managed clusters. As <code>Placement</code> can dynamically sele
 placement scheduling ability and dynamically deploy <code>ManifestWork</code> to a set of
 managed clusters.</p>
 <ol>
-<li>Following <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment">setup dev environment by kind</a>
-to prepare an environment.</li>
-</ol>
+<li>
+<p>Following <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment">setup dev environment by kind</a>
+to prepare an environment.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
-</code></pre></div><ol start="2">
-<li>Confirm there are 2 <code>ManagedCluster</code> and a default <code>ManagedClusterSet</code> created.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>Confirm there are 2 <code>ManagedCluster</code> and a default <code>ManagedClusterSet</code> created.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get clusters
-NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERENETES VERSION
+NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERNETES VERSION
 cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
 cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
 
 $ clusteradm get clustersets
 NAME      BOUND NAMESPACES   STATUS
 default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
-</code></pre></div><ol start="3">
-<li>Bind the default <code>ManagedClusterSet</code> to default <code>Namespace</code>.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>Bind the default <code>ManagedClusterSet</code> to default <code>Namespace</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm clusterset bind default --namespace default
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get clustersets
 NAME      BOUND NAMESPACES   STATUS
 default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
 </code></pre></div><p>Note: click <a href="https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm">here</a>
 to see more details about how to operate <code>ManagedClusterSet</code> using <code>clusteradm</code>.</p>
-<ol start="4">
-<li>Create a <code>Placement</code> placement1 to select the 2 clusters in default <code>ManagedClusterSet</code>.</li>
-</ol>
+</li>
+<li>
+<p>Create a <code>Placement</code> placement1 to select the two clusters in default <code>ManagedClusterSet</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
 </span><span style="color:#e6db74">kind: Placement
@@ -339,10 +339,10 @@ to see more details about how to operate <code>ManagedClusterSet</code> using <c
 </span><span style="color:#e6db74">  clusterSets:
 </span><span style="color:#e6db74">    - default
 </span><span style="color:#e6db74">EOF</span>
-</code></pre></div><ol start="5">
-<li>Use <code>clusteradm</code> command to create <code>ManifestWork</code> my-first-work with
-<code>Placement</code> placement1.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>Use <code>clusteradm</code> command to create <code>ManifestWork</code> my-first-work with
+<code>Placement</code> placement1.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f work.yaml --placement default/placement1
 </code></pre></div><p>The <code>work.yaml</code> contains kubernetes resource definitions, for sample:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat work.yaml
@@ -375,37 +375,39 @@ spec:
           image: nginx:1.14.2
           ports:
             - containerPort: <span style="color:#ae81ff">80</span>
-</code></pre></div><ol start="6">
-<li>Check the <code>ManifestWork</code>, it should be distributed to both cluster1 and cluster2.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>Check the <code>ManifestWork</code>, it should be distributed to both cluster1 and cluster2.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
 NAMESPACE   NAME            AGE
 cluster1    my-first-work   28s
 cluster2    my-first-work   28s
-</code></pre></div><ol start="7">
-<li>Update the <code>Placement</code> placement1 to select only 1 managed cluster.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>Update the <code>Placement</code> placement1 to select only one managed cluster.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl patch placement placement1 --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;clusterSets&#34;: [&#34;default&#34;],&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
-</code></pre></div><ol start="8">
-<li>As the placement decision changes, running below command to reschedule
-<code>ManifestWork</code> my-first-work to the newly selected cluster.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>As the placement decision changes, running below command to reschedule
+<code>ManifestWork</code> my-first-work to the newly selected cluster.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f work.yaml --placement default/placement1 --overwrite
-</code></pre></div><ol start="9">
-<li>Check the <code>ManifestWork</code> again, now it&rsquo;s only deployed to cluster1.</li>
-</ol>
+</code></pre></div></li>
+<li>
+<p>Check the <code>ManifestWork</code> again, now it&rsquo;s only deployed to cluster1.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
 NAMESPACE   NAME            AGE
 cluster1    my-first-work   18m
-</code></pre></div><h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
+</code></pre></div></li>
+</ol>
+<h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
 <p>The main idea is that <code>clusteradm</code> parse the selected clusters generated by
 <code>Placement</code>, and fill in that as <code>ManifestWork</code> namespace. Then create the
-<code>ManifestWork</code> and it would be distributed to a set of clusters. Let&rsquo;s see more
-details.</p>
+<code>ManifestWork</code> and it would be distributed to a set of clusters.
+Let&rsquo;s see more details.</p>
 <ol>
-<li><code>Placement</code> placement1 generates a <code>PlacementDecision</code> placement1-decision-1.</li>
-</ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">✗ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement<span style="color:#f92672">=</span>placement1 -oyaml
+<li>
+<p><code>Placement</code> placement1 generates a <code>PlacementDecision</code> placement1-decision-1.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement<span style="color:#f92672">=</span>placement1 -oyaml
 apiVersion: v1
 items:
 - apiVersion: cluster.open-cluster-management.io/v1beta1
@@ -436,20 +438,22 @@ kind: List
 metadata:
   resourceVersion: <span style="color:#e6db74">&#34;&#34;</span>
   selfLink: <span style="color:#e6db74">&#34;&#34;</span>
-</code></pre></div><ol start="2">
-<li><code>clusteradm</code> get the <code>PlacementDecision</code> generated by <code>PlacmentDecision</code>
+</code></pre></div></li>
+<li>
+<p><code>clusteradm</code> get the <code>PlacementDecision</code> generated by <code>Placment</code>
 placement1 with label <code>cluster.open-cluster-management.io/placement: placement1</code>,
 reference <a href="https://github.com/open-cluster-management-io/clusteradm/pull/247/files#diff-0f96f91e259a6a6ce0f2231444a4991174b43bc206d34897be3be897279124eaR157">code</a>.
 Then parse the clusterName cluster1 and cluster2, fill in that as <code>ManifestWork</code>
 namespace, reference <a href="https://github.com/open-cluster-management-io/clusteradm/pull/247/files#diff-0f96f91e259a6a6ce0f2231444a4991174b43bc206d34897be3be897279124eaR183">code</a>.
 Then installs <code>ManifestWork</code> to namespace cluster1 and cluster2,
-which will finally be distributed to the two clusters.</li>
-</ol>
+which will finally be distributed to the two clusters.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
 NAMESPACE   NAME            AGE
 cluster1    my-first-work   28s
 cluster2    my-first-work   28s
-</code></pre></div>
+</code></pre></div></li>
+</ol>
+
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>
