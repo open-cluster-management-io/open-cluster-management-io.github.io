@@ -71,7 +71,7 @@ other = "借助应用生命周期管理相关功能，你可以创建并交付�
 other = "了解更多关于应用管理"
 
 [supported_by]
-other = "Supported by"
+other = "藉由支持"
 
 [sidebar_concepts]
 other = "概念"
@@ -109,12 +109,6 @@ other = "快速开始"
 [sidebar_installation]
 other = "部署"
 
-[sidebar_developer-guides]
-other = "开发指南"
-
-[sidebar_addon-developer-guide]
-other = "Add-on 开发指南"
-
 [sidebar_start_the_control_plane]
 other = "启动控制面"
 
@@ -124,11 +118,20 @@ other = "注册一个集群"
 [sidebar_integrations]
 other = "插件和集成"
 
+[sidebar_developer-guides]
+other = "开发指南"
+
+[sidebar_addon-developer-guide]
+other = "Add-on 开发指南"
+
 [sidebar_administration]
 other = "运维管理"
 
 [sidebar_administration_upgrading]
 other = "升级版本"
+
+[sidebar_administration_monitoring]
+other = "监控"
 
 [sidebar_apps]
 other = "应用生命周期管理"
@@ -144,6 +147,9 @@ other = "多集群网络隧道"
 
 [sidebar_managed_serviceaccount]
 other = "托管多集群ServiceAccount"
+
+[sidebar_vscode_extension]
+other = "VScode插件"
 
 [sidebar_scenarios]
 other = "应用场景"
