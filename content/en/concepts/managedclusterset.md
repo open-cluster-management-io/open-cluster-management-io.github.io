@@ -11,15 +11,12 @@ weight: 2
 
 **API-CHANGE NOTE**:
 
-The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1alpha1 version will no longer be served in OCM v0.9.0.
+The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1beta1 version will no longer be served in OCM v0.12.0.
 
-The `ManagedClusterSet` and `ManagedClusterSetBinding` API v1beta1 version will be deprecated in OCM v0.9.0.
-
-For Hosted Mode, The `ManagedClusterSet` and `ManagedClusterSetBinding` API only support v1beta1 in OCM v0.9.0.
-
-- Migrate manifests and API clients to use the `ManagedClusterSet` and `PlacementDecision` API v1beta1 version, available since OCM v0.5.0.
+- Migrate manifests and API clients to use the `ManagedClusterSet` and `ManagedClusterSetBinding` API v1beta2 version, available since OCM v0.9.0.
 - All existing persisted objects are accessible via the new API.
-- No notable changes.
+- Notable changes:
+  - The default cluster selector type will be `ExclusiveClusterSetLabel` in v1beta2, and type `LegacyClusterSetLabel` in v1beta1 is removed.
 
 ## What is ManagedClusterSet?
 
