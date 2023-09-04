@@ -284,13 +284,15 @@
 
 <!-- spellchecker-enable -->
 <p><strong>API-CHANGE NOTE</strong>:</p>
-<p>The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1alpha1 version will no longer be served in OCM v0.9.0.</p>
-<p>The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1beta1 version will be deprecated in OCM v0.9.0.</p>
-<p>For Hosted Mode, The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API only support v1beta1 in OCM v0.9.0.</p>
+<p>The <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1beta1 version will no longer be served in OCM v0.12.0.</p>
 <ul>
-<li>Migrate manifests and API clients to use the <code>ManagedClusterSet</code> and <code>PlacementDecision</code> API v1beta1 version, available since OCM v0.5.0.</li>
+<li>Migrate manifests and API clients to use the <code>ManagedClusterSet</code> and <code>ManagedClusterSetBinding</code> API v1beta2 version, available since OCM v0.9.0.</li>
 <li>All existing persisted objects are accessible via the new API.</li>
-<li>No notable changes.</li>
+<li>Notable changes:
+<ul>
+<li>The default cluster selector type will be <code>ExclusiveClusterSetLabel</code> in v1beta2, and type <code>LegacyClusterSetLabel</code> in v1beta1 is removed.</li>
+</ul>
+</li>
 </ul>
 <h2 id="what-is-managedclusterset">What is ManagedClusterSet?</h2>
 <p><code>ManagedClusterSet</code> is a cluster-scoped API in the hub cluster for grouping a
