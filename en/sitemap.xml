@@ -78,6 +78,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/concepts/multicluster-controlplane</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/getting-started/installation/register-a-cluster</loc>
     </url>
     

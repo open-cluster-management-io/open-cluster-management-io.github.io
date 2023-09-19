@@ -168,6 +168,15 @@ The ManagedClusterSet and ManagedClusterSetBinding API v1beta1 version will no l
     </item>
     
     <item>
+      <title>Multicluster Control Plane</title>
+      <link>https://open-cluster-management.io/concepts/multicluster-controlplane/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/concepts/multicluster-controlplane/</guid>
+      <description>What is Multicluster Control Plane Why use Multicluster Control Plane How to use Multicluster Control Plane  Start the standalone multicluster control plane Install via clusteradm  Install clusteradm CLI tool Install multicluster control plane   Join a cluster to the multicluster control plane Verify the cluster join       What is Multicluster Control Plane The multicluster control plane is a lightweight Open Cluster Manager (OCM) control plane that is easy to install and has a small footprint.</description>
+    </item>
+    
+    <item>
       <title>Register a cluster</title>
       <link>https://open-cluster-management.io/getting-started/installation/register-a-cluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
