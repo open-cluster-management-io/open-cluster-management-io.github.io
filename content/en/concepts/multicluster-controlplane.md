@@ -35,25 +35,32 @@ Once the control plane is running, you can access the control plane by using `ku
 
 You can customize the control plane configurations by creating a config file and using the environment variable `CONFIG_DIR` to specify your config file directory. Please check [here](https://github.com/open-cluster-management-io/multicluster-controlplane#run-controlplane-as-a-local-binary) for details.
 
-### Install via Helm chart
+### Install via clusteradm
 
-We provide to use Helm chart to deploy the multicluster control plane in your kubernetes environment. 
+#### Install clusteradm CLI tool
+
+It's recommended to run the following command to download and install **the
+latest release** of the `clusteradm` command-line tool:
+
+```shell
+curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+```
+#### Install multicluster control plane
+
+You can use `clusteradm init` to deploy the multicluster control plane in your kubernetes environment.
 
 1. Set the environment variable KUBECONFIG to your cluster kubeconfig path. For instance, create a new KinD cluster and deploy multicluster control plane in it.
 
 ```Shell
 export KUBECONFIG=/tmp/kind-controlplane.kubeconfig
 kind create cluster --name multicluster-controlplane
-export mc_cp_node_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' multicluster-controlplane-control-plane)
+export mc_cp_node_ip=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
 ```
 
 2. Run following command to deploy a control plane
 
 ```Shell
-helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
-helm repo update
-helm search repo ocm
-helm install -n multicluster-controlplane multicluster-controlplane ocm/multicluster-controlplane --create-namespace --set route.enabled=false --set nodeport.enabled=true --set nodeport.port=30443 --set apiserver.externalHostname=$mc_cp_node_ip --set apiserver.externalPort=30443
+clusteradm init --singleton=true --set route.enabled=false --set nodeport.enabled=true --set nodeport.port=30443 --set apiserver.externalHostname=$mc_cp_node_ip --set apiserver.externalPort=30443 --singleton-name multicluster-controlplane
 ```
 Refer to [here](https://github.com/open-cluster-management-io/multicluster-controlplane#use-helm-to-deploy-controlplane-in-a-cluster) for how to customize the control plane configurations.
 
@@ -63,25 +70,22 @@ Refer to [here](https://github.com/open-cluster-management-io/multicluster-contr
 kubectl -n multicluster-controlplane get secrets multicluster-controlplane-kubeconfig -ojsonpath='{.data.kubeconfig}' | base64 -d > /tmp/multicluster-controlplane.kubeconfig
 ```
 
-### Join a cluster
+### Join a cluster to the multicluster control plane
 
-You can use `clusteradm` to join a cluster. Ensure `clusteradm` CLI tool is installed. Download and extract the [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
-
-For instance, take the KinD cluster as an example, run the following command to join the cluster to the control plane:
+You can use `clusteradm` to join a cluster. For instance, take the KinD cluster as an example, run the following command to join the cluster to the control plane:
 
 ```Shell
 kind create cluster --name cluster1 --kubeconfig /tmp/kind-cluster1.kubeconfig
 clusteradm --kubeconfig=/tmp/multicluster-controlplane.kubeconfig get token --use-bootstrap-token
-clusteradm --kubeconfig /tmp/kind-cluster1.kubeconfig join --hub-token <controlplane token> --hub-apiserver https://$mc_cp_node_ip:30443/ --cluster-name cluster1
+clusteradm --singleton=true --kubeconfig /tmp/kind-cluster1.kubeconfig join --hub-token <controlplane token> --hub-apiserver https://$mc_cp_node_ip:30443/ --cluster-name cluster1
 clusteradm --kubeconfig=/tmp/multicluster-controlplane.kubeconfig accept --clusters cluster1
 ```
-Note: clusteradm version should be v0.4.1 or later
 
 ### Verify the cluster join
 Run this command to verify the cluster join:
 ```Shell
-kubeconfig --kubeconfig=/tmp/multicluster-controlplane.kubeconfig get mcl
+kubectl --kubeconfig=/tmp/multicluster-controlplane.kubeconfig get managedcluster
 NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
 cluster1   true           https://cluster1-control-plane:6443   True     True        5m25s
 ```
-You should see the managedcluster is joined to the multicluster control plane. Congratulation!
+You should see the managedcluster joins to the multicluster control plane. Congratulation!
