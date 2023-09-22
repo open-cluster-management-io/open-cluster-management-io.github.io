@@ -135,7 +135,7 @@ The following example shows how to tolerate clusters with taints.
     apiVersion: cluster.open-cluster-management.io/v1beta1
     kind: Placement
     metadata:
-      name: placement
+      name: placement1
       namespace: ns1
     spec:
       tolerations:
@@ -173,7 +173,7 @@ The following example shows how to tolerate clusters with taints.
     apiVersion: cluster.open-cluster-management.io/v1alpha1
     kind: Placement
     metadata:
-      name: placement
+      name: placement1
       namespace: ns1
     spec:
       tolerations:
@@ -218,7 +218,7 @@ The following example shows how to select clusters with prioritizers.
     apiVersion: cluster.open-cluster-management.io/v1beta1
     kind: Placement
     metadata:
-      name: placement
+      name: placement1
       namespace: ns1
     spec:
       numberOfClusters: 1
@@ -240,7 +240,7 @@ The following example shows how to select clusters with prioritizers.
     apiVersion: cluster.open-cluster-management.io/v1beta1
     kind: Placement
     metadata:
-      name: placement
+      name: placement1
       namespace: ns1
     spec:
       numberOfClusters: 1
@@ -270,7 +270,7 @@ The following example shows how to select clusters with prioritizers.
   apiVersion: cluster.open-cluster-management.io/v1beta1
   kind: Placement
   metadata:
-    name: placement
+    name: placement1
     namespace: ns1
   spec:
     numberOfClusters: 2
@@ -387,6 +387,106 @@ object" issue from the underlying Kubernetes API framework.
 
 `PlacementDecision` can be consumed by another operand to decide how the
 workload should be placed in multiple clusters.
+
+### Decision strategy
+
+The `decisionStrategy` section of `Placement` can be used to divide the created 
+`PlacementDecision` into groups and define the number of clusters per decision group.
+
+Assume an environment has 310 clusters, 10 of which have the label prod-canary-west 
+and 10 have the label prod-canary-east. The following example demonstrates how to group 
+the clusters with the labels prod-canary-west and prod-canary-east into 2 groups, and 
+group the remaining clusters into groups with a maximum of 150 clusters each.
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: placement1
+  namespace: default
+spec:
+  clusterSets:
+    - global
+  decisionStrategy:
+    groupStrategy:
+      clustersPerDecisionGroup: 150
+      decisionGroups:
+      - groupName: prod-canary-west
+        groupClusterSelector:
+          labelSelector:
+            matchExpressions:
+              - key: prod-canary-west
+                operator: Exists
+      - groupName: prod-canary-east
+        groupClusterSelector:
+          labelSelector:
+            matchExpressions:
+              - key: prod-canary-east
+                operator: Exists
+```
+
+The `decisionStrategy` section includes the following fields:
+- `decisionGroups`: Represents a list of predefined groups to put decision results.
+  Decision groups will be constructed based on the `decisionGroups` field at first. 
+  The clusters not included in the `decisionGroups` will be divided to other decision 
+  groups afterwards. Each decision group should not have the number of clusters 
+  larger than the `clustersPerDecisionGroup`.
+  - `groupName`: Represents the name to be added as the value of label key `cluster.open-cluster-management.io/decision-group-name`
+    of created `PlacementDecisions`.
+  - `groupClusterSelector`: Defines the label selector to select clusters subset by label.
+- `clustersPerDecisionGroup`: A specific number or percentage of the total selected 
+  clusters. The specific number will divide the placementDecisions to decisionGroups,
+ the max number of clusters in each group equal to that specific number.
+
+With this decision strategy defined, the placement status will list the group result, 
+including the decision group name and index, the cluster count, and the corresponding 
+`PlacementDecision` names.
+
+```yaml
+status:
+...
+  decisionGroups:
+  - clusterCount: 10
+    decisionGroupIndex: 0
+    decisionGroupName: prod-canary-west
+    decisions:
+    - placement1-decision-1
+  - clusterCount: 10
+    decisionGroupIndex: 1
+    decisionGroupName: prod-canary-east
+    decisions:
+    - placement1-decision-2
+  - clusterCount: 150
+    decisionGroupIndex: 2
+    decisionGroupName: ""
+    decisions:
+    - placement1-decision-3
+    - placement1-decision-4
+  - clusterCount: 140
+    decisionGroupIndex: 3
+    decisionGroupName: ""
+    decisions:
+    - placement1-decision-5
+    - placement1-decision-6
+  numberOfSelectedClusters: 310
+```
+
+The `PlacementDecision` will have labels `cluster.open-cluster-management.io/decision-group-name` 
+and `cluster.open-cluster-management.io/decision-group-index` to indicate which group name 
+and group index it belongs to.
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: PlacementDecision
+metadata:
+  labels:
+    cluster.open-cluster-management.io/placement: placement1
+    cluster.open-cluster-management.io/decision-group-index: "0"
+    cluster.open-cluster-management.io/decision-group-name: prod-canary-west
+  name: placement1-decision-1
+  namespace: default
+...
+```
 
 ## Troubleshooting
 If no `PlacementDecision` generated after you creating `Placement`, you can run below commands to troubleshoot.
