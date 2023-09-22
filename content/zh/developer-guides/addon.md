@@ -1076,21 +1076,19 @@ Enhancement proposal: [Add-on Template](https://github.com/open-cluster-manageme
          kubeClient:
            hubPermissions:
              - type: CurrentCluster
-               roleRef:
-                 apiGroup: rbac.authorization.k8s.io
-                 kind: ClusterRole
-                 name: cm-admin # should be created by user
+               currentCluster:
+                 clusterRoleName: cm-admin # should be created by user
              - type: SingleNamespace
-               roleRef:
-                 apiGroup: rbac.authorization.k8s.io
-                 kind: Role
-                 # should be created by user; the addon manager will grant the permission to the agent, so if the
-                 # role/clusterRole contains some permissions that the addon manager doesn't have, user needs to grant
-                 # the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),
-                 # otherwise the addon manager will fail to grant the permission to the agent
-                 name: cm-reader
                singleNamespace:
                  namespace: open-cluster-management
+                 roleRef:
+                   apiGroup: rbac.authorization.k8s.io
+                   kind: Role
+                   # should be created by user; the addon manager will grant the permission to the agent, so if the
+                   # role/clusterRole contains some permissions that the addon manager doesn't have, user needs to grant
+                   # the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),
+                   # otherwise the addon manager will fail to grant the permission to the agent
+                   name: cm-reader
        - type: CustomSigner
          # addon-manager only generates the credential for the agent to authenticate to the hub cluster, not responsible
          # for the authroization which should be taken care of by the user
