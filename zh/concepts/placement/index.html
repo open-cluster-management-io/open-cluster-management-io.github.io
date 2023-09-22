@@ -276,7 +276,11 @@
             </li>
           </ul>
         </li>
-        <li><a href="#placementdecisions">PlacementDecisions</a></li>
+        <li><a href="#placementdecisions">PlacementDecisions</a>
+          <ul>
+            <li><a href="#decision-strategy">Decision strategy</a></li>
+          </ul>
+        </li>
         <li><a href="#troubleshooting">Troubleshooting</a>
           <ul>
             <li><a href="#check-the-placement-conditions">Check the <code>Placement</code> conditions</a></li>
@@ -391,7 +395,7 @@ ManagedClusters with matching taints.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">name</span>: placement1
   <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">tolerations</span>:
@@ -422,7 +426,7 @@ be transferred to another available managed cluster after 5 minutes.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">name</span>: placement1
   <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">tolerations</span>:
@@ -467,7 +471,7 @@ time or <code>TolerationSeconds</code> added time.</li>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">name</span>: placement1
   <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
@@ -484,7 +488,7 @@ time or <code>TolerationSeconds</code> added time.</li>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">name</span>: placement1
   <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
@@ -509,7 +513,7 @@ weight, they will be weighted more in the results, and make placement sensitive 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
 <span style="color:#66d9ef">kind</span>: Placement
 <span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement
+  <span style="color:#66d9ef">name</span>: placement1
   <span style="color:#66d9ef">namespace</span>: ns1
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">2</span>
@@ -635,7 +639,97 @@ be paginated with its page index as the name&rsquo;s suffix to avoid &ldquo;too 
 object&rdquo; issue from the underlying Kubernetes API framework.</p>
 <p><code>PlacementDecision</code> can be consumed by another operand to decide how the
 workload should be placed in multiple clusters.</p>
-<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="decision-strategy">Decision strategy</h3>
+<p>The <code>decisionStrategy</code> section of <code>Placement</code> can be used to divide the created
+<code>PlacementDecision</code> into groups and define the number of clusters per decision group.</p>
+<p>Assume an environment has 310 clusters, 10 of which have the label prod-canary-west
+and 10 have the label prod-canary-east. The following example demonstrates how to group
+the clusters with the labels prod-canary-west and prod-canary-east into 2 groups, and
+group the remaining clusters into groups with a maximum of 150 clusters each.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: placement1
+  <span style="color:#66d9ef">namespace</span>: default
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">clusterSets</span>:
+    - global
+  <span style="color:#66d9ef">decisionStrategy</span>:
+    <span style="color:#66d9ef">groupStrategy</span>:
+      <span style="color:#66d9ef">clustersPerDecisionGroup</span>: <span style="color:#ae81ff">150</span>
+      <span style="color:#66d9ef">decisionGroups</span>:
+      - <span style="color:#66d9ef">groupName</span>: prod-canary-west
+        <span style="color:#66d9ef">groupClusterSelector</span>:
+          <span style="color:#66d9ef">labelSelector</span>:
+            <span style="color:#66d9ef">matchExpressions</span>:
+              - <span style="color:#66d9ef">key</span>: prod-canary-west
+                <span style="color:#66d9ef">operator</span>: Exists
+      - <span style="color:#66d9ef">groupName</span>: prod-canary-east
+        <span style="color:#66d9ef">groupClusterSelector</span>:
+          <span style="color:#66d9ef">labelSelector</span>:
+            <span style="color:#66d9ef">matchExpressions</span>:
+              - <span style="color:#66d9ef">key</span>: prod-canary-east
+                <span style="color:#66d9ef">operator</span>: Exists
+</code></pre></div><p>The <code>decisionStrategy</code> section includes the following fields:</p>
+<ul>
+<li><code>decisionGroups</code>: Represents a list of predefined groups to put decision results.
+Decision groups will be constructed based on the <code>decisionGroups</code> field at first.
+The clusters not included in the <code>decisionGroups</code> will be divided to other decision
+groups afterwards. Each decision group should not have the number of clusters
+larger than the <code>clustersPerDecisionGroup</code>.
+<ul>
+<li><code>groupName</code>: Represents the name to be added as the value of label key <code>cluster.open-cluster-management.io/decision-group-name</code>
+of created <code>PlacementDecisions</code>.</li>
+<li><code>groupClusterSelector</code>: Defines the label selector to select clusters subset by label.</li>
+</ul>
+</li>
+<li><code>clustersPerDecisionGroup</code>: A specific number or percentage of the total selected
+clusters. The specific number will divide the placementDecisions to decisionGroups,
+the max number of clusters in each group equal to that specific number.</li>
+</ul>
+<p>With this decision strategy defined, the placement status will list the group result,
+including the decision group name and index, the cluster count, and the corresponding
+<code>PlacementDecision</code> names.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">status</span>:
+...
+  <span style="color:#66d9ef">decisionGroups</span>:
+  - <span style="color:#66d9ef">clusterCount</span>: <span style="color:#ae81ff">10</span>
+    <span style="color:#66d9ef">decisionGroupIndex</span>: <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">decisionGroupName</span>: prod-canary-west
+    <span style="color:#66d9ef">decisions</span>:
+    - placement1-decision<span style="color:#ae81ff">-1</span>
+  - <span style="color:#66d9ef">clusterCount</span>: <span style="color:#ae81ff">10</span>
+    <span style="color:#66d9ef">decisionGroupIndex</span>: <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">decisionGroupName</span>: prod-canary-east
+    <span style="color:#66d9ef">decisions</span>:
+    - placement1-decision<span style="color:#ae81ff">-2</span>
+  - <span style="color:#66d9ef">clusterCount</span>: <span style="color:#ae81ff">150</span>
+    <span style="color:#66d9ef">decisionGroupIndex</span>: <span style="color:#ae81ff">2</span>
+    <span style="color:#66d9ef">decisionGroupName</span>: <span style="color:#e6db74">&#34;&#34;</span>
+    <span style="color:#66d9ef">decisions</span>:
+    - placement1-decision<span style="color:#ae81ff">-3</span>
+    - placement1-decision<span style="color:#ae81ff">-4</span>
+  - <span style="color:#66d9ef">clusterCount</span>: <span style="color:#ae81ff">140</span>
+    <span style="color:#66d9ef">decisionGroupIndex</span>: <span style="color:#ae81ff">3</span>
+    <span style="color:#66d9ef">decisionGroupName</span>: <span style="color:#e6db74">&#34;&#34;</span>
+    <span style="color:#66d9ef">decisions</span>:
+    - placement1-decision<span style="color:#ae81ff">-5</span>
+    - placement1-decision<span style="color:#ae81ff">-6</span>
+  <span style="color:#66d9ef">numberOfSelectedClusters</span>: <span style="color:#ae81ff">310</span>
+</code></pre></div><p>The <code>PlacementDecision</code> will have labels <code>cluster.open-cluster-management.io/decision-group-name</code>
+and <code>cluster.open-cluster-management.io/decision-group-index</code> to indicate which group name
+and group index it belongs to.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: PlacementDecision
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">labels</span>:
+    <span style="color:#66d9ef">cluster.open-cluster-management.io/placement</span>: placement1
+    <span style="color:#66d9ef">cluster.open-cluster-management.io/decision-group-index</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+    <span style="color:#66d9ef">cluster.open-cluster-management.io/decision-group-name</span>: prod-canary-west
+  <span style="color:#66d9ef">name</span>: placement1-decision<span style="color:#ae81ff">-1</span>
+  <span style="color:#66d9ef">namespace</span>: default
+...
+</code></pre></div><h2 id="troubleshooting">Troubleshooting</h2>
 <p>If no <code>PlacementDecision</code> generated after you creating <code>Placement</code>, you can run below commands to troubleshoot.</p>
 <h3 id="check-the-placement-conditions">Check the <code>Placement</code> conditions</h3>
 <p>For example:</p>
