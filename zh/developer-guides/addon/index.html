@@ -1143,21 +1143,19 @@ namespace on the hub cluster(KubeClient type registration, SingleNamespace)</li>
       <span style="color:#66d9ef">kubeClient</span>:
         <span style="color:#66d9ef">hubPermissions</span>:
           - <span style="color:#66d9ef">type</span>: CurrentCluster
-            <span style="color:#66d9ef">roleRef</span>:
-              <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-              <span style="color:#66d9ef">kind</span>: ClusterRole
-              <span style="color:#66d9ef">name</span>: cm-admin <span style="color:#75715e"># should be created by user</span>
+            <span style="color:#66d9ef">currentCluster</span>:
+              <span style="color:#66d9ef">clusterRoleName</span>: cm-admin <span style="color:#75715e"># should be created by user</span>
           - <span style="color:#66d9ef">type</span>: SingleNamespace
-            <span style="color:#66d9ef">roleRef</span>:
-              <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-              <span style="color:#66d9ef">kind</span>: Role
-              <span style="color:#75715e"># should be created by user; the addon manager will grant the permission to the agent, so if the</span>
-              <span style="color:#75715e"># role/clusterRole contains some permissions that the addon manager doesn&#39;t have, user needs to grant</span>
-              <span style="color:#75715e"># the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),</span>
-              <span style="color:#75715e"># otherwise the addon manager will fail to grant the permission to the agent</span>
-              <span style="color:#66d9ef">name</span>: cm-reader
             <span style="color:#66d9ef">singleNamespace</span>:
               <span style="color:#66d9ef">namespace</span>: open-cluster-management
+              <span style="color:#66d9ef">roleRef</span>:
+                <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
+                <span style="color:#66d9ef">kind</span>: Role
+                <span style="color:#75715e"># should be created by user; the addon manager will grant the permission to the agent, so if the</span>
+                <span style="color:#75715e"># role/clusterRole contains some permissions that the addon manager doesn&#39;t have, user needs to grant</span>
+                <span style="color:#75715e"># the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),</span>
+                <span style="color:#75715e"># otherwise the addon manager will fail to grant the permission to the agent</span>
+                <span style="color:#66d9ef">name</span>: cm-reader
     - <span style="color:#66d9ef">type</span>: CustomSigner
       <span style="color:#75715e"># addon-manager only generates the credential for the agent to authenticate to the hub cluster, not responsible</span>
       <span style="color:#75715e"># for the authroization which should be taken care of by the user</span>
