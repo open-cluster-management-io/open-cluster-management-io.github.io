@@ -3,6 +3,10 @@ title: 博客
 weight: 6
 
 ---
+### [以GitOps方式应对多集群工具链的升级挑战]({{< ref "/blog/addon-rollout" >}})
+- Authors: [郝青](https://github.com/haoqing0110)
+- Date: 2023年10月27日
+---
 ### [详解OCM add-on插件](/zh/blog/addon-introduction/)
 - Authors: [殷智伟](https://github.com/zhiweiyin318)
 - Date: 2023年5月24日
