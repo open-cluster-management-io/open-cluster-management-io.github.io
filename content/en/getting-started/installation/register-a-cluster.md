@@ -75,6 +75,50 @@ up the external client.
 {{% /tab %}}
 {{< /tabs >}}
 
+### Bootstrap a klusterlet in hosted mode(Optional)
+
+Using the above command, the klusterlet components(registration-agent and work-agent) will be deployed on the managed
+cluster, it is mandatory to expose the hub cluster to the managed cluster. We provide an option for running the
+klusterlet components outside the managed cluster, for example, on the hub cluster(hosted mode).
+
+The hosted mode deploying is till in experimental stage, consider to use it only when:
+
+- want to reduce the footprints of the managed cluster.
+- do not want to expose the hub cluster to the managed cluster directly
+
+In hosted mode, the cluster where the klusterlet is running is called the hosting cluster. Running the following command
+to the hosting cluster to register the managed cluster to the hub.
+
+{{< tabs name="clusteradm join" >}}{{% tab name="kind" %}}
+  ```shell
+  # NOTE for KinD clusters:
+  #  1. hub is KinD, use the parameter: --force-internal-endpoint-lookup
+  #  2. managed is Kind, --managed-cluster-kubeconfig should be internal: `kind get kubeconfig --name managed --internal`
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \    # Or other arbitrary unique name
+      --mode hosted \
+      --managed-cluster-kubeconfig <your managed cluster kubeconfig> \    # Should be an internal kubeconfig
+      --force-internal-endpoint-lookup \
+      --context <your hosting cluster context>
+  ```
+{{% /tab %}}
+{{% tab name="k3s, openshift 4.X" %}}
+  ```shell
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \    # Or other arbitrary unique name
+      --mode hosted \
+      --managed-cluster-kubeconfig <your managed cluster kubeconfig> \
+      --context <your hosting cluster context>
+  ```
+{{% /tab %}}
+{{< /tabs >}}
+
 ## Accept the join request and verify
 
 After the OCM agent is running on your managed cluster, it will be sending a "handshake" to your
