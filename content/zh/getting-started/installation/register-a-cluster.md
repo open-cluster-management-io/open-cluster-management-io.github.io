@@ -119,6 +119,41 @@ to the hosting cluster to register the managed cluster to the hub.
 {{% /tab %}}
 {{< /tabs >}}
 
+### Bootstrap a klusterlet in singleton mode
+
+To reduce the footprint of agent in the managed cluster, singleton mode is introduced since `v0.12.0`.
+In the singleton mode, the work and registration agent will be run as a single pod in the managed
+cluster.
+
+**Note:** to run klusterlet in singleton mode, you must have a clusteradm version equal or higher than
+`v0.12.0`
+
+{{< tabs name="clusteradm join" >}}{{% tab name="kind" %}}
+  ```shell
+  # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \    # Or other arbitrary unique name
+      --singleton \
+      --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab name="k3s, openshift 4.X" %}}
+  ```shell
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \   # Or other arbitrary unique name
+      --singleton \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{< /tabs >}}
+
 ## Accept the join request and verify
 
 After the OCM agent is running on your managed cluster, it will be sending a "handshake" to your
