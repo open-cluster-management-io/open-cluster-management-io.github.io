@@ -261,6 +261,7 @@
         <li><a href="#bootstrap-a-klusterlet">Bootstrap a klusterlet</a>
           <ul>
             <li><a href="#bootstrap-a-klusterlet-in-hosted-modeoptional">Bootstrap a klusterlet in hosted mode(Optional)</a></li>
+            <li><a href="#bootstrap-a-klusterlet-in-singleton-mode">Bootstrap a klusterlet in singleton mode</a></li>
           </ul>
         </li>
         <li><a href="#accept-the-join-request-and-verify">Accept the join request and verify</a></li>
@@ -369,6 +370,42 @@ clusteradm join <span style="color:#ae81ff">\
     --mode hosted <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --managed-cluster-kubeconfig &lt;your managed cluster kubeconfig&gt; <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --context &lt;your hosting cluster context&gt;
+</code></pre></div></div></div>
+
+<h3 id="bootstrap-a-klusterlet-in-singleton-mode">Bootstrap a klusterlet in singleton mode</h3>
+<p>To reduce the footprint of agent in the managed cluster, singleton mode is introduced since <code>v0.12.0</code>.
+In the singleton mode, the work and registration agent will be run as a single pod in the managed
+cluster.</p>
+<p><strong>Note:</strong> to run klusterlet in singleton mode, you must have a clusteradm version equal or higher than
+<code>v0.12.0</code></p>
+<ul class="nav nav-tabs" id="clusteradm-join" role="tablist"><li class="nav-item">
+			<button data-bs-toggle="tab" data-bs-target="#clusteradm-join-0" class="nav-link active" id="clusteradm-join-0-tab" role="tab" aria-controls="clusteradm-join-0" aria-selected="true">kind</button>
+		</li>
+	  
+		<li class="nav-item">
+			<button data-bs-toggle="tab" data-bs-target="#clusteradm-join-1" class="nav-link" id="clusteradm-join-1-tab" role="tab" aria-controls="clusteradm-join-1">k3s, openshift 4.X</button>
+		</li></ul>
+<div class="tab-content" id="clusteradm-join"><div id="clusteradm-join-0" class="tab-pane fade show active" role="tabpanel" aria-labelledby="clusteradm-join-0-tab">
+
+<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
+clusteradm join <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
+    --singleton <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</code></pre></div></div>
+  <div id="clusteradm-join-1" class="tab-pane fade" role="tabpanel" aria-labelledby="clusteradm-join-1-tab">
+
+<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm join <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>  <span style="color:#75715e"># Or other arbitrary unique name</span>
+    --singleton <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
 </code></pre></div></div></div>
 
 <h2 id="accept-the-join-request-and-verify">Accept the join request and verify</h2>
