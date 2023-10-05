@@ -366,7 +366,7 @@ API</strong> section based on which placement API you desire to use.</p>
 kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 
 <span style="color:#75715e"># Apply the example policy and placement</span>
-kubectl apply -n default -f https://raw.githubusercontent.com/stolostron/policy-collection/main/community/CM-Configuration-Management/policy-pod-placement.yaml
+kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management-io/policy-collection/main/community/CM-Configuration-Management/policy-pod-placement.yaml
 </code></pre></div></li>
 <li>
 <p>Update the <code>Placement</code> to distribute the policy to the managed cluster with the following command (this
@@ -399,7 +399,7 @@ status:
 kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
 
 <span style="color:#75715e"># Apply the example policy and placement rule</span>
-kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
+kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management-io/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
 </code></pre></div></li>
 <li>
 <p>Update the <code>PlacementRule</code> to distribute the policy to the managed cluster with the following command (this
