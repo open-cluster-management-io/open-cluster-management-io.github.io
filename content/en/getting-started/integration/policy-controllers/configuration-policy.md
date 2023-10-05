@@ -107,7 +107,7 @@ For more information on how to use a `ConfigurationPolicy`, read the
    kubectl config use-context ${CTX_HUB_CLUSTER}
 
    # Apply the example policy and placement
-   kubectl apply -n default -f https://raw.githubusercontent.com/stolostron/policy-collection/main/community/CM-Configuration-Management/policy-pod-placement.yaml
+   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management-io/policy-collection/main/community/CM-Configuration-Management/policy-pod-placement.yaml
    ```
 
 2. Update the `Placement` to distribute the policy to the managed cluster with the following command (this
@@ -145,7 +145,7 @@ For more information on how to use a `ConfigurationPolicy`, read the
    kubectl config use-context ${CTX_HUB_CLUSTER}
 
    # Apply the example policy and placement rule
-   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
+   kubectl apply -n default -f https://raw.githubusercontent.com/open-cluster-management-io/policy-collection/main/stable/CM-Configuration-Management/policy-pod.yaml
    ```
 
 2. Update the `PlacementRule` to distribute the policy to the managed cluster with the following command (this
