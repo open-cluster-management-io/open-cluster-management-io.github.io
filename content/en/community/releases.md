@@ -3,7 +3,31 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.11.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.12.0`.
+Continue reading to view upcoming releases:
+
+## `0.12.0`, 11, Oct. 2023
+
+The Open Cluster Management team is proud to announce the release of OCM v0.12.0! We have made architecture refactor and several features in
+thie release
+
+- Compoenent consolidation: we made a big code refactor to merge code in regstraiton, work, placement and registration-operator in to the `ocm` repo.
+  The original separeted code repos are currently used for maintain old release only. This code consolidation allows us to build more robust e2e tests, and build a single
+  agent binary to reduce the footprint in managed cluster.
+- Addon Template API: A new `addontemplate` API is introduced to ease the development of addons. User will not need to write code and run an addon-manager
+  controller on the hub cluster. Instead, they only need to define the `addontemplate` API to create an addon. `clusteradm` also has a new command line
+  `clusteradm addon create ...` to create an addon from resource manifests files. See more details about `addontemplate` 
+  [here](https://open-cluster-management.io/developer-guides/addon/#build-an-addon-with-addon-template)
+- Singleton agent mode: user can now choose to start agent as a single pod using the `Singleton` mode in the klusterlet.
+- ManagedClusterSet/ManagedClusterSetBinding v1beta1 API is removed.
+
+### Core components
+- ocm v0.12.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.12.0)
+- clusteradm  v0.7.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.6.0/CHANGELOG.md)
+
+### Addons
+TBD
+
 ## `0.11.0`, 1, June 2023
 
 The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
