@@ -9,9 +9,9 @@ Continue reading to view upcoming releases:
 ## `0.12.0`, 11 Oct. 2023
 
 The Open Cluster Management team is proud to announce the release of OCM v0.12.0! We have made architecture refactors and added several features in
-thie release:
+this release:
 
-- Component consolidation: we made a big code refactor to merge code in registraton, work, placement and registration-operator into the [ocm](https://github.com/open-cluster-management-io/ocm) repo.
+- Component consolidation: we made a big code refactor to merge code in registration, work, placement and registration-operator into the [ocm](https://github.com/open-cluster-management-io/ocm) repo.
   The original separated code repos are currently used for maintaining old releases only. This code consolidation allows us to build more robust e2e tests, and build a single
   agent binary to reduce the footprint in managed clusters.
 - Addon Template API: A new `addontemplate` API is introduced to ease the development of addons. Users will not need to write code and run an addon-manager
@@ -38,6 +38,7 @@ thie release:
 - multicloud-operators-subscription v0.12.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.12.0)
 - multicloud-operators-channel v0.12.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.12.0)
 - multicloud-integrations v0.12.0 [changelog](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.12.0)
+- managed-serviceaccount v0.4.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.4.0)
 
 ## `0.11.0`, 1, June 2023
 
