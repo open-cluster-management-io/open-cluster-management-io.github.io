@@ -3,7 +3,42 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.11.0`. Continue reading to view upcoming releases:
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.12.0`.
+Continue reading to view upcoming releases:
+
+## `0.12.0`, 11 Oct. 2023
+
+The Open Cluster Management team is proud to announce the release of OCM v0.12.0! We have made architecture refactors and added several features in
+thie release:
+
+- Component consolidation: we made a big code refactor to merge code in registraton, work, placement and registration-operator into the [ocm](https://github.com/open-cluster-management-io/ocm) repo.
+  The original separated code repos are currently used for maintaining old releases only. This code consolidation allows us to build more robust e2e tests, and build a single
+  agent binary to reduce the footprint in managed clusters.
+- Addon Template API: A new `addontemplate` API is introduced to ease the development of addons. Users will not need to write code and run an addon-manager
+  controller on the hub cluster. Instead, they only need to define the `addontemplate` API to create an addon. `clusteradm` also has a new command
+  `clusteradm addon create ...` to create an addon from resource manifests files. See more details about `addontemplate` in the
+  [addon documentation](https://open-cluster-management.io/developer-guides/addon/#build-an-addon-with-addon-template).
+- Singleton agent mode: users can now choose to start the agent as a single pod using the `Singleton` mode in the klusterlet.
+- ManagedClusterSet/ManagedClusterSetBinding v1beta1 API is removed.
+- `ConfigurationPolicy`: Add the `informOnly` option to `remediationAction` in `ConfigurationPolicy`, signaling that the remediation action set
+  on the `Policy` should not override the `ConfigurationPolicy`'s remediation action.
+- Policy framework: Security, performance, and stability improvements in controllers on both the hub and managed clusters.
+- `ClusterPermission`: New custom resource that enables administrators to automatically distribute RBAC resources to managed
+  clusters and manage the lifecycle of those resources. See the [ClusterPermission repo](https://github.com/open-cluster-management-io/cluster-permission) for more details.
+
+### Core components
+- ocm v0.12.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.12.0)
+- clusteradm  v0.7.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.6.0/CHANGELOG.md)
+
+### Addons
+- config-policy-controller v0.12.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.12.0)
+- governance-policy-framework-addon v0.12.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.12.0)
+- governance-policy-propagator v0.12.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.12.0)
+- governance-policy-addon-controller v0.12.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.12.0)
+- multicloud-operators-subscription v0.12.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.12.0)
+- multicloud-operators-channel v0.12.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.12.0)
+- multicloud-integrations v0.12.0 [changelog](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.12.0)
+
 ## `0.11.0`, 1, June 2023
 
 The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
