@@ -15,9 +15,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/community/releases/</guid>
-      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.11.0. Continue reading to view upcoming releases:
-0.11.0, 1, June 2023 The Open Cluster Management team is proud to announce the release of OCM v0.11.0! There are a bunch of new features added into this release
- Addon install strategy and rolling upgrade: a new component addon-manager is introduced to handle the addon installation and upgrade.</description>
+      <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.12.0. Continue reading to view upcoming releases:
+0.12.0, 11 Oct. 2023 The Open Cluster Management team is proud to announce the release of OCM v0.12.0! We have made architecture refactors and added several features in this release:
+ Component consolidation: we made a big code refactor to merge code in registration, work, placement and registration-operator into the ocm repo.</description>
     </item>
     
     <item>
