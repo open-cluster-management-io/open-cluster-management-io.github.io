@@ -291,7 +291,7 @@ manifest will not be updated by it.
 Instead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also take the ownership
 of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
 
-# Permission setting for work agent
+## Permission setting for work agent
 
 All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
 following permission for the managed cluster:
@@ -310,10 +310,37 @@ permissions. There are several ways:
   - aggregate the new clusterRole for your to-be-applied resources to the existing `admin` clusterRole
   - OR create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
 - add permission on the hub cluster by another ManifestWork, the ManifestWork includes
-  - an aggregated clusterRole for your to-be-applied resources to the existing `admin` clusterRole
+  - an clusterRole with label `"open-cluster-management.io/aggregate-to-work": "true"` for your to-be-applied
+    resources, the rules defined in the clusterRole will be aggregated to the work agent(OCM version >= v0.12.0)
   - OR role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
 
 Below is an example use ManifestWork to give `klusterlet-work-sa` permission for resource `machines.cluster.x-k8s.io`
+
+- Option 1: Use aggregated clusterRole
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: permission-set
+spec:
+  workload:
+    manifests:
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRole
+        metadata:
+          name: open-cluster-management:klusterlet-work:my-role
+          labels:
+            open-cluster-management.io/aggregate-to-work: "true"  # with this label, the clusterRole will be selected to aggregate
+        rules:
+          # Allow agent to managed machines
+          - apiGroups: ["cluster.x-k8s.io"]
+            resources: ["machines"]
+            verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+```
+
+- Option 2: Use clusterRole and clusterRoleBinding
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
