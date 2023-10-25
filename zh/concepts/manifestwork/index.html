@@ -271,10 +271,7 @@
           </ul>
         </li>
         <li><a href="#resource-race-and-adoption">Resource Race and Adoption</a></li>
-      </ul>
-    </li>
-    <li><a href="#permission-setting-for-work-agent">Permission setting for work agent</a>
-      <ul>
+        <li><a href="#permission-setting-for-work-agent">Permission setting for work agent</a></li>
         <li><a href="#treating-defaultingimmutable-fields-in-api">Treating defaulting/immutable fields in API</a></li>
         <li><a href="#dynamic-identity-authorization">Dynamic identity authorization</a></li>
       </ul></nav><hr></div>
@@ -520,7 +517,7 @@ first <code>ManifestWork</code> is updated to add <code>replicas</code> field wi
 manifest will not be updated by it.</p>
 <p>Instead of create the second <code>ManifestWork</code>, user can also set HPA for this deployment. HPA will also take the ownership
 of <code>replicas</code>, and the update of <code>replicas</code> field in the first <code>ManifestWork</code> will return conflict condition.</p>
-<h1 id="permission-setting-for-work-agent">Permission setting for work agent</h1>
+<h2 id="permission-setting-for-work-agent">Permission setting for work agent</h2>
 <p>All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
 following permission for the managed cluster:</p>
 <ul>
@@ -543,12 +540,38 @@ permissions. There are several ways:</p>
 </li>
 <li>add permission on the hub cluster by another ManifestWork, the ManifestWork includes
 <ul>
-<li>an aggregated clusterRole for your to-be-applied resources to the existing <code>admin</code> clusterRole</li>
+<li>an clusterRole with label <code>&quot;open-cluster-management.io/aggregate-to-work&quot;: &quot;true&quot;</code> for your to-be-applied
+resources, the rules defined in the clusterRole will be aggregated to the work agent(OCM version &gt;= v0.12.0)</li>
 <li>OR role/clusterRole roleBinding/clusterRoleBinding for the <code>klusterlet-work-sa</code> service account</li>
 </ul>
 </li>
 </ul>
 <p>Below is an example use ManifestWork to give <code>klusterlet-work-sa</code> permission for resource <code>machines.cluster.x-k8s.io</code></p>
+<ul>
+<li>Option 1: Use aggregated clusterRole</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
+<span style="color:#66d9ef">kind</span>: ManifestWork
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">namespace</span>: cluster1
+  <span style="color:#66d9ef">name</span>: permission-set
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">workload</span>:
+    <span style="color:#66d9ef">manifests</span>:
+      - <span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+        <span style="color:#66d9ef">kind</span>: ClusterRole
+        <span style="color:#66d9ef">metadata</span>:
+          <span style="color:#66d9ef">name</span>: open-cluster-management:klusterlet-work:my-role
+          <span style="color:#66d9ef">labels</span>:
+            <span style="color:#66d9ef">open-cluster-management.io/aggregate-to-work</span>: <span style="color:#e6db74">&#34;true&#34;</span>  <span style="color:#75715e"># with this label, the clusterRole will be selected to aggregate</span>
+        <span style="color:#66d9ef">rules</span>:
+          <span style="color:#75715e"># Allow agent to managed machines</span>
+          - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;cluster.x-k8s.io&#34;</span>]
+            <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;machines&#34;</span>]
+            <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;create&#34;</span>, <span style="color:#e6db74">&#34;update&#34;</span>, <span style="color:#e6db74">&#34;patch&#34;</span>, <span style="color:#e6db74">&#34;delete&#34;</span>]
+</code></pre></div><ul>
+<li>Option 2: Use clusterRole and clusterRoleBinding</li>
+</ul>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ManifestWork
 <span style="color:#66d9ef">metadata</span>:
