@@ -169,6 +169,9 @@ other = "Extend Managed Clusters"
 [sidebar_integration_with_argocd]
 other = "Integration with Argo CD"
 
+[sidebar_manage_cluster_with_multiple_hubs]
+other = "Manage a cluster with multiple hubs"
+
 [sidebar_push_kube_api_requests]
 other = "Pushing Kube API Requests to the Managed Clusters"
 
