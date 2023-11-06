@@ -120,7 +120,7 @@ Ensure `clusteradm` CLI is installed and is at least v0.3.0. Download and extrac
    export HUB_KUBECONFIG="hub-kubeconfig"
 
    # Apply the CRDs
-   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/v0.11.0/deploy"
+   export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/governance-policy-propagator/v0.12.0/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policies.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_placementbindings.yaml
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_policyautomations.yaml
@@ -210,7 +210,7 @@ Ensure `clusteradm` CLI is installed and is at least v0.3.0. Download and extrac
 
    # Apply the policy CRD
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io"
-   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/v0.11.0/deploy/crds/policy.open-cluster-management.io_policies.yaml
+   kubectl apply -f ${GIT_PATH}/governance-policy-propagator/v0.12.0/deploy/crds/policy.open-cluster-management.io_policies.yaml
 
    # Set the managed cluster name and create the namespace
    export MANAGED_CLUSTER_NAME=<your managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
@@ -218,7 +218,7 @@ Ensure `clusteradm` CLI is installed and is at least v0.3.0. Download and extrac
 
    # Deploy the synchronization component
    export COMPONENT="governance-policy-framework-addon"
-   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.11.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
+   kubectl apply -f ${GIT_PATH}/${COMPONENT}/v0.12.0/deploy/operator.yaml -n ${MANAGED_NAMESPACE}
    kubectl patch deployment governance-policy-framework-addon -n ${MANAGED_NAMESPACE} \
      -p "{\"spec\":{\"template\":{\"spec\":{\"containers\":[{\"name\":\"governance-policy-framework-addon\",\"args\":[\"--hub-cluster-configfile=/var/run/klusterlet/kubeconfig\", \"--cluster-namespace=${MANAGED_CLUSTER_NAME}\", \"--enable-lease=true\", \"--log-level=2\", \"--disable-spec-sync=${DEPLOY_ON_HUB}\"]}]}}}}"
    ```
