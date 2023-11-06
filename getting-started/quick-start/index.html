@@ -256,6 +256,7 @@
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#install-clusteradm-cli-tool">Install clusteradm CLI tool</a></li>
         <li><a href="#setup-hub-and-managed-cluster">Setup hub and managed cluster</a></li>
         <li><a href="#what-is-next">What is next</a></li>
       </ul></nav><hr></div>
@@ -266,7 +267,10 @@
 <li>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize</a> are installed.</li>
 <li>Ensure <a href="https://kind.sigs.k8s.io/">kind</a>(greater than <code>v0.9.0+</code>, or the latest version is preferred) is installed.</li>
 </ul>
-<h2 id="setup-hub-and-managed-cluster">Setup hub and managed cluster</h2>
+<h2 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h2>
+<p>Run the following command to download and install the latest <code>clusteradm</code> command-line tool:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</code></pre></div><h2 id="setup-hub-and-managed-cluster">Setup hub and managed cluster</h2>
 <p>Run the following command to quickly setup a hub cluster and 2 managed clusters by kind.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -L https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
 </code></pre></div><p>If you want to setup OCM in a production environment or on a different kubernetes distribution, please refer to the <a href="https://open-cluster-management.io/getting-started/installation/start-the-control-plane/">Start the control plane</a> and <a href="https://open-cluster-management.io/getting-started/installation/register-a-cluster/">Register a cluster</a> guides.</p>
