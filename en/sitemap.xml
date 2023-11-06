@@ -38,6 +38,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/scenarios/manage-cluster-with-multiple-hubs</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/getting-started/administration/monitoring</loc>
     </url>
     

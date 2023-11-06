@@ -256,115 +256,40 @@
 </div>
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
-    <h1>向托管集群推送Kubernetes API请求</h1>
-    <p>By following the instructions in this document, an OCM hub admin will be able
-to &ldquo;push&rdquo; Kubernetes API requests to the managed clusters. The benefit of using
-this method for &ldquo;pushing&rdquo; requests in OCM is that we don&rsquo;t need to explicitly
-configure any API endpoint for the managed clusters or provide any client
-credentials as preparation. We just need to enable/install the following OCM
-addons:</p>
+    <h1>Manage a cluster with multiple hubs</h1>
+    <p>Normally an Open Cluster Management (OCM) hub manages multiple managed clusters and a cluster only registers to one OCM hub. While there might be some user scenarios, where a single cluster may want to join more than one OCM hub as a managed cluster, including:</p>
 <ul>
-<li><a href="https://github.com/open-cluster-management-io/cluster-proxy">Cluster-Proxy</a>:
-Setting up the <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/setup-konnectivity/">konnectivity</a>
-tunnels between the hub cluster and the managed clusters so the hub cluster
-can connect/access the managed cluster from anywhere.</li>
-<li><a href="https://github.com/open-cluster-management-io/managed-serviceaccount">Managed-ServiceAccount</a>:
-Automating the lifecycle of the local service account in the managed clusters
-and projecting the tokens back to the hub cluster so that the Kubernetes API
-clients from the hub can make authenticated requests.</li>
-<li><a href="https://github.com/oam-dev/cluster-gateway">Cluster-Gateway</a>: An aggregated
-apiserver providing a &ldquo;proxy&rdquo; subresource which helps the hub admin to
-gracefully access the managed clusters by standard Kubernetes API calls
-(including long-running calls).</li>
+<li>In an organization, each department may setup an OCM hub to manage clusters owned by this department, and all clusters are managed by a central OCM hub owned by IT department to enforce organization wide security policies.</li>
+<li>A service provider creates clusters for customers. The underlying system of the service provider uses OCM hubs to manage all the clusters. Once customer gets a cluster from the service provider, they may also want to manage this cluster with customer&rsquo;s OCM hub.</li>
 </ul>
-<h2 id="prerequisite">Prerequisite</h2>
-<p>You must meet the following prerequisites to install the managed service
-account:</p>
+<p>This document shows how to achieve it with OCM.</p>
+<p>Since the OCM agent is hub specific, that means an agent can connect to only one hub. In order to connect to multiple hubs, each hub should have its own agent running. Depdends on where the agent is running, there are two solutions:</p>
 <ul>
-<li>Ensure your <code>open-cluster-management</code> release is greater than <code>v0.5.0</code>.</li>
-<li>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl"><code>kubectl</code></a> is installed.</li>
-<li>Ensure <a href="https://helm.sh/docs/intro/install/"><code>helm</code></a> is installed.</li>
+<li>Run all agents on the managed cluster;</li>
+<li>Run the agents in the hosted mode on the hosting clusters;</li>
 </ul>
-<h2 id="installation">Installation</h2>
-<h3 id="adding-helm-chart-repo">Adding helm chart repo</h3>
-<p>Making sure the following OCM addons are discovered by your helm environment:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
-$ helm repo update
-$ helm search repo ocm
-NAME                             	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/cluster-gateway-addon-manager	1.3.2      	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Gateway Addon-Manager
-ocm/cluster-proxy                	0.2.0        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Cluster-Proxy OCM Addon      
-ocm/managed-serviceaccount       	0.2.0        	1.0.0      	A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon 
-</code></pre></div><h3 id="install-the-ocm-addons">Install the OCM addons</h3>
-<p>By the following helm commands to install the addons:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm -n open-cluster-management-addon install cluster-proxy ocm/cluster-proxy
-$ helm -n open-cluster-management-addon install managed-serviceaccount ocm/managed-serviceaccount
-$ helm -n open-cluster-management-addon install cluster-gateway ocm/cluster-gateway-addon-manager  <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Delegating for secret discovery to &#34;managed-serviceaccount&#34; addon.                           \</span>
-    <span style="color:#75715e"># Skip the option for manual secret management.                                                \</span>
-    --set manualSecretManagement<span style="color:#f92672">=</span>false                                                             <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    <span style="color:#75715e"># Enabling konnectivity tunnels via &#34;cluster-proxy&#34; addon.                                     \</span>
-    <span style="color:#75715e"># Skip the option if the hub cluster and the managed clusters are already mutually accessible. \</span>
-    --set konnectivityEgress<span style="color:#f92672">=</span>true
-</code></pre></div><h3 id="confirm-addon-installation">Confirm addon installation</h3>
-<p>The commands above installs the addon manager into the hub cluster, and the
-manager will creating <code>ManagedClusterAddOn</code> automatically into the cluster
-namespaces representing the addon is plumbed into the managed cluster. In order
-to check their status, run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
-NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
-managed1    cluster-gateway          True
-managed1    cluster-proxy            True                   
-managed1    managed-serviceaccount   True 
-</code></pre></div><p>Furthermore, after the addons are all deployed successfully, the hub admin will
-be able to see a new resource named <code>ClusterGateway</code> registered into the hub
-cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get clustergateway
-NAME       PROVIDER   CREDENTIAL-TYPE       ENDPOINT-TYPE
-managed1              ServiceAccountToken   ClusterProxy
-</code></pre></div><h2 id="usage">Usage</h2>
-<p>Now the gateway is ready for proxying your requests to the managed clusters
-dynamically. The easiest way to verify if the proxying framework is working
-is to run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ export CLUSTER_NAME<span style="color:#f92672">=</span>managed1 <span style="color:#75715e"># Or any other valid managed cluster name</span>
-$ kubectl get --raw<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/apis/cluster.core.oam.dev/v1alpha1/clustergateways/</span><span style="color:#e6db74">${</span>CLUSTER_NAME<span style="color:#e6db74">}</span><span style="color:#e6db74">/proxy/healthz&#34;</span>
-ok
-</code></pre></div><p>Another nice feature is that you can also easily convert the kubeconfig of the
-hub cluster into a managed cluster&rsquo;s kubeconfig by adding the api suffix to the
-cluster endpoint in your kubeconfig:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff">$ # Copy and edit your original hub kubeconfig into e.g. managed1.kubeconfig
-apiVersion: v1
-clusters:
-...
-<span style="color:#f92672">---    server: https://x.x.x.x
-</span><span style="color:#f92672"></span><span style="color:#a6e22e">+++    server: https://x.x.x.x/apis/cluster.core.oam.dev/v1alpha1/clustergateways/${CLUSTER_NAME}/proxy
-</span></code></pre></div><p>Then we can access the managed cluster directly via kubectl with the tweaked
-kubeconfig:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ KUBECONFIG<span style="color:#f92672">=</span>managed1.kubeconfig kubectl get ns
-</code></pre></div><p>However upon your first-time installation, you may encounter the RBAC
-restriction message such as:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Error from server (Forbidden): namespaces is forbidden: User &#34;system:serviceaccount:open-cluster-management-managed-serviceaccount:cluster-gateway&#34; cannot list resource &#34;namespaces&#34; in API group &#34;&#34; at the cluster scope
-</code></pre></div><p>That is because we haven&rsquo;t set up proper RBAC permissions for the <code>egress</code>
-service account managed by the <code>ManagedServiceAccount</code> yet. After granting
-sufficient permissions for the service account in the managed clusters, you
-will be able to freely operate the managed cluster from the hub without asking
-for any credential or kubeconfig from the managed clusters. Note that the
-service account is also periodically rotated by the addons so there&rsquo;s no need
-to worry in sustainable credential management.</p>
-<h2 id="insight">Insight</h2>
-<p>Overall, the following picture of architecture reveals the internal technique
-of the request &ldquo;pushing&rdquo; framework in the OCM:</p>
+<h3 id="run-all-the-agents-on-the-managed-cluster">Run all the agents on the managed cluster</h3>
+<p>Since there are multiple OCM agents are running on the managed cluster, each of them must have an uniqe agent namespace. So only one agent can be deployed in the default agent namespace <code>open-cluster-management-agent</code>.</p>
 <div style="text-align: center; padding: 20px;">
-   <img src="/proxy-framework.png" alt="Cluster proxy architecture" style="margin: 0 auto; width: 90%">
+   <img src="/multi-hubs.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
 </div>
-<p>With the help of the framework, we can easily develop a web service or an
-operator that runs in the hub cluster and is able to access to the managed
-clusters through the gateway. Note that it&rsquo;s generally not recommended to
-list-watch the managed clusters from the hub because it&rsquo;s in a sense violating
-the original philosophy of &ldquo;pull&rdquo; or &ldquo;hub-agent&rdquo; architecture of OCM. In
-order to coordinate the hub cluster and the managed clusters in your custom
-system, consider build your own OCM addon based on the <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>
-which provides you utilities for further customization.</p>
+<p>With this architecture, the managed cluster needs more resoruces, including CPUs and memory, to run agents for multiple hubs. And it&rsquo;s a challenge to handle the version skew of the OCM hubs.</p>
+<p>An example built with <a href="https://kind.sigs.k8s.io">kind</a> and <a href="https://github.com/open-cluster-management-io/clusteradm/releases">clusteradm</a> can be found in <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/multiple-hubs">Manage a cluster with multiple hubs</a>.</p>
+<h3 id="run-the-agents-in-the-hosted-mode-on-the-hosting-clusters">Run the agents in the hosted mode on the hosting clusters</h3>
+<p>By leveraging the hosted deployment mode, it&rsquo;s possiable to run OCM agent outside of the managed cluster on a hosing cluster. The hosting cluster could be a managed cluster of the same hub.</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/multi-hubs-hosted1.png" alt="multiple hubs in hosted mode" style="margin: 0 auto; width: 60%">
+</div>
+<p>At most one agent can runs in the default mode on the managed cluster in this solution.</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/multi-hubs-hosted2.png" alt="multiple hubs in hosted mode" style="margin: 0 auto; width: 60%">
+</div>
+<p>In order to reduce the number of the hosting clusters, agents running in the hosted mode can share the hosting clusters.</p>
+<div style="text-align: center; padding: 20px;">
+   <img src="/multi-hubs-hosted3.png" alt="multiple hubs in hosted mode" style="margin: 0 auto; width: 60%">
+</div>
+<p>With this architecture, the managed cluster itself needs less resoruces because at most one agent runs on the managed cluster, while it needs at least one extra cluster as hosting cluster. Since each agent could run on different cluster (managed cluster or hosting cluster), it will not result in any problem if OCM hubs have different versions.</p>
+<p>An example built with <a href="https://kind.sigs.k8s.io">kind</a> and <a href="https://github.com/open-cluster-management-io/clusteradm/releases">clusteradm</a> can be found in <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/multiple-hubs-hosted">Manage a cluster with multiple hubs in hosted mode</a>.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

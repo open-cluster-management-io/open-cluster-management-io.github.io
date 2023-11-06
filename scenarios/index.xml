@@ -61,6 +61,16 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
     </item>
     
     <item>
+      <title>Manage a cluster with multiple hubs</title>
+      <link>https://open-cluster-management.io/scenarios/manage-cluster-with-multiple-hubs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/scenarios/manage-cluster-with-multiple-hubs/</guid>
+      <description>Normally an Open Cluster Management (OCM) hub manages multiple managed clusters and a cluster only registers to one OCM hub. While there might be some user scenarios, where a single cluster may want to join more than one OCM hub as a managed cluster, including:
+ In an organization, each department may setup an OCM hub to manage clusters owned by this department, and all clusters are managed by a central OCM hub owned by IT department to enforce organization wide security policies.</description>
+    </item>
+    
+    <item>
       <title>Pushing Kubernetes API requests to the managed clusters</title>
       <link>https://open-cluster-management.io/scenarios/pushing-kube-api-requests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

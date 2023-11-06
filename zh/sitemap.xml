@@ -30,6 +30,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/zh/scenarios/manage-cluster-with-multiple-hubs</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane</loc>
     </url>
     
