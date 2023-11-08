@@ -284,7 +284,7 @@ also covers the integration with ArgoCD.</p>
 </span><span style="color:#e6db74">  matchKey: clusterName
 </span><span style="color:#e6db74">EOF</span>
 </code></pre></div><p>With reference to this generator, an <code>ApplicationSet</code> can target the application to the clusters listed in the status of a set of <code>PlacementDecision</code>, which belong to a certian Placement.</p>
-<p><strong>4. Grant Argo CD permissions to access OCM resoruces.</strong></p>
+<p><strong>4. Grant Argo CD permissions to access OCM resources.</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
 </span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
 </span><span style="color:#e6db74">kind: Role
