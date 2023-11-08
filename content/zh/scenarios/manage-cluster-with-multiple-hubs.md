@@ -21,7 +21,7 @@ Since there are multiple OCM agents are running on the managed cluster, each of 
    <img src="/multi-hubs.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
 </div>
 
-With this architecture, the managed cluster needs more resoruces, including CPUs and memory, to run agents for multiple hubs. And it's a challenge to handle the version skew of the OCM hubs.
+With this architecture, the managed cluster needs more resources, including CPUs and memory, to run agents for multiple hubs. And it's a challenge to handle the version skew of the OCM hubs.
 
 An example built with [kind](https://kind.sigs.k8s.io) and [clusteradm](https://github.com/open-cluster-management-io/clusteradm/releases) can be found in [Manage a cluster with multiple hubs](https://github.com/open-cluster-management-io/OCM/tree/main/solutions/multiple-hubs).
 
@@ -44,6 +44,6 @@ In order to reduce the number of the hosting clusters, agents running in the hos
    <img src="/multi-hubs-hosted3.png" alt="multiple hubs in hosted mode" style="margin: 0 auto; width: 60%">
 </div>
 
-With this architecture, the managed cluster itself needs less resoruces because at most one agent runs on the managed cluster, while it needs at least one extra cluster as hosting cluster. Since each agent could run on different cluster (managed cluster or hosting cluster), it will not result in any problem if OCM hubs have different versions.
+With this architecture, the managed cluster itself needs less resources because at most one agent runs on the managed cluster, while it needs at least one extra cluster as hosting cluster. Since each agent could run on different cluster (managed cluster or hosting cluster), it will not result in any problem if OCM hubs have different versions.
 
 An example built with [kind](https://kind.sigs.k8s.io) and [clusteradm](https://github.com/open-cluster-management-io/clusteradm/releases) can be found in [Manage a cluster with multiple hubs in hosted mode](https://github.com/open-cluster-management-io/OCM/tree/main/solutions/multiple-hubs-hosted).
