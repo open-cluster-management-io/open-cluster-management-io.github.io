@@ -3,6 +3,12 @@ title: 自定义插件
 weight: 4
 ---
 
+<!-- spellchecker-disable -->
+
+{{< toc >}}
+
+<!-- spellchecker-enable -->
+
 ## What is an add-on?
 
 Open-cluster-management has a built-in mechanism named [addon-framework](https://github.com/open-cluster-management-io/addon-framework)
@@ -184,8 +190,9 @@ control the upgrade behavior of the addon when there are changes in the supporte
 configurations.
 
 For example, if the add-on user updates the "deploy-config" and wants to apply 
-the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will 
-apply the change each time. The rollout strategy can be defined as follows:
+the change to the add-ons to a "canary" [decision group](https://open-cluster-management.io/concepts/placement/#decision-strategy) first. If all the add-on
+upgrade successfully, then upgrade the rest of clusters progressively per cluster 
+at a rate of 25%. The rollout strategy can be defined as follows:
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -208,10 +215,14 @@ spec:
         name: deploy-config
         namespace: open-cluster-management
       rolloutStrategy:
-        type: RollingUpdate
-        rollingUpdate:
-          maxConcurrentlyUpdating: 25%
+        type: Progressive
+        progressive:
+          mandatoryDecisionGroups:
+          - groupName: "canary"
+          maxConcurrency: 25%
 ```
+
+Current add-on supports 3 types of rollout strategy, they are All, Progressive and ProgressivePerGroup, refer to the [API definition](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) for more details.
 
 ### Add-on healthiness
 
