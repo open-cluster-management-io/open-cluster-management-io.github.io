@@ -175,6 +175,9 @@ other = "使用多个hub管理同一集群"
 [sidebar_push_kube_api_requests]
 other = "向托管集群推送Kube API请求"
 
+[sidebar_register_cluster_through_proxy]
+other = "通过代理服务器注册集群"
+
 [sidebar_community]
 other = "社区"
 

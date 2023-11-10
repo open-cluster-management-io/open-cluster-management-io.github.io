@@ -175,6 +175,9 @@ other = "Manage a cluster with multiple hubs"
 [sidebar_push_kube_api_requests]
 other = "Pushing Kube API Requests to the Managed Clusters"
 
+[sidebar_register_cluster_through_proxy]
+other = "Register a cluster to hub through proxy server"
+
 [sidebar_community]
 other = "Community"
 
