@@ -80,5 +80,14 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
  Cluster-Proxy: Setting up the konnectivity tunnels between the hub cluster and the managed clusters so the hub cluster can connect/access the managed cluster from anywhere.</description>
     </item>
     
+    <item>
+      <title>Register a cluster to hub through proxy server</title>
+      <link>https://open-cluster-management.io/scenarios/register-cluster-through-proxy/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/scenarios/register-cluster-through-proxy/</guid>
+      <description>When registering a cluster to an Open Cluster Management (OCM) hub, there is a network requirement for the managed cluster. It must be able to reach the hub cluster. Sometimes the managed cluster cannot directly connect to the hub cluster. For example, the hub cluster is in a public cloud, and the managed cluster is in a private cloud environment behind firewalls. The communications out of the private cloud can only go through a HTTP or HTTPS proxy server.</description>
+    </item>
+    
   </channel>
 </rss>

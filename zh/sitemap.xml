@@ -34,6 +34,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/zh/scenarios/register-cluster-through-proxy</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane</loc>
     </url>
     
