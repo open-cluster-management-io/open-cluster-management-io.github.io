@@ -41,7 +41,7 @@ Once the Klusterlet agent finishes the cluster registration, a secret `hub-kubec
    <img src="/klusterlet-proxy.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
 </div>
 
-You can find an example built with [kind](https://kind.sigs.k8s.io) and [clusteradm](https://github.com/open-cluster-management-io/clusteradm/releases) in [Join hub through a forward proxy server](https://github.com/open-cluster-management-io/OCM/tree/main/solutions/join-through-proxy-server).
+You can find an example built with [kind](https://kind.sigs.k8s.io) and [clusteradm](https://github.com/open-cluster-management-io/clusteradm/releases) in [Join hub through a forward proxy server](https://github.com/open-cluster-management-io/OCM/tree/main/solutions/join-through-proxy).
 
 ### Add-on proxy settings
 
