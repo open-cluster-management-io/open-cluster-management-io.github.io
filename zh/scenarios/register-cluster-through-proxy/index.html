@@ -289,7 +289,7 @@
 <div style="text-align: center; padding: 20px;">
    <img src="/klusterlet-proxy.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
 </div>
-<p>You can find an example built with <a href="https://kind.sigs.k8s.io">kind</a> and <a href="https://github.com/open-cluster-management-io/clusteradm/releases">clusteradm</a> in <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/join-through-proxy-server">Join hub through a forward proxy server</a>.</p>
+<p>You can find an example built with <a href="https://kind.sigs.k8s.io">kind</a> and <a href="https://github.com/open-cluster-management-io/clusteradm/releases">clusteradm</a> in <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/join-through-proxy">Join hub through a forward proxy server</a>.</p>
 <h3 id="add-on-proxy-settings">Add-on proxy settings</h3>
 <p>Typically the add-on agent running on the managed cluster also needs a kubeconfig to access the resources of the kube-apiserver on the hub cluster. The Klusterlet agent will generate this kubeconfig during the add-on registration. If the Klusterlet agent bootstraps with a proxy settings, the same settings will be put into the add-on kubeconfig as well. While agents of some add-ons may access services other than kube-apiserver on the hub cluster. For those add-ons, you may need to add additional configuration with proxy settings by creating a <code>AddOnDeploymentConfig</code>.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
