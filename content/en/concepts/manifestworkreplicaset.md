@@ -13,7 +13,7 @@ weight: 7
 
 `ManifestWorkReplicaSet` is an aggregator API that uses [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifestwork for the placement-selected clusters.
 
-View an example of a `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by a placement.
+View an example of `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by a placements.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1alpha1
@@ -23,7 +23,25 @@ metadata:
   namespace: ocm-ns
 spec:
   placementRefs:
-    - name: placement-byname # Name of a created Placement
+    - name: placement-rollout-all # Name of a created Placement
+      rolloutStrategy:
+        rolloutType: All
+    - name: placement-rollout-progressive # Name of a created Placement
+      rolloutStrategy:
+        rolloutType: Progressive
+        progressive:
+          minSuccessTime: 5m
+          progressDeadline: 10m
+          maxFailures: 5%
+          mandatoryDecisionGroups:
+          - prod-canary-west
+          - prod-canary-east
+    - name: placement-rollout-progressive-per-group # Name of a created Placement
+      rolloutStrategy:
+        rolloutType: ProgressivePerGroup
+        progressivePerGroup:
+          progressDeadline: 10m
+          maxFailures: 5%
   manifestWorkTemplate:
     deleteOption:
       propagationPolicy: SelectivelyOrphan
@@ -74,15 +92,19 @@ spec:
                           - '-c'
                           - date; echo Hello from the Kubernetes cluster
 ```
-The placement reference must be in the same namespace as the manifestWorkReplicaSet. 
+The **PlacementRefs** uses the Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) to apply the manifestWork to the selected clusters.
+In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section the at [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) document.
+**Note:** The placement reference must be in the same namespace as the manifestWorkReplicaSet.
 
 ## Status tracking
 
-Let's assume the placement reference used in the previous example **placement-byname** has 10 clusters selected. The ManifestWorkReplicaSet monitors the Placement-selected clusters and creates/deletes ManifestWork for the placement clusters. The ManifestWorkReplicaSet tracks the status conditions of the created ManifestWorks and reports a summary for all ManifestWork statuses in the ManifestWorkReplicaSet status.
+The ManifestWorkReplicaSet example above refers to three placements each one will have its placementSummary in ManifestWorkReplicaSet status. The PlacementSummary shows the number of manifestWorks applied to the placement's clusters based on the placementRef's rolloutStrategy and total number of clusters. 
+The manifestWorkReplicaSet Summary aggregate the placementSummary showing the total number of applied manifestWorks to all clusters.
 
-The ManifestWorkReplicaSet has two status conditions;
-1. **PlacementVerified** to verify the placementRefs (not exist or empty cluster selection). 
-1. **ManifestWorkApplied** to verify all the created ManifestWork status conditions (applied, progressing, degraded or available).
+The manifestWorkReplicaSet has three status conditions; 
+1. **PlacementVerified** verify the placementRefs status; not exist or empty cluster selection. 
+1. **ManifestWorkApplied** verify the created manifestWork status; applied, progressing, degraded or available.
+1. **PlacementRolledOut** verify the rollout strategy status; progressing or complete.
 
 Here is an example.
 
@@ -94,7 +116,12 @@ metadata:
   namespace: ocm-ns
 spec:
   placementRefs:
-    - name: placement-byname # Name of a created Placement
+    - name: placement-rollout-all
+      ...
+    - name: placement-rollout-progressive
+      ...
+    - name: placement-rollout-progressive-per-group
+      ...
   manifestWorkTemplate:
      ...
 status:
@@ -106,15 +133,45 @@ status:
      type: PlacementVerified
    - lastTransitionTime: '2023-04-27T02:30:54Z'
      message: ''
+     reason: Progressing
+     status: 'False'
+     type: PlacementRolledOut
+   - lastTransitionTime: '2023-04-27T02:30:54Z'
+     message: ''
      reason: AsExpected
      status: 'True'
      type: ManifestworkApplied
+ placementSummary:
+ - name: placement-rollout-all
+   availableDecisionGroups: 1 (10 / 10 clusters applied)
+   summary:
+     applied: 10
+     available: 10
+     progressing: 0
+     degraded: 0
+     total: 10
+ - name: placement-rollout-progressive
+   availableDecisionGroups: 3 (20 / 30 clusters applied)
+   summary:
+     applied: 20
+     available: 20
+     progressing: 0
+     degraded: 0
+     total: 20
+ - name: placement-rollout-progressive-per-group
+   availableDecisionGroups: 4 (15 / 20 clusters applied)
+   summary:
+     applied: 15
+     available: 15
+     progressing: 0
+     degraded: 0
+     total: 15
  summary:
-   applied: 10
-   available: 10
+   applied: 45
+   available: 45
    progressing: 0
    degraded: 0
-   total: 10
+   total: 45
 ```
 ## Release and Enable Feature
 
@@ -166,3 +223,4 @@ status:
     resource: deployments
     version: v1
 ```
+
