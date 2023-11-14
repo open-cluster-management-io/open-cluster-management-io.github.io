@@ -160,6 +160,9 @@ other = "部署Kubernetes资源"
 [sidebar_distribute_workload_with_placement]
 other = "通过placement分发工作负载"
 
+[sidebar_migrate_workload_with_placement]
+other = "通过placement迁移工作负载"
+
 [sidebar_extend_multicluster_scheduling_capabilities]
 other = "扩展多集群调度能力"
 

@@ -15,14 +15,12 @@ with the `PlacementDecision` to leverage its scheduling capabilities.
 
 For example, with OCM addon [policy]({{< ref "/getting-started/integration/policy-controllers" >}})
 installed, a `Policy` that includes a `Placement` mapping can distribute the
-`Policy` to the managed clusters, details see this [example](https://open-cluster-management.io/getting-started/integration/policy-controllers/#placement-api).
-OCM addon [application lifecycle management]({{< ref "/getting-started/integration/app-lifecycle" >}})
-will also use placement to deploy applications in the future.
+`Policy` to the managed clusters, details see this [example](https://open-cluster-management.io/getting-started/integration/policy-controllers/configuration-policy/#placement-api).
 
 Some popular open source projects also integrate with the `Placement` API. For
 example [Argo CD](https://github.com/argoproj/argo-cd), it can leverage the
 generated `PlacementDecision` to drive the assignment of Argo CD Applications to a
-desired set of clusters, details see this [example](https://github.com/argoproj/applicationset/tree/master/examples/clusterDecisionResource).
+desired set of clusters, details see this [example](https://github.com/argoproj/argo-cd/tree/master/applicationset/examples/clusterDecisionResource).
 And [KubeVela](https://github.com/kubevela/kubevela), as an implementation of
 the open application model, also will take advantage of the `Placement` API for
 workload scheduling.
