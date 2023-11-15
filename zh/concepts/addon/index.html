@@ -115,19 +115,25 @@
                     <a class="navlink" href="/zh/concepts/managedcluster">托管集群</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/zh/concepts/manifestwork">资源下发</a>
-                </li>
-                <li>
                     <a class="navlink" href="/zh/concepts/managedclusterset">托管集群分组</a>
                 </li>
                 <li>
                     <a class="navlink" href="/zh/concepts/placement">匹配路由</a>
                 </li>
                 <li>
+                    <a class="navlink" href="/zh/concepts/manifestwork">资源下发</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/manifestworkreplicaset">资源下发组</a>
+                </li>
+                <li>
                     <a class="navlink" href="/zh/concepts/addon">自定义插件</a>
                 </li>
                 <li>
                     <a class="navlink" href="/zh/concepts/policy">Policy</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/zh/concepts/multicluster-controlplane">多集群控制面</a>
                 </li>
             </ul>
         </li>
@@ -260,7 +266,39 @@
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
     <h1>自定义插件</h1>
-    <h2 id="what-is-an-add-on">What is an add-on?</h2>
+    <!-- spellchecker-disable -->
+
+
+
+  <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#what-is-an-add-on">What is an add-on?</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#add-on-enablement">Add-on enablement</a>
+          <ul>
+            <li><a href="#enable-the-add-on-manually">Enable the add-on manually</a></li>
+            <li><a href="#enable-the-add-on-automatically">Enable the add-on automatically</a></li>
+            <li><a href="#enable-the-add-on-by-install-strategy">Enable the add-on by install strategy</a>
+              <ul>
+                <li><a href="#add-on-rollout-strategy">Add-on rollout strategy</a></li>
+              </ul>
+            </li>
+            <li><a href="#add-on-healthiness">Add-on healthiness</a></li>
+            <li><a href="#clean-the-add-ons">Clean the add-ons</a></li>
+          </ul>
+        </li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#add-on-framework">Add-on framework</a>
+          <ul>
+            <li><a href="#custom-signers">Custom signers</a></li>
+            <li><a href="#hub-credential-injection">Hub credential injection</a></li>
+            <li><a href="#auto-install-by-cluster-discovery">Auto-install by cluster discovery</a></li>
+          </ul>
+        </li>
+      </ul></nav><hr></div>
+
+
+<!-- spellchecker-enable -->
+<h2 id="what-is-an-add-on">What is an add-on?</h2>
 <p>Open-cluster-management has a built-in mechanism named <a href="https://github.com/open-cluster-management-io/addon-framework">addon-framework</a>
 to help developers to develop an extension based on the foundation components
 for the purpose of working with multiple clusters in custom cases. A typical

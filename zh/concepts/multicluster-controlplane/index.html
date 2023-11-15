@@ -104,7 +104,7 @@
     <ul class="components">
         <li id="concepts">
             <a class="navlink" href="/zh/concepts">概念</a>
-            <ul class="collapse ">
+            <ul class="collapse show">
                 <li>
                     <a class="navlink" href="/zh/concepts/architecture">架构</a>
                 </li>
@@ -139,7 +139,7 @@
         </li>
         <li id="getting-started">
             <a class="navlink" href="/zh/getting-started">安装</a>
-            <ul class="collapse show">
+            <ul class="collapse ">
                 <li>
                     <a class="navlink" href="/zh/getting-started/quick-start">快速开始</a>
                 </li>
@@ -156,7 +156,7 @@
                 </li>
                 <li>
                     <a class="navlink" href="/zh/getting-started/integration">插件和集成</a>
-                    <ul class="collapse show">
+                    <ul class="collapse ">
                         <li>
                             <a class="navlink" href="/zh/getting-started/integration/app-lifecycle">应用生命周期管理</a>
                         </li>
@@ -265,32 +265,87 @@
 </div>
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
-    <h1>Policy controllers</h1>
-    <p>The <a href="https://open-cluster-management.io/zh/concepts/policy/">Policy API</a> on the hub delivers the policies defined in <code>spec.policy-templates</code> to the managed
-clusters via the <a href="https://open-cluster-management.io/zh/getting-started/integration/policy-framework/">policy framework controllers</a>. Once on the managed
-cluster, these <em>Policy Templates</em> are acted upon by the associated controller on the managed cluster. The policy
-framework supports delivering the <em>Policy Template</em> kinds listed.</p>
-<!-- spellchecker-disable -->
+    <h1>多集群控制面</h1>
+    <!-- spellchecker-disable -->
 
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#configuration-policyhahahugoshortcode-s3-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/">Configuration policy</a></a></li>
-        <li><a href="#open-policy-agent-gatekeeperhahahugoshortcode-s4-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/">Open Policy Agent Gatekeeper</a></a></li>
+        <li><a href="#what-is-multicluster-control-plane">What is <code>Multicluster Control Plane</code></a></li>
+        <li><a href="#why-use-multicluster-control-plane">Why use <code>Multicluster Control Plane</code></a></li>
+        <li><a href="#how-to-use-multicluster-control-plane">How to use <code>Multicluster Control Plane</code></a>
+          <ul>
+            <li><a href="#start-the-standalone-multicluster-control-plane">Start the standalone multicluster control plane</a></li>
+            <li><a href="#install-via-clusteradm">Install via clusteradm</a>
+              <ul>
+                <li><a href="#install-clusteradm-cli-tool">Install clusteradm CLI tool</a></li>
+                <li><a href="#install-multicluster-control-plane">Install multicluster control plane</a></li>
+              </ul>
+            </li>
+            <li><a href="#join-a-cluster-to-the-multicluster-control-plane">Join a cluster to the multicluster control plane</a></li>
+            <li><a href="#verify-the-cluster-join">Verify the cluster join</a></li>
+          </ul>
+        </li>
       </ul></nav><hr></div>
 
 
 <!-- spellchecker-enable -->
-<h2 id="configuration-policyhahahugoshortcode-s3-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/configuration-policy/">Configuration policy</a></h2>
-<p>The <code>ConfigurationPolicy</code> is provided by OCM and defines Kubernetes manifests to compare with objects that currently
-exist on the cluster. The action that the <code>ConfigurationPolicy</code> will take is determined by its <code>complianceType</code>.
-Compliance types include <code>musthave</code>, <code>mustnothave</code>, and <code>mustonlyhave</code>. <code>musthave</code> means the object should have the
-listed keys and values as a subset of the larger object. <code>mustnothave</code> means an object matching the listed keys and
-values should not exist. <code>mustonlyhave</code> ensures objects only exist with the keys and values exactly as defined.</p>
-<h2 id="open-policy-agent-gatekeeperhahahugoshortcode-s4-hbhb"><a href="https://open-cluster-management.io/zh/getting-started/integration/policy-controllers/gatekeeper/">Open Policy Agent Gatekeeper</a></h2>
-<p>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
-policies that are run with the Open Policy Agent (OPA). Gatekeeper <code>ConstraintTemplates</code> and constraints can be
-provided in an OCM <code>Policy</code> to sync to managed clusters that have Gatekeeper installed on them.</p>
+<h2 id="what-is-multicluster-control-plane">What is <code>Multicluster Control Plane</code></h2>
+<p>The multicluster control plane is a lightweight Open Cluster Manager (OCM) control plane that is easy to install and has a small footprint. It can be running anywhere with or without a Kubernetes environment to serve the OCM control plane capabilities.</p>
+<h2 id="why-use-multicluster-control-plane">Why use <code>Multicluster Control Plane</code></h2>
+<ol>
+<li>
+<p>Some Kubernetes environments do not have CSR (e.g., EKS) so that the standard OCM control plane cannot be installed. The multicluster control plane can be able to install in these environments and expose the OCM control plane API via loadbalancer.</p>
+</li>
+<li>
+<p>Some users may want to run multiple OCM control planes to isolate the data. The typical case is that the user wants to run one OCM control plane for production and another OCM control plane for development. The multicluster control plane is able to be installed in different namespaces in a single cluster. Each multicluster control plane is running independently and serving the OCM control plane capabilities.</p>
+</li>
+<li>
+<p>Some users may want to run the OCM control plane without a Kubernetes environment. The multicluster control plane can run in a standalone mode, for example, running in a VM. Expose the control plane API to the outside so the managed clusters can register to it.</p>
+</li>
+</ol>
+<h2 id="how-to-use-multicluster-control-plane">How to use <code>Multicluster Control Plane</code></h2>
+<h3 id="start-the-standalone-multicluster-control-plane">Start the standalone multicluster control plane</h3>
+<p>You need build <code>multicluster-controlplane</code> in your local host. Follow the below steps to build the binary and start the multicluster control plane.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/multicluster-controlplane.git
+cd multicluster-controlplane
+make run
+</code></pre></div><p>Once the control plane is running, you can access the control plane by using <code>kubectl --kubeconfig=./_output/controlplane/.ocm/cert/kube-aggregator.kubeconfig</code>.</p>
+<p>You can customize the control plane configurations by creating a config file and using the environment variable <code>CONFIG_DIR</code> to specify your config file directory. Please check the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane#run-controlplane-as-a-local-binary">repository documentation</a> for details.</p>
+<h3 id="install-via-clusteradm">Install via clusteradm</h3>
+<h4 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h4>
+<p>It&rsquo;s recommended to run the following command to download and install <strong>the
+latest release</strong> of the <code>clusteradm</code> command-line tool:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</code></pre></div><h4 id="install-multicluster-control-plane">Install multicluster control plane</h4>
+<p>You can use <code>clusteradm init</code> to deploy the multicluster control plane in your Kubernetes environment.</p>
+<ol>
+<li>Set the environment variable KUBECONFIG to your cluster kubeconfig path. For instance, create a new KinD cluster and deploy multicluster control plane in it.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export KUBECONFIG<span style="color:#f92672">=</span>/tmp/kind-controlplane.kubeconfig
+kind create cluster --name multicluster-controlplane
+export mc_cp_node_ip<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get nodes -o<span style="color:#f92672">=</span>jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.items[0].status.addresses[?(@.type==&#34;InternalIP&#34;)].address}&#39;</span><span style="color:#66d9ef">)</span>
+</code></pre></div><ol start="2">
+<li>Run following command to deploy a control plane</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm init --singleton<span style="color:#f92672">=</span>true --set route.enabled<span style="color:#f92672">=</span>false --set nodeport.enabled<span style="color:#f92672">=</span>true --set nodeport.port<span style="color:#f92672">=</span><span style="color:#ae81ff">30443</span> --set apiserver.externalHostname<span style="color:#f92672">=</span>$mc_cp_node_ip --set apiserver.externalPort<span style="color:#f92672">=</span><span style="color:#ae81ff">30443</span> --singleton-name multicluster-controlplane
+</code></pre></div><p>Refer to the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane#use-helm-to-deploy-controlplane-in-a-cluster">repository documentation</a> for how to customize the control plane configurations.</p>
+<ol start="3">
+<li>Get the control plane kubeconfig by running the following command:</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl -n multicluster-controlplane get secrets multicluster-controlplane-kubeconfig -ojsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.data.kubeconfig}&#39;</span> | base64 -d &gt; /tmp/multicluster-controlplane.kubeconfig
+</code></pre></div><h3 id="join-a-cluster-to-the-multicluster-control-plane">Join a cluster to the multicluster control plane</h3>
+<p>You can use <code>clusteradm</code> to join a cluster. For instance, take the KinD cluster as an example, run the following command to join the cluster to the control plane:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kind create cluster --name cluster1 --kubeconfig /tmp/kind-cluster1.kubeconfig
+clusteradm --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig get token --use-bootstrap-token
+clusteradm --singleton<span style="color:#f92672">=</span>true --kubeconfig /tmp/kind-cluster1.kubeconfig join --hub-token &lt;controlplane token&gt; --hub-apiserver https://$mc_cp_node_ip:30443/ --cluster-name cluster1
+clusteradm --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig accept --clusters cluster1
+</code></pre></div><h3 id="verify-the-cluster-join">Verify the cluster join</h3>
+<p>Run this command to verify the cluster join:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig get managedcluster
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
+cluster1   true           https://cluster1-control-plane:6443   True     True        5m25s
+</code></pre></div><p>You should see the managedcluster joins to the multicluster control plane. Congratulations!</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

@@ -62,10 +62,6 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/clusterclaim</loc>
-    </url>
-    
-    <url>
         <loc>https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster</loc>
     </url>
     
@@ -74,27 +70,19 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/managedcluster</loc>
-    </url>
-    
-    <url>
-        <loc>https://open-cluster-management.io/zh/concepts/managedclusterset</loc>
-    </url>
-    
-    <url>
         <loc>https://open-cluster-management.io/zh/getting-started/installation</loc>
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/manifestwork</loc>
-    </url>
-    
-    <url>
-        <loc>https://open-cluster-management.io/zh/concepts/placement</loc>
+        <loc>https://open-cluster-management.io/zh/concepts/clusterclaim</loc>
     </url>
     
     <url>
         <loc>https://open-cluster-management.io/zh/scenarios</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/concepts/managedcluster</loc>
     </url>
     
     <url>
@@ -106,7 +94,7 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/addon</loc>
+        <loc>https://open-cluster-management.io/zh/concepts/managedclusterset</loc>
     </url>
     
     <url>
@@ -122,7 +110,7 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/policy</loc>
+        <loc>https://open-cluster-management.io/zh/concepts/placement</loc>
     </url>
     
     <url>
@@ -146,11 +134,31 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/zh/concepts/manifestwork</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/concepts/manifestworkreplicaset</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/concepts/addon</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/concepts/policy</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-controllers</loc>
     </url>
     
     <url>
         <loc>https://open-cluster-management.io/zh/getting-started/integration/policy-framework</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/concepts/multicluster-controlplane</loc>
     </url>
     
     <url>

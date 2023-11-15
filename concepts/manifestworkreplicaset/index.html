@@ -111,19 +111,25 @@
                     <a class="navlink" href="/concepts/managedcluster">ManagedCluster</a>
                 </li>
                 <li>
-                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
-                </li>
-                <li>
                     <a class="navlink" href="/concepts/managedclusterset">ManagedClusterSet</a>
                 </li>
                 <li>
                     <a class="navlink" href="/concepts/placement">Placement</a>
                 </li>
                 <li>
+                    <a class="navlink" href="/concepts/manifestwork">ManifestWork</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/concepts/manifestworkreplicaset">ManifestWorkReplicaSet</a>
+                </li>
+                <li>
                     <a class="navlink" href="/concepts/addon">Add-ons</a>
                 </li>
                 <li>
                     <a class="navlink" href="/concepts/policy">Policy</a>
+                </li>
+                <li>
+                    <a class="navlink" href="/concepts/multicluster-controlplane">Multicluster Control Plane</a>
                 </li>
             </ul>
         </li>
@@ -269,8 +275,8 @@
 
 <!-- spellchecker-enable -->
 <h2 id="what-is-manifestworkreplicaset">What is <code>ManifestWorkReplicaSet</code></h2>
-<p><code>ManifestWorkReplicaSet</code> is an aggregator API that use <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md">Manifestwork</a> and <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md">Placement</a> to create manifeswork for the placement selected clusters.</p>
-<p>An example of <code>ManifestWorkReplicaSet</code> to deploy a CronJob and Namespace for a group of clusters selected by a placement.</p>
+<p><code>ManifestWorkReplicaSet</code> is an aggregator API that uses <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md">Manifestwork</a> and <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md">Placement</a> to create manifestwork for the placement-selected clusters.</p>
+<p>View an example of a <code>ManifestWorkReplicaSet</code> to deploy a CronJob and Namespace for a group of clusters selected by a placement.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: ManifestWorkReplicaSet
 <span style="color:#66d9ef">metadata</span>:
@@ -330,11 +336,11 @@
                           - date; echo Hello from the Kubernetes cluster
 </code></pre></div><p>The placement reference must be in the same namespace as the manifestWorkReplicaSet.</p>
 <h2 id="status-tracking">Status tracking</h2>
-<p>Assuming the used placement reference in the previous example <strong>plcament-byname</strong> has 10 clusters selected. The manifestWorkReplicaSet monitor the Placement selected clusters and create/delete manifestWork for the placement clusters&rsquo;s. The ManifestWorkReplicaSet track the status conditions of the created manifestWorks and report a summery for all manifestWorks status in the manifestWorkReplicaSet status.</p>
-<p>The manifestWorkReplicaSet has two status conditions;</p>
+<p>Let&rsquo;s assume the placement reference used in the previous example <strong>placement-byname</strong> has 10 clusters selected. The ManifestWorkReplicaSet monitors the Placement-selected clusters and creates/deletes ManifestWork for the placement clusters. The ManifestWorkReplicaSet tracks the status conditions of the created ManifestWorks and reports a summary for all ManifestWork statuses in the ManifestWorkReplicaSet status.</p>
+<p>The ManifestWorkReplicaSet has two status conditions;</p>
 <ol>
 <li><strong>PlacementVerified</strong> to verify the placementRefs (not exist or empty cluster selection).</li>
-<li><strong>ManifestWorkApplied</strong> to verify all the created manifestWork status conditions (applied, progressing, degraded or available).</li>
+<li><strong>ManifestWorkApplied</strong> to verify all the created ManifestWork status conditions (applied, progressing, degraded or available).</li>
 </ol>
 <p>Here is an example.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1alpha1
@@ -366,7 +372,7 @@
    <span style="color:#66d9ef">degraded</span>: <span style="color:#ae81ff">0</span>
    <span style="color:#66d9ef">total</span>: <span style="color:#ae81ff">10</span>
 </code></pre></div><h2 id="release-and-enable-feature">Release and Enable Feature</h2>
-<p>ManifeastWorkReplicaSet is in alpha release and it is not enable by default. In order to enable the ManifeastWorkReplicaSet feature, it has to be enabled in the cluster-manager instance in the hub. Use the following command to edit the cluster-manager CR (custom resource) in the hub cluster.</p>
+<p>ManifestWorkReplicaSet is in alpha release and it is not enabled by default. In order to enable the ManifestWorkReplicaSet feature, it has to be enabled in the cluster-manager instance in the hub. Use the following command to edit the cluster-manager CR (custom resource) in the hub cluster.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ oc edit ClusterManager cluster-manager
 </code></pre></div><p>Add the workConfiguration field to the cluster-manager CR as below and save.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterManager

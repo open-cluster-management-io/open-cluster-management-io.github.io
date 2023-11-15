@@ -23,7 +23,7 @@
     </item>
     
     <item>
-      <title>ClusterClaim</title>
+      <title>集群声明</title>
       <link>https://open-cluster-management.io/zh/concepts/clusterclaim/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -52,15 +52,6 @@ The ManagedClusterSet and ManagedClusterSetBinding API v1beta1 version will no l
     </item>
     
     <item>
-      <title>资源下发</title>
-      <link>https://open-cluster-management.io/zh/concepts/manifestwork/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://open-cluster-management.io/zh/concepts/manifestwork/</guid>
-      <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption Permission setting for work agent Treating defaulting/immutable fields in API Dynamic identity authorization     What is ManifestWork ManifestWork is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
-    </item>
-    
-    <item>
       <title>匹配路由</title>
       <link>https://open-cluster-management.io/zh/concepts/placement/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -72,13 +63,32 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
     </item>
     
     <item>
+      <title>资源下发</title>
+      <link>https://open-cluster-management.io/zh/concepts/manifestwork/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/concepts/manifestwork/</guid>
+      <description>What is ManifestWork Status tracking  Fine-grained field values tracking   Garbage collection  Delete options   Resource Race and Adoption Permission setting for work agent Treating defaulting/immutable fields in API Dynamic identity authorization     What is ManifestWork ManifestWork is used to define a group of Kubernetes resources on the hub to be applied to the managed cluster. In the open-cluster-management project, a ManifestWork resource must be created in the cluster namespace.</description>
+    </item>
+    
+    <item>
+      <title>资源下发组</title>
+      <link>https://open-cluster-management.io/zh/concepts/manifestworkreplicaset/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/concepts/manifestworkreplicaset/</guid>
+      <description>What is ManifestWorkReplicaSet Status tracking Release and Enable Feature     What is ManifestWorkReplicaSet ManifestWorkReplicaSet is an aggregator API that uses Manifestwork and Placement to create manifestwork for the placement-selected clusters.
+View an example of a ManifestWorkReplicaSet to deploy a CronJob and Namespace for a group of clusters selected by a placement.
+apiVersion: work.open-cluster-management.io/v1alpha1 kind: ManifestWorkReplicaSet metadata: name: mwrset-cronjob namespace: ocm-ns spec: placementRefs: - name: placement-byname # Name of a created Placement manifestWorkTemplate: deleteOption: propagationPolicy: SelectivelyOrphan selectivelyOrphans: orphaningRules: - group: &amp;#39;&amp;#39; name: ocm-ns namespace: &amp;#39;&amp;#39; resource: Namespace manifestConfigs: - feedbackRules: - jsonPaths: - name: lastScheduleTime path: .</description>
+    </item>
+    
+    <item>
       <title>自定义插件</title>
       <link>https://open-cluster-management.io/zh/concepts/addon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/concepts/addon/</guid>
-      <description>What is an add-on? Open-cluster-management has a built-in mechanism named addon-framework to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in custom cases. A typical addon should consist of two kinds of components:
-  Addon Agent: A kubernetes controller in the managed cluster that manages the managed cluster for the hub admins. A typical addon agent is expected to be working by subscribing the prescriptions (e.</description>
+      <description>What is an add-on? Architecture Add-on enablement  Enable the add-on manually Enable the add-on automatically Enable the add-on by install strategy  Add-on rollout strategy   Add-on healthiness Clean the add-ons   Examples Add-on framework  Custom signers Hub credential injection Auto-install by cluster discovery       What is an add-on? Open-cluster-management has a built-in mechanism named addon-framework to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in custom cases.</description>
     </item>
     
     <item>
@@ -89,6 +99,15 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
       <guid>https://open-cluster-management.io/zh/concepts/policy/</guid>
       <description>Overview Policy PlacementBinding PolicySet Managed cluster policy controllers Templating in configuration policies  Hub cluster templating in configuration policies Templating value encryption Templating functions       Overview The policy framework has the following API concepts:
  Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+    </item>
+    
+    <item>
+      <title>多集群控制面</title>
+      <link>https://open-cluster-management.io/zh/concepts/multicluster-controlplane/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/concepts/multicluster-controlplane/</guid>
+      <description>What is Multicluster Control Plane Why use Multicluster Control Plane How to use Multicluster Control Plane  Start the standalone multicluster control plane Install via clusteradm  Install clusteradm CLI tool Install multicluster control plane   Join a cluster to the multicluster control plane Verify the cluster join       What is Multicluster Control Plane The multicluster control plane is a lightweight Open Cluster Manager (OCM) control plane that is easy to install and has a small footprint.</description>
     </item>
     
   </channel>
