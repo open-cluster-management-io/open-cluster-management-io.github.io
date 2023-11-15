@@ -13,7 +13,7 @@ weight: 7
 
 `ManifestWorkReplicaSet` is an aggregator API that uses [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifestwork for the placement-selected clusters.
 
-View an example of `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by a placements.
+View an example of `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by placements.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1alpha1
@@ -41,7 +41,7 @@ spec:
         rolloutType: ProgressivePerGroup
         progressivePerGroup:
           progressDeadline: 10m
-          maxFailures: 5%
+          maxFailures: 2
   manifestWorkTemplate:
     deleteOption:
       propagationPolicy: SelectivelyOrphan
@@ -93,18 +93,20 @@ spec:
                           - date; echo Hello from the Kubernetes cluster
 ```
 The **PlacementRefs** uses the Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) to apply the manifestWork to the selected clusters.
-In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section the at [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) document.
+In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section at the [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) document.
 **Note:** The placement reference must be in the same namespace as the manifestWorkReplicaSet.
 
 ## Status tracking
 
 The ManifestWorkReplicaSet example above refers to three placements each one will have its placementSummary in ManifestWorkReplicaSet status. The PlacementSummary shows the number of manifestWorks applied to the placement's clusters based on the placementRef's rolloutStrategy and total number of clusters. 
-The manifestWorkReplicaSet Summary aggregate the placementSummary showing the total number of applied manifestWorks to all clusters.
+The manifestWorkReplicaSet Summary aggregate the placementSummaries showing the total number of applied manifestWorks to all clusters.
 
 The manifestWorkReplicaSet has three status conditions; 
 1. **PlacementVerified** verify the placementRefs status; not exist or empty cluster selection. 
-1. **ManifestWorkApplied** verify the created manifestWork status; applied, progressing, degraded or available.
 1. **PlacementRolledOut** verify the rollout strategy status; progressing or complete.
+1. **ManifestWorkApplied** verify the created manifestWork status; applied, progressing, degraded or available.
+
+The manifestWorkReplicaSet determine the ManifestWorkApplied condition status based on the resource state (applied or available) of each manifestWork.
 
 Here is an example.
 
