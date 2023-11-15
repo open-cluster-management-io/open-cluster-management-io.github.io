@@ -53,7 +53,7 @@ hub cluster down to the registered OCM managed clusters
 Follow the [deploy ArgoCD pull model steps](https://github.com/open-cluster-management-io/ocm/blob/main/solutions/deploy-argocd-apps-pull/getting-started.md)
 to set up an environment with OCM and ArgoCD pull model installed.
 
-If above steps run successfully, on the hub cluster, you could see the application is deployed to both cluster1 and cluster2.
+If the above steps run successfully, on the hub cluster, you could see the application is deployed to both cluster1 and cluster2.
 
 ```shell
 $ kubectl -n argocd get app
@@ -73,7 +73,7 @@ cluster2-guestbook-app   Synced        Healthy
     placement.cluster.open-cluster-management.io/guestbook-app-placement patched
     ```
 
-    Use `clusteradm` to check the placement selected clusters.
+    Use `clusteradm` to check the placement of selected clusters.
 
     ```shell
     $ clusteradm get placements -otable
@@ -117,7 +117,7 @@ cluster2-guestbook-app   Synced        Healthy
     cluster2   true           https://cluster2-control-plane:6443   True     True        9h
     ```
 
-    Use `clusteradm` to check the placement selected clusters.
+    Use `clusteradm` to check the placement of selected clusters.
 
     ```shell
     $ clusteradm get placements -otable
@@ -165,7 +165,7 @@ placement will select one cluster from the rest clusters, which is cluster2.
 [Taints of ManagedClusters](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters) 
 also describes other scenarios where taints are automatically added. In some scenarios you may not want to 
 migrate the application immediately when a taint is added, with placement `TolerationSeconds` defined, it could tolerates the taint
-for a period of time before repel it. In above example, the `TolerationSeconds` could be defined as below:
+for a period of time before repelling it. In above example, the `TolerationSeconds` could be defined as below:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta1
@@ -188,7 +188,7 @@ spec:
 The above example shows how a taint is automatically added to a cluster and how the application is migrated to another cluster.
 You can also choose to add a taint manually and repel the application to other clusters.
 
-In the following example, suppose you are going to maintain the cluster2, and want to repel the application to cluster1.
+In the following example, suppose you are going to maintain cluster2, and want to repel the application to cluster1.
 
 1) Before starting, let's first restart the paused cluster1.
 
@@ -233,6 +233,6 @@ In the following example, suppose you are going to maintain the cluster2, and wa
 
 ## Summary
 
-In this article, we use ArgoCD pull model in OCM as example, showing you how to migrate the ArgoCD applications automatically or manually when cluster is down or during the cluster maintenance time.
+In this article, we use the ArgoCD pull model in OCM as an example, showing you how to migrate the ArgoCD applications automatically or manually when the cluster is down or during the cluster maintenance time.
 
-The concept of [Taints](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters) and [Tolerations](https://open-cluster-management.io/concepts/placement/#taintstolerations) can be used for any components that consume OCM `Placement`, such as [add-ons](https://open-cluster-management.io/concepts/addon/) and `ManifestworkReplicaSet`. If you have any questions, feel free to raise them in our [slack channel](https://kubernetes.slack.com/channels/open-cluster-mgmt).
+The concept of [Taints](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters) and [Tolerations](https://open-cluster-management.io/concepts/placement/#taintstolerations) can be used for any components that consume OCM `Placement`, such as [add-ons](https://open-cluster-management.io/concepts/addon/) and [ManifestworkReplicaSet](https://open-cluster-management.io/concepts/manifestworkreplicaset/). If you have any questions, feel free to raise them in our [slack channel](https://kubernetes.slack.com/channels/open-cluster-mgmt).
