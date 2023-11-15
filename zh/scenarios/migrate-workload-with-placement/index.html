@@ -268,7 +268,7 @@
 </div>
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
-    <h1>Distribute workload with placement selected managed clusters</h1>
+    <h1>Migrate workload with placement</h1>
     <p>The <code>Placement</code> API is used to dynamically select a set of <code>ManagedCluster</code> in
 one or multiple <code>ManagedClusterSets</code> so that the workloads can be deployed to
 these clusters.</p>
@@ -287,185 +287,166 @@ desired set of clusters, details see this <a href="https://github.com/argoproj/a
 And <a href="https://github.com/kubevela/kubevela">KubeVela</a>, as an implementation of
 the open application model, also will take advantage of the <code>Placement</code> API for
 workload scheduling.</p>
-<p>And in this article, we want to show you how to use <code>clusteradm</code> to deploy
-<code>ManifestWork</code> to <code>Placement</code> selected clusters.</p>
+<p>In this article, we use <a href="https://github.com/open-cluster-management-io/ocm/tree/main/solutions/deploy-argocd-apps-pull">ArgoCD pull model</a>
+as an example to demonstrate how, with the integration of OCM, you can migrate
+ArgoCD Applications among clusters. This is useful for scenarios such as
+application disaster recovery or application migration during cluster maintenance.</p>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>Before starting with the following steps, suggest you understand the content below.</p>
+<p>Before starting with the following steps, we recommend that you familiarize yourself with the content below.</p>
 <ul>
 <li>
-<p><a href="https://open-cluster-management.io/zh/concepts/placement/"><strong>Placement</strong></a>:
-The <code>Placement</code> API is used to dynamically select a set of <a href="https://open-cluster-management.io/zh/concepts/managedcluster/"><code>ManagedCluster</code></a>
-in one or multiple <a href="https://open-cluster-management.io/zh/concepts/managedclusterset/"><code>ManagedClusterSets</code></a>
-so that higher-level users can either replicate Kubernetes resources to the
-member clusters or run their advanced workload i.e. multi-cluster scheduling.</p>
+<p><a href="https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters">Taints of ManagedClusters</a>:
+Taints are properties of <code>ManagedClusters</code>, they allow a <code>Placement</code> to repel
+a set of <code>ManagedClusters</code>.</p>
 </li>
 <li>
-<p><a href="https://open-cluster-management.io/zh/concepts/manifestwork/"><strong>ManifestWork</strong></a>:
-A custom resource in the hub cluster that groups a list of Kubernetes resources
-together and is meant for dispatching them into the managed cluster if the
-<code>ManifestWork</code> is created in a valid <code>cluster namespace</code>.</p>
+<p><a href="https://open-cluster-management.io/concepts/placement/#taintstolerations">Tolerations of Placement</a>:
+Tolerations are applied to <code>Placements</code>, and allow <code>Placements</code> to select
+<code>ManagedClusters</code> with matching taints.</p>
+</li>
+<li>
+<p><a href="https://github.com/open-cluster-management-io/ocm/tree/main/solutions/deploy-argocd-apps-pull">ArgoCD Pull Model Integration</a>:
+The ArgoCD application controller uses the hub-spoke pattern or pull model mechanism
+for decentralized resource delivery to remote clusters. By using Open Cluster Management (OCM) APIs
+and components, the ArgoCD Applications will be pulled from the multi-cluster control plane
+hub cluster down to the registered OCM managed clusters</p>
 </li>
 </ul>
-<h2 id="deploy-manifestwork-to-placement-selected-managed-clusters">Deploy manifestwork to placement selected managed clusters</h2>
-<p>In <a href="https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/">deploy Kubernetes resources to the managed clusters</a>,
-it shows you how to use <code>clusteradm</code> to create a <code>ManifestWork</code> and deploy it
-onto a specific managed clusters. As <code>Placement</code> can dynamically select a set of
-<code>ManagedCluster</code>, the next steps will show you how <code>clusteradm</code> leverages
-placement scheduling ability and dynamically deploy <code>ManifestWork</code> to a set of
-managed clusters.</p>
+<h2 id="setup-the-environment">Setup the environment</h2>
+<p>Follow the <a href="https://github.com/open-cluster-management-io/ocm/blob/main/solutions/deploy-argocd-apps-pull/getting-started.md">deploy ArgoCD pull model steps</a>
+to set up an environment with OCM and ArgoCD pull model installed.</p>
+<p>If the above steps run successfully, on the hub cluster, you could see the application is deployed to both cluster1 and cluster2.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster1-guestbook-app   Synced        Healthy
+cluster2-guestbook-app   Synced        Healthy
+</code></pre></div><h2 id="migrate-application-to-another-cluster-automatically-when-one-cluster-is-down">Migrate application to another cluster automatically when one cluster is down</h2>
 <ol>
 <li>
-<p>Following <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment">setup dev environment by kind</a>
-to prepare an environment.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
+<p>To demonstrate how an application can be migrated to another cluster, let&rsquo;s first deploy the application in a single cluster.</p>
+<p>Path the existing <code>Placement</code> to select only one cluster.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl patch placement -n argocd guestbook-app-placement --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
+placement.cluster.open-cluster-management.io/guestbook-app-placement patched
+</code></pre></div><p>Use <code>clusteradm</code> to check the placement of selected clusters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get placements -otable
+NAME                      STATUS   REASON              SELETEDCLUSTERS
+guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster1<span style="color:#f92672">]</span>
 </code></pre></div></li>
 <li>
-<p>Confirm there are 2 <code>ManagedCluster</code> and a default <code>ManagedClusterSet</code> created.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get clusters
-NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERNETES VERSION
-cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
-cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
-
-$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
+<p>Confirm the application is only deployed to cluster1.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster1-guestbook-app   Synced        Healthy
 </code></pre></div></li>
 <li>
-<p>Bind the default <code>ManagedClusterSet</code> to default <code>Namespace</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm clusterset bind default --namespace default
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
-</code></pre></div><p>Note: click <a href="https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm">here</a>
-to see more details about how to operate <code>ManagedClusterSet</code> using <code>clusteradm</code>.</p>
-</li>
-<li>
-<p>Create a <code>Placement</code> placement1 to select the two clusters in default <code>ManagedClusterSet</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
-</span><span style="color:#e6db74">kind: Placement
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: placement1
-</span><span style="color:#e6db74">  namespace: default
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  numberOfClusters: 2
-</span><span style="color:#e6db74">  clusterSets:
-</span><span style="color:#e6db74">    - default
-</span><span style="color:#e6db74">EOF</span>
+<p>Pause the cluster1 to simulate a cluster going down.</p>
+<p>Use <code>docker ps -a</code> to get the cluster1 container ID.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker ps -a
+CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS       PORTS                       NAMES
+499812ada5bd   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:37377-&gt;6443/tcp   cluster2-control-plane
+0b9d110e1a1f   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:34780-&gt;6443/tcp   cluster1-control-plane
+0a327d4a5b41   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:44864-&gt;6443/tcp   hub-control-plane
+</code></pre></div><p>Use <code>docker pause</code> to pause the cluster1.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker pause 0b9d110e1a1f
+0b9d110e1a1f
 </code></pre></div></li>
 <li>
-<p>Use <code>clusteradm</code> command to create <code>ManifestWork</code> my-first-work with
-<code>Placement</code> placement1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f work.yaml --placement default/placement1
-</code></pre></div><p>The <code>work.yaml</code> contains kubernetes resource definitions, for sample:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat work.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: default
-  name: my-sa
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: default
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: <span style="color:#ae81ff">3</span>
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      serviceAccountName: my-sa
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: <span style="color:#ae81ff">80</span>
+<p>Wait for a few minutes, check the <code>ManagedCluster</code> status, cluster1 available status should become &ldquo;Unknown&rdquo;.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedcluster
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
+cluster1   true           https://cluster1-control-plane:6443   True     Unknown     9h
+cluster2   true           https://cluster2-control-plane:6443   True     True        9h
+</code></pre></div><p>Use <code>clusteradm</code> to check the placement of selected clusters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get placements -otable
+NAME                      STATUS   REASON              SELETEDCLUSTERS
+guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster2<span style="color:#f92672">]</span>
 </code></pre></div></li>
 <li>
-<p>Check the <code>ManifestWork</code>, it should be distributed to both cluster1 and cluster2.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   28s
-cluster2    my-first-work   28s
-</code></pre></div></li>
-<li>
-<p>Update the <code>Placement</code> placement1 to select only one managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl patch placement placement1 --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;clusterSets&#34;: [&#34;default&#34;],&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
-</code></pre></div></li>
-<li>
-<p>As the placement decision changes, running below command to reschedule
-<code>ManifestWork</code> my-first-work to the newly selected cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f work.yaml --placement default/placement1 --overwrite
-</code></pre></div></li>
-<li>
-<p>Check the <code>ManifestWork</code> again, now it&rsquo;s only deployed to cluster1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   18m
+<p>Confirm the application is now deployed to cluster2.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster2-guestbook-app   Synced        Healthy
 </code></pre></div></li>
 </ol>
 <h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
-<p>The main idea is that <code>clusteradm</code> parse the selected clusters generated by
-<code>Placement</code>, and fill in that as <code>ManifestWork</code> namespace. Then create the
-<code>ManifestWork</code> and it would be distributed to a set of clusters.
-Let&rsquo;s see more details.</p>
+<p>Refer to <a href="https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters">Taints of ManagedClusters</a>,
+when pausing cluster1, the status of condition <code>ManagedClusterConditionAvailable</code>
+becomes <code>Unknown</code>. The taint <code>cluster.open-cluster-management.io/unreachable</code> is automatically
+added to cluster1, with the effect NoSelect and an empty value.</p>
+<pre><code>```shell
+$ kubectl get managedcluster cluster1 -oyaml
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: cluster1
+  labels:
+    cluster.open-cluster-management.io/clusterset: default
+spec:
+...
+  taints:
+  - effect: NoSelect
+    key: cluster.open-cluster-management.io/unreachable
+    timeAdded: &quot;2023-11-13T16:26:16Z&quot;
+status: 
+...
+```
+</code></pre>
+<p>Since the <code>Placement</code> guestbook-app-placement doesn&rsquo;t define any toleration to match the taint,
+cluster1 will be filtered from the decision. In the demo environment, once cluster1 is down,
+placement will select one cluster from the rest clusters, which is cluster2.</p>
+<p><a href="https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters">Taints of ManagedClusters</a>
+also describes other scenarios where taints are automatically added. In some scenarios you may not want to
+migrate the application immediately when a taint is added, with placement <code>TolerationSeconds</code> defined, it could tolerates the taint
+for a period of time before repelling it. In above example, the <code>TolerationSeconds</code> could be defined as below:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
+<span style="color:#66d9ef">kind</span>: Placement
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: guestbook-app-placement
+  <span style="color:#66d9ef">namespace</span>: argocd
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
+  <span style="color:#66d9ef">tolerations</span>:
+    - <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
+      <span style="color:#66d9ef">operator</span>: Exists
+      <span style="color:#66d9ef">tolerationSeconds</span>: <span style="color:#ae81ff">300</span>
+</code></pre></div><p><code>tolerationSeconds</code> is 300 means that the application will be migrated to cluster2 after 5 minutes when cluster1 is down.</p>
+<h2 id="migrate-application-to-another-cluster-manually-for-cluster-maintenance">Migrate application to another cluster manually for cluster maintenance</h2>
+<p>The above example shows how a taint is automatically added to a cluster and how the application is migrated to another cluster.
+You can also choose to add a taint manually and repel the application to other clusters.</p>
+<p>In the following example, suppose you are going to maintain cluster2, and want to repel the application to cluster1.</p>
 <ol>
 <li>
-<p><code>Placement</code> placement1 generates a <code>PlacementDecision</code> placement1-decision-1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement<span style="color:#f92672">=</span>placement1 -oyaml
-apiVersion: v1
-items:
-- apiVersion: cluster.open-cluster-management.io/v1beta1
-  kind: PlacementDecision
-  metadata:
-    creationTimestamp: <span style="color:#e6db74">&#34;2022-07-06T15:03:12Z&#34;</span>
-    generation: <span style="color:#ae81ff">1</span>
-    labels:
-      cluster.open-cluster-management.io/placement: placement1
-    name: placement1-decision-1
-    namespace: default
-    ownerReferences:
-    - apiVersion: cluster.open-cluster-management.io/v1beta1
-      blockOwnerDeletion: true
-      controller: true
-      kind: Placement
-      name: placement1
-      uid: aa339f57-0eb7-4260-8d4d-f30c1379fd35
-    resourceVersion: <span style="color:#e6db74">&#34;47679&#34;</span>
-    uid: 9f948619-1647-429d-894d-81e11dd8bcf1
-  status:
-    decisions:
-    - clusterName: cluster1
-      reason: <span style="color:#e6db74">&#34;&#34;</span>
-    - clusterName: cluster2
-      reason: <span style="color:#e6db74">&#34;&#34;</span>
-kind: List
-metadata:
-  resourceVersion: <span style="color:#e6db74">&#34;&#34;</span>
-  selfLink: <span style="color:#e6db74">&#34;&#34;</span>
+<p>Before starting, let&rsquo;s first restart the paused cluster1.</p>
+<p>Use <code>docker restart</code> to restart the cluster1.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker restart 0b9d110e1a1f
+0b9d110e1a1f
+</code></pre></div><p>Wait for a few minutes, check the <code>ManagedCluster</code> status, cluster1 available status should become &ldquo;True&rdquo;.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedcluster
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
+cluster1   true           https://cluster1-control-plane:6443   True     True        9h
+cluster2   true           https://cluster2-control-plane:6443   True     True        9h
 </code></pre></div></li>
 <li>
-<p><code>clusteradm</code> get the <code>PlacementDecision</code> generated by <code>Placment</code>
-placement1 with label <code>cluster.open-cluster-management.io/placement: placement1</code>,
-reference <a href="https://github.com/open-cluster-management-io/clusteradm/pull/247/files#diff-0f96f91e259a6a6ce0f2231444a4991174b43bc206d34897be3be897279124eaR157">code</a>.
-Then parse the clusterName cluster1 and cluster2, fill in that as <code>ManifestWork</code>
-namespace, reference <a href="https://github.com/open-cluster-management-io/clusteradm/pull/247/files#diff-0f96f91e259a6a6ce0f2231444a4991174b43bc206d34897be3be897279124eaR183">code</a>.
-Then installs <code>ManifestWork</code> to namespace cluster1 and cluster2,
-which will finally be distributed to the two clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   28s
-cluster2    my-first-work   28s
+<p>Add the taint <code>maintenance</code> to cluster2 manually.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl patch managedcluster cluster2 -p <span style="color:#e6db74">&#39;{&#34;spec&#34;:{&#34;taints&#34;:[{&#34;effect&#34;:&#34;NoSelect&#34;,&#34;key&#34;:&#34;maintenance&#34;}]}}&#39;</span> --type<span style="color:#f92672">=</span>merge
+managedcluster.cluster.open-cluster-management.io/cluster2 patched
+</code></pre></div></li>
+<li>
+<p>Use <code>clusteradm</code> to check the placement selected clusters.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get placements -otable
+NAME                      STATUS   REASON              SELETEDCLUSTERS
+guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster1<span style="color:#f92672">]</span>
+</code></pre></div></li>
+<li>
+<p>Confirm the application is now deployed to cluster1.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster1-guestbook-app   Synced        Healthy
 </code></pre></div></li>
 </ol>
+<h2 id="summary">Summary</h2>
+<p>In this article, we use the ArgoCD pull model in OCM as an example, showing you how to migrate the ArgoCD applications automatically or manually when the cluster is down or during the cluster maintenance time.</p>
+<p>The concept of <a href="https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters">Taints</a> and <a href="https://open-cluster-management.io/concepts/placement/#taintstolerations">Tolerations</a> can be used for any components that consume OCM <code>Placement</code>, such as <a href="https://open-cluster-management.io/concepts/addon/">add-ons</a> and <a href="https://open-cluster-management.io/concepts/manifestworkreplicaset/">ManifestworkReplicaSet</a>. If you have any questions, feel free to raise them in our <a href="https://kubernetes.slack.com/channels/open-cluster-mgmt">slack channel</a>.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

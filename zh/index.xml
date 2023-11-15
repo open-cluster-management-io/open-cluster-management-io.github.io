@@ -91,6 +91,16 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
     </item>
     
     <item>
+      <title>Migrate workload with placement</title>
+      <link>https://open-cluster-management.io/zh/scenarios/migrate-workload-with-placement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://open-cluster-management.io/zh/scenarios/migrate-workload-with-placement/</guid>
+      <description>The Placement API is used to dynamically select a set of ManagedCluster in one or multiple ManagedClusterSets so that the workloads can be deployed to these clusters.
+If you define a valid Placement, the placement controller generates a corresponding PlacementDecision with the selected clusters listed in the status. As an end-user, you can parse the selected clusters and then operate on the target clusters. You can also integrate a high-level workload orchestrator with the PlacementDecision to leverage its scheduling capabilities.</description>
+    </item>
+    
+    <item>
       <title>Register a cluster to hub through proxy server</title>
       <link>https://open-cluster-management.io/zh/scenarios/register-cluster-through-proxy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

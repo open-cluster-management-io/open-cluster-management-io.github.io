@@ -42,6 +42,10 @@
     </url>
     
     <url>
+        <loc>https://open-cluster-management.io/scenarios/migrate-workload-with-placement</loc>
+    </url>
+    
+    <url>
         <loc>https://open-cluster-management.io/getting-started/administration/monitoring</loc>
     </url>
     
