@@ -1,6 +1,6 @@
 ---
 title: 托管集群
-weight: 2
+weight: 3
 ---
 
 <!-- spellchecker-disable -->
@@ -56,7 +56,7 @@ command-line tool `clusteradm` to manage the whole registration process.
 When we're registering a new cluster into OCM, the registration agent will be
 starting by creating an unaccepted `ManagedCluster` into the hub cluster along
 with a temporary [CertificateSigningRequest (CSR)](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)
-resource. The cluster will be accepted by the hub control plan, if the
+resource. The cluster will be accepted by the hub control plane, if the
 following requirements is meet:
 
 - The CSR is approved and signed by any certificate provider setting filling

@@ -1,6 +1,6 @@
 ---
 title: 资源下发
-weight: 2
+weight: 6
 ---
 
 <!-- spellchecker-disable -->

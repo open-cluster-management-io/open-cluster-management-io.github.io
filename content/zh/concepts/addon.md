@@ -1,7 +1,13 @@
 ---
 title: 自定义插件
-weight: 4
+weight: 8
 ---
+
+<!-- spellchecker-disable -->
+
+{{< toc >}}
+
+<!-- spellchecker-enable -->
 
 ## What is an add-on?
 

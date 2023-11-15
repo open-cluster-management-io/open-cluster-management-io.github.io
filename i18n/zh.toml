@@ -79,26 +79,32 @@ other = "概念"
 [sidebar_architecture]
 other = "架构"
 
-[sidebar_managed_cluster]
-other = "托管集群"
-
 [sidebar_cluster_claim]
 other = "集群声明"
+
+[sidebar_managed_cluster]
+other = "托管集群"
 
 [ sidebar_managed_cluster_set ]
 other = "托管集群分组"
 
+[sidebar_placement]
+other = "匹配路由"
+
 [sidebar_manifest_work]
 other = "资源下发"
 
-[sidebar_placement]
-other = "匹配路由"
+[sidebar_manifest_work_replicaset]
+other = "资源下发组"
 
 [sidebar_addons]
 other = "自定义插件"
 
 [sidebar_policy]
 other = "Policy"
+
+[sidebar_multicluster_controlplane]
+other = "多集群控制面"
 
 [sidebar_getting_started]
 other = "安装"

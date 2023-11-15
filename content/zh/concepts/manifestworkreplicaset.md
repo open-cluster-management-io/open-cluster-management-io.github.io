@@ -1,5 +1,5 @@
 ---
-title: ManifestWorkReplicaSet
+title: 资源下发组
 weight: 7
 ---
 

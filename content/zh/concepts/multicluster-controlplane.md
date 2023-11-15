@@ -1,5 +1,5 @@
 ---
-title: Multicluster Control Plane
+title: 多集群控制面
 weight: 10
 ---
 
