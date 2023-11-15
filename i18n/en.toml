@@ -166,6 +166,9 @@ other = "Deploy Kubernetes Resources"
 [sidebar_distribute_workload_with_placement]
 other = "Distribute Workload With Placement"
 
+[sidebar_migrate_workload_with_placement]
+other = "Migrate Workload With Placement"
+
 [sidebar_extend_multicluster_scheduling_capabilities]
 other = "Extend Multicluster Scheduling Capabilities"
 
