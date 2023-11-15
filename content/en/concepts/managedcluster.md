@@ -1,6 +1,6 @@
 ---
 title: ManagedCluster
-weight: 2
+weight: 3
 ---
 
 <!-- spellchecker-disable -->

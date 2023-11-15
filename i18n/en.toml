@@ -79,26 +79,32 @@ other = "Concepts"
 [sidebar_architecture]
 other = "Architecture"
 
-[sidebar_managed_cluster]
-other = "ManagedCluster"
-
 [sidebar_cluster_claim]
 other = "ClusterClaim"
+
+[sidebar_managed_cluster]
+other = "ManagedCluster"
 
 [ sidebar_managed_cluster_set ]
 other = "ManagedClusterSet"
 
+[sidebar_placement]
+other = "Placement"
+
 [sidebar_manifest_work]
 other = "ManifestWork"
 
-[sidebar_placement]
-other = "Placement"
+[sidebar_manifest_work_replicaset]
+other = "ManifestWorkReplicaSet"
 
 [sidebar_addons]
 other = "Add-ons"
 
 [sidebar_policy]
 other = "Policy"
+
+[sidebar_multicluster_controlplane]
+other = "Multicluster Control Plane"
 
 [sidebar_getting_started]
 other = "Getting Started"

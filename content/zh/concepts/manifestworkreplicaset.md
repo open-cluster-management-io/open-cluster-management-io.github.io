@@ -1,5 +1,5 @@
 ---
-title: ManifestWorkReplicaSet
+title: 资源下发组
 weight: 7
 ---
 
@@ -11,7 +11,7 @@ weight: 7
 
 ## What is `ManifestWorkReplicaSet`
 
-`ManifestWorkReplicaSet` is an aggregator API that uses [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifestwork for the placement-selected clusters.
+`ManifestWorkReplicaSet` is an aggregator API that uses [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifestwork for the placement-selected clusters. 
 
 View an example of a `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by a placement.
 
@@ -80,7 +80,7 @@ The placement reference must be in the same namespace as the manifestWorkReplica
 
 Let's assume the placement reference used in the previous example **placement-byname** has 10 clusters selected. The ManifestWorkReplicaSet monitors the Placement-selected clusters and creates/deletes ManifestWork for the placement clusters. The ManifestWorkReplicaSet tracks the status conditions of the created ManifestWorks and reports a summary for all ManifestWork statuses in the ManifestWorkReplicaSet status.
 
-The ManifestWorkReplicaSet has two status conditions;
+The ManifestWorkReplicaSet has two status conditions; 
 1. **PlacementVerified** to verify the placementRefs (not exist or empty cluster selection). 
 1. **ManifestWorkApplied** to verify all the created ManifestWork status conditions (applied, progressing, degraded or available).
 

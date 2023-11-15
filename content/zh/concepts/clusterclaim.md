@@ -1,5 +1,5 @@
 ---
-title: ClusterClaim
+title: 集群声明
 weight: 2
 ---
 
@@ -32,7 +32,7 @@ to the status of `ManagedCluster`.
 
 Here is a `ClusterClaim` example specifying a `id.k8s.io`:
 
-```
+```yaml
 apiVersion: cluster.open-cluster-management.io/v1alpha1
 kind: ClusterClaim
 metadata:
@@ -44,7 +44,7 @@ spec:
 After applying the `ClusterClaim` above to any managed cluster, the value of the `ClusterClaim` 
 is reflected in the `ManagedCluster` on the hub cluster:
 
-```
+```yaml
 apiVersion: cluster.open-cluster-management.io/v1
 kind: ManagedCluster
 metadata: ...

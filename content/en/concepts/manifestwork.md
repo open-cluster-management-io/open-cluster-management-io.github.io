@@ -1,6 +1,6 @@
 ---
 title: ManifestWork
-weight: 2
+weight: 6
 ---
 
 <!-- spellchecker-disable -->

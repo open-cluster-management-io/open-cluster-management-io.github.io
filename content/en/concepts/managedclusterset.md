@@ -1,6 +1,6 @@
 ---
 title: ManagedClusterSet
-weight: 2
+weight: 4
 ---
 
 <!-- spellchecker-disable -->
