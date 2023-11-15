@@ -11,9 +11,9 @@ weight: 7
 
 ## What is `ManifestWorkReplicaSet`
 
-`ManifestWorkReplicaSet` is an aggregator API that use [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifeswork for the placement selected clusters. 
+`ManifestWorkReplicaSet` is an aggregator API that uses [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifestwork for the placement-selected clusters.
 
-An example of `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by a placement.
+View an example of a `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by a placement.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1alpha1
@@ -78,11 +78,11 @@ The placement reference must be in the same namespace as the manifestWorkReplica
 
 ## Status tracking
 
-Assuming the used placement reference in the previous example **plcament-byname** has 10 clusters selected. The manifestWorkReplicaSet monitor the Placement selected clusters and create/delete manifestWork for the placement clusters's. The ManifestWorkReplicaSet track the status conditions of the created manifestWorks and report a summery for all manifestWorks status in the manifestWorkReplicaSet status.
+Let's assume the placement reference used in the previous example **placement-byname** has 10 clusters selected. The ManifestWorkReplicaSet monitors the Placement-selected clusters and creates/deletes ManifestWork for the placement clusters. The ManifestWorkReplicaSet tracks the status conditions of the created ManifestWorks and reports a summary for all ManifestWork statuses in the ManifestWorkReplicaSet status.
 
-The manifestWorkReplicaSet has two status conditions; 
+The ManifestWorkReplicaSet has two status conditions;
 1. **PlacementVerified** to verify the placementRefs (not exist or empty cluster selection). 
-1. **ManifestWorkApplied** to verify all the created manifestWork status conditions (applied, progressing, degraded or available).
+1. **ManifestWorkApplied** to verify all the created ManifestWork status conditions (applied, progressing, degraded or available).
 
 Here is an example.
 
@@ -118,7 +118,7 @@ status:
 ```
 ## Release and Enable Feature
 
-ManifeastWorkReplicaSet is in alpha release and it is not enable by default. In order to enable the ManifeastWorkReplicaSet feature, it has to be enabled in the cluster-manager instance in the hub. Use the following command to edit the cluster-manager CR (custom resource) in the hub cluster.
+ManifestWorkReplicaSet is in alpha release and it is not enabled by default. In order to enable the ManifestWorkReplicaSet feature, it has to be enabled in the cluster-manager instance in the hub. Use the following command to edit the cluster-manager CR (custom resource) in the hub cluster.
 
 ```shell
 $ oc edit ClusterManager cluster-manager
