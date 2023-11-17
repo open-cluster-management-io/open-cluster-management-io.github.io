@@ -290,6 +290,7 @@
         <li><a href="#placementdecisions">PlacementDecisions</a>
           <ul>
             <li><a href="#decision-strategy">Decision strategy</a></li>
+            <li><a href="#rollout-strategy">Rollout Strategy</a></li>
           </ul>
         </li>
         <li><a href="#troubleshooting">Troubleshooting</a>
@@ -740,7 +741,23 @@ and group index it belongs to.</p>
   <span style="color:#66d9ef">name</span>: placement1-decision<span style="color:#ae81ff">-1</span>
   <span style="color:#66d9ef">namespace</span>: default
 ...
-</code></pre></div><h2 id="troubleshooting">Troubleshooting</h2>
+</code></pre></div><h3 id="rollout-strategy">Rollout Strategy</h3>
+<p>Rollout Strategy <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go">API</a> facilitate the use of placement decision strategy with ACM workload applier APIs such as Policy, Addon and ManifestWorkReplicaSet to apply workloads.
+The Rollout Strategy API provides three rollout types;</p>
+<ol>
+<li><strong>All</strong>: means apply the workload to all clusters in the decision groups at once.</li>
+<li><strong>Progressive</strong>: means apply the workload to the selected clusters progressively per cluster. The workload will not be applied to the next cluster unless one of the current applied clusters reach the successful state and haven&rsquo;t breached the MaxFailures configuration.</li>
+<li><strong>ProgressivePerGroup</strong>: means apply the workload to decisionGroup clusters progressively per group. The workload will not be applied to the next decisionGroup unless all clusters in the current group reach the successful state and haven&rsquo;t breached the MaxFailures configuration.</li>
+</ol>
+<p>The RollOut Strategy API also provides rollOut config to fine-tune the workload apply progress based on the use-case requirements;</p>
+<ol>
+<li><strong>MinSuccessTime</strong>: defined in seconds/minutes/hours for how long workload applier controller will wait from the beginning of the rollout to proceed with the next rollout, assuming a successful state had been reached.</li>
+<li><strong>ProgressDeadline</strong>: defined in seconds/minutes/hours for how long workload applier controller will wait until the workload reaches a successful state in the spoke cluster, after which it&rsquo;s marked as failed.</li>
+<li><strong>MaxFailures</strong>: defined as the maximum percentage of or number of clusters that can fail in order to proceed with the rollout.</li>
+<li><strong>MaxConcurrency</strong>: is the max number of clusters to deploy workload concurrently. The MaxConcurrency can be defined only in case rollout type is progressive.</li>
+<li><strong>MandatoryDecisionGroups</strong>: is a list of decision groups to apply the workload first. If mandatoryDecisionGroups not defined the decision group index is considered to apply the workload in groups by order. The MandatoryDecisionGroups can be defined only in case rollout type is progressive or progressivePerGroup.</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
 <p>If no <code>PlacementDecision</code> generated after you creating <code>Placement</code>, you can run below commands to troubleshoot.</p>
 <h3 id="check-the-placement-conditions">Check the <code>Placement</code> conditions</h3>
 <p>For example:</p>

@@ -244,9 +244,8 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/concepts/placement/</guid>
-      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer Extensible scheduling     PlacementDecisions  Decision strategy   Troubleshooting  Check the Placement conditions Check the Placement events Debug   Future work     API-CHANGE NOTE:
-The Placement and PlacementDecision API v1alpha1 version will no longer be served in OCM v0.9.0.
- Migrate manifests and API clients to use the Placement and PlacementDecision API v1beta1 version, available since OCM v0.</description>
+      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer Extensible scheduling     PlacementDecisions  Decision strategy Rollout Strategy   Troubleshooting  Check the Placement conditions Check the Placement events Debug   Future work     API-CHANGE NOTE:
+The Placement and PlacementDecision API v1alpha1 version will no longer be served in OCM v0.9.0.</description>
     </item>
     
     <item>
@@ -274,8 +273,8 @@ The Placement and PlacementDecision API v1alpha1 version will no longer be serve
       
       <guid>https://open-cluster-management.io/concepts/manifestworkreplicaset/</guid>
       <description>What is ManifestWorkReplicaSet Status tracking Release and Enable Feature     What is ManifestWorkReplicaSet ManifestWorkReplicaSet is an aggregator API that uses Manifestwork and Placement to create manifestwork for the placement-selected clusters.
-View an example of a ManifestWorkReplicaSet to deploy a CronJob and Namespace for a group of clusters selected by a placement.
-apiVersion: work.open-cluster-management.io/v1alpha1 kind: ManifestWorkReplicaSet metadata: name: mwrset-cronjob namespace: ocm-ns spec: placementRefs: - name: placement-byname # Name of a created Placement manifestWorkTemplate: deleteOption: propagationPolicy: SelectivelyOrphan selectivelyOrphans: orphaningRules: - group: &amp;#39;&amp;#39; name: ocm-ns namespace: &amp;#39;&amp;#39; resource: Namespace manifestConfigs: - feedbackRules: - jsonPaths: - name: lastScheduleTime path: .</description>
+View an example of ManifestWorkReplicaSet to deploy a CronJob and Namespace for a group of clusters selected by placements.
+apiVersion: work.open-cluster-management.io/v1alpha1 kind: ManifestWorkReplicaSet metadata: name: mwrset-cronjob namespace: ocm-ns spec: placementRefs: - name: placement-rollout-all # Name of a created Placement rolloutStrategy: rolloutType: All - name: placement-rollout-progressive # Name of a created Placement rolloutStrategy: rolloutType: Progressive progressive: minSuccessTime: 5m progressDeadline: 10m maxFailures: 5% mandatoryDecisionGroups: - prod-canary-west - prod-canary-east - name: placement-rollout-progressive-per-group # Name of a created Placement rolloutStrategy: rolloutType: ProgressivePerGroup progressivePerGroup: progressDeadline: 10m maxFailures: 2 manifestWorkTemplate: deleteOption: propagationPolicy: SelectivelyOrphan selectivelyOrphans: orphaningRules: - group: &amp;#39;&amp;#39; name: ocm-ns namespace: &amp;#39;&amp;#39; resource: Namespace manifestConfigs: - feedbackRules: - jsonPaths: - name: lastScheduleTime path: .</description>
     </item>
     
     <item>
