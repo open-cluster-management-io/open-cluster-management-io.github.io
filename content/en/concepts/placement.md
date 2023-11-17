@@ -488,6 +488,21 @@ metadata:
 ...
 ```
 
+### Rollout Strategy
+
+Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with ACM workload applier APIs such as Policy, Addon and ManifestWorkReplicaSet to apply workloads.
+The Rollout Strategy API provides three rollout types;
+1) **All**: means apply the workload to all clusters in the decision groups at once.
+2) **Progressive**: means apply the workload to the selected clusters progressively per cluster. The workload will not be applied to the next cluster unless one of the current applied clusters reach the successful state and haven't breached the MaxFailures configuration.
+3) **ProgressivePerGroup**: means apply the workload to decisionGroup clusters progressively per group. The workload will not be applied to the next decisionGroup unless all clusters in the current group reach the successful state and haven't breached the MaxFailures configuration.
+
+The RollOut Strategy API also provides rollOut config to fine-tune the workload apply progress based on the use-case requirements;
+1) **MinSuccessTime**: defined in seconds/minutes/hours for how long workload applier controller will wait from the beginning of the rollout to proceed with the next rollout, assuming a successful state had been reached.
+2) **ProgressDeadline**: defined in seconds/minutes/hours for how long workload applier controller will wait until the workload reaches a successful state in the spoke cluster, after which it's marked as failed.
+3) **MaxFailures**: defined as the maximum percentage of or number of clusters that can fail in order to proceed with the rollout.
+4) **MaxConcurrency**: is the max number of clusters to deploy workload concurrently. The MaxConcurrency can be defined only in case rollout type is progressive.
+5) **MandatoryDecisionGroups**: is a list of decision groups to apply the workload first. If mandatoryDecisionGroups not defined the decision group index is considered to apply the workload in groups by order. The MandatoryDecisionGroups can be defined only in case rollout type is progressive or progressivePerGroup.
+
 ## Troubleshooting
 If no `PlacementDecision` generated after you creating `Placement`, you can run below commands to troubleshoot.
 
