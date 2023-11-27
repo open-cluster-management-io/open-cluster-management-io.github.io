@@ -11,6 +11,12 @@ weight: 9
 
 ## Overview
 
+Note: this is also covered in the
+[Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://www.youtube.com/watch?v=ZZH654t5YpI)
+video.
+
+[![Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://img.youtube.com/vi/ZZH654t5YpI/0.jpg)](https://www.youtube.com/watch?v=ZZH654t5YpI)
+
 The policy framework has the following API concepts:
 
 - [_Policy Templates_](#managed-cluster-policy-controllers) are the policies that perform a desired check or action. For
