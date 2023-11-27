@@ -4,6 +4,10 @@ weight: 6
 ---
 
 ----
+### [Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://www.youtube.com/watch?v=ZZH654t5YpI)
+- Authors: [Matt Prahl](https://github.com/mprahl)
+- Date: Nov 22, 2023
+----
 ### [How to distribute workloads using Open Cluster Management](https://developers.redhat.com/articles/2023/01/19/how-distribute-workloads-using-open-cluster-management)
 - Authors: [Tomer Figenblat](https://github.com/TomerFi)
 - Date: Jan 19, 2023
