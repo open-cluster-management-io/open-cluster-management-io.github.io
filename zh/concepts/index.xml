@@ -97,8 +97,10 @@ apiVersion: work.open-cluster-management.io/v1alpha1 kind: ManifestWorkReplicaSe
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/concepts/policy/</guid>
-      <description>Overview Policy PlacementBinding PolicySet Managed cluster policy controllers Templating in configuration policies  Hub cluster templating in configuration policies Templating value encryption Templating functions       Overview The policy framework has the following API concepts:
- Policy Templates are the policies that perform a desired check or action. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster.</description>
+      <description>Overview Policy PlacementBinding PolicySet Managed cluster policy controllers Templating in configuration policies  Hub cluster templating in configuration policies Templating value encryption Templating functions       Overview Note: this is also covered in the Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon video.
+
+The policy framework has the following API concepts:
+ Policy Templates are the policies that perform a desired check or action.</description>
     </item>
     
     <item>
