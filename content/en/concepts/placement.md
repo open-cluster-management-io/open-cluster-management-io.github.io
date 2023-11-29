@@ -490,7 +490,7 @@ metadata:
 
 ### Rollout Strategy
 
-Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with ACM workload applier APIs such as Policy, Addon and ManifestWorkReplicaSet to apply workloads.
+Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, Addon and ManifestWorkReplicaSet to apply workloads.
 The Rollout Strategy API provides three rollout types;
 1) **All**: means apply the workload to all clusters in the decision groups at once.
 2) **Progressive**: means apply the workload to the selected clusters progressively per cluster. The workload will not be applied to the next cluster unless one of the current applied clusters reach the successful state and haven't breached the MaxFailures configuration.
