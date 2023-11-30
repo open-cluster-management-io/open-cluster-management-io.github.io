@@ -168,7 +168,7 @@ An example of a `PolicySet` is shown below.
 apiVersion: policy.open-cluster-management.io/v1beta1
 kind: PolicySet
 metadata:
-  name: acm-hardening
+  name: ocm-hardening
   namespace: policies
 spec:
   description: Apply standard best practices for hardening your Open Cluster Management installation.
