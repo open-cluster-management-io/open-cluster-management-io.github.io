@@ -865,9 +865,10 @@ spec:
 With the rollout strategy defined in the `ClusterManagementAddOn` API, users can
 control the upgrade behavior of the add-on when there are changes in the [supported configurations](#add-your-add-on-agent-supported-configurations).
 
-For example, if the add-on user updates the "deploy-config" and wants to apply
-the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will
-apply the change each time.
+For example, if the add-on user updates the "deploy-config" and wants to apply 
+the change to the add-ons to a "canary" [decision group](https://open-cluster-management.io/concepts/placement/#decision-strategy) first. 
+If all the add-on upgrade successfully, then upgrade the rest of clusters progressively per cluster 
+at a rate of 25%. The rollout strategy can be defined as follows:
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -890,9 +891,11 @@ spec:
         name: deploy-config
         namespace: open-cluster-management
       rolloutStrategy:
-        type: RollingUpdate
-        rollingUpdate:
-          maxConcurrentlyUpdating: 25%
+        type: Progressive
+        progressive:
+          mandatoryDecisionGroups:
+          - groupName: "canary"
+          maxConcurrency: 25%
 ```
 
 The latest addon-framework already implements the installStrategy and rolloutStrategy.
@@ -902,8 +905,8 @@ the `go.mod` file with a minor code change to support the scenarios mentioned ab
 1. Modify the `go.mod` file to use the latest addon-framework and API versions.
 
 ```
-open-cluster-management.io/addon-framework v0.7.0
-open-cluster-management.io/api v0.11.0
+open-cluster-management.io/addon-framework v0.8.0
+open-cluster-management.io/api v0.12.0
 ```
 
 2. Remove the `WithInstallStrategy()` function described in the [automatic installation](#automatic-installation)
@@ -912,7 +915,9 @@ open-cluster-management.io/api v0.11.0
 With the above changes, you can now enable the "AddonManagement" feature gates
 in `ClusterManager` and let the new component `addon-manager` manage the add-ons.
 
-3. Enable the "AddonManagement" feature gates in `ClusterManager` as shown below.
+3. Enable the "AddonManagement" feature gates in `ClusterManager` as shown below. 
+
+Skip this step for OCM v0.12.0 and later version.
 
 ```yaml
 apiVersion: operator.open-cluster-management.io/v1
