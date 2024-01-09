@@ -34,8 +34,8 @@ spec:
           progressDeadline: 10m
           maxFailures: 5%
           mandatoryDecisionGroups:
-          - prod-canary-west
-          - prod-canary-east
+          - groupName: "prod-canary-west"
+          - groupName: "prod-canary-east"
     - name: placement-rollout-progressive-per-group # Name of a created Placement
       rolloutStrategy:
         rolloutType: ProgressivePerGroup
