@@ -298,8 +298,8 @@
           <span style="color:#66d9ef">progressDeadline</span>: 10m
           <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">5</span>%
           <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
-          - prod-canary-west
-          - prod-canary-east
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
     - <span style="color:#66d9ef">name</span>: placement-rollout-progressive-per-group <span style="color:#75715e"># Name of a created Placement</span>
       <span style="color:#66d9ef">rolloutStrategy</span>:
         <span style="color:#66d9ef">rolloutType</span>: ProgressivePerGroup

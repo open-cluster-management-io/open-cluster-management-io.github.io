@@ -742,8 +742,20 @@ and group index it belongs to.</p>
   <span style="color:#66d9ef">namespace</span>: default
 ...
 </code></pre></div><h3 id="rollout-strategy">Rollout Strategy</h3>
-<p>Rollout Strategy <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go">API</a> facilitate the use of placement decision strategy with ACM workload applier APIs such as Policy, Addon and ManifestWorkReplicaSet to apply workloads.
-The Rollout Strategy API provides three rollout types;</p>
+<p>Rollout Strategy <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go">API</a> facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, <a href="https://open-cluster-management.io/concepts/addon/#add-on-rollout-strategy">Addon</a> and <a href="https://open-cluster-management.io/concepts/manifestworkreplicaset/">ManifestWorkReplicaSet</a> to apply workloads.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">    <span style="color:#66d9ef">placements</span>:
+    - <span style="color:#66d9ef">name</span>: placement-example
+      <span style="color:#66d9ef">rolloutStrategy</span>:
+        <span style="color:#66d9ef">type</span>: Progressive
+        <span style="color:#66d9ef">progressive</span>:
+          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
+          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">25</span>%
+          <span style="color:#66d9ef">minSuccessTime</span>: 5m
+          <span style="color:#66d9ef">progressDeadline</span>: 10m
+          <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">2</span>
+</code></pre></div><p>The Rollout Strategy API provides three rollout types;</p>
 <ol>
 <li><strong>All</strong>: means apply the workload to all clusters in the decision groups at once.</li>
 <li><strong>Progressive</strong>: means apply the workload to the selected clusters progressively per cluster. The workload will not be applied to the next cluster unless one of the current applied clusters reach the successful state and haven&rsquo;t breached the MaxFailures configuration.</li>
@@ -751,9 +763,10 @@ The Rollout Strategy API provides three rollout types;</p>
 </ol>
 <p>The RollOut Strategy API also provides rollOut config to fine-tune the workload apply progress based on the use-case requirements;</p>
 <ol>
-<li><strong>MinSuccessTime</strong>: defined in seconds/minutes/hours for how long workload applier controller will wait from the beginning of the rollout to proceed with the next rollout, assuming a successful state had been reached.</li>
-<li><strong>ProgressDeadline</strong>: defined in seconds/minutes/hours for how long workload applier controller will wait until the workload reaches a successful state in the spoke cluster, after which it&rsquo;s marked as failed.</li>
-<li><strong>MaxFailures</strong>: defined as the maximum percentage of or number of clusters that can fail in order to proceed with the rollout.</li>
+<li><strong>MinSuccessTime</strong>: defined in seconds/minutes/hours for how long workload applier controller will wait from the beginning of the rollout to proceed with the next rollout, assuming a successful state had been reached and MaxFailures hasn&rsquo;t been breached. Default is 0 meaning the workload applier proceeds immediately after a successful state is reached.</li>
+<li><strong>ProgressDeadline</strong>: defined in seconds/minutes/hours for how long workload applier controller will wait until the workload reaches a successful state in the spoke cluster.
+If the workload does not reach a successful state after ProgressDeadline, the controller will stop waiting and workload will be treated as &ldquo;timeout&rdquo; and be counted into MaxFailures. Once the MaxFailures is breached, the rollout will stop. Default value is &ldquo;None&rdquo;, meaning the workload applier will wait for a successful state indefinitely.</li>
+<li><strong>MaxFailures</strong>: defined as the maximum percentage of or number of clusters that can fail in order to proceed with the rollout. Fail means the cluster has a failed status or timeout status (does not reach successful status after ProgressDeadline). Once the MaxFailures is breached, the rollout will stop. Default is 0 means that no failures are tolerated.</li>
 <li><strong>MaxConcurrency</strong>: is the max number of clusters to deploy workload concurrently. The MaxConcurrency can be defined only in case rollout type is progressive.</li>
 <li><strong>MandatoryDecisionGroups</strong>: is a list of decision groups to apply the workload first. If mandatoryDecisionGroups not defined the decision group index is considered to apply the workload in groups by order. The MandatoryDecisionGroups can be defined only in case rollout type is progressive or progressivePerGroup.</li>
 </ol>

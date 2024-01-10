@@ -965,8 +965,9 @@ is hardcoded in the code.)</p>
 <p>With the rollout strategy defined in the <code>ClusterManagementAddOn</code> API, users can
 control the upgrade behavior of the add-on when there are changes in the <a href="#add-your-add-on-agent-supported-configurations">supported configurations</a>.</p>
 <p>For example, if the add-on user updates the &ldquo;deploy-config&rdquo; and wants to apply
-the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will
-apply the change each time.</p>
+the change to the add-ons to a &ldquo;canary&rdquo; <a href="https://open-cluster-management.io/concepts/placement/#decision-strategy">decision group</a> first.
+If all the add-on upgrade successfully, then upgrade the rest of clusters progressively per cluster
+at a rate of 25%. The rollout strategy can be defined as follows:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
 <span style="color:#66d9ef">metadata</span>:
@@ -987,17 +988,19 @@ apply the change each time.</p>
         <span style="color:#66d9ef">name</span>: deploy-config
         <span style="color:#66d9ef">namespace</span>: open-cluster-management
       <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">type</span>: RollingUpdate
-        <span style="color:#66d9ef">rollingUpdate</span>:
-          <span style="color:#66d9ef">maxConcurrentlyUpdating</span>: <span style="color:#ae81ff">25</span>%
+        <span style="color:#66d9ef">type</span>: Progressive
+        <span style="color:#66d9ef">progressive</span>:
+          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
+          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">25</span>%
 </code></pre></div><p>The latest addon-framework already implements the installStrategy and rolloutStrategy.
 Add-on developers only need to upgrade to the latest addon-framework and API in
 the <code>go.mod</code> file with a minor code change to support the scenarios mentioned above.</p>
 <ol>
 <li>Modify the <code>go.mod</code> file to use the latest addon-framework and API versions.</li>
 </ol>
-<pre><code>open-cluster-management.io/addon-framework v0.7.0
-open-cluster-management.io/api v0.11.0
+<pre><code>open-cluster-management.io/addon-framework v0.8.0
+open-cluster-management.io/api v0.12.0
 </code></pre><ol start="2">
 <li>Remove the <code>WithInstallStrategy()</code> function described in the <a href="#automatic-installation">automatic installation</a>
 section since it conflicts with the install strategy defined in the <code>ClusterManagementAddOn</code> API level.</li>
@@ -1007,6 +1010,7 @@ in <code>ClusterManager</code> and let the new component <code>addon-manager</co
 <ol start="3">
 <li>Enable the &ldquo;AddonManagement&rdquo; feature gates in <code>ClusterManager</code> as shown below.</li>
 </ol>
+<p>Skip this step for OCM v0.12.0 and later version.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: operator.open-cluster-management.io/v1
 <span style="color:#66d9ef">kind</span>: ClusterManager
 <span style="color:#66d9ef">metadata</span>:

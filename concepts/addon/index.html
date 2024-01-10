@@ -449,8 +449,9 @@ explicitly in <code>ClusterManagementAddon</code>.</li>
 control the upgrade behavior of the addon when there are changes in the supported
 configurations.</p>
 <p>For example, if the add-on user updates the &ldquo;deploy-config&rdquo; and wants to apply
-the change to the add-ons at a rate of 25%. If with 100 clusters, 25 clusters will
-apply the change each time. The rollout strategy can be defined as follows:</p>
+the change to the add-ons to a &ldquo;canary&rdquo; <a href="https://open-cluster-management.io/concepts/placement/#decision-strategy">decision group</a> first. If all the add-on
+upgrade successfully, then upgrade the rest of clusters progressively per cluster
+at a rate of 25%. The rollout strategy can be defined as follows:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
 <span style="color:#66d9ef">metadata</span>:
@@ -471,10 +472,32 @@ apply the change each time. The rollout strategy can be defined as follows:</p>
         <span style="color:#66d9ef">name</span>: deploy-config
         <span style="color:#66d9ef">namespace</span>: open-cluster-management
       <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">type</span>: RollingUpdate
-        <span style="color:#66d9ef">rollingUpdate</span>:
-          <span style="color:#66d9ef">maxConcurrentlyUpdating</span>: <span style="color:#ae81ff">25</span>%
-</code></pre></div><h3 id="add-on-healthiness">Add-on healthiness</h3>
+        <span style="color:#66d9ef">type</span>: Progressive
+        <span style="color:#66d9ef">progressive</span>:
+          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
+          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">25</span>%
+          <span style="color:#66d9ef">minSuccessTime</span>: 5m
+          <span style="color:#66d9ef">progressDeadline</span>: 10m
+          <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">2</span>
+</code></pre></div><p>In the above example with type <code>Progressive</code>, once user updates the &ldquo;deploy-config&rdquo;, controller
+will rollout on the clusters in <code>mandatoryDecisionGroups</code> first, then rollout on the other
+clusters with the rate defined in <code>maxConcurrency</code>.</p>
+<ul>
+<li><code>minSuccessTime</code> is a &ldquo;soak&rdquo; time, means the controller will wait for 5 minutes when a cluster
+reach a successful state and <code>maxFailures</code> isn&rsquo;t breached. If, after this 5 minutes interval, the
+workload status remains successful, the rollout progresses to the next.</li>
+<li><code>progressDeadline</code> means the controller will wait for a maximum of 10 minutes for the workload to
+reach a successful state. If, the workload fails to achieve success within 10 minutes, the controller
+stops waiting, marking the workload as &ldquo;timeout,&rdquo; and includes it in the count of <code>maxFailures</code>.</li>
+<li><code>maxFailures</code> means the controller can tolerate update to 2 clusters with failed status,
+once <code>maxFailures</code> is breached, the rollout will stop.</li>
+</ul>
+<p>Currently add-on supports 3 types of <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go">rolloutStrategy</a>,
+they are <code>All</code>, <code>Progressive</code> and <code>ProgressivePerGroup</code>, for more info regards the rollout strategies
+check the <a href="https://open-cluster-management.io/concepts/placement/#rollout-strategy">Rollout Strategy</a> document.</p>
+<h3 id="add-on-healthiness">Add-on healthiness</h3>
 <p>The healthiness of the addon instances are visible when we list the addons via
 kubectl:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
