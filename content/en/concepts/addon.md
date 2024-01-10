@@ -218,11 +218,30 @@ spec:
         type: Progressive
         progressive:
           mandatoryDecisionGroups:
-          - groupName: "canary"
+          - groupName: "prod-canary-west"
+          - groupName: "prod-canary-east"
           maxConcurrency: 25%
+          minSuccessTime: 5m
+          progressDeadline: 10m
+          maxFailures: 2
 ```
 
-Current add-on supports 3 types of rollout strategy, they are All, Progressive and ProgressivePerGroup, refer to the [API definition](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) for more details.
+In the above example with type `Progressive`, once user updates the "deploy-config", controller 
+will rollout on the clusters in `mandatoryDecisionGroups` first, then rollout on the other 
+clusters with the rate defined in `maxConcurrency`. 
+
+- `minSuccessTime` is a "soak" time, means the controller will wait for 5 minutes when a cluster 
+reach a successful state and `maxFailures` isn't breached. If, after this 5 minutes interval, the 
+workload status remains successful, the rollout progresses to the next.
+- `progressDeadline` means the controller will wait for a maximum of 10 minutes for the workload to 
+reach a successful state. If, the workload fails to achieve success within 10 minutes, the controller 
+stops waiting, marking the workload as "timeout," and includes it in the count of `maxFailures`.
+- `maxFailures` means the controller can tolerate update to 2 clusters with failed status, 
+once `maxFailures` is breached, the rollout will stop.
+
+Currently add-on supports 3 types of [rolloutStrategy](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go), 
+they are `All`, `Progressive` and `ProgressivePerGroup`, for more info regards the rollout strategies 
+check the [Rollout Strategy](https://open-cluster-management.io/concepts/placement/#rollout-strategy) document.
 
 ### Add-on healthiness
 
