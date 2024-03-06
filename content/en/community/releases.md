@@ -3,8 +3,38 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.12.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.13.0`.
 Continue reading to view upcoming releases:
+
+## `0.13.0`, 6 Mar. 2024
+
+The Open Cluster Management team is proud to announce the release of OCM v0.13.0! There are a bunch of new features 
+added into this release.
+
+- Rollout API: we build a common rollout API that has beed adopted in `ClusterManagementAddon` and `ManifestWorkReplicaSet`,
+  and will be also used in policy addon. The API provides user a way to define workload/addon rolling upgrade strategy
+  across multiple clusters. See [here](https://open-cluster-management.io/concepts/addon/#add-on-rollout-strategy) for more
+  details.
+- More install configurations in Klusterlet: we enhance the `Klusterlet` API by adding more configuration field, including
+  resource request, QPS/Burst and priority class.
+- Cloudevent support: an expeiment feature to wire work agent with a messasge broker using cloudevent protocol. This enables
+  work agent running in a high scalable mode. See [here](
+  https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/224-event-based-manifestwork)
+  for more details.
+
+### Core components
+- ocm v0.13.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.13.0)
+- clusteradm  v0.8.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/blob/v0.8.0/CHANGELOG.md)
+
+### Addons
+- config-policy-controller v0.13.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.13.0)
+- governance-policy-framework-addon v0.13.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.13.0)
+- governance-policy-propagator v0.13.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.13.0)
+- governance-policy-addon-controller v0.13.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.13.0)
+- multicloud-operators-subscription v0.13.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.13.0)
+- multicloud-operators-channel v0.13.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.13.0)
+- multicloud-integrations v0.13.0 [changelog](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.13.0)
+- managed-serviceaccount v0.5.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.5.0)
 
 ## `0.12.0`, 11 Oct. 2023
 
