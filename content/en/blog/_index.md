@@ -4,6 +4,11 @@ weight: 6
 ---
 
 ----
+### [Using the GitOps way to deal with the upgrade challenges of multi-cluster tool chains]({{< ref "/blog/addon-rollout" >}})
+- Authors: [郝青](https://github.com/haoqing0110)
+- Date: 2024年01月19日
+----
+----
 ### [Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://www.youtube.com/watch?v=ZZH654t5YpI)
 - Authors: [Matt Prahl](https://github.com/mprahl)
 - Date: Nov 22, 2023

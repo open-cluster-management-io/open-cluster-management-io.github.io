@@ -432,6 +432,97 @@ spec:
     type: Placements
 ```
 
+## 三种升级配置
+
+`rolloutStrategy`升级策略中还可以定义`MinSuccessTime`, `ProgressDeadline`和`MaxFailures`来实现更细粒度的升级配置。
+
+- MinSuccessTime 
+
+`MinSuccessTime`定义了当addon升级成功且未达到`MaxFailures`时，controller需要等待多长时间才能继续升级下一个集群。默认值是0代码升级成功后立刻升级下一个集群。如下例子中，将按照每5分钟一个集群的速度升级addon。
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: managed-serviceaccount
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  supportedConfigs:
+...
+  installStrategy:
+    placements:
+    - name: aws-placement
+      namespace: default
+      rolloutStrategy:
+        type: Progressive
+        progressive:
+          mandatoryDecisionGroups:
+          - groupName: "canary"
+          maxConcurrency: 1
+          minSuccessTime: "5m"
+    type: Placements
+```
+
+- ProgressDeadline 
+
+`ProgressDeadline`定义了controller等待addon升级成功的最大时间，在此时间之后将addon视为超时“timeout”并计入`MaxFailures`。超过`MaxFailures`时将停止升级。默认值为“None”代表controller会一直等待addon升级成功。
+如下例子中，controller会在每个集群上等待10分钟直到addon升级成功，若超过10分钟未成功，将标记该集群升级状态为timeout。
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: managed-serviceaccount
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  supportedConfigs:
+...
+  installStrategy:
+    placements:
+    - name: aws-placement
+      namespace: default
+      rolloutStrategy:
+        type: Progressive
+        progressive:
+          mandatoryDecisionGroups:
+          - groupName: "canary"
+          maxConcurrency: 1
+          progressDeadline: "10m"
+    type: Placements
+```
+
+- MaxFailures 
+
+`MaxFailures`定义了可以容忍的升级失败的集群数量，可以是一个数值或者百分比。集群状态为failed或者timeout均视为升级失败，失败的集群超过`MaxFailures`后将停止升级。
+如下例子中，当有3个addon升级失败或者超过10分钟未升级成功，将停止升级。
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: managed-serviceaccount
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  supportedConfigs:
+...
+  installStrategy:
+    placements:
+    - name: aws-placement
+      namespace: default
+      rolloutStrategy:
+        type: Progressive
+        progressive:
+          mandatoryDecisionGroups:
+          - groupName: "canary"
+          maxConcurrency: 1
+          maxFailures: 2
+          progressDeadline: "10m"
+    type: Placements
+```
+
 ## 小结
 
 本文详细介绍了如何使用 Open Cluster Management 以 GitOps 方式应对多集群环境下工具链的升级挑战。OCM 提供了基于 Kubernetes 的跨多集群和多云的管理平台，通过 Add-on 插件和 Placement API，使得用户能够优雅、平滑地升级整个工具链。同时，OCM 将 add-on 升级视为配置文件的变更，使得用户能够利用 Kustomize 或 GitOps 实现跨集群的无缝滚动/金丝雀升级。此外，OCM 还提供了多种升级策略，包括全部升级(All)，按集群渐进升级(Progressive Per Cluster)和按集群组渐进升级(Progressive Per Group)，以满足不同的升级需求。
