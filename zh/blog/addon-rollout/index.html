@@ -279,6 +279,7 @@
         <li><a href="#placement-decision-strategy">Placement Decision Strategy</a></li>
         <li><a href="#以-gitops-方式简化升级">以 GitOps 方式简化升级</a></li>
         <li><a href="#三种升级策略">三种升级策略</a></li>
+        <li><a href="#三种升级配置">三种升级配置</a></li>
         <li><a href="#小结">小结</a></li>
         <li><a href="#未来计划">未来计划</a></li>
       </ul></nav><hr></div>
@@ -647,6 +648,86 @@ cluster-manager-work-webhook               1/1     <span style="color:#ae81ff">1
         <span style="color:#66d9ef">progressivePerGroup</span>:
           <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
           - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
+    <span style="color:#66d9ef">type</span>: Placements
+</code></pre></div><h2 id="三种升级配置">三种升级配置</h2>
+<p><code>rolloutStrategy</code>升级策略中还可以定义<code>MinSuccessTime</code>, <code>ProgressDeadline</code>和<code>MaxFailures</code>来实现更细粒度的升级配置。</p>
+<ul>
+<li>MinSuccessTime</li>
+</ul>
+<p><code>MinSuccessTime</code>定义了当addon升级成功且未达到<code>MaxFailures</code>时，controller需要等待多长时间才能继续升级下一个集群。默认值是0代码升级成功后立刻升级下一个集群。如下例子中，将按照每5分钟一个集群的速度升级addon。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: managed-serviceaccount
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">supportedConfigs</span>:
+...
+  <span style="color:#66d9ef">installStrategy</span>:
+    <span style="color:#66d9ef">placements</span>:
+    - <span style="color:#66d9ef">name</span>: aws-placement
+      <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">rolloutStrategy</span>:
+        <span style="color:#66d9ef">type</span>: Progressive
+        <span style="color:#66d9ef">progressive</span>:
+          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
+          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">1</span>
+          <span style="color:#66d9ef">minSuccessTime</span>: <span style="color:#e6db74">&#34;5m&#34;</span>
+    <span style="color:#66d9ef">type</span>: Placements
+</code></pre></div><ul>
+<li>ProgressDeadline</li>
+</ul>
+<p><code>ProgressDeadline</code>定义了controller等待addon升级成功的最大时间，在此时间之后将addon视为超时“timeout”并计入<code>MaxFailures</code>。超过<code>MaxFailures</code>时将停止升级。默认值为“None”代表controller会一直等待addon升级成功。
+如下例子中，controller会在每个集群上等待10分钟直到addon升级成功，若超过10分钟未成功，将标记该集群升级状态为timeout。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: managed-serviceaccount
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">supportedConfigs</span>:
+...
+  <span style="color:#66d9ef">installStrategy</span>:
+    <span style="color:#66d9ef">placements</span>:
+    - <span style="color:#66d9ef">name</span>: aws-placement
+      <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">rolloutStrategy</span>:
+        <span style="color:#66d9ef">type</span>: Progressive
+        <span style="color:#66d9ef">progressive</span>:
+          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
+          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">1</span>
+          <span style="color:#66d9ef">progressDeadline</span>: <span style="color:#e6db74">&#34;10m&#34;</span>
+    <span style="color:#66d9ef">type</span>: Placements
+</code></pre></div><ul>
+<li>MaxFailures</li>
+</ul>
+<p><code>MaxFailures</code>定义了可以容忍的升级失败的集群数量，可以是一个数值或者百分比。集群状态为failed或者timeout均视为升级失败，失败的集群超过<code>MaxFailures</code>后将停止升级。
+如下例子中，当有3个addon升级失败或者超过10分钟未升级成功，将停止升级。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: managed-serviceaccount
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">supportedConfigs</span>:
+...
+  <span style="color:#66d9ef">installStrategy</span>:
+    <span style="color:#66d9ef">placements</span>:
+    - <span style="color:#66d9ef">name</span>: aws-placement
+      <span style="color:#66d9ef">namespace</span>: default
+      <span style="color:#66d9ef">rolloutStrategy</span>:
+        <span style="color:#66d9ef">type</span>: Progressive
+        <span style="color:#66d9ef">progressive</span>:
+          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
+          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
+          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">1</span>
+          <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">2</span>
+          <span style="color:#66d9ef">progressDeadline</span>: <span style="color:#e6db74">&#34;10m&#34;</span>
     <span style="color:#66d9ef">type</span>: Placements
 </code></pre></div><h2 id="小结">小结</h2>
 <p>本文详细介绍了如何使用 Open Cluster Management 以 GitOps 方式应对多集群环境下工具链的升级挑战。OCM 提供了基于 Kubernetes 的跨多集群和多云的管理平台，通过 Add-on 插件和 Placement API，使得用户能够优雅、平滑地升级整个工具链。同时，OCM 将 add-on 升级视为配置文件的变更，使得用户能够利用 Kustomize 或 GitOps 实现跨集群的无缝滚动/金丝雀升级。此外，OCM 还提供了多种升级策略，包括全部升级(All)，按集群渐进升级(Progressive Per Cluster)和按集群组渐进升级(Progressive Per Group)，以满足不同的升级需求。</p>
