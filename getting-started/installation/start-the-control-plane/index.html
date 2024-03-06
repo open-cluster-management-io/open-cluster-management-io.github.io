@@ -284,8 +284,7 @@
 <li>The hub cluster should be <code>v1.19+</code>.
 (To run on hub cluster version between [<code>v1.16</code>, <code>v1.18</code>],
 please manually enable feature gate &ldquo;V1beta1CSRAPICompatibility&rdquo;).</li>
-<li>Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don&rsquo;t support it can&rsquo;t be used as the hub.
-For example: <a href="https://github.com/aws/containers-roadmap/issues/1856">EKS</a>.</li>
+<li>Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like <a href="https://github.com/aws/containers-roadmap/issues/1856">EKS</a>) don&rsquo;t support it, you can choose the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane">multicluster-controlplane</a> as the hub controlplane.</li>
 <li>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize</a> are installed.</li>
 </ul>
 <h2 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h2>
