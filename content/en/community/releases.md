@@ -21,6 +21,8 @@ added into this release.
   work agent running in a high scalable mode. See [here](
   https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/224-event-based-manifestwork)
   for more details.
+- Addon-framework is upgraded to v0.9.0 to better support generic addon-manager and addon rolling out strategy. It is highly
+  recommanded to addons to upgrade the addon-framework depdency v0.8.1 or higher version.
 
 ### Core components
 - ocm v0.13.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.13.0)
@@ -35,6 +37,7 @@ added into this release.
 - multicloud-operators-channel v0.13.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.13.0)
 - multicloud-integrations v0.13.0 [changelog](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.13.0)
 - managed-serviceaccount v0.5.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.5.0)
+- cluster-proxy v0.4.0 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.4.0)
 
 ## `0.12.0`, 11 Oct. 2023
 
