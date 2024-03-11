@@ -22,7 +22,10 @@ added into this release.
   https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/224-event-based-manifestwork)
   for more details.
 - Addon-framework is upgraded to v0.9.0 to better support generic addon-manager and addon rolling out strategy. It is highly
-  recommanded to addons to upgrade the addon-framework depdency v0.8.1 or higher version.
+  recommanded for addons to upgrade the addon-framework depdency v0.8.1 or higher version. Also it should be noted that
+  RBAC update of the addon hub controller (addin PATCH verson for resource `clustermanagementaddons`) is needed during
+  the upgrade.
+- Application add-on `Subscription` API can now aggregate and report managed clusters' kustomization errors.
 
 ### Core components
 - ocm v0.13.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.13.0)
