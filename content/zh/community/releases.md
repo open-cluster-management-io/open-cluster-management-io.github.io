@@ -11,21 +11,30 @@ Continue reading to view upcoming releases:
 The Open Cluster Management team is proud to announce the release of OCM v0.13.0! There are a bunch of new features
 added into this release.
 
-- Rollout API: we build a common rollout API that has beed adopted in `ClusterManagementAddon` and `ManifestWorkReplicaSet`,
-  and will be also used in policy addon. The API provides user a way to define workload/addon rolling upgrade strategy
+- Rollout API: we built a common rollout API that has been adopted in `ClusterManagementAddon` and `ManifestWorkReplicaSet`,
+  and will be also used in the policy addon in a future release. The API provides users a way to define a workload/addon rolling upgrade strategy
   across multiple clusters. See [here](https://open-cluster-management.io/concepts/addon/#add-on-rollout-strategy) for more
   details.
-- More install configurations in Klusterlet: we enhance the `Klusterlet` API by adding more configuration field, including
-  resource request, QPS/Burst and priority class.
-- Cloudevent support: an expeiment feature to wire work agent with a messasge broker using cloudevent protocol. This enables
-  work agent running in a high scalable mode. See [here](
+- More install configurations in Klusterlet: we enhanced the `Klusterlet` API by adding more configuration fields, including
+  resource requests, QPS/Burst and priority class.
+- Cloudevent support: an experimental feature to wire the work agent with a message broker using the cloudevent protocol. This enables
+  a work agent running in a highly scalable mode. See [here](
   https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/224-event-based-manifestwork)
   for more details.
-- Addon-framework is upgraded to v0.9.0 to better support generic addon-manager and addon rolling out strategy. It is highly
-  recommanded for addons to upgrade the addon-framework depdency v0.8.1 or higher version. Also it should be noted that
-  RBAC update of the addon hub controller (addin PATCH verson for resource `clustermanagementaddons`) is needed during
+- Addon-framework is upgraded to v0.9.0 to better support the generic addon-manager and addon rolling out strategy. It is highly
+  recommended for addons to upgrade the addon-framework dependency to version v0.8.1 or higher. Also, it should be noted that
+  an RBAC update of the addon hub controller (adding PATCH verbs for resource `clustermanagementaddons`) is required during
   the upgrade.
 - Application add-on `Subscription` API can now aggregate and report managed clusters' kustomization errors.
+- New OperatorPolicy to handle OLM operators: A new OperatorPolicy is added, managed by the `config-policy-controller` Pod,
+  aimed at easing the management of OLM deployments.
+- (Policy framework) Add diff logging to `ConfigurationPolicy`: A `recordDiff` parameter is added to `ConfigurationPolicy`
+  to enable the diff between the object on the cluster and the policy definition, to be logged in the `config-policy-controller` Pod logs.
+- (Policy framework) New `OperatorPolicy` to handle OLM operators: A new OperatorPolicy is added, managed by the
+  `config-policy-controller` Pod, aimed at easing the management of OLM deployments.
+- (Policy framework) New Compliance History API: A Compliance History API is added to the policy framework. The compliance
+  history in the policy on the cluster is limited to a non-configurable 10 statuses. The Compliance History API introduces
+  a query-able database to keep track of history over a longer period as well as updates to a given policy.
 
 ### Core components
 - ocm v0.13.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.13.0)
