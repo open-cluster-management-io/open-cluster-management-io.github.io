@@ -13,9 +13,7 @@ This page is a developer guide about how to build an OCM add-on using addon-fram
 
 ## Supported version
 
-The OCM v0.14.0 requires addon-framework v0.8.1 and above versions.
-
-And notice there's breaking changes in [automatic installation](#automatic-installation) in addon-framework version v0.10.0.
+The OCM v0.13.0 supports addon-framework v0.8.0 and the above versions. We suggest using the latest release v0.9.0.
 
 ## Overview
 
@@ -368,12 +366,9 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 ### Automatic installation
 
 NOTE: 
-- The automatic installation is no longer supported since addon-framework v0.10.0. Please use the `InstallStrategy` in
+- NOTE: This is deprecated since v0.12.0 and will be removed in the future. Please use the `InstallStrategy` in
 [Managing the add-on agent lifecycle by addon-manager](#managing-the-add-on-agent-lifecycle-by-addon-manager) section
 instead.
-- The automatic installation is still avaliable in addon-framework version v0.8.1 and v0.9.0, which is also the 
-minimal supported addon-framework version in OCM v0.14.0. Using the addon-framework v0.8.0 and previous version will 
-have install conficts. 
 
 In the busybox add-on example, you need to create a `ManagedClusterAddOn` CR to enable the add-on manually.  
 The addon-framework also provides a configuration called `InstallStrategy` to support installing addon automatically.
@@ -404,7 +399,7 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests")
                     BuildTemplateAgentAddon()
 ```
 
-Addtionally, need to grant a `patch` permission on `ClusterManagementAddon` to your addon manager.
+Addtionally, if you are using addon-framework v0.8.1 and v0.9.0, need to grant a `patch` permission on `ClusterManagementAddon` to your addon manager.
 
 ```yaml
 kind: ClusterRole
@@ -418,7 +413,7 @@ kind: ClusterRole
       verbs: ["get", "list", "watch", "patch"]
 ```
 
-So that the below annotation will be added automatically and avoid the addon lifecycle being managed by the general addon manager.
+The below annotation will be added automatically to claim the `ManagedClusterAddon` lifecycle is managed by the addon itself.
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -935,36 +930,22 @@ spec:
           maxConcurrency: 25%
 ```
 
-Add-on developers can use addon-framework v0.8.1 and laster version 
+Add-on developers can use addon-framework v0.8.0 and the above versions
 to support the scenarios mentioned above.
 
 1. Modify the `go.mod` file to use the latest addon-framework and API versions.
 
 ```
-open-cluster-management.io/addon-framework v0.9.0 // // or latest version which will be v0.10.0 when released
-open-cluster-management.io/api v0.13.0 // or latest
+open-cluster-management.io/addon-framework v0.9.0
+open-cluster-management.io/api v0.13.0
 ```
 
 2. Remove the `WithInstallStrategy()` function described in the [automatic installation](#automatic-installation)
    section since it conflicts with the install strategy defined in the `ClusterManagementAddOn` API level.
 
-Skip this step for the addon-framework v0.10.0 and later version.
-
-3. Claim that the addon is managed by `addon-manager` by adding the annotation
+3. Claim that the addon is managed by the general `addon-manager` by adding the annotation
    `addon.open-cluster-management.io/lifecycle: "addon-manager"` explicitly in the
    `ClusterManagementAddOn`. 
-
-Skip this step for OCM v0.14.0 and later version. The annotation is automatically added by the general addon manager.
-
-```yaml
-apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ClusterManagementAddOn
-metadata:
-  name: helloworld
-  annotations:
-    addon.open-cluster-management.io/lifecycle: "addon-manager"
-...
-```
 
 4. Define the `installStrategy` and `rolloutStrategy` in the `ClusterManagementAddOn`
    as shown in the example above. Note that the rollout strategy is triggered by
