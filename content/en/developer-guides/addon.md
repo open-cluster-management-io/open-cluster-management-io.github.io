@@ -399,7 +399,7 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests")
                     BuildTemplateAgentAddon()
 ```
 
-Addtionally, if you are using addon-framework v0.8.1 and v0.9.0, need to grant a `patch` permission on `ClusterManagementAddon` to your addon manager.
+Addtionally, if you are using addon-framework v0.8.1 or higher, need to grant a `patch` permission on `ClusterManagementAddon` to your addon manager.
 
 ```yaml
 kind: ClusterRole
