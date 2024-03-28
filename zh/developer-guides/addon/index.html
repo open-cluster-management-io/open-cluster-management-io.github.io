@@ -275,6 +275,7 @@
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
+        <li><a href="#supported-version">Supported version</a></li>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#write-your-first-add-on">Write your first add-on</a>
           <ul>
@@ -320,6 +321,8 @@
 
 
 <!-- spellchecker-enable -->
+<h2 id="supported-version">Supported version</h2>
+<p>The OCM v0.13.0 supports addon-framework v0.8.0 and the above versions. We suggest using the latest release v0.9.0.</p>
 <h2 id="overview">Overview</h2>
 <p>Add-on is an extension which can work with multiple clusters based on the foundation components in open-cluster-management.
 Add-ons are Open Cluster Management-based extensions that can be used to work with multiple clusters.
@@ -564,9 +567,12 @@ add-on agent deployment is more than 1 to set the addon Status.</p>
 </code></pre></div></li>
 </ol>
 <h3 id="automatic-installation">Automatic installation</h3>
-<p>NOTE: This is deprecated since v0.12.0. Please use the <code>InstallStrategy</code> in
+<p>NOTE:</p>
+<ul>
+<li>NOTE: This is deprecated since v0.12.0 and will be removed in the future. Please use the <code>InstallStrategy</code> in
 <a href="#managing-the-add-on-agent-lifecycle-by-addon-manager">Managing the add-on agent lifecycle by addon-manager</a> section
-instead.</p>
+instead.</li>
+</ul>
 <p>In the busybox add-on example, you need to create a <code>ManagedClusterAddOn</code> CR to enable the add-on manually.<br>
 The addon-framework also provides a configuration called <code>InstallStrategy</code> to support installing addon automatically.</p>
 <p>Currently, the addon-framework supports <code>InstallAllStrategy</code> and <code>InstallByLabelStrategy</code> strategies.</p>
@@ -582,6 +588,26 @@ The addon-framework also provides a configuration called <code>InstallStrategy</
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).
                     <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">installStrategy</span>).
                     <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
+</code></pre></div><p>Addtionally, if you are using addon-framework v0.8.1 or higher, need to grant a <code>patch</code> permission on <code>ClusterManagementAddon</code> to your addon manager.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterRole
+  <span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+  <span style="color:#66d9ef">metadata</span>:
+    <span style="color:#66d9ef">name</span>: helloworld-addon
+  <span style="color:#66d9ef">rules</span>:
+...
+    - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
+      <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;clustermanagementaddons&#34;</span>]
+      <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;patch&#34;</span>]
+</code></pre></div><p>The below annotation will be added automatically to claim the <code>ManagedClusterAddon</code> lifecycle is managed by the addon itself.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;self&#34;</span>
+  <span style="color:#66d9ef">name</span>: helloworld
+<span style="color:#66d9ef">spec</span>:
+  <span style="color:#66d9ef">installStrategy</span>:
+    <span style="color:#66d9ef">type</span>: Manual
 </code></pre></div><h3 id="register-your-add-on">Register your add-on</h3>
 <p>In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication.
 For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent
@@ -920,7 +946,7 @@ And will create an add-on deploy <code>ManifestWork</code> in the managed cluste
 <li>The add-on agent will mount the secret created by the registration agent to get the hub kubeConfig to connect with the hub cluster.</li>
 </ol>
 <h2 id="managing-the-add-on-agent-lifecycle-by-addon-manager">Managing the add-on agent lifecycle by addon-manager</h2>
-<p>The add-on agent lifecycle can now be managed by a new component called
+<p>The add-on agent lifecycle can now be managed by the general
 <code>addon-manager</code> starting from OCM v0.11.0. This is achieved through enhancements
 to the <code>ClusterManagementAddOn</code> and <code>ManagedClusterAddOn</code> APIs.</p>
 <ol>
@@ -929,8 +955,7 @@ to the <code>ClusterManagementAddOn</code> and <code>ManagedClusterAddOn</code> 
 <p>With the install strategy defined in the <code>ClusterManagementAddOn</code> API, users can
 configure which clusters the related <code>ManagedClusterAddon</code> should be enabled by
 referencing the <code>Placement</code>. For example, enabling the <code>helloworld</code> add-on on
-clusters labeled with aws. (Before OCM v0.11.0, the <a href="#automatic-installation">automatic installation strategy</a>
-is hardcoded in the code.)</p>
+clusters labeled with aws.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
 <span style="color:#66d9ef">metadata</span>:
@@ -993,74 +1018,43 @@ at a rate of 25%. The rollout strategy can be defined as follows:</p>
           <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
           - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
           <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">25</span>%
-</code></pre></div><p>The latest addon-framework already implements the installStrategy and rolloutStrategy.
-Add-on developers only need to upgrade to the latest addon-framework and API in
-the <code>go.mod</code> file with a minor code change to support the scenarios mentioned above.</p>
+</code></pre></div><p>Add-on developers can use addon-framework v0.8.0 and the above versions
+to support the scenarios mentioned above.</p>
 <ol>
 <li>Modify the <code>go.mod</code> file to use the latest addon-framework and API versions.</li>
 </ol>
-<pre><code>open-cluster-management.io/addon-framework v0.8.0
-open-cluster-management.io/api v0.12.0
+<pre><code>open-cluster-management.io/addon-framework v0.9.0
+open-cluster-management.io/api v0.13.0
 </code></pre><ol start="2">
-<li>Remove the <code>WithInstallStrategy()</code> function described in the <a href="#automatic-installation">automatic installation</a>
-section since it conflicts with the install strategy defined in the <code>ClusterManagementAddOn</code> API level.</li>
-</ol>
-<p>With the above changes, you can now enable the &ldquo;AddonManagement&rdquo; feature gates
-in <code>ClusterManager</code> and let the new component <code>addon-manager</code> manage the add-ons.</p>
-<ol start="3">
-<li>Enable the &ldquo;AddonManagement&rdquo; feature gates in <code>ClusterManager</code> as shown below.</li>
-</ol>
-<p>Skip this step for OCM v0.12.0 and later version.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: operator.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ClusterManager
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: cluster-manager
-<span style="color:#66d9ef">spec</span>:
-...
-  <span style="color:#66d9ef">addOnManagerConfiguration</span>:
-    <span style="color:#66d9ef">featureGates</span>:
-    - <span style="color:#66d9ef">feature</span>: AddonManagement
-      <span style="color:#66d9ef">mode</span>: Enable
-  <span style="color:#66d9ef">addOnManagerImagePullSpec</span>: quay.io/open-cluster-management/addon-manager:latest
-</code></pre></div><p>Once enabled, a new deployment <code>cluster-manager-addon-manager-controller</code> will be running.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># oc get deploy -n open-cluster-management-hub  cluster-manager-addon-manager-controller</span>
-NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
-cluster-manager-addon-manager-controller   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           19m
-</code></pre></div><ol start="4">
-<li>Claim that the addon is managed by <code>addon-manager</code> by adding the annotation
+<li>
+<p>Remove the <code>WithInstallStrategy()</code> function described in the <a href="#automatic-installation">automatic installation</a>
+section since it conflicts with the install strategy defined in the <code>ClusterManagementAddOn</code> API level.</p>
+</li>
+<li>
+<p>Claim that the addon is managed by the general <code>addon-manager</code> by adding the annotation
 <code>addon.open-cluster-management.io/lifecycle: &quot;addon-manager&quot;</code> explicitly in the
-<code>ClusterManagementAddOn</code>.</li>
-</ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-...
-</code></pre></div><ol start="5">
-<li>Define the <code>installStrategy</code> and <code>rolloutStrategy</code> in the <code>ClusterManagementAddOn</code>
+<code>ClusterManagementAddOn</code>.</p>
+</li>
+<li>
+<p>Define the <code>installStrategy</code> and <code>rolloutStrategy</code> in the <code>ClusterManagementAddOn</code>
 as shown in the example above. Note that the rollout strategy is triggered by
 changes in configurations, so if the addon does not have <a href="#add-your-add-on-agent-supported-configurations">supported cofingurations</a>,
-the rollout strategy will not take effect.</li>
+the rollout strategy will not take effect.</p>
+</li>
+<li>
+<p>If you do not want the automatic addon installation, set the install strategy type to <code>Manual</code>.</p>
+</li>
 </ol>
-<p>For addons that upgrade the addon-framework to the latest version but want to
-keep the current installation and upgrade behavior, the installStrategy type
-should be set to &ldquo;Manual&rdquo;. Do not add the annotation
-<code>addon.open-cluster-management.io/lifecycle</code> or set it to &ldquo;self&rdquo;.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
 <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
 <span style="color:#66d9ef">metadata</span>:
   <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;self&#34;</span>
-  <span style="color:#66d9ef">name</span>: managed-serviceaccount
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+  <span style="color:#66d9ef">name</span>: helloworld
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">installStrategy</span>:
     <span style="color:#66d9ef">type</span>: Manual
-</code></pre></div><p>For addons using addon-framework version v0.6.1 and earlier, the addon will
-maintain its current installation and upgrade behavior, and the new component
-<code>addon-manager</code> will have no impact on it.</p>
-<h2 id="build-an-addon-with-addon-template">Build an addon with addon template</h2>
+</code></pre></div><h2 id="build-an-addon-with-addon-template">Build an addon with addon template</h2>
 <p>Using the addon-framework to develop an addon requires developers to implement the interface defined in the
 addon-framework via code and deploy a dedicated addon manager deployment on the hub cluster.
 But if the addon you are trying to develop:</p>
