@@ -271,7 +271,11 @@
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#prerequisite">Prerequisite</a></li>
+        <li><a href="#prerequisite">Prerequisite</a>
+          <ul>
+            <li><a href="#network-requirements">Network requirements</a></li>
+          </ul>
+        </li>
         <li><a href="#install-clusteradm-cli-tool">Install clusteradm CLI tool</a></li>
         <li><a href="#bootstrap-a-klusterlet">Bootstrap a klusterlet</a>
           <ul>
@@ -295,6 +299,29 @@
 <li>The managed clusters should be <code>v1.11+</code>.</li>
 <li>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize</a> are installed.</li>
 </ul>
+<h3 id="network-requirements">Network requirements</h3>
+<p>Configure your network settings for the managed clusters to allow the following connections.</p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Endpoint</th>
+<th>Protocol</th>
+<th>Purpose</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Outbound</td>
+<td>https://{hub-api-server-url}:{port}</td>
+<td>TCP</td>
+<td>Kubernetes API server of the hub cluster</td>
+<td>OCM agents, including the add-on agents, running on the managed clusters</td>
+</tr>
+</tbody>
+</table>
+<p>To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters. See <a href="https://open-cluster-management.io/scenarios/register-cluster-through-proxy/">Register a cluster to hub through proxy server</a> for more details.</p>
 <h2 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h2>
 <p>It&rsquo;s recommended to run the following command to download and install <strong>the
 latest release</strong> of the <code>clusteradm</code> command-line tool:</p>

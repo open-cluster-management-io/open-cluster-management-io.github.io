@@ -270,7 +270,11 @@
 
 
   <div class="gdoc-toc gdoc-toc__level--6"><nav id="TableOfContents"><ul>
-        <li><a href="#prerequisite">Prerequisite</a></li>
+        <li><a href="#prerequisite">Prerequisite</a>
+          <ul>
+            <li><a href="#network-requirements">Network requirements</a></li>
+          </ul>
+        </li>
         <li><a href="#install-clusteradm-cli-tool">Install clusteradm CLI tool</a></li>
         <li><a href="#bootstrap-a-cluster-manager">Bootstrap a cluster manager</a></li>
         <li><a href="#check-out-the-running-instances-of-the-control-plane">Check out the running instances of the control plane</a></li>
@@ -287,6 +291,28 @@ please manually enable feature gate &ldquo;V1beta1CSRAPICompatibility&rdquo;).</
 <li>Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like <a href="https://github.com/aws/containers-roadmap/issues/1856">EKS</a>) don&rsquo;t support it, you can choose the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane">multicluster-controlplane</a> as the hub controlplane.</li>
 <li>Ensure <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl</a> and <a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize</a> are installed.</li>
 </ul>
+<h3 id="network-requirements">Network requirements</h3>
+<p>Configure your network settings for the hub cluster to allow the following connections.</p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Endpoint</th>
+<th>Protocol</th>
+<th>Purpose</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inbound</td>
+<td>https://{hub-api-server-url}:{port}</td>
+<td>TCP</td>
+<td>Kubernetes API server of the hub cluster</td>
+<td>OCM agents, including the add-on agents, running on the managed clusters</td>
+</tr>
+</tbody>
+</table>
 <h2 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h2>
 <p>It&rsquo;s recommended to run the following command to download and install <strong>the
 latest release</strong> of the <code>clusteradm</code> command-line tool:</p>
