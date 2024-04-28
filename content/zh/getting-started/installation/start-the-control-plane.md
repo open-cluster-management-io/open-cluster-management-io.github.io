@@ -18,6 +18,14 @@ weight: 1
 For example: [EKS](https://github.com/aws/containers-roadmap/issues/1856).
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
+### Network requirements
+
+Configure your network settings for the hub cluster to allow the following connections. 
+
+| Direction | Endpoint                            | Protocol | Purpose                                  | Used by                                                                  |
+|-----------|-------------------------------------|----------|------------------------------------------|--------------------------------------------------------------------------|
+| Inbound   | https://{hub-api-server-url}:{port} | TCP      | Kubernetes API server of the hub cluster | OCM agents, including the add-on agents, running on the managed clusters |
+
 ## Install clusteradm CLI tool
 
 It's recommended to run the following command to download and install **the
