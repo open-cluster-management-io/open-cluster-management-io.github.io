@@ -277,14 +277,14 @@
 <li>Run the agents in the hosted mode on the hosting clusters;</li>
 </ul>
 <h3 id="run-all-the-agents-on-the-managed-cluster">Run all the agents on the managed cluster</h3>
-<p>Since there are multiple OCM agents are running on the managed cluster, each of them must have an uniqe agent namespace. So only one agent can be deployed in the default agent namespace <code>open-cluster-management-agent</code>.</p>
+<p>Since there are multiple OCM agents are running on the managed cluster, each of them must have an unique agent namespace. So only one agent can be deployed in the default agent namespace <code>open-cluster-management-agent</code>.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/multi-hubs.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
 </div>
 <p>With this architecture, the managed cluster needs more resources, including CPUs and memory, to run agents for multiple hubs. And it&rsquo;s a challenge to handle the version skew of the OCM hubs.</p>
 <p>An example built with <a href="https://kind.sigs.k8s.io">kind</a> and <a href="https://github.com/open-cluster-management-io/clusteradm/releases">clusteradm</a> can be found in <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/multiple-hubs">Manage a cluster with multiple hubs</a>.</p>
 <h3 id="run-the-agents-in-the-hosted-mode-on-the-hosting-clusters">Run the agents in the hosted mode on the hosting clusters</h3>
-<p>By leveraging the hosted deployment mode, it&rsquo;s possiable to run OCM agent outside of the managed cluster on a hosing cluster. The hosting cluster could be a managed cluster of the same hub.</p>
+<p>By leveraging the hosted deployment mode, it&rsquo;s possible to run OCM agent outside of the managed cluster on a hosing cluster. The hosting cluster could be a managed cluster of the same hub.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/multi-hubs-hosted1.png" alt="multiple hubs in hosted mode" style="margin: 0 auto; width: 60%">
 </div>

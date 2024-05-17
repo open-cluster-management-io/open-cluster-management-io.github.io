@@ -28,7 +28,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>https://open-cluster-management.io/getting-started/integration/cluster-proxy/</guid>
       <description>Cluster proxy is an OCM addon providing L4 network connectivity from hub cluster to the managed clusters without any additional requirement to the managed cluster&amp;rsquo;s network infrastructure by leveraging the Kubernetes official SIG sub-project apiserver-network-proxy.
-   Background  About apiserver-network-proxy   Architecture Prerequisite Installation Usage  Command-line tools Example code   More insight  Troubleshooting Related materials       Background The original architecture of OCM allows a cluster from anywhere to be registered and managed by OCM&amp;rsquo;s control plane (i.</description>
+   Background  About apiserver-network-proxy   Architecture Prerequisite Installation Usage  Command-line tools Example code   More insights  Troubleshooting Related materials       Background The original architecture of OCM allows a cluster from anywhere to be registered and managed by OCM&amp;rsquo;s control plane (i.</description>
     </item>
     
     <item>
