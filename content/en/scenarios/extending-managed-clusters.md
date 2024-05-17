@@ -40,7 +40,7 @@ metadata:
 ```
 
 However, there're some restrictions to the label value such as the content
-length, and legal charset etc, so it's not convenient to put some structurelized
+length, and legal charset etc, so it's not convenient to put some structuralized
 or comprehensive data in the label value.
 
 Additionally, due to the fact that the finest granularity of authorization

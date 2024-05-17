@@ -15,7 +15,7 @@ Since the OCM agent is hub specific, that means an agent can connect to only one
 - Run the agents in the hosted mode on the hosting clusters;
 
 ### Run all the agents on the managed cluster
-Since there are multiple OCM agents are running on the managed cluster, each of them must have an uniqe agent namespace. So only one agent can be deployed in the default agent namespace `open-cluster-management-agent`.
+Since there are multiple OCM agents are running on the managed cluster, each of them must have an unique agent namespace. So only one agent can be deployed in the default agent namespace `open-cluster-management-agent`.
 
 <div style="text-align: center; padding: 20px;">
    <img src="/multi-hubs.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
@@ -26,7 +26,7 @@ With this architecture, the managed cluster needs more resources, including CPUs
 An example built with [kind](https://kind.sigs.k8s.io) and [clusteradm](https://github.com/open-cluster-management-io/clusteradm/releases) can be found in [Manage a cluster with multiple hubs](https://github.com/open-cluster-management-io/OCM/tree/main/solutions/multiple-hubs).
 
 ### Run the agents in the hosted mode on the hosting clusters
-By leveraging the hosted deployment mode, it's possiable to run OCM agent outside of the managed cluster on a hosing cluster. The hosting cluster could be a managed cluster of the same hub.
+By leveraging the hosted deployment mode, it's possible to run OCM agent outside of the managed cluster on a hosing cluster. The hosting cluster could be a managed cluster of the same hub.
 
 <div style="text-align: center; padding: 20px;">
    <img src="/multi-hubs-hosted1.png" alt="multiple hubs in hosted mode" style="margin: 0 auto; width: 60%">

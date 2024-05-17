@@ -44,7 +44,7 @@ data:
 EOF
 ```
 
-With reference to this generator, an `ApplicationSet` can target the application to the clusters listed in the status of a set of `PlacementDecision`, which belong to a certian Placement.
+With reference to this generator, an `ApplicationSet` can target the application to the clusters listed in the status of a set of `PlacementDecision`, which belong to a certain Placement.
 
 **4. Grant Argo CD permissions to access OCM resources.**
 

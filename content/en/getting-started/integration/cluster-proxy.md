@@ -188,7 +188,7 @@ is running. With that being said, to mount the secret to the systems in the
 other namespaces, the users are expected to copy the secret on their own
 manually.
 
-## More insight
+## More insights
 
 ### Troubleshooting
 

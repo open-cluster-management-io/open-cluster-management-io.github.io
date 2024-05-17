@@ -168,7 +168,7 @@ cluster.
 
 After the OCM agent is running on your managed cluster, it will be sending a "handshake" to your
 hub cluster and waiting for an approval from the hub cluster admin. In this section, we will walk
-through accepting the registration requests from the prespective of an OCM's hub admin.
+through accepting the registration requests from the perspective of an OCM's hub admin.
 
 1. Wait for the creation of the CSR object which will be created by your managed
    clusters' OCM agents on the hub cluster:

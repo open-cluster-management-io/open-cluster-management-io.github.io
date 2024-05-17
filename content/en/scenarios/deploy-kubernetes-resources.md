@@ -24,7 +24,7 @@ we're going to use in the context.
   managed cluster if the `ManifestWork` is created in a valid 
   `cluster namespace`, see details in this [page]({{< ref "/concepts/manifestwork" >}}).
 
-## Deploy the resource to a targetd cluster
+## Deploy the resource to a target cluster
 
 Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.
 
