@@ -9,16 +9,17 @@ weight: 5
 
 <!-- spellchecker-enable -->
 
-**API-CHANGE NOTE**:
+**CHANGE NOTE**:
 
-The `Placement` and `PlacementDecision` API v1alpha1 version will no longer be served in OCM v0.9.0.
+- The `Placement` and `PlacementDecision` API v1alpha1 version will no longer be served in OCM v0.9.0.
 
-- Migrate manifests and API clients to use the `Placement` and `PlacementDecision` API v1beta1 version, available since OCM v0.7.0.
-- All existing persisted objects are accessible via the new API.
-- Notable changes:
-  - The field `spec.prioritizerPolicy.configurations.name` in `Placement` API v1alpha1 is removed and replaced by
+  - Migrate manifests and API clients to use the `Placement` and `PlacementDecision` API v1beta1 version, available since OCM v0.7.0.
+  - All existing persisted objects are accessible via the new API.
+  - Notable changes:
+    - The field `spec.prioritizerPolicy.configurations.name` in `Placement` API v1alpha1 is removed and replaced by
 `spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn` in v1beta1.
 
+- Clusters in terminating state will not be selected by placements from OCM v0.14.0.
 
 ## Overall
 
@@ -53,6 +54,10 @@ By following [the previous section](../managedclusterset) about
 sets in the hub clusters. Then we can move on and create a placement in the
 "workspace namespace" by specifying `predicates` and `prioritizers` in the
 `Placement` API to define our own multi-cluster scheduling policy.
+
+**Notes**:
+
+- Clusters in terminating state will not be selected by placements.
 
 ### Predicates
 
