@@ -529,4 +529,4 @@ spec:
 
 ## 未来计划
 
-在社区中，我们正在计划实现[RolloutConfig](<(https://github.com/open-cluster-management-io/api/pull/281)>)以提供更细粒度的 rollout 配置，比如 MinSuccessTime, ProgressDeadline, MaxFailures，使得用户可以定义在失败情况下的升级行为，这将为多集群下的升级提供更多的可操作空间。
+在社区中，我们正在计划实现[RolloutConfig](https://github.com/open-cluster-management-io/api/pull/281)以提供更细粒度的 rollout 配置，比如 MinSuccessTime, ProgressDeadline, MaxFailures，使得用户可以定义在失败情况下的升级行为，这将为多集群下的升级提供更多的可操作空间。

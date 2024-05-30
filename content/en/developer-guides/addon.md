@@ -303,7 +303,7 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
    The add-on agent maintains a `Lease` in its installation namespace with its status, the [registration agent](https://open-cluster-management.io/concepts/architecture/#registration) will
    check this `Lease` to maintain the `AVAILABLE` status of the `ManagedClusterAddOn`.
 
-   The addon-framework provides a [leaseUpdater]([https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24) interface which can make it easier.
+   The addon-framework provides a [leaseUpdater](https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24) interface which can make it easier.
 
     ```go
     leaseUpdater := lease.NewLeaseUpdater(spokeKubeClient, addonName, installNamespace)
