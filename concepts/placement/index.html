@@ -305,7 +305,9 @@
 
 
 <!-- spellchecker-enable -->
-<p><strong>API-CHANGE NOTE</strong>:</p>
+<p><strong>CHANGE NOTE</strong>:</p>
+<ul>
+<li>
 <p>The <code>Placement</code> and <code>PlacementDecision</code> API v1alpha1 version will no longer be served in OCM v0.9.0.</p>
 <ul>
 <li>Migrate manifests and API clients to use the <code>Placement</code> and <code>PlacementDecision</code> API v1beta1 version, available since OCM v0.7.0.</li>
@@ -315,6 +317,11 @@
 <li>The field <code>spec.prioritizerPolicy.configurations.name</code> in <code>Placement</code> API v1alpha1 is removed and replaced by
 <code>spec.prioritizerPolicy.configurations.scoreCoordinate.builtIn</code> in v1beta1.</li>
 </ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Clusters in terminating state will not be selected by placements from OCM v0.14.0.</p>
 </li>
 </ul>
 <h2 id="overall">Overall</h2>
@@ -344,6 +351,10 @@ among them.</li>
 sets in the hub clusters. Then we can move on and create a placement in the
 &ldquo;workspace namespace&rdquo; by specifying <code>predicates</code> and <code>prioritizers</code> in the
 <code>Placement</code> API to define our own multi-cluster scheduling policy.</p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>Clusters in terminating state will not be selected by placements.</li>
+</ul>
 <h3 id="predicates">Predicates</h3>
 <h4 id="labelclaim-selection">Label/Claim selection</h4>
 <p>In the <code>predicates</code> section, you can select clusters by labels or <a href="../clusterclaim">clusterClaims</a>.

@@ -54,8 +54,8 @@ The ManagedClusterSet and ManagedClusterSetBinding API v1beta1 version will no l
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/concepts/placement/</guid>
-      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer Extensible scheduling     PlacementDecisions  Decision strategy Rollout Strategy   Troubleshooting  Check the Placement conditions Check the Placement events Debug   Future work     API-CHANGE NOTE:
-The Placement and PlacementDecision API v1alpha1 version will no longer be served in OCM v0.9.0.</description>
+      <description>Overall Select clusters in ManagedClusterSet  Predicates  Label/Claim selection Taints/Tolerations   Prioritizers  Score-based prioritizer Extensible scheduling     PlacementDecisions  Decision strategy Rollout Strategy   Troubleshooting  Check the Placement conditions Check the Placement events Debug   Future work     CHANGE NOTE:
+  The Placement and PlacementDecision API v1alpha1 version will no longer be served in OCM v0.</description>
     </item>
     
     <item>
