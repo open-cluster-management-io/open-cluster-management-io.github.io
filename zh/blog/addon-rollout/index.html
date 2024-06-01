@@ -732,7 +732,7 @@ cluster-manager-work-webhook               1/1     <span style="color:#ae81ff">1
 </code></pre></div><h2 id="小结">小结</h2>
 <p>本文详细介绍了如何使用 Open Cluster Management 以 GitOps 方式应对多集群环境下工具链的升级挑战。OCM 提供了基于 Kubernetes 的跨多集群和多云的管理平台，通过 Add-on 插件和 Placement API，使得用户能够优雅、平滑地升级整个工具链。同时，OCM 将 add-on 升级视为配置文件的变更，使得用户能够利用 Kustomize 或 GitOps 实现跨集群的无缝滚动/金丝雀升级。此外，OCM 还提供了多种升级策略，包括全部升级(All)，按集群渐进升级(Progressive Per Cluster)和按集群组渐进升级(Progressive Per Group)，以满足不同的升级需求。</p>
 <h2 id="未来计划">未来计划</h2>
-<p>在社区中，我们正在计划实现<a href="(https://github.com/open-cluster-management-io/api/pull/281)">RolloutConfig</a>以提供更细粒度的 rollout 配置，比如 MinSuccessTime, ProgressDeadline, MaxFailures，使得用户可以定义在失败情况下的升级行为，这将为多集群下的升级提供更多的可操作空间。</p>
+<p>在社区中，我们正在计划实现<a href="https://github.com/open-cluster-management-io/api/pull/281">RolloutConfig</a>以提供更细粒度的 rollout 配置，比如 MinSuccessTime, ProgressDeadline, MaxFailures，使得用户可以定义在失败情况下的升级行为，这将为多集群下的升级提供更多的可操作空间。</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

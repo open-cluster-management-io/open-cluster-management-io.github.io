@@ -524,7 +524,7 @@ busybox-addon      Unknown
 <p><strong>Lease</strong></p>
 <p>The add-on agent maintains a <code>Lease</code> in its installation namespace with its status, the <a href="https://open-cluster-management.io/concepts/architecture/#registration">registration agent</a> will
 check this <code>Lease</code> to maintain the <code>AVAILABLE</code> status of the <code>ManagedClusterAddOn</code>.</p>
-<p>The addon-framework provides a <a href="%5Bhttps://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24">leaseUpdater</a> interface which can make it easier.</p>
+<p>The addon-framework provides a <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24">leaseUpdater</a> interface which can make it easier.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">leaseUpdater</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lease</span>.<span style="color:#a6e22e">NewLeaseUpdater</span>(<span style="color:#a6e22e">spokeKubeClient</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">installNamespace</span>)
 <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">leaseUpdater</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
 </code></pre></div><p><code>Lease</code> is the default prober type for add-on, there is nothing to configure for the add-on manager.</p>

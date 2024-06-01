@@ -87,7 +87,7 @@ apiVersion: work.open-cluster-management.io/v1alpha1 kind: ManifestWorkReplicaSe
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/concepts/addon/</guid>
-      <description>What is an add-on? Architecture Add-on enablement  Enable the add-on manually Enable the add-on automatically Enable the add-on by install strategy  Add-on rollout strategy   Add-on healthiness Clean the add-ons   Examples Add-on framework  Custom signers Hub credential injection Auto-install by cluster discovery       What is an add-on? Open-cluster-management has a built-in mechanism named addon-framework to help developers to develop an extension based on the foundation components for the purpose of working with multiple clusters in custom cases.</description>
+      <description>What is an add-on? Architecture Add-on enablement  Enable the add-on manually Enable the add-on automatically Enable the add-on by install strategy Add-on healthiness Clean the add-ons   Add-on lifecycle management  Install strategy Rollout strategy   Add-on configurations  Default configurations Configurations per install strategy Configurations per cluster Supported configurations Effective configurations   Examples Add-on framework  Custom signers Hub credential injection Auto-install by cluster discovery       What is an add-on?</description>
     </item>
     
     <item>
