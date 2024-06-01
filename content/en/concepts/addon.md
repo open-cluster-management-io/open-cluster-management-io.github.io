@@ -104,14 +104,36 @@ automatically, or be created for the selected managed cluster namespaces automat
 ### Enable the add-on by install strategy
 If the addon is developed following the guidelines mentioned in [managing the add-on agent lifecycle by addon-manager](https://open-cluster-management.io/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager), 
 the user can define an `installStrategy` in the `ClusterManagementAddOn` 
-to specify on which clusters the `ManagedClusterAddOn` should be enabled.
+to specify on which clusters the `ManagedClusterAddOn` should be enabled. Details see [install strategy](#install-strategy).
 
-For example, the following example enables the `helloworld` add-on on clusters 
-with the aws label.
+### Add-on healthiness
 
-Additionally, if the addon has [supported configurations](https://open-cluster-management.io/developer-guides/addon/#add-your-add-on-agent-supported-configurations),
-can also define configurations used for add-on on the selected clusters, this 
-will override the `defaultConfig` defined in `spec.supportedConfigs`.
+The healthiness of the addon instances are visible when we list the addons via 
+kubectl:
+
+```shell
+$ kubectl get managedclusteraddon -A
+NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
+<cluster>   <addon>                  True                   
+```
+
+The addon agent are expected to report its healthiness periodically as long as it's
+running. Also the versioning of the addon agent can be reflected in the resources 
+optionally so that we can control the upgrading the agents progressively.
+
+### Clean the add-ons
+Last but not least, a neat uninstallation of the addon is also supported by simply
+deleting the corresponding `ClusterManagementAddon` resource from the hub cluster
+which is the "root" of the whole addon. The OCM platform will automatically sanitize
+the hub cluster for you after the uninstalling by removing all the components either
+in the hub cluster or in the manage clusters.
+
+## Add-on lifecycle management
+
+### Install strategy
+`InstallStrategy` represents that related `ManagedClusterAddOns` should be installed
+on certain clusters. For example, the following example enables the `helloworld`
+add-on on clusters with the aws label.
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -128,11 +150,6 @@ spec:
     placements:
     - name: placement-aws
       namespace: default
-      configs:
-      - group: addon.open-cluster-management.io
-        resource: addondeploymentconfigs
-        name: deploy-config
-        namespace: open-cluster-management
 ```
 
 ```yaml
@@ -152,46 +169,15 @@ spec:
                 - aws
 ```
 
-Notice that `installStrategy` is still in experimental stage, not enabled by default. 
-To make it work, need extra 2 steps: 
+### Rollout strategy
 
-1. Enable "AddonManagement" featureGates in `ClusterManager` as below.
+With the rollout strategy defined in the `ClusterManagementAddOn` API, users can
+control the upgrade behavior of the addon when there are changes in the
+[configurations](#add-on-configurations).
 
-```yaml
-apiVersion: operator.open-cluster-management.io/v1
-kind: ClusterManager
-metadata:
-  name: cluster-manager
-spec:
-...
-  addOnManagerConfiguration:
-    featureGates:
-    - feature: AddonManagement
-      mode: Enable
-  addOnManagerImagePullSpec: quay.io/open-cluster-management/addon-manager:latest
-```
-
-Once enabled, a new deployment cluster-manager-addon-manager-controller will be 
-running.
-
-```bash
-# oc get deploy -n open-cluster-management-hub  cluster-manager-addon-manager-controller
-NAME                                       READY   UP-TO-DATE   AVAILABLE   AGE
-cluster-manager-addon-manager-controller   1/1     1            1           19m
-```
-
-2. Add annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"`
-explicitly in `ClusterManagementAddon`.
-
-#### Add-on rollout strategy
-
-With the rollout strategy defined in the `ClusterManagementAddOn` API, users can 
-control the upgrade behavior of the addon when there are changes in the supported 
-configurations.
-
-For example, if the add-on user updates the "deploy-config" and wants to apply 
+For example, if the add-on user updates the "deploy-config" and wants to apply
 the change to the add-ons to a "canary" [decision group](https://open-cluster-management.io/concepts/placement/#decision-strategy) first. If all the add-on
-upgrade successfully, then upgrade the rest of clusters progressively per cluster 
+upgrade successfully, then upgrade the rest of clusters progressively per cluster
 at a rate of 25%. The rollout strategy can be defined as follows:
 
 ```yaml
@@ -226,44 +212,168 @@ spec:
           maxFailures: 2
 ```
 
-In the above example with type `Progressive`, once user updates the "deploy-config", controller 
-will rollout on the clusters in `mandatoryDecisionGroups` first, then rollout on the other 
-clusters with the rate defined in `maxConcurrency`. 
+In the above example with type `Progressive`, once user updates the "deploy-config", controller
+will rollout on the clusters in `mandatoryDecisionGroups` first, then rollout on the other
+clusters with the rate defined in `maxConcurrency`.
 
-- `minSuccessTime` is a "soak" time, means the controller will wait for 5 minutes when a cluster 
-reach a successful state and `maxFailures` isn't breached. If, after this 5 minutes interval, the 
+- `minSuccessTime` is a "soak" time, means the controller will wait for 5 minutes when a cluster
+reach a successful state and `maxFailures` isn't breached. If, after this 5 minutes interval, the
 workload status remains successful, the rollout progresses to the next.
-- `progressDeadline` means the controller will wait for a maximum of 10 minutes for the workload to 
-reach a successful state. If, the workload fails to achieve success within 10 minutes, the controller 
+- `progressDeadline` means the controller will wait for a maximum of 10 minutes for the workload to
+reach a successful state. If, the workload fails to achieve success within 10 minutes, the controller
 stops waiting, marking the workload as "timeout," and includes it in the count of `maxFailures`.
-- `maxFailures` means the controller can tolerate update to 2 clusters with failed status, 
+- `maxFailures` means the controller can tolerate update to 2 clusters with failed status,
 once `maxFailures` is breached, the rollout will stop.
 
-Currently add-on supports 3 types of [rolloutStrategy](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go), 
-they are `All`, `Progressive` and `ProgressivePerGroup`, for more info regards the rollout strategies 
+Currently add-on supports 3 types of [rolloutStrategy](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go),
+they are `All`, `Progressive` and `ProgressivePerGroup`, for more info regards the rollout strategies
 check the [Rollout Strategy](https://open-cluster-management.io/concepts/placement/#rollout-strategy) document.
 
-### Add-on healthiness
+## Add-on configurations
 
-The healthiness of the addon instances are visible when we list the addons via 
-kubectl:
+### Default configurations
 
-```shell
-$ kubectl get managedclusteraddon -A
-NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
-<cluster>   <addon>                  True                   
+In `ClusterManagementAddOn`, `spec.supportedConfigs` is a list of configuration 
+types supported by add-on. `defaultConfig` represents the namespace and name of 
+the default add-on configuration. In scenario where all add-ons have a same 
+configuration.
+
+In the below example, add-ons on all the clusters will use "default-deploy-config".
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  addOnMeta:
+    displayName: helloworld
+  supportedConfigs:
+  - defaultConfig:
+      name: default-deploy-config
+      namespace: open-cluster-management
+    group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
 ```
 
-The addon agent are expected to report its healthiness periodically as long as it's
-running. Also the versioning of the addon agent can be reflected in the resources 
-optionally so that we can control the upgrading the agents progressively.
+### Configurations per install strategy
 
-### Clean the add-ons
-Last but not least, a neat uninstallation of the addon is also supported by simply
-deleting the corresponding `ClusterManagementAddon` resource from the hub cluster
-which is the "root" of the whole addon. The OCM platform will automatically sanitize
-the hub cluster for you after the uninstalling by removing all the components either
-in the hub cluster or in the manage clusters.
+In `ClusterManagementAddOn`, `spec.installStrategy.placements[].configs` list the 
+configuration of `ManagedClusterAddon` during installation. It will override the 
+[Default configurations](#default-configurations) on certain clusters.
+
+In the below example, add-ons on clusters selected by `Placement` placement-aws will use "deploy-config"
+and all the other add-ons still use "default-deploy-config".
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: helloworld
+  annotations:
+    addon.open-cluster-management.io/lifecycle: "addon-manager"
+spec:
+  addOnMeta:
+    displayName: helloworld
+  supportedConfigs:
+  - defaultConfig:
+      name: default-deploy-config
+      namespace: open-cluster-management
+    group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+  installStrategy:
+    type: Placements
+    placements:
+    - name: placement-aws
+      namespace: default
+      configs:
+      - group: addon.open-cluster-management.io
+        resource: addondeploymentconfigs
+        name: deploy-config
+        namespace: open-cluster-management
+```
+
+### Configurations per cluster
+
+In `ManagedClusterAddOn`, `spec.configs` is a list of add-on configurations.
+In scenario where the current add-on has its own configurations. It will override 
+the [Default configurations](#default-configurations) and 
+[Configurations per install strategy](#configurations-per-install-strategy) defined
+in `ClusterManagementAddOn`.
+
+In the below example, add-on on cluster1 will use "cluster1-deploy-config".
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: helloworld
+  namespace: cluster1
+spec:
+  configs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    name: cluster1-deploy-config
+    namespace: open-cluster-management
+```
+
+### Supported configurations
+Supported configurations is a list of configuration types that are allowed to override 
+the add-on configurations defined in ClusterManagementAddOn spec. They are listed in the
+`ManagedClusterAddon` `status.supportedConfigs`, for example:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: helloworld
+  namespace: cluster1
+spec:
+...
+status:
+...
+  supportedConfigs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+```
+
+### Effective configurations
+
+As the above described, there are 3 places to define the add-on configurations,
+they have an override order and eventually only one takes effect. The final effective
+configurations are listed in the `ManagedClusterAddOn` `status.configReferences`. 
+
+- `desiredConfig` record the desired config and it's spec hash.
+- `lastAppliedConfig` record the config when the corresponding ManifestWork is
+applied successfully.
+
+For example:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: helloworld
+  namespace: cluster1
+...
+status:
+...
+  configReferences:
+  - desiredConfig:
+      name: cluster1-deploy-config
+      namespace: open-cluster-management
+      specHash: dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044
+    group: addon.open-cluster-management.io
+    lastAppliedConfig:
+      name: cluster1-deploy-config
+      namespace: open-cluster-management
+      specHash: dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044
+    lastObservedGeneration: 1
+    name: cluster1-deploy-config
+    resource: addondeploymentconfigs
+```
 
 ## Examples
 
