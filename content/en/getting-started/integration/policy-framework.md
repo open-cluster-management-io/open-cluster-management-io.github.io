@@ -128,6 +128,19 @@ Ensure `clusteradm` CLI is installed and is at least v0.3.0. Download and extrac
 
    # Deploy the policy-propagator
    kubectl apply -f ${GIT_PATH}/operator.yaml -n ${HUB_NAMESPACE}
+
+   # Choose either of the following two options to ensure the policy-propagator runs properly
+
+   # Optional 1: Enable the webhook
+   kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+   kubectl apply -f ${GIT_PATH}/webhook.yaml -n ${HUB_NAMESPACE}
+
+   # Optional 2: Disable the webhook with `--enable-webhooks=false` argument
+   kubectl patch deployment governance-policy-propagator --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--enable-webhooks=false"}]' -n ${HUB_NAMESPACE}
+   kubectl patch deployment governance-policy-propagator --type='json' -p='[
+    {"op": "remove", "path": "/spec/template/spec/containers/0/volumeMounts/0"},
+    {"op": "remove", "path": "/spec/template/spec/volumes/0"} 
+    ]' -n ${HUB_NAMESPACE}
    ```
 
 2. Ensure the pods are running on the hub with the following command:
