@@ -68,6 +68,7 @@ Ensure `clusteradm` CLI is installed and is newer than v0.3.0. Download and extr
    export COMPONENT="config-policy-controller"
    export GIT_PATH="https://raw.githubusercontent.com/open-cluster-management-io/${COMPONENT}/v0.12.0/deploy"
    kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_configurationpolicies.yaml
+   kubectl apply -f ${GIT_PATH}/crds/policy.open-cluster-management.io_operatorpolicies.yaml
 
    # Set the managed cluster name
    export MANAGED_CLUSTER_NAME=<your managed cluster name>  # export MANAGED_CLUSTER_NAME=cluster1
