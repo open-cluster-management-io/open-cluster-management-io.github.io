@@ -405,7 +405,28 @@ kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color
 
 <span style="color:#75715e"># Deploy the policy-propagator</span>
 kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/operator.yaml -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
+
 </code></pre></div></li>
+<li>
+<p>The policy propagator manages a webhook that requires a certificate. You can either disable the webhook or deploy <code>cert-manager</code> alongside the webhook resources to ensure the policy propagator runs properly:</p>
+<ul>
+<li>
+<p>Optional 1: Enable the webhook</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.12.0/cert-manager.yaml
+kubectl apply -f <span style="color:#e6db74">${</span>GIT_PATH<span style="color:#e6db74">}</span>/webhook.yaml -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
+</code></pre></div></li>
+<li>
+<p>Optional 2: Disable the webhook with the <code>--enable-webhooks=false</code> argument</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl patch deployment governance-policy-propagator --type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;json&#39;</span> -p<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;[
+</span><span style="color:#e6db74">     {&#34;op&#34;: &#34;add&#34;, &#34;path&#34;: &#34;/spec/template/spec/containers/0/args/-&#34;, &#34;value&#34;: &#34;--enable-webhooks=false&#34;}
+</span><span style="color:#e6db74">   ]&#39;</span> -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
+kubectl patch deployment governance-policy-propagator --type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;json&#39;</span> -p<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;[
+</span><span style="color:#e6db74">     {&#34;op&#34;: &#34;remove&#34;, &#34;path&#34;: &#34;/spec/template/spec/containers/0/volumeMounts/0&#34;},
+</span><span style="color:#e6db74">     {&#34;op&#34;: &#34;remove&#34;, &#34;path&#34;: &#34;/spec/template/spec/volumes/0&#34;} 
+</span><span style="color:#e6db74">   ]&#39;</span> -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
+</code></pre></div></li>
+</ul>
+</li>
 <li>
 <p>Ensure the pods are running on the hub with the following command:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get pods -n <span style="color:#e6db74">${</span>HUB_NAMESPACE<span style="color:#e6db74">}</span>
