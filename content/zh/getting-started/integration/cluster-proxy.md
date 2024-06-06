@@ -101,7 +101,7 @@ You must meet the following prerequisites to install the cluster-proxy:
 To install the cluster proxy addon to the OCM control plane, run:
 
 ```shell
-$ helm repo add ocm https://openclustermanagement.blob.core.windows.net/releases/
+$ helm repo add ocm https://open-cluster-management.io/helm-charts
 $ helm repo update
 $ helm search repo ocm
 NAME                              	CHART VERSION	APP VERSION	DESCRIPTION
