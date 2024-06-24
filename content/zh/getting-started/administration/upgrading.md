@@ -75,7 +75,7 @@ the expected version. To check the latest status after the upgrade, continue to
 run the following command:
 
 ```shell
-$ cluster get hub-info
+$ clusteradm get hub-info
 ```
 
 ### Managed Clusters
