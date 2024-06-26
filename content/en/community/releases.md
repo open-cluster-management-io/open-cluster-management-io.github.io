@@ -3,8 +3,39 @@ title: Releases
 weight: -20
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.13.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.14.0`.
 Continue reading to view upcoming releases:
+
+## `0.14.0`, 21 Jun. 2024
+
+The Open Cluster Management team is proud to announce the release of OCM v0.14.0!
+
+- Exclude terminating clusters from Placementdecision: now cluster in terminating state will not be picked by the
+placement.
+- Send available condition events for managed cluster: klusterlet agent will send kubenerte event to the cluster
+namespace upon status change, which makes it eaiser for user to check the state change of the managed cluster.
+- Set install namespace of addonTemplate from addonDeploymentConfig: user of AddonTemplate API can now use 
+AddonDeploymentConfig API to set the installation namespace of the agent.
+- Configurable controller replicas and master node selector: user can not set flags `deployment-replicas` and
+`control-plane-node-label-selector` on klusterlet-operator to customize the replicas of the klusterlet agent.
+- Add capi into join flow: user can now use the join command to add a cluster-api provisioned cluster into ocm hub
+from cluster-api management cluster with `--capi-import` and  `--capi-cluster-name` flag.
+
+### Core components
+- ocm v0.14.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.14.0)
+- addon-framework v0.10.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v0.10.0)
+- clusteradm v0.9.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.9.0)
+
+### Addons
+- config-policy-controller v0.14.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.14.0)
+- governance-policy-framework-addon v0.14.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.14.0)
+- governance-policy-propagator v0.14.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.14.0)
+- governance-policy-addon-controller v0.14.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.14.0)
+- multicloud-operators-subscription v0.14.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.14.0)
+- multicloud-operators-channel v0.14.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.14.0)
+- multicloud-integrations v0.14.0 [changelog](https://github.com/open-cluster-management-io/multicloud-integrations/releases/tag/v0.14.0)
+- managed-serviceaccount v0.6.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.6.0)
+- cluster-proxy v0.5.0 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.5.0)
 
 ## `0.13.0`, 6 Mar. 2024
 
