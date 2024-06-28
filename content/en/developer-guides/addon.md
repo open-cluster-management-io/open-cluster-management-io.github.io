@@ -988,10 +988,11 @@ spec:
 Using the addon-framework to develop an addon requires developers to implement the interface defined in the
 addon-framework via code and deploy a dedicated addon manager deployment on the hub cluster.
 But if the addon you are trying to develop:
-- not going to support hosted mode
-- the crucial agent workload that needs to be deployed to the managed cluster is a `Deployment`
-- no other customized API is needed to configure the addon besides the `AddOnDeploymentConfig`
-- no need to run anything on the hub cluster other than managing the addon agent
+
+* not going to support hosted mode
+* the crucial agent workloads that need to be deployed to the managed cluster are `Deployments` and/or `DaemonSets`
+* no other customized API is needed to configure the addon besides the `AddOnDeploymentConfig`
+* no need to run anything on the hub cluster other than managing the addon agent
 
 you can have a try with the new API `AddOnTemplate` introduced from OCM v0.12.0 to build the addon, which can get rid
 of coding, and only need to define some yaml files to build an addon.
@@ -1001,21 +1002,24 @@ Using `AddOnTemplate` to build an addon, the `AddonManagement` feature gate must
 
 Enhancement proposal: [Add-on Template](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/82-addon-template)
 
+Note: The `DaemonSet` type workload is supported in the addon template(injecting environment variables, injecting
+volumes, health probe for daemonsets) from OCM v0.14.0.
+
 ### Steps to build an addon with addon template
 
 1. Create an `AddOnTemplate` object to define the addon:
    The `AddOnTemplate` API provides two parts of information to build an addon:
-    - `manifests`: what resources will be deployed to the managed cluster
-    - `registration`: how to register the addon to the hub cluster
+    * `manifests`: what resources will be deployed to the managed cluster
+    * `registration`: how to register the addon to the hub cluster
 
    For example, the following yaml file defines the `hello-template` addon, which will:
-    - deploy a `Deployment`, a `ServiceAccount`, and a `ClusterRoleBinding` to the managed cluster
-    - register the addon to the hub cluster, and make the addon agent(Deployment hello-template-agent):
-        - have the permission to access resources defined in the `cm-admin` clusterRole in the <managed-cluster-name>
+    * deploy a `Deployment`, a `ServiceAccount`, and a `ClusterRoleBinding` to the managed cluster
+    * register the addon to the hub cluster, and make the addon agent(Deployment hello-template-agent):
+        * have the permission to access resources defined in the `cm-admin` clusterRole in the <managed-cluster-name>
           namespace on the hub cluster(KubeClient type registration, CurrentCluster)
-        - have the permission to access resources defined in the `cm-reader` Role in the `open-cluster-management`
+        * have the permission to access resources defined in the `cm-reader` Role in the `open-cluster-management`
           namespace on the hub cluster(KubeClient type registration, SingleNamespace)
-        - have the credential to access the customized endpoint(CustomSigner type registration)
+        * have the credential to access the customized endpoint(CustomSigner type registration)
 
    ```yaml
    apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -1149,22 +1153,22 @@ Enhancement proposal: [Add-on Template](https://github.com/open-cluster-manageme
 
 ### Use variables in the addon template
 
-Users can use variables in the addonTemplate.agentSpec.workload.manifests field in the form of `{{VARIABLE_NAME}}`, it
+Users can use variables in the `addonTemplate.agentSpec.workload.manifests` field in the form of `{{VARIABLE_NAME}}`, it
 is similar to go template syntax but not identical, only String value is supported. And there are two types of
 variables:
 
 1. built-in variables;
-    - constant parameters(can not be overridden by user's variables):
-        - `CLUSTER_NAME`: name of the managed cluster(e.g cluster1)
-    - default parameters(can be overridden by user's variables)
-        - `HUB_KUBECONFIG`: path of the kubeconfig to access the hub cluster, default value is
+    * constant parameters(can not be overridden by user's variables):
+        * `CLUSTER_NAME`: name of the managed cluster(e.g cluster1)
+    * default parameters(can be overridden by user's variables)
+        * `HUB_KUBECONFIG`: path of the kubeconfig to access the hub cluster, default value is
           `/managed/hub-kubeconfig/kubeconfig`
-2. Customize variables; Variables defines in addonDeploymentConfig.customizedVariables can be used.
+2. Customize variables; Variables defines in `addonDeploymentConfig.customizedVariables` can be used.
 
 ### Using kubeconfig/certificates in the addon agent Deployment
 
-The addon manager will inject volumes into the addon agent deployments based on the `addonTemplate.spec.registration`
-field.
+The addon manager will inject volumes into the addon agent deployments and daemonsets based on the
+`addonTemplate.spec.registration` field.
 
 1. If there is a `KubeClient` type registration, the hub kubeconfig will be injected to the deployments defined in the
    addon template, so users can use the hub kubeconfig located at `/managed/hub-kubeconfig/kubeconfig` to access the hub
@@ -1187,8 +1191,8 @@ field.
    ```
 
 2. If there is a `CustomSigner` type registration, the secret signed via the custom signer defined in the
-   `CustomSignerRegistrationConfig` will be injected to the deployments defined in the addon template, so users can use
-   the certificate located at `/managed/<signer-name>/tls.crt` and `/managed/<signer-name>/tls.key`
+   `CustomSignerRegistrationConfig` will be injected to the deployments and daemonsets defined in the addon template,
+   so users can use the certificate located at `/managed/<signer-name>/tls.crt` and `/managed/<signer-name>/tls.key`
 
    ```yaml
    ...
@@ -1208,5 +1212,5 @@ field.
 
 ### health probe of the template type addon
 
-Since we only support the `Deployment` resource as the crucial agent runtime workload, the addon-manager will check if
-the deployment is available, if not, the addon will be considered as unhealthy.
+Since we only support the `Deployment` and `DaemonSet` resource as the crucial agent runtime workload, the addon-manager
+will check if the deployment and daemonsets are available, if not, the addon will be considered as unhealthy.
