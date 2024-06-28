@@ -322,7 +322,8 @@
 
 <!-- spellchecker-enable -->
 <h2 id="supported-version">Supported version</h2>
-<p>The OCM v0.13.0 supports addon-framework v0.8.0 and the above versions. We suggest using the latest release v0.9.0.</p>
+<p>The OCM v0.14.0 requires addon-framework v0.8.1 and above versions.</p>
+<p>And notice there&rsquo;s breaking changes in <a href="#automatic-installation">automatic installation</a> in addon-framework version v0.10.0.</p>
 <h2 id="overview">Overview</h2>
 <p>Add-on is an extension which can work with multiple clusters based on the foundation components in open-cluster-management.
 Add-ons are Open Cluster Management-based extensions that can be used to work with multiple clusters.
@@ -569,9 +570,12 @@ add-on agent deployment is more than 1 to set the addon Status.</p>
 <h3 id="automatic-installation">Automatic installation</h3>
 <p>NOTE:</p>
 <ul>
-<li>NOTE: This is deprecated since v0.12.0 and will be removed in the future. Please use the <code>InstallStrategy</code> in
+<li>The automatic installation is no longer supported since addon-framework v0.10.0. Please use the <code>InstallStrategy</code> in
 <a href="#managing-the-add-on-agent-lifecycle-by-addon-manager">Managing the add-on agent lifecycle by addon-manager</a> section
 instead.</li>
+<li>The automatic installation is still avaliable in addon-framework version v0.8.1 and v0.9.3, which is also the
+minimal supported addon-framework version in OCM v0.14.0. Using the addon-framework v0.8.0 and previous version will
+have install conficts.</li>
 </ul>
 <p>In the busybox add-on example, you need to create a <code>ManagedClusterAddOn</code> CR to enable the add-on manually.<br>
 The addon-framework also provides a configuration called <code>InstallStrategy</code> to support installing addon automatically.</p>
@@ -1023,8 +1027,8 @@ to support the scenarios mentioned above.</p>
 <ol>
 <li>Modify the <code>go.mod</code> file to use the latest addon-framework and API versions.</li>
 </ol>
-<pre><code>open-cluster-management.io/addon-framework v0.9.0
-open-cluster-management.io/api v0.13.0
+<pre><code>open-cluster-management.io/addon-framework v0.9.3 // // or latest
+open-cluster-management.io/api v0.13.0 // or latest
 </code></pre><ol start="2">
 <li>
 <p>Remove the <code>WithInstallStrategy()</code> function described in the <a href="#automatic-installation">automatic installation</a>
@@ -1035,6 +1039,16 @@ section since it conflicts with the install strategy defined in the <code>Cluste
 <code>addon.open-cluster-management.io/lifecycle: &quot;addon-manager&quot;</code> explicitly in the
 <code>ClusterManagementAddOn</code>.</p>
 </li>
+</ol>
+<p>Skip this step for OCM v0.14.0 and later version. The annotation is automatically added by the general addon manager.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
+<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: helloworld
+  <span style="color:#66d9ef">annotations</span>:
+    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+...
+</code></pre></div><ol start="4">
 <li>
 <p>Define the <code>installStrategy</code> and <code>rolloutStrategy</code> in the <code>ClusterManagementAddOn</code>
 as shown in the example above. Note that the rollout strategy is triggered by
