@@ -1070,7 +1070,7 @@ addon-framework via code and deploy a dedicated addon manager deployment on the 
 But if the addon you are trying to develop:</p>
 <ul>
 <li>not going to support hosted mode</li>
-<li>the crucial agent workload that needs to be deployed to the managed cluster is a <code>Deployment</code></li>
+<li>the crucial agent workloads that need to be deployed to the managed cluster are <code>Deployments</code> and/or <code>DaemonSets</code></li>
 <li>no other customized API is needed to configure the addon besides the <code>AddOnDeploymentConfig</code></li>
 <li>no need to run anything on the hub cluster other than managing the addon agent</li>
 </ul>
@@ -1079,6 +1079,8 @@ of coding, and only need to define some yaml files to build an addon.</p>
 <p>Using <code>AddOnTemplate</code> to build an addon, the <code>AddonManagement</code> feature gate must not be disabled in
 <code>ClusterManager.spec.addOnManagerConfiguration</code> and <code>Klusterlet.spec.registrationConfiguration</code></p>
 <p>Enhancement proposal: <a href="https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/82-addon-template">Add-on Template</a></p>
+<p>Note: The <code>DaemonSet</code> type workload is supported in the addon template(injecting environment variables, injecting
+volumes, health probe for daemonsets) from OCM v0.14.0.</p>
 <h3 id="steps-to-build-an-addon-with-addon-template">Steps to build an addon with addon template</h3>
 <ol>
 <li>
@@ -1227,7 +1229,7 @@ addon-manager:</p>
 </code></pre></div></li>
 </ol>
 <h3 id="use-variables-in-the-addon-template">Use variables in the addon template</h3>
-<p>Users can use variables in the addonTemplate.agentSpec.workload.manifests field in the form of <code>{{VARIABLE_NAME}}</code>, it
+<p>Users can use variables in the <code>addonTemplate.agentSpec.workload.manifests</code> field in the form of <code>{{VARIABLE_NAME}}</code>, it
 is similar to go template syntax but not identical, only String value is supported. And there are two types of
 variables:</p>
 <ol>
@@ -1246,11 +1248,11 @@ variables:</p>
 </li>
 </ul>
 </li>
-<li>Customize variables; Variables defines in addonDeploymentConfig.customizedVariables can be used.</li>
+<li>Customize variables; Variables defines in <code>addonDeploymentConfig.customizedVariables</code> can be used.</li>
 </ol>
 <h3 id="using-kubeconfigcertificates-in-the-addon-agent-deployment">Using kubeconfig/certificates in the addon agent Deployment</h3>
-<p>The addon manager will inject volumes into the addon agent deployments based on the <code>addonTemplate.spec.registration</code>
-field.</p>
+<p>The addon manager will inject volumes into the addon agent deployments and daemonsets based on the
+<code>addonTemplate.spec.registration</code> field.</p>
 <ol>
 <li>
 <p>If there is a <code>KubeClient</code> type registration, the hub kubeconfig will be injected to the deployments defined in the
@@ -1272,8 +1274,8 @@ addon template, so users can use the hub kubeconfig located at <code>/managed/hu
 </code></pre></div></li>
 <li>
 <p>If there is a <code>CustomSigner</code> type registration, the secret signed via the custom signer defined in the
-<code>CustomSignerRegistrationConfig</code> will be injected to the deployments defined in the addon template, so users can use
-the certificate located at <code>/managed/&lt;signer-name&gt;/tls.crt</code> and <code>/managed/&lt;signer-name&gt;/tls.key</code></p>
+<code>CustomSignerRegistrationConfig</code> will be injected to the deployments and daemonsets defined in the addon template,
+so users can use the certificate located at <code>/managed/&lt;signer-name&gt;/tls.crt</code> and <code>/managed/&lt;signer-name&gt;/tls.key</code></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
 <span style="color:#66d9ef">spec</span>:
   <span style="color:#66d9ef">containers</span>:
@@ -1290,8 +1292,8 @@ the certificate located at <code>/managed/&lt;signer-name&gt;/tls.crt</code> and
 </code></pre></div></li>
 </ol>
 <h3 id="health-probe-of-the-template-type-addon">health probe of the template type addon</h3>
-<p>Since we only support the <code>Deployment</code> resource as the crucial agent runtime workload, the addon-manager will check if
-the deployment is available, if not, the addon will be considered as unhealthy.</p>
+<p>Since we only support the <code>Deployment</code> and <code>DaemonSet</code> resource as the crucial agent runtime workload, the addon-manager
+will check if the deployment and daemonsets are available, if not, the addon will be considered as unhealthy.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
