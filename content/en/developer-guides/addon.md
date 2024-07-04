@@ -1118,6 +1118,40 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
              name: ca-secret
    ```
 
+   **Notes**:
+
+   * The permission related resources(i.e. `RoleBinding` `ClusterRoleBinding`) for *the addon agent access the local
+     managed cluster* defined in the `addonTemplate.agentSpec.workload.manifests` will be created on the managed cluster
+     by the work-agent, but the work-agent may not have permission to create these resources, users should refer to
+     [permission-setting-for-work-agent](../concepts/manifestwork.md#permission-setting-for-work-agent) to grant the
+     work-agnet permissions to address the permission issue on the managed cluster side.
+   * Permissions for *the addon agent access the hub cluster* defined in
+     `addonTemplate.registration[*].kubeClient.hubPermissions`, users should ensure:
+       1) the referenced clusterrole/role(`.hubPermissions.currentCluster.clusterRoleName`
+          `.hubPermissions.singleNamespace.roleRef.name`, `cm-admin` and `cm-reader` in the above example) exists on the
+          hub cluster
+       2) the addon-manager has permission to create rolebinding to bind these (cluster)role for the addon-agent. For
+          example: users can create a clusterrolebinding to grant the permission to the addon-manager (service account
+          `open-cluster-management-hub/addon-manager-controller-sa`) to address the permission issue on the hub cluster
+          side. For the above example, if the addon-manager doesn't have the permission to create the `RoleBinding` to
+          bind the `cm-admin` role, users can grant the permission to the addon-manager by creating a
+          `ClusterRoleBinding` like below:
+
+          ```yaml
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: ClusterRoleBinding
+          metadata:
+            name: addon-manager-cm-admin
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: cm-admin
+          subjects:
+            - kind: ServiceAccount
+              name: addon-manager-controller-sa
+              namespace: open-cluster-management-hub
+          ```
+
 2. Create a `ClusterManagementAddOn` to declare this is template type addon which should be managed by the
    addon-manager:
 
