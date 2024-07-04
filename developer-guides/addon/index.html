@@ -1197,7 +1197,45 @@ namespace on the hub cluster(KubeClient type registration, SingleNamespace)</li>
           <span style="color:#75715e"># permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa)</span>
           <span style="color:#75715e"># to access the secret</span>
           <span style="color:#66d9ef">name</span>: ca-secret
+</code></pre></div><p><strong>Notes</strong>:</p>
+<ul>
+<li>The permission related resources(i.e. <code>RoleBinding</code> <code>ClusterRoleBinding</code>) for <em>the addon agent access the local
+managed cluster</em> defined in the <code>addonTemplate.agentSpec.workload.manifests</code> will be created on the managed cluster
+by the work-agent, but the work-agent may not have permission to create these resources, users should refer to
+<a href="../concepts/manifestwork.md#permission-setting-for-work-agent">permission-setting-for-work-agent</a> to grant the
+work-agnet permissions to address the permission issue on the managed cluster side.</li>
+<li>Permissions for <em>the addon agent access the hub cluster</em> defined in
+<code>addonTemplate.registration[*].kubeClient.hubPermissions</code>, users should ensure:
+<ol>
+<li>
+<p>the referenced clusterrole/role(<code>.hubPermissions.currentCluster.clusterRoleName</code>
+<code>.hubPermissions.singleNamespace.roleRef.name</code>, <code>cm-admin</code> and <code>cm-reader</code> in the above example) exists on the
+hub cluster</p>
+</li>
+<li>
+<p>the addon-manager has permission to create rolebinding to bind these (cluster)role for the addon-agent. For
+example: users can create a clusterrolebinding to grant the permission to the addon-manager (service account
+<code>open-cluster-management-hub/addon-manager-controller-sa</code>) to address the permission issue on the hub cluster
+side. For the above example, if the addon-manager doesn&rsquo;t have the permission to create the <code>RoleBinding</code> to
+bind the <code>cm-admin</code> role, users can grant the permission to the addon-manager by creating a
+<code>ClusterRoleBinding</code> like below:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
+<span style="color:#66d9ef">kind</span>: ClusterRoleBinding
+<span style="color:#66d9ef">metadata</span>:
+  <span style="color:#66d9ef">name</span>: addon-manager-cm-admin
+<span style="color:#66d9ef">roleRef</span>:
+  <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
+  <span style="color:#66d9ef">kind</span>: ClusterRole
+  <span style="color:#66d9ef">name</span>: cm-admin
+<span style="color:#66d9ef">subjects</span>:
+  - <span style="color:#66d9ef">kind</span>: ServiceAccount
+    <span style="color:#66d9ef">name</span>: addon-manager-controller-sa
+    <span style="color:#66d9ef">namespace</span>: open-cluster-management-hub
 </code></pre></div></li>
+</ol>
+</li>
+</ul>
+</li>
 <li>
 <p>Create a <code>ClusterManagementAddOn</code> to declare this is template type addon which should be managed by the
 addon-manager:</p>
