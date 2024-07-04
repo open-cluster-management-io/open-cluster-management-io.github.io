@@ -128,7 +128,9 @@ Currently, it supports two kinds of `FeedbackRule`:
   well-known kubernetes resources.
 - `JSONPaths`: A valid [Kubernetes JSON-Path](https://kubernetes.io/docs/reference/kubectl/jsonpath/)
   that selects a scalar field from the resource. Currently supported types are
-  **Integer**, **String** and **Boolean**.
+  **Integer**, **String**, **Boolean** and **JsonRaw**. **JsonRaw** returns only when you have enabled
+  the RawFeedbackJsonString feature gate on the agent. The agent will return the whole structure as a
+  JSON string.
 
 The default feedback value scraping interval is 30 second, and we can override
 it by setting `--status-sync-interval` on your work agent. Too short period can
@@ -220,8 +222,7 @@ controller will also fight with work agent.
 When one of the `ManifestWork` is deleted, the applied resource will not be removed no matter
 `DeleteOption` is set or not. The remaining `ManifestWork` will still keep the ownership of the resource.
 
- To resolve such conflict, we introduce `updateStrategy` in `0.8.0` release. User can choose a different
- update strategy to alleviate the resource conflict.
+ To resolve such conflict, user can choose a different update strategy to alleviate the resource conflict.
 
 - `CreateOnly`: with this strategy, the work-agent will only ensure creation of the certain manifest if the
   resource does not exist. work-agent will not update the resource, hence the ownership of the whole resource
@@ -230,6 +231,9 @@ When one of the `ManifestWork` is deleted, the applied resource will not be remo
   default field manager is `work-agent`, and can be customized. If another `ManifestWork` or controller takes the
   ownership of a certain field in the manifest, the original `ManifestWork` will report conflict. User can prune
   the original `ManifestWork` so only field that it will own maintains.
+- `ReadOnly`: with this strategy, the work-agent will not apply manifests onto the cluster, but it still can read
+   resource fields and return results when feedback rules are defined. Only metadata of the manifest is required to
+   be defined in the spec of the `ManifestWork` with this strategy.
 
 An example of using `ServerSideApply` strategy as following:
 
