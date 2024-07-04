@@ -391,7 +391,9 @@ Currently, it supports two kinds of <code>FeedbackRule</code>:</p>
 well-known kubernetes resources.</li>
 <li><code>JSONPaths</code>: A valid <a href="https://kubernetes.io/docs/reference/kubectl/jsonpath/">Kubernetes JSON-Path</a>
 that selects a scalar field from the resource. Currently supported types are
-<strong>Integer</strong>, <strong>String</strong> and <strong>Boolean</strong>.</li>
+<strong>Integer</strong>, <strong>String</strong>, <strong>Boolean</strong> and <strong>JsonRaw</strong>. <strong>JsonRaw</strong> returns only when you have enabled
+the RawFeedbackJsonString feature gate on the agent. The agent will return the whole structure as a
+JSON string.</li>
 </ul>
 <p>The default feedback value scraping interval is 30 second, and we can override
 it by setting <code>--status-sync-interval</code> on your work agent. Too short period can
@@ -464,8 +466,7 @@ the managed cluster that tries to manipulate the resource applied by a <code>Man
 controller will also fight with work agent.</p>
 <p>When one of the <code>ManifestWork</code> is deleted, the applied resource will not be removed no matter
 <code>DeleteOption</code> is set or not. The remaining <code>ManifestWork</code> will still keep the ownership of the resource.</p>
-<p>To resolve such conflict, we introduce <code>updateStrategy</code> in <code>0.8.0</code> release. User can choose a different
-update strategy to alleviate the resource conflict.</p>
+<p>To resolve such conflict, user can choose a different update strategy to alleviate the resource conflict.</p>
 <ul>
 <li><code>CreateOnly</code>: with this strategy, the work-agent will only ensure creation of the certain manifest if the
 resource does not exist. work-agent will not update the resource, hence the ownership of the whole resource
@@ -474,6 +475,9 @@ can be taken over by another <code>ManifestWork</code> or controller.</li>
 default field manager is <code>work-agent</code>, and can be customized. If another <code>ManifestWork</code> or controller takes the
 ownership of a certain field in the manifest, the original <code>ManifestWork</code> will report conflict. User can prune
 the original <code>ManifestWork</code> so only field that it will own maintains.</li>
+<li><code>ReadOnly</code>: with this strategy, the work-agent will not apply manifests onto the cluster, but it still can read
+resource fields and return results when feedback rules are defined. Only metadata of the manifest is required to
+be defined in the spec of the <code>ManifestWork</code> with this strategy.</li>
 </ul>
 <p>An example of using <code>ServerSideApply</code> strategy as following:</p>
 <ol>
