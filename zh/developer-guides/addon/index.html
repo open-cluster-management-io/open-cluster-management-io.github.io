@@ -1206,8 +1206,8 @@ namespace on the hub cluster(KubeClient type registration, SingleNamespace)</li>
 <li>The permission related resources(i.e. <code>RoleBinding</code> <code>ClusterRoleBinding</code>) for <em>the addon agent access the local
 managed cluster</em> defined in the <code>addonTemplate.agentSpec.workload.manifests</code> will be created on the managed cluster
 by the work-agent, but the work-agent may not have permission to create these resources, users should refer to
-<a href="../concepts/manifestwork.md#permission-setting-for-work-agent">permission-setting-for-work-agent</a> to grant the
-work-agnet permissions to address the permission issue on the managed cluster side.</li>
+<a href="https://open-cluster-management.io/concepts/manifestwork/#permission-setting-for-work-agent">permission-setting-for-work-agent</a>
+to grant the work-agnet permissions to address the permission issue on the managed cluster side.</li>
 <li>Permissions for <em>the addon agent access the hub cluster</em> defined in
 <code>addonTemplate.registration[*].kubeClient.hubPermissions</code>, users should ensure:
 <ol>
