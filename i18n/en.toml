@@ -196,6 +196,9 @@ other = "Releases"
 [sidebar_roadmap]
 other = "Roadmap"
 
+[sidebar_security]
+other = "Security Reporting"
+
 [sidebar_contribute]
 other = "Contribute"
 
