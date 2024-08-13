@@ -265,8 +265,47 @@
             <div class="col-lg-10 col-md-9 padding-none">
 <div id="content">
     <h1>Releases</h1>
-    <p>Open Cluster Management has approximately a three to four month release cycle. The current release is <code>v0.13.0</code>.
+    <p>Open Cluster Management has approximately a three to four month release cycle. The current release is <code>v0.14.0</code>.
 Continue reading to view upcoming releases:</p>
+<h2 id="0140-21-jun-2024"><code>0.14.0</code>, 21 Jun. 2024</h2>
+<p>The Open Cluster Management team is proud to announce the release of OCM v0.14.0!</p>
+<ul>
+<li>Exclude terminating clusters from PlacementDecision: now cluster in terminating state will not be picked by the
+placement.</li>
+<li>Send available condition events for managed cluster: klusterlet agent will send a Kubenerte event to the cluster
+namespace upon status change, which makes it eaiser for user to check the state change of the managed cluster.</li>
+<li>Set install namespace of AddonTemplate from AddonDeploymentConfig: consumers of AddonTemplate API can now use
+AddonDeploymentConfig API to set the installation namespace of the agent.</li>
+<li>Configurable controller replicas and master node selector: user can now set flags <code>--deployment-replicas</code> and
+<code>--control-plane-node-label-selector</code> on klusterlet-operator to customize the replicas of the klusterlet agent.</li>
+<li>Add CAPI into join flow: user can now use the join command to add a Cluster API provisioned cluster into OCM hub
+from Cluster API management cluster with <code>--capi-import</code> and  <code>--capi-cluster-name</code> flag.</li>
+<li>(Policy Framework) <code>OperatorPolicy</code> enhancement and stabilization: OperatorPolicy can now be set to <code>mustnothave</code>
+to perform cleanup, alongside stabilization improvements.</li>
+<li>(Policy Framework) Add <code>ConfigurationPolicy</code> diff to the status: Adds a <code>recordDiff: InStatus</code> as the default value
+if it&rsquo;s not set. In this mode, the difference between the policy and the object on the managed is returned in the
+status. Sensitive data types are not displayed unless <code>InStatus</code> is explicitly provided.</li>
+<li>(Policy Framework) Add <code>recreateOption</code> to <code>ConfigurationPolicy</code>: When a user needs to update an object with
+immutable fields, the object must be replaced. In this case, <code>recreateOption</code> can be set to either <code>ifRequired</code> or
+<code>Always</code> depending on the requirements.</li>
+</ul>
+<h3 id="core-components">Core components</h3>
+<ul>
+<li>ocm v0.14.0 <a href="https://github.com/open-cluster-management-io/ocm/releases/tag/v0.14.0">changelog</a></li>
+<li>addon-framework v0.10.0 <a href="https://github.com/open-cluster-management-io/addon-framework/releases/tag/v0.10.0">changelog</a></li>
+<li>clusteradm v0.9.0 <a href="https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.9.0">changelog</a></li>
+</ul>
+<h3 id="addons">Addons</h3>
+<ul>
+<li>config-policy-controller v0.14.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.14.0">changelog</a></li>
+<li>governance-policy-framework-addon v0.14.0 <a href="https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.14.0">changelog</a></li>
+<li>governance-policy-propagator v0.14.0 <a href="https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.14.0">changelog</a></li>
+<li>governance-policy-addon-controller v0.14.0 <a href="https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.14.0">changelog</a></li>
+<li>multicloud-operators-subscription v0.14.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.14.0">changelog</a></li>
+<li>multicloud-operators-channel v0.14.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.14.0">changelog</a></li>
+<li>managed-serviceaccount v0.6.0 <a href="https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.6.0">changelog</a></li>
+<li>cluster-proxy v0.5.0 <a href="https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.5.0">changelog</a></li>
+</ul>
 <h2 id="0130-6-mar-2024"><code>0.13.0</code>, 6 Mar. 2024</h2>
 <p>The Open Cluster Management team is proud to announce the release of OCM v0.13.0! There are a bunch of new features
 added into this release.</p>
@@ -295,12 +334,12 @@ to enable the diff between the object on the cluster and the policy definition, 
 history in the policy on the cluster is limited to a non-configurable 10 statuses. The Compliance History API introduces
 a query-able database to keep track of history over a longer period as well as updates to a given policy.</li>
 </ul>
-<h3 id="core-components">Core components</h3>
+<h3 id="core-components-1">Core components</h3>
 <ul>
 <li>ocm v0.13.0 <a href="https://github.com/open-cluster-management-io/ocm/releases/tag/v0.13.0">changelog</a></li>
 <li>clusteradm  v0.8.0 <a href="https://github.com/open-cluster-management-io/clusteradm/blob/v0.8.0/CHANGELOG.md">changelog</a></li>
 </ul>
-<h3 id="addons">Addons</h3>
+<h3 id="addons-1">Addons</h3>
 <ul>
 <li>config-policy-controller v0.13.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.13.0">changelog</a></li>
 <li>governance-policy-framework-addon v0.13.0 <a href="https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.13.0">changelog</a></li>
@@ -331,12 +370,12 @@ on the <code>Policy</code> should not override the <code>ConfigurationPolicy</co
 <li><code>ClusterPermission</code>: New custom resource that enables administrators to automatically distribute RBAC resources to managed
 clusters and manage the lifecycle of those resources. See the <a href="https://github.com/open-cluster-management-io/cluster-permission">ClusterPermission repo</a> for more details.</li>
 </ul>
-<h3 id="core-components-1">Core components</h3>
+<h3 id="core-components-2">Core components</h3>
 <ul>
 <li>ocm v0.12.0 <a href="https://github.com/open-cluster-management-io/ocm/releases/tag/v0.12.0">changelog</a></li>
 <li>clusteradm  v0.7.0 <a href="https://github.com/open-cluster-management-io/clusteradm/blob/v0.6.0/CHANGELOG.md">changelog</a></li>
 </ul>
-<h3 id="addons-1">Addons</h3>
+<h3 id="addons-2">Addons</h3>
 <ul>
 <li>config-policy-controller v0.12.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.12.0">changelog</a></li>
 <li>governance-policy-framework-addon v0.12.0 <a href="https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.12.0">changelog</a></li>
@@ -367,7 +406,7 @@ when running <code>clusteradm join</code> command.</li>
 <li>Templates were enhanced to lookup objects by label, and added <code>copySecretData</code> and <code>copyConfigMapData</code> functions to fetch the entire <code>data</code> contents of the respective object.</li>
 <li>Improved the integration of the ArgoCD pull model by aggregating the status of deployed resources in the managed clusters and presenting it in the hub cluster&rsquo;s <code>MulticlusterApplicationSetReport</code> custom resource.</li>
 </ul>
-<h3 id="core-components-2">Core components</h3>
+<h3 id="core-components-3">Core components</h3>
 <ul>
 <li>registration v0.11.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md">changelog</a></li>
 <li>work v0.11.0 <a href="https://github.com/open-cluster-management-io/work/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md">changelog</a></li>
@@ -376,7 +415,7 @@ when running <code>clusteradm join</code> command.</li>
 <li>registration-operator v0.11.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.11.0/CHANGELOG/CHANGELOG-v0.11.md">changelog</a></li>
 <li>clusteradm  v0.6.0 <a href="https://github.com/open-cluster-management-io/clusteradm/blob/v0.6.0/CHANGELOG.md">changelog</a></li>
 </ul>
-<h3 id="addons-2">Addons</h3>
+<h3 id="addons-3">Addons</h3>
 <ul>
 <li>cluster-proxy v0.3.0 <a href="https://github.com/open-cluster-management-io/cluster-proxy">repo</a></li>
 <li>managed-serviceaccount v0.3.0 <a href="https://github.com/open-cluster-management-io/managed-serviceaccount">repo</a></li>
@@ -400,7 +439,7 @@ orchestration which will be implemented in the next release. Here are some main 
 <li>A Policy or ConfigurationPolicy can specify dependencies on another policy having a specified status before taking action.</li>
 <li>A raw string with go templates can be provided in <code>object-templates-raw</code> to the ConfigurationPolicy, allowing dynamically generated objects through the use of functions like <code>{{ range ... }}</code>.</li>
 </ul>
-<h3 id="core-components-3">Core components</h3>
+<h3 id="core-components-4">Core components</h3>
 <ul>
 <li>registration v0.10.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md">changelog</a></li>
 <li>work v0.10.0<a href="https://github.com/open-cluster-management-io/work/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md">changelog</a></li>
@@ -409,7 +448,7 @@ orchestration which will be implemented in the next release. Here are some main 
 <li>registration-operator v0.9.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.10.0/CHANGELOG/CHANGELOG-v0.10.md">changelog</a></li>
 <li>clusteradm  v0.5.1 <a href="https://github.com/open-cluster-management-io/clusteradm/blob/v0.5.1/CHANGELOG.md">changelog</a></li>
 </ul>
-<h3 id="addons-3">Addons</h3>
+<h3 id="addons-4">Addons</h3>
 <ul>
 <li>config-policy-controller v0.10.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.10.0">changelog</a></li>
 <li>governance-policy-framework-addon v0.10.0 <a href="https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.10.0">changelog</a></li>
@@ -432,7 +471,7 @@ Update the ClusterSet API and gradually remove legacy custom resources, as well 
 <li>Consolidate the policy add-on template, status, and spec synchronization controllers into a single repository, <a href="https://github.com/open-cluster-management-io/governance-policy-framework-addon">governance-policy-framework-addon</a></li>
 <li>Application add-on is now able to expose custom Prometheus metrics via the Git subscription. See the <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/blob/v0.9.0/docs/metrics.md">metric documentation</a> for more details.</li>
 </ul>
-<h3 id="core-components-4">Core components</h3>
+<h3 id="core-components-5">Core components</h3>
 <ul>
 <li>registration v0.9.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md">changelog</a></li>
 <li>work v0.9.0 <a href="https://github.com/open-cluster-management-io/work/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md">changelog</a></li>
@@ -440,7 +479,7 @@ Update the ClusterSet API and gradually remove legacy custom resources, as well 
 <li>addon-framework v0.5.0 <a href="https://github.com/open-cluster-management-io/addon-framework/blob/v0.5.0/CHANGELOG/CHANGELOG-v0.5.md">changelog</a></li>
 <li>registration-operator v0.9.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.9.0/CHANGELOG/CHANGELOG-v0.9.md">changelog</a></li>
 </ul>
-<h3 id="addons-4">Addons</h3>
+<h3 id="addons-5">Addons</h3>
 <ul>
 <li>config-policy-controller v0.9.0 <a href="https://github.com/open-cluster-management-io/config-policy-controller/blob/main/CHANGELOG/CHANGELOG-v0.9.0.md">changelog</a></li>
 <li>governance-policy-framework-addon v0.9.0 <a href="https://github.com/open-cluster-management-io/governance-policy-framework-addon/blob/main/CHANGELOG/CHANGELOG-v0.9.0.md">changelog</a></li>
@@ -469,7 +508,7 @@ resource conflict in <code>ManifestWork</code>.</li>
 <li><a href="https://github.com/open-cluster-management-io/ocm-vscode-extension">ocm-vscode-extention</a> is a vscode extension to operator/develop ocm project easily in vscode.</li>
 </ul>
 <p>See details in the release changelogs:</p>
-<h3 id="core-components-5">Core components</h3>
+<h3 id="core-components-6">Core components</h3>
 <ul>
 <li>registration v0.8.0 <a href="https://github.com/open-cluster-management-io/registration/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
 <li>work v0.8.0 <a href="https://github.com/open-cluster-management-io/work/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
@@ -477,7 +516,7 @@ resource conflict in <code>ManifestWork</code>.</li>
 <li>addon-framework v0.4.0 <a href="https://github.com/open-cluster-management-io/addon-framework/blob/v0.4.0/CHANGELOG/CHANGELOG-v0.4.md">changelog</a></li>
 <li>registration-operator v0.8.0 <a href="https://github.com/open-cluster-management-io/registration-operator/blob/v0.8.0/CHANGELOG/CHANGELOG-v0.8.md">changelog</a></li>
 </ul>
-<h3 id="addons-5">Addons</h3>
+<h3 id="addons-6">Addons</h3>
 <ul>
 <li>multicloud-operators-subscription v0.8.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.8.0">changelog</a></li>
 <li>multicloud-operators-channel v0.8.0 <a href="https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.8.0">changelog</a></li>
