@@ -1,24 +1,19 @@
-  
 URL := http://localhost:1313
 OPEN_CMD := $(shell command -v open || command -v xdg-open || echo : 2>/dev/null)
-HUGO_VERSION := v0.71.0
 
-hugo:
-	@echo Downloading hugo wrapper 
-	@curl -L -o hugo https://github.com/khos2ow/hugo-wrapper/releases/download/v1.4.0/hugow
-	@@chmod +x hugo
-	@./hugo --get-version $(HUGO_VERSION)
+ensurehugo:
+	@which hugo > /dev/null || (echo "Hugo not found. Please install it from https://gohugo.io/getting-started/installing/"; exit 1)
 
-server: hugo
+server: ensurehugo
 	(sleep 2; $(OPEN_CMD) $(URL)) &
-	./hugo server
+	hugo server
 
-static: hugo
-	./hugo -D -d output
+static: ensurehugo
+	hugo -D -d output
 
 publish: static
 	./deploy.sh
 
-.DEFAULT_GOAL := static 
+.DEFAULT_GOAL := static
 
 .PHONY: static server
