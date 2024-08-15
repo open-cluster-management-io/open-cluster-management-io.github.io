@@ -273,27 +273,27 @@
 <p>In this scenario, you need to configure the proxy settings to allow the communications from the managed cluster to access the hub cluster through a forward proxy server.</p>
 <h3 id="klusterlet-proxy-settings">Klusterlet proxy settings</h3>
 <p>During the cluster registration, a bootstrap kubeconfig is required by the Klusterlet agent running on the managed cluster to connect to the hub cluster. When the agent accesses the hub cluster through a proxy server, the URL of the proxy server should be specified in <code>cluster.proxy-url</code> of the bootstrap kubeconfig. If a HTTPS proxy server is used, the proxy CA certificate should be appended to <code>cluster.certificate-authority-data</code> of the bootstrap kubeconfig as well.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
-<span style="color:#66d9ef">clusters</span>:
-  - <span style="color:#66d9ef">cluster</span>:
-      <span style="color:#66d9ef">certificate-authority-data</span>: LS0tLS...LS0tCg==
-      <span style="color:#66d9ef">server</span>: https://api.server-foundation-sno-x4lcs.dev04.red-chesterfield.com:<span style="color:#ae81ff">6443</span>
-      <span style="color:#66d9ef">proxy-url</span>: https://<span style="color:#ae81ff">10.0.109.153</span>:<span style="color:#ae81ff">3129</span>
-    <span style="color:#66d9ef">name</span>: default-cluster
-<span style="color:#66d9ef">contexts</span>:
-  - <span style="color:#66d9ef">context</span>:
-      <span style="color:#66d9ef">cluster</span>: default-cluster
-      <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">user</span>: default-auth
-    <span style="color:#66d9ef">name</span>: default-context
-<span style="color:#66d9ef">current-context</span>: default-context
-<span style="color:#66d9ef">kind</span>: Config
-<span style="color:#66d9ef">preferences</span>: {}
-<span style="color:#66d9ef">users</span>:
-  - <span style="color:#66d9ef">name</span>: default-auth
-    <span style="color:#66d9ef">user</span>:
-      <span style="color:#66d9ef">token</span>: eyJh...8PwGo
-</code></pre></div><p>Since the communication between the managed cluster and the hub cluster leverages mTLS, the SSL connection should not be terminated on the proxy server. So the proxy server needs to support HTTP tunneling (for example, HTTP CONNECT method), which will establish a tunnel between the managed cluster and the hub cluster and forward the traffic from the managed cluster through this tunnel.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">clusters</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">cluster</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">certificate-authority-data</span>: <span style="color:#ae81ff">LS0tLS...LS0tCg==</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">server</span>: <span style="color:#ae81ff">https://api.server-foundation-sno-x4lcs.dev04.red-chesterfield.com:6443</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">proxy-url</span>: <span style="color:#ae81ff">https://10.0.109.153:3129</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default-cluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">contexts</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">context</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">cluster</span>: <span style="color:#ae81ff">default-cluster</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">user</span>: <span style="color:#ae81ff">default-auth</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default-context</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">current-context</span>: <span style="color:#ae81ff">default-context</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Config</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">preferences</span>: {}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default-auth</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">user</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">token</span>: <span style="color:#ae81ff">eyJh...8PwGo</span>
+</span></span></code></pre></div><p>Since the communication between the managed cluster and the hub cluster leverages mTLS, the SSL connection should not be terminated on the proxy server. So the proxy server needs to support HTTP tunneling (for example, HTTP CONNECT method), which will establish a tunnel between the managed cluster and the hub cluster and forward the traffic from the managed cluster through this tunnel.</p>
 <p>Once the Klusterlet agent finishes the cluster registration, a secret <code>hub-kubeconfig-secret</code> is generated with a new kubeconfig. It has the similar proxy settings and the appropriate permissions. The Klusterlet agent then uses this kubeconfig to access the hub cluster.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/klusterlet-proxy.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
@@ -301,33 +301,33 @@
 <p>You can find an example built with <a href="https://kind.sigs.k8s.io">kind</a> and <a href="https://github.com/open-cluster-management-io/clusteradm/releases">clusteradm</a> in <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/join-through-proxy">Join hub through a forward proxy server</a>.</p>
 <h3 id="add-on-proxy-settings">Add-on proxy settings</h3>
 <p>Typically the add-on agent running on the managed cluster also needs a kubeconfig to access the resources of the kube-apiserver on the hub cluster. The Klusterlet agent will generate this kubeconfig during the add-on registration. If the Klusterlet agent bootstraps with a proxy settings, the same settings will be put into the add-on kubeconfig as well. While agents of some add-ons may access services other than kube-apiserver on the hub cluster. For those add-ons, you may need to add additional configuration with proxy settings by creating a <code>AddOnDeploymentConfig</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: AddOnDeploymentConfig
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: addon-proxy-settings
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">proxyConfig</span>:
-    <span style="color:#66d9ef">httpProxy</span>: <span style="color:#e6db74">&#34;http://10.0.109.153:3128&#34;</span>
-    <span style="color:#66d9ef">httpsProxy</span>: <span style="color:#e6db74">&#34;https://10.0.109.153:3129&#34;</span>
-    <span style="color:#66d9ef">noProxy</span>: <span style="color:#e6db74">&#34;.cluster.local,.svc,10.96.0.1&#34;</span>
-    <span style="color:#66d9ef">caBundle</span>: LS0tLS...LS0tCg==
-</code></pre></div><p>The IP address of the <code>kube-apiserver</code> on the managed cluster should be included in the field <code>noProxy</code>. To get the IP address, run following command on the managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n default describe svc kubernetes | grep IP:
-</code></pre></div><p>You also need to associate the configuration to the <code>ManagedClusterAddOn</code> by adding an item to <code>spec.configs</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: my-addon
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installNamespace</span>: open-cluster-management-agent-addon
-  <span style="color:#66d9ef">configs</span>:
-  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-    <span style="color:#66d9ef">name</span>: addon-proxy-settings
-    <span style="color:#66d9ef">namespace</span>: cluster1
-</code></pre></div><p>With the above configuration, the add-on manager of this add-on running on the hub cluster can fetch the proxy settings and then propagate it to the managed cluster side, for example as environment variables by using <code>ManifestWork</code> API. And then the add-on agent can initiate the communication to a particular service on the hub cluster with the proxy settings.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">AddOnDeploymentConfig</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-proxy-settings</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">proxyConfig</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">httpProxy</span>: <span style="color:#e6db74">&#34;http://10.0.109.153:3128&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">httpsProxy</span>: <span style="color:#e6db74">&#34;https://10.0.109.153:3129&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">noProxy</span>: <span style="color:#e6db74">&#34;.cluster.local,.svc,10.96.0.1&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">caBundle</span>: <span style="color:#ae81ff">LS0tLS...LS0tCg==</span>
+</span></span></code></pre></div><p>The IP address of the <code>kube-apiserver</code> on the managed cluster should be included in the field <code>noProxy</code>. To get the IP address, run following command on the managed cluster:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n default describe svc kubernetes | grep IP:
+</span></span></code></pre></div><p>You also need to associate the configuration to the <code>ManagedClusterAddOn</code> by adding an item to <code>spec.configs</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-addon</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installNamespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">configs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-proxy-settings</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span></code></pre></div><p>With the above configuration, the add-on manager of this add-on running on the hub cluster can fetch the proxy settings and then propagate it to the managed cluster side, for example as environment variables by using <code>ManifestWork</code> API. And then the add-on agent can initiate the communication to a particular service on the hub cluster with the proxy settings.</p>
 <div style="text-align: center; padding: 20px;">
    <img src="/addon-proxy.png" alt="multiple hubs" style="margin: 0 auto; width: 75%">
 </div>

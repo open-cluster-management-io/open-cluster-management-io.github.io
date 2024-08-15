@@ -284,82 +284,82 @@
 <h2 id="what-is-manifestworkreplicaset">What is <code>ManifestWorkReplicaSet</code></h2>
 <p><code>ManifestWorkReplicaSet</code> is an aggregator API that uses <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md">Manifestwork</a> and <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md">Placement</a> to create manifestwork for the placement-selected clusters.</p>
 <p>View an example of <code>ManifestWorkReplicaSet</code> to deploy a CronJob and Namespace for a group of clusters selected by placements.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManifestWorkReplicaSet
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: mwrset-cronjob
-  <span style="color:#66d9ef">namespace</span>: ocm-ns
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">placementRefs</span>:
-    - <span style="color:#66d9ef">name</span>: placement-rollout-all <span style="color:#75715e"># Name of a created Placement</span>
-      <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">rolloutType</span>: All
-    - <span style="color:#66d9ef">name</span>: placement-rollout-progressive <span style="color:#75715e"># Name of a created Placement</span>
-      <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">rolloutType</span>: Progressive
-        <span style="color:#66d9ef">progressive</span>:
-          <span style="color:#66d9ef">minSuccessTime</span>: 5m
-          <span style="color:#66d9ef">progressDeadline</span>: 10m
-          <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">5</span>%
-          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
-          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
-          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
-    - <span style="color:#66d9ef">name</span>: placement-rollout-progressive-per-group <span style="color:#75715e"># Name of a created Placement</span>
-      <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">rolloutType</span>: ProgressivePerGroup
-        <span style="color:#66d9ef">progressivePerGroup</span>:
-          <span style="color:#66d9ef">progressDeadline</span>: 10m
-          <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">2</span>
-  <span style="color:#66d9ef">manifestWorkTemplate</span>:
-    <span style="color:#66d9ef">deleteOption</span>:
-      <span style="color:#66d9ef">propagationPolicy</span>: SelectivelyOrphan
-      <span style="color:#66d9ef">selectivelyOrphans</span>:
-        <span style="color:#66d9ef">orphaningRules</span>:
-          - <span style="color:#66d9ef">group</span>: <span style="color:#e6db74">&#39;&#39;</span>
-            <span style="color:#66d9ef">name</span>: ocm-ns
-            <span style="color:#66d9ef">namespace</span>: <span style="color:#e6db74">&#39;&#39;</span>
-            <span style="color:#66d9ef">resource</span>: Namespace
-    <span style="color:#66d9ef">manifestConfigs</span>:
-      - <span style="color:#66d9ef">feedbackRules</span>:
-          - <span style="color:#66d9ef">jsonPaths</span>:
-              - <span style="color:#66d9ef">name</span>: lastScheduleTime
-                <span style="color:#66d9ef">path</span>: .status.lastScheduleTime
-              - <span style="color:#66d9ef">name</span>: lastSuccessfulTime
-                <span style="color:#66d9ef">path</span>: .status.lastSuccessfulTime
-            <span style="color:#66d9ef">type</span>: JSONPaths
-        <span style="color:#66d9ef">resourceIdentifier</span>:
-          <span style="color:#66d9ef">group</span>: batch
-          <span style="color:#66d9ef">name</span>: sync-cronjob
-          <span style="color:#66d9ef">namespace</span>: ocm-ns
-          <span style="color:#66d9ef">resource</span>: cronjobs
-    <span style="color:#66d9ef">workload</span>:
-      <span style="color:#66d9ef">manifests</span>:
-        - <span style="color:#66d9ef">kind</span>: Namespace
-          <span style="color:#66d9ef">apiVersion</span>: v1
-          <span style="color:#66d9ef">metadata</span>:
-            <span style="color:#66d9ef">name</span>: ocm-ns
-        - <span style="color:#66d9ef">kind</span>: CronJob
-          <span style="color:#66d9ef">apiVersion</span>: batch/v1
-          <span style="color:#66d9ef">metadata</span>:
-            <span style="color:#66d9ef">name</span>: sync-cronjob
-            <span style="color:#66d9ef">namespace</span>: ocm-ns
-          <span style="color:#66d9ef">spec</span>:
-            <span style="color:#66d9ef">schedule</span>: <span style="color:#e6db74">&#39;* * * * *&#39;</span>
-            <span style="color:#66d9ef">concurrencyPolicy</span>: Allow
-            <span style="color:#66d9ef">suspend</span>: <span style="color:#66d9ef">false</span>
-            <span style="color:#66d9ef">jobTemplate</span>:
-              <span style="color:#66d9ef">spec</span>:
-                <span style="color:#66d9ef">backoffLimit</span>: <span style="color:#ae81ff">2</span>
-                <span style="color:#66d9ef">template</span>:
-                  <span style="color:#66d9ef">spec</span>:
-                    <span style="color:#66d9ef">containers</span>:
-                      - <span style="color:#66d9ef">name</span>: hello
-                        <span style="color:#66d9ef">image</span>: <span style="color:#e6db74">&#39;quay.io/prometheus/busybox:latest&#39;</span>
-                        <span style="color:#66d9ef">args</span>:
-                          - /bin/sh
-                          - <span style="color:#e6db74">&#39;-c&#39;</span>
-                          - date; echo Hello from the Kubernetes cluster
-</code></pre></div><p>The <strong>PlacementRefs</strong> uses the Rollout Strategy <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go">API</a> to apply the manifestWork to the selected clusters.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">work.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManifestWorkReplicaSet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mwrset-cronjob</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">ocm-ns</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">placementRefs</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-all</span> <span style="color:#75715e"># Name of a created Placement</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">rolloutStrategy</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">rolloutType</span>: <span style="color:#ae81ff">All</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-progressive</span> <span style="color:#75715e"># Name of a created Placement</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">rolloutStrategy</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">rolloutType</span>: <span style="color:#ae81ff">Progressive</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">progressive</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">minSuccessTime</span>: <span style="color:#ae81ff">5m</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">progressDeadline</span>: <span style="color:#ae81ff">10m</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">maxFailures</span>: <span style="color:#ae81ff">5</span><span style="color:#ae81ff">%</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">mandatoryDecisionGroups</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-progressive-per-group</span> <span style="color:#75715e"># Name of a created Placement</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">rolloutStrategy</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">rolloutType</span>: <span style="color:#ae81ff">ProgressivePerGroup</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">progressivePerGroup</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">progressDeadline</span>: <span style="color:#ae81ff">10m</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">maxFailures</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">manifestWorkTemplate</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">deleteOption</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">propagationPolicy</span>: <span style="color:#ae81ff">SelectivelyOrphan</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">selectivelyOrphans</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">orphaningRules</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">group</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ocm-ns</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">namespace</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">Namespace</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">manifestConfigs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">feedbackRules</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">jsonPaths</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">lastScheduleTime</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">path</span>: <span style="color:#ae81ff">.status.lastScheduleTime</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">lastSuccessfulTime</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">path</span>: <span style="color:#ae81ff">.status.lastSuccessfulTime</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">type</span>: <span style="color:#ae81ff">JSONPaths</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resourceIdentifier</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">group</span>: <span style="color:#ae81ff">batch</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sync-cronjob</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">ocm-ns</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">cronjobs</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">workload</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">manifests</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Namespace</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ocm-ns</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CronJob</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">batch/v1</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sync-cronjob</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">ocm-ns</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">schedule</span>: <span style="color:#e6db74">&#39;* * * * *&#39;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">concurrencyPolicy</span>: <span style="color:#ae81ff">Allow</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">suspend</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">jobTemplate</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">backoffLimit</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>                      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;quay.io/prometheus/busybox:latest&#39;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>                          - <span style="color:#ae81ff">/bin/sh</span>
+</span></span><span style="display:flex;"><span>                          - <span style="color:#e6db74">&#39;-c&#39;</span>
+</span></span><span style="display:flex;"><span>                          - <span style="color:#ae81ff">date; echo Hello from the Kubernetes cluster</span>
+</span></span></code></pre></div><p>The <strong>PlacementRefs</strong> uses the Rollout Strategy <a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go">API</a> to apply the manifestWork to the selected clusters.
 In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section at the <a href="https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md">placement</a> document.
 <strong>Note:</strong> The placement reference must be in the same namespace as the manifestWorkReplicaSet.</p>
 <h2 id="status-tracking">Status tracking</h2>
@@ -373,107 +373,107 @@ The manifestWorkReplicaSet Summary aggregate the placementSummaries showing the 
 </ol>
 <p>The manifestWorkReplicaSet determine the ManifestWorkApplied condition status based on the resource state (applied or available) of each manifestWork.</p>
 <p>Here is an example.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManifestWorkReplicaSet
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: mwrset-cronjob
-  <span style="color:#66d9ef">namespace</span>: ocm-ns
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">placementRefs</span>:
-    - <span style="color:#66d9ef">name</span>: placement-rollout-all
-      ...
-    - <span style="color:#66d9ef">name</span>: placement-rollout-progressive
-      ...
-    - <span style="color:#66d9ef">name</span>: placement-rollout-progressive-per-group
-      ...
-  <span style="color:#66d9ef">manifestWorkTemplate</span>:
-     ...
-<span style="color:#66d9ef">status</span>:
- <span style="color:#66d9ef">conditions</span>:
-   - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#39;2023-04-27T02:30:54Z&#39;</span>
-     <span style="color:#66d9ef">message</span>: <span style="color:#e6db74">&#39;&#39;</span>
-     <span style="color:#66d9ef">reason</span>: AsExpected
-     <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#39;True&#39;</span>
-     <span style="color:#66d9ef">type</span>: PlacementVerified
-   - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#39;2023-04-27T02:30:54Z&#39;</span>
-     <span style="color:#66d9ef">message</span>: <span style="color:#e6db74">&#39;&#39;</span>
-     <span style="color:#66d9ef">reason</span>: Progressing
-     <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#39;False&#39;</span>
-     <span style="color:#66d9ef">type</span>: PlacementRolledOut
-   - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#39;2023-04-27T02:30:54Z&#39;</span>
-     <span style="color:#66d9ef">message</span>: <span style="color:#e6db74">&#39;&#39;</span>
-     <span style="color:#66d9ef">reason</span>: AsExpected
-     <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#39;True&#39;</span>
-     <span style="color:#66d9ef">type</span>: ManifestworkApplied
- <span style="color:#66d9ef">placementSummary</span>:
- - <span style="color:#66d9ef">name</span>: placement-rollout-all
-   <span style="color:#66d9ef">availableDecisionGroups</span>: <span style="color:#ae81ff">1</span> (<span style="color:#ae81ff">10</span> / <span style="color:#ae81ff">10</span> clusters applied)
-   <span style="color:#66d9ef">summary</span>:
-     <span style="color:#66d9ef">applied</span>: <span style="color:#ae81ff">10</span>
-     <span style="color:#66d9ef">available</span>: <span style="color:#ae81ff">10</span>
-     <span style="color:#66d9ef">progressing</span>: <span style="color:#ae81ff">0</span>
-     <span style="color:#66d9ef">degraded</span>: <span style="color:#ae81ff">0</span>
-     <span style="color:#66d9ef">total</span>: <span style="color:#ae81ff">10</span>
- - <span style="color:#66d9ef">name</span>: placement-rollout-progressive
-   <span style="color:#66d9ef">availableDecisionGroups</span>: <span style="color:#ae81ff">3</span> (<span style="color:#ae81ff">20</span> / <span style="color:#ae81ff">30</span> clusters applied)
-   <span style="color:#66d9ef">summary</span>:
-     <span style="color:#66d9ef">applied</span>: <span style="color:#ae81ff">20</span>
-     <span style="color:#66d9ef">available</span>: <span style="color:#ae81ff">20</span>
-     <span style="color:#66d9ef">progressing</span>: <span style="color:#ae81ff">0</span>
-     <span style="color:#66d9ef">degraded</span>: <span style="color:#ae81ff">0</span>
-     <span style="color:#66d9ef">total</span>: <span style="color:#ae81ff">20</span>
- - <span style="color:#66d9ef">name</span>: placement-rollout-progressive-per-group
-   <span style="color:#66d9ef">availableDecisionGroups</span>: <span style="color:#ae81ff">4</span> (<span style="color:#ae81ff">15</span> / <span style="color:#ae81ff">20</span> clusters applied)
-   <span style="color:#66d9ef">summary</span>:
-     <span style="color:#66d9ef">applied</span>: <span style="color:#ae81ff">15</span>
-     <span style="color:#66d9ef">available</span>: <span style="color:#ae81ff">15</span>
-     <span style="color:#66d9ef">progressing</span>: <span style="color:#ae81ff">0</span>
-     <span style="color:#66d9ef">degraded</span>: <span style="color:#ae81ff">0</span>
-     <span style="color:#66d9ef">total</span>: <span style="color:#ae81ff">15</span>
- <span style="color:#66d9ef">summary</span>:
-   <span style="color:#66d9ef">applied</span>: <span style="color:#ae81ff">45</span>
-   <span style="color:#66d9ef">available</span>: <span style="color:#ae81ff">45</span>
-   <span style="color:#66d9ef">progressing</span>: <span style="color:#ae81ff">0</span>
-   <span style="color:#66d9ef">degraded</span>: <span style="color:#ae81ff">0</span>
-   <span style="color:#66d9ef">total</span>: <span style="color:#ae81ff">45</span>
-</code></pre></div><h2 id="release-and-enable-feature">Release and Enable Feature</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">work.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManifestWorkReplicaSet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mwrset-cronjob</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">ocm-ns</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">placementRefs</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-all</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-progressive</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-progressive-per-group</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">manifestWorkTemplate</span>:
+</span></span><span style="display:flex;"><span>     <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">conditions</span>:
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">&#39;2023-04-27T02:30:54Z&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">message</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">AsExpected</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#39;True&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">type</span>: <span style="color:#ae81ff">PlacementVerified</span>
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">&#39;2023-04-27T02:30:54Z&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">message</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">Progressing</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#39;False&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">type</span>: <span style="color:#ae81ff">PlacementRolledOut</span>
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">&#39;2023-04-27T02:30:54Z&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">message</span>: <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">AsExpected</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#39;True&#39;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ManifestworkApplied</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">placementSummary</span>:
+</span></span><span style="display:flex;"><span> - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-all</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">availableDecisionGroups</span>: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">(10 / 10 clusters applied)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">summary</span>:
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">applied</span>: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">available</span>: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">progressing</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">degraded</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">total</span>: <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-progressive</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">availableDecisionGroups</span>: <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">(20 / 30 clusters applied)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">summary</span>:
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">applied</span>: <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">available</span>: <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">progressing</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">degraded</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">total</span>: <span style="color:#ae81ff">20</span>
+</span></span><span style="display:flex;"><span> - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-rollout-progressive-per-group</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">availableDecisionGroups</span>: <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">(15 / 20 clusters applied)</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">summary</span>:
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">applied</span>: <span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">available</span>: <span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">progressing</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">degraded</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">total</span>: <span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">summary</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">applied</span>: <span style="color:#ae81ff">45</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">available</span>: <span style="color:#ae81ff">45</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">progressing</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">degraded</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">total</span>: <span style="color:#ae81ff">45</span>
+</span></span></code></pre></div><h2 id="release-and-enable-feature">Release and Enable Feature</h2>
 <p>ManifestWorkReplicaSet is in alpha release and it is not enabled by default. In order to enable the ManifestWorkReplicaSet feature, it has to be enabled in the cluster-manager instance in the hub. Use the following command to edit the cluster-manager CR (custom resource) in the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ oc edit ClusterManager cluster-manager
-</code></pre></div><p>Add the workConfiguration field to the cluster-manager CR as below and save.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterManager
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: cluster-manager
-<span style="color:#66d9ef">spec</span>:
-   ...
-  <span style="color:#66d9ef">workConfiguration</span>:
-    <span style="color:#66d9ef">featureGates</span>:
-    - <span style="color:#66d9ef">feature</span>: ManifestWorkReplicaSet
-      <span style="color:#66d9ef">mode</span>: Enable
-</code></pre></div><p>In order to assure the ManifestWorkReplicaSet has been enabled successfully check the cluster-manager using the command below</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ oc get ClusterManager cluster-manager -o yml
-</code></pre></div><p>You should find under the status-&gt;generation the cluster-manager-work-controller deployment has been added as below</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterManager
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: cluster-manager
-<span style="color:#66d9ef">spec</span>:
-   ...
-<span style="color:#66d9ef">status</span>:
-   ...
-  <span style="color:#66d9ef">generations</span>:
-    ... 
-  - <span style="color:#66d9ef">group</span>: apps
-    <span style="color:#66d9ef">lastGeneration</span>: <span style="color:#ae81ff">2</span>
-    <span style="color:#66d9ef">name</span>: cluster-manager-work-webhook
-    <span style="color:#66d9ef">namespace</span>: open-cluster-management-hub
-    <span style="color:#66d9ef">resource</span>: deployments
-    <span style="color:#66d9ef">version</span>: v1
-  - <span style="color:#66d9ef">group</span>: apps
-    <span style="color:#66d9ef">lastGeneration</span>: <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">name</span>: cluster-manager-work-controller
-    <span style="color:#66d9ef">namespace</span>: open-cluster-management-hub
-    <span style="color:#66d9ef">resource</span>: deployments
-    <span style="color:#66d9ef">version</span>: v1
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ oc edit ClusterManager cluster-manager
+</span></span></code></pre></div><p>Add the workConfiguration field to the cluster-manager CR as below and save.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManager</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-manager</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workConfiguration</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">featureGates</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">feature</span>: <span style="color:#ae81ff">ManifestWorkReplicaSet</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">mode</span>: <span style="color:#ae81ff">Enable</span>
+</span></span></code></pre></div><p>In order to assure the ManifestWorkReplicaSet has been enabled successfully check the cluster-manager using the command below</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ oc get ClusterManager cluster-manager -o yml
+</span></span></code></pre></div><p>You should find under the status-&gt;generation the cluster-manager-work-controller deployment has been added as below</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManager</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-manager</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">generations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">... </span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">apps</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lastGeneration</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-manager-work-webhook</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-hub</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">deployments</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">apps</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lastGeneration</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-manager-work-controller</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-hub</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">deployments</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1</span>
+</span></span></code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

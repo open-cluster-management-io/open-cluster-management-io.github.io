@@ -306,45 +306,45 @@
 <h2 id="how-to-use-multicluster-control-plane">How to use <code>Multicluster Control Plane</code></h2>
 <h3 id="start-the-standalone-multicluster-control-plane">Start the standalone multicluster control plane</h3>
 <p>You need build <code>multicluster-controlplane</code> in your local host. Follow the below steps to build the binary and start the multicluster control plane.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/multicluster-controlplane.git
-cd multicluster-controlplane
-make run
-</code></pre></div><p>Once the control plane is running, you can access the control plane by using <code>kubectl --kubeconfig=./_output/controlplane/.ocm/cert/kube-aggregator.kubeconfig</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>git clone https://github.com/open-cluster-management-io/multicluster-controlplane.git
+</span></span><span style="display:flex;"><span>cd multicluster-controlplane
+</span></span><span style="display:flex;"><span>make run
+</span></span></code></pre></div><p>Once the control plane is running, you can access the control plane by using <code>kubectl --kubeconfig=./_output/controlplane/.ocm/cert/kube-aggregator.kubeconfig</code>.</p>
 <p>You can customize the control plane configurations by creating a config file and using the environment variable <code>CONFIG_DIR</code> to specify your config file directory. Please check the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane#run-controlplane-as-a-local-binary">repository documentation</a> for details.</p>
 <h3 id="install-via-clusteradm">Install via clusteradm</h3>
 <h4 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h4>
 <p>It&rsquo;s recommended to run the following command to download and install <strong>the
 latest release</strong> of the <code>clusteradm</code> command-line tool:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
-</code></pre></div><h4 id="install-multicluster-control-plane">Install multicluster control plane</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</span></span></code></pre></div><h4 id="install-multicluster-control-plane">Install multicluster control plane</h4>
 <p>You can use <code>clusteradm init</code> to deploy the multicluster control plane in your Kubernetes environment.</p>
 <ol>
 <li>Set the environment variable KUBECONFIG to your cluster kubeconfig path. For instance, create a new KinD cluster and deploy multicluster control plane in it.</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export KUBECONFIG<span style="color:#f92672">=</span>/tmp/kind-controlplane.kubeconfig
-kind create cluster --name multicluster-controlplane
-export mc_cp_node_ip<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get nodes -o<span style="color:#f92672">=</span>jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.items[0].status.addresses[?(@.type==&#34;InternalIP&#34;)].address}&#39;</span><span style="color:#66d9ef">)</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>export KUBECONFIG<span style="color:#f92672">=</span>/tmp/kind-controlplane.kubeconfig
+</span></span><span style="display:flex;"><span>kind create cluster --name multicluster-controlplane
+</span></span><span style="display:flex;"><span>export mc_cp_node_ip<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl get nodes -o<span style="color:#f92672">=</span>jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.items[0].status.addresses[?(@.type==&#34;InternalIP&#34;)].address}&#39;</span><span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><ol start="2">
 <li>Run following command to deploy a control plane</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm init --singleton<span style="color:#f92672">=</span>true --set route.enabled<span style="color:#f92672">=</span>false --set nodeport.enabled<span style="color:#f92672">=</span>true --set nodeport.port<span style="color:#f92672">=</span><span style="color:#ae81ff">30443</span> --set apiserver.externalHostname<span style="color:#f92672">=</span>$mc_cp_node_ip --set apiserver.externalPort<span style="color:#f92672">=</span><span style="color:#ae81ff">30443</span> --singleton-name multicluster-controlplane
-</code></pre></div><p>Refer to the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane#use-helm-to-deploy-controlplane-in-a-cluster">repository documentation</a> for how to customize the control plane configurations.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>clusteradm init --singleton<span style="color:#f92672">=</span>true --set route.enabled<span style="color:#f92672">=</span>false --set nodeport.enabled<span style="color:#f92672">=</span>true --set nodeport.port<span style="color:#f92672">=</span><span style="color:#ae81ff">30443</span> --set apiserver.externalHostname<span style="color:#f92672">=</span>$mc_cp_node_ip --set apiserver.externalPort<span style="color:#f92672">=</span><span style="color:#ae81ff">30443</span> --singleton-name multicluster-controlplane
+</span></span></code></pre></div><p>Refer to the <a href="https://github.com/open-cluster-management-io/multicluster-controlplane#use-helm-to-deploy-controlplane-in-a-cluster">repository documentation</a> for how to customize the control plane configurations.</p>
 <ol start="3">
 <li>Get the control plane kubeconfig by running the following command:</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl -n multicluster-controlplane get secrets multicluster-controlplane-kubeconfig -ojsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.data.kubeconfig}&#39;</span> | base64 -d &gt; /tmp/multicluster-controlplane.kubeconfig
-</code></pre></div><h3 id="join-a-cluster-to-the-multicluster-control-plane">Join a cluster to the multicluster control plane</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl -n multicluster-controlplane get secrets multicluster-controlplane-kubeconfig -ojsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.data.kubeconfig}&#39;</span> | base64 -d &gt; /tmp/multicluster-controlplane.kubeconfig
+</span></span></code></pre></div><h3 id="join-a-cluster-to-the-multicluster-control-plane">Join a cluster to the multicluster control plane</h3>
 <p>You can use <code>clusteradm</code> to join a cluster. For instance, take the KinD cluster as an example, run the following command to join the cluster to the control plane:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kind create cluster --name cluster1 --kubeconfig /tmp/kind-cluster1.kubeconfig
-clusteradm --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig get token --use-bootstrap-token
-clusteradm --singleton<span style="color:#f92672">=</span>true --kubeconfig /tmp/kind-cluster1.kubeconfig join --hub-token &lt;controlplane token&gt; --hub-apiserver https://$mc_cp_node_ip:30443/ --cluster-name cluster1
-clusteradm --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig accept --clusters cluster1
-</code></pre></div><h3 id="verify-the-cluster-join">Verify the cluster join</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kind create cluster --name cluster1 --kubeconfig /tmp/kind-cluster1.kubeconfig
+</span></span><span style="display:flex;"><span>clusteradm --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig get token --use-bootstrap-token
+</span></span><span style="display:flex;"><span>clusteradm --singleton<span style="color:#f92672">=</span>true --kubeconfig /tmp/kind-cluster1.kubeconfig join --hub-token &lt;controlplane token&gt; --hub-apiserver https://$mc_cp_node_ip:30443/ --cluster-name cluster1
+</span></span><span style="display:flex;"><span>clusteradm --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig accept --clusters cluster1
+</span></span></code></pre></div><h3 id="verify-the-cluster-join">Verify the cluster join</h3>
 <p>Run this command to verify the cluster join:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig get managedcluster
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
-cluster1   true           https://cluster1-control-plane:6443   True     True        5m25s
-</code></pre></div><p>You should see the managedcluster joins to the multicluster control plane. Congratulations!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl --kubeconfig<span style="color:#f92672">=</span>/tmp/multicluster-controlplane.kubeconfig get managedcluster
+</span></span><span style="display:flex;"><span>NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>cluster1   true           https://cluster1-control-plane:6443   True     True        5m25s
+</span></span></code></pre></div><p>You should see the managedcluster joins to the multicluster control plane. Congratulations!</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

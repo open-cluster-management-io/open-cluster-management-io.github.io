@@ -317,100 +317,100 @@ managed clusters.</p>
 <li>
 <p>Following <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment">setup dev environment by kind</a>
 to prepare an environment.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
+</span></span></code></pre></div></li>
 <li>
 <p>Confirm there are 2 <code>ManagedCluster</code> and a default <code>ManagedClusterSet</code> created.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get clusters
-NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERNETES VERSION
-cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
-cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
-
-$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get clusters
+</span></span><span style="display:flex;"><span>NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERNETES VERSION
+</span></span><span style="display:flex;"><span>cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
+</span></span><span style="display:flex;"><span>cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ clusteradm get clustersets
+</span></span><span style="display:flex;"><span>NAME      BOUND NAMESPACES   STATUS
+</span></span><span style="display:flex;"><span>default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
+</span></span></code></pre></div></li>
 <li>
 <p>Bind the default <code>ManagedClusterSet</code> to default <code>Namespace</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm clusterset bind default --namespace default
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
-</code></pre></div><p>Note: click <a href="https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm">here</a>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm clusterset bind default --namespace default
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get clustersets
+</span></span><span style="display:flex;"><span>NAME      BOUND NAMESPACES   STATUS
+</span></span><span style="display:flex;"><span>default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
+</span></span></code></pre></div><p>Note: click <a href="https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm">here</a>
 to see more details about how to operate <code>ManagedClusterSet</code> using <code>clusteradm</code>.</p>
 </li>
 <li>
 <p>Create a <code>Placement</code> placement1 to select the two clusters in default <code>ManagedClusterSet</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
-</span><span style="color:#e6db74">kind: Placement
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: placement1
-</span><span style="color:#e6db74">  namespace: default
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  numberOfClusters: 2
-</span><span style="color:#e6db74">  clusterSets:
-</span><span style="color:#e6db74">    - default
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Placement
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: placement1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: default
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  numberOfClusters: 2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  clusterSets:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - default
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Use <code>clusteradm</code> command to create <code>ManifestWork</code> my-first-work with
 <code>Placement</code> placement1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f work.yaml --placement default/placement1
-</code></pre></div><p>The <code>work.yaml</code> contains kubernetes resource definitions, for sample:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ cat work.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: default
-  name: my-sa
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: default
-  name: nginx-deployment
-  labels:
-    app: nginx
-spec:
-  replicas: <span style="color:#ae81ff">3</span>
-  selector:
-    matchLabels:
-      app: nginx
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      serviceAccountName: my-sa
-      containers:
-        - name: nginx
-          image: nginx:1.14.2
-          ports:
-            - containerPort: <span style="color:#ae81ff">80</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm create work my-first-work -f work.yaml --placement default/placement1
+</span></span></code></pre></div><p>The <code>work.yaml</code> contains kubernetes resource definitions, for sample:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ cat work.yaml
+</span></span><span style="display:flex;"><span>apiVersion: v1
+</span></span><span style="display:flex;"><span>kind: ServiceAccount
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  namespace: default
+</span></span><span style="display:flex;"><span>  name: my-sa
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>apiVersion: apps/v1
+</span></span><span style="display:flex;"><span>kind: Deployment
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  namespace: default
+</span></span><span style="display:flex;"><span>  name: nginx-deployment
+</span></span><span style="display:flex;"><span>  labels:
+</span></span><span style="display:flex;"><span>    app: nginx
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  replicas: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  selector:
+</span></span><span style="display:flex;"><span>    matchLabels:
+</span></span><span style="display:flex;"><span>      app: nginx
+</span></span><span style="display:flex;"><span>  template:
+</span></span><span style="display:flex;"><span>    metadata:
+</span></span><span style="display:flex;"><span>      labels:
+</span></span><span style="display:flex;"><span>        app: nginx
+</span></span><span style="display:flex;"><span>    spec:
+</span></span><span style="display:flex;"><span>      serviceAccountName: my-sa
+</span></span><span style="display:flex;"><span>      containers:
+</span></span><span style="display:flex;"><span>        - name: nginx
+</span></span><span style="display:flex;"><span>          image: nginx:1.14.2
+</span></span><span style="display:flex;"><span>          ports:
+</span></span><span style="display:flex;"><span>            - containerPort: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Check the <code>ManifestWork</code>, it should be distributed to both cluster1 and cluster2.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   28s
-cluster2    my-first-work   28s
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get manifestwork -A
+</span></span><span style="display:flex;"><span>NAMESPACE   NAME            AGE
+</span></span><span style="display:flex;"><span>cluster1    my-first-work   28s
+</span></span><span style="display:flex;"><span>cluster2    my-first-work   28s
+</span></span></code></pre></div></li>
 <li>
 <p>Update the <code>Placement</code> placement1 to select only one managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl patch placement placement1 --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;clusterSets&#34;: [&#34;default&#34;],&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl patch placement placement1 --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;clusterSets&#34;: [&#34;default&#34;],&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
+</span></span></code></pre></div></li>
 <li>
 <p>As the placement decision changes, running below command to reschedule
 <code>ManifestWork</code> my-first-work to the newly selected cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f work.yaml --placement default/placement1 --overwrite
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm create work my-first-work -f work.yaml --placement default/placement1 --overwrite
+</span></span></code></pre></div></li>
 <li>
 <p>Check the <code>ManifestWork</code> again, now it&rsquo;s only deployed to cluster1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   18m
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get manifestwork -A
+</span></span><span style="display:flex;"><span>NAMESPACE   NAME            AGE
+</span></span><span style="display:flex;"><span>cluster1    my-first-work   18m
+</span></span></code></pre></div></li>
 </ol>
 <h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
 <p>The main idea is that <code>clusteradm</code> parse the selected clusters generated by
@@ -420,38 +420,38 @@ Let&rsquo;s see more details.</p>
 <ol>
 <li>
 <p><code>Placement</code> placement1 generates a <code>PlacementDecision</code> placement1-decision-1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement<span style="color:#f92672">=</span>placement1 -oyaml
-apiVersion: v1
-items:
-- apiVersion: cluster.open-cluster-management.io/v1beta1
-  kind: PlacementDecision
-  metadata:
-    creationTimestamp: <span style="color:#e6db74">&#34;2022-07-06T15:03:12Z&#34;</span>
-    generation: <span style="color:#ae81ff">1</span>
-    labels:
-      cluster.open-cluster-management.io/placement: placement1
-    name: placement1-decision-1
-    namespace: default
-    ownerReferences:
-    - apiVersion: cluster.open-cluster-management.io/v1beta1
-      blockOwnerDeletion: true
-      controller: true
-      kind: Placement
-      name: placement1
-      uid: aa339f57-0eb7-4260-8d4d-f30c1379fd35
-    resourceVersion: <span style="color:#e6db74">&#34;47679&#34;</span>
-    uid: 9f948619-1647-429d-894d-81e11dd8bcf1
-  status:
-    decisions:
-    - clusterName: cluster1
-      reason: <span style="color:#e6db74">&#34;&#34;</span>
-    - clusterName: cluster2
-      reason: <span style="color:#e6db74">&#34;&#34;</span>
-kind: List
-metadata:
-  resourceVersion: <span style="color:#e6db74">&#34;&#34;</span>
-  selfLink: <span style="color:#e6db74">&#34;&#34;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get placementdecision -n default -l cluster.open-cluster-management.io/placement<span style="color:#f92672">=</span>placement1 -oyaml
+</span></span><span style="display:flex;"><span>apiVersion: v1
+</span></span><span style="display:flex;"><span>items:
+</span></span><span style="display:flex;"><span>- apiVersion: cluster.open-cluster-management.io/v1beta1
+</span></span><span style="display:flex;"><span>  kind: PlacementDecision
+</span></span><span style="display:flex;"><span>  metadata:
+</span></span><span style="display:flex;"><span>    creationTimestamp: <span style="color:#e6db74">&#34;2022-07-06T15:03:12Z&#34;</span>
+</span></span><span style="display:flex;"><span>    generation: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    labels:
+</span></span><span style="display:flex;"><span>      cluster.open-cluster-management.io/placement: placement1
+</span></span><span style="display:flex;"><span>    name: placement1-decision-1
+</span></span><span style="display:flex;"><span>    namespace: default
+</span></span><span style="display:flex;"><span>    ownerReferences:
+</span></span><span style="display:flex;"><span>    - apiVersion: cluster.open-cluster-management.io/v1beta1
+</span></span><span style="display:flex;"><span>      blockOwnerDeletion: true
+</span></span><span style="display:flex;"><span>      controller: true
+</span></span><span style="display:flex;"><span>      kind: Placement
+</span></span><span style="display:flex;"><span>      name: placement1
+</span></span><span style="display:flex;"><span>      uid: aa339f57-0eb7-4260-8d4d-f30c1379fd35
+</span></span><span style="display:flex;"><span>    resourceVersion: <span style="color:#e6db74">&#34;47679&#34;</span>
+</span></span><span style="display:flex;"><span>    uid: 9f948619-1647-429d-894d-81e11dd8bcf1
+</span></span><span style="display:flex;"><span>  status:
+</span></span><span style="display:flex;"><span>    decisions:
+</span></span><span style="display:flex;"><span>    - clusterName: cluster1
+</span></span><span style="display:flex;"><span>      reason: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    - clusterName: cluster2
+</span></span><span style="display:flex;"><span>      reason: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>kind: List
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  resourceVersion: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  selfLink: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span></code></pre></div></li>
 <li>
 <p><code>clusteradm</code> get the <code>PlacementDecision</code> generated by <code>Placment</code>
 placement1 with label <code>cluster.open-cluster-management.io/placement: placement1</code>,
@@ -460,11 +460,11 @@ Then parse the clusterName cluster1 and cluster2, fill in that as <code>Manifest
 namespace, reference <a href="https://github.com/open-cluster-management-io/clusteradm/pull/247/files#diff-0f96f91e259a6a6ce0f2231444a4991174b43bc206d34897be3be897279124eaR183">code</a>.
 Then installs <code>ManifestWork</code> to namespace cluster1 and cluster2,
 which will finally be distributed to the two clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get manifestwork -A
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   28s
-cluster2    my-first-work   28s
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get manifestwork -A
+</span></span><span style="display:flex;"><span>NAMESPACE   NAME            AGE
+</span></span><span style="display:flex;"><span>cluster1    my-first-work   28s
+</span></span><span style="display:flex;"><span>cluster2    my-first-work   28s
+</span></span></code></pre></div></li>
 </ol>
 
 </div>

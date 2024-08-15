@@ -5,10 +5,7 @@
     <link>https://open-cluster-management.io/developer-guides/</link>
     <description>Recent content in Developer Guides on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/developer-guides/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en</language><atom:link href="https://open-cluster-management.io/developer-guides/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Add-on Developer Guide</title>
       <link>https://open-cluster-management.io/developer-guides/addon/</link>
@@ -16,7 +13,7 @@
       
       <guid>https://open-cluster-management.io/developer-guides/addon/</guid>
       <description>This page is a developer guide about how to build an OCM add-on using addon-framework.
-   Supported version Overview Write your first add-on  Implement the addon manager Deploy the add-on manager on your hub cluster  RBAC of the addon manager ClusterManagementAddOn   Enable the add-on for a managed cluster. Disable the add-on for a managed cluster What’s the next   Add-on agent configurations  Monitor addon healthiness Automatic installation Register your add-on Add your add-on agent supported configurations   Build an addon using helm charts or raw manifests.</description>
+Supported version Overview Write your first add-on Implement the addon manager Deploy the add-on manager on your hub cluster RBAC of the addon manager ClusterManagementAddOn Enable the add-on for a managed cluster. Disable the add-on for a managed cluster What’s the next Add-on agent configurations Monitor addon healthiness Automatic installation Register your add-on Add your add-on agent supported configurations Build an addon using helm charts or raw manifests.</description>
     </item>
     
     <item>

@@ -292,23 +292,23 @@ The maximum count of customized <code>ClusterClaims</code> can be configured via
 to the status of <code>ManagedCluster</code>.</p>
 <h2 id="example">Example</h2>
 <p>Here is a <code>ClusterClaim</code> example specifying a <code>id.k8s.io</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterClaim
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: id.k8s.io
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">value</span>: myCluster
-</code></pre></div><p>After applying the <code>ClusterClaim</code> above to any managed cluster, the value of the <code>ClusterClaim</code>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterClaim</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">id.k8s.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">value</span>: <span style="color:#ae81ff">myCluster</span>
+</span></span></code></pre></div><p>After applying the <code>ClusterClaim</code> above to any managed cluster, the value of the <code>ClusterClaim</code>
 is reflected in the <code>ManagedCluster</code> on the hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManagedCluster
-<span style="color:#66d9ef">metadata</span>: ...
-<span style="color:#66d9ef">spec</span>: ...
-<span style="color:#66d9ef">status</span>:
-  <span style="color:#66d9ef">clusterClaims</span>:
-    - <span style="color:#66d9ef">name</span>: id.k8s.io
-      <span style="color:#66d9ef">value</span>: myCluster
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedCluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>: <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>: <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">clusterClaims</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">id.k8s.io</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#ae81ff">myCluster</span>
+</span></span></code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

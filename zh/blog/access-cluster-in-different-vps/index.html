@@ -330,127 +330,127 @@
 <p>接下来通过一个简单的例子来演示如何使用OCM，cluster-proxy，managed-serviceaccount来实现跨VPC访问集群。</p>
 <p>首先从管理员视角，我们通过脚本快速创建一个基于<a href="https://kind.sigs.k8s.io/">kind</a>的多集群环境，其中具有一个管理集群（hub），以及两个受管集群（cluster1, cluster2）。并且 cluster1, cluster2 会通过 OCM 注册到了 hub。</p>
 <p>该脚本还会为我们安装OCM的CLI工具<a href="https://github.com/open-cluster-management-io/clusteradm">clusteradm</a>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -L &lt;https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh&gt; | bash
-</code></pre></div><p>然后，管理员还需要安装两个插件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装 cluster-proxy</span>
-helm install <span style="color:#ae81ff">\\</span>
-    -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\\</span>
-    cluster-proxy ocm/cluster-proxy
-
-<span style="color:#75715e"># 安装 managed-service</span>
-helm install <span style="color:#ae81ff">\\</span>
-    -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\\</span>
-    managed-serviceaccount ocm/managed-serviceaccount
-
-<span style="color:#75715e"># 验证 cluster-proxy 已安装</span>
-clusteradm get addon cluster-proxy
-
-<span style="color:#75715e"># 验证 managed-serviceaccount 已安装</span>
-clusteradm get addon managed-serviceaccount
-</code></pre></div><p>完成安装后，管理员希望给用户能够访问cluster1，他需要通过以下命令创建一个在hub的命令空间cluster1中，创建一个MSA的CR：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">apiVersion: authentication.open-cluster-management.io/v1alpha1
-</span><span style="color:#e6db74">kind: ManagedServiceAccount
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: dep
-</span><span style="color:#e6db74">  namespace: cluster1
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  rotation: {}
-</span><span style="color:#e6db74">EOF</span>
-
-<span style="color:#75715e"># 检查Token是否已同步回管理集群hub，并保存为名为dep的Secret</span>
-kubectl get secret -n cluster1
-NAME                  TYPE                                  DATA   AGE
-default-token-r89gs   kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      6d22h
-dep                   Opaque                                <span style="color:#ae81ff">2</span>      6d21h
-</code></pre></div><p>接着，管理员需要通过OCM的<a href="https://open-cluster-management.io/zh/concepts/manifestwork/">Manifestwork</a>, 即工作负载分发功能，在cluster1上创建一个<code>ClusterRole</code>，给dep绑定了cluster1上的对应权限：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建ClusterRole, 仅具有操作Deployment的权限</span>
-clusteradm create work dep-role --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
-</span><span style="color:#e6db74">kind: ClusterRole
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: dep-role
-</span><span style="color:#e6db74">rules:
-</span><span style="color:#e6db74">- apiGroups: [&#34;apps&#34;]
-</span><span style="color:#e6db74">  resources: [&#34;deployments&#34;]
-</span><span style="color:#e6db74">  verbs: [&#34;get&#34;, &#34;watch&#34;, &#34;list&#34;, &#34;create&#34;, &#34;update&#34;, &#34;patch&#34;, &#34;delete&#34;]
-</span><span style="color:#e6db74">EOF</span>
-
-<span style="color:#75715e"># 绑定ClusterRole</span>
-clusteradm create work dep-rolebinding --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
-</span><span style="color:#e6db74">kind: ClusterRoleBinding
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: dep-rolebinding
-</span><span style="color:#e6db74">roleRef:
-</span><span style="color:#e6db74">  apiGroup: rbac.authorization.k8s.io
-</span><span style="color:#e6db74">  kind: ClusterRole
-</span><span style="color:#e6db74">  name: dep-role
-</span><span style="color:#e6db74">subjects:
-</span><span style="color:#e6db74">  - kind: ServiceAccount
-</span><span style="color:#e6db74">    name: dep
-</span><span style="color:#e6db74">    namespace: open-cluster-management-managed-serviceaccount
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>完成之后，用户便可以通过cluteradm，来操作cluster1上<code>Deployments</code>了：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">clusteradm proxy kubectl --cluster<span style="color:#f92672">=</span>cluster1 --sa<span style="color:#f92672">=</span>dep -i
-Please enter the kubectl command and use <span style="color:#e6db74">&#34;exit&#34;</span> to quit the interactive mode
-kubectl&gt; get deployments -A
-NAMESPACE                                        NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
-kube-system                                      coredns                              2/2     <span style="color:#ae81ff">2</span>            <span style="color:#ae81ff">2</span>           20d
-local-path-storage                               local-path-provisioner               1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
-open-cluster-management-agent                    klusterlet-registration-agent        1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
-open-cluster-management-agent                    klusterlet-work-agent                1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
-open-cluster-management-cluster-proxy            cluster-proxy-proxy-agent            3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           20d
-open-cluster-management-managed-serviceaccount   managed-serviceaccount-addon-agent   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
-open-cluster-management                          klusterlet                           3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           20d
-<span style="color:#75715e"># 用户没有权限访问cluster1上的pods，请求被拒绝</span>
-kubectl&gt; get pods -A
-Error from server <span style="color:#f92672">(</span>Forbidden<span style="color:#f92672">)</span>: pods is forbidden: User <span style="color:#e6db74">&#34;system:serviceaccount:open-cluster-management-managed-serviceaccount:dep&#34;</span> cannot list resource <span style="color:#e6db74">&#34;pods&#34;</span> in API group <span style="color:#e6db74">&#34;&#34;</span> at the cluster scope
-</code></pre></div><p>值得注意的是，为使用<code>clusteradm</code>访问cluster1, 还需要为用户配置了以下权限：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># 获取MSA的token</span>
-<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: Role
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: user
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">rules</span>:
-- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
-  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;secrets&#34;</span>]
-  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
-- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;authentication.open-cluster-management.io&#34;</span>]
-  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;managedserviceaccounts&#34;</span>]
-  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
----
-<span style="color:#75715e"># 通过portforward的在本地映射cluster-proxy的Service</span>
-<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: Role
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: user-cluster-proxy
-  <span style="color:#66d9ef">namespace</span>: open-cluster-management-cluster-proxy
-<span style="color:#66d9ef">rules</span>:
-- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
-  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;pods&#34;</span>]
-  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>]
-- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
-  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;pods/portforward&#34;</span>]
-  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;create&#34;</span>]
----
-<span style="color:#75715e"># 运行命令前对相关Resource进行检查</span>
-<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: ClusterRole
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: user
-<span style="color:#66d9ef">rules</span>:
-- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;cluster.open-cluster-management.io&#34;</span>]
-  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;managedclusters&#34;</span>]
-  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get, &#34;</span>list<span style="color:#e6db74">&#34;]
-</span><span style="color:#e6db74">- apiGroups: [&#34;</span>addon.open-cluster-management.io<span style="color:#e6db74">&#34;]
-</span><span style="color:#e6db74">  resources: [&#34;</span>clustermanagementaddons<span style="color:#e6db74">&#34;]
-</span><span style="color:#e6db74">  verbs: [&#34;</span>get<span style="color:#e6db74">&#34;]
-</span><span style="color:#e6db74">- apiGroups: [&#34;</span>proxy.open-cluster-management.io<span style="color:#e6db74">&#34;]
-</span><span style="color:#e6db74">  resources: [&#34;</span>managedproxyconfigurations<span style="color:#e6db74">&#34;]
-</span><span style="color:#e6db74">  verbs: [&#34;</span>get&#34;]
-</code></pre></div><h2 id="总结">总结</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -L &lt;https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh&gt; | bash
+</span></span></code></pre></div><p>然后，管理员还需要安装两个插件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装 cluster-proxy</span>
+</span></span><span style="display:flex;"><span>helm install <span style="color:#ae81ff">\\</span>
+</span></span><span style="display:flex;"><span>    -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\\</span>
+</span></span><span style="display:flex;"><span>    cluster-proxy ocm/cluster-proxy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装 managed-service</span>
+</span></span><span style="display:flex;"><span>helm install <span style="color:#ae81ff">\\</span>
+</span></span><span style="display:flex;"><span>    -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\\</span>
+</span></span><span style="display:flex;"><span>    managed-serviceaccount ocm/managed-serviceaccount
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证 cluster-proxy 已安装</span>
+</span></span><span style="display:flex;"><span>clusteradm get addon cluster-proxy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证 managed-serviceaccount 已安装</span>
+</span></span><span style="display:flex;"><span>clusteradm get addon managed-serviceaccount
+</span></span></code></pre></div><p>完成安装后，管理员希望给用户能够访问cluster1，他需要通过以下命令创建一个在hub的命令空间cluster1中，创建一个MSA的CR：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: authentication.open-cluster-management.io/v1alpha1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ManagedServiceAccount
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: dep
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: cluster1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  rotation: {}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查Token是否已同步回管理集群hub，并保存为名为dep的Secret</span>
+</span></span><span style="display:flex;"><span>kubectl get secret -n cluster1
+</span></span><span style="display:flex;"><span>NAME                  TYPE                                  DATA   AGE
+</span></span><span style="display:flex;"><span>default-token-r89gs   kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      6d22h
+</span></span><span style="display:flex;"><span>dep                   Opaque                                <span style="color:#ae81ff">2</span>      6d21h
+</span></span></code></pre></div><p>接着，管理员需要通过OCM的<a href="https://open-cluster-management.io/zh/concepts/manifestwork/">Manifestwork</a>, 即工作负载分发功能，在cluster1上创建一个<code>ClusterRole</code>，给dep绑定了cluster1上的对应权限：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建ClusterRole, 仅具有操作Deployment的权限</span>
+</span></span><span style="display:flex;"><span>clusteradm create work dep-role --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ClusterRole
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: dep-role
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">rules:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- apiGroups: [&#34;apps&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  resources: [&#34;deployments&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  verbs: [&#34;get&#34;, &#34;watch&#34;, &#34;list&#34;, &#34;create&#34;, &#34;update&#34;, &#34;patch&#34;, &#34;delete&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 绑定ClusterRole</span>
+</span></span><span style="display:flex;"><span>clusteradm create work dep-rolebinding --cluster cluster1 -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ClusterRoleBinding
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: dep-rolebinding
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">roleRef:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  apiGroup: rbac.authorization.k8s.io
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  kind: ClusterRole
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: dep-role
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">subjects:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - kind: ServiceAccount
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    name: dep
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    namespace: open-cluster-management-managed-serviceaccount
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>完成之后，用户便可以通过cluteradm，来操作cluster1上<code>Deployments</code>了：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>clusteradm proxy kubectl --cluster<span style="color:#f92672">=</span>cluster1 --sa<span style="color:#f92672">=</span>dep -i
+</span></span><span style="display:flex;"><span>Please enter the kubectl command and use <span style="color:#e6db74">&#34;exit&#34;</span> to quit the interactive mode
+</span></span><span style="display:flex;"><span>kubectl&gt; get deployments -A
+</span></span><span style="display:flex;"><span>NAMESPACE                                        NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>kube-system                                      coredns                              2/2     <span style="color:#ae81ff">2</span>            <span style="color:#ae81ff">2</span>           20d
+</span></span><span style="display:flex;"><span>local-path-storage                               local-path-provisioner               1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+</span></span><span style="display:flex;"><span>open-cluster-management-agent                    klusterlet-registration-agent        1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+</span></span><span style="display:flex;"><span>open-cluster-management-agent                    klusterlet-work-agent                1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+</span></span><span style="display:flex;"><span>open-cluster-management-cluster-proxy            cluster-proxy-proxy-agent            3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           20d
+</span></span><span style="display:flex;"><span>open-cluster-management-managed-serviceaccount   managed-serviceaccount-addon-agent   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           20d
+</span></span><span style="display:flex;"><span>open-cluster-management                          klusterlet                           3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           20d
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 用户没有权限访问cluster1上的pods，请求被拒绝</span>
+</span></span><span style="display:flex;"><span>kubectl&gt; get pods -A
+</span></span><span style="display:flex;"><span>Error from server <span style="color:#f92672">(</span>Forbidden<span style="color:#f92672">)</span>: pods is forbidden: User <span style="color:#e6db74">&#34;system:serviceaccount:open-cluster-management-managed-serviceaccount:dep&#34;</span> cannot list resource <span style="color:#e6db74">&#34;pods&#34;</span> in API group <span style="color:#e6db74">&#34;&#34;</span> at the cluster scope
+</span></span></code></pre></div><p>值得注意的是，为使用<code>clusteradm</code>访问cluster1, 还需要为用户配置了以下权限：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># 获取MSA的token</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Role</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">user</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;secrets&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;authentication.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;managedserviceaccounts&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 通过portforward的在本地映射cluster-proxy的Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Role</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">user-cluster-proxy</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-cluster-proxy</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;pods&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>]
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;pods/portforward&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;create&#34;</span>]
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 运行命令前对相关Resource进行检查</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">user</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;cluster.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;managedclusters&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get, &#34;</span><span style="color:#ae81ff">list&#34;]</span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;clustermanagementaddons&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;proxy.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;managedproxyconfigurations&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>]
+</span></span></code></pre></div><h2 id="总结">总结</h2>
 <p>本文介绍了如何使用OCM来为用户提供访问不同VPC下集群的功能，通过这种方式，管理员不再需要对集群网络进行特殊配置，也不再需要为用户提供和维护多个集群的访问凭证，所有用户都通过统一的访问接口访问各个集群，增加了系统的安全性和易用性。</p>
 <p>目前，OCM的<code>cluster-proxy</code>和<code>managed-serviceaccount</code>功能还处于初期阶段，未来我们还不断的完善其功能，欢迎大家试用并提出宝贵的意见和建议。</p>
 

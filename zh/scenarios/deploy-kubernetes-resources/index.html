@@ -294,72 +294,72 @@ managed cluster if the <code>ManifestWork</code> is created in a valid
 <h2 id="deploy-the-resource-to-a-targetd-cluster">Deploy the resource to a targetd cluster</h2>
 <p>Now you can deploy a set of kubernetes resources defined in files to any clusters managed by the hub cluster.</p>
 <p>Connect to your hub cluster and run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt;
-</code></pre></div><p>This should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm get works my-first-work --cluster &lt;cluster name&gt;
-</code></pre></div><p>If you have some change on the manifest files, you can apply the change to the targeted cluster by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt; --overwrite
-</code></pre></div><p>To remove the resources deployed on the targeted cluster, run:</p>
-<pre><code>kubectl delete manifestwork my-first-work -n &lt;cluster name&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt;
+</span></span></code></pre></div><p>This should create a <code>ManifestWork</code> in cluster namespace of your hub cluster. To see the detailed status of this <code>ManifestWork</code>, you can run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm get works my-first-work --cluster &lt;cluster name&gt;
+</span></span></code></pre></div><p>If you have some change on the manifest files, you can apply the change to the targeted cluster by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm create work my-first-work -f &lt;kubernetes yaml file or directory&gt; --clusters &lt;cluster name&gt; --overwrite
+</span></span></code></pre></div><p>To remove the resources deployed on the targeted cluster, run:</p>
+<pre tabindex="0"><code>kubectl delete manifestwork my-first-work -n &lt;cluster name&gt;
 </code></pre><h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
 <p>Say we would like to deploy a nginx together with a service account into &ldquo;cluster1&rdquo;.
 A <code>ManifestWork</code> can be defined as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManifestWork
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">namespace</span>: cluster1
-  <span style="color:#66d9ef">name</span>: example-manifestwork
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">workload</span>:
-    <span style="color:#66d9ef">manifests</span>:
-      - <span style="color:#66d9ef">apiVersion</span>: v1
-        <span style="color:#66d9ef">kind</span>: ServiceAccount
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">namespace</span>: default
-          <span style="color:#66d9ef">name</span>: my-sa
-      - <span style="color:#66d9ef">apiVersion</span>: apps/v1
-        <span style="color:#66d9ef">kind</span>: Deployment
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">namespace</span>: default
-          <span style="color:#66d9ef">name</span>: nginx-deployment
-          <span style="color:#66d9ef">labels</span>:
-            <span style="color:#66d9ef">app</span>: nginx
-        <span style="color:#66d9ef">spec</span>:
-          <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">3</span>
-          <span style="color:#66d9ef">selector</span>:
-            <span style="color:#66d9ef">matchLabels</span>:
-              <span style="color:#66d9ef">app</span>: nginx
-          <span style="color:#66d9ef">template</span>:
-            <span style="color:#66d9ef">metadata</span>:
-              <span style="color:#66d9ef">labels</span>:
-                <span style="color:#66d9ef">app</span>: nginx
-            <span style="color:#66d9ef">spec</span>:
-              <span style="color:#66d9ef">serviceAccountName</span>: my-sa
-              <span style="color:#66d9ef">containers</span>:
-                - <span style="color:#66d9ef">name</span>: nginx
-                  <span style="color:#66d9ef">image</span>: nginx:<span style="color:#ae81ff">1.14.2</span>
-                  <span style="color:#66d9ef">ports</span>:
-                    - <span style="color:#66d9ef">containerPort</span>: <span style="color:#ae81ff">80</span>
-</code></pre></div><p>In this example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">work.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManifestWork</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">example-manifestwork</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workload</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">manifests</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-sa</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">serviceAccountName</span>: <span style="color:#ae81ff">my-sa</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>                - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx:1.14.2</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>                    - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
+</span></span></code></pre></div><p>In this example:</p>
 <ul>
 <li>
 <p>A <code>ManifestWork</code> named &ldquo;example-manifestwork&rdquo; will be created into a
 &ldquo;cluster namespace&rdquo; named &ldquo;cluster1&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get manifestwork -A --context kind-hub</span>
-NAMESPACE   NAME            AGE
-cluster1    my-first-work   2m59s
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># kubectl get manifestwork -A --context kind-hub</span>
+</span></span><span style="display:flex;"><span>NAMESPACE   NAME            AGE
+</span></span><span style="display:flex;"><span>cluster1    my-first-work   2m59s
+</span></span></code></pre></div></li>
 <li>
 <p>The resources in the <code>ManifestWork</code> including a service-account, a deployment
 will be created to the cluster &ldquo;cluster1&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># kubectl get deployment --context kind-cluster1</span>
-NAME               READY   UP-TO-DATE   AVAILABLE   AGE
-nginx-deployment   3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           4m10s
-
-<span style="color:#75715e"># kubectl get sa my-sa --context kind-cluster1</span>
-NAME    SECRETS   AGE
-my-sa   <span style="color:#ae81ff">1</span>         4m23s
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># kubectl get deployment --context kind-cluster1</span>
+</span></span><span style="display:flex;"><span>NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>nginx-deployment   3/3     <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">3</span>           4m10s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl get sa my-sa --context kind-cluster1</span>
+</span></span><span style="display:flex;"><span>NAME    SECRETS   AGE
+</span></span><span style="display:flex;"><span>my-sa   <span style="color:#ae81ff">1</span>         4m23s
+</span></span></code></pre></div></li>
 <li>
 <p>In the status of <code>ManifestWork</code> we can check out the aggregated status
 indicating whether the prescribed resources are successfully deployed by the
@@ -378,36 +378,36 @@ discriminate different resource types via the
 <code>.status.resourceStatus[*].resourceMeta</code> field. e.g.:</p>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">resourceStatus</span>:
-  <span style="color:#66d9ef">manifests</span>:
-  - <span style="color:#66d9ef">conditions</span>:
-    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-11-25T10:17:43Z&#34;</span>
-      <span style="color:#66d9ef">message</span>: Apply manifest complete
-      <span style="color:#66d9ef">reason</span>: AppliedManifestComplete
-      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
-      <span style="color:#66d9ef">type</span>: Applied
-    - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-11-25T10:17:43Z&#34;</span>
-      <span style="color:#66d9ef">message</span>: Resource is available
-      <span style="color:#66d9ef">reason</span>: ResourceAvailable
-      <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
-      <span style="color:#66d9ef">type</span>: Available
-    <span style="color:#66d9ef">resourceMeta</span>:
-      <span style="color:#66d9ef">group</span>: apps
-      <span style="color:#66d9ef">kind</span>: Deployment
-      <span style="color:#66d9ef">name</span>: nginx-deployment
-      <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">ordinal</span>: <span style="color:#ae81ff">1</span>
-      <span style="color:#66d9ef">resource</span>: deployments
-      <span style="color:#66d9ef">version</span>: v1
-  ...
-</code></pre></div><p>If possible, you can also switch the context of your kubeconfig to &ldquo;cluster1&rdquo;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">resourceStatus</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">manifests</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">conditions</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-11-25T10:17:43Z&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">message</span>: <span style="color:#ae81ff">Apply manifest complete</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">AppliedManifestComplete</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Applied</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-11-25T10:17:43Z&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">message</span>: <span style="color:#ae81ff">Resource is available</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">ResourceAvailable</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Available</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resourceMeta</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">group</span>: <span style="color:#ae81ff">apps</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">nginx-deployment</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ordinal</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">deployments</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">...</span>
+</span></span></code></pre></div><p>If possible, you can also switch the context of your kubeconfig to &ldquo;cluster1&rdquo;
 to check out the new resources delivered by <code>ManifestWork</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl --context kind-cluster1 get pod
-NAME                                READY   STATUS    RESTARTS   AGE
-nginx-deployment-556c5468f7-d5h2m   1/1     Running   <span style="color:#ae81ff">0</span>          33m
-nginx-deployment-556c5468f7-gf574   1/1     Running   <span style="color:#ae81ff">0</span>          33m
-nginx-deployment-556c5468f7-hhmjf   1/1     Running   <span style="color:#ae81ff">0</span>          33m
-</code></pre></div><h3 id="updating-the-manifestwork">Updating the ManifestWork</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl --context kind-cluster1 get pod
+</span></span><span style="display:flex;"><span>NAME                                READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>nginx-deployment-556c5468f7-d5h2m   1/1     Running   <span style="color:#ae81ff">0</span>          33m
+</span></span><span style="display:flex;"><span>nginx-deployment-556c5468f7-gf574   1/1     Running   <span style="color:#ae81ff">0</span>          33m
+</span></span><span style="display:flex;"><span>nginx-deployment-556c5468f7-hhmjf   1/1     Running   <span style="color:#ae81ff">0</span>          33m
+</span></span></code></pre></div><h3 id="updating-the-manifestwork">Updating the ManifestWork</h3>
 <p>Any updates applied to the <code>ManifestWork</code> are expected to take effect
 immediately as long as the work agent deployed in the managed cluster
 are healthy and actively in touch with the hub cluster.</p>
@@ -416,10 +416,10 @@ from the prescribed resources, and a corresponding <code>AppliedManifestWork</co
 of which the name contains the hash value will be persisted to the managed
 cluster and replacing the previously persisted <code>AppliedManifestWork</code>
 connected to the same <code>ManifestWork</code> after the latest resources are applied.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl --context kind-cluster1 get appliedmanifestwork
-NAME                                                                                                   AGE
-ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-example-manifestwork                  59m
-</code></pre></div><p>Note that if the work agent was disconnected from the hub control plane for
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl --context kind-cluster1 get appliedmanifestwork
+</span></span><span style="display:flex;"><span>NAME                                                                                                   AGE
+</span></span><span style="display:flex;"><span>ed59251487ad4e4465fa2990b36a1cc398b83e63b59fa16b83591f5afdc3dd6d-example-manifestwork                  59m
+</span></span></code></pre></div><p>Note that if the work agent was disconnected from the hub control plane for
 a period of time and missed the new updates upon <code>ManifestWork</code>. The work
 agent will be catching up the latest state of <code>ManifestWork</code> as soon as it
 re-connects.</p>
@@ -447,19 +447,19 @@ you can make sure your environment by checking the following conditions:</p>
 <ul>
 <li>
 <p>The CRD <code>ManifestWork</code> is installed in the hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get crd manifestworks.work.open-cluster-management.io 
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get crd manifestworks.work.open-cluster-management.io 
+</span></span></code></pre></div></li>
 <li>
 <p>The CRD <code>AppliedManifestWork</code> is installed in the managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get crd appliedmanifestworks.work.open-cluster-management.io 
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get crd appliedmanifestworks.work.open-cluster-management.io 
+</span></span></code></pre></div></li>
 <li>
 <p>The work agent is successfully running in the managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management-agent get pod
-NAME                                             READY   STATUS    RESTARTS   AGE
-klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   <span style="color:#ae81ff">0</span>          20d
-klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   <span style="color:#ae81ff">0</span>          20d
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n open-cluster-management-agent get pod
+</span></span><span style="display:flex;"><span>NAME                                             READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   <span style="color:#ae81ff">0</span>          20d
+</span></span><span style="display:flex;"><span>klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   <span style="color:#ae81ff">0</span>          20d
+</span></span></code></pre></div></li>
 </ul>
 
 </div>

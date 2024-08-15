@@ -293,11 +293,11 @@ which will be consistently reported to the hub cluster.</li>
 <h2 id="labeling-managed-cluster">Labeling managed cluster</h2>
 <p>Any kubernetes resource can be attached with labels in the metadata in the
 form of:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">labels</span>:
-    <span style="color:#66d9ef">&lt;domain name&gt;/&lt;label name&gt;</span>: &lt;label string value&gt;
-...
-</code></pre></div><p>However, there&rsquo;re some restrictions to the label value such as the content
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;domain name&gt;/&lt;label name&gt;</span>: <span style="color:#ae81ff">&lt;label string value&gt;</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>However, there&rsquo;re some restrictions to the label value such as the content
 length, and legal charset etc, so it&rsquo;s not convenient to put some structurelized
 or comprehensive data in the label value.</p>
 <p>Additionally, due to the fact that the finest granularity of authorization
@@ -326,23 +326,23 @@ clusters and proactively projecting custom attributes towards the hub cluster&rs
 any direct modification upon the projected claims on the &ldquo;ManagedCluster&rdquo;, i.e.
 <strong>read-only</strong> to the hub cluster.</p>
 <p>A sample of cluster claim will be like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterClaim
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: id.open-cluster-management.io
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">value</span>: 95f91f25-d7a2-4fc3<span style="color:#ae81ff">-9237</span>-2ef633d8451c
-</code></pre></div><p>After applying the cluster claim above to any managed cluster, the value of
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterClaim</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">id.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">value</span>: <span style="color:#ae81ff">95f91f25-d7a2-4fc3-9237-2ef633d8451c</span>
+</span></span></code></pre></div><p>After applying the cluster claim above to any managed cluster, the value of
 the claims will be instantly reflected in the cluster model. e.g.:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManagedCluster
-<span style="color:#66d9ef">metadata</span>: ...
-<span style="color:#66d9ef">spec</span>: ...
-<span style="color:#66d9ef">status</span>:
-  <span style="color:#66d9ef">clusterClaims</span>:
-    - <span style="color:#66d9ef">name</span>: id.open-cluster-management.io
-      <span style="color:#66d9ef">value</span>: 95f91f25-d7a2-4fc3<span style="color:#ae81ff">-9237</span>-2ef633d8451c
-</code></pre></div><p>And any future updates upon the claim will also be reported from the
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedCluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>: <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>: <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">clusterClaims</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">id.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#ae81ff">95f91f25-d7a2-4fc3-9237-2ef633d8451c</span>
+</span></span></code></pre></div><p>And any future updates upon the claim will also be reported from the
 registration agent to the hub cluster.</p>
 <p>The claims are useful if we want the hub cluster to perform different actions
 or behaviors reactively based on the feedback of reported values. They&rsquo;re

@@ -5,9 +5,6 @@
     <link>https://open-cluster-management.io/zh/blog/access-cluster-in-different-vps/</link>
     <description>Recent content in 通过OCM访问不同VPC下的集群 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/zh/blog/access-cluster-in-different-vps/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language><atom:link href="https://open-cluster-management.io/zh/blog/access-cluster-in-different-vps/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

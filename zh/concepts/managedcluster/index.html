@@ -316,19 +316,19 @@ introduction of how the cluster registration lifecycle works under the hood:</p>
 <h4 id="bootstrapping-registration">Bootstrapping registration</h4>
 <p>Firstly, the cluster registration process should be initiated by the
 registration agent which requires a bootstrap kubeconfig e.g.:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: v1
-<span style="color:#66d9ef">kind</span>: Secret
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: bootstrap-hub-kubeconfig
-  <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent
-<span style="color:#66d9ef">type</span>: Opaque
-<span style="color:#66d9ef">data</span>:
-  <span style="color:#66d9ef">kubeconfig</span>: &lt;base64-encoded kubeconfig&gt;
-</code></pre></div><p>A minimal RBAC permission required for the subject in the bootstrap kubeconfig
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">bootstrap-hub-kubeconfig</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-agent</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">type</span>: <span style="color:#ae81ff">Opaque</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kubeconfig</span>: <span style="color:#ae81ff">&lt;base64-encoded kubeconfig&gt;</span>
+</span></span></code></pre></div><p>A minimal RBAC permission required for the subject in the bootstrap kubeconfig
 will be:</p>
 <ul>
-<li><code>CertificateSigningRequest</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;watch&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;.</li>
-<li><code>ManagedCluster</code>'s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;</li>
+<li><code>CertificateSigningRequest</code>&rsquo;s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;watch&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;.</li>
+<li><code>ManagedCluster</code>&rsquo;s &ldquo;get&rdquo;, &ldquo;list&rdquo;, &ldquo;create&rdquo;, &ldquo;update&rdquo;</li>
 </ul>
 <p>Note that ideally the bootstrap kubeconfig is supposed to live shortly
 (hour-ish) after signed by the hub cluster so that it won&rsquo;t be abused by
@@ -348,8 +348,8 @@ following requirements is meet:</p>
 to true in the spec.</li>
 </ul>
 <p>Note that the cluster approval process above can be done by one-line:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ clusteradm accept --clusters &lt;cluster name&gt;
-</code></pre></div><p>Upon the approval, the registration agent will observe the signed certificate
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>$ clusteradm accept --clusters &lt;cluster name&gt;
+</span></span></code></pre></div><p>Upon the approval, the registration agent will observe the signed certificate
 and persist them as a local secret named &ldquo;hub-kubeconfig-secret&rdquo; (by default
 in the &ldquo;open-cluster-management-agent&rdquo; namespace) which will be mounted to the
 other fundamental components of klusterlet such as the <a href="https://open-cluster-management.io/zh/concepts/manifestwork/">work</a>
@@ -373,25 +373,25 @@ state to the hub cluster on a one-minute basis, and that interval can be easily
 overridden by setting <code>.spec.leaseDurationSeconds</code> on the <code>ManagedCluster</code>.</p>
 <p>In addition to that, a few commonly-used information will also be reflected
 in the status of the <code>ManagedCluster</code>, e.g.:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#66d9ef">status</span>:
-    <span style="color:#66d9ef">version</span>:
-      <span style="color:#66d9ef">kubernetes</span>: v1<span style="color:#ae81ff">.20.11</span>
-    <span style="color:#66d9ef">allocatable</span>:
-      <span style="color:#66d9ef">cpu</span>: 11700m
-      <span style="color:#66d9ef">ephemeral-storage</span>: <span style="color:#e6db74">&#34;342068531454&#34;</span>
-      <span style="color:#66d9ef">hugepages-1Gi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
-      <span style="color:#66d9ef">hugepages-2Mi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
-      <span style="color:#66d9ef">memory</span>: 17474228Ki
-      <span style="color:#66d9ef">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
-    <span style="color:#66d9ef">capacity</span>:
-      <span style="color:#66d9ef">cpu</span>: <span style="color:#e6db74">&#34;12&#34;</span>
-      <span style="color:#66d9ef">ephemeral-storage</span>: 371168112Ki
-      <span style="color:#66d9ef">hugepages-1Gi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
-      <span style="color:#66d9ef">hugepages-2Mi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
-      <span style="color:#66d9ef">memory</span>: 23777972Ki
-      <span style="color:#66d9ef">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
-    <span style="color:#66d9ef">conditions</span>: ...
-</code></pre></div><h3 id="cluster-taints-and-tolerations">Cluster taints and tolerations</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubernetes</span>: <span style="color:#ae81ff">v1.20.11</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">allocatable</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">cpu</span>: <span style="color:#ae81ff">11700m</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ephemeral-storage</span>: <span style="color:#e6db74">&#34;342068531454&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">hugepages-1Gi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">hugepages-2Mi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">17474228Ki</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">capacity</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">cpu</span>: <span style="color:#e6db74">&#34;12&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">ephemeral-storage</span>: <span style="color:#ae81ff">371168112Ki</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">hugepages-1Gi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">hugepages-2Mi</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">23777972Ki</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">pods</span>: <span style="color:#e6db74">&#34;192&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">conditions</span>: <span style="color:#ae81ff">...</span>
+</span></span></code></pre></div><h3 id="cluster-taints-and-tolerations">Cluster taints and tolerations</h3>
 <p>To support filtering unhealthy/not-reporting clusters and keep workloads from
 being placed in unhealthy or unreachable clusters, we introduce the similar
 concept of taint/toleration in Kubernetes. It also allows user to add a
@@ -433,17 +433,17 @@ ManagedClusters, according to their conditions.</p>
 ManagedCluster when it is not available. To be specific, the cluster has a
 condition &lsquo;ManagedClusterConditionAvailable&rsquo; with status of &lsquo;False&rsquo;. The taint
 has the effect <code>NoSelect</code> and an empty value. Example,
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManagedCluster
-<span style="color:#66d9ef">metadata</span>:
- <span style="color:#66d9ef">name</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
- <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
- <span style="color:#66d9ef">taints</span>:
-   - <span style="color:#66d9ef">effect</span>: NoSelect
-     <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unavailable
-     <span style="color:#66d9ef">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:54Z&#39;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedCluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">taints</span>:
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">effect</span>: <span style="color:#ae81ff">NoSelect</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">key</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/unavailable</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:54Z&#39;</span>
+</span></span></code></pre></div></li>
 <li><code>cluster.open-cluster-management.io/unreachable</code>. The taint is added to a
 ManagedCluster when it is not reachable. To be specific,
 <ul>
@@ -460,17 +460,17 @@ The taint has the effect <code>NoSelect</code> and an empty value. Example,</li>
 </ol>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManagedCluster
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
-  <span style="color:#66d9ef">taints</span>:
-    - <span style="color:#66d9ef">effect</span>: NoSelect
-      <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
-      <span style="color:#66d9ef">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:06Z&#39;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedCluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">hubAcceptsClient</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">taints</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">effect</span>: <span style="color:#ae81ff">NoSelect</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/unreachable</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">timeAdded</span>: <span style="color:#e6db74">&#39;2022-02-21T08:11:06Z&#39;</span>
+</span></span></code></pre></div></li>
 </ul>
 <h4 id="tolerations-of-placements">Tolerations of Placements</h4>
 <p>Tolerations are applied to Placements, and allow Placements to select
@@ -493,21 +493,21 @@ problems in your OCM environment, e.g.:</p>
 control plane to offload the managed cluster from effective management.
 Meanwhile, a permanent way to kick a managed cluster from the hub control plane
 is simply deleting its <code>ManagedCluster</code> resource.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete managedcluster &lt;cluster name&gt;
-</code></pre></div><p>This is also revoking the previously-granted RBAC permission for the managed
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl delete managedcluster &lt;cluster name&gt;
+</span></span></code></pre></div><p>This is also revoking the previously-granted RBAC permission for the managed
 cluster instantly in the background. If we hope to defer the rejection to
 the next time when the klusterlet agent is renewing its certificate, as a
 minimal operation we can remove the following RBAC rules from the cluster&rsquo;s
 effective cluster role resource:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># ClusterRole: open-cluster-management:managedcluster:&lt;cluster name&gt;</span>
-<span style="color:#75715e"># Removing the following RBAC rule to stop the certificate rotation.</span>
-- <span style="color:#66d9ef">apiGroups</span>:
-    - register.open-cluster-management.io
-  <span style="color:#66d9ef">resources</span>:
-    - managedclusters/clientcertificates
-  <span style="color:#66d9ef">verbs</span>:
-    - renew
-</code></pre></div><h4 id="unregister-from-the-managed-cluster">Unregister from the managed cluster</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># ClusterRole: open-cluster-management:managedcluster:&lt;cluster name&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Removing the following RBAC rule to stop the certificate rotation.</span>
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">register.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">managedclusters/clientcertificates</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">renew</span>
+</span></span></code></pre></div><h4 id="unregister-from-the-managed-cluster">Unregister from the managed cluster</h4>
 <p>The admin of the managed cluster can disable the prescriptions from hub cluster
 by scaling the OCM klusterlet agents to <code>0</code>. Or just permanently deleting the
 agent components from the managed cluster.</p>

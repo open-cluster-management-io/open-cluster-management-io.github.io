@@ -316,63 +316,63 @@ please manually enable feature gate &ldquo;V1beta1CSRAPICompatibility&rdquo;).</
 <h2 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h2>
 <p>It&rsquo;s recommended to run the following command to download and install <strong>the
 latest release</strong> of the <code>clusteradm</code> command-line tool:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
-</code></pre></div><p>You can also install <strong>the latest development version</strong> (main branch) by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
-GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
-</code></pre></div><h2 id="bootstrap-a-cluster-manager">Bootstrap a cluster manager</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</span></span></code></pre></div><p>You can also install <strong>the latest development version</strong> (main branch) by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
+</span></span><span style="display:flex;"><span>GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
+</span></span></code></pre></div><h2 id="bootstrap-a-cluster-manager">Bootstrap a cluster manager</h2>
 <p>Before actually installing the OCM components into your clusters, export
 the following environment variables in your terminal before running our
 command-line tool <code>clusteradm</code> so that it can correctly discriminate the
 hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># The context name of the clusters in your kubeconfig</span>
-export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;
-</code></pre></div><p>Call <code>clusteradm init</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> <span style="color:#75715e"># By default, it installs the latest release of the OCM components.</span>
- <span style="color:#75715e"># Use e.g. &#34;--bundle-version=latest&#34; to install latest development builds.</span>
- <span style="color:#75715e"># NOTE: For hub cluster version between v1.16 to v1.19 use the parameter: --use-bootstrap-token</span>
- clusteradm init --wait --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>The <code>clusteradm init</code> command installs the
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># The context name of the clusters in your kubeconfig</span>
+</span></span><span style="display:flex;"><span>export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;
+</span></span></code></pre></div><p>Call <code>clusteradm init</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span> <span style="color:#75715e"># By default, it installs the latest release of the OCM components.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e"># Use e.g. &#34;--bundle-version=latest&#34; to install latest development builds.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e"># NOTE: For hub cluster version between v1.16 to v1.19 use the parameter: --use-bootstrap-token</span>
+</span></span><span style="display:flex;"><span> clusteradm init --wait --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>The <code>clusteradm init</code> command installs the
 <a href="https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration-operator">registration-operator</a>
 on the hub cluster, which is responsible for consistently installing
 and upgrading a few core components for the OCM environment.</p>
 <p>After the <code>init</code> command completes, a generated command is output on the console to
 register your managed clusters. An example of the generated command is shown below.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub kube-apiserver endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name &lt;cluster_name&gt;
-</code></pre></div><p>It&rsquo;s recommended to save the command somewhere secure for future use. If it&rsquo;s lost, you can use
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub kube-apiserver endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name &lt;cluster_name&gt;
+</span></span></code></pre></div><p>It&rsquo;s recommended to save the command somewhere secure for future use. If it&rsquo;s lost, you can use
 <code>clusteradm get token</code> to get the generated command again.</p>
 <h2 id="check-out-the-running-instances-of-the-control-plane">Check out the running instances of the control plane</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                               READY   STATUS    RESTARTS   AGE
-cluster-manager-695d945d4d-5dn8k   1/1     Running   <span style="color:#ae81ff">0</span>          19d
-</code></pre></div><p>Additionally, to check out the instances of OCM&rsquo;s hub control plane, run
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl -n open-cluster-management get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                               READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>cluster-manager-695d945d4d-5dn8k   1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span></code></pre></div><p>Additionally, to check out the instances of OCM&rsquo;s hub control plane, run
 the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management-hub get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                               READY   STATUS    RESTARTS   AGE
-cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   <span style="color:#ae81ff">0</span>          19d
-cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   <span style="color:#ae81ff">0</span>          19d
-cluster-manager-registration-webhook-59c9b89499-n7m2x      1/1     Running   <span style="color:#ae81ff">0</span>          19d
-cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   <span style="color:#ae81ff">0</span>          19d
-...
-</code></pre></div><p>The overall installation information is visible on the <code>clustermanager</code> custom resource:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get clustermanager cluster-manager -o yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><h2 id="uninstall-the-ocm-from-the-control-plane">Uninstall the OCM from the control plane</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl -n open-cluster-management-hub get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                               READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>cluster-manager-placement-controller-857f8f7654-x7sfz      1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span><span style="display:flex;"><span>cluster-manager-registration-controller-85b6bd784f-jbg8s   1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span><span style="display:flex;"><span>cluster-manager-registration-webhook-59c9b89499-n7m2x      1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span><span style="display:flex;"><span>cluster-manager-work-webhook-59cf7dc855-shq5p              1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>The overall installation information is visible on the <code>clustermanager</code> custom resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl get clustermanager cluster-manager -o yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h2 id="uninstall-the-ocm-from-the-control-plane">Uninstall the OCM from the control plane</h2>
 <p>Before uninstalling the OCM components from your clusters, please detach the
 managed cluster from the control plane.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm clean --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Check the instances of OCM&rsquo;s hub control plane are removed.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management-hub get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-No resources found in open-cluster-management-hub namespace.
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-No resources found in open-cluster-management namespace.
-</code></pre></div><p>Check the <code>clustermanager</code> resource is removed from the control plane.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get clustermanager --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-error: the server doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a resource type <span style="color:#e6db74">&#34;clustermanager&#34;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm clean --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Check the instances of OCM&rsquo;s hub control plane are removed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl -n open-cluster-management-hub get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>No resources found in open-cluster-management-hub namespace.
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl -n open-cluster-management get pod --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>No resources found in open-cluster-management namespace.
+</span></span></code></pre></div><p>Check the <code>clustermanager</code> resource is removed from the control plane.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl get clustermanager --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>error: the server doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a resource type <span style="color:#e6db74">&#34;clustermanager&#34;</span>
+</span></span></code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

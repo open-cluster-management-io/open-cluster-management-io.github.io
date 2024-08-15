@@ -347,109 +347,109 @@ add-on插件可以让Hub集群管理员很轻松为Spoke集群部署安全相关
 add-on插件来举例。 这个add-on插件例子是将Hub集群上集群namespace下的configmap同步到Spoke集群上。</p>
 <p>首先我们用KinD创建2个集群，一个当Hub集群安装OCM，并将另一个作为Spoke集群，以cluster1的名字注册到Hub集群。
 可以参考<a href="https://open-cluster-management.io/zh//getting-started/">OCM安装</a>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get mcl
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-cluster1   true           https://localhost      True     True        17s
-</code></pre></div><p>然后在Hub集群上安装<code>helloworldhelm</code> add-on插件的<code>Add-on Manager</code>控制器。 具体步骤参考<a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples">部署helloworldhelm add-on</a>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deployments.apps -n open-cluster-management helloworld-controller
-NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-helloworldhelm-controller   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           50s
-</code></pre></div><p>在Hub集群上我们可以看到<code>helloworldhelm</code> add-on插件的<code>ClusterManagementAddOn</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get clustermanagementaddons.addon.open-cluster-management.io helloworldhelm -o yaml
-apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ClusterManagementAddOn
-metadata:
-  creationTimestamp: <span style="color:#e6db74">&#34;2023-05-28T14:12:32Z&#34;</span>
-  generation: <span style="color:#ae81ff">1</span>
-  name: helloworldhelm
-  resourceVersion: <span style="color:#e6db74">&#34;457615&#34;</span>
-  uid: 29ac6292-7346-4bc9-8013-fd90f40589d6
-spec:
-  addOnMeta:
-    description: helloworldhelm is an example addon created by helm chart
-    displayName: helloworldhelm
-  installStrategy:
-    type: Manual
-  supportedConfigs:
-  - group: addon.open-cluster-management.io
-    resource: addondeploymentconfigs
-  - group: <span style="color:#e6db74">&#34;&#34;</span>
-    resource: configmaps
-</code></pre></div><p>给cluster1 集群上部署<code>helloworldhelm</code> add-on, agent部署到Spoke集群的<code>open-cluster-management-agent-addon</code> namespace。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm addon enable --names helloworldhelm --namespace open-cluster-management-agent-addon --clusters cluster1
-</code></pre></div><p>我们看到Hub集群上cluster1的namespace下部署了一个<code>managedClusterAddon</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get managedclusteraddons.addon.open-cluster-management.io -n cluster1 helloworldhelm -o yaml
-apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ManagedClusterAddOn
-metadata:
-  creationTimestamp: <span style="color:#e6db74">&#34;2023-05-28T14:13:56Z&#34;</span>
-  finalizers:
-  - addon.open-cluster-management.io/addon-pre-delete
-  generation: <span style="color:#ae81ff">1</span>
-  name: helloworldhelm
-  namespace: cluster1
-  ownerReferences:
-  - apiVersion: addon.open-cluster-management.io/v1alpha1
-    blockOwnerDeletion: true
-    controller: true
-    kind: ClusterManagementAddOn
-    name: helloworldhelm
-    uid: 29ac6292-7346-4bc9-8013-fd90f40589d6
-  resourceVersion: <span style="color:#e6db74">&#34;458003&#34;</span>
-  uid: 84ceac57-3a7d-442f-bc28-d9828023d880
-spec:
-  installNamespace: open-cluster-management-agent-addon
-status:
-  conditions:
-  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:13:57Z&#34;</span>
-    message: Registration of the addon agent is configured
-    reason: SetPermissionApplied
-    status: <span style="color:#e6db74">&#34;True&#34;</span>
-    type: RegistrationApplied
-  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:13:57Z&#34;</span>
-    message: manifests of addon are applied successfully
-    reason: AddonManifestApplied
-    status: <span style="color:#e6db74">&#34;True&#34;</span>
-    type: ManifestApplied
-  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:13:57Z&#34;</span>
-    message: client certificate rotated starting from 2023-05-28 14:08:57 +0000 UTC
-      to 2024-05-27 14:08:57 +0000 UTC
-    reason: ClientCertificateUpdated
-    status: <span style="color:#e6db74">&#34;True&#34;</span>
-    type: ClusterCertificateRotated
-  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:15:04Z&#34;</span>
-    message: helloworldhelm add-on is available.
-    reason: ManagedClusterAddOnLeaseUpdated
-    status: <span style="color:#e6db74">&#34;True&#34;</span>
-    type: Available
-  namespace: open-cluster-management-agent-addon
-  registrations:
-  - signerName: kubernetes.io/kube-apiserver-client
-    subject:
-      groups:
-      - system:open-cluster-management:cluster:cluster1:addon:helloworldhelm
-      - system:open-cluster-management:addon:helloworldhelm
-      - system:authenticated
-      user: system:open-cluster-management:cluster:cluster1:addon:helloworldhelm:agent:8xz2x
-  supportedConfigs:
-  - group: <span style="color:#e6db74">&#34;&#34;</span>
-    resource: configmaps
-  - group: addon.open-cluster-management.io
-    resource: addondeploymentconfigs
-</code></pre></div><p>在Hub集群上的cluster1 namespace下，我们还可以看到部署add-on agent对应的<code>manifestWork</code>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get manifestwork -n cluster1
-NAME                            AGE
-addon-helloworldhelm-deploy-0   7m18s
-</code></pre></div><p>在Spoke集群cluster1上，我们可以看到agent部署在了<code>open-cluster-management-agent-addon</code> namespace下,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get mcl
+</span></span><span style="display:flex;"><span>NAME       HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>cluster1   true           https://localhost      True     True        17s
+</span></span></code></pre></div><p>然后在Hub集群上安装<code>helloworldhelm</code> add-on插件的<code>Add-on Manager</code>控制器。 具体步骤参考<a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples">部署helloworldhelm add-on</a>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get deployments.apps -n open-cluster-management helloworld-controller
+</span></span><span style="display:flex;"><span>NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>helloworldhelm-controller   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           50s
+</span></span></code></pre></div><p>在Hub集群上我们可以看到<code>helloworldhelm</code> add-on插件的<code>ClusterManagementAddOn</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get clustermanagementaddons.addon.open-cluster-management.io helloworldhelm -o yaml
+</span></span><span style="display:flex;"><span>apiVersion: addon.open-cluster-management.io/v1alpha1
+</span></span><span style="display:flex;"><span>kind: ClusterManagementAddOn
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  creationTimestamp: <span style="color:#e6db74">&#34;2023-05-28T14:12:32Z&#34;</span>
+</span></span><span style="display:flex;"><span>  generation: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  name: helloworldhelm
+</span></span><span style="display:flex;"><span>  resourceVersion: <span style="color:#e6db74">&#34;457615&#34;</span>
+</span></span><span style="display:flex;"><span>  uid: 29ac6292-7346-4bc9-8013-fd90f40589d6
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  addOnMeta:
+</span></span><span style="display:flex;"><span>    description: helloworldhelm is an example addon created by helm chart
+</span></span><span style="display:flex;"><span>    displayName: helloworldhelm
+</span></span><span style="display:flex;"><span>  installStrategy:
+</span></span><span style="display:flex;"><span>    type: Manual
+</span></span><span style="display:flex;"><span>  supportedConfigs:
+</span></span><span style="display:flex;"><span>  - group: addon.open-cluster-management.io
+</span></span><span style="display:flex;"><span>    resource: addondeploymentconfigs
+</span></span><span style="display:flex;"><span>  - group: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    resource: configmaps
+</span></span></code></pre></div><p>给cluster1 集群上部署<code>helloworldhelm</code> add-on, agent部署到Spoke集群的<code>open-cluster-management-agent-addon</code> namespace。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clusteradm addon enable --names helloworldhelm --namespace open-cluster-management-agent-addon --clusters cluster1
+</span></span></code></pre></div><p>我们看到Hub集群上cluster1的namespace下部署了一个<code>managedClusterAddon</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get managedclusteraddons.addon.open-cluster-management.io -n cluster1 helloworldhelm -o yaml
+</span></span><span style="display:flex;"><span>apiVersion: addon.open-cluster-management.io/v1alpha1
+</span></span><span style="display:flex;"><span>kind: ManagedClusterAddOn
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  creationTimestamp: <span style="color:#e6db74">&#34;2023-05-28T14:13:56Z&#34;</span>
+</span></span><span style="display:flex;"><span>  finalizers:
+</span></span><span style="display:flex;"><span>  - addon.open-cluster-management.io/addon-pre-delete
+</span></span><span style="display:flex;"><span>  generation: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  name: helloworldhelm
+</span></span><span style="display:flex;"><span>  namespace: cluster1
+</span></span><span style="display:flex;"><span>  ownerReferences:
+</span></span><span style="display:flex;"><span>  - apiVersion: addon.open-cluster-management.io/v1alpha1
+</span></span><span style="display:flex;"><span>    blockOwnerDeletion: true
+</span></span><span style="display:flex;"><span>    controller: true
+</span></span><span style="display:flex;"><span>    kind: ClusterManagementAddOn
+</span></span><span style="display:flex;"><span>    name: helloworldhelm
+</span></span><span style="display:flex;"><span>    uid: 29ac6292-7346-4bc9-8013-fd90f40589d6
+</span></span><span style="display:flex;"><span>  resourceVersion: <span style="color:#e6db74">&#34;458003&#34;</span>
+</span></span><span style="display:flex;"><span>  uid: 84ceac57-3a7d-442f-bc28-d9828023d880
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  installNamespace: open-cluster-management-agent-addon
+</span></span><span style="display:flex;"><span>status:
+</span></span><span style="display:flex;"><span>  conditions:
+</span></span><span style="display:flex;"><span>  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:13:57Z&#34;</span>
+</span></span><span style="display:flex;"><span>    message: Registration of the addon agent is configured
+</span></span><span style="display:flex;"><span>    reason: SetPermissionApplied
+</span></span><span style="display:flex;"><span>    status: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>    type: RegistrationApplied
+</span></span><span style="display:flex;"><span>  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:13:57Z&#34;</span>
+</span></span><span style="display:flex;"><span>    message: manifests of addon are applied successfully
+</span></span><span style="display:flex;"><span>    reason: AddonManifestApplied
+</span></span><span style="display:flex;"><span>    status: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>    type: ManifestApplied
+</span></span><span style="display:flex;"><span>  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:13:57Z&#34;</span>
+</span></span><span style="display:flex;"><span>    message: client certificate rotated starting from 2023-05-28 14:08:57 +0000 UTC
+</span></span><span style="display:flex;"><span>      to 2024-05-27 14:08:57 +0000 UTC
+</span></span><span style="display:flex;"><span>    reason: ClientCertificateUpdated
+</span></span><span style="display:flex;"><span>    status: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>    type: ClusterCertificateRotated
+</span></span><span style="display:flex;"><span>  - lastTransitionTime: <span style="color:#e6db74">&#34;2023-05-28T14:15:04Z&#34;</span>
+</span></span><span style="display:flex;"><span>    message: helloworldhelm add-on is available.
+</span></span><span style="display:flex;"><span>    reason: ManagedClusterAddOnLeaseUpdated
+</span></span><span style="display:flex;"><span>    status: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>    type: Available
+</span></span><span style="display:flex;"><span>  namespace: open-cluster-management-agent-addon
+</span></span><span style="display:flex;"><span>  registrations:
+</span></span><span style="display:flex;"><span>  - signerName: kubernetes.io/kube-apiserver-client
+</span></span><span style="display:flex;"><span>    subject:
+</span></span><span style="display:flex;"><span>      groups:
+</span></span><span style="display:flex;"><span>      - system:open-cluster-management:cluster:cluster1:addon:helloworldhelm
+</span></span><span style="display:flex;"><span>      - system:open-cluster-management:addon:helloworldhelm
+</span></span><span style="display:flex;"><span>      - system:authenticated
+</span></span><span style="display:flex;"><span>      user: system:open-cluster-management:cluster:cluster1:addon:helloworldhelm:agent:8xz2x
+</span></span><span style="display:flex;"><span>  supportedConfigs:
+</span></span><span style="display:flex;"><span>  - group: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    resource: configmaps
+</span></span><span style="display:flex;"><span>  - group: addon.open-cluster-management.io
+</span></span><span style="display:flex;"><span>    resource: addondeploymentconfigs
+</span></span></code></pre></div><p>在Hub集群上的cluster1 namespace下，我们还可以看到部署add-on agent对应的<code>manifestWork</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get manifestwork -n cluster1
+</span></span><span style="display:flex;"><span>NAME                            AGE
+</span></span><span style="display:flex;"><span>addon-helloworldhelm-deploy-0   7m18s
+</span></span></code></pre></div><p>在Spoke集群cluster1上，我们可以看到agent部署在了<code>open-cluster-management-agent-addon</code> namespace下,
 agent通过绑定hub的kubeconfig来访问Hub同步configmap。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deployments.apps -n open-cluster-management-agent-addon
-NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
-helloworldhelm-agent   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           8m17s
-
-$ kubectl get secret -n open-cluster-management-agent-addon
-NAME                                  TYPE                                  DATA   AGE
-helloworldhelm-hub-kubeconfig         Opaque                                <span style="color:#ae81ff">3</span>      8m17s
-</code></pre></div><h2 id="ocm-add-on最新的改进和计划">OCM add-on最新的改进和计划</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get deployments.apps -n open-cluster-management-agent-addon
+</span></span><span style="display:flex;"><span>NAME                   READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>helloworldhelm-agent   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           8m17s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ kubectl get secret -n open-cluster-management-agent-addon
+</span></span><span style="display:flex;"><span>NAME                                  TYPE                                  DATA   AGE
+</span></span><span style="display:flex;"><span>helloworldhelm-hub-kubeconfig         Opaque                                <span style="color:#ae81ff">3</span>      8m17s
+</span></span></code></pre></div><h2 id="ocm-add-on最新的改进和计划">OCM add-on最新的改进和计划</h2>
 <p>在最新发布的OCM v0.11.0版本中，我们对add-on进行了很多功能的增强：</p>
 <ol>
 <li>在Hub集群上有专门的<a href="https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/12-addon-manager">addon-manager</a>

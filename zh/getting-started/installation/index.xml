@@ -5,17 +5,14 @@
     <link>https://open-cluster-management.io/zh/getting-started/installation/</link>
     <description>Recent content in 核心组件 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/zh/getting-started/installation/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language><atom:link href="https://open-cluster-management.io/zh/getting-started/installation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Start the control plane</title>
       <link>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/getting-started/installation/start-the-control-plane/</guid>
-      <description>Prerequisite  Network requirements   Install clusteradm CLI tool Bootstrap a cluster manager Check out the running instances of the control plane Uninstall the OCM from the control plane     Prerequisite  The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don&amp;rsquo;t support it can&amp;rsquo;t be used as the hub.</description>
+      <description>Prerequisite Network requirements Install clusteradm CLI tool Bootstrap a cluster manager Check out the running instances of the control plane Uninstall the OCM from the control plane Prerequisite The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Currently the bootstrap process relies on client authentication via CSR. Therefore, Kubernetes distributions that don&amp;rsquo;t support it can&amp;rsquo;t be used as the hub.</description>
     </item>
     
     <item>
@@ -25,7 +22,7 @@
       
       <guid>https://open-cluster-management.io/zh/getting-started/installation/register-a-cluster/</guid>
       <description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
-   Prerequisite  Network requirements   Install clusteradm CLI tool Bootstrap a klusterlet  Bootstrap a klusterlet in hosted mode(Optional) Bootstrap a klusterlet in singleton mode   Accept the join request and verify Apply a Manifestwork  Troubleshooting   Detach the cluster from hub     Prerequisite  The managed clusters should be v1.</description>
+Prerequisite Network requirements Install clusteradm CLI tool Bootstrap a klusterlet Bootstrap a klusterlet in hosted mode(Optional) Bootstrap a klusterlet in singleton mode Accept the join request and verify Apply a Manifestwork Troubleshooting Detach the cluster from hub Prerequisite The managed clusters should be v1.</description>
     </item>
     
   </channel>

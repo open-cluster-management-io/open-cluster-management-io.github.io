@@ -324,16 +324,16 @@
 <code>hubAcceptsClient</code>域来控制的。只有当这个域被置位<code>true</code>时，<code>hub</code>集群的控制器才会为对应<code>klusterlet</code>赋予权限。而设置这个域需要用户
 在<code>hub</code>集群中对<code>managedcluster/accept</code>具有<code>update</code>权限才可以。如下面的<code>clusterrole</code>的例子表示用户只能对<code>cluster1</code>这个
 <code>ManagedCluster</code>上的<code>klusterlet</code>赋予权限。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: ClusterRole
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: open-cluster-management:hub
-<span style="color:#66d9ef">rules</span>:
-- <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;register.open-cluster-management.io&#34;</span>]
-  <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;managedclusters/accept&#34;</span>]
-  <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;update&#34;</span>]
-  <span style="color:#66d9ef">resourceNames</span>: [<span style="color:#e6db74">&#34;cluster1&#34;</span>]
-</code></pre></div><p>将认证和授权的流程分开的原因是通常情况下<code>hub</code>集群具有<code>approve CSR</code>权限的用户和&quot;允许klusterlet接入hub&quot;集群的用户并不完全一致。以上
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">open-cluster-management:hub</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;register.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;managedclusters/accept&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;update&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resourceNames</span>: [<span style="color:#e6db74">&#34;cluster1&#34;</span>]
+</span></span></code></pre></div><p>将认证和授权的流程分开的原因是通常情况下<code>hub</code>集群具有<code>approve CSR</code>权限的用户和&quot;允许klusterlet接入hub&quot;集群的用户并不完全一致。以上
 机制就可以保证即使用户拥有<code>approve CSR</code>的权限也不能给任意的<code>klusterlet</code>赋予接入<code>hub</code>集群的权限。</p>
 <h2 id="实现细节">实现细节</h2>
 <p>所有认证授权和秘钥管理的代码实现都在<a href="https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration">registration</a>组件中。大概的流程

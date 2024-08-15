@@ -5,10 +5,7 @@
     <link>https://open-cluster-management.io/zh/getting-started/integration/</link>
     <description>Recent content in 插件和集成 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/zh/getting-started/integration/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language><atom:link href="https://open-cluster-management.io/zh/getting-started/integration/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Application lifecycle management</title>
       <link>https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</link>
@@ -16,10 +13,10 @@
       
       <guid>https://open-cluster-management.io/zh/getting-started/integration/app-lifecycle/</guid>
       <description>After the cluster manager is installed, you could install the application management components to the hub cluster.
-   Architecture Prerequisite Install via Clusteradm CLI tool Install from source What is next     Architecture  For more details, visit the multicloud-operators-subscription GitHub page.
+Architecture Prerequisite Install via Clusteradm CLI tool Install from source What is next Architecture For more details, visit the multicloud-operators-subscription GitHub page.
 Prerequisite You must meet the following prerequisites to install the application lifecycle management add-on:
-  Ensure kubectl and kustomize are installed.
-  Ensure the open-cluster-management cluster manager is installed.</description>
+Ensure kubectl and kustomize are installed.
+Ensure the open-cluster-management cluster manager is installed. Start the control plane for more information.</description>
     </item>
     
     <item>
@@ -29,7 +26,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>https://open-cluster-management.io/zh/getting-started/integration/cluster-proxy/</guid>
       <description>Cluster proxy is an OCM addon providing L4 network connectivity from hub cluster to the managed clusters without any additional requirement to the managed cluster&amp;rsquo;s network infrastructure by leveraging the Kubernetes official SIG sub-project apiserver-network-proxy.
-   Background  About apiserver-network-proxy   Architecture Prerequisite Installation Usage  Command-line tools Example code   More insight  Troubleshooting Related materials       Background The original architecture of OCM allows a cluster from anywhere to be registered and managed by OCM&amp;rsquo;s control plane (i.</description>
+Background About apiserver-network-proxy Architecture Prerequisite Installation Usage Command-line tools Example code More insight Troubleshooting Related materials Background The original architecture of OCM allows a cluster from anywhere to be registered and managed by OCM&amp;rsquo;s control plane (i.</description>
     </item>
     
     <item>
@@ -38,7 +35,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount/</guid>
-      <description>Background Prerequisite Installation Usage Related materials     Managed Service Account is an OCM addon enabling a hub cluster admin to manage service account across multiple clusters on ease. By controlling the creation and removal of the service account, the addon agent will project and rotate the corresponding token back to the hub cluster which is very useful for the Kube API client from the hub cluster to request against the managed clusters.</description>
+      <description>Background Prerequisite Installation Usage Related materials Managed Service Account is an OCM addon enabling a hub cluster admin to manage service account across multiple clusters on ease. By controlling the creation and removal of the service account, the addon agent will project and rotate the corresponding token back to the hub cluster which is very useful for the Kube API client from the hub cluster to request against the managed clusters.</description>
     </item>
     
     <item>
@@ -48,7 +45,7 @@ Prerequisite You must meet the following prerequisites to install the applicatio
       
       <guid>https://open-cluster-management.io/zh/getting-started/integration/policy-framework/</guid>
       <description>The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-   API Concepts Architecture Prerequisite Install the governance-policy-framework hub components  Install via Clusteradm CLI Install from source   Deploy the synchronization components to the managed cluster(s)  Deploy via Clusteradm CLI Deploy from source   What is next     API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:</description>
+API Concepts Architecture Prerequisite Install the governance-policy-framework hub components Install via Clusteradm CLI Install from source Deploy the synchronization components to the managed cluster(s) Deploy via Clusteradm CLI Deploy from source What is next API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:</description>
     </item>
     
   </channel>

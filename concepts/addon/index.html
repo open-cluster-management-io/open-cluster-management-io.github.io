@@ -361,14 +361,14 @@ and addon agent works.</p>
 should register a globally-unique <code>ClusterManagementAddon</code> resource as a singleton
 placeholder in the hub cluster. For instance, the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld</a>
 add-on can be registered to the hub cluster by creating:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-</code></pre></div><h3 id="enable-the-add-on-manually">Enable the add-on manually</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span></code></pre></div><h3 id="enable-the-add-on-manually">Enable the add-on manually</h3>
 <p>The addon manager running on the hub is taking responsibility of configuring the
 installation of addon agents for each managed cluster. When a user wants to enable
 the add-on for a certain managed cluster, the user should create a
@@ -376,14 +376,14 @@ the add-on for a certain managed cluster, the user should create a
 <code>ManagedClusterAddOn</code> should be the same name of the corresponding
 <code>ClusterManagementAddon</code>. For instance, the following example enables <code>helloworld</code>
 add-on in &ldquo;cluster1&rdquo;:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installNamespace</span>: helloworld
-</code></pre></div><h3 id="enable-the-add-on-automatically">Enable the add-on automatically</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installNamespace</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span></code></pre></div><h3 id="enable-the-add-on-automatically">Enable the add-on automatically</h3>
 <p>If the addon is developed with <a href="https://open-cluster-management.io/developer-guides/addon/#automatic-installation">automatic installation</a>,
 which support <a href="#auto-install-by-cluster-discovery">auto-install by cluster discovery</a>,
 then the <code>ManagedClusterAddOn</code> will be created for all managed cluster namespaces
@@ -395,10 +395,10 @@ to specify on which clusters the <code>ManagedClusterAddOn</code> should be enab
 <h3 id="add-on-healthiness">Add-on healthiness</h3>
 <p>The healthiness of the addon instances are visible when we list the addons via
 kubectl:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
-NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
-&lt;cluster&gt;   &lt;addon&gt;                  True                   
-</code></pre></div><p>The addon agent are expected to report its healthiness periodically as long as it&rsquo;s
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get managedclusteraddon -A
+</span></span><span style="display:flex;"><span>NAMESPACE   NAME                     AVAILABLE   DEGRADED   PROGRESSING
+</span></span><span style="display:flex;"><span>&lt;cluster&gt;   &lt;addon&gt;                  True                   
+</span></span></code></pre></div><p>The addon agent are expected to report its healthiness periodically as long as it&rsquo;s
 running. Also the versioning of the addon agent can be reflected in the resources
 optionally so that we can control the upgrading the agents progressively.</p>
 <h3 id="clean-the-add-ons">Clean the add-ons</h3>
@@ -412,35 +412,35 @@ in the hub cluster or in the manage clusters.</p>
 <p><code>InstallStrategy</code> represents that related <code>ManagedClusterAddOns</code> should be installed
 on certain clusters. For example, the following example enables the <code>helloworld</code>
 add-on on clusters with the aws label.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Placements
-    <span style="color:#66d9ef">placements</span>:
-    - <span style="color:#66d9ef">name</span>: placement-aws
-      <span style="color:#66d9ef">namespace</span>: default
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: Placement
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement-aws
-  <span style="color:#66d9ef">namespace</span>: default
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">predicates</span>:
-    - <span style="color:#66d9ef">requiredClusterSelector</span>:
-        <span style="color:#66d9ef">claimSelector</span>:
-          <span style="color:#66d9ef">matchExpressions</span>:
-            - <span style="color:#66d9ef">key</span>: platform.open-cluster-management.io
-              <span style="color:#66d9ef">operator</span>: In
-              <span style="color:#66d9ef">values</span>:
-                - aws
-</code></pre></div><h3 id="rollout-strategy">Rollout strategy</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Placements</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">placements</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Placement</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">predicates</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">requiredClusterSelector</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">claimSelector</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">matchExpressions</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">platform.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">In</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">values</span>:
+</span></span><span style="display:flex;"><span>                - <span style="color:#ae81ff">aws</span>
+</span></span></code></pre></div><h3 id="rollout-strategy">Rollout strategy</h3>
 <p>With the rollout strategy defined in the <code>ClusterManagementAddOn</code> API, users can
 control the upgrade behavior of the addon when there are changes in the
 <a href="#add-on-configurations">configurations</a>.</p>
@@ -448,36 +448,36 @@ control the upgrade behavior of the addon when there are changes in the
 the change to the add-ons to a &ldquo;canary&rdquo; <a href="https://open-cluster-management.io/concepts/placement/#decision-strategy">decision group</a> first. If all the add-on
 upgrade successfully, then upgrade the rest of clusters progressively per cluster
 at a rate of 25%. The rollout strategy can be defined as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Placements
-    <span style="color:#66d9ef">placements</span>:
-    - <span style="color:#66d9ef">name</span>: placement-aws
-      <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">configs</span>:
-      - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-        <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-        <span style="color:#66d9ef">name</span>: deploy-config
-        <span style="color:#66d9ef">namespace</span>: open-cluster-management
-      <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">type</span>: Progressive
-        <span style="color:#66d9ef">progressive</span>:
-          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
-          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
-          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
-          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">25</span>%
-          <span style="color:#66d9ef">minSuccessTime</span>: 5m
-          <span style="color:#66d9ef">progressDeadline</span>: 10m
-          <span style="color:#66d9ef">maxFailures</span>: <span style="color:#ae81ff">2</span>
-</code></pre></div><p>In the above example with type <code>Progressive</code>, once user updates the &ldquo;deploy-config&rdquo;, controller
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Placements</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">placements</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">configs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy-config</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">rolloutStrategy</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Progressive</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">progressive</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">mandatoryDecisionGroups</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-west&#34;</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">groupName</span>: <span style="color:#e6db74">&#34;prod-canary-east&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">maxConcurrency</span>: <span style="color:#ae81ff">25</span><span style="color:#ae81ff">%</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">minSuccessTime</span>: <span style="color:#ae81ff">5m</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">progressDeadline</span>: <span style="color:#ae81ff">10m</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">maxFailures</span>: <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><p>In the above example with type <code>Progressive</code>, once user updates the &ldquo;deploy-config&rdquo;, controller
 will rollout on the clusters in <code>mandatoryDecisionGroups</code> first, then rollout on the other
 clusters with the rate defined in <code>maxConcurrency</code>.</p>
 <ul>
@@ -500,87 +500,87 @@ types supported by add-on. <code>defaultConfig</code> represents the namespace a
 the default add-on configuration. In scenario where all add-ons have a same
 configuration.</p>
 <p>In the below example, add-ons on all the clusters will use &ldquo;default-deploy-config&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-  <span style="color:#66d9ef">supportedConfigs</span>:
-  - <span style="color:#66d9ef">defaultConfig</span>:
-      <span style="color:#66d9ef">name</span>: default-deploy-config
-      <span style="color:#66d9ef">namespace</span>: open-cluster-management
-    <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-</code></pre></div><h3 id="configurations-per-install-strategy">Configurations per install strategy</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">supportedConfigs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">defaultConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default-deploy-config</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span></code></pre></div><h3 id="configurations-per-install-strategy">Configurations per install strategy</h3>
 <p>In <code>ClusterManagementAddOn</code>, <code>spec.installStrategy.placements[].configs</code> list the
 configuration of <code>ManagedClusterAddon</code> during installation. It will override the
 <a href="#default-configurations">Default configurations</a> on certain clusters.</p>
 <p>In the below example, add-ons on clusters selected by <code>Placement</code> placement-aws will use &ldquo;deploy-config&rdquo;
 and all the other add-ons still use &ldquo;default-deploy-config&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-  <span style="color:#66d9ef">supportedConfigs</span>:
-  - <span style="color:#66d9ef">defaultConfig</span>:
-      <span style="color:#66d9ef">name</span>: default-deploy-config
-      <span style="color:#66d9ef">namespace</span>: open-cluster-management
-    <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Placements
-    <span style="color:#66d9ef">placements</span>:
-    - <span style="color:#66d9ef">name</span>: placement-aws
-      <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">configs</span>:
-      - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-        <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-        <span style="color:#66d9ef">name</span>: deploy-config
-        <span style="color:#66d9ef">namespace</span>: open-cluster-management
-</code></pre></div><h3 id="configurations-per-cluster">Configurations per cluster</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">supportedConfigs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">defaultConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default-deploy-config</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Placements</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">placements</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">configs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy-config</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span></code></pre></div><h3 id="configurations-per-cluster">Configurations per cluster</h3>
 <p>In <code>ManagedClusterAddOn</code>, <code>spec.configs</code> is a list of add-on configurations.
 In scenario where the current add-on has its own configurations. It will override
 the <a href="#default-configurations">Default configurations</a> and
 <a href="#configurations-per-install-strategy">Configurations per install strategy</a> defined
 in <code>ClusterManagementAddOn</code>.</p>
 <p>In the below example, add-on on cluster1 will use &ldquo;cluster1-deploy-config&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">configs</span>:
-  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-    <span style="color:#66d9ef">name</span>: cluster1-deploy-config
-    <span style="color:#66d9ef">namespace</span>: open-cluster-management
-</code></pre></div><h3 id="supported-configurations">Supported configurations</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">configs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster1-deploy-config</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span></code></pre></div><h3 id="supported-configurations">Supported configurations</h3>
 <p>Supported configurations is a list of configuration types that are allowed to override
 the add-on configurations defined in ClusterManagementAddOn spec. They are listed in the
 <code>ManagedClusterAddon</code> <code>status.supportedConfigs</code>, for example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-...
-<span style="color:#66d9ef">status</span>:
-...
-  <span style="color:#66d9ef">supportedConfigs</span>:
-  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-</code></pre></div><h3 id="effective-configurations">Effective configurations</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">supportedConfigs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span></code></pre></div><h3 id="effective-configurations">Effective configurations</h3>
 <p>As the above described, there are 3 places to define the add-on configurations,
 they have an override order and eventually only one takes effect. The final effective
 configurations are listed in the <code>ManagedClusterAddOn</code> <code>status.configReferences</code>.</p>
@@ -590,28 +590,28 @@ configurations are listed in the <code>ManagedClusterAddOn</code> <code>status.c
 applied successfully.</li>
 </ul>
 <p>For example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">namespace</span>: cluster1
-...
-<span style="color:#66d9ef">status</span>:
-...
-  <span style="color:#66d9ef">configReferences</span>:
-  - <span style="color:#66d9ef">desiredConfig</span>:
-      <span style="color:#66d9ef">name</span>: cluster1-deploy-config
-      <span style="color:#66d9ef">namespace</span>: open-cluster-management
-      <span style="color:#66d9ef">specHash</span>: dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044
-    <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">lastAppliedConfig</span>:
-      <span style="color:#66d9ef">name</span>: cluster1-deploy-config
-      <span style="color:#66d9ef">namespace</span>: open-cluster-management
-      <span style="color:#66d9ef">specHash</span>: dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044
-    <span style="color:#66d9ef">lastObservedGeneration</span>: <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">name</span>: cluster1-deploy-config
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-</code></pre></div><h2 id="examples">Examples</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">configReferences</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">desiredConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster1-deploy-config</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">specHash</span>: <span style="color:#ae81ff">dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lastAppliedConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster1-deploy-config</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">specHash</span>: <span style="color:#ae81ff">dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lastObservedGeneration</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster1-deploy-config</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span></code></pre></div><h2 id="examples">Examples</h2>
 <p>Here&rsquo;s a few examples of cases where we will need add-ons:</p>
 <ol>
 <li>A tool to collect alert events in the managed cluster, and send to the hub

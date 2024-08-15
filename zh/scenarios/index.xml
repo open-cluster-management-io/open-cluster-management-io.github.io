@@ -5,10 +5,7 @@
     <link>https://open-cluster-management.io/zh/scenarios/</link>
     <description>Recent content in 应用场景 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/zh/scenarios/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language><atom:link href="https://open-cluster-management.io/zh/scenarios/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy Kubernetes resources to the managed clusters</title>
       <link>https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</link>
@@ -17,7 +14,7 @@
       <guid>https://open-cluster-management.io/zh/scenarios/deploy-kubernetes-resources/</guid>
       <description>After bootstrapping an OCM environment of at least one managed clusters, now it&amp;rsquo;s time to begin your first journey of deploying Kubernetes resources into your managed clusters with OCM&amp;rsquo;s ManifestWork API.
 Prerequisites Before we get start with the following tutorial, let&amp;rsquo;s clarify a few terms we&amp;rsquo;re going to use in the context.
-  Cluster namespace: After a managed cluster is successfully registered into the hub. The hub registration controller will be automatically provisioning a cluster namespace dedicated for the cluster of which the name will be same as the managed cluster.</description>
+Cluster namespace: After a managed cluster is successfully registered into the hub. The hub registration controller will be automatically provisioning a cluster namespace dedicated for the cluster of which the name will be same as the managed cluster.</description>
     </item>
     
     <item>
@@ -67,7 +64,7 @@ In this article, we want to show you how to integrate Argo CD with OCM and deplo
       
       <guid>https://open-cluster-management.io/zh/scenarios/manage-cluster-with-multiple-hubs/</guid>
       <description>Normally an Open Cluster Management (OCM) hub manages multiple managed clusters and a cluster only registers to one OCM hub. While there might be some user scenarios, where a single cluster may want to join more than one OCM hub as a managed cluster, including:
- In an organization, each department may setup an OCM hub to manage clusters owned by this department, and all clusters are managed by a central OCM hub owned by IT department to enforce organization wide security policies.</description>
+In an organization, each department may setup an OCM hub to manage clusters owned by this department, and all clusters are managed by a central OCM hub owned by IT department to enforce organization wide security policies.</description>
     </item>
     
     <item>
@@ -96,7 +93,7 @@ If you define a valid Placement, the placement controller generates a correspond
       
       <guid>https://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests/</guid>
       <description>By following the instructions in this document, an OCM hub admin will be able to &amp;ldquo;push&amp;rdquo; Kubernetes API requests to the managed clusters. The benefit of using this method for &amp;ldquo;pushing&amp;rdquo; requests in OCM is that we don&amp;rsquo;t need to explicitly configure any API endpoint for the managed clusters or provide any client credentials as preparation. We just need to enable/install the following OCM addons:
- Cluster-Proxy: Setting up the konnectivity tunnels between the hub cluster and the managed clusters so the hub cluster can connect/access the managed cluster from anywhere.</description>
+Cluster-Proxy: Setting up the konnectivity tunnels between the hub cluster and the managed clusters so the hub cluster can connect/access the managed cluster from anywhere.</description>
     </item>
     
   </channel>

@@ -287,109 +287,109 @@ also covers the integration with ArgoCD.</p>
 <p><strong>2. Register the OCM managed clusters to ArgoCD.</strong></p>
 <p>The OCM managed clusters can be registered to Argo CD one by one manually by using Argo CD CLI. It may take time to finish it if there are a large number of clusters. In order to make the cluster registration easier, consider to use <a href="https://github.com/open-cluster-management-io/multicloud-integrations">multicloud-integrations</a> to automate the procedure.</p>
 <p><strong>3. Create a configuration of <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Cluster-Decision-Resource/">Cluster Decision Resource generator</a> by using OCM Placement API.</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: v1
-</span><span style="color:#e6db74">kind: ConfigMap
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: ocm-placement-generator
-</span><span style="color:#e6db74">  namespace: argocd
-</span><span style="color:#e6db74">data:
-</span><span style="color:#e6db74">  apiVersion: cluster.open-cluster-management.io/v1beta1
-</span><span style="color:#e6db74">  kind: placementdecisions
-</span><span style="color:#e6db74">  statusListKey: decisions
-</span><span style="color:#e6db74">  matchKey: clusterName
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>With reference to this generator, an <code>ApplicationSet</code> can target the application to the clusters listed in the status of a set of <code>PlacementDecision</code>, which belong to a certian Placement.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ConfigMap
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: ocm-placement-generator
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">data:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  apiVersion: cluster.open-cluster-management.io/v1beta1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  kind: placementdecisions
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  statusListKey: decisions
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  matchKey: clusterName
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>With reference to this generator, an <code>ApplicationSet</code> can target the application to the clusters listed in the status of a set of <code>PlacementDecision</code>, which belong to a certian Placement.</p>
 <p><strong>4. Grant Argo CD permissions to access OCM resources.</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
-</span><span style="color:#e6db74">kind: Role
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: ocm-placement-consumer
-</span><span style="color:#e6db74">  namespace: argocd
-</span><span style="color:#e6db74">rules:
-</span><span style="color:#e6db74">- apiGroups: [&#34;cluster.open-cluster-management.io&#34;]
-</span><span style="color:#e6db74">  resources: [&#34;placementdecisions&#34;]
-</span><span style="color:#e6db74">  verbs: [&#34;get&#34;, &#34;list&#34;]
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">---
-</span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
-</span><span style="color:#e6db74">kind: RoleBinding
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: ocm-placement-consumer:argocd
-</span><span style="color:#e6db74">  namespace: argocd
-</span><span style="color:#e6db74">roleRef:
-</span><span style="color:#e6db74">  apiGroup: rbac.authorization.k8s.io
-</span><span style="color:#e6db74">  kind: Role
-</span><span style="color:#e6db74">  name: ocm-placement-consumer
-</span><span style="color:#e6db74">subjects:
-</span><span style="color:#e6db74">- kind: ServiceAccount
-</span><span style="color:#e6db74">  namespace: argocd
-</span><span style="color:#e6db74">  name: argocd-applicationset-controller
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p><strong>5. Bind at least one managed clusterset to the <code>argocd</code> namespace.</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Role
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: ocm-placement-consumer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">rules:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- apiGroups: [&#34;cluster.open-cluster-management.io&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  resources: [&#34;placementdecisions&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  verbs: [&#34;get&#34;, &#34;list&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: rbac.authorization.k8s.io/v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: RoleBinding
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: ocm-placement-consumer:argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">roleRef:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  apiGroup: rbac.authorization.k8s.io
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  kind: Role
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: ocm-placement-consumer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">subjects:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">- kind: ServiceAccount
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: argocd-applicationset-controller
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p><strong>5. Bind at least one managed clusterset to the <code>argocd</code> namespace.</strong></p>
 <p>For example, in order to bind the <code>global</code> managed clusterset to the <code>argocd</code> namespace, the user must have an RBAC rule to <code>create</code> on the virtual subresource of <code>managedclustersets/bind</code> of the <code>global</code> managed clusterset.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">clusteradm clusterset bind global --namespace argocd
-</code></pre></div><p>The above command will create a <code>ManagedClusterSetBinding</code> resource in the <code>argocd</code> namespace. Normally, it should not be included by an application in the git repo because applying it to a Kubernetes cluster needs additional permissions.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>clusteradm clusterset bind global --namespace argocd
+</span></span></code></pre></div><p>The above command will create a <code>ManagedClusterSetBinding</code> resource in the <code>argocd</code> namespace. Normally, it should not be included by an application in the git repo because applying it to a Kubernetes cluster needs additional permissions.</p>
 <p><strong>6. Create a placement in the <code>argocd</code> namespace to select some managed clusters.</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
-</span><span style="color:#e6db74">kind: Placement
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: guestbook-app-placement
-</span><span style="color:#e6db74">  namespace: argocd
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  numberOfClusters: 10
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p><strong>7. Create an <code>ApplicationSet</code> in the <code>argocd</code> namespace.</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Placement
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: guestbook-app-placement
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  numberOfClusters: 10
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p><strong>7. Create an <code>ApplicationSet</code> in the <code>argocd</code> namespace.</strong></p>
 <p>The <code>ApplicationSet</code> has references to the Cluster Decision Resource generator previously created and placement. This will help Argo CD to determine where the application should be deployed. The managed clusters selected by the referenced placement may be changed dynamically. By setting <code>requeueAfterSeconds</code> of the generator in the <code>ApplicationSet</code> spec, the Argo CD will check the cluster decisions of the referenced placement periodically and ensure the application is deployed to the correct managed clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: argoproj.io/v1alpha1
-</span><span style="color:#e6db74">kind: ApplicationSet
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: guestbook-app
-</span><span style="color:#e6db74">  namespace: argocd
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  generators:
-</span><span style="color:#e6db74">    - clusterDecisionResource:
-</span><span style="color:#e6db74">        configMapRef: ocm-placement-generator
-</span><span style="color:#e6db74">        labelSelector:
-</span><span style="color:#e6db74">          matchLabels:
-</span><span style="color:#e6db74">            cluster.open-cluster-management.io/placement: guestbook-app-placement
-</span><span style="color:#e6db74">        requeueAfterSeconds: 30
-</span><span style="color:#e6db74">  template:
-</span><span style="color:#e6db74">    metadata:
-</span><span style="color:#e6db74">      name: &#39;{{clusterName}}-guestbook-app&#39;
-</span><span style="color:#e6db74">    spec:
-</span><span style="color:#e6db74">      project: default
-</span><span style="color:#e6db74">      source:
-</span><span style="color:#e6db74">        repoURL: &#39;https://github.com/argoproj/argocd-example-apps.git&#39;
-</span><span style="color:#e6db74">        targetRevision: HEAD
-</span><span style="color:#e6db74">        path: guestbook
-</span><span style="color:#e6db74">      destination:
-</span><span style="color:#e6db74">        name: &#39;{{clusterName}}&#39;
-</span><span style="color:#e6db74">        namespace: guestbook
-</span><span style="color:#e6db74">      syncPolicy:
-</span><span style="color:#e6db74">        automated:
-</span><span style="color:#e6db74">          prune: true
-</span><span style="color:#e6db74">        syncOptions:
-</span><span style="color:#e6db74">          - CreateNamespace=true
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p><strong>8. Check the status of the <code>ApplicationSet</code> and the <code>Application</code>.</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: argoproj.io/v1alpha1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ApplicationSet
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: guestbook-app
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  generators:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - clusterDecisionResource:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        configMapRef: ocm-placement-generator
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        labelSelector:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          matchLabels:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            cluster.open-cluster-management.io/placement: guestbook-app-placement
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        requeueAfterSeconds: 30
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  template:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      name: &#39;{{clusterName}}-guestbook-app&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      project: default
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      source:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        repoURL: &#39;https://github.com/argoproj/argocd-example-apps.git&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        targetRevision: HEAD
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        path: guestbook
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      destination:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        name: &#39;{{clusterName}}&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        namespace: guestbook
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      syncPolicy:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        automated:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          prune: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        syncOptions:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          - CreateNamespace=true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p><strong>8. Check the status of the <code>ApplicationSet</code> and the <code>Application</code>.</strong></p>
 <p>Confirm the <code>ApplicationSet</code> is created and an <code>Application</code> is generated for each selected managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl -n argocd get applicationsets
-NAME            AGE
-guestbook-app   4s
-
-$ kubectl -n argocd get applications
-NAME                     SYNC STATUS   HEALTH STATUS
-cluster1-guestbook-app   Synced        Progressing
-cluster2-guestbook-app   Synced        Progressing
-</code></pre></div><p>And on each selected managed cluster confirm the <code>Application</code> is running.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl -n guestbook get pods
-NAME                           READY   STATUS    RESTARTS   AGE
-guestbook-ui-6b689986f-cdrk8   1/1     Running   <span style="color:#ae81ff">0</span>          112s
-</code></pre></div><h3 id="whats-next">What&rsquo;s next</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl -n argocd get applicationsets
+</span></span><span style="display:flex;"><span>NAME            AGE
+</span></span><span style="display:flex;"><span>guestbook-app   4s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ kubectl -n argocd get applications
+</span></span><span style="display:flex;"><span>NAME                     SYNC STATUS   HEALTH STATUS
+</span></span><span style="display:flex;"><span>cluster1-guestbook-app   Synced        Progressing
+</span></span><span style="display:flex;"><span>cluster2-guestbook-app   Synced        Progressing
+</span></span></code></pre></div><p>And on each selected managed cluster confirm the <code>Application</code> is running.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl -n guestbook get pods
+</span></span><span style="display:flex;"><span>NAME                           READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>guestbook-ui-6b689986f-cdrk8   1/1     Running   <span style="color:#ae81ff">0</span>          112s
+</span></span></code></pre></div><h3 id="whats-next">What&rsquo;s next</h3>
 <p>To build an OCM environment integrated with Argo CD with <code>KinD</code> clusters, see <a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/deploy-argocd-apps">Deploy applications with Argo CD</a> for more details.</p>
 
 </div>

@@ -325,18 +325,18 @@
 <h2 id="install-clusteradm-cli-tool">Install clusteradm CLI tool</h2>
 <p>It&rsquo;s recommended to run the following command to download and install <strong>the
 latest release</strong> of the <code>clusteradm</code> command-line tool:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
-</code></pre></div><p>You can also install <strong>the latest development version</strong> (main branch) by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
-GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
-</code></pre></div><h2 id="bootstrap-a-klusterlet">Bootstrap a klusterlet</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</span></span></code></pre></div><p>You can also install <strong>the latest development version</strong> (main branch) by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># Installing clusteradm to $GOPATH/bin/</span>
+</span></span><span style="display:flex;"><span>GO111MODULE<span style="color:#f92672">=</span>off go get -u open-cluster-management.io/clusteradm/...
+</span></span></code></pre></div><h2 id="bootstrap-a-klusterlet">Bootstrap a klusterlet</h2>
 <p>Before actually installing the OCM components into your clusters, export
 the following environment variables in your terminal before running our
 command-line tool <code>clusteradm</code> so that it can correctly discriminate the managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># The context name of the clusters in your kubeconfig</span>
-export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;
-export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;
-</code></pre></div><p>Copy the previously generated command &ndash; <code>clusteradm join</code>, and add the arguments respectively based
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span><span style="color:#75715e"># The context name of the clusters in your kubeconfig</span>
+</span></span><span style="display:flex;"><span>export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;
+</span></span><span style="display:flex;"><span>export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;
+</span></span></code></pre></div><p>Copy the previously generated command &ndash; <code>clusteradm join</code>, and add the arguments respectively based
 on the different distribution.</p>
 <p><strong>NOTE</strong>: If there is no configmap <code>kube-root-ca.crt</code> in kube-public namespace of the hub cluster,
 the flag &ndash;ca-file should be set to provide a valid hub ca file to help set
@@ -350,24 +350,24 @@ up the external client.</p>
 		</li></ul>
 <div class="tab-content" id="clusteradm-join"><div id="clusteradm-join-0" class="tab-pane fade show active" role="tabpanel" aria-labelledby="clusteradm-join-0-tab">
 
-<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
-clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
-    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></div>
+<p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
+</span></span><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
+</span></span><span style="display:flex;"><span>    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></div>
   <div id="clusteradm-join-1" class="tab-pane fade" role="tabpanel" aria-labelledby="clusteradm-join-1-tab">
 
-<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>  <span style="color:#75715e"># Or other arbitrary unique name</span>
-    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></div></div>
+<p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>  <span style="color:#75715e"># Or other arbitrary unique name</span>
+</span></span><span style="display:flex;"><span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></div></div>
 
 <h3 id="bootstrap-a-klusterlet-in-hosted-modeoptional">Bootstrap a klusterlet in hosted mode(Optional)</h3>
 <p>Using the above command, the klusterlet components(registration-agent and work-agent) will be deployed on the managed
@@ -389,30 +389,30 @@ to the hosting cluster to register the managed cluster to the hub.</p>
 		</li></ul>
 <div class="tab-content" id="clusteradm-join"><div id="clusteradm-join-0" class="tab-pane fade show active" role="tabpanel" aria-labelledby="clusteradm-join-0-tab">
 
-<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># NOTE for KinD clusters:</span>
-<span style="color:#75715e">#  1. hub is KinD, use the parameter: --force-internal-endpoint-lookup</span>
-<span style="color:#75715e">#  2. managed is Kind, --managed-cluster-kubeconfig should be internal: `kind get kubeconfig --name managed --internal`</span>
-clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
-    --mode hosted <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --managed-cluster-kubeconfig &lt;your managed cluster kubeconfig&gt; <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Should be an internal kubeconfig</span>
-    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --context &lt;your hosting cluster context&gt;
-</code></pre></div></div>
+<p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># NOTE for KinD clusters:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  1. hub is KinD, use the parameter: --force-internal-endpoint-lookup</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  2. managed is Kind, --managed-cluster-kubeconfig should be internal: `kind get kubeconfig --name managed --internal`</span>
+</span></span><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
+</span></span><span style="display:flex;"><span>    --mode hosted <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --managed-cluster-kubeconfig &lt;your managed cluster kubeconfig&gt; <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Should be an internal kubeconfig</span>
+</span></span><span style="display:flex;"><span>    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --context &lt;your hosting cluster context&gt;
+</span></span></code></pre></div></div>
   <div id="clusteradm-join-1" class="tab-pane fade" role="tabpanel" aria-labelledby="clusteradm-join-1-tab">
 
-<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
-    --mode hosted <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --managed-cluster-kubeconfig &lt;your managed cluster kubeconfig&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --context &lt;your hosting cluster context&gt;
-</code></pre></div></div></div>
+<p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
+</span></span><span style="display:flex;"><span>    --mode hosted <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --managed-cluster-kubeconfig &lt;your managed cluster kubeconfig&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --context &lt;your hosting cluster context&gt;
+</span></span></code></pre></div></div></div>
 
 <h3 id="bootstrap-a-klusterlet-in-singleton-mode">Bootstrap a klusterlet in singleton mode</h3>
 <p>To reduce the footprint of agent in the managed cluster, singleton mode is introduced since <code>v0.12.0</code>.
@@ -429,26 +429,26 @@ cluster.</p>
 		</li></ul>
 <div class="tab-content" id="clusteradm-join"><div id="clusteradm-join-0" class="tab-pane fade show active" role="tabpanel" aria-labelledby="clusteradm-join-0-tab">
 
-<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
-clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
-    --singleton <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></div>
+<p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup</span>
+</span></span><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>   <span style="color:#75715e"># Or other arbitrary unique name</span>
+</span></span><span style="display:flex;"><span>    --singleton <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --force-internal-endpoint-lookup <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></div>
   <div id="clusteradm-join-1" class="tab-pane fade" role="tabpanel" aria-labelledby="clusteradm-join-1-tab">
 
-<p><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">clusteradm join <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>  <span style="color:#75715e"># Or other arbitrary unique name</span>
-    --singleton <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></div></div>
+<p><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>clusteradm join <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-token &lt;your token data&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --hub-apiserver &lt;your hub cluster endpoint&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --wait <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> <span style="color:#ae81ff">\ </span>  <span style="color:#75715e"># Or other arbitrary unique name</span>
+</span></span><span style="display:flex;"><span>    --singleton <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></div></div>
 
 <h2 id="accept-the-join-request-and-verify">Accept the join request and verify</h2>
 <p>After the OCM agent is running on your managed cluster, it will be sending a &ldquo;handshake&rdquo; to your
@@ -458,90 +458,90 @@ through accepting the registration requests from the perspective of an OCM&rsquo
 <li>
 <p>Wait for the creation of the CSR object which will be created by your managed
 clusters&rsquo; OCM agents on the hub cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get csr -w --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> | grep cluster1  <span style="color:#75715e"># or the previously chosen cluster name</span>
-</code></pre></div><p>An example of a pending CSR request is shown below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get csr -w --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> | grep cluster1  <span style="color:#75715e"># or the previously chosen cluster name</span>
+</span></span></code></pre></div><p>An example of a pending CSR request is shown below:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+</span></span></code></pre></div></li>
 <li>
 <p>Accept the join request using the <code>clusteradm</code> tool:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters cluster1 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>After running the <code>accept</code> command, the CSR from your managed cluster
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>clusteradm accept --clusters cluster1 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>After running the <code>accept</code> command, the CSR from your managed cluster
 named &ldquo;cluster1&rdquo; will be approved. Additionally, it will instruct
 the OCM hub control plane to setup related objects (such as a namespace
 named &ldquo;cluster1&rdquo; in the hub cluster) and RBAC permissions automatically.</p>
 </li>
 <li>
 <p>Verify the installation of the OCM agents on your managed cluster by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n open-cluster-management-agent get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME                                             READY   STATUS    RESTARTS   AGE
-klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   <span style="color:#ae81ff">0</span>          19d
-klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   <span style="color:#ae81ff">0</span>          19d
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl -n open-cluster-management-agent get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                                             READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>klusterlet-registration-agent-598fd79988-jxx7n   1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span><span style="display:flex;"><span>klusterlet-work-agent-7d47f4b5c5-dnkqw           1/1     Running   <span style="color:#ae81ff">0</span>          19d
+</span></span></code></pre></div></li>
 <li>
 <p>Verify that the <code>cluster1</code> <code>ManagedCluster</code> object was created successfully by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Then you should get a result that resembles the following:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
-cluster1   true           &lt;your endpoint&gt;           True     True        5m23s
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Then you should get a result that resembles the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>cluster1   true           &lt;your endpoint&gt;           True     True        5m23s
+</span></span></code></pre></div></li>
 </ol>
 <p>If the managed cluster status is not true, refer to <a href="#troubleshooting">Troubleshooting</a> to debug on your cluster.</p>
 <h2 id="apply-a-manifestwork">Apply a Manifestwork</h2>
 <p>After the managed cluster is registered, test that you can deploy a pod to the managed cluster from the hub cluster. Create a <code>manifest-work.yaml</code> as shown in this example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: work.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ManifestWork
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: mw<span style="color:#ae81ff">-01</span>
-  <span style="color:#66d9ef">namespace</span>: ${MANAGED_CLUSTER_NAME}
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">workload</span>:
-    <span style="color:#66d9ef">manifests</span>:
-      - <span style="color:#66d9ef">apiVersion</span>: v1
-        <span style="color:#66d9ef">kind</span>: Pod
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">name</span>: hello
-          <span style="color:#66d9ef">namespace</span>: default
-        <span style="color:#66d9ef">spec</span>:
-          <span style="color:#66d9ef">containers</span>:
-            - <span style="color:#66d9ef">name</span>: hello
-              <span style="color:#66d9ef">image</span>: busybox
-              <span style="color:#66d9ef">command</span>: [<span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span>]
-          <span style="color:#66d9ef">restartPolicy</span>: OnFailure
-</code></pre></div><p>Apply the yaml file to the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f manifest-work.yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Verify that the <code>manifestwork</code> resource was applied to the hub.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get manifestwork/mw-01 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> -o yaml
-</code></pre></div><p>Check on the managed cluster and see the <em>hello</em> Pod has been deployed from the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl -n default get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME    READY   STATUS    RESTARTS   AGE
-hello   1/1     Running   <span style="color:#ae81ff">0</span>          108s
-</code></pre></div><h3 id="troubleshooting">Troubleshooting</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">work.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManifestWork</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mw-01</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">${MANAGED_CLUSTER_NAME}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workload</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">manifests</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">image</span>: <span style="color:#ae81ff">busybox</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#34;sh&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#39;echo &#34;Hello, Kubernetes!&#34; &amp;&amp; sleep 3600&#39;</span>]
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">restartPolicy</span>: <span style="color:#ae81ff">OnFailure</span>
+</span></span></code></pre></div><p>Apply the yaml file to the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl apply -f manifest-work.yaml --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Verify that the <code>manifestwork</code> resource was applied to the hub.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get manifestwork/mw-01 --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> -o yaml
+</span></span></code></pre></div><p>Check on the managed cluster and see the <em>hello</em> Pod has been deployed from the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl -n default get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME    READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>hello   1/1     Running   <span style="color:#ae81ff">0</span>          108s
+</span></span></code></pre></div><h3 id="troubleshooting">Troubleshooting</h3>
 <ul>
 <li>
 <p><strong>If the managed cluster status is not true.</strong></p>
 <p>For example, the result below is shown when checking managedcluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
-<span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> true           https://localhost               Unknown     46m
-</code></pre></div><p>There are many reasons for this problem. You can use the commands below to get more debug info. If the provided info doesn&rsquo;t help, please log an issue to us.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                   HUB ACCEPTED   MANAGED CLUSTER URLS   JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> true           https://localhost               Unknown     46m
+</span></span></code></pre></div><p>There are many reasons for this problem. You can use the commands below to get more debug info. If the provided info doesn&rsquo;t help, please log an issue to us.</p>
 <p>On the hub cluster, check the managedcluster status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> -o yaml
-</code></pre></div><p>On the hub cluster, check the lease status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get lease -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>On the managed cluster, check the klusterlet status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get klusterlet -o yaml --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get managedcluster <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> -o yaml
+</span></span></code></pre></div><p>On the hub cluster, check the lease status.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get lease -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>On the managed cluster, check the klusterlet status.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get klusterlet -o yaml --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></li>
 </ul>
 <h2 id="detach-the-cluster-from-hub">Detach the cluster from hub</h2>
 <p>Remove the resources generated when registering with the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm unjoin --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>Check the installation of the OCM agent is removed from the managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl -n open-cluster-management-agent get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-No resources found in open-cluster-management-agent namespace.
-</code></pre></div><p>Check the klusterlet is removed from the managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get klusterlet --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-error: the server doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a resource type <span style="color:#e6db74">&#34;klusterlet
-</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>clusteradm unjoin --cluster-name <span style="color:#e6db74">&#34;cluster1&#34;</span> --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>Check the installation of the OCM agent is removed from the managed cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl -n open-cluster-management-agent get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>No resources found in open-cluster-management-agent namespace.
+</span></span></code></pre></div><p>Check the klusterlet is removed from the managed cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get klusterlet --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>error: the server doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a resource type <span style="color:#e6db74">&#34;klusterlet
+</span></span></span></code></pre></div>
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>
 </div>

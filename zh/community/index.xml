@@ -5,10 +5,7 @@
     <link>https://open-cluster-management.io/zh/community/</link>
     <description>Recent content in Community on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/zh/community/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language><atom:link href="https://open-cluster-management.io/zh/community/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>发行版本</title>
       <link>https://open-cluster-management.io/zh/community/releases/</link>
@@ -17,7 +14,7 @@
       <guid>https://open-cluster-management.io/zh/community/releases/</guid>
       <description>Open Cluster Management has approximately a three to four month release cycle. The current release is v0.14.0. Continue reading to view upcoming releases:
 0.14.0, 21 Jun. 2024 The Open Cluster Management team is proud to announce the release of OCM v0.14.0!
- Exclude terminating clusters from PlacementDecision: now cluster in terminating state will not be picked by the placement. Send available condition events for managed cluster: klusterlet agent will send a Kubenerte event to the cluster namespace upon status change, which makes it eaiser for user to check the state change of the managed cluster.</description>
+Exclude terminating clusters from PlacementDecision: now cluster in terminating state will not be picked by the placement. Send available condition events for managed cluster: klusterlet agent will send a Kubenerte event to the cluster namespace upon status change, which makes it eaiser for user to check the state change of the managed cluster.</description>
     </item>
     
     <item>

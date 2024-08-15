@@ -292,31 +292,31 @@
 <p>OCM Placement API 可以动态的在多集群环境中选择一组托管集群<code>ManagedCluster</code>，以便将工作负载部署到这些集群上。</p>
 <p>在上一篇<a href="https://mp.weixin.qq.com/s/_k2MV4b3hfTrLUCCOKOG8g">CNCF 沙箱项目 OCM Placement 多集群调度指南</a>中，我们详细介绍了 Placement 的基本概念，提供的调度功能以及调度流程。同时还通过示例展示了如何在不同的应用场景下使用 Placement API。建议首次接触 Placement 的读者先阅读此文。</p>
 <p>Placement 提供了通过标签选择器<code>labelSelector</code>或声明选择器<code>claimSelector</code>过滤集群，同时也提供了一些内置的优选器<code>prioritizer</code>，可对过滤后的集群进行打分排序和优先选择。
-内置的<code>prioritizer</code>中包括了最大可分配 CPU 资源(ResourceAllocatableCPU)和最大可分配内存资源(ResourceAllocatableMemory)，它们提供了根据集群的可分配 CPU 和内存进行调度的能力。但是，由于集群的&quot;AllocatableCPU&quot;和&quot;AllocatableMemory&quot;是静态值，即使&quot;集群资源不足&rdquo;，它们也不会改变。这导致在实际使用中，这两个<code>prioritizer</code>不能满足基于实时可用 CPU 或内存进行调度的需求。此外，使用者还可能需要根据从集群中获取的资源监控数据进行调度，这些都是内置的<code>prioritizer</code>无法满足的需求。</p>
+内置的<code>prioritizer</code>中包括了最大可分配 CPU 资源(ResourceAllocatableCPU)和最大可分配内存资源(ResourceAllocatableMemory)，它们提供了根据集群的可分配 CPU 和内存进行调度的能力。但是，由于集群的&quot;AllocatableCPU&quot;和&quot;AllocatableMemory&quot;是静态值，即使&quot;集群资源不足&quot;，它们也不会改变。这导致在实际使用中，这两个<code>prioritizer</code>不能满足基于实时可用 CPU 或内存进行调度的需求。此外，使用者还可能需要根据从集群中获取的资源监控数据进行调度，这些都是内置的<code>prioritizer</code>无法满足的需求。</p>
 <p>以上这些需求要求 Placement 能够更灵活的根据第三方数据来进行调度。为此，我们实现了一种更具扩展性的方式来支持基于第三方数据的调度，使用者可以使用自定义的分数来选择集群。</p>
 <p>本文将介绍 OCM 是如何让多集群调度更具可扩展性，并通过实例展示如何实现一个第三方数据控制器<code>controller</code>来扩展 OCM 的多集群调度功能。</p>
 <h2 id="ocm-如何让调度具有可扩展性">OCM 如何让调度具有可扩展性</h2>
 <p>为了实现基于第三方数据的调度，OCM 引入了 API <code>AddOnPlacementScore</code>，它支持存储自定义的集群分数，使用者可以在 Placement 中指定使用此分数选择集群。</p>
 <p>如下是一个<code>AddOnPlacementScore</code>的例子，更多关于 API 的细节可访问<a href="https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_addonplacementscore.go" title="types_addonplacementscore.go">types_addonplacementscore.go</a>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: AddOnPlacementScore
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: default
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">status</span>:
-  <span style="color:#66d9ef">conditions</span>:
-  - <span style="color:#66d9ef">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-10-28T08:31:39Z&#34;</span>
-    <span style="color:#66d9ef">message</span>: AddOnPlacementScore updated successfully
-    <span style="color:#66d9ef">reason</span>: AddOnPlacementScoreUpdated
-    <span style="color:#66d9ef">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
-    <span style="color:#66d9ef">type</span>: AddOnPlacementScoreUpdated
-  <span style="color:#66d9ef">validUntil</span>: <span style="color:#e6db74">&#34;2021-10-29T18:31:39Z&#34;</span>
-  <span style="color:#66d9ef">scores</span>:
-  - <span style="color:#66d9ef">name</span>: <span style="color:#e6db74">&#34;cpuAvailable&#34;</span>
-    <span style="color:#66d9ef">value</span>: <span style="color:#ae81ff">66</span>
-  - <span style="color:#66d9ef">name</span>: <span style="color:#e6db74">&#34;memAvailable&#34;</span>
-    <span style="color:#66d9ef">value</span>: <span style="color:#ae81ff">55</span>
-</code></pre></div><p><code>AddOnPlacementScore</code>的主要内容都在<code>status</code>中，因为我们不希望使用者更新它。<code>AddOnPlacementScore</code>的生命周期维护及<code>scores</code>的更新应该由第三方<code>controller</code>负责。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">AddOnPlacementScore</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">conditions</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">lastTransitionTime</span>: <span style="color:#e6db74">&#34;2021-10-28T08:31:39Z&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">message</span>: <span style="color:#ae81ff">AddOnPlacementScore updated successfully</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">reason</span>: <span style="color:#ae81ff">AddOnPlacementScoreUpdated</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">status</span>: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">AddOnPlacementScoreUpdated</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">validUntil</span>: <span style="color:#e6db74">&#34;2021-10-29T18:31:39Z&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">scores</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;cpuAvailable&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">value</span>: <span style="color:#ae81ff">66</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;memAvailable&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">value</span>: <span style="color:#ae81ff">55</span>
+</span></span></code></pre></div><p><code>AddOnPlacementScore</code>的主要内容都在<code>status</code>中，因为我们不希望使用者更新它。<code>AddOnPlacementScore</code>的生命周期维护及<code>scores</code>的更新应该由第三方<code>controller</code>负责。</p>
 <ul>
 <li><code>conditions</code>包括了资源不同的条件状态。</li>
 <li><code>scores</code>是一个列表，包含了一组分数的名称和值。在上例中，<code>scores</code>包含了自定义分数 cpuAvailable 和 memAvailable。</li>
@@ -324,23 +324,23 @@
 </ul>
 <p>作为使用者，需要知道<code>AddOnPlacementScore</code>的资源名称<code>default</code>和<code>socre</code>名称<code>cpuAvailable</code> <code>memAvailable</code>。之后可在 Placement 中指定用此分数选择集群。</p>
 <p>例如，下面的 Placement 想要选择具有最高<code>cpuAvailable</code>分数的前 3 个集群。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: Placement
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement
-  <span style="color:#66d9ef">namespace</span>: ns1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">3</span>
-  <span style="color:#66d9ef">prioritizerPolicy</span>:
-    <span style="color:#66d9ef">mode</span>: Exact
-    <span style="color:#66d9ef">configurations</span>:
-      - <span style="color:#66d9ef">scoreCoordinate</span>:
-          <span style="color:#66d9ef">type</span>: AddOn
-          <span style="color:#66d9ef">addOn</span>:
-            <span style="color:#66d9ef">resourceName</span>: default
-            <span style="color:#66d9ef">scoreName</span>: cpuAvailable
-        <span style="color:#66d9ef">weight</span>: <span style="color:#ae81ff">1</span>
-</code></pre></div><p><a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md" title="32-extensiblescheduling">32-extensiblescheduling</a>包含了关于此设计的详细内容。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Placement</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">ns1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">numberOfClusters</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">prioritizerPolicy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">mode</span>: <span style="color:#ae81ff">Exact</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">configurations</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">scoreCoordinate</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">type</span>: <span style="color:#ae81ff">AddOn</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">addOn</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">resourceName</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">scoreName</span>: <span style="color:#ae81ff">cpuAvailable</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">weight</span>: <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p><a href="https://github.com/open-cluster-management-io/enhancements/blob/main/enhancements/sig-architecture/32-extensiblescheduling/32-extensiblescheduling.md" title="32-extensiblescheduling">32-extensiblescheduling</a>包含了关于此设计的详细内容。</p>
 <p>接下来，将用一个示例展示如何实现一个 controller 来更新<code>score</code>，并使用此<code>score</code>选择集群。</p>
 <h2 id="示例">示例</h2>
 <p>示例代码位于 GitHub 仓库<a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/resource-usage-collect-addon" title="resource-usage-collect-addon">resource-usage-collect-addon</a>。它提供的分数可实时反映集群的 CPU 和内存利用率。</p>
@@ -361,123 +361,123 @@
 <ol>
 <li>运行<a href="https://github.com/open-cluster-management-io/OCM/tree/main/solutions/setup-dev-environment" title="setup dev environment by kind">setup dev environment by kind</a>准备环境。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -sSL https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
+</span></span></code></pre></div><ol start="2">
 <li>确认两个<code>ManagedCluster</code>和一个默认的<code>ManagedClusterSet</code>创建完成。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm get clusters
-NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERENETES VERSION
-cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
-cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
-
-$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
-</code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clusteradm get clusters
+</span></span><span style="display:flex;"><span>NAME       ACCEPTED   AVAILABLE   CLUSTERSET   CPU   MEMORY       KUBERENETES VERSION
+</span></span><span style="display:flex;"><span>cluster1   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
+</span></span><span style="display:flex;"><span>cluster2   true       True        default      <span style="color:#ae81ff">24</span>    49265496Ki   v1.23.4
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ clusteradm get clustersets
+</span></span><span style="display:flex;"><span>NAME      BOUND NAMESPACES   STATUS
+</span></span><span style="display:flex;"><span>default                      <span style="color:#ae81ff">2</span> ManagedClusters selected
+</span></span></code></pre></div><ol start="3">
 <li>将默认<code>ManagedClusterSet</code>绑定到 default<code>Namespace</code>。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">clusteradm clusterset bind default --namespace default
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm get clustersets
-NAME      BOUND NAMESPACES   STATUS
-default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
-</code></pre></div><p><strong>安装 resource-usage-collect addon</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>clusteradm clusterset bind default --namespace default
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clusteradm get clustersets
+</span></span><span style="display:flex;"><span>NAME      BOUND NAMESPACES   STATUS
+</span></span><span style="display:flex;"><span>default   default            <span style="color:#ae81ff">2</span> ManagedClusters selected
+</span></span></code></pre></div><p><strong>安装 resource-usage-collect addon</strong></p>
 <ol>
 <li>下载源代码。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone git@github.com:open-cluster-management-io/addon-contrib.git
-cd addon-contrib/resource-usage-collect-addon
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone git@github.com:open-cluster-management-io/addon-contrib.git
+</span></span><span style="display:flex;"><span>cd addon-contrib/resource-usage-collect-addon
+</span></span></code></pre></div><ol start="2">
 <li>编译容器镜像。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Set image name, this is an optional step.</span>
-export IMAGE_NAME<span style="color:#f92672">=</span>quay.io/haoqing/resource-usage-collect-addon:latest
-<span style="color:#75715e"># Build image</span>
-make images
-</code></pre></div><p>如果你使用了 kind，需要手工将镜像加载到 kind 环境中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kind load docker-image $IMAGE_NAME --name &lt;cluster_name&gt; <span style="color:#75715e"># kind load docker-image $IMAGE_NAME --name hub</span>
-</code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Set image name, this is an optional step.</span>
+</span></span><span style="display:flex;"><span>export IMAGE_NAME<span style="color:#f92672">=</span>quay.io/haoqing/resource-usage-collect-addon:latest
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Build image</span>
+</span></span><span style="display:flex;"><span>make images
+</span></span></code></pre></div><p>如果你使用了 kind，需要手工将镜像加载到 kind 环境中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kind load docker-image $IMAGE_NAME --name &lt;cluster_name&gt; <span style="color:#75715e"># kind load docker-image $IMAGE_NAME --name hub</span>
+</span></span></code></pre></div><ol start="3">
 <li>部署 resource-usage-collect addon。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make deploy
-</code></pre></div><ol start="4">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make deploy
+</span></span></code></pre></div><ol start="4">
 <li>验证安装成功。</li>
 </ol>
 <p>在 hub 集群上, 验证 resource-usage-collect-controller pod 运行成功。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n open-cluster-management | grep resource-usage-collect-controller
-resource-usage-collect-controller-55c58bbc5-t45dh   1/1     Running   <span style="color:#ae81ff">0</span>          71s
-</code></pre></div><p>在 hub 集群上, 验证每个 managed cluster 生成了对应的<code>AddonPlacementScore</code>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get addonplacementscore -A
-NAMESPACE   NAME                   AGE
-cluster1    resource-usage-score   3m23s
-cluster2    resource-usage-score   3m24s
-</code></pre></div><p><code>AddonPlacementScore</code>的 status 中应该包含了如下的分数。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get addonplacementscore -n cluster1 resource-usage-score -oyaml
-apiVersion: cluster.open-cluster-management.io/v1alpha1
-kind: AddOnPlacementScore
-metadata:
-  creationTimestamp: <span style="color:#e6db74">&#34;2022-08-08T06:46:04Z&#34;</span>
-  generation: <span style="color:#ae81ff">1</span>
-  name: resource-usage-score
-  namespace: cluster1
-  resourceVersion: <span style="color:#e6db74">&#34;3907&#34;</span>
-  uid: 6c4280e4-38be-4d45-9c73-c18c84799781
-status:
-  scores:
-  - name: cpuAvailable
-    value: <span style="color:#ae81ff">12</span>
-  - name: memAvailable
-    value: <span style="color:#ae81ff">4</span>
-</code></pre></div><p>如果<code>AddonPlacementScore</code>没有生成或者 status 中没有分数，可以登陆到 managed cluster 上，检查 resource-usage-collect-agent pod 是否正常运行。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n default | grep resource-usage-collect-agent
-resource-usage-collect-agent-5b85cbf848-g5kqm   1/1     Running   <span style="color:#ae81ff">0</span>          2m
-</code></pre></div><p><strong>通过自定义分数选择集群</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get pods -n open-cluster-management | grep resource-usage-collect-controller
+</span></span><span style="display:flex;"><span>resource-usage-collect-controller-55c58bbc5-t45dh   1/1     Running   <span style="color:#ae81ff">0</span>          71s
+</span></span></code></pre></div><p>在 hub 集群上, 验证每个 managed cluster 生成了对应的<code>AddonPlacementScore</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get addonplacementscore -A
+</span></span><span style="display:flex;"><span>NAMESPACE   NAME                   AGE
+</span></span><span style="display:flex;"><span>cluster1    resource-usage-score   3m23s
+</span></span><span style="display:flex;"><span>cluster2    resource-usage-score   3m24s
+</span></span></code></pre></div><p><code>AddonPlacementScore</code>的 status 中应该包含了如下的分数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get addonplacementscore -n cluster1 resource-usage-score -oyaml
+</span></span><span style="display:flex;"><span>apiVersion: cluster.open-cluster-management.io/v1alpha1
+</span></span><span style="display:flex;"><span>kind: AddOnPlacementScore
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  creationTimestamp: <span style="color:#e6db74">&#34;2022-08-08T06:46:04Z&#34;</span>
+</span></span><span style="display:flex;"><span>  generation: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  name: resource-usage-score
+</span></span><span style="display:flex;"><span>  namespace: cluster1
+</span></span><span style="display:flex;"><span>  resourceVersion: <span style="color:#e6db74">&#34;3907&#34;</span>
+</span></span><span style="display:flex;"><span>  uid: 6c4280e4-38be-4d45-9c73-c18c84799781
+</span></span><span style="display:flex;"><span>status:
+</span></span><span style="display:flex;"><span>  scores:
+</span></span><span style="display:flex;"><span>  - name: cpuAvailable
+</span></span><span style="display:flex;"><span>    value: <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>  - name: memAvailable
+</span></span><span style="display:flex;"><span>    value: <span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><p>如果<code>AddonPlacementScore</code>没有生成或者 status 中没有分数，可以登陆到 managed cluster 上，检查 resource-usage-collect-agent pod 是否正常运行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get pods -n default | grep resource-usage-collect-agent
+</span></span><span style="display:flex;"><span>resource-usage-collect-agent-5b85cbf848-g5kqm   1/1     Running   <span style="color:#ae81ff">0</span>          2m
+</span></span></code></pre></div><p><strong>通过自定义分数选择集群</strong></p>
 <p>如果上述步骤运行正常，接下来我们可以试着创建一个<code>Placement</code>并通过自定义分数选择集群。</p>
 <ol>
 <li>创建一个<code>Placement</code>选择具有最高 cpuAvailable 分数的集群。</li>
 </ol>
 <p>当<code>scoreCoordinate</code>的类型<code>type</code>定义为<code>AddOn</code>时，placement controller 会在每个集群的命名空间中获取名称为<code>resource-usage-score</code>的<code>AddOnPlacementScore</code>资源，在<code>scores</code>列表中读取分数<code>cpuAvailable</code>，并使用该分数对集群进行打分排序。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
-</span><span style="color:#e6db74">kind: Placement
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: placement1
-</span><span style="color:#e6db74">  namespace: default
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  numberOfClusters: 1
-</span><span style="color:#e6db74">  clusterSets:
-</span><span style="color:#e6db74">    - default
-</span><span style="color:#e6db74">  prioritizerPolicy:
-</span><span style="color:#e6db74">    mode: Exact
-</span><span style="color:#e6db74">    configurations:
-</span><span style="color:#e6db74">      - scoreCoordinate:
-</span><span style="color:#e6db74">          type: AddOn
-</span><span style="color:#e6db74">          addOn:
-</span><span style="color:#e6db74">            resourceName: resource-usage-score
-</span><span style="color:#e6db74">            scoreName: cpuAvailable
-</span><span style="color:#e6db74">        weight: 1
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt; EOF | kubectl apply -f -
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: cluster.open-cluster-management.io/v1beta1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Placement
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: placement1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: default
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  numberOfClusters: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  clusterSets:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - default
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  prioritizerPolicy:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    mode: Exact
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    configurations:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      - scoreCoordinate:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          type: AddOn
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          addOn:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            resourceName: resource-usage-score
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            scoreName: cpuAvailable
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        weight: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><ol start="2">
 <li>验证<code>PlacementDecision</code>。</li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl describe placementdecision -n default | grep Status -A <span style="color:#ae81ff">3</span>
-Status:
-  Decisions:
-    Cluster Name:  cluster1
-    Reason:
-</code></pre></div><p>可以看到 Cluster1 被选中，出现在<code>PlacementDecision</code>的结果中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl describe placementdecision -n default | grep Status -A <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>Status:
+</span></span><span style="display:flex;"><span>  Decisions:
+</span></span><span style="display:flex;"><span>    Cluster Name:  cluster1
+</span></span><span style="display:flex;"><span>    Reason:
+</span></span></code></pre></div><p>可以看到 Cluster1 被选中，出现在<code>PlacementDecision</code>的结果中。</p>
 <p>运行如下命令获取<code>AddonPlacementScore</code>的自定义分数。可以看到&quot;cpuAvailable&quot;的分数是 12。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get addonplacementscore -A -o<span style="color:#f92672">=</span>jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{range .items[*]}{.metadata.namespace}{&#34;\t&#34;}{.status.scores}{&#34;\n&#34;}{end}&#39;</span>
-cluster1        <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;cpuAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;memAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:4<span style="color:#f92672">}]</span>
-cluster2        <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;cpuAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;memAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:4<span style="color:#f92672">}]</span>
-</code></pre></div><p>在<code>Placement</code>的 events 也可以看到集群的分数是 12 分。这表明自定义分数被直接用于对集群进行打分和排序。由于上述 placement 中 numberOfClusters 定义为 1，最终只有 cluster1 被选中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl describe placement -n default placement1 | grep Events -A <span style="color:#ae81ff">10</span>
-Events:
-  Type    Reason          Age   From                 Message
-  ----    ------          ----  ----                 -------
-  Normal  DecisionCreate  50s   placementController  Decision placement1-decision-1 is created with placement placement1 in namespace default
-  Normal  DecisionUpdate  50s   placementController  Decision placement1-decision-1 is updated with placement placement1 in namespace default
-  Normal  ScoreUpdate     50s   placementController  cluster1:12 cluster2:12
-</code></pre></div><h2 id="如何实现自定义分数控制器">如何实现自定义分数控制器</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get addonplacementscore -A -o<span style="color:#f92672">=</span>jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{range .items[*]}{.metadata.namespace}{&#34;\t&#34;}{.status.scores}{&#34;\n&#34;}{end}&#39;</span>
+</span></span><span style="display:flex;"><span>cluster1        <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;cpuAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;memAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:4<span style="color:#f92672">}]</span>
+</span></span><span style="display:flex;"><span>cluster2        <span style="color:#f92672">[{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;cpuAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:12<span style="color:#f92672">}</span>,<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;name&#34;</span>:<span style="color:#e6db74">&#34;memAvailable&#34;</span>,<span style="color:#e6db74">&#34;value&#34;</span>:4<span style="color:#f92672">}]</span>
+</span></span></code></pre></div><p>在<code>Placement</code>的 events 也可以看到集群的分数是 12 分。这表明自定义分数被直接用于对集群进行打分和排序。由于上述 placement 中 numberOfClusters 定义为 1，最终只有 cluster1 被选中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl describe placement -n default placement1 | grep Events -A <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>Events:
+</span></span><span style="display:flex;"><span>  Type    Reason          Age   From                 Message
+</span></span><span style="display:flex;"><span>  ----    ------          ----  ----                 -------
+</span></span><span style="display:flex;"><span>  Normal  DecisionCreate  50s   placementController  Decision placement1-decision-1 is created with placement placement1 in namespace default
+</span></span><span style="display:flex;"><span>  Normal  DecisionUpdate  50s   placementController  Decision placement1-decision-1 is updated with placement placement1 in namespace default
+</span></span><span style="display:flex;"><span>  Normal  ScoreUpdate     50s   placementController  cluster1:12 cluster2:12
+</span></span></code></pre></div><h2 id="如何实现自定义分数控制器">如何实现自定义分数控制器</h2>
 <p>现在你已经知道了如何安装 resource-usage-collect addon 并使用自定义分数来选择群集。接下来，让我们深入了解在实现自定义分数控制器<code>controller</code>时需要考虑的一些关键点。</p>
 <h3 id="1-在哪里运行自定义分数控制器-controller">1. 在哪里运行自定义分数控制器 (controller)</h3>
 <p>Controller 可以在 hub 集群或 managed cluster 上运行。可以结合具体的使用场景，选择将 controller 运行在何处。</p>
@@ -509,7 +509,7 @@ Events:
 <p>分数提供程序不知道自定义分数的最大值和最小值。</p>
 <p>在这种情况下，需要自己设置最大值和最小值，因为如果没有最大值和最小值，则无法将单个值 X 映射到范围[-100,100]。
 然后，当 X 大于此最大值时，可以认为群集足够健康可以部署应用程序，可以将分数设置为 100。如果 X 小于最小值，则可以将分数设置为-100。</p>
-<pre><code>if X &gt;= max
+<pre tabindex="0"><code>if X &gt;= max
   score = 100
 if X &lt;= min
   score = -100

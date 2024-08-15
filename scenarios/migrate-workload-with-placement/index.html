@@ -313,57 +313,57 @@ hub cluster down to the registered OCM managed clusters</p>
 <p>Follow the <a href="https://github.com/open-cluster-management-io/ocm/blob/main/solutions/deploy-argocd-apps-pull/getting-started.md">deploy ArgoCD pull model steps</a>
 to set up an environment with OCM and ArgoCD pull model installed.</p>
 <p>If the above steps run successfully, on the hub cluster, you could see the application is deployed to both cluster1 and cluster2.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
-NAME                     SYNC STATUS   HEALTH STATUS
-cluster1-guestbook-app   Synced        Healthy
-cluster2-guestbook-app   Synced        Healthy
-</code></pre></div><h2 id="migrate-application-to-another-cluster-automatically-when-one-cluster-is-down">Migrate application to another cluster automatically when one cluster is down</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n argocd get app
+</span></span><span style="display:flex;"><span>NAME                     SYNC STATUS   HEALTH STATUS
+</span></span><span style="display:flex;"><span>cluster1-guestbook-app   Synced        Healthy
+</span></span><span style="display:flex;"><span>cluster2-guestbook-app   Synced        Healthy
+</span></span></code></pre></div><h2 id="migrate-application-to-another-cluster-automatically-when-one-cluster-is-down">Migrate application to another cluster automatically when one cluster is down</h2>
 <ol>
 <li>
 <p>To demonstrate how an application can be migrated to another cluster, let&rsquo;s first deploy the application in a single cluster.</p>
 <p>Path the existing <code>Placement</code> to select only one cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl patch placement -n argocd guestbook-app-placement --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
-placement.cluster.open-cluster-management.io/guestbook-app-placement patched
-</code></pre></div><p>Use <code>clusteradm</code> to check the placement of selected clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get placements -otable
-NAME                      STATUS   REASON              SELETEDCLUSTERS
-guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster1<span style="color:#f92672">]</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl patch placement -n argocd guestbook-app-placement --patch <span style="color:#e6db74">&#39;{&#34;spec&#34;: {&#34;numberOfClusters&#34;: 1}}&#39;</span> --type<span style="color:#f92672">=</span>merge
+</span></span><span style="display:flex;"><span>placement.cluster.open-cluster-management.io/guestbook-app-placement patched
+</span></span></code></pre></div><p>Use <code>clusteradm</code> to check the placement of selected clusters.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get placements -otable
+</span></span><span style="display:flex;"><span>NAME                      STATUS   REASON              SELETEDCLUSTERS
+</span></span><span style="display:flex;"><span>guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster1<span style="color:#f92672">]</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Confirm the application is only deployed to cluster1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
-NAME                     SYNC STATUS   HEALTH STATUS
-cluster1-guestbook-app   Synced        Healthy
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n argocd get app
+</span></span><span style="display:flex;"><span>NAME                     SYNC STATUS   HEALTH STATUS
+</span></span><span style="display:flex;"><span>cluster1-guestbook-app   Synced        Healthy
+</span></span></code></pre></div></li>
 <li>
 <p>Pause the cluster1 to simulate a cluster going down.</p>
 <p>Use <code>docker ps -a</code> to get the cluster1 container ID.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker ps -a
-CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS       PORTS                       NAMES
-499812ada5bd   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:37377-&gt;6443/tcp   cluster2-control-plane
-0b9d110e1a1f   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:34780-&gt;6443/tcp   cluster1-control-plane
-0a327d4a5b41   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:44864-&gt;6443/tcp   hub-control-plane
-</code></pre></div><p>Use <code>docker pause</code> to pause the cluster1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker pause 0b9d110e1a1f
-0b9d110e1a1f
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ docker ps -a
+</span></span><span style="display:flex;"><span>CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS       PORTS                       NAMES
+</span></span><span style="display:flex;"><span>499812ada5bd   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:37377-&gt;6443/tcp   cluster2-control-plane
+</span></span><span style="display:flex;"><span>0b9d110e1a1f   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:34780-&gt;6443/tcp   cluster1-control-plane
+</span></span><span style="display:flex;"><span>0a327d4a5b41   kindest/node:v1.25.3   <span style="color:#e6db74">&#34;/usr/local/bin/entr…&#34;</span>   <span style="color:#ae81ff">9</span> hours ago   Up <span style="color:#ae81ff">9</span> hours   127.0.0.1:44864-&gt;6443/tcp   hub-control-plane
+</span></span></code></pre></div><p>Use <code>docker pause</code> to pause the cluster1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ docker pause 0b9d110e1a1f
+</span></span><span style="display:flex;"><span>0b9d110e1a1f
+</span></span></code></pre></div></li>
 <li>
 <p>Wait for a few minutes, check the <code>ManagedCluster</code> status, cluster1 available status should become &ldquo;Unknown&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedcluster
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
-cluster1   true           https://cluster1-control-plane:6443   True     Unknown     9h
-cluster2   true           https://cluster2-control-plane:6443   True     True        9h
-</code></pre></div><p>Use <code>clusteradm</code> to check the placement of selected clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get placements -otable
-NAME                      STATUS   REASON              SELETEDCLUSTERS
-guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster2<span style="color:#f92672">]</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get managedcluster
+</span></span><span style="display:flex;"><span>NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>cluster1   true           https://cluster1-control-plane:6443   True     Unknown     9h
+</span></span><span style="display:flex;"><span>cluster2   true           https://cluster2-control-plane:6443   True     True        9h
+</span></span></code></pre></div><p>Use <code>clusteradm</code> to check the placement of selected clusters.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get placements -otable
+</span></span><span style="display:flex;"><span>NAME                      STATUS   REASON              SELETEDCLUSTERS
+</span></span><span style="display:flex;"><span>guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster2<span style="color:#f92672">]</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Confirm the application is now deployed to cluster2.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
-NAME                     SYNC STATUS   HEALTH STATUS
-cluster2-guestbook-app   Synced        Healthy
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n argocd get app
+</span></span><span style="display:flex;"><span>NAME                     SYNC STATUS   HEALTH STATUS
+</span></span><span style="display:flex;"><span>cluster2-guestbook-app   Synced        Healthy
+</span></span></code></pre></div></li>
 </ol>
 <h2 id="what-happens-behind-the-scene">What happens behind the scene</h2>
 <p>Refer to <a href="https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters">Taints of ManagedClusters</a>,
@@ -395,18 +395,18 @@ placement will select one cluster from the rest clusters, which is cluster2.</p>
 also describes other scenarios where taints are automatically added. In some scenarios you may not want to
 migrate the application immediately when a taint is added, with placement <code>TolerationSeconds</code> defined, it could tolerates the taint
 for a period of time before repelling it. In above example, the <code>TolerationSeconds</code> could be defined as below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: Placement
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: guestbook-app-placement
-  <span style="color:#66d9ef">namespace</span>: argocd
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
-  <span style="color:#66d9ef">tolerations</span>:
-    - <span style="color:#66d9ef">key</span>: cluster.open-cluster-management.io/unreachable
-      <span style="color:#66d9ef">operator</span>: Exists
-      <span style="color:#66d9ef">tolerationSeconds</span>: <span style="color:#ae81ff">300</span>
-</code></pre></div><p><code>tolerationSeconds</code> is 300 means that the application will be migrated to cluster2 after 5 minutes when cluster1 is down.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Placement</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">guestbook-app-placement</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">argocd</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">numberOfClusters</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">tolerations</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/unreachable</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">Exists</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">tolerationSeconds</span>: <span style="color:#ae81ff">300</span>
+</span></span></code></pre></div><p><code>tolerationSeconds</code> is 300 means that the application will be migrated to cluster2 after 5 minutes when cluster1 is down.</p>
 <h2 id="migrate-application-to-another-cluster-manually-for-cluster-maintenance">Migrate application to another cluster manually for cluster maintenance</h2>
 <p>The above example shows how a taint is automatically added to a cluster and how the application is migrated to another cluster.
 You can also choose to add a taint manually and repel the application to other clusters.</p>
@@ -415,31 +415,31 @@ You can also choose to add a taint manually and repel the application to other c
 <li>
 <p>Before starting, let&rsquo;s first restart the paused cluster1.</p>
 <p>Use <code>docker restart</code> to restart the cluster1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker restart 0b9d110e1a1f
-0b9d110e1a1f
-</code></pre></div><p>Wait for a few minutes, check the <code>ManagedCluster</code> status, cluster1 available status should become &ldquo;True&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedcluster
-NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
-cluster1   true           https://cluster1-control-plane:6443   True     True        9h
-cluster2   true           https://cluster2-control-plane:6443   True     True        9h
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ docker restart 0b9d110e1a1f
+</span></span><span style="display:flex;"><span>0b9d110e1a1f
+</span></span></code></pre></div><p>Wait for a few minutes, check the <code>ManagedCluster</code> status, cluster1 available status should become &ldquo;True&rdquo;.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get managedcluster
+</span></span><span style="display:flex;"><span>NAME       HUB ACCEPTED   MANAGED CLUSTER URLS                  JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>cluster1   true           https://cluster1-control-plane:6443   True     True        9h
+</span></span><span style="display:flex;"><span>cluster2   true           https://cluster2-control-plane:6443   True     True        9h
+</span></span></code></pre></div></li>
 <li>
 <p>Add the taint <code>maintenance</code> to cluster2 manually.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl patch managedcluster cluster2 -p <span style="color:#e6db74">&#39;{&#34;spec&#34;:{&#34;taints&#34;:[{&#34;effect&#34;:&#34;NoSelect&#34;,&#34;key&#34;:&#34;maintenance&#34;}]}}&#39;</span> --type<span style="color:#f92672">=</span>merge
-managedcluster.cluster.open-cluster-management.io/cluster2 patched
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl patch managedcluster cluster2 -p <span style="color:#e6db74">&#39;{&#34;spec&#34;:{&#34;taints&#34;:[{&#34;effect&#34;:&#34;NoSelect&#34;,&#34;key&#34;:&#34;maintenance&#34;}]}}&#39;</span> --type<span style="color:#f92672">=</span>merge
+</span></span><span style="display:flex;"><span>managedcluster.cluster.open-cluster-management.io/cluster2 patched
+</span></span></code></pre></div></li>
 <li>
 <p>Use <code>clusteradm</code> to check the placement selected clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get placements -otable
-NAME                      STATUS   REASON              SELETEDCLUSTERS
-guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster1<span style="color:#f92672">]</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get placements -otable
+</span></span><span style="display:flex;"><span>NAME                      STATUS   REASON              SELETEDCLUSTERS
+</span></span><span style="display:flex;"><span>guestbook-app-placement   False    Succeedconfigured   <span style="color:#f92672">[</span>cluster1<span style="color:#f92672">]</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Confirm the application is now deployed to cluster1.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n argocd get app
-NAME                     SYNC STATUS   HEALTH STATUS
-cluster1-guestbook-app   Synced        Healthy
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n argocd get app
+</span></span><span style="display:flex;"><span>NAME                     SYNC STATUS   HEALTH STATUS
+</span></span><span style="display:flex;"><span>cluster1-guestbook-app   Synced        Healthy
+</span></span></code></pre></div></li>
 </ol>
 <h2 id="summary">Summary</h2>
 <p>In this article, we use the ArgoCD pull model in OCM as an example, showing you how to migrate the ArgoCD applications automatically or manually when the cluster is down or during the cluster maintenance time.</p>

@@ -321,67 +321,67 @@ other components on ease.</p>
 <h2 id="upgrade-command-line-tool">Upgrade command-line tool</h2>
 <p>In order to retrieve the latest version of OCM&rsquo;s command-line tool <code>clusteradm</code>,
 run the following one-liner command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
-</code></pre></div><p>Then you&rsquo;re supposed to see the following outputs:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">Getting the latest clusteradm CLI...
-Your system is darwin_amd64
-
-clusteradm CLI is detected:
-Reinstalling clusteradm CLI - /usr/local/bin/clusteradm...
-
-Installing v0.1.0 OCM clusteradm CLI...
-Downloading https://github.com/open-cluster-management-io/clusteradm/releases/download/v0.1.0/clusteradm_darwin_amd64.tar.gz ...
-clusteradm installed into /usr/local/bin successfully.
-
-To get started with clusteradm, please visit https://open-cluster-management.io/getting-started/
-</code></pre></div><p>Also, your can confirm the installed cli version by running:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm version
-client		    version	:v0.1.0
-server release	version	: ...
-</code></pre></div><h2 id="upgrade-ocm-components-via-command-line-tool">Upgrade OCM Components via Command-line tool</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/main/install.sh | bash
+</span></span></code></pre></div><p>Then you&rsquo;re supposed to see the following outputs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Getting the latest clusteradm CLI...
+</span></span><span style="display:flex;"><span>Your system is darwin_amd64
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>clusteradm CLI is detected:
+</span></span><span style="display:flex;"><span>Reinstalling clusteradm CLI - /usr/local/bin/clusteradm...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Installing v0.1.0 OCM clusteradm CLI...
+</span></span><span style="display:flex;"><span>Downloading https://github.com/open-cluster-management-io/clusteradm/releases/download/v0.1.0/clusteradm_darwin_amd64.tar.gz ...
+</span></span><span style="display:flex;"><span>clusteradm installed into /usr/local/bin successfully.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>To get started with clusteradm, please visit https://open-cluster-management.io/getting-started/
+</span></span></code></pre></div><p>Also, your can confirm the installed cli version by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm version
+</span></span><span style="display:flex;"><span>client		    version	:v0.1.0
+</span></span><span style="display:flex;"><span>server release	version	: ...
+</span></span></code></pre></div><h2 id="upgrade-ocm-components-via-command-line-tool">Upgrade OCM Components via Command-line tool</h2>
 <h3 id="hub-cluster">Hub Cluster</h3>
 <p>For example, to upgrade OCM components in the hub cluster, run the following
 command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm upgrade clustermanager --bundle-version<span style="color:#f92672">=</span>0.7.0
-</code></pre></div><p>Then <code>clusteradm</code> will make sure everything in the hub cluster is upgraded to
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm upgrade clustermanager --bundle-version<span style="color:#f92672">=</span>0.7.0
+</span></span></code></pre></div><p>Then <code>clusteradm</code> will make sure everything in the hub cluster is upgraded to
 the expected version. To check the latest status after the upgrade, continue to
 run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get hub-info
-</code></pre></div><h3 id="managed-clusters">Managed Clusters</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get hub-info
+</span></span></code></pre></div><h3 id="managed-clusters">Managed Clusters</h3>
 <p>To upgrade the OCM components in the managed clusters, switch the client context
 e.g. overriding <code>KUBECONFIG</code> environment variable, then simply run the following
 command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm upgrade klusterlet --bundle-version<span style="color:#f92672">=</span>0.7.0
-</code></pre></div><p>To check the status after the upgrade, continue running this command against the
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm upgrade klusterlet --bundle-version<span style="color:#f92672">=</span>0.7.0
+</span></span></code></pre></div><p>To check the status after the upgrade, continue running this command against the
 managed cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ clusteradm get klusterlet-info
-</code></pre></div><h2 id="upgrade-ocm-components-via-manual-edit">Upgrade OCM Components via Manual Edit</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ clusteradm get klusterlet-info
+</span></span></code></pre></div><h2 id="upgrade-ocm-components-via-manual-edit">Upgrade OCM Components via Manual Edit</h2>
 <h3 id="hub-cluster-1">Hub Cluster</h3>
 <h4 id="upgrading-the-registration-operator">Upgrading the registration-operator</h4>
 <p>Navigate into the namespace where you installed registration-operator (named
 &ldquo;open-cluster-management&rdquo; by default) and edit the image version of its
 deployment resource:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management edit deployment cluster-manager
-</code></pre></div><p>Then update the image tag version to your target release version, which is
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n open-cluster-management edit deployment cluster-manager
+</span></span></code></pre></div><p>Then update the image tag version to your target release version, which is
 exactly the OCM&rsquo;s overall release version.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff"><span style="color:#f92672">--- image: quay.io/open-cluster-management/registration-operator:&lt;old release&gt;
-</span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ image: quay.io/open-cluster-management/registration-operator:&lt;new release&gt;
-</span></code></pre></div><h4 id="upgrading-the-core-components">Upgrading the core components</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span><span style="color:#f92672">--- image: quay.io/open-cluster-management/registration-operator:&lt;old release&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span><span style="color:#a6e22e">+++ image: quay.io/open-cluster-management/registration-operator:&lt;new release&gt;
+</span></span></span></code></pre></div><h4 id="upgrading-the-core-components">Upgrading the core components</h4>
 <p>After the upgrading of registration-operator is done, it&rsquo;s about time to surge
 the working modules of OCM. Go on and edit the <code>clustermanager</code> custom resource
 to prescribe the registration-operator to perform the automated upgrading:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl edit clustermanager cluster-manager
-</code></pre></div><p>In the content of <code>clustermanager</code> resource, you&rsquo;re supposed to see a few
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl edit clustermanager cluster-manager
+</span></span></code></pre></div><p>In the content of <code>clustermanager</code> resource, you&rsquo;re supposed to see a few
 images listed in its spec:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: operator.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: ClusterManager
-<span style="color:#66d9ef">metadata</span>: ...
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">registrationImagePullSpec</span>: quay.io/open-cluster-management/registration:&lt;target release<span style="color:#e6db74">&gt;
-</span><span style="color:#e6db74">  workImagePullSpec: quay.io/open-cluster-management/work:&lt;target release&gt;</span>
-  <span style="color:#75715e"># NOTE: Placement release versioning differs from the OCM root version, please refer to the release note.</span>
-  <span style="color:#66d9ef">placementImagePullSpec</span>: quay.io/open-cluster-management/placement:&lt;target release&gt;
-</code></pre></div><p>Replacing the old release version to the latest and commit the changes will
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">operator.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManager</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>: <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">registrationImagePullSpec</span>: <span style="color:#ae81ff">quay.io/open-cluster-management/registration:&lt;target release&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workImagePullSpec</span>: <span style="color:#ae81ff">quay.io/open-cluster-management/work:&lt;target release&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># NOTE: Placement release versioning differs from the OCM root version, please refer to the release note.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">placementImagePullSpec</span>: <span style="color:#ae81ff">quay.io/open-cluster-management/placement:&lt;target release&gt;</span>
+</span></span></code></pre></div><p>Replacing the old release version to the latest and commit the changes will
 trigger the process of background upgrading. Note that the status of upgrade
 can be actively tracked via the status of <code>clustermanager</code>, so if anything goes
 wrong during the upgrade it should also be reflected in that status.</p>
@@ -391,31 +391,31 @@ wrong during the upgrade it should also be reflected in that status.</p>
 difference you&rsquo;re supposed to notice when upgrading the managed cluster is
 the name of deployment. Note that before running the following command, you
 are expected to switch the context to access the managed clusters not the hub.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n open-cluster-management edit deployment klusterlet
-</code></pre></div><p>Then repeatedly, update the image tag version to your target release version
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n open-cluster-management edit deployment klusterlet
+</span></span></code></pre></div><p>Then repeatedly, update the image tag version to your target release version
 and commit the changes will upgrade the registration-operator.</p>
 <h4 id="upgrading-the-agent-components">Upgrading the agent components</h4>
 <p>After the registration-operator is upgraded, move on and edit the corresponding
 <code>klusterlet</code> custom resource to trigger the upgrading process in your managed
 cluster:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl edit klusterlet klusterlet
-</code></pre></div><p>In the spec of <code>klusterlet</code>, what is expected to be updated is also its image
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl edit klusterlet klusterlet
+</span></span></code></pre></div><p>In the spec of <code>klusterlet</code>, what is expected to be updated is also its image
 list:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: operator.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: Klusterlet
-<span style="color:#66d9ef">metadata</span>: ...
-<span style="color:#66d9ef">spec</span>:
-  ...
-  <span style="color:#66d9ef">registrationImagePullSpec</span>: quay.io/open-cluster-management/registration:&lt;target release<span style="color:#e6db74">&gt;
-</span><span style="color:#e6db74">  workImagePullSpec: quay.io/open-cluster-management/work:&lt;target release&gt;</span>
-</code></pre></div><p>After committing the updates, actively checking the status of the <code>klusterlet</code>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">operator.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Klusterlet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>: <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">registrationImagePullSpec</span>: <span style="color:#ae81ff">quay.io/open-cluster-management/registration:&lt;target release&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">workImagePullSpec</span>: <span style="color:#ae81ff">quay.io/open-cluster-management/work:&lt;target release&gt;</span>
+</span></span></code></pre></div><p>After committing the updates, actively checking the status of the <code>klusterlet</code>
 to confirm whether everything is correctly upgraded. And repeat the above steps
 to each of the managed clusters to perform a cluster-wise progressive upgrade.</p>
 <h4 id="confirm-the-upgrade">Confirm the upgrade</h4>
 <p>Getting the overall status of the managed cluster will help you to detect the
 availability in case any of the managed clusters are running into failure:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusters
-</code></pre></div><p>And the upgrading is all set if all the steps above is succeeded.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get managedclusters
+</span></span></code></pre></div><p>And the upgrading is all set if all the steps above is succeeded.</p>
 
 </div>
 <script type="text/javascript" src="/clipboard-copy.js"></script>

@@ -296,55 +296,55 @@ Gatekeeper constraints in an OCM <code>Policy</code>:</p>
 distribution of Gatekeeper constraints and Gatekeeper audit results aggregation on the hub cluster. The following
 example defines a Gatekeeper <code>ConstraintTemplate</code> and constraint (<code>K8sRequiredLabels</code>) to ensure the &ldquo;gatekeeper&rdquo;
 label is set on all namespaces:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: Policy
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: require-gatekeeper-labels-on-ns
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">remediationAction</span>: inform <span style="color:#75715e"># (1)</span>
-  <span style="color:#66d9ef">disabled</span>: <span style="color:#66d9ef">false</span>
-  <span style="color:#66d9ef">policy-templates</span>:
-    - <span style="color:#66d9ef">objectDefinition</span>:
-        <span style="color:#66d9ef">apiVersion</span>: templates.gatekeeper.sh/v1beta1
-        <span style="color:#66d9ef">kind</span>: ConstraintTemplate
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">name</span>: k8srequiredlabels
-        <span style="color:#66d9ef">spec</span>:
-          <span style="color:#66d9ef">crd</span>:
-            <span style="color:#66d9ef">spec</span>:
-              <span style="color:#66d9ef">names</span>:
-                <span style="color:#66d9ef">kind</span>: K8sRequiredLabels
-              <span style="color:#66d9ef">validation</span>:
-                <span style="color:#66d9ef">openAPIV3Schema</span>:
-                  <span style="color:#66d9ef">properties</span>:
-                    <span style="color:#66d9ef">labels</span>:
-                      <span style="color:#66d9ef">type</span>: array
-                      <span style="color:#66d9ef">items</span>: string
-          <span style="color:#66d9ef">targets</span>:
-            - <span style="color:#66d9ef">target</span>: admission.k8s.gatekeeper.sh
-              <span style="color:#66d9ef">rego</span>: <span style="color:#e6db74">|
-</span><span style="color:#e6db74">                package k8srequiredlabels</span>
-                violation[{<span style="color:#66d9ef">&#34;msg&#34;: msg, &#34;details&#34;: {&#34;missing_labels&#34;: </span>missing}}] {
-                  provided := {label | input.review.object.metadata.labels[label]}
-                  required := {label | label := input.parameters.labels[_]}
-                  missing := required - provided
-                  count(missing) &gt; <span style="color:#ae81ff">0</span>
-                  msg := sprintf(<span style="color:#e6db74">&#34;you must provide labels: %v&#34;</span>, [missing])
-                }
-    - <span style="color:#66d9ef">objectDefinition</span>:
-        <span style="color:#66d9ef">apiVersion</span>: constraints.gatekeeper.sh/v1beta1
-        <span style="color:#66d9ef">kind</span>: K8sRequiredLabels
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">name</span>: ns-must-have-gk
-        <span style="color:#66d9ef">spec</span>:
-          <span style="color:#66d9ef">enforcementAction</span>: dryrun
-          <span style="color:#66d9ef">match</span>:
-            <span style="color:#66d9ef">kinds</span>:
-              - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
-                <span style="color:#66d9ef">kinds</span>: [<span style="color:#e6db74">&#34;Namespace&#34;</span>]
-          <span style="color:#66d9ef">parameters</span>:
-            <span style="color:#66d9ef">labels</span>: [<span style="color:#e6db74">&#34;gatekeeper&#34;</span>]
-</code></pre></div><ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Policy</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">require-gatekeeper-labels-on-ns</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">remediationAction</span>: <span style="color:#ae81ff">inform</span> <span style="color:#75715e"># (1)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">disabled</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">policy-templates</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">objectDefinition</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">templates.gatekeeper.sh/v1beta1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ConstraintTemplate</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8srequiredlabels</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">crd</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">names</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">K8sRequiredLabels</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">validation</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">openAPIV3Schema</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">properties</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">type</span>: <span style="color:#ae81ff">array</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">items</span>: <span style="color:#ae81ff">string</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">targets</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">target</span>: <span style="color:#ae81ff">admission.k8s.gatekeeper.sh</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">rego</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                package k8srequiredlabels
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                violation[{&#34;msg&#34;: msg, &#34;details&#34;: {&#34;missing_labels&#34;: missing}}] {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  provided := {label | input.review.object.metadata.labels[label]}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  required := {label | label := input.parameters.labels[_]}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  missing := required - provided
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  count(missing) &gt; 0
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  msg := sprintf(&#34;you must provide labels: %v&#34;, [missing])
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                }</span>                
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">objectDefinition</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">constraints.gatekeeper.sh/v1beta1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">K8sRequiredLabels</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ns-must-have-gk</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">enforcementAction</span>: <span style="color:#ae81ff">dryrun</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">match</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">kinds</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">kinds</span>: [<span style="color:#e6db74">&#34;Namespace&#34;</span>]
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">parameters</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">labels</span>: [<span style="color:#e6db74">&#34;gatekeeper&#34;</span>]
+</span></span></code></pre></div><ol>
 <li>Since the remediationAction is set to &ldquo;inform&rdquo;, the <code>enforcementAction</code> field of the Gatekeeper constraint is
 overridden to &ldquo;warn&rdquo;. This means that Gatekeeper detects and warns you about creating or updating a namespace that
 is missing the &ldquo;gatekeeper&rdquo; label. If the policy <code>remediationAction</code> is set to &ldquo;enforce&rdquo;, the Gatekeeper constraint
@@ -368,35 +368,35 @@ be viewed in the OCM policy status of the managed cluster.</li>
 <p>Auditing Gatekeeper events: The following example uses an OCM
 <a href="getting-started/integration/configuration-policy">configuration policy</a> within an OCM policy to check for Kubernetes
 API requests denied by the Gatekeeper admission webhook:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: Policy
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: policy-gatekeeper-admission
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">remediationAction</span>: inform
-  <span style="color:#66d9ef">disabled</span>: <span style="color:#66d9ef">false</span>
-  <span style="color:#66d9ef">policy-templates</span>:
-    - <span style="color:#66d9ef">objectDefinition</span>:
-      <span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
-      <span style="color:#66d9ef">kind</span>: ConfigurationPolicy
-      <span style="color:#66d9ef">metadata</span>:
-        <span style="color:#66d9ef">name</span>: policy-gatekeeper-admission
-      <span style="color:#66d9ef">spec</span>:
-        <span style="color:#66d9ef">remediationAction</span>: inform <span style="color:#75715e"># will be overridden by remediationAction in parent policy</span>
-        <span style="color:#66d9ef">severity</span>: low
-        <span style="color:#66d9ef">object-templates</span>:
-          - <span style="color:#66d9ef">complianceType</span>: mustnothave
-            <span style="color:#66d9ef">objectDefinition</span>:
-              <span style="color:#66d9ef">apiVersion</span>: v1
-              <span style="color:#66d9ef">kind</span>: Event
-              <span style="color:#66d9ef">metadata</span>:
-                <span style="color:#66d9ef">namespace</span>: gatekeeper-system <span style="color:#75715e"># set it to the actual namespace where gatekeeper is running if different</span>
-                <span style="color:#66d9ef">annotations</span>:
-                  <span style="color:#66d9ef">constraint_action</span>: deny
-                  <span style="color:#66d9ef">constraint_kind</span>: K8sRequiredLabels
-                  <span style="color:#66d9ef">constraint_name</span>: ns-must-have-gk
-                  <span style="color:#66d9ef">event_type</span>: violation
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Policy</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">policy-gatekeeper-admission</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">remediationAction</span>: <span style="color:#ae81ff">inform</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">disabled</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">policy-templates</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">objectDefinition</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ConfigurationPolicy</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">policy-gatekeeper-admission</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">remediationAction</span>: <span style="color:#ae81ff">inform</span> <span style="color:#75715e"># will be overridden by remediationAction in parent policy</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">severity</span>: <span style="color:#ae81ff">low</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">object-templates</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">complianceType</span>: <span style="color:#ae81ff">mustnothave</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">objectDefinition</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Event</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">gatekeeper-system</span> <span style="color:#75715e"># set it to the actual namespace where gatekeeper is running if different</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">constraint_action</span>: <span style="color:#ae81ff">deny</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">constraint_kind</span>: <span style="color:#ae81ff">K8sRequiredLabels</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">constraint_name</span>: <span style="color:#ae81ff">ns-must-have-gk</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">event_type</span>: <span style="color:#ae81ff">violation</span>
+</span></span></code></pre></div></li>
 </ul>
 
 </div>

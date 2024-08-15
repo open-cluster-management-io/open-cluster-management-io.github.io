@@ -328,69 +328,69 @@ account:</p>
 </ul>
 <h2 id="installation">Installation</h2>
 <p>To install the managed service account addon to the OCM control plane, run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm repo add ocm https://open-cluster-management.io/helm-charts
-$ helm repo update
-$ helm search repo ocm
-NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
-ocm/managed-serviceaccount          0.2.0           1.0.0       A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon
-...
-</code></pre></div><p>Then run the following helm command to continue the installation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ helm install -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    managed-serviceaccount  ocm/managed-serviceaccount
-$ kubectl -n open-cluster-management-addon get pod
-NAME                                                    READY   STATUS    RESTARTS   AGE
-managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   <span style="color:#ae81ff">1</span>          4d4h 
-...
-</code></pre></div><p>By default, the addon manager will be automatically discovering the addition or
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ helm repo add ocm https://open-cluster-management.io/helm-charts
+</span></span><span style="display:flex;"><span>$ helm repo update
+</span></span><span style="display:flex;"><span>$ helm search repo ocm
+</span></span><span style="display:flex;"><span>NAME                              	CHART VERSION	APP VERSION	DESCRIPTION                                   
+</span></span><span style="display:flex;"><span>ocm/managed-serviceaccount          0.2.0           1.0.0       A Helm chart <span style="color:#66d9ef">for</span> Managed ServiceAccount Addon
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>Then run the following helm command to continue the installation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ helm install -n open-cluster-management-addon --create-namespace <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    managed-serviceaccount  ocm/managed-serviceaccount
+</span></span><span style="display:flex;"><span>$ kubectl -n open-cluster-management-addon get pod
+</span></span><span style="display:flex;"><span>NAME                                                    READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>managed-serviceaccount-addon-manager-559c95b7d8-xsb94   1/1     Running   <span style="color:#ae81ff">1</span>          4d4h 
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>By default, the addon manager will be automatically discovering the addition or
 removal the managed clusters and installs the managed serviceaccount agents into
 them on the fly. To check out the healthiness status of the managed serviceaccount
 agents, we can run:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get managedclusteraddon -A
-NAMESPACE         NAME                     AVAILABLE   DEGRADED   PROGRESSING
-&lt;cluster name&gt;    managed-serviceaccount   True  
-</code></pre></div><h2 id="usage">Usage</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get managedclusteraddon -A
+</span></span><span style="display:flex;"><span>NAMESPACE         NAME                     AVAILABLE   DEGRADED   PROGRESSING
+</span></span><span style="display:flex;"><span>&lt;cluster name&gt;    managed-serviceaccount   True  
+</span></span></code></pre></div><h2 id="usage">Usage</h2>
 <p>To exercise the new <code>ManagedServiceAccount</code> API introduced by this addon, we
 can start by applying the following sample resource:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ export CLUSTER_NAME<span style="color:#f92672">=</span>&lt;cluster name&gt;
-$ kubectl create -f - <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">apiVersion: authentication.open-cluster-management.io/v1alpha1
-</span><span style="color:#e6db74">kind: ManagedServiceAccount
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: my-sample
-</span><span style="color:#e6db74">  namespace: ${CLUSTER_NAME}
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  rotation: {}
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>Then the addon agent in each of the managed cluster is responsible for
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ export CLUSTER_NAME<span style="color:#f92672">=</span>&lt;cluster name&gt;
+</span></span><span style="display:flex;"><span>$ kubectl create -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: authentication.open-cluster-management.io/v1alpha1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ManagedServiceAccount
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: my-sample
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: ${CLUSTER_NAME}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  rotation: {}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>Then the addon agent in each of the managed cluster is responsible for
 executing and refreshing the status of the <code>ManagedServiceAccount</code>, e.g.:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl describe ManagedServiceAccount -n cluster1
-...
-  status:
-    conditions:
-    - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
-      message: <span style="color:#e6db74">&#34;&#34;</span>
-      reason: TokenReported
-      status: <span style="color:#e6db74">&#34;True&#34;</span>
-      type: TokenReported
-    - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
-      message: <span style="color:#e6db74">&#34;&#34;</span>
-      reason: SecretCreated
-      status: <span style="color:#e6db74">&#34;True&#34;</span>
-      type: SecretCreated
-    expirationTimestamp: <span style="color:#e6db74">&#34;2022-12-04T09:08:15Z&#34;</span>
-    tokenSecretRef:
-      lastRefreshTimestamp: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
-      name: my-sample
-</code></pre></div><p>The service account will be created in the managed cluster (assume the name is <code>cluster1</code>):</p>
-<pre><code>$ kubectl get sa my-sample -n open-cluster-management-managed-serviceaccount --context kind-cluster1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl describe ManagedServiceAccount -n cluster1
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>  status:
+</span></span><span style="display:flex;"><span>    conditions:
+</span></span><span style="display:flex;"><span>    - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
+</span></span><span style="display:flex;"><span>      message: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>      reason: TokenReported
+</span></span><span style="display:flex;"><span>      status: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>      type: TokenReported
+</span></span><span style="display:flex;"><span>    - lastTransitionTime: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
+</span></span><span style="display:flex;"><span>      message: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>      reason: SecretCreated
+</span></span><span style="display:flex;"><span>      status: <span style="color:#e6db74">&#34;True&#34;</span>
+</span></span><span style="display:flex;"><span>      type: SecretCreated
+</span></span><span style="display:flex;"><span>    expirationTimestamp: <span style="color:#e6db74">&#34;2022-12-04T09:08:15Z&#34;</span>
+</span></span><span style="display:flex;"><span>    tokenSecretRef:
+</span></span><span style="display:flex;"><span>      lastRefreshTimestamp: <span style="color:#e6db74">&#34;2021-12-09T09:08:15Z&#34;</span>
+</span></span><span style="display:flex;"><span>      name: my-sample
+</span></span></code></pre></div><p>The service account will be created in the managed cluster (assume the name is <code>cluster1</code>):</p>
+<pre tabindex="0"><code>$ kubectl get sa my-sample -n open-cluster-management-managed-serviceaccount --context kind-cluster1
 NAME        SECRETS   AGE
 my-sample   1         9m57s
 </code></pre><p>The corresponding secret will also be created in the hub cluster, which is
 visible via:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n &lt;your cluster&gt; get secret my-sample  
-NAME        TYPE     DATA   AGE
-my-sample   Opaque   <span style="color:#ae81ff">2</span>      2m23s
-</code></pre></div><h2 id="related-materials">Related materials</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl -n &lt;your cluster&gt; get secret my-sample  
+</span></span><span style="display:flex;"><span>NAME        TYPE     DATA   AGE
+</span></span><span style="display:flex;"><span>my-sample   Opaque   <span style="color:#ae81ff">2</span>      2m23s
+</span></span></code></pre></div><h2 id="related-materials">Related materials</h2>
 <p>Repo: <a href="https://github.com/open-cluster-management-io/managed-serviceaccount">https://github.com/open-cluster-management-io/managed-serviceaccount</a></p>
 <p>See the design proposal at: <a href="https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/19-projected-serviceaccount-token">https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/19-projected-serviceaccount-token</a></p>
 

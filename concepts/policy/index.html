@@ -316,35 +316,35 @@ represents all embedded <em>Policy Templates</em> in the <code>Policy</code>. Th
 <a href="https://open-cluster-management.io/concepts/placement/">Placement</a>.</p>
 <p>View a simple example of a <code>Policy</code> that embeds a <code>ConfigurationPolicy</code> policy template to manage a namespace called
 &ldquo;prod&rdquo;.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: Policy
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: policy-namespace
-  <span style="color:#66d9ef">namespace</span>: policies
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">policy.open-cluster-management.io/standards</span>: NIST SP <span style="color:#ae81ff">800-53</span>
-    <span style="color:#66d9ef">policy.open-cluster-management.io/categories</span>: CM Configuration Management
-    <span style="color:#66d9ef">policy.open-cluster-management.io/controls</span>: CM<span style="color:#ae81ff">-2</span> Baseline Configuration
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">remediationAction</span>: enforce
-  <span style="color:#66d9ef">disabled</span>: <span style="color:#66d9ef">false</span>
-  <span style="color:#66d9ef">policy-templates</span>:
-    - <span style="color:#66d9ef">objectDefinition</span>:
-        <span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
-        <span style="color:#66d9ef">kind</span>: ConfigurationPolicy
-        <span style="color:#66d9ef">metadata</span>:
-          <span style="color:#66d9ef">name</span>: policy-namespace-example
-        <span style="color:#66d9ef">spec</span>:
-          <span style="color:#66d9ef">remediationAction</span>: inform
-          <span style="color:#66d9ef">severity</span>: low
-          <span style="color:#66d9ef">object-templates</span>:
-            - <span style="color:#66d9ef">complianceType</span>: musthave
-              <span style="color:#66d9ef">objectDefinition</span>:
-                <span style="color:#66d9ef">kind</span>: Namespace <span style="color:#75715e"># must have namespace &#39;prod&#39;</span>
-                <span style="color:#66d9ef">apiVersion</span>: v1
-                <span style="color:#66d9ef">metadata</span>:
-                  <span style="color:#66d9ef">name</span>: prod
-</code></pre></div><p>The <code>annotations</code> are standard annotations for informational purposes and can be used by user interfaces, custom report
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Policy</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">policy-namespace</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">policies</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">policy.open-cluster-management.io/standards</span>: <span style="color:#ae81ff">NIST SP 800-53</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">policy.open-cluster-management.io/categories</span>: <span style="color:#ae81ff">CM Configuration Management</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">policy.open-cluster-management.io/controls</span>: <span style="color:#ae81ff">CM-2 Baseline Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">remediationAction</span>: <span style="color:#ae81ff">enforce</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">disabled</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">policy-templates</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">objectDefinition</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ConfigurationPolicy</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">policy-namespace-example</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">remediationAction</span>: <span style="color:#ae81ff">inform</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">severity</span>: <span style="color:#ae81ff">low</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">object-templates</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">complianceType</span>: <span style="color:#ae81ff">musthave</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">objectDefinition</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Namespace</span> <span style="color:#75715e"># must have namespace &#39;prod&#39;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">prod</span>
+</span></span></code></pre></div><p>The <code>annotations</code> are standard annotations for informational purposes and can be used by user interfaces, custom report
 scripts, or components that integrate with OCM.</p>
 <p>The optional <code>spec.remediationAction</code> field dictates whether the policy controller should <code>inform</code> or <code>enforce</code> when
 violations are found and overrides the <code>remediationAction</code> field on each policy template. When set to <code>inform</code>, the
@@ -365,37 +365,37 @@ or see the <a href="#templating-in-configuration-policies">templating in configu
 use cases with <code>ConfigurationPolicy</code>.</p>
 <p>When the <code>Policy</code> is bound to a <a href="https://open-cluster-management.io/concepts/placement/"><code>Placement</code></a> using a <a href="#placementbinding"><code>PlacementBinding</code></a>, the
 <code>Policy</code> status will report on each cluster that matches the bound <code>Placement</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">status</span>:
-  <span style="color:#66d9ef">compliant</span>: Compliant
-  <span style="color:#66d9ef">placement</span>:
-    - <span style="color:#66d9ef">placement</span>: placement-hub-cluster
-      <span style="color:#66d9ef">placementBinding</span>: binding-policy-namespace
-  <span style="color:#66d9ef">status</span>:
-    - <span style="color:#66d9ef">clustername</span>: local-cluster
-      <span style="color:#66d9ef">clusternamespace</span>: local-cluster
-      <span style="color:#66d9ef">compliant</span>: Compliant
-</code></pre></div><p>To fully explore the <code>Policy</code> API, run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd policies.policy.open-cluster-management.io -o yaml
-</code></pre></div><p>To fully explore the <code>ConfigurationPolicy</code> API, run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
-</code></pre></div><h2 id="placementbinding">PlacementBinding</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">compliant</span>: <span style="color:#ae81ff">Compliant</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">placement</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">placement</span>: <span style="color:#ae81ff">placement-hub-cluster</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">placementBinding</span>: <span style="color:#ae81ff">binding-policy-namespace</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">clustername</span>: <span style="color:#ae81ff">local-cluster</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">clusternamespace</span>: <span style="color:#ae81ff">local-cluster</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">compliant</span>: <span style="color:#ae81ff">Compliant</span>
+</span></span></code></pre></div><p>To fully explore the <code>Policy</code> API, run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl get crd policies.policy.open-cluster-management.io -o yaml
+</span></span></code></pre></div><p>To fully explore the <code>ConfigurationPolicy</code> API, run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
+</span></span></code></pre></div><h2 id="placementbinding">PlacementBinding</h2>
 <p>A <code>PlacementBinding</code> binds a <a href="https://open-cluster-management.io/concepts/placement/">Placement</a> to a <a href="#policy"><code>Policy</code></a> or <a href="#policyset"><code>PolicySet</code></a>.</p>
 <p>Below is an example of a <code>PlacementBinding</code> that binds the <code>policy-namespace</code> <code>Policy</code> to the <code>placement-hub-cluster</code>
 <code>Placement</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1
-<span style="color:#66d9ef">kind</span>: PlacementBinding
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: binding-policy-namespace
-  <span style="color:#66d9ef">namespace</span>: policies
-<span style="color:#66d9ef">placementRef</span>:
-  <span style="color:#66d9ef">apiGroup</span>: cluster.open-cluster-management.io
-  <span style="color:#66d9ef">kind</span>: Placement
-  <span style="color:#66d9ef">name</span>: placement-hub-cluster
-<span style="color:#66d9ef">subjects</span>:
-  - <span style="color:#66d9ef">apiGroup</span>: policy.open-cluster-management.io
-    <span style="color:#66d9ef">kind</span>: Policy
-    <span style="color:#66d9ef">name</span>: policy-namespace
-</code></pre></div><p>Once the <code>Policy</code> is bound, it will be distributed to and acted upon by the managed clusters that match the <code>Placement</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PlacementBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">binding-policy-namespace</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">policies</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">placementRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Placement</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-hub-cluster</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">policy.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Policy</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">policy-namespace</span>
+</span></span></code></pre></div><p>Once the <code>Policy</code> is bound, it will be distributed to and acted upon by the managed clusters that match the <code>Placement</code>.</p>
 <h2 id="policyset">PolicySet</h2>
 <p>A <code>PolicySet</code> is a grouping mechanism of <a href="#policy"><code>Policy</code></a> objects. Compliance of all grouped <code>Policy</code> objects is
 summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployable unit and its distribution is controlled by a
@@ -404,18 +404,18 @@ summarized in the <code>PolicySet</code>. A <code>PolicySet</code> is a deployab
 <code>PolicySet</code> that groups the previously written <code>Policy</code> objects and binds the <code>PolicySet</code> to a <code>Placement</code> that deploys
 the <code>PolicySet</code>.</p>
 <p>An example of a <code>PolicySet</code> is shown below.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: policy.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: PolicySet
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: ocm-hardening
-  <span style="color:#66d9ef">namespace</span>: policies
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">description</span>: Apply standard best practices for hardening your Open Cluster Management installation.
-  <span style="color:#66d9ef">policies</span>:
-    - policy-check-backups
-    - policy-managedclusteraddon-available
-    - policy-subscriptions
-</code></pre></div><h2 id="managed-cluster-policy-controllers">Managed cluster policy controllers</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">policy.open-cluster-management.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">PolicySet</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ocm-hardening</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">policies</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">description</span>: <span style="color:#ae81ff">Apply standard best practices for hardening your Open Cluster Management installation.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">policies</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">policy-check-backups</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">policy-managedclusteraddon-available</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">policy-subscriptions</span>
+</span></span></code></pre></div><h2 id="managed-cluster-policy-controllers">Managed cluster policy controllers</h2>
 <p>The <a href="#policy"><code>Policy</code></a> on the hub delivers the policies defined in <code>spec.policy-templates</code> to the managed clusters via
 the policy framework controllers. Once on the managed cluster, these <em>Policy Templates</em> are acted upon by the associated
 controller on the managed cluster. The policy framework supports delivering the <em>Policy Template</em> kinds listed here:</p>
@@ -519,42 +519,42 @@ use the new encryption key.</p>
 <tr>
 <td><code>lookup</code></td>
 <td>Returns the Kubernetes resource as a JSON compatible map. Note that if the requested resource does not exist, an empty map is returned.</td>
-<td><code>metrics-url: \|</code><br /><code>http://{{ (lookup &quot;v1&quot; &quot;Service&quot; &quot;default&quot; &quot;metrics&quot;).spec.clusterIP }}:8080</code></td>
+<td><code>metrics-url: |</code><br /><code>http://{{ (lookup &quot;v1&quot; &quot;Service&quot; &quot;default&quot; &quot;metrics&quot;).spec.clusterIP }}:8080</code></td>
 </tr>
 <tr>
 <td><code>base64enc</code></td>
 <td>Returns a <code>base64</code> encoded value of the input string.</td>
-<td><code>USER_NAME: '{{ fromConfigMap &quot;default&quot; &quot;myconfigmap&quot; &quot;admin-user&quot; \| base64enc }}'</code></td>
+<td><code>USER_NAME: '{{ fromConfigMap &quot;default&quot; &quot;myconfigmap&quot; &quot;admin-user&quot; | base64enc }}'</code></td>
 </tr>
 <tr>
 <td><code>base64dec</code></td>
 <td>Returns a <code>base64</code> decoded value of the input string.</td>
-<td><code>app-name: \|</code><br /><code>&quot;{{ ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;testns&quot; &quot;mytestsecret&quot;) .data.appname ) \| base64dec }}&quot;</code></td>
+<td><code>app-name: |</code><br /><code>&quot;{{ ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;testns&quot; &quot;mytestsecret&quot;) .data.appname ) | base64dec }}&quot;</code></td>
 </tr>
 <tr>
 <td><code>indent</code></td>
 <td>Returns the input string indented by the given number of spaces.</td>
-<td><code>Ca-cert: \|</code><br /><code>{{ ( index ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;default&quot; &quot;mycert-tls&quot; ).data &quot;ca.pem&quot; ) \| base64dec \| indent 4 }}</code></td>
+<td><code>Ca-cert: |</code><br /><code>{{ ( index ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;default&quot; &quot;mycert-tls&quot; ).data &quot;ca.pem&quot; ) | base64dec | indent 4 }}</code></td>
 </tr>
 <tr>
 <td><code>autoindent</code></td>
 <td>Acts like the <code>indent</code> function but automatically determines the number of leading spaces needed based on the number of spaces before the template.</td>
-<td><code>Ca-cert: \|</code><br /><code>{{ ( index ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;default&quot; &quot;mycert-tls&quot; ).data &quot;ca.pem&quot; ) \| base64dec \| autoindent }}</code></td>
+<td><code>Ca-cert: |</code><br /><code>{{ ( index ( lookup &quot;v1&quot; &quot;Secret&quot; &quot;default&quot; &quot;mycert-tls&quot; ).data &quot;ca.pem&quot; ) | base64dec | autoindent }}</code></td>
 </tr>
 <tr>
 <td><code>toInt</code></td>
 <td>Returns the integer value of the string and ensures that the value is interpreted as an integer in the YAML.</td>
-<td><code>vlanid: \|</code><br /><code>{{ (fromConfigMap &quot;site-config&quot; &quot;site1&quot; &quot;vlan&quot;) \| toInt }}</code></td>
+<td><code>vlanid: |</code><br /><code>{{ (fromConfigMap &quot;site-config&quot; &quot;site1&quot; &quot;vlan&quot;) | toInt }}</code></td>
 </tr>
 <tr>
 <td><code>toBool</code></td>
 <td>Returns the boolean value of the input string and ensures that the value is interpreted as a boolean in the YAML.</td>
-<td><code>enabled: \|</code><br /><code>{{ (fromConfigMap &quot;site-config&quot; &quot;site1&quot; &quot;enabled&quot;) \| toBool }}</code></td>
+<td><code>enabled: |</code><br /><code>{{ (fromConfigMap &quot;site-config&quot; &quot;site1&quot; &quot;enabled&quot;) | toBool }}</code></td>
 </tr>
 <tr>
 <td><code>protect</code></td>
 <td>Encrypts the input string. It is decrypted when the policy is evaluated. On the replicated policy in the managed cluster namespace, the resulting value resembles the following: <code>$ocm_encrypted:&lt;encrypted-value&gt;</code></td>
-<td><code>enabled: \|</code><br /><code>{{hub &quot;(lookup &quot;route.openshift.io/v1&quot; &quot;Route&quot; &quot;openshift-authentication&quot; &quot;oauth-openshift&quot;).spec.host \| protect hub}}</code></td>
+<td><code>enabled: |</code><br /><code>{{hub &quot;(lookup &quot;route.openshift.io/v1&quot; &quot;Route&quot; &quot;openshift-authentication&quot; &quot;oauth-openshift&quot;).spec.host | protect hub}}</code></td>
 </tr>
 </tbody>
 </table>

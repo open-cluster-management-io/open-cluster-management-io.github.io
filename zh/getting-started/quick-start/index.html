@@ -290,61 +290,61 @@
 
 <p>在开始安装组件到集群里之前, 首先需要准备一个至少有两个集群的多集群环境。 其中一个用来作为中枢（Hub）集群，另一个作为被托管（Managed）。</p>
 <p>同时为你的控制台命令行工具配置以下的环境变量，这会伴随你接下来的体验过程：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># 中枢集群的名称</span>
-export HUB_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your hub cluster name&gt;             <span style="color:#75715e"># export HUB_CLUSTER_NAME=hub</span>
-<span style="color:#75715e"># 托管集群的名称</span>
-export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your managed cluster name&gt;     <span style="color:#75715e"># export MANAGED_CLUSTER_NAME=cluster1</span>
-<span style="color:#75715e"># 中枢集群在你的KubeConfig中的Context名称</span>
-export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
-<span style="color:#75715e"># 托管集群在你的KubeConfig中的Context名称</span>
-export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;   <span style="color:#75715e"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
-</code></pre></div><p>如果没有现成的多集群环境，我们可以通过<a href="https://kind.sigs.k8s.io">Kind</a>以下为创建两个新集群。执行以下命令：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># 创建中枢集群</span>
-kind create cluster --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span>
-<span style="color:#75715e"># 创建托管集群</span>
-kind create cluster --name <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
-</code></pre></div><h2 id="通过clusteradm命令行工具进行部署">通过Clusteradm命令行工具进行部署</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span><span style="color:#75715e"># 中枢集群的名称</span>
+</span></span><span style="display:flex;"><span>export HUB_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your hub cluster name&gt;             <span style="color:#75715e"># export HUB_CLUSTER_NAME=hub</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 托管集群的名称</span>
+</span></span><span style="display:flex;"><span>export MANAGED_CLUSTER_NAME<span style="color:#f92672">=</span>&lt;your managed cluster name&gt;     <span style="color:#75715e"># export MANAGED_CLUSTER_NAME=cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 中枢集群在你的KubeConfig中的Context名称</span>
+</span></span><span style="display:flex;"><span>export CTX_HUB_CLUSTER<span style="color:#f92672">=</span>&lt;your hub cluster context&gt;           <span style="color:#75715e"># export CTX_HUB_CLUSTER=kind-hub</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 托管集群在你的KubeConfig中的Context名称</span>
+</span></span><span style="display:flex;"><span>export CTX_MANAGED_CLUSTER<span style="color:#f92672">=</span>&lt;your managed cluster context&gt;   <span style="color:#75715e"># export CTX_MANAGED_CLUSTER=kind-cluster1</span>
+</span></span></code></pre></div><p>如果没有现成的多集群环境，我们可以通过<a href="https://kind.sigs.k8s.io">Kind</a>以下为创建两个新集群。执行以下命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span><span style="color:#75715e"># 创建中枢集群</span>
+</span></span><span style="display:flex;"><span>kind create cluster --name <span style="color:#e6db74">${</span>HUB_CLUSTER_NAME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建托管集群</span>
+</span></span><span style="display:flex;"><span>kind create cluster --name <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h2 id="通过clusteradm命令行工具进行部署">通过Clusteradm命令行工具进行部署</h2>
 <h3 id="安装clusteradm命令行工具">安装Clusteradm命令行工具</h3>
 <p>下载并且解压 <a href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">Clusteradm命令行工具</a>. 更多使用细节可以参考<a href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">Clusteradm GitHub页面</a>.</p>
 <h3 id="在hub集群部署组件cluster-manager">在Hub集群部署组件Cluster Manager</h3>
 <ol>
 <li>
 <p>启动Open Cluster Management的中枢控制面：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell"><span style="color:#75715e"># 默认安装上一个发布版本的OCM核心组件.</span>
-<span style="color:#75715e"># 可以通过例如 &#34;--bundle-version=latest&#34; 安装开发中的最新版本.</span>
-clusteradm init --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>然后你可以使用<code>join</code>命令完成注册流程：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">...
-clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
-</code></pre></div><p>接下来就只需要复制以上命令并且替换掉其中的<code>&lt;managed_cluster_name&gt;</code>为你的实际托管集群名称，例如<code>cluster1</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span><span style="color:#75715e"># 默认安装上一个发布版本的OCM核心组件.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以通过例如 &#34;--bundle-version=latest&#34; 安装开发中的最新版本.</span>
+</span></span><span style="display:flex;"><span>clusteradm init --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>然后你可以使用<code>join</code>命令完成注册流程：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>clusteradm join --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name &lt;managed_cluster_name&gt;
+</span></span></code></pre></div><p>接下来就只需要复制以上命令并且替换掉其中的<code>&lt;managed_cluster_name&gt;</code>为你的实际托管集群名称，例如<code>cluster1</code>。</p>
 </li>
 </ol>
 <h3 id="在托管集群上部署klusterlet代理控制器">在托管集群上部署Klusterlet代理控制器</h3>
 <ol>
 <li>
 <p>执行前面复制粘贴的<code>join</code>命令并指定上下文名称(Context)以使托管集群注册到中枢集群中:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm join --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span> --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>clusteradm join --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span> --hub-token &lt;token_data&gt; --hub-apiserver https://126.0.0.1:39242 --cluster-name <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></li>
 </ol>
 <h3 id="接受注册请求并且校验">接受注册请求并且校验</h3>
 <ol>
 <li>
 <p>等待中枢集群上CSR请求对象被成功创建出来:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get csr -w --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> | grep <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
-</code></pre></div><p>然后当CSR被创建时，你会看到类似以下的终端输出：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get csr -w --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span> | grep <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>然后当CSR被创建时，你会看到类似以下的终端输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>cluster1-tqcjj   33s   kubernetes.io/kube-apiserver-client   system:serviceaccount:open-cluster-management:cluster-bootstrap   Pending
+</span></span></code></pre></div></li>
 <li>
 <p>接受集群注册请求:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">clusteradm accept --clusters <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>clusteradm accept --clusters <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div></li>
 <li>
 <p>检查托管集群<code>managedcluster</code>是否被成功创建:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>然后你会看到类似以下的终端输出：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
-cluster1   true           https://127.0.0.1:41478   True     True        5m23s
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl get managedcluster --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>然后你会看到类似以下的终端输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>NAME       HUB ACCEPTED   MANAGED CLUSTER URLS      JOINED   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>cluster1   true           https://127.0.0.1:41478   True     True        5m23s
+</span></span></code></pre></div></li>
 </ol>
 <h2 id="通过operatorhubio进行自动化部署">通过Operatorhub.io进行自动化部署</h2>
 <p>在中枢集群中创建一个<a href="https://operatorhub.io/operator/cluster-manager">Cluster manager</a>对象.</p>

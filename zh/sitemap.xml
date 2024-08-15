@@ -50,11 +50,7 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests</loc>
-    </url>
-    
-    <url>
-        <loc>https://open-cluster-management.io/zh/getting-started/quick-start</loc>
+        <loc>https://open-cluster-management.io/zh/concepts</loc>
     </url>
     
     <url>
@@ -62,7 +58,11 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts</loc>
+        <loc>https://open-cluster-management.io/zh/getting-started/quick-start</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/scenarios/pushing-kube-api-requests</loc>
     </url>
     
     <url>
@@ -82,11 +82,11 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/scenarios</loc>
+        <loc>https://open-cluster-management.io/zh/concepts/managedcluster</loc>
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/managedcluster</loc>
+        <loc>https://open-cluster-management.io/zh/scenarios</loc>
     </url>
     
     <url>
@@ -114,7 +114,7 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/concepts/placement</loc>
+        <loc>https://open-cluster-management.io/zh/getting-started/integration</loc>
     </url>
     
     <url>
@@ -122,15 +122,15 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount</loc>
-    </url>
-    
-    <url>
-        <loc>https://open-cluster-management.io/zh/getting-started/integration</loc>
-    </url>
-    
-    <url>
         <loc>https://open-cluster-management.io/zh/contribute</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/concepts/placement</loc>
+    </url>
+    
+    <url>
+        <loc>https://open-cluster-management.io/zh/getting-started/integration/managed-serviceaccount</loc>
     </url>
     
     <url>
@@ -178,11 +178,11 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/blog/addon-rollout</loc>
+        <loc>https://open-cluster-management.io/zh/blog/extend-multicluster-scheduling-capabilities</loc>
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/blog/extend-multicluster-scheduling-capabilities</loc>
+        <loc>https://open-cluster-management.io/zh/blog/access-cluster-in-different-vps</loc>
     </url>
     
     <url>
@@ -194,7 +194,7 @@
     </url>
     
     <url>
-        <loc>https://open-cluster-management.io/zh/blog/access-cluster-in-different-vps</loc>
+        <loc>https://open-cluster-management.io/zh/blog/addon-rollout</loc>
     </url>
     
     <url>

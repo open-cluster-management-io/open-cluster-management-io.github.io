@@ -5,9 +5,6 @@
     <link>https://open-cluster-management.io/zh/blog/extend-multicluster-scheduling-capabilities/</link>
     <description>Recent content in 使用OCM让多集群调度更具可扩展性 on Open Cluster Management</description>
     <generator>Hugo -- gohugo.io</generator>
-    
-	<atom:link href="https://open-cluster-management.io/zh/blog/extend-multicluster-scheduling-capabilities/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>zh</language><atom:link href="https://open-cluster-management.io/zh/blog/extend-multicluster-scheduling-capabilities/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

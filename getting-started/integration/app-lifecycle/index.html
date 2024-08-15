@@ -304,66 +304,66 @@
 </ul>
 <h2 id="install-via-clusteradm-cli-tool">Install via Clusteradm CLI tool</h2>
 <p>Ensure <code>clusteradm</code> CLI tool is installed. Download and extract the <a href="https://github.com/open-cluster-management-io/clusteradm/releases/latest">clusteradm binary</a>. For more details see the <a href="https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start">clusteradm GitHub page</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ clusteradm
-Usage:
-  clusteradm <span style="color:#f92672">[</span>command<span style="color:#f92672">]</span>
-...
-</code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-$ clusteradm install hub-addon --names application-manager
-Installing built-in application-manager add-on to the Hub cluster...
-$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           25s
-</code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl create ns open-cluster-management-agent-addon --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-namespace/open-cluster-management-agent-addon created
-</code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-$ clusteradm addon enable --names application-manager --clusters <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
-Deploying application-manager add-on to managed cluster: &lt;managed_cluster_name&gt;.
-$ kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get managedclusteraddon <span style="color:#75715e"># kubectl -n cluster1 get managedclusteraddon</span>
-NAME                  AVAILABLE   DEGRADED   PROGRESSING
-application-manager   True
-</code></pre></div><p>Check the the subscription add-on deployment on the managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl -n open-cluster-management-agent-addon get deploy --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-application-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           103s
-</code></pre></div><h2 id="install-from-source">Install from source</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ clusteradm
+</span></span><span style="display:flex;"><span>Usage:
+</span></span><span style="display:flex;"><span>  clusteradm <span style="color:#f92672">[</span>command<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ clusteradm install hub-addon --names application-manager
+</span></span><span style="display:flex;"><span>Installing built-in application-manager add-on to the Hub cluster...
+</span></span><span style="display:flex;"><span>$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>multicluster-operators-subscription   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           25s
+</span></span></code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl create ns open-cluster-management-agent-addon --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>namespace/open-cluster-management-agent-addon created
+</span></span></code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ clusteradm addon enable --names application-manager --clusters <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>Deploying application-manager add-on to managed cluster: &lt;managed_cluster_name&gt;.
+</span></span><span style="display:flex;"><span>$ kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get managedclusteraddon <span style="color:#75715e"># kubectl -n cluster1 get managedclusteraddon</span>
+</span></span><span style="display:flex;"><span>NAME                  AVAILABLE   DEGRADED   PROGRESSING
+</span></span><span style="display:flex;"><span>application-manager   True
+</span></span></code></pre></div><p>Check the the subscription add-on deployment on the managed cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl -n open-cluster-management-agent-addon get deploy --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>application-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           103s
+</span></span></code></pre></div><h2 id="install-from-source">Install from source</h2>
 <p>Clone the <code>multicloud-operators-subscription</code> repository.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">git clone https://github.com/open-cluster-management-io/multicloud-operators-subscription
-cd multicloud-operators-subscription
-</code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-$ make deploy-hub
-$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           25s
-</code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster and it&rsquo;s optional if <code>clusteradm</code> is used which create the ns during <code>join</code> action.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl create ns open-cluster-management-agent-addon --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-namespace/open-cluster-management-agent-addon created
-</code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-$ make deploy-addon
-$ kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get managedclusteraddon <span style="color:#75715e"># kubectl -n cluster1 get managedclusteraddon</span>
-NAME                  AVAILABLE   DEGRADED   PROGRESSING
-application-manager   True
-</code></pre></div><p>Check the the subscription add-on deployment on the managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl -n open-cluster-management-agent-addon get deploy --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-application-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           103s
-</code></pre></div><h2 id="what-is-next">What is next</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>git clone https://github.com/open-cluster-management-io/multicloud-operators-subscription
+</span></span><span style="display:flex;"><span>cd multicloud-operators-subscription
+</span></span></code></pre></div><p>Deploy the subscription operators to the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ make deploy-hub
+</span></span><span style="display:flex;"><span>$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>multicluster-operators-subscription   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           25s
+</span></span></code></pre></div><p>Create the <code>open-cluster-management-agent-addon</code> namespace on the managed cluster and it&rsquo;s optional if <code>clusteradm</code> is used which create the ns during <code>join</code> action.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl create ns open-cluster-management-agent-addon --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>namespace/open-cluster-management-agent-addon created
+</span></span></code></pre></div><p>Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl config use-context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>$ make deploy-addon
+</span></span><span style="display:flex;"><span>$ kubectl -n <span style="color:#e6db74">${</span>MANAGED_CLUSTER_NAME<span style="color:#e6db74">}</span> get managedclusteraddon <span style="color:#75715e"># kubectl -n cluster1 get managedclusteraddon</span>
+</span></span><span style="display:flex;"><span>NAME                  AVAILABLE   DEGRADED   PROGRESSING
+</span></span><span style="display:flex;"><span>application-manager   True
+</span></span></code></pre></div><p>Check the the subscription add-on deployment on the managed cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl -n open-cluster-management-agent-addon get deploy --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>application-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           103s
+</span></span></code></pre></div><h2 id="what-is-next">What is next</h2>
 <p>After a successful deployment, test the subscription operator with a <code>helm</code> subscription. Run the following command where the examples/helmrepo-hub-channel locates at <a href="https://github.com/open-cluster-management-io/multicloud-operators-subscription/tree/main/examples/helmrepo-hub-channel">here</a>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">kubectl apply -f examples/helmrepo-hub-channel --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
-</code></pre></div><p>After a while, you should see the subscription is propagated to the managed cluster and the Helm app is installed. By default, when a subscribed applications is deployed to the target clusters, the applications are installed in the coresponding subscription namespace. To confirm, run the following command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">$ kubectl get subscriptions.apps --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
-nginx-sub   Subscribed   107m   true
-$ kubectl get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
-NAME                                                   READY   STATUS      RESTARTS   AGE
-nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     <span style="color:#ae81ff">0</span>          108m
-nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     <span style="color:#ae81ff">0</span>          108m
-</code></pre></div><h3 id="try-this-out">Try this out</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>kubectl apply -f examples/helmrepo-hub-channel --context <span style="color:#e6db74">${</span>CTX_HUB_CLUSTER<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><p>After a while, you should see the subscription is propagated to the managed cluster and the Helm app is installed. By default, when a subscribed applications is deployed to the target clusters, the applications are installed in the coresponding subscription namespace. To confirm, run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Shell" data-lang="Shell"><span style="display:flex;"><span>$ kubectl get subscriptions.apps --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
+</span></span><span style="display:flex;"><span>nginx-sub   Subscribed   107m   true
+</span></span><span style="display:flex;"><span>$ kubectl get pod --context <span style="color:#e6db74">${</span>CTX_MANAGED_CLUSTER<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>NAME                                                   READY   STATUS      RESTARTS   AGE
+</span></span><span style="display:flex;"><span>nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     <span style="color:#ae81ff">0</span>          108m
+</span></span><span style="display:flex;"><span>nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     <span style="color:#ae81ff">0</span>          108m
+</span></span></code></pre></div><h3 id="try-this-out">Try this out</h3>
 <p>Let <a href="https://open-cluster-management.io/developer-guides/vscode-extension/">VScode Extension</a> help you out!</p>
 <p>Create a Bootstrap Project specifically tailored to your channel type, with all the Custom Resource (CR) templates you will need already auto-generated to get you started!</p>
 

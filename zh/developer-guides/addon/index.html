@@ -360,61 +360,61 @@ You can find the example in <a href="https://github.com/open-cluster-management-
 can be customized, the example uses <code>manifests</code> as the folder name. <code>main.go</code> contains the Go code of the addon manager.
 <code>manifests</code> contains the addon agent&rsquo;s manifest files to be deployed on the managed cluster.</p>
 <p>The <code>main.go</code> file is like this:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> (
-  <span style="color:#e6db74">&#34;context&#34;</span>
-  <span style="color:#e6db74">&#34;embed&#34;</span>
-  <span style="color:#e6db74">&#34;os&#34;</span>
-  <span style="color:#a6e22e">restclient</span> <span style="color:#e6db74">&#34;k8s.io/client-go/rest&#34;</span>
-  <span style="color:#e6db74">&#34;k8s.io/klog/v2&#34;</span>
-  <span style="color:#e6db74">&#34;open-cluster-management.io/addon-framework/pkg/addonfactory&#34;</span>
-  <span style="color:#e6db74">&#34;open-cluster-management.io/addon-framework/pkg/addonmanager&#34;</span>
-)
-
-<span style="color:#75715e">//go:embed manifests
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">FS</span> <span style="color:#a6e22e">embed</span>.<span style="color:#a6e22e">FS</span>
-
-<span style="color:#66d9ef">const</span> (
-  <span style="color:#a6e22e">addonName</span> = <span style="color:#e6db74">&#34;busybox-addon&#34;</span>
-)
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-  <span style="color:#a6e22e">kubeConfig</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">restclient</span>.<span style="color:#a6e22e">InClusterConfig</span>()
-  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
-  }
-  <span style="color:#a6e22e">addonMgr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonmanager</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">kubeConfig</span>)
-  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-     <span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;unable to setup addon manager: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
-     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
-  }
-
-  <span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).<span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
-  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-     <span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to build agent addon %v&#34;</span>, <span style="color:#a6e22e">err</span>)
-     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
-  }
-
-  <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">addonMgr</span>.<span style="color:#a6e22e">AddAgent</span>(<span style="color:#a6e22e">agentAddon</span>)
-  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-     <span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to add addon agent: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
-     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
-  }
-
-  <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>()
-  <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">addonMgr</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">ctx</span>)
-
-  <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Done</span>()
-}
-</code></pre></div><p>You need to define an <code>embed.FS</code> to embed the files in <code>manifests</code> folder.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;embed&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">restclient</span> <span style="color:#e6db74">&#34;k8s.io/client-go/rest&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;k8s.io/klog/v2&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;open-cluster-management.io/addon-framework/pkg/addonfactory&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;open-cluster-management.io/addon-framework/pkg/addonmanager&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//go:embed manifests
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">FS</span> <span style="color:#a6e22e">embed</span>.<span style="color:#a6e22e">FS</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">addonName</span> = <span style="color:#e6db74">&#34;busybox-addon&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">kubeConfig</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">restclient</span>.<span style="color:#a6e22e">InClusterConfig</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">addonMgr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonmanager</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">kubeConfig</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;unable to setup addon manager: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).<span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to build agent addon %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">addonMgr</span>.<span style="color:#a6e22e">AddAgent</span>(<span style="color:#a6e22e">agentAddon</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">klog</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;failed to add addon agent: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>     <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">go</span> <span style="color:#a6e22e">addonMgr</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>You need to define an <code>embed.FS</code> to embed the files in <code>manifests</code> folder.</p>
 <p>And then you need to build an <code>agentAddon</code> using the <code>agentAddonFactory</code>, and tell the <code>agentAddonFactory</code> the name of
 the add-on and the agent manifests.</p>
 <p>Finally, you just add the <code>agentAddon</code> to the <code>addonManager</code> and start the <code>addonManager</code>.</p>
 <p>With above code, the addon manager is implemented. Next is to implement the addon agent part. In this example, the add-on agent
 manifest to be deployed on managed cluster is a busybox deployment.</p>
 <p>Create file <code>deployment.yaml</code> in <code>manifests</code> folder, the <code>deployment.yaml</code> is like this:</p>
-<pre><code>kind: Deployment
+<pre tabindex="0"><code>kind: Deployment
 apiVersion: apps/v1
 metadata:
  name: busybox
@@ -434,24 +434,24 @@ spec:
          image: busybox
          imagePullPolicy: IfNotPresent
          args:
-           - &quot;sleep&quot;
-           - &quot;3600&quot;
+           - &#34;sleep&#34;
+           - &#34;3600&#34;
 </code></pre><p>Then you can follow next section to <a href="##deploy-the-add-on-manager-on-your-hub-cluster">deploy the add-on manager on your hub cluster</a>. The add-on manager will watch the <code>ManagedClusterAddOn</code>, and deploy the add-on agent manifests to the targeted managed cluster via <code>ManifestWork</code>.</p>
 <h3 id="deploy-the-add-on-manager-on-your-hub-cluster">Deploy the add-on manager on your hub cluster</h3>
 <p>Now you can build your add-on manager as an image and deploy it on the hub cluster.</p>
 <p>Following below steps to build the image for the <a href="https://github.com/open-cluster-management-io/addon-framework/tree/4172c567862306031ac0405f82eb4f7b4d74b30a/cmd/example/busybox">example</a>.
 This image contains several example addon managers, including the busybox example.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/open-cluster-management-io/addon-framework.git
-cd addon-framework
-make images
-</code></pre></div><p>In addition to the deployment definition, there are also some additional resources to be deployed on the hub cluster. An example of the deployment manifests for the add-on manager is <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/deploy/addon/busybox">here</a>.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/open-cluster-management-io/addon-framework.git
+</span></span><span style="display:flex;"><span>cd addon-framework
+</span></span><span style="display:flex;"><span>make images
+</span></span></code></pre></div><p>In addition to the deployment definition, there are also some additional resources to be deployed on the hub cluster. An example of the deployment manifests for the add-on manager is <a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/deploy/addon/busybox">here</a>.
 Following below steps to deploy the add-on manager.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make deploy-busybox
-</code></pre></div><p>With the add-on manager deployed, you can see the <code>busybox-addon-controller</code> running in namespace <code>open-cluster-management</code> on the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ oc get pods -n open-cluster-management
-NAME                                       READY   STATUS    RESTARTS   AGE
-busybox-addon-controller-d977665d5-x28qc   1/1     Running   <span style="color:#ae81ff">0</span>          27m
-</code></pre></div><h4 id="rbac-of-the-addon-manager">RBAC of the addon manager</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make deploy-busybox
+</span></span></code></pre></div><p>With the add-on manager deployed, you can see the <code>busybox-addon-controller</code> running in namespace <code>open-cluster-management</code> on the hub cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ oc get pods -n open-cluster-management
+</span></span><span style="display:flex;"><span>NAME                                       READY   STATUS    RESTARTS   AGE
+</span></span><span style="display:flex;"><span>busybox-addon-controller-d977665d5-x28qc   1/1     Running   <span style="color:#ae81ff">0</span>          27m
+</span></span></code></pre></div><h4 id="rbac-of-the-addon-manager">RBAC of the addon manager</h4>
 <p>There are some minimum required permissions for the addon manager controller to run on the hub cluster.  It needs to:</p>
 <ol>
 <li><em>get/list/watch/update</em> the <code>ManagedCluster</code>.</li>
@@ -462,59 +462,59 @@ busybox-addon-controller-d977665d5-x28qc   1/1     Running   <span style="color:
 <p>From a user’s perspective, to install the addon to the hub cluster the hub admin should register a globally-unique
 <code>ClusterManagementAddOn</code> resource as a singleton placeholder in the hub cluster. For instance, the <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/busybox/resources/busybox_clustermanagementaddon.yaml"><code>ClusterManagementAddOn</code></a>
 for the busybox-addon:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
- <span style="color:#66d9ef">name</span>: busybox-addon
-<span style="color:#66d9ef">spec</span>:
- <span style="color:#66d9ef">addOnMeta</span>:
-   <span style="color:#66d9ef">displayName</span>: Busybox Addon
-   <span style="color:#66d9ef">description</span>: <span style="color:#e6db74">&#34;busybox-addon is an example addon to deploy busybox pod on the managed cluster&#34;</span>
-</code></pre></div><h3 id="enable-the-add-on-for-a-managed-cluster">Enable the add-on for a managed cluster.</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">name</span>: <span style="color:#ae81ff">busybox-addon</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">Busybox Addon</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;busybox-addon is an example addon to deploy busybox pod on the managed cluster&#34;</span>
+</span></span></code></pre></div><h3 id="enable-the-add-on-for-a-managed-cluster">Enable the add-on for a managed cluster.</h3>
 <p>Now your addon-manager is running on the hub cluster.
 To deploy the busybox add-on agent to a certain managed cluster, you need to create a <code>ManagedClusterAddOn</code> in the
 managed cluster namespace of hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
- <span style="color:#66d9ef">name</span>: busybox-addon
- <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
- <span style="color:#66d9ef">installNamespace</span>: open-cluster-management-agent-addon
-</code></pre></div><p>You can set any existing namespace in the managed cluster as the <code>installNamespace</code> here, and the add-on manager will
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">name</span>: <span style="color:#ae81ff">busybox-addon</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">installNamespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span></code></pre></div><p>You can set any existing namespace in the managed cluster as the <code>installNamespace</code> here, and the add-on manager will
 deploy the add-on agent manifests in this namespace of the managed cluster.</p>
 <blockquote>
 <p>Note: <code>open-cluster-management-agent-addon</code> is our default namespace to install the add-on agent manifests in the managed cluster.</p>
 </blockquote>
 <p>You can also use the <code>clusteradm</code> command to enable the busybox-addon for the managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm addon enable --names busybox-addon --namespace open-cluster-management-agent-addon --clusters cluster1
-</code></pre></div><p>After enabling the add-on for the managed cluster, you can find a <code>ManifestWork</code> named <code>addon-busybox-addon-deploy</code> is
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clusteradm addon enable --names busybox-addon --namespace open-cluster-management-agent-addon --clusters cluster1
+</span></span></code></pre></div><p>After enabling the add-on for the managed cluster, you can find a <code>ManifestWork</code> named <code>addon-busybox-addon-deploy</code> is
 deploying on the managed cluster namespace of the hub cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get manifestworks.work.open-cluster-management.io -n cluster1
-NAME                         AGE
-addon-busybox-addon-deploy   2m
-</code></pre></div><p>And the busybox deployment is deployed on the managed cluster too.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get deployment -n open-cluster-management-agent-addon
-NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
-busybox                   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           2m
-</code></pre></div><h3 id="disable-the-add-on-for-a-managed-cluster">Disable the add-on for a managed cluster</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get manifestworks.work.open-cluster-management.io -n cluster1
+</span></span><span style="display:flex;"><span>NAME                         AGE
+</span></span><span style="display:flex;"><span>addon-busybox-addon-deploy   2m
+</span></span></code></pre></div><p>And the busybox deployment is deployed on the managed cluster too.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get deployment -n open-cluster-management-agent-addon
+</span></span><span style="display:flex;"><span>NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span style="display:flex;"><span>busybox                   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           2m
+</span></span></code></pre></div><h3 id="disable-the-add-on-for-a-managed-cluster">Disable the add-on for a managed cluster</h3>
 <p>You can delete the <code>ManagedClusterAddOn</code> CR in the managed cluster namespace of the hub cluster to disable the add-on for
 the managed cluster.The created <code>ManifestWork</code> will be deleted and the add-on agent manifests will be removed from the
 managed cluster too.</p>
 <p>You also can use the <code>clusteradm</code> command to disable the add-on for a managed cluster.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm addon disable --names busybox-addon --clusters cluster1
-</code></pre></div><p>You can also use the <code>clusteradm</code> command to disable the add-ons for all managed clusters.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ clusteradm addon disable --names busybox-addon --all-clusters true
-</code></pre></div><p>If you delete the <code>ClusterManagementAddOn</code> on the hub cluster, the <code>ManagedClusterAddOn</code> CRs in all managed cluster
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clusteradm addon disable --names busybox-addon --clusters cluster1
+</span></span></code></pre></div><p>You can also use the <code>clusteradm</code> command to disable the add-ons for all managed clusters.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ clusteradm addon disable --names busybox-addon --all-clusters true
+</span></span></code></pre></div><p>If you delete the <code>ClusterManagementAddOn</code> on the hub cluster, the <code>ManagedClusterAddOn</code> CRs in all managed cluster
 namespaces will be deleted too.</p>
 <h3 id="whats-the-next">What’s the next</h3>
 <p>However, this add-on just ensures a pod to run on the managed cluster, and you cannot see the status of the addon,
 and there are not any functionality to manage the clusters. The addon-framework also provides other configurations
 for add-on developers.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get managedclusteraddons.addon.open-cluster-management.io -n cluster1
-NAME                AVAILABLE   DEGRADED   PROGRESSING
-busybox-addon      Unknown
-</code></pre></div><p>Next, you need to configure the addon.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get managedclusteraddons.addon.open-cluster-management.io -n cluster1
+</span></span><span style="display:flex;"><span>NAME                AVAILABLE   DEGRADED   PROGRESSING
+</span></span><span style="display:flex;"><span>busybox-addon      Unknown
+</span></span></code></pre></div><p>Next, you need to configure the addon.</p>
 <h2 id="add-on-agent-configurations">Add-on agent configurations</h2>
 <h3 id="monitor-addon-healthiness">Monitor addon healthiness</h3>
 <p>In the busybox example above, we found the <code>AVAILABLE</code> status of the <code>ManagedClusterAddOn</code> is always <code>Unknown</code>.</p>
@@ -526,9 +526,9 @@ busybox-addon      Unknown
 <p>The add-on agent maintains a <code>Lease</code> in its installation namespace with its status, the <a href="https://open-cluster-management.io/concepts/architecture/#registration">registration agent</a> will
 check this <code>Lease</code> to maintain the <code>AVAILABLE</code> status of the <code>ManagedClusterAddOn</code>.</p>
 <p>The addon-framework provides a <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/lease/lease_controller.go#L24">leaseUpdater</a> interface which can make it easier.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">leaseUpdater</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lease</span>.<span style="color:#a6e22e">NewLeaseUpdater</span>(<span style="color:#a6e22e">spokeKubeClient</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">installNamespace</span>)
-<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">leaseUpdater</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
-</code></pre></div><p><code>Lease</code> is the default prober type for add-on, there is nothing to configure for the add-on manager.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">leaseUpdater</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">lease</span>.<span style="color:#a6e22e">NewLeaseUpdater</span>(<span style="color:#a6e22e">spokeKubeClient</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">installNamespace</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">go</span> <span style="color:#a6e22e">leaseUpdater</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>())
+</span></span></code></pre></div><p><code>Lease</code> is the default prober type for add-on, there is nothing to configure for the add-on manager.</p>
 </li>
 <li>
 <p><strong>Work</strong></p>
@@ -541,12 +541,12 @@ feedback from the <code>ManifestWork</code>.</p>
 <p>It is required to define a <code>HealthProber</code> instance first. Here is an example to check if the <code>availableReplicas</code> of
 add-on agent deployment is more than 1. If yes, it will set the <code>AVAILABLE</code> status of <code>ManagedClusterAddOn</code> to <code>true</code>.
 Otherwise, the <code>AVAILABLE</code> status of <code>ManagedClusterAddOn</code> will be false.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">healthProber</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">NewDeploymentProber</span>(<span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">NamespacedName</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;workprober-addon-agent&#34;</span>, <span style="color:#a6e22e">Namespace</span>: <span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>})
-</code></pre></div><p>And then you can configure the <code>HealthProber</code> to the agentAddon.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).
-                    <span style="color:#a6e22e">WithAgentHealthProber</span>(<span style="color:#a6e22e">healthProber</span>).
-                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">healthProber</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">NewDeploymentProber</span>(<span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">NamespacedName</span>{<span style="color:#a6e22e">Name</span>: <span style="color:#e6db74">&#34;workprober-addon-agent&#34;</span>, <span style="color:#a6e22e">Namespace</span>: <span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>})
+</span></span></code></pre></div><p>And then you can configure the <code>HealthProber</code> to the agentAddon.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithAgentHealthProber</span>(<span style="color:#a6e22e">healthProber</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
+</span></span></code></pre></div></li>
 <li>
 <p><strong>DeploymentAvailability</strong></p>
 <p><code>DeploymentAvailability</code> health prober indicates the healthiness of the add-on is connected to the availability of
@@ -554,18 +554,18 @@ the corresponding agent deployment resources on the managed cluster. It&rsquo;s 
 <code>Deployment</code> type workload on the managed cluster. The add-on manager will check if the <code>availableReplicas</code> of the
 add-on agent deployment is more than 1 to set the addon Status.</p>
 <p>Set the type of <code>healthProber</code> to <code>DeploymentAvailability</code> to enable this prober.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">healthProber</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProber</span>{
-    <span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProberTypeDeploymentAvailability</span>,
-}
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">healthProber</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProber</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProberTypeDeploymentAvailability</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
 <li>
 <p><strong>None</strong></p>
 <p>If you want to check and maintain the <code>AVAILABLE</code> status of <code>ManagedClusterAddOn</code> by yourself, set the type of
 <code>healthProber</code> to <code>None</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">healthProber</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProber</span>{
-    <span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProberTypeNone</span>,
-}
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">healthProber</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProber</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Type</span>: <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HealthProberTypeNone</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
 </ol>
 <h3 id="automatic-installation">Automatic installation</h3>
 <p>NOTE:</p>
@@ -581,38 +581,38 @@ have install conficts.</li>
 The addon-framework also provides a configuration called <code>InstallStrategy</code> to support installing addon automatically.</p>
 <p>Currently, the addon-framework supports <code>InstallAllStrategy</code> and <code>InstallByLabelStrategy</code> strategies.</p>
 <p><code>InstallAllStrategy</code> will create <code>ManagedClusterAddOn</code> for all managed cluster namespaces automatically.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">installStrategy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">InstallAllStrategy</span>(<span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>)
-</code></pre></div><p><code>InstallByLabelStrategy</code> will create <code>ManagedClusterAddOn</code> for the selected managed cluster namespaces automatically.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">installStrategy</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">InstallStrategy</span>{
-	<span style="color:#a6e22e">Type</span>:             <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">InstallByLabel</span>,
-    <span style="color:#a6e22e">InstallNamespace</span>: <span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>,
-    <span style="color:#a6e22e">LabelSelector</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">LabelSelector</span>{<span style="color:#f92672">...</span>},
-}
-</code></pre></div><p>Configure the <code>InstallStrategy</code> to the agentAddon:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).
-                    <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">installStrategy</span>).
-                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
-</code></pre></div><p>Addtionally, if you are using addon-framework v0.8.1 or higher, need to grant a <code>patch</code> permission on <code>ClusterManagementAddon</code> to your addon manager.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterRole
-  <span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-  <span style="color:#66d9ef">metadata</span>:
-    <span style="color:#66d9ef">name</span>: helloworld-addon
-  <span style="color:#66d9ef">rules</span>:
-...
-    - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
-      <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;clustermanagementaddons&#34;</span>]
-      <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;patch&#34;</span>]
-</code></pre></div><p>The below annotation will be added automatically to claim the <code>ManagedClusterAddon</code> lifecycle is managed by the addon itself.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;self&#34;</span>
-  <span style="color:#66d9ef">name</span>: helloworld
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Manual
-</code></pre></div><h3 id="register-your-add-on">Register your add-on</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">installStrategy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">InstallAllStrategy</span>(<span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>)
+</span></span></code></pre></div><p><code>InstallByLabelStrategy</code> will create <code>ManagedClusterAddOn</code> for the selected managed cluster namespaces automatically.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">installStrategy</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">InstallStrategy</span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Type</span>:             <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">InstallByLabel</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">InstallNamespace</span>: <span style="color:#e6db74">&#34;open-cluster-management-agent-addon&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">LabelSelector</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">LabelSelector</span>{<span style="color:#f92672">...</span>},
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Configure the <code>InstallStrategy</code> to the agentAddon:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests&#34;</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">installStrategy</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
+</span></span></code></pre></div><p>Addtionally, if you are using addon-framework v0.8.1 or higher, need to grant a <code>patch</code> permission on <code>ClusterManagementAddon</code> to your addon manager.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld-addon</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;clustermanagementaddons&#34;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>, <span style="color:#e6db74">&#34;patch&#34;</span>]
+</span></span></code></pre></div><p>The below annotation will be added automatically to claim the <code>ManagedClusterAddon</code> lifecycle is managed by the addon itself.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;self&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Manual</span>
+</span></span></code></pre></div><h3 id="register-your-add-on">Register your add-on</h3>
 <p>In most cases, the add-ons have requirements to access the hub cluster or other central service endpoint with TLS authentication.
 For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent
 needs to access the exposed service on the hub cluster.</p>
@@ -637,29 +637,29 @@ rotate the certificate on the hub cluster, the addon manager will approve the ce
 <p>Now we build another add-on that is going to sync configmap from the hub cluster to the managed cluster.
 The add-on code can be found <a href="https://github.com/open-cluster-management-io/addon-framework/tree/4172c567862306031ac0405f82eb4f7b4d74b30a/cmd/example/helloworld">here</a> .</p>
 <p>Specifically, since the addon agent needs to read configmap from the hub, we need to define the registration option for this addon.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewRegistrationOption</span>(<span style="color:#a6e22e">kubeConfig</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">rest</span>.<span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">RegistrationOption</span> {
-    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">RegistrationOption</span>{
-        <span style="color:#a6e22e">CSRConfigurations</span>: <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">KubeClientSignerConfigurations</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span>),
-        <span style="color:#a6e22e">CSRApproveCheck</span>:   <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">DefaultCSRApprover</span>(<span style="color:#a6e22e">agentName</span>),
-        <span style="color:#a6e22e">PermissionConfig</span>:  <span style="color:#a6e22e">rbac</span>.<span style="color:#a6e22e">AddonRBAC</span>(<span style="color:#a6e22e">kubeConfig</span>),
-    }
-}
-</code></pre></div><p><code>CSRConfigurations</code> returns a list of <code>CSR</code> configuration for the addd-on agent in a managed cluster. The <code>CSR</code> will
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewRegistrationOption</span>(<span style="color:#a6e22e">kubeConfig</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">rest</span>.<span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">RegistrationOption</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">RegistrationOption</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">CSRConfigurations</span>: <span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">KubeClientSignerConfigurations</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">CSRApproveCheck</span>:   <span style="color:#a6e22e">utils</span>.<span style="color:#a6e22e">DefaultCSRApprover</span>(<span style="color:#a6e22e">agentName</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">PermissionConfig</span>:  <span style="color:#a6e22e">rbac</span>.<span style="color:#a6e22e">AddonRBAC</span>(<span style="color:#a6e22e">kubeConfig</span>),
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>CSRConfigurations</code> returns a list of <code>CSR</code> configuration for the addd-on agent in a managed cluster. The <code>CSR</code> will
 be created from the managed cluster for add-on agent with each <code>CSRConfiguration</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">KubeClientSignerConfigurations</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cluster</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clusterv1</span>.<span style="color:#a6e22e">ManagedCluster</span>) []<span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">RegistrationConfig</span> {
-	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cluster</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clusterv1</span>.<span style="color:#a6e22e">ManagedCluster</span>) []<span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">RegistrationConfig</span> {
-        <span style="color:#66d9ef">return</span> []<span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">RegistrationConfig</span>{
-            {
-                <span style="color:#a6e22e">SignerName</span>: <span style="color:#a6e22e">certificatesv1</span>.<span style="color:#a6e22e">KubeAPIServerClientSignerName</span>,
-                <span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">Subject</span>{
-                    <span style="color:#a6e22e">User</span>:   <span style="color:#a6e22e">DefaultUser</span>(<span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span>),
-                    <span style="color:#a6e22e">Groups</span>: <span style="color:#a6e22e">DefaultGroups</span>(<span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">addonName</span>),
-                },
-            },
-        }
-	}
-}
-</code></pre></div><p>The original Kubernetes <code>CSR</code> API only supports three built-in signers:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">KubeClientSignerConfigurations</span>(<span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cluster</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clusterv1</span>.<span style="color:#a6e22e">ManagedCluster</span>) []<span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">RegistrationConfig</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cluster</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">clusterv1</span>.<span style="color:#a6e22e">ManagedCluster</span>) []<span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">RegistrationConfig</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> []<span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">RegistrationConfig</span>{
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">SignerName</span>: <span style="color:#a6e22e">certificatesv1</span>.<span style="color:#a6e22e">KubeAPIServerClientSignerName</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Subject</span>: <span style="color:#a6e22e">addonapiv1alpha1</span>.<span style="color:#a6e22e">Subject</span>{
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">User</span>:   <span style="color:#a6e22e">DefaultUser</span>(<span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">addonName</span>, <span style="color:#a6e22e">agentName</span>),
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">Groups</span>: <span style="color:#a6e22e">DefaultGroups</span>(<span style="color:#a6e22e">cluster</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">addonName</span>),
+</span></span><span style="display:flex;"><span>                },
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The original Kubernetes <code>CSR</code> API only supports three built-in signers:</p>
 <ul>
 <li>kubernetes.io/kube-apiserver-client</li>
 <li>kubernetes.io/kube-apiserver-client-kubelet</li>
@@ -679,84 +679,83 @@ The <code>utils.DefaultCSRApprover</code> is implemented to auto-approve all the
 In this example, it will create a role in the managed cluster namespace with <em>get/list/watch</em> configmaps permissions,
 and bind the role to the group defined in <code>CSRConfigurations</code>.</p>
 <p>Configure the registrationOption to the agentAddon.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">AddonName</span>, <span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/templates&#34;</span>).
-                    <span style="color:#a6e22e">WithGetValuesFuncs</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">GetValues</span>, <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetValuesFromAddonAnnotation</span>).
-                    <span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
-                    <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">addonagent</span>.<span style="color:#a6e22e">InstallAllStrategy</span>(<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HelloworldAgentInstallationNamespace</span>)).
-                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
-
-</code></pre></div><p>After deploying the example add-on, you can find the registration configuration in the <code>ManagedClusterAddOn</code> status.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">namespace</span>: cluster1
-  <span style="color:#66d9ef">ownerReferences</span>:
-  - <span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-    <span style="color:#66d9ef">blockOwnerDeletion</span>: <span style="color:#66d9ef">true</span>
-    <span style="color:#66d9ef">controller</span>: <span style="color:#66d9ef">true</span>
-    <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-    <span style="color:#66d9ef">name</span>: helloworld
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installNamespace</span>: default
-<span style="color:#66d9ef">status</span>:
-  <span style="color:#66d9ef">registrations</span>:
-  - <span style="color:#66d9ef">signerName</span>: kubernetes.io/kube-apiserver-client
-    <span style="color:#66d9ef">subject</span>:
-      <span style="color:#66d9ef">groups</span>:
-      - system:open-cluster-management:cluster:cluster1:addon:helloworld
-      - system:open-cluster-management:addon:helloworld
-      - system:authenticated
-      <span style="color:#66d9ef">user</span>: system:open-cluster-management:cluster:cluster1:addon:helloworld:agent:2rn8d
-</code></pre></div><p>In this example, the addon requires a <code>CSR</code> access hub kube-api (with singer name <code>kubernetes.io/kube-apiserver-client</code>).
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">AddonName</span>, <span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/templates&#34;</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithGetValuesFuncs</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">GetValues</span>, <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetValuesFromAddonAnnotation</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">addonagent</span>.<span style="color:#a6e22e">InstallAllStrategy</span>(<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HelloworldAgentInstallationNamespace</span>)).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
+</span></span></code></pre></div><p>After deploying the example add-on, you can find the registration configuration in the <code>ManagedClusterAddOn</code> status.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">ownerReferences</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">blockOwnerDeletion</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">controller</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installNamespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">status</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">registrations</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">signerName</span>: <span style="color:#ae81ff">kubernetes.io/kube-apiserver-client</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">subject</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">groups</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">system:open-cluster-management:cluster:cluster1:addon:helloworld</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">system:open-cluster-management:addon:helloworld</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">system:authenticated</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">user</span>: <span style="color:#ae81ff">system:open-cluster-management:cluster:cluster1:addon:helloworld:agent:2rn8d</span>
+</span></span></code></pre></div><p>In this example, the addon requires a <code>CSR</code> access hub kube-api (with singer name <code>kubernetes.io/kube-apiserver-client</code>).
 After the <code>CSR</code> is created on the hub cluster, the add-on manager will check the signer, group and subject of the <code>CSRs</code>
 to verify whether the <code>CSR</code> is valid. If all fields are valid, the add-on manager will approve the <code>CSR</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: certificates.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: CertificateSigningRequest
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">labels</span>:
-    <span style="color:#66d9ef">open-cluster-management.io/addon-name</span>: helloworld
-    <span style="color:#66d9ef">open-cluster-management.io/cluster-name</span>: cluster1
-  <span style="color:#66d9ef">name</span>: addon-cluster1-helloworld-lb7cb
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">groups</span>:
-  - system:open-cluster-management:cluster1
-  - system:open-cluster-management:managed-clusters
-  - system:authenticated
-  <span style="color:#66d9ef">request</span>: xxx
-  <span style="color:#66d9ef">signerName</span>: kubernetes.io/kube-apiserver-client
-  <span style="color:#66d9ef">usages</span>:
-  - digital signature
-  - key encipherment
-  - client auth
-  <span style="color:#66d9ef">username</span>: system:open-cluster-management:cluster1:9bkfw
-</code></pre></div><p>After the <code>CSR</code> is approved, the add-on controller creates the <code>Role</code> and <code>Rolebinding</code> in the cluster namespace.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get role -n cluster1
-NAME                                       CREATED AT
-open-cluster-management:helloworld:agent   2022-07-10T10:08:37Z
-$ kubectl get rolebinding -n cluster1
-NAME                                                           ROLE                                                              AGE
-open-cluster-management:helloworld:agent                       Role/open-cluster-management:helloworld:agent                     13m
-</code></pre></div><p>The <code>Rolebinding</code> binds the <code>Role</code> to the Group <code>system:open-cluster-management:cluster:cluster1:addon:helloworld</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: RoleBinding
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: open-cluster-management:helloworld:agent
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">roleRef</span>:
-  <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-  <span style="color:#66d9ef">kind</span>: Role
-  <span style="color:#66d9ef">name</span>: open-cluster-management:helloworld:agent
-<span style="color:#66d9ef">subjects</span>:
-- <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-  <span style="color:#66d9ef">kind</span>: Group
-  <span style="color:#66d9ef">name</span>: system:open-cluster-management:cluster:cluster1:addon:helloworld
-</code></pre></div><p>The registration agent will create a kubeConfig secret named <code>&lt;add-on name&gt;-hub-kubeconfig</code> in the <code>addonInstallNamesapce</code>.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">certificates.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">CertificateSigningRequest</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">open-cluster-management.io/addon-name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">open-cluster-management.io/cluster-name</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-cluster1-helloworld-lb7cb</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">groups</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">system:open-cluster-management:cluster1</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">system:open-cluster-management:managed-clusters</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">system:authenticated</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">request</span>: <span style="color:#ae81ff">xxx</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">signerName</span>: <span style="color:#ae81ff">kubernetes.io/kube-apiserver-client</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">usages</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">digital signature</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">key encipherment</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">client auth</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">username</span>: <span style="color:#ae81ff">system:open-cluster-management:cluster1:9bkfw</span>
+</span></span></code></pre></div><p>After the <code>CSR</code> is approved, the add-on controller creates the <code>Role</code> and <code>Rolebinding</code> in the cluster namespace.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get role -n cluster1
+</span></span><span style="display:flex;"><span>NAME                                       CREATED AT
+</span></span><span style="display:flex;"><span>open-cluster-management:helloworld:agent   2022-07-10T10:08:37Z
+</span></span><span style="display:flex;"><span>$ kubectl get rolebinding -n cluster1
+</span></span><span style="display:flex;"><span>NAME                                                           ROLE                                                              AGE
+</span></span><span style="display:flex;"><span>open-cluster-management:helloworld:agent                       Role/open-cluster-management:helloworld:agent                     13m
+</span></span></code></pre></div><p>The <code>Rolebinding</code> binds the <code>Role</code> to the Group <code>system:open-cluster-management:cluster:cluster1:addon:helloworld</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">RoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">open-cluster-management:helloworld:agent</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Role</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">open-cluster-management:helloworld:agent</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>- <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Group</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">system:open-cluster-management:cluster:cluster1:addon:helloworld</span>
+</span></span></code></pre></div><p>The registration agent will create a kubeConfig secret named <code>&lt;add-on name&gt;-hub-kubeconfig</code> in the <code>addonInstallNamesapce</code>.
 The addon agent can mount the secret to get the hub kubeConfig to connect with the hub cluster to <em>get/list/watch</em> the Configmaps.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get secret -n default
-NAME                              TYPE                                  DATA   AGE
-helloworld-hub-kubeconfig         Opaque                                <span style="color:#ae81ff">3</span>      9m52s
-</code></pre></div><h3 id="add-your-add-on-agent-supported-configurations">Add your add-on agent supported configurations</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get secret -n default
+</span></span><span style="display:flex;"><span>NAME                              TYPE                                  DATA   AGE
+</span></span><span style="display:flex;"><span>helloworld-hub-kubeconfig         Opaque                                <span style="color:#ae81ff">3</span>      9m52s
+</span></span></code></pre></div><h3 id="add-your-add-on-agent-supported-configurations">Add your add-on agent supported configurations</h3>
 <p>For some cases, you want to specify the configurations for your add-on agent, for example, you may want to use a configuration to configure your add-on agent image or use a configuration to configure your add-on agent node Selector and tolerations to make the agent to run on specific nodes.</p>
 <p>The addon-framework supports re-rendering the add-on agent deployment when the add-on agent configurations are changed.</p>
 <p>You can choose the <a href="https://github.com/open-cluster-management-io/api/blob/main/addon/v1alpha1/types_addondeploymentconfig.go"><code>AddOnDeploymentConfig</code></a> API as the configuration for your add-on agent, it supports setting customized variables and node placement for your add-on agent deployment, and meanwhile you can also choose your own configuration.</p>
@@ -764,55 +763,55 @@ helloworld-hub-kubeconfig         Opaque                                <span st
 <ol>
 <li>
 <p>Add the supported configuration types in your add-on <code>ClusterManagementAddOn</code>, we support to add multiple different configuration types in the <code>ClusterManagementAddOn</code>, for example</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworldhelm
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#75715e"># the add-on supported configurations</span>
-  <span style="color:#66d9ef">supportedConfigs</span>:
-  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-  - <span style="color:#66d9ef">resource</span>: configmaps
-</code></pre></div><p>In this example, the <code>helloworldhelm</code> add-on supports using <code>AddOnDeploymentConfig</code> and <code>ConfigMap</code> as its configuration, and you can specify one default configuration for one configuration type, for example</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"> <span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
- <span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
- <span style="color:#66d9ef">metadata</span>:
-   <span style="color:#66d9ef">name</span>: helloworldhelm
- <span style="color:#66d9ef">spec</span>:
-   <span style="color:#75715e"># the add-on supported configurations</span>
-   <span style="color:#66d9ef">supportedConfigs</span>:
-   - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-     <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-     <span style="color:#75715e"># the default config for helloworldhelm </span>
-     <span style="color:#66d9ef">defaultConfig</span>:
-       <span style="color:#66d9ef">name</span>: deploy-config
-       <span style="color:#66d9ef">namespace</span>: open-cluster-management
-   - <span style="color:#66d9ef">resource</span>: configmaps
-</code></pre></div><p>Thus, all helloworldhelm add-ons on each managed cluster have one same default configuration <code>open-cluster-management/deploy-config</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworldhelm</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># the add-on supported configurations</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">supportedConfigs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">configmaps</span>
+</span></span></code></pre></div><p>In this example, the <code>helloworldhelm</code> add-on supports using <code>AddOnDeploymentConfig</code> and <code>ConfigMap</code> as its configuration, and you can specify one default configuration for one configuration type, for example</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span> <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworldhelm</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e"># the add-on supported configurations</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">supportedConfigs</span>:
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># the default config for helloworldhelm </span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">defaultConfig</span>:
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy-config</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>   - <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">configmaps</span>
+</span></span></code></pre></div><p>Thus, all helloworldhelm add-ons on each managed cluster have one same default configuration <code>open-cluster-management/deploy-config</code></p>
 </li>
 <li>
 <p>Register the supported configuration types when building one <code>AgentAddon</code> with <code>AgentAddonFactory</code></p>
 </li>
 <li>
 <p>Implement a <code>GetValuesFunc</code> to transform the configuration to addon-framework <code>Values</code> object and add the <code>GetValuesFunc</code> to the <code>AgentAddonFactory</code>, for example</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#e6db74">&#34;helloworldhelm&#34;</span>, <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/charts/helloworld&#34;</span>).
-    <span style="color:#75715e">// register the supported configuration types
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">WithConfigGVRs</span>(
-      <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionResource</span>{<span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1&#34;</span>, <span style="color:#a6e22e">Resource</span>: <span style="color:#e6db74">&#34;configmaps&#34;</span>},
-      <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionResource</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>, <span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1alpha1&#34;</span>, <span style="color:#a6e22e">Resource</span>: <span style="color:#e6db74">&#34;addondeploymentconfigs&#34;</span>},
-    ).
-    <span style="color:#a6e22e">WithGetValuesFuncs</span>(
-      <span style="color:#75715e">// get the AddOnDeloymentConfig object and transform it to Values object
-</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetAddOnDeloymentConfigValues</span>(
-        <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAddOnDeloymentConfigGetter</span>(<span style="color:#a6e22e">addonClient</span>),
-        <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">ToAddOnNodePlacementValues</span>,
-      ),
-      <span style="color:#75715e">// get the ConfigMap object and transform it to Values object
-</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">GetImageValues</span>(<span style="color:#a6e22e">kubeClient</span>),
-    ).<span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
-    <span style="color:#a6e22e">BuildHelmAgentAddon</span>()
-</code></pre></div><p>In this example, we register the <code>ConfigMap</code> and <code>AddOnDeploymentConfig</code> as the <code>helloworldhelm</code> add-on configuration. We use add-on framework
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#e6db74">&#34;helloworldhelm&#34;</span>, <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/charts/helloworld&#34;</span>).
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// register the supported configuration types
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">WithConfigGVRs</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionResource</span>{<span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1&#34;</span>, <span style="color:#a6e22e">Resource</span>: <span style="color:#e6db74">&#34;configmaps&#34;</span>},
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionResource</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>, <span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1alpha1&#34;</span>, <span style="color:#a6e22e">Resource</span>: <span style="color:#e6db74">&#34;addondeploymentconfigs&#34;</span>},
+</span></span><span style="display:flex;"><span>    ).
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">WithGetValuesFuncs</span>(
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// get the AddOnDeloymentConfig object and transform it to Values object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetAddOnDeloymentConfigValues</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAddOnDeloymentConfigGetter</span>(<span style="color:#a6e22e">addonClient</span>),
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">ToAddOnNodePlacementValues</span>,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// get the ConfigMap object and transform it to Values object
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">GetImageValues</span>(<span style="color:#a6e22e">kubeClient</span>),
+</span></span><span style="display:flex;"><span>    ).<span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BuildHelmAgentAddon</span>()
+</span></span></code></pre></div><p>In this example, we register the <code>ConfigMap</code> and <code>AddOnDeploymentConfig</code> as the <code>helloworldhelm</code> add-on configuration. We use add-on framework
 help function <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/pkg/addonfactory/addondeploymentconfig.go#L47"><code>GetAddOnDeloymentConfigValues</code></a> to transform the <code>AddOnDeploymentConfig</code>, and we implemented the <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/helloworld_helm/helloworld_helm.go#L64"><code>GetImageValues</code></a> function to
 transform the <code>ConfigMap</code>, you can find more details for add-on framework <code>Values</code> from the <a href="#values-definition">Values definition</a> part.</p>
 </li>
@@ -820,34 +819,34 @@ transform the <code>ConfigMap</code>, you can find more details for add-on frame
 <p>Add the <code>get</code>, <code>list</code> and <code>watch</code> permissions to an add-on <code>clusterrole</code>, for example, the <a href="https://github.com/open-cluster-management-io/addon-framework/blob/main/examples/deploy/addon/helloworld-helm/resources/cluster_role.yaml">clusterrole</a> of <code>helloworldhelm</code> should have the following permissions</p>
 </li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">kind</span>: ClusterRole
-<span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworldhelm-addon
-<span style="color:#66d9ef">rules</span>:
-  - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
-    <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;configmaps&#34;</span>]
-    <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
-  - <span style="color:#66d9ef">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
-    <span style="color:#66d9ef">resources</span>: [<span style="color:#e6db74">&#34;addondeploymentconfigs&#34;</span>]
-    <span style="color:#66d9ef">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
-</code></pre></div><p>To configure add-on, the add-on user need reference their configuration objects in <code>ManagedClusterAddOn</code>, for example</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworldhelm
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installNamespace</span>: open-cluster-management-agent-addon
-  <span style="color:#66d9ef">configs</span>:
-  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-    <span style="color:#66d9ef">name</span>: deploy-config
-    <span style="color:#66d9ef">namespace</span>: cluster1
-  - <span style="color:#66d9ef">resource</span>: configmaps 
-    <span style="color:#66d9ef">name</span>: image-config
-    <span style="color:#66d9ef">namespace</span>: cluster1
-</code></pre></div><p>In this example, the add-on user reference the configuration <code>cluster1/deploy-config</code> and <code>cluster1/image-config</code> for <code>helloworldhelm</code> on <code>cluster1</code>. When the configuration references are added to an add-on, the add-on framework will show them in the status of <code>ManagedClusterAddOn</code> and render the add-on once, during the rendering process, the add-on framework will callback the <code>GetValuesFunc</code>s to transform the add-on configuraton object to add-on framework <code>Values</code> object and use <code>Values</code> object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworldhelm-addon</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;configmaps&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">apiGroups</span>: [<span style="color:#e6db74">&#34;addon.open-cluster-management.io&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resources</span>: [<span style="color:#e6db74">&#34;addondeploymentconfigs&#34;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">verbs</span>: [<span style="color:#e6db74">&#34;get&#34;</span>, <span style="color:#e6db74">&#34;list&#34;</span>, <span style="color:#e6db74">&#34;watch&#34;</span>]
+</span></span></code></pre></div><p>To configure add-on, the add-on user need reference their configuration objects in <code>ManagedClusterAddOn</code>, for example</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworldhelm</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installNamespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">configs</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy-config</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">configmaps </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">image-config</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span></code></pre></div><p>In this example, the add-on user reference the configuration <code>cluster1/deploy-config</code> and <code>cluster1/image-config</code> for <code>helloworldhelm</code> on <code>cluster1</code>. When the configuration references are added to an add-on, the add-on framework will show them in the status of <code>ManagedClusterAddOn</code> and render the add-on once, during the rendering process, the add-on framework will callback the <code>GetValuesFunc</code>s to transform the add-on configuraton object to add-on framework <code>Values</code> object and use <code>Values</code> object to render the add-on agent deployment resources. If the add-on configuration objects are updated, the add-on framework will render the add-on again.</p>
 <h2 id="build-an-addon-using-helm-charts-or-raw-manifests">Build an addon using helm charts or raw manifests.</h2>
 <h3 id="building-steps">Building steps</h3>
 <p>The addon-framework supports helm charts or raw manifests as the add-on agent manifests. The building steps are the same:</p>
@@ -861,17 +860,17 @@ and the example using raw manifests is <a href="https://github.com/open-cluster-
 <li>
 <p>Build different <code>agentAddons</code> using the <code>agentAddonFactory</code> instance with <code>BuildHelmAgentAddon</code> or <code>BuildTemplateAgentAddon</code>.</p>
 <p>For helm chart building:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">AddonName</span>, <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/charts/helloworld&#34;</span>).
-                    <span style="color:#a6e22e">WithGetValuesFuncs</span>(<span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">GetValues</span>, <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetValuesFromAddonAnnotation</span>).
-                    <span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
-                    <span style="color:#a6e22e">BuildHelmAgentAddon</span>()
-</code></pre></div><p>For raw manifests building:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">AddonName</span>, <span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/templates&#34;</span>).
-                    <span style="color:#a6e22e">WithGetValuesFuncs</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">GetValues</span>, <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetValuesFromAddonAnnotation</span>).
-                    <span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
-                    <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">addonagent</span>.<span style="color:#a6e22e">InstallAllStrategy</span>(<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HelloworldAgentInstallationNamespace</span>)).
-                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">AddonName</span>, <span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/charts/helloworld&#34;</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithGetValuesFuncs</span>(<span style="color:#a6e22e">helloworld_helm</span>.<span style="color:#a6e22e">GetValues</span>, <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetValuesFromAddonAnnotation</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">BuildHelmAgentAddon</span>()
+</span></span></code></pre></div><p>For raw manifests building:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">agentAddon</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">NewAgentAddonFactory</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">AddonName</span>, <span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">FS</span>, <span style="color:#e6db74">&#34;manifests/templates&#34;</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithGetValuesFuncs</span>(<span style="color:#a6e22e">helloworld</span>.<span style="color:#a6e22e">GetValues</span>, <span style="color:#a6e22e">addonfactory</span>.<span style="color:#a6e22e">GetValuesFromAddonAnnotation</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithAgentRegistrationOption</span>(<span style="color:#a6e22e">registrationOption</span>).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">WithInstallStrategy</span>(<span style="color:#a6e22e">addonagent</span>.<span style="color:#a6e22e">InstallAllStrategy</span>(<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">HelloworldAgentInstallationNamespace</span>)).
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">BuildTemplateAgentAddon</span>()
+</span></span></code></pre></div></li>
 <li>
 <p>Add the agentAddon to the addon manager.</p>
 </li>
@@ -960,35 +959,35 @@ to the <code>ClusterManagementAddOn</code> and <code>ManagedClusterAddOn</code> 
 configure which clusters the related <code>ManagedClusterAddon</code> should be enabled by
 referencing the <code>Placement</code>. For example, enabling the <code>helloworld</code> add-on on
 clusters labeled with aws.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Placements
-    <span style="color:#66d9ef">placements</span>:
-    - <span style="color:#66d9ef">name</span>: placement-aws
-      <span style="color:#66d9ef">namespace</span>: default
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: cluster.open-cluster-management.io/v1beta1
-<span style="color:#66d9ef">kind</span>: Placement
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: placement-aws
-  <span style="color:#66d9ef">namespace</span>: default
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">predicates</span>:
-    - <span style="color:#66d9ef">requiredClusterSelector</span>:
-        <span style="color:#66d9ef">claimSelector</span>:
-          <span style="color:#66d9ef">matchExpressions</span>:
-            - <span style="color:#66d9ef">key</span>: platform.open-cluster-management.io
-              <span style="color:#66d9ef">operator</span>: In
-              <span style="color:#66d9ef">values</span>:
-                - aws
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Placements</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">placements</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">cluster.open-cluster-management.io/v1beta1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Placement</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">predicates</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">requiredClusterSelector</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">claimSelector</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">matchExpressions</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#f92672">key</span>: <span style="color:#ae81ff">platform.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">operator</span>: <span style="color:#ae81ff">In</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">values</span>:
+</span></span><span style="display:flex;"><span>                - <span style="color:#ae81ff">aws</span>
+</span></span></code></pre></div><ol start="2">
 <li>Rollout strategy</li>
 </ol>
 <p>With the rollout strategy defined in the <code>ClusterManagementAddOn</code> API, users can
@@ -997,37 +996,37 @@ control the upgrade behavior of the add-on when there are changes in the <a href
 the change to the add-ons to a &ldquo;canary&rdquo; <a href="https://open-cluster-management.io/concepts/placement/#decision-strategy">decision group</a> first.
 If all the add-on upgrade successfully, then upgrade the rest of clusters progressively per cluster
 at a rate of 25%. The rollout strategy can be defined as follows:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">displayName</span>: helloworld
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Placements
-    <span style="color:#66d9ef">placements</span>:
-    - <span style="color:#66d9ef">name</span>: placement-aws
-      <span style="color:#66d9ef">namespace</span>: default
-      <span style="color:#66d9ef">configs</span>:
-      - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-        <span style="color:#66d9ef">resource</span>: addondeploymentconfigs
-        <span style="color:#66d9ef">name</span>: deploy-config
-        <span style="color:#66d9ef">namespace</span>: open-cluster-management
-      <span style="color:#66d9ef">rolloutStrategy</span>:
-        <span style="color:#66d9ef">type</span>: Progressive
-        <span style="color:#66d9ef">progressive</span>:
-          <span style="color:#66d9ef">mandatoryDecisionGroups</span>:
-          - <span style="color:#66d9ef">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
-          <span style="color:#66d9ef">maxConcurrency</span>: <span style="color:#ae81ff">25</span>%
-</code></pre></div><p>Add-on developers can use addon-framework v0.8.0 and the above versions
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Placements</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">placements</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">placement-aws</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">configs</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addondeploymentconfigs</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy-config</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">rolloutStrategy</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Progressive</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">progressive</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">mandatoryDecisionGroups</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">groupName</span>: <span style="color:#e6db74">&#34;canary&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">maxConcurrency</span>: <span style="color:#ae81ff">25</span><span style="color:#ae81ff">%</span>
+</span></span></code></pre></div><p>Add-on developers can use addon-framework v0.8.0 and the above versions
 to support the scenarios mentioned above.</p>
 <ol>
 <li>Modify the <code>go.mod</code> file to use the latest addon-framework and API versions.</li>
 </ol>
-<pre><code>open-cluster-management.io/addon-framework v0.9.3 // // or latest
+<pre tabindex="0"><code>open-cluster-management.io/addon-framework v0.9.3 // // or latest
 open-cluster-management.io/api v0.13.0 // or latest
 </code></pre><ol start="2">
 <li>
@@ -1041,14 +1040,14 @@ section since it conflicts with the install strategy defined in the <code>Cluste
 </li>
 </ol>
 <p>Skip this step for OCM v0.14.0 and later version. The annotation is automatically added by the general addon manager.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: helloworld
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-...
-</code></pre></div><ol start="4">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><ol start="4">
 <li>
 <p>Define the <code>installStrategy</code> and <code>rolloutStrategy</code> in the <code>ClusterManagementAddOn</code>
 as shown in the example above. Note that the rollout strategy is triggered by
@@ -1059,16 +1058,16 @@ the rollout strategy will not take effect.</p>
 <p>If you do not want the automatic addon installation, set the install strategy type to <code>Manual</code>.</p>
 </li>
 </ol>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-  <span style="color:#66d9ef">name</span>: helloworld
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installStrategy</span>:
-    <span style="color:#66d9ef">type</span>: Manual
-</code></pre></div><h2 id="build-an-addon-with-addon-template">Build an addon with addon template</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installStrategy</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">Manual</span>
+</span></span></code></pre></div><h2 id="build-an-addon-with-addon-template">Build an addon with addon template</h2>
 <p>Using the addon-framework to develop an addon requires developers to implement the interface defined in the
 addon-framework via code and deploy a dedicated addon manager deployment on the hub cluster.
 But if the addon you are trying to develop:</p>
@@ -1107,101 +1106,101 @@ namespace on the hub cluster(KubeClient type registration, SingleNamespace)</li>
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: AddOnTemplate
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: hello-template
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addonName</span>: hello-template
-  <span style="color:#66d9ef">agentSpec</span>: <span style="color:#75715e"># required</span>
-      <span style="color:#66d9ef">workload</span>:
-        <span style="color:#66d9ef">manifests</span>:
-          - <span style="color:#66d9ef">kind</span>: Deployment
-            <span style="color:#66d9ef">apiVersion</span>: apps/v1
-            <span style="color:#66d9ef">metadata</span>:
-              <span style="color:#66d9ef">name</span>: hello-template-agent
-              <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent-addon
-              <span style="color:#66d9ef">labels</span>:
-                <span style="color:#66d9ef">app</span>: hello-template-agent
-            <span style="color:#66d9ef">spec</span>:
-              <span style="color:#66d9ef">replicas</span>: <span style="color:#ae81ff">1</span>
-              <span style="color:#66d9ef">selector</span>:
-                <span style="color:#66d9ef">matchLabels</span>:
-                  <span style="color:#66d9ef">app</span>: hello-template-agent
-              <span style="color:#66d9ef">template</span>:
-                <span style="color:#66d9ef">metadata</span>:
-                  <span style="color:#66d9ef">labels</span>:
-                    <span style="color:#66d9ef">app</span>: hello-template-agent
-                <span style="color:#66d9ef">spec</span>:
-                  <span style="color:#66d9ef">serviceAccountName</span>: hello-template-agent-sa
-                  <span style="color:#66d9ef">containers</span>:
-                    - <span style="color:#66d9ef">name</span>: helloworld-agent
-                      <span style="color:#66d9ef">image</span>: quay.io/open-cluster-management/addon-examples:latest
-                      <span style="color:#66d9ef">imagePullPolicy</span>: IfNotPresent
-                      <span style="color:#66d9ef">args</span>:
-                        - <span style="color:#e6db74">&#34;/helloworld&#34;</span>
-                        - <span style="color:#e6db74">&#34;agent&#34;</span>
-                        - <span style="color:#e6db74">&#34;--cluster-name={{CLUSTER_NAME}}&#34;</span>
-                        - <span style="color:#e6db74">&#34;--addon-namespace=open-cluster-management-agent-addon&#34;</span>
-                        - <span style="color:#e6db74">&#34;--addon-name=hello-template&#34;</span>
-                        - <span style="color:#e6db74">&#34;--hub-kubeconfig={{HUB_KUBECONFIG}}&#34;</span>
-                        - <span style="color:#e6db74">&#34;--v={{LOG_LEVEL}}&#34;</span> <span style="color:#75715e"># addonDeploymentConfig variables</span>
-          - <span style="color:#66d9ef">kind</span>: ServiceAccount
-            <span style="color:#66d9ef">apiVersion</span>: v1
-            <span style="color:#66d9ef">metadata</span>:
-              <span style="color:#66d9ef">name</span>: hello-template-agent-sa
-              <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent-addon
-          - <span style="color:#66d9ef">kind</span>: ClusterRoleBinding
-            <span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-            <span style="color:#66d9ef">metadata</span>:
-              <span style="color:#66d9ef">name</span>: hello-template-agent
-            <span style="color:#66d9ef">roleRef</span>:
-              <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-              <span style="color:#66d9ef">kind</span>: ClusterRole
-              <span style="color:#66d9ef">name</span>: cluster-admin
-            <span style="color:#66d9ef">subjects</span>:
-              - <span style="color:#66d9ef">kind</span>: ServiceAccount
-                <span style="color:#66d9ef">name</span>: hello-template-agent-sa
-                <span style="color:#66d9ef">namespace</span>: open-cluster-management-agent-addon
-  <span style="color:#66d9ef">registration</span>: <span style="color:#75715e"># optional</span>
-    <span style="color:#75715e"># kubeClient or custom signer, if kubeClient, user and group is in a certain format.</span>
-    <span style="color:#75715e"># user is &#34;system:open-cluster-management:cluster:{clusterName}:addon:{addonName}:agent:{agentName}&#34;</span>
-    <span style="color:#75715e"># group is [&#34;system:open-cluster-management:cluster:{clusterName}:addon:{addonName}&#34;,</span>
-    <span style="color:#75715e">#           &#34;system:open-cluster-management:addon:{addonName}&#34;, &#34;system:authenticated&#34;]</span>
-    - <span style="color:#66d9ef">type</span>: KubeClient
-      <span style="color:#66d9ef">kubeClient</span>:
-        <span style="color:#66d9ef">hubPermissions</span>:
-          - <span style="color:#66d9ef">type</span>: CurrentCluster
-            <span style="color:#66d9ef">currentCluster</span>:
-              <span style="color:#66d9ef">clusterRoleName</span>: cm-admin <span style="color:#75715e"># should be created by user</span>
-          - <span style="color:#66d9ef">type</span>: SingleNamespace
-            <span style="color:#66d9ef">singleNamespace</span>:
-              <span style="color:#66d9ef">namespace</span>: open-cluster-management
-              <span style="color:#66d9ef">roleRef</span>:
-                <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-                <span style="color:#66d9ef">kind</span>: Role
-                <span style="color:#75715e"># should be created by user; the addon manager will grant the permission to the agent, so if the</span>
-                <span style="color:#75715e"># role/clusterRole contains some permissions that the addon manager doesn&#39;t have, user needs to grant</span>
-                <span style="color:#75715e"># the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),</span>
-                <span style="color:#75715e"># otherwise the addon manager will fail to grant the permission to the agent</span>
-                <span style="color:#66d9ef">name</span>: cm-reader
-    - <span style="color:#66d9ef">type</span>: CustomSigner
-      <span style="color:#75715e"># addon-manager only generates the credential for the agent to authenticate to the hub cluster, not responsible</span>
-      <span style="color:#75715e"># for the authroization which should be taken care of by the user</span>
-      <span style="color:#66d9ef">customSigner</span>:
-        <span style="color:#66d9ef">signerName</span>: example.com/signer-test
-        <span style="color:#66d9ef">subject</span>:
-          <span style="color:#66d9ef">user</span>: user-test
-          <span style="color:#66d9ef">groups</span>:
-            - group-test
-          <span style="color:#66d9ef">organizationUnit</span>:
-            - organization-test
-        <span style="color:#66d9ef">signingCA</span>:
-          <span style="color:#75715e"># type is &#34;kubernetes.io/tls&#34;, namespace is &#34;open-cluster-management-agent-addon&#34;, user needs to grant the</span>
-          <span style="color:#75715e"># permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa)</span>
-          <span style="color:#75715e"># to access the secret</span>
-          <span style="color:#66d9ef">name</span>: ca-secret
-</code></pre></div><p><strong>Notes</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">AddOnTemplate</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addonName</span>: <span style="color:#ae81ff">hello-template</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">agentSpec</span>: <span style="color:#75715e"># required</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">workload</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">manifests</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template-agent</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">app</span>: <span style="color:#ae81ff">hello-template-agent</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">app</span>: <span style="color:#ae81ff">hello-template-agent</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">template</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">hello-template-agent</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">serviceAccountName</span>: <span style="color:#ae81ff">hello-template-agent-sa</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>                    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">helloworld-agent</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">quay.io/open-cluster-management/addon-examples:latest</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">IfNotPresent</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">args</span>:
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;/helloworld&#34;</span>
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;agent&#34;</span>
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;--cluster-name={{CLUSTER_NAME}}&#34;</span>
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;--addon-namespace=open-cluster-management-agent-addon&#34;</span>
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;--addon-name=hello-template&#34;</span>
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;--hub-kubeconfig={{HUB_KUBECONFIG}}&#34;</span>
+</span></span><span style="display:flex;"><span>                        - <span style="color:#e6db74">&#34;--v={{LOG_LEVEL}}&#34;</span> <span style="color:#75715e"># addonDeploymentConfig variables</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template-agent-sa</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template-agent</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cluster-admin</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template-agent-sa</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">registration</span>: <span style="color:#75715e"># optional</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># kubeClient or custom signer, if kubeClient, user and group is in a certain format.</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># user is &#34;system:open-cluster-management:cluster:{clusterName}:addon:{addonName}:agent:{agentName}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># group is [&#34;system:open-cluster-management:cluster:{clusterName}:addon:{addonName}&#34;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#           &#34;system:open-cluster-management:addon:{addonName}&#34;, &#34;system:authenticated&#34;]</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">type</span>: <span style="color:#ae81ff">KubeClient</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">kubeClient</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">hubPermissions</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">type</span>: <span style="color:#ae81ff">CurrentCluster</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">currentCluster</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">clusterRoleName</span>: <span style="color:#ae81ff">cm-admin</span> <span style="color:#75715e"># should be created by user</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">type</span>: <span style="color:#ae81ff">SingleNamespace</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">singleNamespace</span>:
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Role</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># should be created by user; the addon manager will grant the permission to the agent, so if the</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># role/clusterRole contains some permissions that the addon manager doesn&#39;t have, user needs to grant</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># the permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa),</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># otherwise the addon manager will fail to grant the permission to the agent</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cm-reader</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">type</span>: <span style="color:#ae81ff">CustomSigner</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># addon-manager only generates the credential for the agent to authenticate to the hub cluster, not responsible</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># for the authroization which should be taken care of by the user</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">customSigner</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">signerName</span>: <span style="color:#ae81ff">example.com/signer-test</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">subject</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">user</span>: <span style="color:#ae81ff">user-test</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">groups</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">group-test</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">organizationUnit</span>:
+</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">organization-test</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">signingCA</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># type is &#34;kubernetes.io/tls&#34;, namespace is &#34;open-cluster-management-agent-addon&#34;, user needs to grant the</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa)</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e"># to access the secret</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">ca-secret</span>
+</span></span></code></pre></div><p><strong>Notes</strong>:</p>
 <ul>
 <li>The permission related resources(i.e. <code>RoleBinding</code> <code>ClusterRoleBinding</code>) for <em>the addon agent access the local
 managed cluster</em> defined in the <code>addonTemplate.agentSpec.workload.manifests</code> will be created on the managed cluster
@@ -1223,19 +1222,19 @@ example: users can create a clusterrolebinding to grant the permission to the ad
 side. For the above example, if the addon-manager doesn&rsquo;t have the permission to create the <code>RoleBinding</code> to
 bind the <code>cm-admin</code> role, users can grant the permission to the addon-manager by creating a
 <code>ClusterRoleBinding</code> like below:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: rbac.authorization.k8s.io/v1
-<span style="color:#66d9ef">kind</span>: ClusterRoleBinding
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: addon-manager-cm-admin
-<span style="color:#66d9ef">roleRef</span>:
-  <span style="color:#66d9ef">apiGroup</span>: rbac.authorization.k8s.io
-  <span style="color:#66d9ef">kind</span>: ClusterRole
-  <span style="color:#66d9ef">name</span>: cm-admin
-<span style="color:#66d9ef">subjects</span>:
-  - <span style="color:#66d9ef">kind</span>: ServiceAccount
-    <span style="color:#66d9ef">name</span>: addon-manager-controller-sa
-    <span style="color:#66d9ef">namespace</span>: open-cluster-management-hub
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRoleBinding</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-manager-cm-admin</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">roleRef</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGroup</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterRole</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cm-admin</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">subjects</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-manager-controller-sa</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">open-cluster-management-hub</span>
+</span></span></code></pre></div></li>
 </ol>
 </li>
 </ul>
@@ -1243,32 +1242,32 @@ bind the <code>cm-admin</code> role, users can grant the permission to the addon
 <li>
 <p>Create a <code>ClusterManagementAddOn</code> to declare this is template type addon which should be managed by the
 addon-manager:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ClusterManagementAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: hello-template
-  <span style="color:#66d9ef">annotations</span>:
-    <span style="color:#66d9ef">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">addOnMeta</span>:
-    <span style="color:#66d9ef">description</span>: hello-template is a addon built with addon template
-    <span style="color:#66d9ef">displayName</span>: hello-template
-  <span style="color:#66d9ef">supportedConfigs</span>: <span style="color:#75715e"># declare it is a template type addon</span>
-  - <span style="color:#66d9ef">group</span>: addon.open-cluster-management.io
-    <span style="color:#66d9ef">resource</span>: addontemplates
-    <span style="color:#66d9ef">defaultConfig</span>:
-      <span style="color:#66d9ef">name</span>: hello-template
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ClusterManagementAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">addon.open-cluster-management.io/lifecycle</span>: <span style="color:#e6db74">&#34;addon-manager&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">addOnMeta</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">description</span>: <span style="color:#ae81ff">hello-template is a addon built with addon template</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">displayName</span>: <span style="color:#ae81ff">hello-template</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">supportedConfigs</span>: <span style="color:#75715e"># declare it is a template type addon</span>
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">group</span>: <span style="color:#ae81ff">addon.open-cluster-management.io</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">resource</span>: <span style="color:#ae81ff">addontemplates</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">defaultConfig</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template</span>
+</span></span></code></pre></div></li>
 <li>
 <p>Create a <code>ManagedClusterAddOn</code> to enable the addon on <code>cluster1</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">apiVersion</span>: addon.open-cluster-management.io/v1alpha1
-<span style="color:#66d9ef">kind</span>: ManagedClusterAddOn
-<span style="color:#66d9ef">metadata</span>:
-  <span style="color:#66d9ef">name</span>: hello-template
-  <span style="color:#66d9ef">namespace</span>: cluster1
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">installNamespace</span>: open-cluster-management-agent-addon
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">addon.open-cluster-management.io/v1alpha1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ManagedClusterAddOn</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hello-template</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">cluster1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">installNamespace</span>: <span style="color:#ae81ff">open-cluster-management-agent-addon</span>
+</span></span></code></pre></div></li>
 </ol>
 <h3 id="use-variables-in-the-addon-template">Use variables in the addon template</h3>
 <p>Users can use variables in the <code>addonTemplate.agentSpec.workload.manifests</code> field in the form of <code>{{VARIABLE_NAME}}</code>, it
@@ -1299,39 +1298,39 @@ variables:</p>
 <li>
 <p>If there is a <code>KubeClient</code> type registration, the hub kubeconfig will be injected to the deployments defined in the
 addon template, so users can use the hub kubeconfig located at <code>/managed/hub-kubeconfig/kubeconfig</code> to access the hub</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">containers</span>:
-    - <span style="color:#66d9ef">name</span>: addon-agent
-      ...
-      <span style="color:#66d9ef">volumeMounts</span>:
-        - <span style="color:#66d9ef">mountPath</span>: /managed/hub-kubeconfig
-          <span style="color:#66d9ef">name</span>: hub-kubeconfig
-  <span style="color:#66d9ef">volumes</span>:
-    - <span style="color:#66d9ef">name</span>: hub-kubeconfig
-      <span style="color:#66d9ef">secret</span>:
-        <span style="color:#66d9ef">defaultMode</span>: <span style="color:#ae81ff">420</span>
-        <span style="color:#66d9ef">secretName</span>: &lt;addon-name&gt;-hub-kubeconfig
-...
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-agent</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/managed/hub-kubeconfig</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hub-kubeconfig</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">hub-kubeconfig</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">secret</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">defaultMode</span>: <span style="color:#ae81ff">420</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;addon-name&gt;-hub-kubeconfig</span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div></li>
 <li>
 <p>If there is a <code>CustomSigner</code> type registration, the secret signed via the custom signer defined in the
 <code>CustomSignerRegistrationConfig</code> will be injected to the deployments and daemonsets defined in the addon template,
 so users can use the certificate located at <code>/managed/&lt;signer-name&gt;/tls.crt</code> and <code>/managed/&lt;signer-name&gt;/tls.key</code></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
-<span style="color:#66d9ef">spec</span>:
-  <span style="color:#66d9ef">containers</span>:
-    - <span style="color:#66d9ef">name</span>: addon-agent
-      ...
-      <span style="color:#66d9ef">volumeMounts</span>:
-        - <span style="color:#66d9ef">mountPath</span>: /managed/&lt;signer-name&gt; <span style="color:#75715e"># if the signer name contains &#34;/&#34;, it will be replaced by &#34;-&#34;</span>
-          <span style="color:#66d9ef">name</span>: cert-&lt;signer-name<span style="color:#e6db74">&gt;
-</span><span style="color:#e6db74">  volumes:</span>
-    - <span style="color:#66d9ef">name</span>: cert-&lt;signer-name&gt; <span style="color:#75715e"># if the signer name contains &#34;/&#34;, it will be replaced by &#34;-&#34;</span>
-      <span style="color:#66d9ef">secret</span>:
-        <span style="color:#66d9ef">defaultMode</span>: <span style="color:#ae81ff">420</span>
-        <span style="color:#66d9ef">secretName</span>: &lt;addon-name&gt;-&lt;signer-name&gt;-client-cert <span style="color:#75715e"># if the signer name contains &#34;/&#34;, it will be replaced by &#34;-&#34;</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">addon-agent</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">...</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">volumeMounts</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/managed/&lt;signer-name&gt;</span> <span style="color:#75715e"># if the signer name contains &#34;/&#34;, it will be replaced by &#34;-&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cert-&lt;signer-name&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cert-&lt;signer-name&gt;</span> <span style="color:#75715e"># if the signer name contains &#34;/&#34;, it will be replaced by &#34;-&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">secret</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">defaultMode</span>: <span style="color:#ae81ff">420</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">secretName</span>: <span style="color:#ae81ff">&lt;addon-name&gt;-&lt;signer-name&gt;-client-cert</span> <span style="color:#75715e"># if the signer name contains &#34;/&#34;, it will be replaced by &#34;-&#34;</span>
+</span></span></code></pre></div></li>
 </ol>
 <h3 id="health-probe-of-the-template-type-addon">health probe of the template type addon</h3>
 <p>Since we only support the <code>Deployment</code> and <code>DaemonSet</code> resource as the crucial agent runtime workload, the addon-manager
