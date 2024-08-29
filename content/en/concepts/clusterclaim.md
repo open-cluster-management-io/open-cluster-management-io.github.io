@@ -1,6 +1,6 @@
 ---
 title: ClusterClaim
-weight: 2
+weight: 10
 ---
 
 <!-- spellchecker-disable -->

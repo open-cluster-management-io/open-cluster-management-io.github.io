@@ -103,9 +103,6 @@ other = "Add-ons"
 [sidebar_policy]
 other = "Policy"
 
-[sidebar_multicluster_controlplane]
-other = "Multicluster Control Plane"
-
 [sidebar_getting_started]
 other = "Getting Started"
 
@@ -124,11 +121,38 @@ other = "Register a Cluster"
 [sidebar_integrations]
 other = "Add-ons and Integrations"
 
-[sidebar_developer-guides]
-other = "Developer Guides"
+[sidebar_user_guides]
+other = "User Guides"
 
-[sidebar_addon-developer-guide]
-other = "Add-on Developer Guide"
+[sidebar_cluster_claim_guides]
+other = "ClusterClaim"
+
+[sidebar_cluster_guides]
+other = "Clusters"
+
+[sidebar_managed_cluster_guides]
+other = "ManagedCluster"
+
+[sidebar_managed_cluster_set_guides]
+other = "ManagedClusterSet"
+
+[sidebar_placement_guides]
+other = "Placement"
+
+[sidebar_manifest_work_guides]
+other = "ManifestWork"
+
+[sidebar_manifest_work_replicaset_guides]
+other = "ManifestWorkReplicaSet"
+
+[sidebar_addons_guides]
+other = "Add-ons"
+
+[sidebar_policy_guides]
+other = "Policy"
+
+[sidebar_multicluster_controlplane]
+other = "Multicluster Control Plane"
 
 [sidebar_administration]
 other = "Administration"
@@ -139,6 +163,11 @@ other = "Upgrading"
 [sidebar_administration_monitoring]
 other = "Monitoring"
 
+[sidebar_developer-guides]
+other = "Developer Guides"
+
+[sidebar_addon-developer-guide]
+other = "Add-on Developer Guide"
 [sidebar_apps]
 other = "Application lifecycle management"
 
@@ -201,3 +230,6 @@ other = "Contribute"
 
 [sidebar_blog]
 other = "Blog"
+
+[sidebar_faq]
+other = "FAQ"
