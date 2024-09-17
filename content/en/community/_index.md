@@ -1,6 +1,6 @@
 ---
 title: Community
-weight: 4
+menu:
+  main:
+    weight: 20
 ---
-
-{{< toc-tree >}}

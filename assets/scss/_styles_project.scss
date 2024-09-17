@@ -1,0 +1,18 @@
+.td-footer {
+    background-color: #0e0f45;
+}
+
+// Change font size of "Open Cluster Management" and make it not wrap
+.display-1 {
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: clamp(1rem, 5vw, 5rem);
+}
+
+.github-link {
+  text-decoration: none;
+
+  &:hover {
+    color: #ffffff !important;
+  }
+}

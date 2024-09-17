@@ -1,7 +1,7 @@
 # Website
 This repo host the website code of open-cluster-management project. After the PR is merged, the compiled website page will be published to gh-page branch in this repo.
 
-The open-cluster-management website is based on the [Hugo framework](https://github.com/gohugoio/hugo), with the [hugo-geekdoc theme](https://github.com/thegeeklab/hugo-geekdoc) applied, and is written in Markdown format.
+The open-cluster-management website is based on the [Hugo framework](https://github.com/gohugoio/hugo), with the [Docsy](https://www.docsy.dev/) applied, and is written in Markdown format.
 
 You can always click the Edit this page link at the top right of each page, but if you want to test your changes locally before submitting you can:
 
@@ -12,7 +12,7 @@ Check out your copy locally:
 ```
 git clone ssh://git@github.com/<your-user>/open-cluster-management-io.github.io.git
 cd open-cluster-management-io.github.io
-make server
+hugo server
 ```
 
 An instance of the website is now running locally on your machine and is accessible at http://localhost:1313.
