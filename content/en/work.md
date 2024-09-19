@@ -1,4 +1,0 @@
----
-title: Works
-layout: work
----

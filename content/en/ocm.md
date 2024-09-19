@@ -1,4 +1,0 @@
----
-title: OCM
-layout: ocm
----

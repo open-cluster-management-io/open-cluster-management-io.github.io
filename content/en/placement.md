@@ -1,4 +1,0 @@
----
-title: Placements
-layout: placement
----
