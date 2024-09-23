@@ -36,19 +36,7 @@
         <loc>http://open-cluster-management.io/governance-policy-framework-addon?go-get=1</loc>
     </url>
     <url>
-        <loc>http://open-cluster-management.io/governance-policy-nucleus?go-get=1</loc>
-    </url>
-    <url>
         <loc>http://open-cluster-management.io/governance-policy-propagator?go-get=1</loc>
-    </url>
-    <url>
-        <loc>http://open-cluster-management.io/governance-policy-spec-sync?go-get=1</loc>
-    </url>
-    <url>
-        <loc>http://open-cluster-management.io/governance-policy-status-sync?go-get=1</loc>
-    </url>
-    <url>
-        <loc>http://open-cluster-management.io/governance-policy-template-sync?go-get=1</loc>
     </url>
     <url>
         <loc>http://open-cluster-management.io/policy-generator-plugin?go-get=1</loc>
