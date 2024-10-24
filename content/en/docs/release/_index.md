@@ -3,8 +3,43 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.14.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.15.0`.
 Continue reading to view upcoming releases:
+
+## `0.15.0`, 24 Oct. 2024
+
+The Open Cluster Management team is proud to announce the release of OCM v0.15.0!
+
+- Cluster Manager and Klusterlet helm chart: user can now install cluster manager and klusterlet using helm by
+  adding the `https://open-cluster-management.io/helm-charts` into the helm repo.
+- Multiple hubs: by enabling the `MultipleHubs` feature gate on the klusterlet, the klusterlet can switch
+  the connection among multiple hubs upon hub server down, or when user explictly set `hubAcceptClient` false
+  on the `ManagedCluster`. See [solution](https://github.com/open-cluster-management-io/ocm/tree/main/solutions/multiplehubs)
+  on how to use this feature to handle disaster recovery.
+- Addon support multiple configurations with the same kind: user can now set multiple configurations
+  with the same kind on the `ManagedClusterAddon` and `ClusterManagementAddon`. Which specific configuration
+  is used by the addon is decided by the addon.
+- Add configured condition in `ManagedClusterAddon`: the addon-manager will set condition with the type of `Configured`
+  on the `ManagedClusterAddon` when the configuration of the addon is determined by the addon-manager. This is to avoid
+  the out of date configuration is picked to deploy the addon agent.
+- Sync between ManagedCluster and cluster inventory API: We introduce the cluster inventory API
+  from sig-multicluster and sync betweem ManagedCluster and ClusterProfile API. See 
+  [here](https://github.com/kubernetes-sigs/cluster-inventory-api) for more details on cluster inventory API.
+
+### Core components
+- ocm v0.15.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.15.0)
+- addon-framework v0.11.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v0.11.0)
+- clusteradm v0.10.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.10.0)
+
+### Addons
+- config-policy-controller v0.15.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.15.0)
+- governance-policy-framework-addon v0.15.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.15.0)
+- governance-policy-propagator v0.15.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.15.0)
+- governance-policy-addon-controller v0.15.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.15.0)
+- multicloud-operators-subscription v0.15.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.15.0)
+- multicloud-operators-channel v0.15.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.15.0)
+- managed-serviceaccount v0.7.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.7.0)
+- cluster-proxy v0.6.0 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.6.0)
 
 ## `0.14.0`, 21 Jun. 2024
 
