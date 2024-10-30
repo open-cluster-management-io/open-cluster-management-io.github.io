@@ -13,7 +13,7 @@ The Open Cluster Management team is proud to announce the release of OCM v0.15.0
 - Cluster Manager and Klusterlet helm chart: user can now install cluster manager and klusterlet using helm by
   adding the `https://open-cluster-management.io/helm-charts` into the helm repo.
 - Multiple hubs: by enabling the `MultipleHubs` feature gate on the klusterlet, the klusterlet can switch
-  the connection among multiple hubs upon hub server down, or when user explictly set `hubAcceptClient` false
+  the connection among multiple hubs if the hub server is down, or when user explictly sets `hubAcceptClient` to `false`
   on the `ManagedCluster`. See [solution](https://github.com/open-cluster-management-io/ocm/tree/main/solutions/multiplehubs)
   on how to use this feature to handle disaster recovery.
 - Addon support multiple configurations with the same kind: user can now set multiple configurations
@@ -21,10 +21,23 @@ The Open Cluster Management team is proud to announce the release of OCM v0.15.0
   is used by the addon is decided by the addon.
 - Add configured condition in `ManagedClusterAddon`: the addon-manager will set condition with the type of `Configured`
   on the `ManagedClusterAddon` when the configuration of the addon is determined by the addon-manager. This is to avoid
-  the out of date configuration is picked to deploy the addon agent.
+  an out of date configuration being picked to deploy the addon agent.
 - Sync between ManagedCluster and cluster inventory API: We introduce the cluster inventory API
-  from sig-multicluster and sync betweem ManagedCluster and ClusterProfile API. See 
+  from sig-multicluster and sync between ManagedCluster and ClusterProfile API. See 
   [here](https://github.com/kubernetes-sigs/cluster-inventory-api) for more details on cluster inventory API.
+- (Policy framework) Event-driven `ConfigurationPolicy` evaluations: By default, `ConfigurationPolicy` reconciles are 
+  now event-driven, lowering resource consumption and increasing efficiency. Users can set a policy to reconcile on an 
+  interval as they were previously by configuring `spec.evaluationInterval`.
+- (Policy framework) Custom `ConfigurationPolicy` compliance messages: Policy authors can now define Go templates to be
+  used for compliance messages, including `.DefaultMessage` and `.Policy` fields available for parsing relevant information.
+- (Policy framework) `dryrun` CLI: A `dryrun` CLI is available to reconcile `ConfigurationPolicy` locally, allowing you 
+  to view the compliance and diff resulting from a `ConfigurationPolicy` without deploying it to a cluster:
+  ```
+  go install open-cluster-management.io/config-policy-controller/cmd/dryrun@latest
+  ```
+- (Policy framework) Customizable hub cluster template access: Users can now set `spec.hubTemplateOptions.serviceAccountName`
+  to leverage a service account in the root policy namespace to resolve hub templates. Without the service account, hub
+  templates are only able to access objects in the same namespace as the policy.
 
 ### Core components
 - ocm v0.15.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.15.0)
