@@ -110,6 +110,23 @@ Then run the following helm command to install the cluster-proxy addon:
 ```shell
 $ helm install -n open-cluster-management-addon --create-namespace \
     cluster-proxy ocm/cluster-proxy
+```
+
+**Note:** If you're using a non-Kind cluster, for example, an Openshift cluster,
+you need to configure the `ManagedProxyConfiguration` by setting `proxyServer.entrypointAddress`
+in the `values.yaml` to the address of the proxy server.
+
+To do this at install time, you can run the following command:
+```shell
+$ helm install -n open-cluster-management-addon --create-namespace \
+    cluster-proxy ocm/cluster-proxy \
+    --set "proxyServer.entrypointAddress=<address of the proxy server>"
+```
+
+After the installation, you can check the deployment status of the cluster-proxy
+addon by running the following command:
+
+```shell
 $ kubectl -n open-cluster-management-addon get deploy
 NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
 cluster-proxy                          3/3     3            3           24h
