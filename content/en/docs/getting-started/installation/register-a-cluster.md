@@ -96,7 +96,7 @@ The hosted mode deploying is till in experimental stage, consider to use it only
 In hosted mode, the cluster where the klusterlet is running is called the hosting cluster. Running the following command
 to the hosting cluster to register the managed cluster to the hub.
 
-{{< tabpane header="clusteradm join" >}}
+{{< tabpane text=true >}}
 {{% tab header="kind"  %}}
   ```shell
   # NOTE for KinD clusters:
@@ -136,7 +136,7 @@ cluster.
 **Note:** to run klusterlet in singleton mode, you must have a clusteradm version equal or higher than
 `v0.12.0`
 
-{{< tabpane header="clusteradm join" >}}
+{{< tabpane text=true >}}
 {{% tab header="kind" %}}
   ```shell
   # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
