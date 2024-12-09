@@ -339,7 +339,7 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 
    `DeploymentAvailability` health prober indicates the healthiness of the add-on is connected to the availability of
    the corresponding agent deployment resources on the managed cluster. It's applicable to those add-ons that running
-   `Deployment` type workload on the managed cluster. The add-on manager will check if the `availableReplicas` of the
+   `Deployment` type workload on the managed cluster. The add-on manager will check if the `readyReplicas` of the
    add-on agent deployment is more than 1 to set the addon Status.
 
    Set the type of `healthProber` to `DeploymentAvailability` to enable this prober.
@@ -350,7 +350,23 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
     }
     ```
 
-4. **None**
+4. **WorkloadAvailability**
+
+   `WorkloadAvailability` health prober indicates the healthiness of the add-on is connected to the availability of
+   the corresponding agent workload resources(only `Deployment` and `DaemonSet` are supported for now) on the managed
+   cluster. It's applicable to those add-ons that running `Deployment` and/or `DeamonSet` workloads on the managed
+   cluster. The add-on manager will check if `readyReplicas > 1` for each `Deployment` and
+   `NumberReady == DesiredNumberScheduled` for each `DaemonSet` of the add-on agent to set the addon Status.
+
+   Set the type of `healthProber` to `WorkloadAvailability` to enable this prober.
+
+    ```go
+    healthProber := &agent.HealthProber{
+        Type: agent.HealthProberTypeWorkloadAvailability,
+    }
+    ```
+
+5. **None**
 
    If you want to check and maintain the `AVAILABLE` status of `ManagedClusterAddOn` by yourself, set the type of
    `healthProber` to `None`.
@@ -1108,10 +1124,11 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
              organizationUnit:
                - organization-test
            signingCA:
-             # type is "kubernetes.io/tls", namespace is "open-cluster-management-agent-addon", user needs to grant the
-             # permission to the addon-manager (service account open-cluster-management-hub/addon-manager-controller-sa)
-             # to access the secret
+             # type is "kubernetes.io/tls"; namespace is optional, "open-cluster-management-hub" will be used if
+             # namespace is not set; user needs to grant the permission to the addon-manager (service account
+             # open-cluster-management-hub/addon-manager-controller-sa) to access the secret
              name: ca-secret
+             namespace: test-namespace
    ```
 
    **Notes**:
