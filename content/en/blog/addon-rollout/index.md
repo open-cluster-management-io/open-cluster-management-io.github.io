@@ -1,7 +1,7 @@
 ---
 title: Using the GitOps way to deal with the upgrade challenges of multi-cluster tool chains
 date: 2024-01-19
-author: Hao Qing [@haoqing0110](https://github.com/haoqing0110)
+author: Qing Hao [@haoqing0110](https://github.com/haoqing0110)
 toc_hide: true
 ---
 
