@@ -1,7 +1,7 @@
 ---
 title: Extending the Multicluster Scheduling Capabilities with Open Cluster Management Placement
 date: 2022-09-15
-author: Qing Hao
+author: Qing Hao [@haoqing0110](https://github.com/haoqing0110)
 toc_hide: true
 ---
 
