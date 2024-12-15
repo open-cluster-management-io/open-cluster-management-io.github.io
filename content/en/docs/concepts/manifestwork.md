@@ -1,6 +1,8 @@
 ---
 title: ManifestWork
 weight: 6
+aliases:
+  - /concepts/manifestwork/
 ---
 
 
