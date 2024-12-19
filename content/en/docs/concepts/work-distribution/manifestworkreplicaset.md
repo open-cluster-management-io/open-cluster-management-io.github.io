@@ -1,6 +1,6 @@
 ---
-#title: ManifestWorkReplicaSet
-weight: 11
+title: ManifestWorkReplicaSet
+weight: 2
 ---
 
 

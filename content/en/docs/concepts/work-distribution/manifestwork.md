@@ -1,6 +1,6 @@
 ---
-#title: ManifestWork
-weight: 10
+title: ManifestWork
+weight: 1
 aliases:
   - /concepts/manifestwork/
 ---

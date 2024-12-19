@@ -1,6 +1,6 @@
 ---
 title: Multicluster Control Plane
-weight: 10
+weight: 5
 ---
 
 

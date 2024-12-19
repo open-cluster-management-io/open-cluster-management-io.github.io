@@ -1,6 +1,6 @@
 ---
-#title: ClusterClaim
-weight: 6
+title: ClusterClaim
+weight: 1
 ---
 
 
