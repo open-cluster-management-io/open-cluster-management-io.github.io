@@ -1,6 +1,9 @@
 ---
 title: ClusterClaim
-weight: 2
+weight: 1
+aliases:
+  - /concepts/clusterclaim/
+  - /docs/concepts/clusterclaim/
 ---
 
 

@@ -1,6 +1,9 @@
 ---
 title: ManifestWorkReplicaSet
-weight: 7
+weight: 2
+aliases:
+  - /concepts/manifestworkreplicaset/
+  - /docs/concepts/manifestworkreplicaset/
 ---
 
 

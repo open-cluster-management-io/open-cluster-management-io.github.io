@@ -10,12 +10,12 @@ and drive remediation for various security and configuration aspects to help IT 
 
 ## API Concepts
 
-View the [Policy API]({{< ref "docs/concepts/policy" >}}) page for additional details about the Policy API managed by the Policy Framework
+View the [Policy API]({{< ref "docs/getting-started/integration/policy" >}}) page for additional details about the Policy API managed by the Policy Framework
 components, including:
 
-- [`Policy`]({{< ref "docs/concepts/policy#policy" >}})
-- [`PolicySet`]({{< ref "docs/concepts/policy#policyset" >}})
-- [`PlacementBinding`]({{< ref "docs/concepts/policy#placementbinding" >}})
+- [`Policy`]({{< ref "docs/getting-started/integration/policy#policy" >}})
+- [`PolicySet`]({{< ref "docs/getting-started/integration/policy#policyset" >}})
+- [`PlacementBinding`]({{< ref "docs/getting-started/integration/policy#placementbinding" >}})
 
 ## Architecture
 

@@ -1,8 +1,9 @@
 ---
 title: ManifestWork
-weight: 6
+weight: 1
 aliases:
   - /concepts/manifestwork/
+  - /docs/concepts/manifestwork/
 ---
 
 

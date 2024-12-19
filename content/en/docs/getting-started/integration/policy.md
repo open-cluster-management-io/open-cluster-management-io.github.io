@@ -1,6 +1,9 @@
 ---
 title: Policy
-weight: 9
+weight: 5
+aliases:
+  - /concepts/policy/
+  - /docs/concepts/policy/
 ---
 
 
@@ -24,8 +27,8 @@ The policy framework has the following API concepts:
   [policy controller]({{< ref "docs/getting-started/integration/policy-controllers" >}}).
 - A [`PolicySet`](#policyset) is a grouping mechanism of `Policy` objects. Compliance of all grouped `Policy` objects is
   summarized in the `PolicySet`. A `PolicySet` is a deployable unit and its distribution is controlled by a
-  [Placement]({{< ref "docs/concepts/placement" >}}).
-- A [`PlacementBinding`](#placementbinding) binds a [Placement]({{< ref "docs/concepts/placement" >}}) to a `Policy` or `PolicySet`.
+  [Placement]({{< ref "docs/concepts/content-placement/placement" >}}).
+- A [`PlacementBinding`](#placementbinding) binds a [Placement]({{< ref "docs/concepts/content-placement/placement" >}}) to a `Policy` or `PolicySet`.
 
 The second half of the
 [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
@@ -37,7 +40,7 @@ A `Policy` is a grouping mechanism for _Policy Templates_ and is the smallest de
 Embedded _Policy Templates_ are distributed to applicable managed clusters and acted upon by the appropriate
 [policy controller]({{< ref "docs/getting-started/integration/policy-controllers" >}}). The compliance state and status of a `Policy`
 represents all embedded _Policy Templates_ in the `Policy`. The distribution of `Policy` objects is controlled by a
-[Placement]({{< ref "docs/concepts/placement" >}}).
+[Placement]({{< ref "docs/concepts/content-placement/placement" >}}).
 
 View a simple example of a `Policy` that embeds a `ConfigurationPolicy` policy template to manage a namespace called
 "prod".
@@ -96,7 +99,7 @@ doesn't exist. Other compliance types include `mustnothave` and `mustonlyhave`. 
 or see the [templating in configuration policies](#templating-in-configuration-policies) topic for advanced templating
 use cases with `ConfigurationPolicy`.
 
-When the `Policy` is bound to a [`Placement`]({{< ref "docs/concepts/placement" >}}) using a [`PlacementBinding`](#placementbinding), the
+When the `Policy` is bound to a [`Placement`]({{< ref "docs/concepts/content-placement/placement" >}}) using a [`PlacementBinding`](#placementbinding), the
 `Policy` status will report on each cluster that matches the bound `Placement`:
 
 ```yaml
@@ -125,7 +128,7 @@ kubectl get crd configurationpolicies.policy.open-cluster-management.io -o yaml
 
 ## PlacementBinding
 
-A `PlacementBinding` binds a [Placement]({{< ref "docs/concepts/placement" >}}) to a [`Policy`](#policy) or [`PolicySet`](#policyset).
+A `PlacementBinding` binds a [Placement]({{< ref "docs/concepts/content-placement/placement" >}}) to a [`Policy`](#policy) or [`PolicySet`](#policyset).
 
 Below is an example of a `PlacementBinding` that binds the `policy-namespace` `Policy` to the `placement-hub-cluster`
 `Placement`.
@@ -152,7 +155,7 @@ Once the `Policy` is bound, it will be distributed to and acted upon by the mana
 
 A `PolicySet` is a grouping mechanism of [`Policy`](#policy) objects. Compliance of all grouped `Policy` objects is
 summarized in the `PolicySet`. A `PolicySet` is a deployable unit and its distribution is controlled by a
-[Placement]({{< ref "docs/concepts/placement" >}}) when bound through a [`PlacementBinding`](#placementbinding).
+[Placement]({{< ref "docs/concepts/content-placement/placement" >}}) when bound through a [`PlacementBinding`](#placementbinding).
 
 This enables a workflow where subject matter experts write `Policy` objects and then an IT administrator creates a
 `PolicySet` that groups the previously written `Policy` objects and binds the `PolicySet` to a `Placement` that deploys

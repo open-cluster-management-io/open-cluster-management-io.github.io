@@ -3,7 +3,7 @@ title: Policy controllers
 weight: 10
 ---
 
-The [Policy API]({{< ref "docs/concepts/policy" >}}) on the hub delivers the policies defined in `spec.policy-templates` to the managed
+The [Policy API]({{< ref "docs/getting-started/integration/policy" >}}) on the hub delivers the policies defined in `spec.policy-templates` to the managed
 clusters via the [policy framework controllers]({{< ref "docs/getting-started/integration/policy-framework" >}}). Once on the managed
 cluster, these _Policy Templates_ are acted upon by the associated controller on the managed cluster. The policy
 framework supports delivering the _Policy Template_ kinds listed.

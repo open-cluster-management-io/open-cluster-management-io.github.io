@@ -1,6 +1,9 @@
 ---
 title: ManagedCluster
-weight: 3
+weight: 2
+aliases:
+  - /concepts/managedcluster/
+  - /docs/concepts/managedcluster/
 ---
 
 
@@ -69,7 +72,7 @@ $ clusteradm accept --clusters <cluster name>
 Upon the approval, the registration agent will observe the signed certificate
 and persist them as a local secret named "hub-kubeconfig-secret" (by default
 in the "open-cluster-management-agent" namespace) which will be mounted to the
-other fundamental components of klusterlet such as the [work]({{< ref "docs/concepts/manifestwork" >}})
+other fundamental components of klusterlet such as the [work]({{< ref "docs/concepts/work-distribution/manifestwork" >}})
 agent. In a word, if you can find your "hub-kubeconfig-secret" successfully
 present in your managed cluster, the cluster registration is all set!
 

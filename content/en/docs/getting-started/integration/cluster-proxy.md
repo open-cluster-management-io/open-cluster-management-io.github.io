@@ -58,7 +58,7 @@ control plane network connectivity for us:
 
 
 Cluster proxy runs inside OCM's hub cluster as an addon manager which is
-developed based on the [Addon-Framework]({{< ref "docs/concepts/addon" >}}).
+developed based on the [Addon-Framework]({{< ref "docs/concepts/add-on-extensibility/addon" >}}).
 The addon manager of cluster proxy will be responsible for:
 
 1. Managing the installation of proxy servers in the hub cluster.

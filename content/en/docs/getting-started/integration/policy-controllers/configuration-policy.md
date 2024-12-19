@@ -70,7 +70,7 @@ For more information on how to use a `ConfigurationPolicy`, read the
 
 3. Make sure the `default` namespace has a `ManagedClusterSetBinding` for a `ManagedClusterSet` with at least one
    managed cluster resource in the `ManagedClusterSet`. See
-   [Bind ManagedClusterSet to a namespace]({{< ref "docs/concepts/managedclusterset#bind-managedclusterset-to-a-namespace" >}}) for more
+   [Bind ManagedClusterSet to a namespace]({{< ref "docs/concepts/cluster-inventory/managedclusterset#bind-managedclusterset-to-a-namespace" >}}) for more
    information on this.
 
 4. To confirm that the managed cluster is selected by the `Placement`, run the following command:

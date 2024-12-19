@@ -1,6 +1,9 @@
 ---
 title: ManagedClusterSet
-weight: 4
+weight: 3
+aliases:
+  - /concepts/managedclusterset/
+  - /docs/concepts/managedclusterset/
 ---
 
 

@@ -1,6 +1,9 @@
 ---
 title: Multicluster Control Plane
-weight: 10
+weight: 5
+aliases:
+  - /concepts/multicluster-controlplane/
+  - /docs/concepts/multicluster-controlplane/
 ---
 
 

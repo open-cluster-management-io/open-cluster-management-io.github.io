@@ -121,7 +121,7 @@ default-token-r89gs   kubernetes.io/service-account-token   3      6d22h
 dep                   Opaque                                2      6d21h
 ```
 
-接着，管理员需要通过OCM的[Manifestwork]({{< ref "docs/concepts/manifestwork" >}}), 即工作负载分发功能，在cluster1上创建一个`ClusterRole`，给dep绑定了cluster1上的对应权限：
+接着，管理员需要通过OCM的[Manifestwork]({{< ref "docs/concepts/work-distribution/manifestwork" >}}), 即工作负载分发功能，在cluster1上创建一个`ClusterRole`，给dep绑定了cluster1上的对应权限：
 
 ```bash
 # 创建ClusterRole, 仅具有操作Deployment的权限
