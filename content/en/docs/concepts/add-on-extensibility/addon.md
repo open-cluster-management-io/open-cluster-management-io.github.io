@@ -1,6 +1,6 @@
 ---
-#title: Add-ons
-weight: 12
+title: Add-ons
+weight: 1
 ---
 
 

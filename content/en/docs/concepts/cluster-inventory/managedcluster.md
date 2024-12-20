@@ -1,6 +1,6 @@
 ---
-#title: ManagedCluster
-weight: 7
+title: ManagedCluster
+weight: 2
 ---
 
 

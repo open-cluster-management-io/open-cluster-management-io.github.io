@@ -1,6 +1,6 @@
 ---
-#title: ManagedClusterSet
-weight: 8
+title: ManagedClusterSet
+weight: 3
 ---
 
 
