@@ -1257,7 +1257,36 @@ The addon manager will inject volumes into the addon agent deployments and daemo
            secretName: <addon-name>-<signer-name>-client-cert # if the signer name contains "/", it will be replaced by "-"
    ```
 
-### health probe of the template type addon
+### Health probe of the template type addon
 
 Since we only support the `Deployment` and `DaemonSet` resource as the crucial agent runtime workload, the addon-manager
 will check if the deployment and daemonsets are available, if not, the addon will be considered as unhealthy.
+
+### Support proxy configuration for the template type addon
+
+From OCM v0.16.0, the template type addon can be configured to use the proxy by setting the
+`addonDeploymentConfig.spec.proxyConfig`:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: AddOnDeploymentConfig
+metadata:
+  name: proxy-deploy-config
+  namespace: open-cluster-management-hub
+spec:
+  proxyConfig:
+    httpProxy: "http://test.com"
+    httpsProxy: "https://test.com"
+    noProxy: "api.ocm-hub.com,172.30.0.1" # Example: hub cluster api server and the local managed cluster api server
+    caBundle: dGVzdC1idW5kbGUK
+```
+
+The proxy configuration `httpProxy`, `httpsProxy`, and `noProxy` will be injected as environments
+`HTTP_PROXY`, `http_proxy`, `HTTPS_PROXY`, `https_proxy`, `NO_PROXY`, `no_proxy`(both uppercase and lowercase) to
+the addon agent deployments and daemonsets.
+
+If the `caBundle` is set, the addon-manager will create a configmap containing the ca bundle data in the addon install
+namespace, and mount the configmap to the addon agent deployments and daemonsets, and then set an environment
+`CA_BUNDLE_FILE_PATH` to the file path of the mounted ca bundle. If the addon needs to support the `caBundle` for the
+`proxyConfig`, the **addon developer should get the ca bundle from the environment variable** `CA_BUNDLE_FILE_PATH`
+to make the agent work with the proxy.
