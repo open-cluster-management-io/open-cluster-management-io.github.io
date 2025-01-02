@@ -3,6 +3,8 @@ This repo host the website code of open-cluster-management project. After the PR
 
 The open-cluster-management website is based on the [Hugo framework](https://github.com/gohugoio/hugo), with the [Docsy](https://www.docsy.dev/) applied, and is written in Markdown format.
 
+The docs website is hosted at https://www.netlify.com/.
+
 You can always click the Edit this page link at the top right of each page, but if you want to test your changes locally before submitting you can:
 
 Fork the open-cluster-management-io/open-cluster-management-io.github.io on GitHub.
