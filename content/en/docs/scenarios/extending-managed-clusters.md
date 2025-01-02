@@ -3,7 +3,7 @@ title: Extending managed clusters with custom attributes
 weight: 1
 ---
 
-Under some cases we need a convenient way to extend OCM's [Managed Cluster]({{< ref "docs/concepts/managedcluster" >}})
+Under some cases we need a convenient way to extend OCM's [Managed Cluster]({{< ref "docs/concepts/cluster-inventory/managedcluster" >}})
 data model so that our own custom multi-cluster system can easily work over the
 OCM's native cluster api otherwise we will have to maintain an additional
 Kubernetes' [CustomResourceDefinition](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)
@@ -112,6 +112,6 @@ cluster frequently. e.g.:
 ## Next
 
 After extending your "Managed Cluster" with customized attributes, now we can
-try the advanced cluster selection using the [placement]({{< ref "docs/concepts/placement" >}})
+try the advanced cluster selection using the [placement]({{< ref "docs/concepts/content-placement/placement" >}})
 policies, which is provided ny another module of OCM helpful for building your
 own advanced multi-cluster systems.

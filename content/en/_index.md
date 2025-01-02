@@ -22,27 +22,27 @@ title: Open Cluster Management
 {{< /blocks/cover >}}
 
 {{% blocks/section color="secondary" type="row" title="Features Overview" %}}
-  {{% blocks/feature icon="fa-server" title="Cluster Inventory" %}}
+  {{% blocks/feature icon="fa-server" title="Cluster Inventory" url="docs/concepts/cluster-inventory/" %}}
   Registration of multiple clusters to a hub cluster to place them for management.
   {{% /blocks/feature %}}
 
-  {{% blocks/feature icon="fa-tasks" title="Work Distribution" %}}
+  {{% blocks/feature icon="fa-tasks" title="Work Distribution" url="docs/concepts/work-distribution/" %}}
   The work API that enables resources to be applied to managed clusters from a hub cluster.
   {{% /blocks/feature %}}
 
-  {{% blocks/feature icon="fa-random" title="Content placement" %}}
+  {{% blocks/feature icon="fa-random" title="Content Placement" url="docs/concepts/content-placement/" %}}
   Dynamic placement of content and behavior across multiple clusters.
   {{% /blocks/feature %}}
 
-  {{% blocks/feature icon="fa-cloud" title="Vendor neutral APIs" %}}
+  {{% blocks/feature icon="fa-cloud" title="Vendor Neutral APIs" %}}
   Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms.
   {{% /blocks/feature %}}
 
-  {{% blocks/feature icon="fa-rocket" title="Launch apps everywhere" url="docs/getting-started/integration/app-lifecycle/" %}}
+  {{% blocks/feature icon="fa-rocket" title="Launch Apps Everywhere" url="docs/getting-started/integration/app-lifecycle/" %}}
   Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes.
   {{% /blocks/feature %}}
 
-  {{% blocks/feature icon="fa-cog" title="Configure, secure, and manage your resources." url="docs/concepts/policy" %}}
+  {{% blocks/feature icon="fa-cog" title="Configure, Secure, and Manage Your Resources" url="docs/getting-started/integration/policy" %}}
   Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage for your quota and cost.
   {{% /blocks/feature %}}
 {{% /blocks/section %}}

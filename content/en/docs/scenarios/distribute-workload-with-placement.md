@@ -33,13 +33,13 @@ And in this article, we want to show you how to use `clusteradm` to deploy
 
 Before starting with the following steps, suggest you understand the content below.
 
-- [__Placement__]({{< ref "docs/concepts/placement" >}}):
-The `Placement` API is used to dynamically select a set of [`ManagedCluster`]({{< ref "docs/concepts/managedcluster" >}})
-in one or multiple [`ManagedClusterSets`]({{< ref "docs/concepts/managedclusterset" >}})
+- [__Placement__]({{< ref "docs/concepts/content-placement/placement" >}}):
+The `Placement` API is used to dynamically select a set of [`ManagedCluster`]({{< ref "docs/concepts/cluster-inventory/managedcluster" >}})
+in one or multiple [`ManagedClusterSets`]({{< ref "docs/concepts/cluster-inventory/managedclusterset" >}})
 so that higher-level users can either replicate Kubernetes resources to the
 member clusters or run their advanced workload i.e. multi-cluster scheduling.
 
-- [__ManifestWork__]({{< ref "docs/concepts/manifestwork" >}}):
+- [__ManifestWork__]({{< ref "docs/concepts/work-distribution/manifestwork" >}}):
 A custom resource in the hub cluster that groups a list of Kubernetes resources
 together and is meant for dispatching them into the managed cluster if the
 `ManifestWork` is created in a valid `cluster namespace`.

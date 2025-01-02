@@ -1,6 +1,9 @@
 ---
 title: Placement
-weight: 5
+weight: 1
+aliases:
+  - /concepts/placement/
+  - /docs/concepts/placement/
 ---
 
 

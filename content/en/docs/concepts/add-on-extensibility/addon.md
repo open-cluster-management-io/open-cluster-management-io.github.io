@@ -1,6 +1,9 @@
 ---
 title: Add-ons
-weight: 8
+weight: 1
+aliases:
+  - /concepts/addon/
+  - /docs/concepts/addon/
 ---
 
 
