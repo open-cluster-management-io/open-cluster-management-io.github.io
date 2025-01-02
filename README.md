@@ -1,9 +1,8 @@
 # Website
-This repo host the website code of open-cluster-management project. After the PR is merged, the compiled website page will be published to gh-page branch in this repo.
+
+This repo hosts the website code of open-cluster-management project. The docs website is hosted at https://www.netlify.com/.
 
 The open-cluster-management website is based on the [Hugo framework](https://github.com/gohugoio/hugo), with the [Docsy](https://www.docsy.dev/) applied, and is written in Markdown format.
-
-The docs website is hosted at https://www.netlify.com/.
 
 You can always click the Edit this page link at the top right of each page, but if you want to test your changes locally before submitting you can:
 
