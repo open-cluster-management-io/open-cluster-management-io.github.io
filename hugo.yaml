@@ -132,7 +132,7 @@ params:
   prism_syntax_highlighting: false
 
   copyright:
-    authors: Open Cluster Management Authors. The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see [Trademark Usage](https://www.linuxfoundation.org/trademark-usage/)
+    authors: Open Cluster Management Authors. The Linux Foundation® (TLF) has registered trademarks and uses trademarks. For a list of TLF trademarks, see [Trademark Usage](https://www.linuxfoundation.org/trademark-usage/) | Powered by [Netlify](https://www.netlify.com/)
     from_year: 2020
 
   # User interface configuration
