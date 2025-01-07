@@ -22,8 +22,8 @@ aliases:
 
 ## Overall
 
-`Placement` concept is used to dynamically select a set of [managedClusters](../managedcluster)
-in one or multiple [ManagedClusterSet](../managedclusterset) so that higher level
+`Placement` concept is used to dynamically select a set of [managedClusters](../cluster-inventory/managedcluster)
+in one or multiple [ManagedClusterSet](../cluster-inventory/managedclusterset) so that higher level
 users can either replicate Kubernetes resources to the member clusters or run
 their advanced workload i.e. __multi-cluster scheduling__.
 
@@ -48,7 +48,7 @@ multi-cluster scheduling is logically divided into two phases internally:
 
 ## Select clusters in ManagedClusterSet
 
-By following [the previous section](../managedclusterset) about
+By following [the previous section](../cluster-inventory/managedclusterset) about
 `ManagedClusterSet`, now we're supposed to have one or multiple valid cluster
 sets in the hub clusters. Then we can move on and create a placement in the
 "workspace namespace" by specifying `predicates` and `prioritizers` in the
@@ -62,7 +62,7 @@ sets in the hub clusters. Then we can move on and create a placement in the
 
 #### Label/Claim selection
 
-In the `predicates` section, you can select clusters by labels or [clusterClaims](../clusterclaim).
+In the `predicates` section, you can select clusters by labels or [clusterClaims](../cluster-inventory/clusterclaim).
 For instance, you can select 3 clusters with label `purpose=test` and
 clusterClaim `platform.open-cluster-management.io=aws` as seen in the following
 examples:
@@ -106,7 +106,7 @@ cluster.
 In OCM, Taints and Tolerations work together to allow users to control the
 selection of managed clusters more flexibly.
 
-[Taints](../managedcluster/#cluster-taints-and-tolerations) are properties of
+[Taints](../cluster-inventory/managedcluster/#cluster-taints-and-tolerations) are properties of
 ManagedClusters, they allow a Placement to repel a set of ManagedClusters in
 predicates stage.
 
@@ -494,7 +494,7 @@ metadata:
 
 ### Rollout Strategy
 
-Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, [Addon](https://open-cluster-management.io/concepts/addon/#add-on-rollout-strategy) and [ManifestWorkReplicaSet](https://open-cluster-management.io/concepts/manifestworkreplicaset/) to apply workloads.
+Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, [Addon](../add-on-extensibility/addon/#rollout-strategy) and [ManifestWorkReplicaSet](../work-distribution/manifestworkreplicaset/) to apply workloads.
 
 ```yaml
     placements:

@@ -199,7 +199,7 @@ ManagedCluster when it is not reachable. To be specific,
 
 Tolerations are applied to Placements, and allow Placements to select
 ManagedClusters with matching taints. Refer to [Placement
-Taints/Tolerations](../placement/#taintstolerations) to see how it is used for
+Taints/Tolerations](../content-placement/placement/#taintstolerations) to see how it is used for
 cluster selection.
 
 ### Cluster removal
@@ -261,5 +261,5 @@ identity. The following picture shows the automated certificate rotation works.
 ## What's next?
 
 Furthermore, we can do advanced cluster matching/selecting within a
-[managedclusterset](./managedclusterset.md) using the [placement](./placement.md)
+[managedclusterset](./managedclusterset) using the [placement](../content-placement/placement)
 module.
