@@ -8,7 +8,7 @@ the managed cluster for the hub admins. A typical addon agent is expected to
 be working by subscribing the prescriptions (e.g. in forms of CustomResources)
 from the hub cluster and then consistently reconcile the state of the managed
 cluster like an ordinary kubernetes operator does.</p></li><li><p><strong>Addon Manager</strong>: A kubernetes controller <em>in the hub cluster</em> that applies
-manifests to the managed clusters via the <a href=../manifestwork>ManifestWork</a>
+manifests to the managed clusters via the <a href=/docs/concepts/work-distribution/manifestwork/>ManifestWork</a>
 api. In addition to resource dispatching, the manager can optionally manage
 the lifecycle of CSRs for the addon agents or even the RBAC permission bond
 to the CSRs&rsquo; requesting identity.</p></li></ul><p>In general, if a management tool working inside the managed cluster needs to
