@@ -40,7 +40,7 @@ relationship:
   cluster set can be operated from all the bound namespaces at the same time.
 
 The cluster set admin can flexibly operate the member clusters in the workspace
-namespace using [Placement](../placement) API, etc.
+namespace using [Placement](../content-placement/placement) API, etc.
 
 The following picture shows the hierarchies of how the cluster set works:
 
