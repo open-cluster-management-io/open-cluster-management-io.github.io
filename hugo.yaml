@@ -71,12 +71,11 @@ menu:
       pre: <i class="fab fa-github"></i>
 
 params:
-  # TODO: @xuezhaojun add versions when netlify build is ready
-  # versions:
-  #   - version: main
-  #     url: 'https://open-cluster-management.io'
-  #   - version: v0.14.0
-  #     url: 'https://v0-14-0.open-cluster-management.io'
+  versions:
+    - version: main
+      url: 'https://open-cluster-management.io'
+    # - version: v0.15
+    #   url: 'https://v0-15.open-cluster-management.io'
 
   taxonomy:
     # set taxonomyCloud = [] to hide taxonomy clouds
