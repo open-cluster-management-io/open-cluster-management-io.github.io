@@ -37,5 +37,5 @@ Now you have the OCM control plane with 2 managed clusters connected! Let's star
 - [Deploy kubernetes resources onto a managed cluster]({{< ref "docs/scenarios/deploy-kubernetes-resources" >}})
 - [Visit kubernetes apiserver of managedcluster from cluster-proxy]({{< ref "docs/scenarios/pushing-kube-api-requests" >}})
 - Visit [integration]({{< ref "docs/getting-started/integration" >}}) to check if any certain OCM addon will meet your use cases.
-  - [Deploy Policies onto a managed cluster]({{< ref "docs/getting-started/integration/policy-framework" >}})
+  - [Deploy Policies onto a managed cluster]({{< ref "docs/getting-started/integration/policy-controllers/policy-framework" >}})
 - [Use the OCM VScode Extension to easily generate OCM related Kubernetes resources and track your cluster]({{< ref "docs/developer-guides/vscode-extension" >}})

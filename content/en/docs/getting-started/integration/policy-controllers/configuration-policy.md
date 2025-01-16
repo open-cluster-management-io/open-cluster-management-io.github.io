@@ -19,7 +19,7 @@ You must meet the following prerequisites to install the configuration policy co
 - Ensure [Golang](https://golang.org/doc/install) is installed, if you are planning to install from the source.
 
 - Ensure the `open-cluster-management` _policy framework_ is installed. See
-  [Policy Framework]({{< ref "docs/getting-started/integration/policy-framework" >}}) for more information.
+  [Policy Framework]({{< ref "docs/getting-started/integration/policy-controllers/policy-framework" >}}) for more information.
 
 ## Installing the configuration policy controller
 
@@ -49,7 +49,7 @@ Ensure `clusteradm` CLI is installed and is newer than v0.3.0. Download and extr
 After a successful deployment, test the policy framework and configuration policy controller with a sample policy.
 
 For more information on how to use a `ConfigurationPolicy`, read the
-[`Policy` API concept section]({{< ref "docs/getting-started/integration/policy-framework#policy" >}}).
+[`Policy` API concept section]({{< ref "docs/getting-started/integration/policy-controllers/policy-framework#policy" >}}).
 
 1. Run the following command to create a policy on the hub that uses `Placement`:
 

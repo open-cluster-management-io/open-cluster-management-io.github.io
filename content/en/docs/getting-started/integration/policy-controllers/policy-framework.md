@@ -1,6 +1,8 @@
 ---
 title: Policy framework
-weight: 10
+weight: 2
+aliases:
+  - /getting-started/integration/policy-framework/
 ---
 
 The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility
@@ -10,12 +12,12 @@ and drive remediation for various security and configuration aspects to help IT 
 
 ## API Concepts
 
-View the [Policy API]({{< ref "docs/getting-started/integration/policy" >}}) page for additional details about the Policy API managed by the Policy Framework
+View the [Policy API]({{< ref "docs/getting-started/integration/policy-controllers/policy" >}}) page for additional details about the Policy API managed by the Policy Framework
 components, including:
 
-- [`Policy`]({{< ref "docs/getting-started/integration/policy#policy" >}})
-- [`PolicySet`]({{< ref "docs/getting-started/integration/policy#policyset" >}})
-- [`PlacementBinding`]({{< ref "docs/getting-started/integration/policy#placementbinding" >}})
+- [`Policy`]({{< ref "docs/getting-started/integration/policy-controllers/policy#policy" >}})
+- [`PolicySet`]({{< ref "docs/getting-started/integration/policy-controllers/policy#policyset" >}})
+- [`PlacementBinding`]({{< ref "docs/getting-started/integration/policy-controllers/policy#placementbinding" >}})
 
 ## Architecture
 
