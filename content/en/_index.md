@@ -42,7 +42,7 @@ title: Open Cluster Management
   Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes.
   {{% /blocks/feature %}}
 
-  {{% blocks/feature icon="fa-cog" title="Configure, Secure, and Manage Your Resources" url="docs/getting-started/integration/policy" %}}
+  {{% blocks/feature icon="fa-cog" title="Configure, Secure, and Manage Your Resources" url="docs/getting-started/integration/policy-controllers" %}}
   Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage for your quota and cost.
   {{% /blocks/feature %}}
 {{% /blocks/section %}}

@@ -1,6 +1,6 @@
 ---
 title: Policy
-weight: 5
+weight: 1
 aliases:
   - /concepts/policy/
   - /docs/concepts/policy/
