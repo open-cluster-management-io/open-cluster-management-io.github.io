@@ -1,6 +1,6 @@
 ---
 title: Administration
-weight: 5
+weight: 4
 ---
 
 A few general guide about operating the open-cluster-management's control plane

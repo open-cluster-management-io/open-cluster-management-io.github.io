@@ -1,6 +1,6 @@
 ---
 title: Open Policy Agent Gatekeeper
-weight: 15
+weight: 4
 hide_summary: true
 ---
 

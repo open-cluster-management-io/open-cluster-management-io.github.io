@@ -73,58 +73,20 @@ control the upgrade behavior of the addon when there are changes in the configur
 
 ## Add-on configurations
 
-Add-on configurations allow users to customize the behavior of add-ons across managed clusters. They include default configurations applicable to all clusters, specific configurations defined per install strategy for groups of clusters, and individual configurations for each managed cluster. This flexibility ensures that each cluster can be tailored to meet its unique requirements while maintaining a consistent management framework. For more details, please refer to the [Add-on management]({{< ref "docs/getting-started/installation/addon-management" >}}) documentation.
+Add-on configurations allow users to customize the behavior of add-ons across managed clusters. They include default configurations applicable to all clusters, specific configurations defined per install strategy for groups of clusters, and individual configurations for each managed cluster. This flexibility ensures that each cluster can be tailored to meet its unique requirements while maintaining a consistent management framework.
+
+Please refer to the [Add-on management]({{< ref "docs/getting-started/installation/addon-management" >}}) for more details.
 
 ## Examples
 
 All available Add-Ons are listed in the [Add-ons and Integrations]({{< ref "docs/getting-started/integration" >}}) section.
 
-The [oddon-contrib](https://github.com/open-cluster-management-io/addon-contrib/tree/main) repository hosts a collection of Open Cluster Management (OCM) addons for staging and testing Proof of Concept (PoC) purposes.
+The [addon-contrib](https://github.com/open-cluster-management-io/addon-contrib/tree/main) repository hosts a collection of Open Cluster Management (OCM) addons for staging and testing Proof of Concept (PoC) purposes.
 
 ## Add-on Development
 
 [Add-on framework](https://github.com/open-cluster-management-io/addon-framework)
 provides a library for developers to develop an add-ons in open-cluster-management
-more easily. Please refer to the [add-on development guide]({{< ref "docs/developer-guides/addon/" >}}) for more details.
+more easily.
 
-### Custom signers
-
-The original Kubernetes CSR api only supports three built-in signers:
-
-- "kubernetes.io/kube-apiserver-client"
-- "kubernetes.io/kube-apiserver-client-kubelet"
-- "kubernetes.io/kubelet-serving"
-
-However in some cases, we need to sign additional custom certificates for the
-addon agents which is not used for connecting any kube-apiserver. The addon
-manager can be serving as a custom CSR signer controller based on the
-addon-framework's extensibility by implementing the signing logic. Note that
-after successfully signing the certificates, the framework will also keep
-rotating the certificates automatically for the addon.
-
-
-### Hub credential injection
-
-The addon manager developed base on [addon-framework](https://github.com/open-cluster-management-io/addon-framework)
-will automatically persist the signed certificates as secret resource to the
-managed clusters after signed by either original Kubernetes CSR controller or
-custom signers. The injected secrets will be:
-
-- For "kubernetes.io/kube-apiserver-client" signer, the name will be "<addon name>
-  -hub-kubeconfig" with properties:
-  - "kubeconfig": a kubeconfig file for accessing hub cluster with the addon's
-    identity.
-  - "tls.crt": the signed certificate.
-  - "tls.key": the private key.
-- For custom signer, the name will be "<addon name>-<signer name>-client-cert"
-  with properties:
-  - "tls.crt": the signed certificate.
-  - "tls.key": the private key.
-
-### Auto-install by cluster discovery
-
-The addon manager can automatically install an addon to the managed clusters
-upon discovering new clusters by setting the `InstallStrategy` from the
-[addon-framework](https://github.com/open-cluster-management-io/addon-framework).
-On the other hand, the admin can also manually install the addon for the
-clusters by applying `ManagedClusterAddOn` into their cluster namespace.
+Please refer to the [add-on development guide]({{< ref "docs/developer-guides/addon/" >}}) for more details.
