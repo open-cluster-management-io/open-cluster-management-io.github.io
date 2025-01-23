@@ -1,6 +1,6 @@
 ---
 title: Configuration Policy
-weight: 15
+weight: 3
 hide_summary: true
 ---
 
