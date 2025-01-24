@@ -1,14 +1,13 @@
 ---
 title: Policy framework
-weight: 2
+weight: 1
+hide_summary: true
 aliases:
   - /getting-started/integration/policy-framework/
 ---
 
 The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility
 and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-
-
 
 ## API Concepts
 

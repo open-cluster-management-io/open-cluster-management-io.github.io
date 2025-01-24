@@ -7,7 +7,9 @@ hide_summary: true
 The `ConfigurationPolicy` defines Kubernetes manifests to compare with objects that currently exist on the cluster. The
 Configuration policy controller is provided by Open Cluster Management and runs on managed clusters.
 
-
+View the [Policy API concepts]({{< ref
+"docs/getting-started/integration/policy-controllers/policy#managed-cluster-policy-controllers" >}}) page to learn more
+about the `ConfigurationPolicy` API.
 
 ## Prerequisites
 
