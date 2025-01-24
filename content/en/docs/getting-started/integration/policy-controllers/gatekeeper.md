@@ -9,8 +9,6 @@ that can enforce custom resource definition-based policies that are run with the
 constraints can be used to evaluate Kubernetes resource compliance. You can leverage OPA as the policy engine, and use
 Rego as the policy language.
 
-
-
 ## Installing Gatekeeper
 
 See the [Gatekeeper documentation](https://open-policy-agent.github.io/gatekeeper/website/docs/install) to install the

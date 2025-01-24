@@ -1,24 +1,17 @@
 ---
-title: Policy
-weight: 1
+title: Policy API concepts
+weight: 2
+hide_summary: true
 aliases:
   - /concepts/policy/
   - /docs/concepts/policy/
 ---
 
-
-
 ## Overview
-
-Note: this is also covered in the
-[Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://www.youtube.com/watch?v=ZZH654t5YpI)
-video.
-
-[![Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://img.youtube.com/vi/ZZH654t5YpI/0.jpg)](https://www.youtube.com/watch?v=ZZH654t5YpI)
 
 The policy framework has the following API concepts:
 
-- [_Policy Templates_](#managed-cluster-policy-controllers) are the policies that perform a desired check or action. For
+- [_Policy Templates_](#managed-cluster-policy-controllers) are the policies that perform a desired check or action on a managed cluster. For
   example,
   [ConfigurationPolicy](  {{< ref "docs/getting-started/integration/policy-controllers#install-the-configuration-policy-controller" >}})
   objects are embedded in `Policy` objects under the `policy-templates` array.
@@ -30,9 +23,10 @@ The policy framework has the following API concepts:
   [Placement]({{< ref "docs/concepts/content-placement/placement" >}}).
 - A [`PlacementBinding`](#placementbinding) binds a [Placement]({{< ref "docs/concepts/content-placement/placement" >}}) to a `Policy` or `PolicySet`.
 
-The second half of the
-[KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
-also covers an overview of the Policy addon.
+**Additional resources:**
+- View the following resources to learn more about the Policy Addon:
+  - Video: [Open Cluster Management - Configuring Your Kubernetes Fleet With the Policy Addon](https://www.youtube.com/watch?v=ZZH654t5YpI)
+  - Slides: [KubeCon NA 2022 - OCM Multicluster App & Config Management](/kubecon-na-2022-ocm-multicluster-app-and-config-management.pdf)
 
 ## Policy
 
