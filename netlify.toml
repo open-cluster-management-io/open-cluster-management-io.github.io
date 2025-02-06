@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/helm-charts/*"
+  to = "https://ocm-helm-charts.netlify.app/:splat"
+  status = 200
+  force = true
