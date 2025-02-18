@@ -114,7 +114,6 @@ to prepare an environment.
     The `work.yaml` contains kubernetes resource definitions, for sample:
 
     ```shell
-    $ cat work.yaml
     apiVersion: v1
     kind: ServiceAccount
     metadata:
