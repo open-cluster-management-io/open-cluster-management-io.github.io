@@ -26,6 +26,5 @@ Your changes will be verified by CI. Check the job results for details of any er
 
 ## Special Note
 
-We're also using the website to redirect requests targeting `open-cluster-management.io` to `github.com/open-cluster-management-io`, you can find more details in this [PR](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/pull/430).
-
-If allows developers to use commands like `go get open-cluster-management.io/<repo>` and also use `open-cluster-management.io/<repo>` as the import path in go.mod.
+- We're using the website to redirect requests targeting `open-cluster-management.io` to `github.com/open-cluster-management-io`, you can find more details in this [PR](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/pull/430). If allows developers to use commands like `go get open-cluster-management.io/<repo>` and also use `open-cluster-management.io/<repo>` as the import path in go.mod.
+- We're using the website to redirect requests targeting `open-cluster-management.io/helm-charts` to `github.com/open-cluster-management-io/helm-charts`, you can find more details in this [PR](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/pull/453).
