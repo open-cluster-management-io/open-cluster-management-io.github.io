@@ -16,7 +16,7 @@ with the `PlacementDecision` to leverage its scheduling capabilities.
 For example, with OCM addon [policy]({{< ref "docs/getting-started/integration/policy-controllers" >}})
 installed, a `Policy` that includes a `Placement` mapping can distribute the
 `Policy` to the managed clusters.
-For details see this [example](https://open-cluster-management.io/getting-started/integration/policy-controllers/configuration-policy/#placement-api).
+For details see this [example]({{< ref "docs/getting-started/integration/policy-controllers/configuration-policy/#placement-api" >}}).
 
 Some popular open source projects also integrate with the `Placement` API. For
 example [Argo CD](https://github.com/argoproj/argo-cd), it can leverage the
