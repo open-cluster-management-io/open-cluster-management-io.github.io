@@ -10,7 +10,9 @@ weight: 1
 - The hub cluster should be `v1.19+`.
   (To run on hub cluster version between \[`v1.16`, `v1.18`\],
   please manually enable feature gate "V1beta1CSRAPICompatibility").
-- Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like [EKS](https://github.com/aws/containers-roadmap/issues/1856)) don't support it, you can choose the [multicluster-controlplane](https://github.com/open-cluster-management-io/multicluster-controlplane) as the hub controlplane.
+- Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like [EKS](https://github.com/aws/containers-roadmap/issues/1856)) don't support it, you can:
+  - follow [this](https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/) article to run OCM natively on EKS
+  - or choose the [multicluster-controlplane](https://github.com/open-cluster-management-io/multicluster-controlplane) as the hub controlplane
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
 
 ### Network requirements
