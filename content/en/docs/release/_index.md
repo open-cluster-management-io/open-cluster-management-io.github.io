@@ -6,6 +6,60 @@ weight: 6
 Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.15.0`.
 Continue reading to view upcoming releases:
 
+## `0.16.0`, 16 March 2025
+The Open Cluster Management team is exicted to announce the release of OCM v0.16.0 with many new
+features:
+
+Breaking Changes:
+- Addon is defaulted to be managed by addon-manager: this is the part of addon evolution work starting
+  from release 0.14.0, and the self-managed installation of addons is disabled in `v0.16.0`. Each addon
+  will need to upgrade the addon-framework to a version equal or higher than `v0.8.2`
+- (Policy framework) The compliance history API has been removed due to lack of interest.
+- (Policy framework) Kubernetes v1.16 is no longer supported with the removal of the `v1beta1`
+  CustomResourceDefinition manifests.
+
+Notable features:
+- Register cluster to EKS hub: user can now use an EKS cluster as a hub cluster and register other
+  EKS clusters with it, utilizing [EKS IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html)
+  and [EKS Access Entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) features in AWS,
+  see this [doc](https://github.com/open-cluster-management-io/ocm/tree/main/solutions/joining-hub-and-spoke-with-aws-auth)
+  on how to enable and use this feature.
+- Auto register CAPI cluster: user can install the CAPI management plane on the OCM hub, and enable
+  the `ClusterImporter` feature gate on the `ClusterManager`. The CAPI cluster after successfully provisioned
+  will be automatically registered into the OCM hub.
+- Ignore fields update in `ManifestWorks`: when user uses the `ServerSideApply` strategy in Manifestwork, user
+  can now specify certain fields to be ignored during resource update/override, to avoid apply conflict error.
+- Support wildcard of ManifestConfigs in `ManifestWorks`: the `ResourceIdentifier` field in `ManifestWorks` can
+  now recognize `*` as the wildcard marker, so if there are multiple resources need to use the same `ManifestConfigs`,
+  user can now set one `ManifestConfig` with a wildcard `ResourceIdentifier`
+- (Policy framework) `OperatorPolicy`: Enhanced operator handling, including approving dependent packages and raising
+  operator deprecation.
+- (Policy framework) `ConfigurationPolicy`: An `objectSelector` is added, allowing users to iterate over objects by
+  label without needing `object-templates-raw`. For further filtering, users can invoke the `{{ skipObject }}` Go
+  template function to conditionally skip a particular object template.
+- (Policy framework) `ConfigurationPolicy`: The `ObjectName` and `ObjectNamespace` Go template variables are added.
+  The `ObjectNamespace` inherits its value from the `namespaceSelector` while the `ObjectName` inherits its value
+  from the new `objectSelector`.
+- (Policy framework) The new `governance-standalone-hub-templating` addon enables hub Go templates
+  (i.e. `{{hub ... hub}}`) for "standalone" policies. This new addon is a further enablement for users to deploy
+  policies using GitOps pointed directly at managed clusters rather that propagating policies through the hub.
+
+### Core components
+- ocm v0.16.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v0.16.0)
+- addon-framework v0.12.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v0.12.0)
+- clusteradm v0.11.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v0.11.0)
+
+### Addons
+- config-policy-controller v0.16.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.16.0)
+- governance-policy-framework-addon v0.16.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.16.0)
+- governance-policy-propagator v0.16.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.16.0)
+- governance-policy-addon-controller v0.16.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.16.0)
+- multicloud-operators-subscription v0.16.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-subscription/releases/tag/v0.16.0)
+- multicloud-operators-channel v0.16.0 [changelog](https://github.com/open-cluster-management-io/multicloud-operators-channel/releases/tag/v0.16.0)
+- managed-serviceaccount v0.8.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.8.0)
+- cluster-proxy v0.7.0 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.7.0)
+
+
 ## `0.15.0`, 24 Oct. 2024
 
 The Open Cluster Management team is proud to announce the release of OCM v0.15.0!
