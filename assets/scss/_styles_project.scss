@@ -16,3 +16,30 @@
     color: #ffffff !important;
   }
 }
+.partner-card,
+.ecosystem-card {
+  border-radius: 8px;
+  height: 80px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.partner-card {
+  background-color: #ffffff;
+}
+
+.ecosystem-card {
+  background-color: #f8f9fa;
+}
+
+.partner-card:hover,
+.ecosystem-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
