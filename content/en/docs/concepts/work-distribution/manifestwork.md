@@ -294,6 +294,47 @@ manifest will not be updated by it.
 Instead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also take the ownership
 of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
 
+## Ignore fields in Server Side Apply
+
+To avoid work-agent returning conflict error, when using ServerSideApply as the update strategy, users can specify certain
+fields to be ignored, such that when work agent is applying the resource to the `ManagedCluster`, the change on the
+specified fields will not be updated onto the resource.
+
+It is useful when other actors on the `ManagedCluster` is updating the same field on the resources
+that the `ManifestWork` is owning. One example as below:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: <target managed cluster>
+  name: hello-work-demo
+spec:
+  workload: ...
+  manifestConfigs:
+    - resourceIdentifier:
+        resource: configmaps
+        namespace: default
+        name: some-configmap
+      updateStrategy:
+        type: ServerSideApply
+        force: true
+        serverSideApply:
+          ignoreFields:
+            - condition: OnSpokePresent
+              jsonPaths:
+                - .data
+```
+
+It indicates that when the configmap is applied on the `ManagedCluster`, any additional change
+on the data field will be ignored by the work agent, no matter the change comes from another
+actor on the `ManagedCluster`, or from this or another `ManifestWork`. It applies as long as the
+configmap exists on the `ManagedCluster`.
+
+Alternatively, user can also set the condition field in the above example to `OnSpokeChange`, which
+indicates that the change of the data field will not be ignored if it comes from this `ManifestWork`
+However, change from other actors on the `ManagedCluster` will be ignored.
+
 ## Permission setting for work agent
 
 All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
