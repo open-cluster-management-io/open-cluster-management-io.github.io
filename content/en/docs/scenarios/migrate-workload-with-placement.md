@@ -67,7 +67,7 @@ cluster2-guestbook-app   Synced        Healthy
 
 1) To demonstrate how an application can be migrated to another cluster, let's first deploy the application in a single cluster.
 
-    Path the existing `Placement` to select only one cluster.
+    Patch the existing `Placement` to select only one cluster.
 
     ```shell
     $ kubectl patch placement -n argocd guestbook-app-placement --patch '{"spec": {"numberOfClusters": 1}}' --type=merge
