@@ -3,141 +3,142 @@ title: Application lifecycle management
 weight: 5
 ---
 
-After the cluster manager is installed, you could install the application management components to the hub cluster.
-
-
+After the setup of Open Cluster Management (OCM) hub and managed clusters,
+you could install the OCM built-in application management add-on.
+The OCM application management add-on leverages the
+[Argo CD](https://argo-cd.readthedocs.io/)
+to provide declarative GitOps based application lifecycle management across multiple Kubernetes clusters.
 
 ## Architecture
 
+Traditional Argo CD resource delivery primarily uses a push model,
+where resources are deployed from a centralized Argo CD instance to remote or managed clusters.
+
 <div style="text-align: center; padding: 20px;">
-    <img src="https://github.com/open-cluster-management-io/multicloud-operators-subscription/raw/main/images/architecture.png" alt="application lifecycle management architecture" style="margin: 0 auto; width: 80%">
+    <img src="https://github.com/open-cluster-management-io/argocd-pull-integration/raw/main/assets/push.png" alt="Argo CD Push Model" style="margin: 0 auto; width: 80%">
 </div>
 
-For more details, visit the [multicloud-operators-subscription GitHub page](https://github.com/open-cluster-management-io/multicloud-operators-subscription).
+With the OCM Argo CD add-on, users can leverage a pull based resource delivery model,
+where managed clusters pull and apply application configurations.
+
+<div style="text-align: center; padding: 20px;">
+    <img src="https://github.com/open-cluster-management-io/argocd-pull-integration/raw/main/assets/pull.png" alt="Argo CD Pull Model" style="margin: 0 auto; width: 80%">
+</div>
+
+For more details, visit the
+[Argo CD Pull Integration GitHub page](https://github.com/open-cluster-management-io/argocd-pull-integration).
 
 ## Prerequisite
 
 You must meet the following prerequisites to install the application lifecycle management add-on:
 
-- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) are installed.
 
-- Ensure the `open-cluster-management` _cluster manager_ is installed. See [Start the control plane]({{< ref "docs/getting-started/installation/start-the-control-plane" >}}) for more information.
+- Ensure the OCM _cluster manager_ is installed. See [Start the control plane]({{< ref "docs/getting-started/installation/start-the-control-plane" >}}) for more information.
 
-- Ensure the `open-cluster-management` _klusterlet_ is installed. See [Register a cluster]({{< ref "docs/getting-started/installation/register-a-cluster" >}}) for more information.
+- Ensure the OCM _klusterlet_ is installed. See [Register a cluster]({{< ref "docs/getting-started/installation/register-a-cluster" >}}) for more information.
 
-## Install via Clusteradm CLI tool
+- Ensure `clusteradm` CLI tool is installed. Download and extract the [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
 
-Ensure `clusteradm` CLI tool is installed. Download and extract the [clusteradm binary](https://github.com/open-cluster-management-io/clusteradm/releases/latest). For more details see the [clusteradm GitHub page](https://github.com/open-cluster-management-io/clusteradm/blob/main/README.md#quick-start).
+## Installation
 
-```Shell
-$ clusteradm
-Usage:
-  clusteradm [command]
-...
+Install Argo CD on the Hub cluster:
+
+```shell
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-Deploy the subscription operators to the hub cluster.
+See [Argo CD website](https://argo-cd.readthedocs.io/en/stable/getting_started/) for more details.
 
-```Shell
-$ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm install hub-addon --names application-manager
-Installing built-in application-manager add-on to the Hub cluster...
-$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     1            1           25s
-```
-Create the `open-cluster-management-agent-addon` namespace on the managed cluster.
+Install the OCM Argo CD add-on on the Hub cluster:
 
-```Shell
-$ kubectl create ns open-cluster-management-agent-addon --context ${CTX_MANAGED_CLUSTER}
-namespace/open-cluster-management-agent-addon created
+```shell
+clusteradm install hub-addon --names argocd
 ```
 
-Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.
+If your hub controller starts successfully, you should see:
 
-```Shell
-$ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ clusteradm addon enable --names application-manager --clusters ${MANAGED_CLUSTER_NAME}
-Deploying application-manager add-on to managed cluster: <managed_cluster_name>.
-$ kubectl -n ${MANAGED_CLUSTER_NAME} get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
-NAME                  AVAILABLE   DEGRADED   PROGRESSING
-application-manager   True
+```shell
+$ kubectl -n argocd get deploy argocd-pull-integration
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+argocd-pull-integration   1/1     1            1           55s
 ```
 
-Check the the subscription add-on deployment on the managed cluster.
+Enable the add-on for your choice of Managed clusters:
 
-```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy --context ${CTX_MANAGED_CLUSTER}
-NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-application-manager   1/1     1            1           103s
+```shell
+clusteradm addon enable --names argocd --clusters cluster1,cluster2
 ```
 
-## Install from source
+Replace `cluster1` and `cluster2` with your Managed cluster names.
 
-Clone the `multicloud-operators-subscription` repository.
+If your add-on starts successfully, you should see:
 
-```Shell
-git clone https://github.com/open-cluster-management-io/multicloud-operators-subscription
-cd multicloud-operators-subscription
+```shell
+$ kubectl -n cluster1 get managedclusteraddon argocd
+NAME     AVAILABLE   DEGRADED   PROGRESSING
+argocd   True                   False
 ```
 
-Deploy the subscription operators to the hub cluster.
+On the Hub cluster, apply the example `guestbook-app-set` manifest:
 
-```Shell
-$ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ make deploy-hub
-$ kubectl -n open-cluster-management get deploy multicluster-operators-subscription --context ${CTX_HUB_CLUSTER}
-NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
-multicluster-operators-subscription   1/1     1            1           25s
+```shell
+kubectl apply -f https://raw.githubusercontent.com/open-cluster-management-io/ocm/refs/heads/main/solutions/deploy-argocd-apps-pull/example/guestbook-app-set.yaml
 ```
 
-Create the `open-cluster-management-agent-addon` namespace on the managed cluster and it's optional if `clusteradm` is used which create the ns during `join` action.
+**Note:** The Application template inside the ApplicationSet must contain the following content:
 
-```Shell
-$ kubectl create ns open-cluster-management-agent-addon --context ${CTX_MANAGED_CLUSTER}
-namespace/open-cluster-management-agent-addon created
+```shell
+labels:
+  apps.open-cluster-management.io/pull-to-ocm-managed-cluster: 'true'
+annotations:
+  argocd.argoproj.io/skip-reconcile: 'true'
+  apps.open-cluster-management.io/ocm-managed-cluster: '{{name}}'
 ```
 
-Deploy the subscription add-on in corresponding managed cluster namespace on the hub cluster.
+The label allows the pull model controller to select the Application for processing.
 
-```Shell
-$ kubectl config use-context ${CTX_HUB_CLUSTER}
-$ make deploy-addon
-$ kubectl -n ${MANAGED_CLUSTER_NAME} get managedclusteraddon # kubectl -n cluster1 get managedclusteraddon
-NAME                  AVAILABLE   DEGRADED   PROGRESSING
-application-manager   True
+The `skip-reconcile` annotation is to prevent the Application from reconciling on the Hub cluster.
+
+The `ocm-managed-cluster` annotation is for the ApplicationSet to generate multiple Application based on each cluster generator targets.
+
+When this guestbook ApplicationSet reconciles, it will generate an Application for the registered Managed clusters. For example:
+
+```shell
+$ kubectl -n argocd get appset
+NAME            AGE
+guestbook-app   84s
+$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster1-guestbook-app
+cluster2-guestbook-app
 ```
 
-Check the the subscription add-on deployment on the managed cluster.
+On the Hub cluster, the pull controller will wrap the Application with a ManifestWork. For example:
 
-```Shell
-$ kubectl -n open-cluster-management-agent-addon get deploy --context ${CTX_MANAGED_CLUSTER}
-NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
-application-manager   1/1     1            1           103s
+```shell
+$ kubectl -n cluster1 get manifestwork
+NAME                          AGE
+cluster1-guestbook-app-d0e5   2m41s
 ```
 
-## What is next
+On a Managed cluster, you should see that the Application is pulled down successfully. For example:
 
-After a successful deployment, test the subscription operator with a `helm` subscription. Run the following command where the examples/helmrepo-hub-channel locates at [here](https://github.com/open-cluster-management-io/multicloud-operators-subscription/tree/main/examples/helmrepo-hub-channel):
-
-```Shell
-kubectl apply -f examples/helmrepo-hub-channel --context ${CTX_HUB_CLUSTER}
+```shell
+$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster1-guestbook-app   Synced        Healthy
+$ kubectl -n guestbook get deploy
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+guestbook-ui   1/1     1            1           7m36s
 ```
 
-After a while, you should see the subscription is propagated to the managed cluster and the Helm app is installed. By default, when a subscribed applications is deployed to the target clusters, the applications are installed in the coresponding subscription namespace. To confirm, run the following command:
+On the Hub cluster, the status controller will sync the dormant Application with the ManifestWork status feedback. For example:
 
-```Shell
-$ kubectl get subscriptions.apps --context ${CTX_MANAGED_CLUSTER}
-NAME        STATUS       AGE    LOCAL PLACEMENT   TIME WINDOW
-nginx-sub   Subscribed   107m   true
-$ kubectl get pod --context ${CTX_MANAGED_CLUSTER}
-NAME                                                   READY   STATUS      RESTARTS   AGE
-nginx-ingress-47f79-controller-6f495bb5f9-lpv7z        1/1     Running     0          108m
-nginx-ingress-47f79-default-backend-7559599b64-rhwgm   1/1     Running     0          108m
+```shell
+$ kubectl -n argocd get app
+NAME                     SYNC STATUS   HEALTH STATUS
+cluster1-guestbook-app   Synced        Healthy
+cluster2-guestbook-app   Synced        Healthy
 ```
-
-### Try this out
-
-Let [VScode Extension]({{< ref "docs/developer-guides/vscode-extension" >}}) help you out!
-
-Create a Bootstrap Project specifically tailored to your channel type, with all the Custom Resource (CR) templates you will need already auto-generated to get you started!
