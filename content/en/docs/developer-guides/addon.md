@@ -46,7 +46,7 @@ We have some available add-ons in the OCM community:
 
 * [cluster-proxy](https://github.com/open-cluster-management-io/cluster-proxy)
 * [managed-serviceaccount](https://github.com/open-cluster-management-io/managed-serviceaccount)
-* [application-manager](https://github.com/open-cluster-management-io/multicloud-operators-subscription)
+* [argocd-pull-integration](https://github.com/open-cluster-management-io/argocd-pull-integration)
 * [config-policy-controller](https://github.com/open-cluster-management-io/governance-policy-addon-controller)
 * [governance-policy-framework](https://github.com/open-cluster-management-io/governance-policy-addon-controller)
 
