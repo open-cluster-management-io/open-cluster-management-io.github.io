@@ -316,3 +316,39 @@ Check the klusterlet is removed from the managed cluster.
 kubectl get klusterlet --context ${CTX_MANAGED_CLUSTER}
 error: the server doesn't have a resource type "klusterlet
 ```
+
+### Resource cleanup when the managed cluster is deleted
+
+When a user deletes the managedCluster resource, all associated resources within the cluster namespace must also be removed. This includes managedClusterAddons, manifestWorks, and the roleBindings for the klusterlet agent. Resource cleanup follows a specific sequence to prevent resources from being stuck in a terminating state:
+
+1. managedClusterAddons are deleted first.
+2. manifestWorks are removed subsequently after all managedClusterAddons are deleted.
+3. For the same resource as managedClusterAddon or manifestWork, custom deletion ordering can be defined using the `open-cluster-management.io/cleanup-priority` annotation:
+   - Priority values range from 0 to 100 (lower values execute first).
+
+The `open-cluster-management.io/cleanup-priority` annotation controls deletion order when resource instances have dependencies. For example:
+
+A manifestWork that applies a CRD and operator should be deleted after a manifestWork that creates a CR instance, allowing the operator to perform cleanup after the CR is removed.
+
+
+The `ResourceCleanup` featureGate for cluster registration on the Hub cluster enables automatic cleanup of managedClusterAddons and manifestWorks within the cluster namespace after cluster unjoining. 
+
+**Version Compatibility:**
+- The `ResourceCleanup` featureGate was introdueced in OCM v0.13.0, and was **disabled by default** in OCM v0.16.0 and earlier versions. To activate it, need to modify the clusterManager CR configuration:
+```yaml
+registrationConfiguration:
+  featureGates:
+  - feature: ResourceCleanup
+    mode: Enable
+```
+
+- Starting with OCM v0.17.0, the `ResourceCleanup` featureGate has been upgraded from Alpha to Beta status and is **enabled by default**.
+
+**Disabling the Feature:**
+To deactivate this functionality, update the clusterManager CR on the hub cluster:
+```yaml
+registrationConfiguration:
+  featureGates:
+  - feature: ResourceCleanup
+    mode: Disable
+```
