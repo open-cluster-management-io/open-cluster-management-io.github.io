@@ -60,9 +60,10 @@ sets in the hub clusters. Then we can move on and create a placement in the
 
 ### Predicates
 
-#### Label/Claim selection
+In the `predicates` section, you can select clusters by labels, [clusterClaims](../cluster-inventory/clusterclaim), or CEL expressions. 
 
-In the `predicates` section, you can select clusters by labels or [clusterClaims](../cluster-inventory/clusterclaim).
+#### Label or ClusterClaim Selection
+
 For instance, you can select 3 clusters with label `purpose=test` and
 clusterClaim `platform.open-cluster-management.io=aws` as seen in the following
 examples:
@@ -72,7 +73,7 @@ apiVersion: cluster.open-cluster-management.io/v1beta1
 kind: Placement
 metadata:
   name: placement1
-  namespace: default
+  namespace: ns1
 spec:
   numberOfClusters: 3
   clusterSets:
@@ -93,6 +94,39 @@ spec:
 Note that the distinction between label-selecting and claim-selecting is
 elaborated in [this page]({{< ref "docs/scenarios/extending-managed-clusters" >}})
 about how to extend attributes for the managed clusters.
+
+#### CEL Expression Selection
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: placement1
+  namespace: ns1
+spec:
+  numberOfClusters: 3
+  clusterSets:
+    - prod
+  predicates:
+  - requiredClusterSelector:
+      celSelector:
+        celExpressions:
+          # Select clusters by Kubernetes version listed in managedCluster.Status.version.kubernetes.
+          - managedCluster.status.version.kubernetes == "v1.31.0"
+          # Select clusters by info stored in clusterClaims.
+          - managedCluster.status.clusterClaims.exists(c, c.name == "kubeversion.open-cluster-management.io" && c.value == "v1.31.0")
+          # Use CEL Standard macros and Standard functions on the managedCluster fields.
+          - managedCluster.metadata.labels["version"].matches('^1\\.(30|31)\\.\\d+$')
+          # Use Kubernetes semver library functions isLessThan and isGreaterThan to select clusters by version comparison. 
+          - semver(managedCluster.metadata.labels["version"]).isGreaterThan(semver("1.30.0")) 
+          # Use OCM customized function scores to select clusters by AddonPlacementScore.
+          - managedCluster.scores("resource-usage-score").filter(s, s.name == 'memNodeAvailable').all(e, e.value > 0)
+```
+
+The CEL expressions provide more flexible and powerful selection capabilities with [built-in libraries](https://github.com/open-cluster-management-io/sdk-go/blob/main/pkg/cel/common/values.go). For more detailed usage of CEL expressions, refer to:
+
+- [Kubernetes CEL Documentation](https://kubernetes.io/docs/reference/using-api/cel/)
+- [OCM CEL Library](https://github.com/open-cluster-management-io/sdk-go/tree/main/pkg/cel/library)
 
 #### Taints/Tolerations
 
@@ -133,7 +167,7 @@ The following example shows how to tolerate clusters with taints.
           timeAdded: '2022-02-21T08:11:06Z'
     ```
 
-    By default, the placement won’t select this cluster unless you define tolerations.
+    By default, the placement won't select this cluster unless you define tolerations.
 
     ```yaml
     apiVersion: cluster.open-cluster-management.io/v1beta1
