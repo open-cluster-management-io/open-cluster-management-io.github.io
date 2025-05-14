@@ -316,3 +316,33 @@ Check the klusterlet is removed from the managed cluster.
 kubectl get klusterlet --context ${CTX_MANAGED_CLUSTER}
 error: the server doesn't have a resource type "klusterlet
 ```
+
+### ResourceCleanup FeatureGate
+
+The `ResourceCleanup` featureGate for cluster registration on the Hub cluster enables automatic cleanup of managedClusterAddons and manifestWorks within the cluster namespace after cluster unjoining. 
+
+**Version Compatibility:**
+- The `ResourceCleanup` featureGate was introdueced in OCM v0.13.0, and was **disabled by default** in OCM v0.16.0 and earlier versions. To activate it, need to modify the clusterManager CR configuration:
+```yaml
+registrationConfiguration:
+  featureGates:
+  - feature: ResourceCleanup
+    mode: Enable
+```
+
+- Starting with OCM v0.17.0, the `ResourceCleanup` featureGate has been upgraded from Alpha to Beta status and is **enabled by default**.
+
+**Deletion Sequence:**
+1. managedClusterAddons are deleted first.
+2. manifestWorks are removed subsequently after there is no managedClusterAddon.
+3. Custom ordering can be defined using the `open-cluster-management.io/cleanup-priority` annotation:
+   - Priority values range 0-100 (lower values execute first).
+
+**Disabling the Feature:**
+To deactivate this functionality, update the clusterManager CR on the hub cluster:
+```yaml
+registrationConfiguration:
+  featureGates:
+  - feature: ResourceCleanup
+    mode: Disable
+```
