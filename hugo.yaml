@@ -74,8 +74,8 @@ params:
   versions:
     - version: main
       url: 'https://open-cluster-management.io'
-    # - version: v0.15
-    #   url: 'https://v0-15.open-cluster-management.io'
+    - version: v0.16
+      url: 'https://v0-16.open-cluster-management.io'
 
   taxonomy:
     # set taxonomyCloud = [] to hide taxonomy clouds
