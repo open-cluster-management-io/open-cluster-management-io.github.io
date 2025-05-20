@@ -55,7 +55,7 @@ Policy and configuration management uses labels to help you deploy policies and 
   <p class="text-center">
     Open Cluster Management is being used by numerous companies, both large and small.
   </p>
-  
+
   <div class="partners-grid">
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10">
@@ -129,7 +129,7 @@ Policy and configuration management uses labels to help you deploy policies and 
   <p class="text-center">
     Open Cluster Management has integrations available with a number of open-source projects.
   </p>
-  
+
   <div class="ecosystem-grid">
     <div class="row justify-content-center">
       <div class="col-lg-10 col-md-12">
@@ -303,3 +303,54 @@ Open Cluster Management is a Cloud Native Computing Foundation sandbox project
   <img src="https://raw.githubusercontent.com/cncf/artwork/master/other/cncf/horizontal/white/cncf-white.svg" alt="CNCF logo" style="max-width: 300px; margin-top: 20px;">
 </div>
 {{% /blocks/section %}}
+
+<!-- Chat Bot Button -->
+<div id="chat-bot-button" aria-label="Chat with OCM">
+  <i class="fas fa-robot"></i>
+</div>
+
+<style>
+  #chat-bot-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #0073e6;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+  }
+
+  #chat-bot-button:hover {
+    transform: scale(1.1);
+  }
+
+  #chat-bot-button:hover::after {
+    content: "Chat with OCM";
+    position: absolute;
+    right: 70px;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const chatButton = document.getElementById('chat-bot-button');
+  chatButton.addEventListener('click', function() {
+    window.open('https://deepwiki.com/open-cluster-management-io/ocm', '_blank');
+  });
+});
+</script>
