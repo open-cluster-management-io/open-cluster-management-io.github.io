@@ -9,7 +9,7 @@ This page is a developer guide about how to build an OCM add-on using addon-fram
 
 ## Supported version
 
-The OCM v0.14.0 requires addon-framework v0.8.1 and above versions.
+The OCM v1.0.0 requires addon-framework v0.9.3 and above versions.
 
 And notice there's breaking changes in [automatic installation](#automatic-installation) in addon-framework version v0.10.0.
 
@@ -383,9 +383,8 @@ NOTE:
 - The automatic installation is no longer supported since addon-framework v0.10.0. Please use the `InstallStrategy` in
 [Managing the add-on agent lifecycle by addon-manager](#managing-the-add-on-agent-lifecycle-by-addon-manager) section
 instead.
-- The automatic installation is still avaliable in addon-framework version v0.8.1 and v0.9.3, which is also the
-minimal supported addon-framework version in OCM v0.14.0. Using the addon-framework v0.8.0 and previous version will
-have install conficts.
+- The automatic installation is still avaliable in addon-framework version v0.9.3, which is also the
+minimal supported addon-framework version in OCM v1.0.0. Using the previous version will have install conficts.
 
 In the busybox add-on example, you need to create a `ManagedClusterAddOn` CR to enable the add-on manually.
 The addon-framework also provides a configuration called `InstallStrategy` to support installing addon automatically.
@@ -416,7 +415,7 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(addonName, FS, "manifests")
                     BuildTemplateAgentAddon()
 ```
 
-Addtionally, if you are using addon-framework v0.8.1 or higher, need to grant a `patch` permission on `ClusterManagementAddon` to your addon manager.
+Addtionally, if you are using addon-framework v0.9.3 or higher, need to grant a `patch` permission on `ClusterManagementAddon` to your addon manager.
 
 ```yaml
 kind: ClusterRole
@@ -947,7 +946,7 @@ spec:
           maxConcurrency: 25%
 ```
 
-Add-on developers can use addon-framework v0.8.0 and the above versions
+Add-on developers can use addon-framework v0.9.3 and the above versions
 to support the scenarios mentioned above.
 
 1. Modify the `go.mod` file to use the latest addon-framework and API versions.
