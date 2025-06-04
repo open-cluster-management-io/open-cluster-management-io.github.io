@@ -345,7 +345,7 @@ following permission for the managed cluster:
   permission, this is why we can grant work-agent service account extra permissions using ManifestWork
 
 So if the workload manifests to be applied on the managed cluster exceeds the above permission, for example some
-Customer Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
+Custom Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
 reflected on the ManifestWork status.
 
 To prevent this, the service account `klusterlet-work-sa` used by the work-agent needs to be given the corresponding
@@ -604,7 +604,7 @@ spec:
 Work-agent uses the SubjectAccessReview API to check whether an executor has permission to the manifest resources, which
 will cause a large number of SAR requests to the managed cluster API-server, so we provided a new feature gate
 `ExecutorValidatingCaches`(in release `0.10.0`) to cache the result of the executor's permission to the manifest
-resource, it is only works when the managed cluster uses
+resource, it only works when the managed cluster uses
 [RBAC mode authorization](https://kubernetes.io/docs/reference/access-authn-authz/authorization/#authorization-modules),
 and is disabled by default as well, but can be enabled by using the following configuration for `Klusterlet`:
 
