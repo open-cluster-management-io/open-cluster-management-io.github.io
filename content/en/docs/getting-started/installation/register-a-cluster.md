@@ -163,6 +163,59 @@ cluster.
 {{% /tab %}}
 {{< /tabpane >}}
 
+### Bootstrap a cluster provisioned by Cluster-API
+
+If cluster-api provider is installed on the hub cluster, and the cluster can be provisioned
+via cluster-api on the hub cluster, users can bootstrap a cluster on the hub directly. There
+are some pre-requisites to satisfy
+1. The cluster-api provider is deployed on the hub cluster using `clusterctl init ...`
+2. The hub cluster is able to access the apiserver of cluster provisioned by cluster-api.
+3. ClusterImporter feature gate is enabled on the ClusterManager as below:
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+  registrationConfiguration:
+    featureGates:
+    - feature: ClusterImporter
+      mode: Enable
+```
+4. The registration controller should bind to the same permission of the cluster-api provider
+to be able to get the secret that stored kubeconfig to access the provisioned cluster. 
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-manager-registration-capi
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: capi-manager-role # this name could be different for different capi provider
+subjects:
+- kind: ServiceAccount
+  name: registration-controller-sa
+  namespace: open-cluster-management-hub
+```
+5. Ensure the existence of cluster-info configmap in the kube-public namespace.
+
+After all the above setting is done, you can now start a capi-cluster and import it from
+the hub cluster.
+1. follow the [instruction](https://cluster-api.sigs.k8s.io/user/quick-start) to provision
+a cluster with command:
+```shell
+clusterctl generate cluster capi-cluster --namespace capi-cluster --kubernetes-version [version] | kubectl apply -f -
+```
+2. create a managedcluster on the hub
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: capi-cluster
+spec: {}
+```
+
 ## Accept the join request and verify
 
 After the OCM agent is running on your managed cluster, it will be sending a "handshake" to your
