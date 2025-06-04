@@ -92,7 +92,7 @@ spec:
                           - date; echo Hello from the Kubernetes cluster
 ```
 The **PlacementRefs** uses the Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) to apply the manifestWork to the selected clusters.
-In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section at the [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/docs/concepts/content-placement/placement.md) document.
+In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section at the [placement](https://open-cluster-management.io/docs/concepts/content-placement/placement/) document.
 **Note:** The placement reference must be in the same namespace as the manifestWorkReplicaSet.
 
 ## Status tracking
