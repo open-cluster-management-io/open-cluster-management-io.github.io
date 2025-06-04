@@ -56,4 +56,7 @@
     <url>
         <loc>http://open-cluster-management.io/argocd-pull-integration?go-get=1</loc>
     </url>
+    <url>
+        <loc>http://open-cluster-management.io/cluster-permission?go-get=1</loc>
+    </url>
 </urlset>
