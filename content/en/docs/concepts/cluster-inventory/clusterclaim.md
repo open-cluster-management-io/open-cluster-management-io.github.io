@@ -56,10 +56,11 @@ status:
 
 ## About-API Support in Open Cluster Management
 
-Open Cluster Management (OCM) supports the use of `ClusterProperty` via the about-api package,
+Open Cluster Management (OCM) supports the use of `ClusterProperty` via the
+[about-api](https://github.com/kubernetes-sigs/about-api),
 which allows administrators to define and expose cluster-scoped properties. These properties are
-synced to the managed cluster's `ManagedCluster` status and can coexist with `ClusterClaim` but take precedence
-if a same-named property exists.
+synced to the managed cluster's `ManagedCluster` status and can coexist with
+`ClusterClaim` but take precedence if a same-named property exists.
 
 ### Enabling the Feature
 
@@ -133,7 +134,7 @@ kubectl delete clusterproperty example-property
 
 This will result in the removal of the `example-property` from the `ManagedCluster` status on the hub cluster.
 
-## Additional Notes 
+### Additional Notes 
 - Both `ClusterProperty` and `ClusterClaim` can co-exist, with `ClusterProperty` taking precedence in
 naming conflicts.
 - The feature uses the existing OCM infrastructure for status synchronization, ensuring minimal disruption to
