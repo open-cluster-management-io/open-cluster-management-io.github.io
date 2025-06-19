@@ -337,8 +337,9 @@ However, change from other actors on the `ManagedCluster` will be ignored.
 
 ## Permission setting for work agent
 
-All workload manifests are applied to the managed cluster by the work agent, and by default the work agent has the
+All workload manifests are applied to the managed cluster by the work-agent, and by default the work-agent has the
 following permission for the managed cluster:
+
 - clusterRole `admin`(instead of the `cluster-admin`) to apply kubernetes common resources
 - managing `customresourcedefinitions`, but can not manage a specific custom resource instance
 - managing `clusterrolebindings`, `rolebindings`, `clusterroles`, `roles`, including the `bind` and `escalate`
@@ -348,19 +349,23 @@ So if the workload manifests to be applied on the managed cluster exceeds the ab
 Custom Resource instances, there will be an error `... is forbidden: User "system:serviceaccount:open-cluster-management-agent:klusterlet-work-sa" cannot get resource ...`
 reflected on the ManifestWork status.
 
-To prevent this, the service account `klusterlet-work-sa` used by the work-agent needs to be given the corresponding
-permissions. There are several ways:
-- add permission on the managed cluster directly, we can
-  - aggregate the new clusterRole for your to-be-applied resources to the existing `admin` clusterRole
-  - OR create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
-- add permission on the hub cluster by another ManifestWork, the ManifestWork includes
-  - an clusterRole with label `"open-cluster-management.io/aggregate-to-work": "true"` for your to-be-applied
-    resources, the rules defined in the clusterRole will be aggregated to the work agent(OCM version >= v0.12.0)
-  - OR role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account
+To prevent this, the work-agent needs to be given the corresponding permissions. You can add the permission by creating
+RBAC resources on the managed cluster directly, or by creating a ManifestWork including the RBAC resources on the hub
+cluster, then the work-agent will apply the RBAC resources to the managed cluster. As for creating the RBAC resources,
+there are several options:
 
-Below is an example use ManifestWork to give `klusterlet-work-sa` permission for resource `machines.cluster.x-k8s.io`
+- Option 1: Create clusterRoles with label `"open-cluster-management.io/aggregate-to-work": "true"` for your
+  to-be-applied resources, the rules defined in the clusterRoles will be aggregated to the work-agent automatically;
+  (Supported since OCM version >= v0.12.0, Recommended)
+- Option 2: Create clusterRoles with label `rbac.authorization.k8s.io/aggregate-to-admin: "true"` for your
+  to-be-applied resources, the rules defined in the clusterRoles will be aggregated to the work-agent automatically;
+  (Deprecated since OCM version >= v0.12.0, use the Option 1 instead)
+- Option 3: Create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account;
+  (Deprecated since OCM version >= v0.12.0, use the Option 1 instead)
 
-- Option 1: Use aggregated clusterRole
+Below is an example use ManifestWork to give the work-agent permission for resource `machines.cluster.x-k8s.io`
+
+- Option 1: Use label `"open-cluster-management.io/aggregate-to-work": "true"` to aggregate the permission; Recommended
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
@@ -384,7 +389,8 @@ spec:
             verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ```
 
-- Option 2: Use clusterRole and clusterRoleBinding
+- Option 2: Use clusterRole and clusterRoleBinding; Deprecated since OCM version >= v0.12.0, use the Option 1 instead.
+  Because the work-agent might be running in a different namespace than the `open-cluster-management-agent`
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1
