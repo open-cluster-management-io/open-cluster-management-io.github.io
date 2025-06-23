@@ -3,8 +3,83 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v0.15.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.0.0`.
 Continue reading to view upcoming releases:
+
+## `1.0.0`, 20 June 2025
+
+🎉 **Milestone Release: Open Cluster Management v1.0.0** 🎉
+
+The Open Cluster Management team is thrilled to announce the release of OCM v1.0.0! This milestone release
+represents a significant achievement in our journey to provide a robust, production-ready multi-cluster management
+platform. With enhanced stability, new powerful features, and improved developer experience, v1.0.0 marks OCM's
+readiness for enterprise-scale deployments.
+
+### 🌟 Key Highlights
+
+**Enhanced Cluster Management:**
+- **CEL Selector Support**: Advanced cluster selection using Common Expression Language (CEL) for more
+flexible and powerful placement decisions
+- **About-API Integration**: New cluster properties API enabling better cluster discovery and
+metadata management
+- **Workload Conditions**: Enhanced status reporting with detailed workload condition tracking
+- **Deletion Policies**: Introduced deletionPolicy for ManifestWorkReplicaSets to control the deletion strategy.
+
+**Developer Experience Improvements:**
+- **Resource Requirements Configuration**: Fine-grained control over addon agent resource requirements
+- **Bundle Version Overrides**: Flexible version management with `--bundle-version-overrides` flag in clusteradm
+- **ManagedCluster Annotations**: Expose cluster annotations during join operations for better cluster labeling
+
+**Stability & Performance:**
+- **Resource Cleanup**: ResourceCleanup feature gate enabled by default for better resource lifecycle management
+- **Configurable Status Sync**: Adjustable work status sync intervals for optimized performance
+- **Memory Usage Optimization**: Reduced memory footprint through filtered resource watching
+- **Hub QPS/Burst Configuration**: Configurable rate limiting for better hub cluster protection
+
+**ArgoCD Integration:**
+- **ArgoCD Pull Model**: New ArgoCD pull model addon replacing the legacy application-manager
+- **Simplified Setup**: Enhanced clusteradm CLI support for easier ArgoCD integration setup
+
+### 🔧 Breaking Changes
+
+- **ResourceCleanup Feature Gate**: Now enabled by default - ensures proper cleanup of resources when ManifestWorks are deleted
+- **Lease Checking Removal**: Removed hub-side lease checking for improved performance
+- **API Updates**: Several API fields made optional for better flexibility (hubAcceptsClient, taint timeAdded)
+
+### 📊 Community Growth
+
+This release includes contributions from **25 contributors** across all repositories, with **8 new contributors** joining our community:
+
+**New Contributors:**
+- [@gnana997](https://github.com/gnana997) - API improvements and sigs.k8s.io support
+- [@Ankit152](https://github.com/Ankit152) - Go 1.23 upgrade and k8s.io packages updates
+- [@o-farag](https://github.com/o-farag) - ClusterClaimConfiguration API enhancements
+- [@bhperry](https://github.com/bhperry) - Workload conditions and CEL evaluation functions
+- [@gitatractivo](https://github.com/gitatractivo) - Helm chart implementation and documentation
+- [@jeffw17](https://github.com/jeffw17) - Sync labels support and AWS IRSA documentation
+- [@ivan-cai](https://github.com/ivan-cai) - Hub QPS/Burst configuration improvements
+- [@arturshadnik](https://github.com/arturshadnik) - ManagedCluster annotations support
+- [@ahmad-ibra](https://github.com/ahmad-ibra) - AWS EKS managed cluster ARN support
+
+We extend our heartfelt gratitude to all contributors who made this milestone release possible!
+
+### 📦 Core Components
+
+- **api** v1.0.0 [changelog](https://github.com/open-cluster-management-io/api/releases/tag/v1.0.0)
+- **ocm** v1.0.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.0.0)
+- **addon-framework** v1.0.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v1.0.0)
+- **clusteradm** v1.0.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.0.0)
+
+We hope this release helps you better manage your Kubernetes clusters, and we look forward to your feedback and
+contributions! If you have any questions, please don’t hesitate to contact us in our community channels or log issues
+on our repositories.
+
+Thank you to all contributors for your hard work and to the community for your continued support!
+Let's keep the momentum going.
+
+Stay connected and happy managing clusters!
+
+---
 
 ## `0.16.0`, 16 March 2025
 The Open Cluster Management team is exicted to announce the release of OCM v0.16.0 with many new
@@ -77,14 +152,14 @@ The Open Cluster Management team is proud to announce the release of OCM v0.15.0
   on the `ManagedClusterAddon` when the configuration of the addon is determined by the addon-manager. This is to avoid
   an out of date configuration being picked to deploy the addon agent.
 - Sync between ManagedCluster and cluster inventory API: We introduce the cluster inventory API
-  from sig-multicluster and sync between ManagedCluster and ClusterProfile API. See 
+  from sig-multicluster and sync between ManagedCluster and ClusterProfile API. See
   [here](https://github.com/kubernetes-sigs/cluster-inventory-api) for more details on cluster inventory API.
-- (Policy framework) Event-driven `ConfigurationPolicy` evaluations: By default, `ConfigurationPolicy` reconciles are 
-  now event-driven, lowering resource consumption and increasing efficiency. Users can set a policy to reconcile on an 
+- (Policy framework) Event-driven `ConfigurationPolicy` evaluations: By default, `ConfigurationPolicy` reconciles are
+  now event-driven, lowering resource consumption and increasing efficiency. Users can set a policy to reconcile on an
   interval as they were previously by configuring `spec.evaluationInterval`.
 - (Policy framework) Custom `ConfigurationPolicy` compliance messages: Policy authors can now define Go templates to be
   used for compliance messages, including `.DefaultMessage` and `.Policy` fields available for parsing relevant information.
-- (Policy framework) `dryrun` CLI: A `dryrun` CLI is available to reconcile `ConfigurationPolicy` locally, allowing you 
+- (Policy framework) `dryrun` CLI: A `dryrun` CLI is available to reconcile `ConfigurationPolicy` locally, allowing you
   to view the compliance and diff resulting from a `ConfigurationPolicy` without deploying it to a cluster:
   ```
   go install open-cluster-management.io/config-policy-controller/cmd/dryrun@latest
