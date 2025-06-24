@@ -1203,13 +1203,235 @@ Users can use variables in the `addonTemplate.agentSpec.workload.manifests` fiel
 is similar to go template syntax but not identical, only String value is supported. And there are two types of
 variables:
 
-1. built-in variables;
-    * constant parameters(can not be overridden by user's variables):
-        * `CLUSTER_NAME`: name of the managed cluster(e.g cluster1)
-    * default parameters(can be overridden by user's variables)
+1. **Built-in variables**:
+    * **Constant parameters** (can not be overridden by user's variables):
+        * `CLUSTER_NAME`: name of the managed cluster (e.g., cluster1)
+    * **Default parameters** (can be overridden by user's variables):
         * `HUB_KUBECONFIG`: path of the kubeconfig to access the hub cluster, default value is
           `/managed/hub-kubeconfig/kubeconfig`
-2. Customize variables; Variables defines in `addonDeploymentConfig.customizedVariables` can be used.
+
+2. **Customized variables**: Variables defined in `addonDeploymentConfig.customizedVariables` can be used.
+
+#### Using customized variables from AddOnDeploymentConfig
+
+To use customized variables in your addon template, you need to:
+
+1. **Define the variables in an AddOnDeploymentConfig**:
+
+   ```yaml
+   apiVersion: addon.open-cluster-management.io/v1alpha1
+   kind: AddOnDeploymentConfig
+   metadata:
+     name: hello-template-deploy-config
+     namespace: open-cluster-management
+   spec:
+     customizedVariables:
+     - name: LOG_LEVEL
+       value: "2"
+     - name: REPLICA_COUNT
+       value: "3"
+     - name: IMAGE_TAG
+       value: "v1.2.3"
+     - name: CUSTOM_ENV_VAR
+       value: "production"
+   ```
+
+2. **Reference the AddOnDeploymentConfig in your ClusterManagementAddOn**:
+
+   ```yaml
+   apiVersion: addon.open-cluster-management.io/v1alpha1
+   kind: ClusterManagementAddOn
+   metadata:
+     name: hello-template
+     annotations:
+       addon.open-cluster-management.io/lifecycle: "addon-manager"
+   spec:
+     addOnMeta:
+       description: hello-template is an addon built with addon template
+       displayName: hello-template
+     supportedConfigs:
+     - group: addon.open-cluster-management.io
+       resource: addontemplates
+       defaultConfig:
+         name: hello-template
+     - group: addon.open-cluster-management.io
+       resource: addondeploymentconfigs
+       defaultConfig:
+         name: hello-template-deploy-config
+         namespace: open-cluster-management
+   ```
+
+3. **Use the variables in your AddOnTemplate**:
+
+   ```yaml
+   apiVersion: addon.open-cluster-management.io/v1alpha1
+   kind: AddOnTemplate
+   metadata:
+     name: hello-template
+   spec:
+     addonName: hello-template
+     agentSpec:
+       workload:
+         manifests:
+           - kind: Deployment
+             apiVersion: apps/v1
+             metadata:
+               name: hello-template-agent
+               namespace: open-cluster-management-agent-addon
+               labels:
+                 app: hello-template-agent
+                 version: "{{IMAGE_TAG}}"  # Using customized variable
+             spec:
+               replicas: {{REPLICA_COUNT}}  # Using customized variable
+               selector:
+                 matchLabels:
+                   app: hello-template-agent
+               template:
+                 metadata:
+                   labels:
+                     app: hello-template-agent
+                 spec:
+                   serviceAccountName: hello-template-agent-sa
+                   containers:
+                     - name: helloworld-agent
+                       image: quay.io/open-cluster-management/addon-examples:{{IMAGE_TAG}}  # Using customized variable
+                       imagePullPolicy: IfNotPresent
+                       env:
+                         - name: CUSTOM_ENV
+                           value: "{{CUSTOM_ENV_VAR}}"  # Using customized variable
+                       args:
+                         - "/helloworld"
+                         - "agent"
+                         - "--cluster-name={{CLUSTER_NAME}}"  # Using built-in variable
+                         - "--addon-namespace=open-cluster-management-agent-addon"
+                         - "--addon-name=hello-template"
+                         - "--hub-kubeconfig={{HUB_KUBECONFIG}}"  # Using built-in variable
+                         - "--v={{LOG_LEVEL}}"  # Using customized variable
+   ```
+
+#### Per-cluster customization
+
+You can also override the default AddOnDeploymentConfig for specific clusters by referencing a different config in the ManagedClusterAddOn:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: hello-template
+  namespace: cluster1
+spec:
+  installNamespace: open-cluster-management-agent-addon
+  configs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    name: cluster1-specific-config  # Override with cluster-specific config
+    namespace: cluster1
+```
+
+This allows you to have different variable values for different clusters while using the same addon template.
+
+#### Variable naming and validation
+
+When defining customized variables in AddOnDeploymentConfig, please note:
+
+* **Variable names** must follow the pattern `^[a-zA-Z_][_a-zA-Z0-9]*$` (start with letter or underscore, followed by letters, numbers, or underscores)
+* **Variable names** are case-sensitive and have a maximum length of 255 characters
+* **Variable values** have a maximum length of 1024 characters
+* **Variable names** should be descriptive and follow naming conventions (e.g., `LOG_LEVEL`, `IMAGE_TAG`, `REPLICA_COUNT`)
+
+#### Variable precedence
+
+Variables are resolved in the following order (later values override earlier ones):
+
+1. Built-in default parameters (e.g., `HUB_KUBECONFIG`)
+2. Variables from the default AddOnDeploymentConfig (referenced in ClusterManagementAddOn)
+3. Variables from cluster-specific AddOnDeploymentConfig (referenced in ManagedClusterAddOn)
+4. Built-in constant parameters (e.g., `CLUSTER_NAME`) - these cannot be overridden
+
+#### Common use cases for variables
+
+* **Image configuration**: Use variables like `IMAGE_TAG`, `IMAGE_REGISTRY` to customize container images
+* **Resource configuration**: Use variables like `REPLICA_COUNT`, `CPU_LIMIT`, `MEMORY_LIMIT` for resource settings
+* **Environment-specific settings**: Use variables like `LOG_LEVEL`, `DEBUG_MODE`, `ENVIRONMENT` for different environments
+* **Feature flags**: Use variables like `ENABLE_FEATURE_X`, `USE_TLS` to enable/disable features
+
+#### Complete example: Using variables for different environments
+
+Here's a complete example showing how to use variables to deploy the same addon with different configurations for development and production environments:
+
+**Development AddOnDeploymentConfig:**
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: AddOnDeploymentConfig
+metadata:
+  name: hello-template-dev-config
+  namespace: open-cluster-management
+spec:
+  customizedVariables:
+  - name: LOG_LEVEL
+    value: "4"  # Debug level
+  - name: REPLICA_COUNT
+    value: "1"
+  - name: IMAGE_TAG
+    value: "latest"
+  - name: ENVIRONMENT
+    value: "development"
+```
+
+**Production AddOnDeploymentConfig:**
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: AddOnDeploymentConfig
+metadata:
+  name: hello-template-prod-config
+  namespace: open-cluster-management
+spec:
+  customizedVariables:
+  - name: LOG_LEVEL
+    value: "1"  # Error level only
+  - name: REPLICA_COUNT
+    value: "3"
+  - name: IMAGE_TAG
+    value: "v1.2.3"
+  - name: ENVIRONMENT
+    value: "production"
+```
+
+**ManagedClusterAddOn for development cluster:**
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: hello-template
+  namespace: dev-cluster
+spec:
+  installNamespace: open-cluster-management-agent-addon
+  configs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    name: hello-template-dev-config
+    namespace: open-cluster-management
+```
+
+**ManagedClusterAddOn for production cluster:**
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ManagedClusterAddOn
+metadata:
+  name: hello-template
+  namespace: prod-cluster
+spec:
+  installNamespace: open-cluster-management-agent-addon
+  configs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    name: hello-template-prod-config
+    namespace: open-cluster-management
+```
+
+With this setup, the same AddOnTemplate will be rendered differently for each environment, with appropriate log levels, replica counts, and image tags.
 
 ### Using kubeconfig/certificates in the addon agent Deployment
 
