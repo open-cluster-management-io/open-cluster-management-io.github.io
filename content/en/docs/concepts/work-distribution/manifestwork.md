@@ -222,12 +222,13 @@ spec:
         namespace: default
         name: pi-calculation
       conditionRules:
-        - type: WellKnownCompletions
+        - type: WellKnownConditions
+          condition: Complete
 ```
 
 ### Well-Known Completions
 
-For common Kubernetes resources, you can use the `WellKnownCompletions` type which provides
+For common Kubernetes resources, you can use the `WellKnownConditions` type which provides
 built-in completion logic:
 
 **Job Completion**: A Job is considered complete when it has a condition of type `Complete` or `Failed`
@@ -243,7 +244,8 @@ manifestConfigs:
       namespace: default
       name: my-job
     conditionRules:
-      - type: WellKnownCompletions
+      - type: WellKnownConditions
+        condition: Complete
 ```
 
 ### Custom CEL Expressions
@@ -301,7 +303,8 @@ spec:
         namespace: default
         name: my-job
       conditionRules:
-        - type: WellKnownCompletions
+        - type: WellKnownConditions
+          condition: Complete
 ```
 
 **Important Notes:**
@@ -325,8 +328,8 @@ Completion status is reflected in both manifest-level and `ManifestWork`-level c
 status:
   conditions:
     - lastTransitionTime: "2025-02-20T18:53:40Z"
-      message: "All manifests with completion rules are complete"
-      reason: "ConditionRulesPassed"
+      message: "Job is finished"
+      reason: "ConditionRulesAggregated"
       status: "True"
       type: Complete
   resourceStatus:
@@ -334,7 +337,7 @@ status:
       - conditions:
           - lastTransitionTime: "2025-02-20T19:12:22Z"
             message: "Job is finished"
-            reason: "ConditionRulesPassed"
+            reason: "ConditionRuleEvaluated"
             status: "True"
             type: Complete
         resourceMeta:
@@ -346,6 +349,8 @@ status:
           resource: jobs
           version: v1
 ```
+
+All conditions with the same type from manifest-level are aggregated to `ManifestWork`-level status.conditions.
 
 ### Multiple Condition Types
 
@@ -412,7 +417,8 @@ spec:
         namespace: default
         name: data-migration
       conditionRules:
-        - type: WellKnownCompletions
+        - type: WellKnownConditions
+          condition: Complete
 ```
 
 **Run a Job and clean up after 30 seconds:**
@@ -448,7 +454,8 @@ spec:
         namespace: default
         name: temp-task
       conditionRules:
-        - type: WellKnownCompletions
+        - type: WellKnownConditions
+          condition: Complete
 ```
 
 ## Garbage collection
