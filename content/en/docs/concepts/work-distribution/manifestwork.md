@@ -168,6 +168,296 @@ status:
           name: isAvailable
 ```
 
+## Workload Completion
+
+The workload completion feature allows `ManifestWork` to track when certain workloads have
+completed their execution and optionally perform automatic garbage collection. This is particularly
+useful for workloads that are expected to run once and then be cleaned up, such as Jobs or Pods with
+specific restart policies.
+
+### Overview
+
+OCM traditionally recreates any resources that get deleted from managed clusters as long
+as the `ManifestWork` exists. However, for workloads like Jobs with `ttlSecondsAfterFinished` or
+Pods that exit and get cleaned up by cluster-autoscaler, this behavior is often undesirable.
+The workload completion feature addresses this by:
+
+- Tracking completion status of workloads using condition rules
+- Preventing updates to completed workloads
+- Optionally garbage collecting the entire `ManifestWork` after completion
+- Supporting both well-known Kubernetes resources and custom completion logic
+
+### Condition Rules
+
+Condition rules are configured in the `manifestConfigs` section to define how completion should
+be determined for specific manifests. You can specify condition rules using the `conditionRules` field:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: example-job
+spec:
+  workload:
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: pi-calculation
+          namespace: default
+        spec:
+          template:
+            spec:
+              containers:
+              - name: pi
+                image: perl:5.34.0
+                command: ["perl", "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+              restartPolicy: Never
+          backoffLimit: 4
+  manifestConfigs:
+    - resourceIdentifier:
+        group: batch
+        resource: jobs
+        namespace: default
+        name: pi-calculation
+      conditionRules:
+        - type: WellKnownConditions
+          condition: Complete
+```
+
+### Well-Known Completions
+
+For common Kubernetes resources, you can use the `WellKnownConditions` type which provides
+built-in completion logic:
+
+**Job Completion**: A Job is considered complete when it has a condition of type `Complete` or `Failed`
+with status `True`.
+
+**Pod Completion**: A Pod is considered complete when its phase is `Succeeded` or `Failed`.
+
+```yaml
+manifestConfigs:
+  - resourceIdentifier:
+      group: batch
+      resource: jobs
+      namespace: default
+      name: my-job
+    conditionRules:
+      - type: WellKnownConditions
+        condition: Complete
+```
+
+### Custom CEL Expressions
+
+For custom resources or more complex completion logic, you can use CEL (Common Expression Language) expressions:
+
+```yaml
+manifestConfigs:
+  - resourceIdentifier:
+      group: example.com
+      resource: mycustomresources
+      namespace: default
+      name: my-custom-resource
+    conditionRules:
+      - condition: Complete
+        type: CEL
+        celExpressions:
+          - expression: |
+              object.status.conditions.filter(
+                c, c.type == 'Complete' || c.type == 'Failed'
+              ).exists(
+                c, c.status == 'True'
+              )
+        messageExpression: |
+          result ? "Custom resource is complete" : "Custom resource is not complete"
+```
+
+In CEL expressions:
+- `object`: The current instance of the manifest
+- `result`: Boolean result of the CEL expressions (available in messageExpression)
+
+### TTL and Automatic Garbage Collection
+
+You can enable automatic garbage collection of the entire `ManifestWork` after all workloads
+with completion rules have finished by setting `ttlSecondsAfterFinished` in the `deleteOption`:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: job-with-cleanup
+spec:
+  deleteOption:
+    ttlSecondsAfterFinished: 300  # Delete 5 minutes after completion
+  workload:
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        # ... job specification
+  manifestConfigs:
+    - resourceIdentifier:
+        group: batch
+        resource: jobs
+        namespace: default
+        name: my-job
+      conditionRules:
+        - type: WellKnownConditions
+          condition: Complete
+```
+
+**Important Notes:**
+- If `ttlSecondsAfterFinished` is set but no completion rules are defined, the `ManifestWork` will never be considered finished
+- If completion rules are set but no TTL is specified, the `ManifestWork` will complete but not be automatically deleted
+- Setting `ttlSecondsAfterFinished: 0` makes the `ManifestWork` eligible for immediate deletion after completion
+
+### Completion Behavior
+
+Once a manifest is marked as completed:
+
+1. **No Further Updates**: The work agent will no longer update or recreate the completed manifest, even if the `ManifestWork` specification changes
+2. **ManifestWork Completion**: When all manifests with completion rules have completed, the entire `ManifestWork` is considered complete
+3. **Mixed Completion**: If you want some manifests to complete but not the entire `ManifestWork`, set a completion rule with CEL expression `false` for at least one other manifest
+
+### Status Tracking
+
+Completion status is reflected in both manifest-level and `ManifestWork`-level conditions:
+
+```yaml
+status:
+  conditions:
+    - lastTransitionTime: "2025-02-20T18:53:40Z"
+      message: "Job is finished"
+      reason: "ConditionRulesAggregated"
+      status: "True"
+      type: Complete
+  resourceStatus:
+    manifests:
+      - conditions:
+          - lastTransitionTime: "2025-02-20T19:12:22Z"
+            message: "Job is finished"
+            reason: "ConditionRuleEvaluated"
+            status: "True"
+            type: Complete
+        resourceMeta:
+          group: batch
+          kind: Job
+          name: pi-calculation
+          namespace: default
+          ordinal: 0
+          resource: jobs
+          version: v1
+```
+
+All conditions with the same type from manifest-level are aggregated to `ManifestWork`-level status.conditions.
+
+### Multiple Condition Types
+
+You can define multiple condition rules for different condition types on the same manifest:
+
+```yaml
+manifestConfigs:
+  - resourceIdentifier:
+      group: example.com
+      resource: mycustomresources
+      namespace: default
+      name: my-resource
+    conditionRules:
+      - condition: Complete
+        type: CEL
+        celExpressions:
+          - expression: |
+              object.status.conditions.exists(
+                c, c.type == 'Complete' && c.status == 'True'
+              )
+        messageExpression: |
+          result ? "Resource completed successfully" : "Resource not complete"
+      - condition: Initialized
+        type: CEL
+        celExpressions:
+          - expression: |
+              object.status.conditions.exists(
+                c, c.type == 'Initialized' && c.status == 'True'
+              )
+        messageExpression: |
+          result ? "Resource is initialized" : "Resource not initialized"
+```
+
+### Examples
+
+**Run a Job once without cleanup:**
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: one-time-job
+spec:
+  workload:
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: data-migration
+          namespace: default
+        spec:
+          template:
+            spec:
+              containers:
+              - name: migrator
+                image: my-migration-tool:latest
+                command: ["./migrate-data.sh"]
+              restartPolicy: Never
+  manifestConfigs:
+    - resourceIdentifier:
+        group: batch
+        resource: jobs
+        namespace: default
+        name: data-migration
+      conditionRules:
+        - type: WellKnownConditions
+          condition: Complete
+```
+
+**Run a Job and clean up after 30 seconds:**
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata:
+  namespace: cluster1
+  name: temp-job-with-cleanup
+spec:
+  deleteOption:
+    ttlSecondsAfterFinished: 30
+  workload:
+    manifests:
+      - apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: temp-task
+          namespace: default
+        spec:
+          template:
+            spec:
+              containers:
+              - name: worker
+                image: busybox:latest
+                command: ["echo", "Task completed"]
+              restartPolicy: Never
+  manifestConfigs:
+    - resourceIdentifier:
+        group: batch
+        resource: jobs
+        namespace: default
+        name: temp-task
+      conditionRules:
+        - type: WellKnownConditions
+          condition: Complete
+```
+
 ## Garbage collection
 
 To ensure the resources applied by `ManifestWork` are reliably recorded, the work agent creates an `AppliedManifestWork` on the managed cluster for each `ManifestWork` as an anchor for resources relating to `ManifestWork`. When `ManifestWork` is deleted, work agent runs a `Foreground deletion`, that `ManifestWork` will stay in deleting state until all its related resources has been fully cleaned in the managed cluster.
