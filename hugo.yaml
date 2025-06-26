@@ -74,6 +74,8 @@ params:
   versions:
     - version: main
       url: 'https://open-cluster-management.io'
+    - version: v1.0
+      url: 'https://v1-0.open-cluster-management.io'
     - version: v0.16
       url: 'https://v0-16.open-cluster-management.io'
 
