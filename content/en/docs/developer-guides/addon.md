@@ -1071,7 +1071,7 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
                            - "--addon-namespace=open-cluster-management-agent-addon"
                            - "--addon-name=hello-template"
                            - "--hub-kubeconfig={{HUB_KUBECONFIG}}"
-                           - "--v={{LOG_LEVEL}}" # addonDeploymentConfig variables
+                           - "--v={{LOG_LEVEL}}"
              - kind: ServiceAccount
                apiVersion: v1
                metadata:
@@ -1199,17 +1199,70 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
 
 ### Use variables in the addon template
 
-Users can use variables in the `addonTemplate.agentSpec.workload.manifests` field in the form of `{{VARIABLE_NAME}}`, it
-is similar to go template syntax but not identical, only String value is supported. And there are two types of
-variables:
+Users can use variables in the `addonTemplate.agentSpec.workload.manifests` field in the form of `{{VARIABLE_NAME}}`.
+It is similar to go template syntax, but not identical, and only string values are supported.
 
-1. built-in variables;
-    * constant parameters(can not be overridden by user's variables):
-        * `CLUSTER_NAME`: name of the managed cluster(e.g cluster1)
-    * default parameters(can be overridden by user's variables)
-        * `HUB_KUBECONFIG`: path of the kubeconfig to access the hub cluster, default value is
-          `/managed/hub-kubeconfig/kubeconfig`
-2. Customize variables; Variables defines in `addonDeploymentConfig.customizedVariables` can be used.
+There are two types of variables:
+
+1.  **Built-in variables**: These are provided by the system.
+    *   `CLUSTER_NAME`: The name of the managed cluster (e.g., `cluster1`). This variable cannot be overridden.
+    *   `HUB_KUBECONFIG`: The path of the kubeconfig file to access the hub cluster. The default value is `/managed/hub-kubeconfig/kubeconfig`. This variable can be overridden by a user-defined variable.
+    *   `LOG_LEVEL`: The log level for the addon agent. The default value is `0`. This variable can be overridden by a user-defined variable.
+
+2.  **Custom variables**: These are defined in the `customizedVariables` field of an `AddOnDeploymentConfig` resource.
+
+For example, to use a custom variable, first define it in an `AddOnDeploymentConfig`:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: AddOnDeploymentConfig
+metadata:
+  name: my-addon-config
+spec:
+  customizedVariables:
+  - name: MY_CUSTOM_VARIABLE
+    value: "my-custom-value"
+```
+
+Then, reference this `AddOnDeploymentConfig` in your `ClusterManagementAddOn` and use the variable in your `AddOnTemplate`:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: ClusterManagementAddOn
+metadata:
+  name: my-addon
+spec:
+  supportedConfigs:
+  - group: addon.open-cluster-management.io
+    resource: addondeploymentconfigs
+    defaultConfig:
+      name: my-addon-config
+...
+```
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: AddOnTemplate
+metadata:
+  name: my-addon-template
+spec:
+  ...
+  agentSpec:
+    workload:
+      manifests:
+      - kind: Deployment
+        ...
+        spec:
+          ...
+          containers:
+          - name: my-addon-agent
+            args:
+            - "--my-arg={{MY_CUSTOM_VARIABLE}}"
+            - "--v={{LOG_LEVEL}}"
+```
+
+In this example, the `{{MY_CUSTOM_VARIABLE}}` in the `AddOnTemplate` will be replaced with `my-custom-value` from the `AddOnDeploymentConfig`. The `{{LOG_LEVEL}}` will be replaced by the default value `0` unless it is overridden in the `AddOnDeploymentConfig`.
+
 
 ### Using kubeconfig/certificates in the addon agent Deployment
 
