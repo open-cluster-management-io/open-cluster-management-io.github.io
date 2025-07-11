@@ -5,12 +5,12 @@ weight: 1
 
 <!-- spellchecker-disable -->
 
-
+Follow these steps to setup an OCM hub with two managed clusters using `clusteradm` and `kind`.
 
 ## Prerequisites
 
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
-- Ensure [kind](https://kind.sigs.k8s.io/)(greater than `v0.9.0+`, or the latest version is preferred) is installed.
+- Ensure [kind](https://kind.sigs.k8s.io/) (greater than `v0.9.0+`, or the latest version is preferred) is installed.
 
 ## Install clusteradm CLI tool
 
@@ -29,6 +29,8 @@ curl -L https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/so
 ```
 
 If you want to setup OCM in a production environment or on a different kubernetes distribution, please refer to the [Start the control plane]({{< ref "docs/getting-started/installation/start-the-control-plane" >}}) and [Register a cluster]({{< ref "docs/getting-started/installation/register-a-cluster" >}}) guides.
+
+Alternatively, you can [deploy OCM declaratively using the FleetConfig Controller]({{< ref "docs/getting-started/integration/fleetconfig-controller" >}}).
 
 ## What is next
 
