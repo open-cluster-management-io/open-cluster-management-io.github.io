@@ -207,7 +207,14 @@ spec:
           name: pi-calculation
           namespace: default
         spec:
+          manualSelector: true
+          selector:
+            matchLabels:
+              job: pi-calculation
           template:
+            metadata:
+              labels:
+                job: pi-calculation
             spec:
               containers:
               - name: pi
@@ -263,12 +270,12 @@ manifestConfigs:
       - condition: Complete
         type: CEL
         celExpressions:
-          - expression: |
-              object.status.conditions.filter(
-                c, c.type == 'Complete' || c.type == 'Failed'
-              ).exists(
-                c, c.status == 'True'
-              )
+          - |
+            object.status.conditions.filter(
+              c, c.type == 'Complete' || c.type == 'Failed'
+            ).exists(
+              c, c.status == 'True'
+            )
         messageExpression: |
           result ? "Custom resource is complete" : "Custom resource is not complete"
 ```
