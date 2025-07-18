@@ -207,7 +207,14 @@ spec:
           name: pi-calculation
           namespace: default
         spec:
+          manualSelector: true
+          selector:
+            matchLabels:
+              job: pi-calculation
           template:
+            metadata:
+              labels:
+                job: pi-calculation
             spec:
               containers:
               - name: pi
