@@ -262,12 +262,6 @@ You also can use the `clusteradm` command to disable the add-on for a managed cl
 $ clusteradm addon disable --names busybox-addon --clusters cluster1
 ```
 
-You can also use the `clusteradm` command to disable the add-ons for all managed clusters.
-
-```bash
-$ clusteradm addon disable --names busybox-addon --all-clusters true
-```
-
 If you delete the `ClusterManagementAddOn` on the hub cluster, the `ManagedClusterAddOn` CRs in all managed cluster
 namespaces will be deleted too.
 
