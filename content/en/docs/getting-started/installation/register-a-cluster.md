@@ -20,7 +20,7 @@ Configure your network settings for the managed clusters to allow the following 
 |-----------|-------------------------------------|----------|------------------------------------------|--------------------------------------------------------------------------|
 | Outbound  | https://{hub-api-server-url}:{port} | TCP      | Kubernetes API server of the hub cluster | OCM agents, including the add-on agents, running on the managed clusters |
 
-To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters. See [Register a cluster to hub through proxy server](https://open-cluster-management.io/scenarios/register-cluster-through-proxy/) for more details.
+To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters. See [Register a cluster to hub through proxy server]({{< ref "/docs/scenarios/register-cluster-through-proxy/" >}}) for more details.
 
 ## Install clusteradm CLI tool
 
@@ -331,7 +331,7 @@ The `open-cluster-management.io/cleanup-priority` annotation controls deletion o
 A manifestWork that applies a CRD and operator should be deleted after a manifestWork that creates a CR instance, allowing the operator to perform cleanup after the CR is removed.
 
 
-The `ResourceCleanup` featureGate for cluster registration on the Hub cluster enables automatic cleanup of managedClusterAddons and manifestWorks within the cluster namespace after cluster unjoining. 
+The `ResourceCleanup` featureGate for cluster registration on the Hub cluster enables automatic cleanup of managedClusterAddons and manifestWorks within the cluster namespace after cluster unjoining.
 
 **Version Compatibility:**
 - The `ResourceCleanup` featureGate was introdueced in OCM v0.13.0, and was **disabled by default** in OCM v0.16.0 and earlier versions. To activate it, need to modify the clusterManager CR configuration:
