@@ -19,7 +19,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.125.5'
+          hugo-version: '0.146.0'
           extended: true
       - name: Setup Node
         uses: actions/setup-node@v4
