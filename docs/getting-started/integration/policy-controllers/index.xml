@@ -1,10 +1,52 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Policy on Open Cluster Management</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/</link><description>Recent content in Policy on Open Cluster Management</description><generator>Hugo</generator><language>en</language><atom:link href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/index.xml" rel="self" type="application/rss+xml"/><item><title>Policy framework</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy-framework/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy-framework/</guid><description>The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.
-API Concepts View the Policy API page for additional details about the Policy API managed by the Policy Framework components, including:
-Policy PolicySet PlacementBinding Architecture The governance policy framework distributes policies to managed clusters and collects results to send back to the hub cluster.</description></item><item><title>Policy API concepts</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/</guid><description>Overview The policy framework has the following API concepts:
-Policy Templates are the policies that perform a desired check or action on a managed cluster. For example, ConfigurationPolicy objects are embedded in Policy objects under the policy-templates array. A Policy is a grouping mechanism for Policy Templates and is the smallest deployable unit on the hub cluster. Embedded Policy Templates are distributed to applicable managed clusters and acted upon by the appropriate policy controller.</description></item><item><title>Configuration Policy</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/</guid><description>The ConfigurationPolicy defines Kubernetes manifests to compare with objects that currently exist on the cluster. The Configuration policy controller is provided by Open Cluster Management and runs on managed clusters.
-View the Policy API concepts page to learn more about the ConfigurationPolicy API.
-Prerequisites You must meet the following prerequisites to install the configuration policy controller:
-Ensure kubectl and kustomize are installed.
-Ensure Golang is installed, if you are planning to install from the source.</description></item><item><title>Open Policy Agent Gatekeeper</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/gatekeeper/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/gatekeeper/</guid><description>Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based policies that are run with the Open Policy Agent (OPA). Gatekeeper constraints can be used to evaluate Kubernetes resource compliance. You can leverage OPA as the policy engine, and use Rego as the policy language.
-Installing Gatekeeper See the Gatekeeper documentation to install the desired version of Gatekeeper to the managed cluster.
-Sample Gatekeeper policy Gatekeeper policies are written using constraint templates and constraints.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Policy on Open Cluster Management</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/</link><description>Recent content in Policy on Open Cluster Management</description><generator>Hugo</generator><language>en</language><atom:link href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/index.xml" rel="self" type="application/rss+xml"/><item><title>Policy framework</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy-framework/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy-framework/</guid><description>&lt;p>The policy framework provides governance capabilities to OCM managed Kubernetes clusters. Policies provide visibility
+and drive remediation for various security and configuration aspects to help IT administrators meet their requirements.&lt;/p>
+&lt;h2 id="api-concepts">API Concepts&lt;/h2>
+&lt;p>View the &lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/">Policy API&lt;/a> page for additional details about the Policy API managed by the Policy Framework
+components, including:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#policy">&lt;code>Policy&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#policyset">&lt;code>PolicySet&lt;/code>&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#placementbinding">&lt;code>PlacementBinding&lt;/code>&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="architecture">Architecture&lt;/h2>
+&lt;div style="text-align: center; padding: 20px;">
+ &lt;img src="https://open-cluster-management.io/policy-framework-architecture-diagram.png" alt="Policy framework architecture" style="margin: 0 auto; width: 80%">
+&lt;/div>
+&lt;p>The governance policy framework distributes policies to managed clusters and collects results to send back to the hub
+cluster.&lt;/p></description></item><item><title>Policy API concepts</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/</guid><description>&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>The policy framework has the following API concepts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#managed-cluster-policy-controllers">&lt;em>Policy Templates&lt;/em>&lt;/a> are the policies that perform a desired check or action on a managed cluster. For
+example,
+&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/#install-the-configuration-policy-controller">ConfigurationPolicy&lt;/a>
+objects are embedded in &lt;code>Policy&lt;/code> objects under the &lt;code>policy-templates&lt;/code> array.&lt;/li>
+&lt;li>A &lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#policy">&lt;code>Policy&lt;/code>&lt;/a> is a grouping mechanism for &lt;em>Policy Templates&lt;/em> and is the smallest deployable unit on the hub
+cluster. Embedded &lt;em>Policy Templates&lt;/em> are distributed to applicable managed clusters and acted upon by the appropriate
+&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/">policy controller&lt;/a>.&lt;/li>
+&lt;li>A &lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#policyset">&lt;code>PolicySet&lt;/code>&lt;/a> is a grouping mechanism of &lt;code>Policy&lt;/code> objects. Compliance of all grouped &lt;code>Policy&lt;/code> objects is
+summarized in the &lt;code>PolicySet&lt;/code>. A &lt;code>PolicySet&lt;/code> is a deployable unit and its distribution is controlled by a
+&lt;a href="https://open-cluster-management.io/docs/concepts/content-placement/placement/">Placement&lt;/a>.&lt;/li>
+&lt;li>A &lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#placementbinding">&lt;code>PlacementBinding&lt;/code>&lt;/a> binds a &lt;a href="https://open-cluster-management.io/docs/concepts/content-placement/placement/">Placement&lt;/a> to a &lt;code>Policy&lt;/code> or &lt;code>PolicySet&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Additional resources:&lt;/strong>&lt;/p></description></item><item><title>Configuration Policy</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/</guid><description>&lt;p>The &lt;code>ConfigurationPolicy&lt;/code> defines Kubernetes manifests to compare with objects that currently exist on the cluster. The
+Configuration policy controller is provided by Open Cluster Management and runs on managed clusters.&lt;/p>
+&lt;p>View the &lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#managed-cluster-policy-controllers">Policy API concepts&lt;/a> page to learn more
+about the &lt;code>ConfigurationPolicy&lt;/code> API.&lt;/p>
+&lt;h2 id="prerequisites">Prerequisites&lt;/h2>
+&lt;p>You must meet the following prerequisites to install the configuration policy controller:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Ensure &lt;a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">&lt;code>kubectl&lt;/code>&lt;/a> and
+&lt;a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">&lt;code>kustomize&lt;/code>&lt;/a> are installed.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Ensure &lt;a href="https://golang.org/doc/install">Golang&lt;/a> is installed, if you are planning to install from the source.&lt;/p></description></item><item><title>Open Policy Agent Gatekeeper</title><link>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/gatekeeper/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/gatekeeper/</guid><description>&lt;p>&lt;a href="https://open-policy-agent.github.io/gatekeeper/website/">Gatekeeper&lt;/a> is a validating webhook with auditing capabilities
+that can enforce custom resource definition-based policies that are run with the Open Policy Agent (OPA). Gatekeeper
+constraints can be used to evaluate Kubernetes resource compliance. You can leverage OPA as the policy engine, and use
+Rego as the policy language.&lt;/p>
+&lt;h2 id="installing-gatekeeper">Installing Gatekeeper&lt;/h2>
+&lt;p>See the &lt;a href="https://open-policy-agent.github.io/gatekeeper/website/docs/install">Gatekeeper documentation&lt;/a> to install the
+desired version of Gatekeeper to the managed cluster.&lt;/p>
+&lt;h2 id="sample-gatekeeper-policy">Sample Gatekeeper policy&lt;/h2>
+&lt;p>Gatekeeper policies are written using constraint templates and constraints. View the following YAML examples that use
+Gatekeeper constraints in an OCM &lt;code>Policy&lt;/code>:&lt;/p></description></item></channel></rss>

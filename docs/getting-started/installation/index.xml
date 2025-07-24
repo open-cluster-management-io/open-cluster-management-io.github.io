@@ -1,5 +1,65 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Installation on Open Cluster Management</title><link>https://open-cluster-management.io/docs/getting-started/installation/</link><description>Recent content in Installation on Open Cluster Management</description><generator>Hugo</generator><language>en</language><atom:link href="https://open-cluster-management.io/docs/getting-started/installation/index.xml" rel="self" type="application/rss+xml"/><item><title>Start the control plane</title><link>https://open-cluster-management.io/docs/getting-started/installation/start-the-control-plane/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/start-the-control-plane/</guid><description>Prerequisite The hub cluster should be v1.19+. (To run on hub cluster version between [v1.16, v1.18], please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;). Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like EKS) don&amp;rsquo;t support it, you can: follow this article to run OCM natively on EKS or choose the multicluster-controlplane as the hub controlplane Ensure kubectl and kustomize are installed. Network requirements Configure your network settings for the hub cluster to allow the following connections.</description></item><item><title>Register a cluster</title><link>https://open-cluster-management.io/docs/getting-started/installation/register-a-cluster/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/register-a-cluster/</guid><description>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.
-Prerequisite The managed clusters should be v1.11+. Ensure kubectl and kustomize are installed. Network requirements Configure your network settings for the managed clusters to allow the following connections.
-Direction Endpoint Protocol Purpose Used by Outbound https://{hub-api-server-url}:{port} TCP Kubernetes API server of the hub cluster OCM agents, including the add-on agents, running on the managed clusters To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters.</description></item><item><title>Add-on management</title><link>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</guid><description>Add-on enablement From a user&amp;rsquo;s perspective, to install the addon to the hub cluster the hub admin should register a globally-unique ClusterManagementAddon resource as a singleton placeholder in the hub cluster. For instance, the helloworld add-on can be registered to the hub cluster by creating:
-apiVersion: addon.open-cluster-management.io/v1alpha1 kind: ClusterManagementAddOn metadata: name: helloworld spec: addOnMeta: displayName: helloworld Enable the add-on manually The addon manager running on the hub is taking responsibility of configuring the installation of addon agents for each managed cluster.</description></item><item><title>Running on EKS</title><link>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</guid><description>Use this solution to use AWS EKS cluster as a hub. This solution uses AWS IAM roles for authentication, hence only Managed Clusters running on EKS will be able to use this solution.
-Refer this article for detailed registration instructions.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Installation on Open Cluster Management</title><link>https://open-cluster-management.io/docs/getting-started/installation/</link><description>Recent content in Installation on Open Cluster Management</description><generator>Hugo</generator><language>en</language><atom:link href="https://open-cluster-management.io/docs/getting-started/installation/index.xml" rel="self" type="application/rss+xml"/><item><title>Start the control plane</title><link>https://open-cluster-management.io/docs/getting-started/installation/start-the-control-plane/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/start-the-control-plane/</guid><description>&lt;h2 id="prerequisite">Prerequisite&lt;/h2>
+&lt;ul>
+&lt;li>The hub cluster should be &lt;code>v1.19+&lt;/code>.
+(To run on hub cluster version between [&lt;code>v1.16&lt;/code>, &lt;code>v1.18&lt;/code>],
+please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;).&lt;/li>
+&lt;li>Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like &lt;a href="https://github.com/aws/containers-roadmap/issues/1856">EKS&lt;/a>) don&amp;rsquo;t support it, you can:
+&lt;ul>
+&lt;li>follow &lt;a href="https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/">this&lt;/a> article to run OCM natively on EKS&lt;/li>
+&lt;li>or choose the &lt;a href="https://github.com/open-cluster-management-io/multicluster-controlplane">multicluster-controlplane&lt;/a> as the hub controlplane&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Ensure &lt;a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl&lt;/a> and &lt;a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize&lt;/a> are installed.&lt;/li>
+&lt;/ul>
+&lt;h3 id="network-requirements">Network requirements&lt;/h3>
+&lt;p>Configure your network settings for the hub cluster to allow the following connections.&lt;/p></description></item><item><title>Register a cluster</title><link>https://open-cluster-management.io/docs/getting-started/installation/register-a-cluster/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/register-a-cluster/</guid><description>&lt;p>After the cluster manager is installed on the hub cluster, you need to install the klusterlet agent on another cluster so that it can be registered and managed by the hub cluster.&lt;/p>
+&lt;h2 id="prerequisite">Prerequisite&lt;/h2>
+&lt;ul>
+&lt;li>The managed clusters should be &lt;code>v1.11+&lt;/code>.&lt;/li>
+&lt;li>Ensure &lt;a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl&lt;/a> and &lt;a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize&lt;/a> are installed.&lt;/li>
+&lt;/ul>
+&lt;h3 id="network-requirements">Network requirements&lt;/h3>
+&lt;p>Configure your network settings for the managed clusters to allow the following connections.&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Direction&lt;/th>
+ &lt;th>Endpoint&lt;/th>
+ &lt;th>Protocol&lt;/th>
+ &lt;th>Purpose&lt;/th>
+ &lt;th>Used by&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Outbound&lt;/td>
+ &lt;td>https://{hub-api-server-url}:{port}&lt;/td>
+ &lt;td>TCP&lt;/td>
+ &lt;td>Kubernetes API server of the hub cluster&lt;/td>
+ &lt;td>OCM agents, including the add-on agents, running on the managed clusters&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters. See &lt;a href="https://open-cluster-management.io/docs/scenarios/register-cluster-through-proxy/">Register a cluster to hub through proxy server&lt;/a> for more details.&lt;/p></description></item><item><title>Add-on management</title><link>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</guid><description>&lt;h2 id="add-on-enablement">Add-on enablement&lt;/h2>
+&lt;p>From a user&amp;rsquo;s perspective, to install the addon to the hub cluster the hub admin
+should register a globally-unique &lt;code>ClusterManagementAddon&lt;/code> resource as a singleton
+placeholder in the hub cluster. For instance, the &lt;a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld&lt;/a>
+add-on can be registered to the hub cluster by creating:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">apiVersion&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">addon.open-cluster-management.io/v1alpha1&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">kind&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">ClusterManagementAddOn&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">metadata&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">name&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">helloworld&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">spec&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">addOnMeta&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">displayName&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">helloworld&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="enable-the-add-on-manually">Enable the add-on manually&lt;/h3>
+&lt;p>The addon manager running on the hub is taking responsibility of configuring the
+installation of addon agents for each managed cluster. When a user wants to enable
+the add-on for a certain managed cluster, the user should create a
+&lt;code>ManagedClusterAddOn&lt;/code> resource on the cluster namespace. The name of the
+&lt;code>ManagedClusterAddOn&lt;/code> should be the same name of the corresponding
+&lt;code>ClusterManagementAddon&lt;/code>. For instance, the following example enables &lt;code>helloworld&lt;/code>
+add-on in &amp;ldquo;cluster1&amp;rdquo;:&lt;/p></description></item><item><title>Running on EKS</title><link>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</guid><description>&lt;p>Use this solution to use AWS EKS cluster as a hub. This solution uses AWS IAM roles for authentication,
+hence only Managed Clusters running on EKS will be able to use this solution.&lt;/p>
+&lt;p>Refer &lt;a href="https://github.com/open-cluster-management-io/ocm/tree/main/solutions/joining-hub-and-spoke-with-aws-auth">this&lt;/a>
+article for detailed registration instructions.&lt;/p></description></item></channel></rss>
