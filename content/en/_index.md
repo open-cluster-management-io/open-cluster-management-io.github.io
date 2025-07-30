@@ -55,6 +55,9 @@ Policy and configuration management uses labels to help you deploy policies and 
   <p class="text-center">
     Open Cluster Management is being used by numerous companies, both large and small.
   </p>
+  <p class="text-center">
+    Are you one of them as well? <a href="https://github.com/open-cluster-management-io/ocm/blob/main/ADOPTERS.md" target="_blank">Share it with us!</a>
+  </p>
 
   <div class="partners-grid">
     <div class="row justify-content-center">
