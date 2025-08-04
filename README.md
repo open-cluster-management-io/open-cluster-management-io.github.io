@@ -1,30 +1,67 @@
-# Website
+# Open Cluster Management Website
 
-This repo hosts the website code of open-cluster-management project. The docs website is hosted at https://www.netlify.com/.
+This repository contains the source code for the [Open Cluster Management](https://open-cluster-management.io/) project website. The website provides documentation, community resources, and information about the Open Cluster Management project.
 
-The open-cluster-management website is based on the [Hugo framework](https://github.com/gohugoio/hugo), with the [Docsy](https://www.docsy.dev/) applied, and is written in Markdown format.
+## About This Repository
 
-You can always click the Edit this page link at the top right of each page, but if you want to test your changes locally before submitting you can:
+This website is built using the [Hugo](https://gohugo.io/) static site generator with the [Docsy](https://www.docsy.dev/) theme. All content is written in Markdown format and organized in the `content/` directory.
 
-Fork the open-cluster-management-io/open-cluster-management-io.github.io on GitHub.
+The live website is automatically deployed to [open-cluster-management.io](https://open-cluster-management.io/) via Netlify when changes are merged to the main branch.
 
-Check out your copy locally:
+## Contributing to the Website
 
-```
-git clone ssh://git@github.com/<your-user>/open-cluster-management-io.github.io.git
-cd open-cluster-management-io.github.io
-hugo server
-```
+### Quick Edits
 
-An instance of the website is now running locally on your machine and is accessible at http://localhost:1313.
+For small changes, you can use the "Edit this page" link at the top right of any page on the website to make edits directly through GitHub's web interface.
 
-Edit files in src. The browser should automatically reload so you can view your changes.
+### Local Development
 
-When you are done with your edit(s) then commit, push, and submit a pull-request for your changes.
+For larger changes or when you want to preview your edits locally:
 
-Your changes will be verified by CI. Check the job results for details of any errors.
+1. Fork this repository on GitHub
+2. Clone your fork locally:
+   ```bash
+   git clone https://github.com/<your-username>/open-cluster-management-io.github.io.git
+   cd open-cluster-management-io.github.io
+   ```
 
-## Special Note
+3. Install Hugo (version 0.110.0 or later recommended)
 
-- We're using the website to redirect requests targeting `open-cluster-management.io` to `github.com/open-cluster-management-io`, you can find more details in this [PR](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/pull/430). It allows developers to use commands like `go get open-cluster-management.io/<repo>` and also use `open-cluster-management.io/<repo>` as the import path in go.mod.
-- We're using the website to redirect requests targeting `open-cluster-management.io/helm-charts` to `github.com/open-cluster-management-io/helm-charts`, you can find more details in this [PR](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/pull/453).
+4. Start the local development server:
+   ```bash
+   hugo server
+   ```
+
+5. Open your browser to http://localhost:1313 to view the site
+
+6. Edit files in the `content/` directory. The browser will automatically reload to show your changes.
+
+### Submitting Changes
+
+1. Make your changes in a new branch
+2. Test your changes locally
+3. Commit and push your changes
+4. Submit a pull request
+
+All pull requests are automatically tested by CI. Check the job results for any errors that need to be addressed.
+
+## Repository Structure
+
+- `content/` - Website content in Markdown format
+- `layouts/` - Hugo layout templates
+- `static/` - Static assets (images, files, etc.)
+- `assets/` - Source assets for processing
+- `hugo.yaml` - Hugo configuration file
+
+## Special Redirects
+
+This website also serves as a redirect service for Go module imports:
+
+- Requests to `open-cluster-management.io/<repo>` redirect to `github.com/open-cluster-management-io/<repo>`
+- Requests to `open-cluster-management.io/helm-charts` redirect to the official Helm charts repository
+
+This allows developers to use `go get open-cluster-management.io/<repo>` and import packages using the `open-cluster-management.io/<repo>` path.
+
+## License
+
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
