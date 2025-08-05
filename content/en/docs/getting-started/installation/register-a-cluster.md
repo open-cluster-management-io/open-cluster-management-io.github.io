@@ -82,6 +82,47 @@ up the external client.
 {{% /tab %}}
 {{< /tabpane >}}
 
+### Configure CPU and memory resources
+
+You can configure CPU and memory resources for the klusterlet agent components by adding resource flags to the `clusteradm join` command. These flags indicate that all components in the klusterlet agent will use the same resource requirement or limit:
+
+{{< tabpane text=true >}}
+{{% tab header="kind"  %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=800m,memory=800Mi \
+      --resource-requests cpu=400m,memory=400Mi \
+      --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="k3s, openshift 4.X"  %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=800m,memory=800Mi \
+      --resource-requests cpu=400m,memory=400Mi \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{< /tabpane >}}
+
+Available resource configuration flags:
+- `--resource-qos-class`: Sets the resource QoS class (`Default`, `BestEffort`, or `ResourceRequirement`)
+- `--resource-limits`: Specifies resource limits as key-value pairs (e.g., `cpu=800m,memory=800Mi`)
+- `--resource-requests`: Specifies resource requests as key-value pairs (e.g., `cpu=500m,memory=500Mi`)
+
 ### Bootstrap a klusterlet in hosted mode(Optional)
 
 Using the above command, the klusterlet components(registration-agent and work-agent) will be deployed on the managed
@@ -127,6 +168,46 @@ to the hosting cluster to register the managed cluster to the hub.
 {{% /tab %}}
 {{< /tabpane >}}
 
+**Resource configuration in hosted mode:**
+
+You can also configure CPU and memory resources when using hosted mode by adding the same resource flags:
+
+{{< tabpane text=true >}}
+{{% tab header="kind"  %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components in hosted mode
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --mode hosted \
+      --managed-cluster-kubeconfig <your managed cluster kubeconfig> \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=800m,memory=800Mi \
+      --resource-requests cpu=400m,memory=400Mi \
+      --force-internal-endpoint-lookup \
+      --context <your hosting cluster context>
+  ```
+{{% /tab %}}
+{{% tab header="k3s, openshift 4.X" %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components in hosted mode
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --mode hosted \
+      --managed-cluster-kubeconfig <your managed cluster kubeconfig> \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=800m,memory=800Mi \
+      --resource-requests cpu=400m,memory=400Mi \
+      --context <your hosting cluster context>
+  ```
+{{% /tab %}}
+{{< /tabpane >}}
+
 ### Bootstrap a klusterlet in singleton mode
 
 To reduce the footprint of agent in the managed cluster, singleton mode is introduced since `v0.12.0`.
@@ -158,6 +239,44 @@ cluster.
       --wait \
       --cluster-name "cluster1" \   # Or other arbitrary unique name
       --singleton \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{< /tabpane >}}
+
+**Resource configuration in singleton mode:**
+
+You can also configure CPU and memory resources when using singleton mode:
+
+{{< tabpane text=true >}}
+{{% tab header="kind" %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components in singleton mode
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --singleton \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=600m,memory=600Mi \
+      --resource-requests cpu=300m,memory=300Mi \
+      --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="k3s, openshift 4.X" %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components in singleton mode
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --singleton \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=600m,memory=600Mi \
+      --resource-requests cpu=300m,memory=300Mi \
       --context ${CTX_MANAGED_CLUSTER}
   ```
 {{% /tab %}}
