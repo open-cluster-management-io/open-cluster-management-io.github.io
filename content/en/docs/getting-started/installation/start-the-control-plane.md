@@ -60,6 +60,24 @@ Call `clusteradm init`:
   clusteradm init --wait --context ${CTX_HUB_CLUSTER}
 ```
 
+### Configure CPU and memory resources
+
+You can configure CPU and memory resources for the cluster manager components by adding resource flags to the `clusteradm init` command. These flags indicate that all components in the hub controller will use the same resource requirement or limit:
+
+```shell
+# Configure resource requests and limits for cluster manager components
+clusteradm init \
+    --resource-qos-class ResourceRequirement \
+    --resource-limits cpu=1000m,memory=1Gi \
+    --resource-requests cpu=500m,memory=512Mi \
+    --wait --context ${CTX_HUB_CLUSTER}
+```
+
+Available resource configuration flags:
+- `--resource-qos-class`: Sets the resource QoS class (`Default`, `BestEffort`, or `ResourceRequirement`)
+- `--resource-limits`: Specifies resource limits as key-value pairs (e.g., `cpu=800m,memory=800Mi`)
+- `--resource-requests`: Specifies resource requests as key-value pairs (e.g., `cpu=500m,memory=500Mi`)
+
 The `clusteradm init` command installs the
 [registration-operator](https://github.com/open-cluster-management-io/ocm/tree/main/cmd/registration-operator)
 on the hub cluster, which is responsible for consistently installing
