@@ -43,8 +43,8 @@ will be:
 - `CertificateSigningRequest`'s "get", "list", "watch", "create", "update".
 - `ManagedCluster`'s "get", "list", "create", "update"
 
-Note that ideally the bootstrap kubeconfig is supposed to live shortly
-(hour-ish) after signed by the hub cluster so that it won't be abused by
+Note that ideally the bootstrap kubeconfig is supposed to live for a short time
+(hour-ish) after being signed by the hub cluster so that it won't be abused by
 unwelcome clients.
 
 Last but not least, you can always live an easier life by leveraging OCM's
@@ -56,7 +56,7 @@ When we're registering a new cluster into OCM, the registration agent will be
 starting by creating an unaccepted `ManagedCluster` into the hub cluster along
 with a temporary [CertificateSigningRequest (CSR)](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/)
 resource. The cluster will be accepted by the hub control plane, if the
-following requirements is meet:
+following requirements are met:
 
 - The CSR is approved and signed by any certificate provider setting filling
   `.status.certificate` with legit X.509 certificates.

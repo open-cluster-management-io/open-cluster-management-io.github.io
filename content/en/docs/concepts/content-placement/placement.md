@@ -329,7 +329,7 @@ The following example shows how to select clusters with prioritizers.
   weight 3 and addon score cpuratio with weight 1. Go into the [Extensible scheduling](#extensible-scheduling) section
   to learn more about addon score.
 
-In `prioritizerPolicy` section, it includes the following fields:
+The `prioritizerPolicy` section includes the following fields:
 - `mode` is either `Exact`, `Additive` or `""`, where `""` is `Additive` by default.
     - In `Additive` mode, any prioritizer not explicitly enumerated is enabled
     in its default `Configurations`, in which `Steady` and `Balance` prioritizers have
@@ -615,10 +615,10 @@ Events:
   Normal  ScoreUpdate     3s      placementController  cluster1:200 cluster2:145 cluster3:189 cluster4:200
 ```
 The placement controller will give a score to each filtered `ManagedCluster` and generate an event for it. When the cluster score
-changes, a new event will generate. You can check the score of each cluster in the `Placment` events, to know why some clusters with lower score are not selected.
+changes, a new event will be generated. You can check the score of each cluster in the `Placement` events, to know why some clusters with lower score are not selected.
 
 ### Debug
-If you want to know more defails of how clusters are selected in each step, can following below step to access the debug endpoint.
+If you want to know more details of how clusters are selected in each step, you can follow the steps below to access the debug endpoint.
 
 Create clusterrole "debugger" to access debug path and bind this to anonymous user.
 

@@ -332,7 +332,7 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 3. **DeploymentAvailability**
 
    `DeploymentAvailability` health prober indicates the healthiness of the add-on is connected to the availability of
-   the corresponding agent deployment resources on the managed cluster. It's applicable to those add-ons that running
+   the corresponding agent deployment resources on the managed cluster. It's applicable to those add-ons that run
    `Deployment` type workload on the managed cluster. The add-on manager will check if the `readyReplicas` of the
    add-on agent deployment is more than 1 to set the addon Status.
 
@@ -348,7 +348,7 @@ We support 3 kinds of health prober types to monitor the healthiness of add-on a
 
    `WorkloadAvailability` health prober indicates the healthiness of the add-on is connected to the availability of
    the corresponding agent workload resources(only `Deployment` and `DaemonSet` are supported for now) on the managed
-   cluster. It's applicable to those add-ons that running `Deployment` and/or `DeamonSet` workloads on the managed
+   cluster. It's applicable to those add-ons that run `Deployment` and/or `DaemonSet` workloads on the managed
    cluster. The add-on manager will check if `readyReplicas > 1` for each `Deployment` and
    `NumberReady == DesiredNumberScheduled` for each `DaemonSet` of the add-on agent to set the addon Status.
 

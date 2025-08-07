@@ -82,7 +82,7 @@ Stay connected and happy managing clusters!
 ---
 
 ## `0.16.0`, 16 March 2025
-The Open Cluster Management team is exicted to announce the release of OCM v0.16.0 with many new
+The Open Cluster Management team is excited to announce the release of OCM v0.16.0 with many new
 features:
 
 Breaking Changes:

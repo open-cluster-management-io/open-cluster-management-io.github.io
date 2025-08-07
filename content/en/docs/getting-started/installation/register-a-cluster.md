@@ -7,7 +7,7 @@ After the cluster manager is installed on the hub cluster, you need to install t
 
 
 
-## Prerequisite
+## Prerequisites
 
 - The managed clusters should be `v1.11+`.
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
@@ -123,16 +123,16 @@ Available resource configuration flags:
 - `--resource-limits`: Specifies resource limits as key-value pairs (e.g., `cpu=800m,memory=800Mi`)
 - `--resource-requests`: Specifies resource requests as key-value pairs (e.g., `cpu=500m,memory=500Mi`)
 
-### Bootstrap a klusterlet in hosted mode(Optional)
+### Bootstrap a klusterlet in hosted mode (Optional)
 
 Using the above command, the klusterlet components(registration-agent and work-agent) will be deployed on the managed
 cluster, it is mandatory to expose the hub cluster to the managed cluster. We provide an option for running the
 klusterlet components outside the managed cluster, for example, on the hub cluster(hosted mode).
 
-The hosted mode deploying is till in experimental stage, consider to use it only when:
+The hosted mode deployment is still in experimental stage, consider using it only when:
 
-- want to reduce the footprints of the managed cluster.
-- do not want to expose the hub cluster to the managed cluster directly
+- you want to reduce the footprint of the managed cluster.
+- you do not want to expose the hub cluster to the managed cluster directly
 
 In hosted mode, the cluster where the klusterlet is running is called the hosting cluster. Running the following command
 to the hosting cluster to register the managed cluster to the hub.
@@ -453,7 +453,7 @@ A manifestWork that applies a CRD and operator should be deleted after a manifes
 The `ResourceCleanup` featureGate for cluster registration on the Hub cluster enables automatic cleanup of managedClusterAddons and manifestWorks within the cluster namespace after cluster unjoining.
 
 **Version Compatibility:**
-- The `ResourceCleanup` featureGate was introdueced in OCM v0.13.0, and was **disabled by default** in OCM v0.16.0 and earlier versions. To activate it, need to modify the clusterManager CR configuration:
+- The `ResourceCleanup` featureGate was introduced in OCM v0.13.0, and was **disabled by default** in OCM v0.16.0 and earlier versions. To activate it, you need to modify the clusterManager CR configuration:
 ```yaml
 registrationConfiguration:
   featureGates:

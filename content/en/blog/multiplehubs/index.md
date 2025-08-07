@@ -6,7 +6,7 @@ toc_hide: true
 ---
 
 
-The `MultipleHubs` is a new feature in Open Cluster Management (OCM) that allows you to configure a list of bootstrapkubeconfigs of multiple hubs. This feature is designed to provide a high availability (HA) solution of hub clusters. In this blog, we will introduce the MultipleHubs feature and how to use it.
+The `MultipleHubs` is a new feature in Open Cluster Management (OCM) that allows you to configure a list of bootstrap kubeconfigs of multiple hubs. This feature is designed to provide a high availability (HA) solution of hub clusters. In this blog, we will introduce the MultipleHubs feature and how to use it.
 
 The high availability of hub clusters means that if one hub cluster is down, the managed clusters can still communicate with other hub clusters. Users can also specify the hub cluster that the managed cluster should connect to by configuring the `ManagedCluster` resource.
 
@@ -57,7 +57,7 @@ The `hubConnectionTimeoutSeconds` is the timeout for the managed cluster to conn
 
 Currently, the `MultipleHubs` feature only supports the `LocalSecrets` type of `bootstrapKubeConfigs`.
 
-As we mentioned before, you can also specify the hub's connectivities in the `ManagedCluster` resource from the hub side. We using the `hubAcceptsClient` field in the `ManagedCluster` resource to specify whether the hub cluster accepts the managed cluster. The following is an example of the `ManagedCluster` resource:
+As we mentioned before, you can also specify the hub's connectivity in the `ManagedCluster` resource from the hub side. We use the `hubAcceptsClient` field in the `ManagedCluster` resource to specify whether the hub cluster accepts the managed cluster. The following is an example of the `ManagedCluster` resource:
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1

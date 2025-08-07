@@ -92,7 +92,7 @@ spec:
                           - date; echo Hello from the Kubernetes cluster
 ```
 The **PlacementRefs** uses the Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) to apply the manifestWork to the selected clusters.
-In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regards the rollout strategies check the Rollout Strategy section at the [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) document.
+In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regarding the rollout strategies check the Rollout Strategy section at the [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) document.
 **Note:** The placement reference must be in the same namespace as the manifestWorkReplicaSet.
 
 ## Status tracking
@@ -105,7 +105,7 @@ The manifestWorkReplicaSet has three status conditions;
 1. **PlacementRolledOut** verify the rollout strategy status; progressing or complete.
 1. **ManifestWorkApplied** verify the created manifestWork status; applied, progressing, degraded or available.
 
-The manifestWorkReplicaSet determine the ManifestWorkApplied condition status based on the resource state (applied or available) of each manifestWork.
+The manifestWorkReplicaSet determines the ManifestWorkApplied condition status based on the resource state (applied or available) of each manifestWork.
 
 Here is an example.
 
@@ -194,7 +194,7 @@ spec:
     - feature: ManifestWorkReplicaSet
       mode: Enable
 ```
-In order to assure the ManifestWorkReplicaSet has been enabled successfully check the cluster-manager using the command below
+In order to ensure the ManifestWorkReplicaSet has been enabled successfully, check the cluster-manager using the command below
 
 ```shell
 $ oc get ClusterManager cluster-manager -o yml

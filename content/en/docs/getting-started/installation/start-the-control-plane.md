@@ -5,7 +5,7 @@ weight: 1
 
 
 
-## Prerequisite
+## Prerequisites
 
 - The hub cluster should be `v1.19+`.
   (To run on hub cluster version between \[`v1.16`, `v1.18`\],

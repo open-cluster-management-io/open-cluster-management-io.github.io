@@ -9,13 +9,13 @@ your managed clusters with OCM's `ManifestWork` API.
 
 ## Prerequisites
 
-Before we get start with the following tutorial, let's clarify a few terms
+Before we get started with the following tutorial, let's clarify a few terms
 we're going to use in the context.
 
 - __Cluster namespace__: After a managed cluster is successfully registered
-  into the hub. The hub registration controller will be automatically
+  into the hub, the hub registration controller will be automatically
   provisioning a `cluster namespace` dedicated for the cluster of which the
-  name will be same as the managed cluster. The `cluster namespace` is used
+  name will be the same as the managed cluster. The `cluster namespace` is used
   for storing any custom resources/configurations that effectively belongs
   to the managed cluster.
 
@@ -288,7 +288,7 @@ is also protected by another finalizer named:
   - "cluster.open-cluster-management.io/applied-manifest-work-cleanup"
 
 This finalizer is supposed to be detached after the deployed local resources
-are *completely* removed from the manged cluster. With that being said, if any
+are *completely* removed from the managed cluster. With that being said, if any
 deployed local resources are holding at the "Terminating" due to graceful
 deletion. Both of its `ManifestWork` and `AppliedManifestWork` should stay
 undeleted.

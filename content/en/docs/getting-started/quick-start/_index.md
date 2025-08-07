@@ -22,13 +22,13 @@ curl -L https://raw.githubusercontent.com/open-cluster-management-io/clusteradm/
 
 ## Setup hub and managed cluster
 
-Run the following command to quickly setup a hub cluster and 2 managed clusters by kind.
+Run the following command to quickly set up a hub cluster and 2 managed clusters using kind.
 
 ```shell
 curl -L https://raw.githubusercontent.com/open-cluster-management-io/OCM/main/solutions/setup-dev-environment/local-up.sh | bash
 ```
 
-If you want to setup OCM in a production environment or on a different kubernetes distribution, please refer to the [Start the control plane]({{< ref "docs/getting-started/installation/start-the-control-plane" >}}) and [Register a cluster]({{< ref "docs/getting-started/installation/register-a-cluster" >}}) guides.
+If you want to set up OCM in a production environment or on a different Kubernetes distribution, please refer to the [Start the control plane]({{< ref "docs/getting-started/installation/start-the-control-plane" >}}) and [Register a cluster]({{< ref "docs/getting-started/installation/register-a-cluster" >}}) guides.
 
 Alternatively, you can [deploy OCM declaratively using the FleetConfig Controller]({{< ref "docs/getting-started/integration/fleetconfig-controller" >}}).
 

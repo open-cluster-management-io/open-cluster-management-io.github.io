@@ -15,15 +15,15 @@ to help developers to develop an extension based on the foundation components
 for the purpose of working with multiple clusters in custom cases. A typical
 addon should consist of two kinds of components:
 
-- __Addon Agent__: A kubernetes controller *in the managed cluster* that manages
+- __Addon Agent__: A Kubernetes controller *in the managed cluster* that manages
   the managed cluster for the hub admins. A typical addon agent is expected to
   be working by subscribing the prescriptions (e.g. in forms of CustomResources)
   from the hub cluster and then consistently reconcile the state of the managed
-  cluster like an ordinary kubernetes operator does.
+  cluster like an ordinary Kubernetes operator does.
 
-- __Addon Manager__: A kubernetes controller *in the hub cluster* that applies
+- __Addon Manager__: A Kubernetes controller *in the hub cluster* that applies
   manifests to the managed clusters via the [ManifestWork]({{< ref "docs/concepts/work-distribution/manifestwork" >}})
-  api. In addition to resource dispatching, the manager can optionally manage
+  API. In addition to resource dispatching, the manager can optionally manage
   the lifecycle of CSRs for the addon agents or even the RBAC permission bond
   to the CSRs' requesting identity.
 

@@ -27,7 +27,7 @@ Feature gates follow a standard lifecycle:
 |--------------|---------|-------|-------------|
 | `DefaultClusterSet` | `true` | Alpha | When it is enabled, it will make registration hub controller to maintain a default clusterset and a global clusterset. Adds clusters without cluster set labels to the default cluster set. All clusters will be included to the global clusterset.|
 | `V1beta1CSRAPICompatibility` | `false` | Alpha | When it is enabled, it will make the spoke registration agent to issue CSR requests via V1beta1 api.|
-| `ManagedClusterAutoApproval` | `false` | Alpha | When it is enabled, it will approve a managed cluster registraion request automatically. |
+| `ManagedClusterAutoApproval` | `false` | Alpha | When it is enabled, it will approve a managed cluster registration request automatically. |
 | `ResourceCleanup` | `true` | Beta | When it is enabled, it will start gc controller to clean up resources in cluster ns after cluster is deleted. |
 | `ClusterProfile` | `false` | Alpha | When it is enabled, it will start new controller in the Hub that can be used to sync ManagedCluster to ClusterProfile.|
 | `ClusterImporter` | `false` | Alpha | When it is enabled, it will enable the auto import of managed cluster for certain cluster providers, e.g. cluster-api.|
@@ -56,7 +56,7 @@ Feature gates follow a standard lifecycle:
 
 | Feature Gate | Default | Stage | Description |
 |--------------|---------|-------|-------------|
-| `ExecutorValidatingCaches` | `false` | Alpha | When it is enabled, it will start a new controller in the wokrk agent to cache subject access review validating results for executors.|
+| `ExecutorValidatingCaches` | `false` | Alpha | When it is enabled, it will start a new controller in the work agent to cache subject access review validating results for executors.|
 | `RawFeedbackJsonString` | `false` | Alpha | When it is enabled, it will make the work agent to return the feedback result as a json string if the result is not a scalar value.|
 
 ### Addon Management Features
