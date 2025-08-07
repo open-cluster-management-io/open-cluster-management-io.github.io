@@ -10,8 +10,8 @@ This page is an overview of open cluster management.
 ## Overview
 
 __Open Cluster Management__ (OCM) is a powerful, modular, extensible platform
-for Kubernetes multi-cluster orchestration. Learning from the past failing
-lesson of building Kubernetes federation systems in the Kubernetes community,
+for Kubernetes multi-cluster orchestration. Learning from the past failed
+lessons of building Kubernetes federation systems in the Kubernetes community,
 in OCM we will be jumping out of the legacy centric, imperative architecture of
 [Kubefed v2](https://github.com/kubernetes-sigs/kubefed) and embracing the
 "hub-agent" architecture which is identical to the original pattern of
@@ -25,10 +25,10 @@ the two models we will be frequently using throughout the world of OCM:
   plane of OCM. Generally the hub cluster is supposed to be a light-weight
   Kubernetes cluster hosting merely a few fundamental controllers and services.
 
-* __Klusterlet__: Indicating the clusters that being managed by the hub
+* __Klusterlet__: Indicating the clusters that are being managed by the hub
   cluster. Klusterlet might also be called "managed cluster" or "spoke cluster". The
-  klusterlet is supposed to actively __pulling__ the latest prescriptions from
-  the hub cluster and consistently reconciles the physical Kubernetes cluster
+  klusterlet is supposed to actively __pull__ the latest prescriptions from
+  the hub cluster and consistently reconcile the physical Kubernetes cluster
   to the expected state.
 
 ### "Hub-spoke" architecture
@@ -46,12 +46,12 @@ the managed clusters or be buried in sending requests against the clusters.
 Imagine in a world where there's no kubelet in Kubernetes and its control plane
 is directly operating the container daemons, it will be extremely hard for a
 centric controller to manage a cluster of 5k+ nodes. Likewise, that's how OCM
-trying to breach the bottleneck of scalability, by dividing and offloading the
+tries to breach the bottleneck of scalability, by dividing and offloading the
 execution into separated agents. So it's always feasible for a hub cluster to
-accept and manage thousand-ish clusters.
+accept and manage thousands of clusters.
 
 Each klusterlet will be working independently and autonomously, so they have
-a weak dependency to the availability of the hub cluster. If the hub goes down
+a weak dependency on the availability of the hub cluster. If the hub goes down
 (e.g. during maintenance or network partition) the klusterlet or other OCM
 agents working in the managed cluster are supposed to keep actively managing
 the hosting cluster until it re-connects. Additionally if the hub cluster and
@@ -112,7 +112,7 @@ out a registered cluster by denying the rotation of hub cluster's certificate,
 on the other hand from the perspective of a managed cluster's admin, he can
 either brutally deleting the agent instances or revoking the granted RBAC
 permissions for the agents. Note that the hub controller will be automatically
-preparing environment for the newly registered cluster and cleaning up neatly
+preparing the environment for the newly registered cluster and cleaning up neatly
 upon kicking a managed cluster.
 
 <div style="text-align: center; padding: 20px;">
@@ -188,7 +188,7 @@ clusters via the labels or the cluster-claims. The placement module is
 completely decoupled from the execution, the output from placement will
 be merely a list of names of the matched clusters in the `PlacementDecision`
 API, so the consumer controller of the decision output can reactively
-discovery the topology or availability change from the managed clusters by
+discover the topology or availability changes from the managed clusters by
 simply list-watching the decision API.
 
 

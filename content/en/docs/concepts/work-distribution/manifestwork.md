@@ -588,7 +588,7 @@ The second `ManifestWork` only defines `replicas` in the manifest, so it takes t
 first `ManifestWork` is updated to add `replicas` field with different value, it will get conflict condition and
 manifest will not be updated by it.
 
-Instead of create the second `ManifestWork`, user can also set HPA for this deployment. HPA will also take the ownership
+Instead of creating the second `ManifestWork`, user can also set HPA for this deployment. HPA will also take the ownership
 of `replicas`, and the update of `replicas` field in the first `ManifestWork` will return conflict condition.
 
 ## Ignore fields in Server Side Apply
@@ -660,7 +660,7 @@ there are several options:
 - Option 3: Create role/clusterRole roleBinding/clusterRoleBinding for the `klusterlet-work-sa` service account;
   (Deprecated since OCM version >= v0.12.0, use the Option 1 instead)
 
-Below is an example use ManifestWork to give the work-agent permission for resource `machines.cluster.x-k8s.io`
+Below is an example using ManifestWork to give the work-agent permission for resource `machines.cluster.x-k8s.io`
 
 - Option 1: Use label `"open-cluster-management.io/aggregate-to-work": "true"` to aggregate the permission; Recommended
 

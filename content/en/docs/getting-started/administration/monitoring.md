@@ -9,7 +9,7 @@ In this page, we provide a way to monitor your OCM environment using Prometheus-
 
 ## Before you get started
 
-You must have a OCM environment setuped. You can also follow our recommended [quick start guide]({{< ref "docs/getting-started/quick-start" >}}) to set up a playgroud OCM environment.
+You must have an OCM environment set up. You can also follow our recommended [quick start guide]({{< ref "docs/getting-started/quick-start" >}}) to set up a playground OCM environment.
 
 And then please [install the Prometheus-Operator](https://prometheus-operator.dev/docs/prologue/quick-start/) in your hub cluster. You can also run the following commands copied from the official doc:
 
@@ -50,7 +50,7 @@ rate(apiserver_request_total{resource=~"managedclusters|managedclusteraddons|man
 
 ## Visualized with Grafana
 
-We provide a intial grafana dashboard for you to visualize the metrics. But you can also customize your own dashboard.
+We provide an initial grafana dashboard for you to visualize the metrics. But you can also customize your own dashboard.
 
 First, use the following command to proxy grafana service:
 

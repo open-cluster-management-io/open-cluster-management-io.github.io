@@ -116,7 +116,7 @@ exactly the OCM's overall release version.
 
 #### Upgrading the core components
 
-After the upgrading of registration-operator is done, it's about time to surge
+After the upgrading of registration-operator is done, it's time to upgrade
 the working modules of OCM. Go on and edit the `clustermanager` custom resource
 to prescribe the registration-operator to perform the automated upgrading:
 
@@ -196,4 +196,4 @@ availability in case any of the managed clusters are running into failure:
 $ kubectl get managedclusters
 ```
 
-And the upgrading is all set if all the steps above is succeeded.
+And the upgrading is all set if all the steps above have succeeded.

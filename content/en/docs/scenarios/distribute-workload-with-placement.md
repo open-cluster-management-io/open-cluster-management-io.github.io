@@ -31,7 +31,7 @@ And in this article, we want to show you how to use `clusteradm` to deploy
 
 ## Prerequisites
 
-Before starting with the following steps, suggest you understand the content below.
+Before starting with the following steps, we suggest you understand the content below.
 
 - [__Placement__]({{< ref "docs/concepts/content-placement/placement" >}}):
 The `Placement` API is used to dynamically select a set of [`ManagedCluster`]({{< ref "docs/concepts/cluster-inventory/managedcluster" >}})

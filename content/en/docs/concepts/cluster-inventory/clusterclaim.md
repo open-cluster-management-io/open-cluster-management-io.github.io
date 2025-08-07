@@ -16,7 +16,7 @@ the status of the corresponding `ManagedCluster` object on the hub.
 
 ## Usage
 
-`ClusterCaim` is used to specify additional properties of the managed cluster like
+`ClusterClaim` is used to specify additional properties of the managed cluster like
 the clusterID, version, vendor and cloud provider. We defined some reserved `ClusterClaims`
 like `id.k8s.io` which is a unique identifier for the managed cluster.
 

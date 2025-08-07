@@ -48,7 +48,7 @@ The following picture shows the hierarchies of how the cluster set works:
    <img src="/clusterset-explain.png" alt="Clusterset" style="margin: 0 auto; width: 90%">
 </div>
 
-## Operates ManagedClusterSet using clusteradm
+## Operating ManagedClusterSet using clusteradm
 
 ### Creating a ManagedClusterSet
 
@@ -123,8 +123,8 @@ $ clusteradm get clustersets
     └── <Status> 1 ManagedClusters selected
 ```
 
-So far we successfully created a new cluster set containing 1 cluster and bind
-it a "workspace namespace".
+So far we successfully created a new cluster set containing 1 cluster and bound
+it to a "workspace namespace".
 
 ## A glance at the "ManagedClusterSet" API
 

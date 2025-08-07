@@ -28,11 +28,11 @@ where managed clusters pull and apply application configurations.
 For more details, visit the
 [Argo CD Pull Integration GitHub page](https://github.com/open-cluster-management-io/argocd-pull-integration).
 
-## Prerequisite
+## Prerequisites
 
 You must meet the following prerequisites to install the application lifecycle management add-on:
 
-- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) are installed.
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) is installed.
 
 - Ensure the OCM _cluster manager_ is installed. See [Start the control plane]({{< ref "docs/getting-started/installation/start-the-control-plane" >}}) for more information.
 
