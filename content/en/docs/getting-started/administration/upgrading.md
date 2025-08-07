@@ -1,6 +1,6 @@
 ---
 title: Upgrading your OCM environment
-weight: 1
+weight: 2
 ---
 
 
