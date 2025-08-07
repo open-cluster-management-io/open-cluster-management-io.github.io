@@ -2,14 +2,14 @@
 it&amp;rsquo;s time to begin your first journey of deploying Kubernetes resources into
 your managed clusters with OCM&amp;rsquo;s &lt;code>ManifestWork&lt;/code> API.&lt;/p>
 &lt;h2 id="prerequisites">Prerequisites&lt;/h2>
-&lt;p>Before we get start with the following tutorial, let&amp;rsquo;s clarify a few terms
+&lt;p>Before we get started with the following tutorial, let&amp;rsquo;s clarify a few terms
 we&amp;rsquo;re going to use in the context.&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>&lt;strong>Cluster namespace&lt;/strong>: After a managed cluster is successfully registered
-into the hub. The hub registration controller will be automatically
+into the hub, the hub registration controller will be automatically
 provisioning a &lt;code>cluster namespace&lt;/code> dedicated for the cluster of which the
-name will be same as the managed cluster. The &lt;code>cluster namespace&lt;/code> is used
+name will be the same as the managed cluster. The &lt;code>cluster namespace&lt;/code> is used
 for storing any custom resources/configurations that effectively belongs
 to the managed cluster.&lt;/p></description></item><item><title>Distribute workload with placement selected managed clusters</title><link>https://open-cluster-management.io/docs/scenarios/distribute-workload-with-placement/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/scenarios/distribute-workload-with-placement/</guid><description>&lt;p>The &lt;code>Placement&lt;/code> API is used to dynamically select a set of &lt;code>ManagedCluster&lt;/code> in
 one or multiple &lt;code>ManagedClusterSets&lt;/code> so that the workloads can be deployed to

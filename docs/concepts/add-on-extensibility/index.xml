@@ -5,8 +5,8 @@ for the purpose of working with multiple clusters in custom cases. A typical
 addon should consist of two kinds of components:&lt;/p>
 &lt;ul>
 &lt;li>
-&lt;p>&lt;strong>Addon Agent&lt;/strong>: A kubernetes controller &lt;em>in the managed cluster&lt;/em> that manages
+&lt;p>&lt;strong>Addon Agent&lt;/strong>: A Kubernetes controller &lt;em>in the managed cluster&lt;/em> that manages
 the managed cluster for the hub admins. A typical addon agent is expected to
 be working by subscribing the prescriptions (e.g. in forms of CustomResources)
 from the hub cluster and then consistently reconcile the state of the managed
-cluster like an ordinary kubernetes operator does.&lt;/p></description></item></channel></rss>
+cluster like an ordinary Kubernetes operator does.&lt;/p></description></item></channel></rss>
