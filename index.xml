@@ -159,21 +159,7 @@ please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rd
 &lt;li>Ensure &lt;a href="https://kubernetes.io/docs/tasks/tools/install-kubectl">kubectl&lt;/a> and &lt;a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">kustomize&lt;/a> are installed.&lt;/li>
 &lt;/ul>
 &lt;h3 id="network-requirements">Network requirements&lt;/h3>
-&lt;p>Configure your network settings for the hub cluster to allow the following connections.&lt;/p></description></item><item><title>Upgrading your OCM environment</title><link>https://open-cluster-management.io/docs/getting-started/administration/upgrading/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/upgrading/</guid><description>&lt;p>This page provides the suggested steps to upgrade your OCM environment
-including both the hub cluster and the managed clusters. Overall the major
-steps you should follow are:&lt;/p>
-&lt;ul>
-&lt;li>Read the release notes to confirm the latest OCM release version. &lt;em>(Note that
-some add-ons&amp;rsquo; version might be different from OCM&amp;rsquo;s overall release version.)&lt;/em>&lt;/li>
-&lt;li>Upgrade your command line tools &lt;code>clusteradm&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;h2 id="before-you-begin">Before you begin&lt;/h2>
-&lt;p>You must have an existing OCM environment and there&amp;rsquo;s supposed to be
-registration-operator running in your clusters. The registration-operators
-is supposed to be installed if you&amp;rsquo;re previously following our recommended
-&lt;a href="https://open-cluster-management.io/docs/getting-started/quick-start/">quick start guide&lt;/a>
-to set up your OCM. The operator is responsible for helping you upgrade the
-other components on ease.&lt;/p></description></item><item><title>ManagedCluster</title><link>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/</guid><description>&lt;h2 id="what-is-managedcluster">What is ManagedCluster?&lt;/h2>
+&lt;p>Configure your network settings for the hub cluster to allow the following connections.&lt;/p></description></item><item><title>ManagedCluster</title><link>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/</guid><description>&lt;h2 id="what-is-managedcluster">What is ManagedCluster?&lt;/h2>
 &lt;p>&lt;code>ManagedCluster&lt;/code> is a cluster scoped API in the hub cluster representing the
 registered or pending-for-acceptance Kubernetes clusters in OCM. The
 &lt;a href="https://open-cluster-management.io/docs/getting-started/installation/register-a-cluster/">klusterlet agent&lt;/a>
@@ -304,7 +290,21 @@ summarized in the &lt;code>PolicySet&lt;/code>. A &lt;code>PolicySet&lt;/code> i
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters. See &lt;a href="https://open-cluster-management.io/docs/scenarios/register-cluster-through-proxy/">Register a cluster to hub through proxy server&lt;/a> for more details.&lt;/p></description></item><item><title>Add-on management</title><link>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</guid><description>&lt;h2 id="add-on-enablement">Add-on enablement&lt;/h2>
+&lt;p>To use a proxy, please make sure the proxy server is well configured to allow the above connections and the proxy server is reachable for the managed clusters. See &lt;a href="https://open-cluster-management.io/docs/scenarios/register-cluster-through-proxy/">Register a cluster to hub through proxy server&lt;/a> for more details.&lt;/p></description></item><item><title>Upgrading your OCM environment</title><link>https://open-cluster-management.io/docs/getting-started/administration/upgrading/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/upgrading/</guid><description>&lt;p>This page provides the suggested steps to upgrade your OCM environment
+including both the hub cluster and the managed clusters. Overall the major
+steps you should follow are:&lt;/p>
+&lt;ul>
+&lt;li>Read the release notes to confirm the latest OCM release version. &lt;em>(Note that
+some add-ons&amp;rsquo; version might be different from OCM&amp;rsquo;s overall release version.)&lt;/em>&lt;/li>
+&lt;li>Upgrade your command line tools &lt;code>clusteradm&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="before-you-begin">Before you begin&lt;/h2>
+&lt;p>You must have an existing OCM environment and there&amp;rsquo;s supposed to be
+registration-operator running in your clusters. The registration-operators
+is supposed to be installed if you&amp;rsquo;re previously following our recommended
+&lt;a href="https://open-cluster-management.io/docs/getting-started/quick-start/">quick start guide&lt;/a>
+to set up your OCM. The operator is responsible for helping you upgrade the
+other components on ease.&lt;/p></description></item><item><title>Add-on management</title><link>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/addon-management/</guid><description>&lt;h2 id="add-on-enablement">Add-on enablement&lt;/h2>
 &lt;p>From a user&amp;rsquo;s perspective, to install the addon to the hub cluster the hub admin
 should register a globally-unique &lt;code>ClusterManagementAddon&lt;/code> resource as a singleton
 placeholder in the hub cluster. For instance, the &lt;a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld">helloworld&lt;/a>
@@ -335,7 +335,14 @@ about the &lt;code>ConfigurationPolicy&lt;/code> API.&lt;/p>
 &lt;a href="https://kubectl.docs.kubernetes.io/installation/kustomize/">&lt;code>kustomize&lt;/code>&lt;/a> are installed.&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>Ensure &lt;a href="https://golang.org/doc/install">Golang&lt;/a> is installed, if you are planning to install from the source.&lt;/p></description></item><item><title>ManagedClusterSet</title><link>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/</guid><description>&lt;p>&lt;strong>API-CHANGE NOTE&lt;/strong>:&lt;/p>
+&lt;p>Ensure &lt;a href="https://golang.org/doc/install">Golang&lt;/a> is installed, if you are planning to install from the source.&lt;/p></description></item><item><title>Feature Gates</title><link>https://open-cluster-management.io/docs/getting-started/administration/featuregates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/featuregates/</guid><description>&lt;p>Feature gates are a way to enable or disable experimental or optional features in Open Cluster Management (OCM). They provide a safe mechanism to gradually roll out new functionality and maintain backward compatibility.&lt;/p>
+&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>OCM uses Kubernetes&amp;rsquo; feature gate mechanism to control the availability of features across different components:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Hub Components&lt;/strong>: Features running on the hub cluster&lt;/li>
+&lt;li>&lt;strong>Spoke Components&lt;/strong>: Features running on managed clusters&lt;/li>
+&lt;/ul>
+&lt;p>Feature gates follow a standard lifecycle:&lt;/p></description></item><item><title>ManagedClusterSet</title><link>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/</guid><description>&lt;p>&lt;strong>API-CHANGE NOTE&lt;/strong>:&lt;/p>
 &lt;p>The &lt;code>ManagedClusterSet&lt;/code> and &lt;code>ManagedClusterSetBinding&lt;/code> API v1beta1 version will no longer be served in OCM v0.12.0.&lt;/p>
 &lt;ul>
 &lt;li>Migrate manifests and API clients to use the &lt;code>ManagedClusterSet&lt;/code> and &lt;code>ManagedClusterSetBinding&lt;/code> API v1beta2 version, available since OCM v0.9.0.&lt;/li>

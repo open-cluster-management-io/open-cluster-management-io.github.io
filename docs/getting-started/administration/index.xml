@@ -27,4 +27,11 @@ registration-operator running in your clusters. The registration-operators
 is supposed to be installed if you&amp;rsquo;re previously following our recommended
 &lt;a href="https://open-cluster-management.io/docs/getting-started/quick-start/">quick start guide&lt;/a>
 to set up your OCM. The operator is responsible for helping you upgrade the
-other components on ease.&lt;/p></description></item></channel></rss>
+other components on ease.&lt;/p></description></item><item><title>Feature Gates</title><link>https://open-cluster-management.io/docs/getting-started/administration/featuregates/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/featuregates/</guid><description>&lt;p>Feature gates are a way to enable or disable experimental or optional features in Open Cluster Management (OCM). They provide a safe mechanism to gradually roll out new functionality and maintain backward compatibility.&lt;/p>
+&lt;h2 id="overview">Overview&lt;/h2>
+&lt;p>OCM uses Kubernetes&amp;rsquo; feature gate mechanism to control the availability of features across different components:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Hub Components&lt;/strong>: Features running on the hub cluster&lt;/li>
+&lt;li>&lt;strong>Spoke Components&lt;/strong>: Features running on managed clusters&lt;/li>
+&lt;/ul>
+&lt;p>Feature gates follow a standard lifecycle:&lt;/p></description></item></channel></rss>
