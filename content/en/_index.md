@@ -109,6 +109,15 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-md-4 col-sm-6">
+            <a href="https://www.spectrocloud.com/" target="_blank" class="text-decoration-none">
+              <div class="card h-100 partner-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <h5 class="card-title">Spectro Cloud</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4 col-sm-6">
             <a href="https://www.xiaohongshu.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
