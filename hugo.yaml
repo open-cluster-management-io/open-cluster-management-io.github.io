@@ -64,8 +64,13 @@ outputs:
 
 menu:
   main:
-    - identifier: v1.0.0-released
+    - identifier: scarf-tracker
       weight: 1
+      name: ""
+      url: "/"
+      pre: '<img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=94243eae-daeb-494c-a300-099ab02c56f5" />'
+    - identifier: v1.0.0-released
+      weight: 2
       name: "🎉 v1.0.0 Released!"
       url: "/docs/release/#100-20-june-2025"
     - identifier: Github

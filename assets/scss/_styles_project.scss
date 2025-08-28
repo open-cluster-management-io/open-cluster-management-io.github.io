@@ -45,7 +45,7 @@
 }
 
 // Highlight the version release menu item
-.td-navbar .navbar-nav .nav-item:first-child .nav-link {
+.td-navbar .navbar-nav .nav-item:nth-child(2) .nav-link {
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   color: white !important;
   border-radius: 20px;
@@ -56,7 +56,7 @@
   box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
 }
 
-.td-navbar .navbar-nav .nav-item:first-child .nav-link:hover {
+.td-navbar .navbar-nav .nav-item:nth-child(2).nav-link:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
