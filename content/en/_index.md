@@ -147,7 +147,7 @@ Policy and configuration management uses labels to help you deploy policies and 
       <div class="col-lg-10 col-md-12">
         <div class="row g-4">
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://argo-cd.readthedocs.io/" target="_blank" class="text-decoration-none">
+            <a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Cluster-Decision-Resource/#how-it-works" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Argo CD</h5>
@@ -156,7 +156,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://argocd-agent.readthedocs.io/" target="_blank" class="text-decoration-none">
+            <a href="https://argocd-agent.readthedocs.io/latest/getting-started/ocm-io/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Argo CD Agent</h5>
@@ -165,7 +165,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://argoproj.github.io/workflows/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/argoproj/argo-workflows/issues/3523#issuecomment-1307610573" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Argo Workflows</h5>
@@ -174,7 +174,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://cluster-api.sigs.k8s.io/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/open-cluster-management-io/ocm/tree/main/solutions/cluster-api" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Cluster API</h5>
@@ -183,7 +183,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://clusternet.io/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/clusternet-addon" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Clusternet</h5>
@@ -192,7 +192,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://fluid-cloudnative.github.io/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/fluid-addon" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Fluid</h5>
@@ -201,7 +201,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://helm.sh/" target="_blank" class="text-decoration-none">
+            <a href="https://v0-16.open-cluster-management.io/docs/getting-started/integration/app-lifecycle/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Helm</h5>
@@ -210,7 +210,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://www.icos-project.eu/docs/" target="_blank" class="text-decoration-none">
+            <a href="https://www.icos-project.eu/docs/Administration/ICOS%20Agent/Orchestrators/controlplane/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">ICOS Meta OS</h5>
@@ -219,7 +219,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://istio.io/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/open-cluster-management-io/multicluster-mesh" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Istio</h5>
@@ -228,7 +228,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://janus-idp.io/" target="_blank" class="text-decoration-none">
+            <a href="https://www.npmjs.com/package/@janus-idp/backstage-plugin-ocm-backend" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Janus</h5>
@@ -237,16 +237,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://www.jaegertracing.io/" target="_blank" class="text-decoration-none">
-              <div class="card h-100 ecosystem-card">
-                <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Jaeger</h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://docs.kubestellar.io/" target="_blank" class="text-decoration-none">
+            <a href="https://docs.kubestellar.io/latest/direct/start-from-ocm/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">KubeStellar</h5>
@@ -255,7 +246,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://kubevela.io/" target="_blank" class="text-decoration-none">
+            <a href="https://kubevela.io/docs/platform-engineers/system-operation/working-with-ocm/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">KubeVela</h5>
@@ -264,7 +255,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://kueue.sigs.k8s.io/" target="_blank" class="text-decoration-none">
+            <a href="https://kueue.sigs.k8s.io/docs/tasks/manage/setup_multikueue/#optional-setup-multikueue-with-open-cluster-management" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Kueue</h5>
@@ -273,7 +264,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://opentelemetry.io/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/open-telemetry-addon" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">OpenTelemetry</h5>
@@ -282,16 +273,16 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://www.squid-cache.org/" target="_blank" class="text-decoration-none">
+            <a href="https://docs.meshery.io/extensibility/integrations/open-cluster-management" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Squid</h5>
+                  <h5 class="card-title">Meshery</h5>
                 </div>
               </div>
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6 mx-auto">
-            <a href="https://submariner.io/" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/stolostron/submariner-addon" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
                   <h5 class="card-title">Submariner</h5>
