@@ -182,7 +182,7 @@ the default add-on configuration. In scenarios where all add-ons have the same
 configuration. Only one configuration of the same group and resource can be specified 
 in the `defaultConfig`.
 
-In the example below, add-ons on all the clusters will use "default-deploy-config" and "default-example-config".
+In the example below, add-ons on all the clusters will use "default-deploy-config" and "default-addon-template".
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -201,10 +201,10 @@ spec:
     group: addon.open-cluster-management.io
     resource: addondeploymentconfigs
   - defaultConfig:
-      name: default-example-config
+      name: default-addon-template
       namespace: open-cluster-management
-    group: example.open-cluster-management.io
-    resource: exampleconfigs
+    group: addon.open-cluster-management.io
+    resource: addontemplates
 ```
 
 ### Configurations per install strategy
@@ -212,12 +212,12 @@ spec:
 In `ClusterManagementAddOn`, `spec.installStrategy.placements[].configs` lists the
 configuration of `ManagedClusterAddon` during installation for a group of clusters.
 For the need to use multiple configurations with the same group and resource can be defined
-in this field since OCM v0.15.0. It will override the [Default configurations](#default-configurations) 
-on certain clusters by group and resource.
+in this field since OCM v0.15.0. If [Default configurations](#default-configurations) is defined,
+it will override the [Default configurations](#default-configurations) on certain clusters by group and resource.
 
-In the example below, add-ons on clusters selected by `Placement` placement-aws will
-use "deploy-config", "example-config-1" and "example-config-2", while all the other add-ons
-will still use "default-deploy-config" and "default-example-config".
+In the example below, add-ons on clusters selected by `Placement` will
+use "override-deploy-config" and "override-addon-template", while all the other add-ons
+will still use "default-deploy-config" and "default-addon-template".
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -235,25 +235,75 @@ spec:
       namespace: open-cluster-management
     group: addon.open-cluster-management.io
     resource: addondeploymentconfigs
+  - defaultConfig:
+      name: default-addon-template
+      namespace: open-cluster-management
+    group: addon.open-cluster-management.io
+    resource: addontemplates
   installStrategy:
     type: Placements
     placements:
-    - name: placement-aws
-      namespace: default
+    - name: <placement-name>
+      namespace: <placement-namespace>
       configs:
-      - group: addon.open-cluster-management.io
+      - name: override-deploy-config
+        namespace: open-cluster-management
+        group: addon.open-cluster-management.io
         resource: addondeploymentconfigs
-        name: deploy-config
+      - name: override-addon-template
         namespace: open-cluster-management
-      - group: example.open-cluster-management.io
-        resource: exampleconfigs
-        name: example-config-1
-        namespace: open-cluster-management
-      - group: example.open-cluster-management.io
-        resource: exampleconfigs
-        name: example-config-2
-        namespace: open-cluster-management
+        group: addon.open-cluster-management.io
+        resource: addontemplates
 ```
+
+Below are some recommended `Placement` for the install strategy:
+
+- To apply the same configuration across all `ManagedCluster`, use [Default configurations](#default-configurations).
+
+- To apply the configuration to the hub cluster, it must have a specific identifying label or claim, such as local-cluster: "true", for example:
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: <placement-name>
+  namespace: <placement-namespace>
+spec:
+  predicates:
+  - requiredClusterSelector:
+      labelSelector:
+        matchLabels:
+          local-cluster: "true"
+```
+
+- To apply the configuration to the spoke clusters, use the following `Placement`:
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: <placement-name>
+  namespace: <placement-namespace>
+spec:
+  predicates:
+  - requiredClusterSelector:
+      labelSelector:
+        matchExpressions:
+        - key: local-cluster
+          operator: NotIn
+          values:
+          - "true"
+# Uncomment the following to install even when clusters are unreachable or unavailable.
+# tolerations:
+# - key: cluster.open-cluster-management.io/unreachable
+#   operator: Equal
+# - key: cluster.open-cluster-management.io/unavailable
+#   operator: Equal
+```
+
+- To apply the configuration to a specific set of clusters, see [Placement](https://open-cluster-management.io/docs/concepts/content-placement/placement/) for more options.
+
+- To apply the configuration to a single specific cluster, see the next section [Configurations per cluster](#configurations-per-cluster).
 
 ### Configurations per cluster
 
@@ -264,7 +314,7 @@ It will override the [Default configurations](#default-configurations) and
 [Configurations per install strategy](#configurations-per-install-strategy) defined
 in `ClusterManagementAddOn` by group and resource.
 
-In the below example, add-on on cluster1 will use "cluster1-deploy-config" and "cluster1-example-config".
+In the below example, add-on on cluster1 will use "cluster1-deploy-config" and "cluster1-addon-template".
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -274,14 +324,14 @@ metadata:
   namespace: cluster1
 spec:
   configs:
-  - group: addon.open-cluster-management.io
+  - name: cluster1-deploy-config
+    namespace: open-cluster-management
+    group: addon.open-cluster-management.io
     resource: addondeploymentconfigs
-    name: cluster1-deploy-config
+  - name: cluster1-addon-template
     namespace: open-cluster-management
-  - group: example.open-cluster-management.io
-    resource: exampleconfigs
-    name: cluster1-example-config
-    namespace: open-cluster-management
+    group: addon.open-cluster-management.io
+    resource: addontemplates
 ```
 
 ### Supported configurations
@@ -302,8 +352,8 @@ status:
   supportedConfigs:
   - group: addon.open-cluster-management.io
     resource: addondeploymentconfigs
-  - group: example.open-cluster-management.io
-    resource: exampleconfigs
+  - group: addon.open-cluster-management.io
+    resource: addontemplates
 ```
 
 ### Effective configurations
@@ -329,15 +379,15 @@ status:
 ...
   configReferences:
   - desiredConfig:
-      name: cluster1-deploy-config
+      name: cluster1-addon-template
       namespace: open-cluster-management
       specHash: dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044
     group: addon.open-cluster-management.io
     lastAppliedConfig:
-      name: cluster1-deploy-config
+      name: cluster1-addon-template
       namespace: open-cluster-management
       specHash: dcf88f5b11bd191ed2f886675f967684da8b5bcbe6902458f672277d469e2044
     lastObservedGeneration: 1
-    name: cluster1-deploy-config
-    resource: addondeploymentconfigs
+    name: cluster1-addon-template
+    resource: addontemplates
 ```

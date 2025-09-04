@@ -859,86 +859,9 @@ This architecture graph shows how the coordination between add-on manager and ad
 
 The add-on agent lifecycle can now be managed by the general
 `addon-manager` starting from OCM v0.11.0. This is achieved through enhancements
-to the `ClusterManagementAddOn` and `ManagedClusterAddOn` APIs.
+to the `ClusterManagementAddOn` and `ManagedClusterAddOn` APIs. 
 
-1. Install strategy
-
-With the install strategy defined in the `ClusterManagementAddOn` API, users can
-configure which clusters the related `ManagedClusterAddon` should be enabled by
-referencing the `Placement`. For example, enabling the `helloworld` add-on on
-clusters labeled with aws.
-
-```yaml
-apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ClusterManagementAddOn
-metadata:
-  name: helloworld
-  annotations:
-    addon.open-cluster-management.io/lifecycle: "addon-manager"
-spec:
-  addOnMeta:
-    displayName: helloworld
-  installStrategy:
-    type: Placements
-    placements:
-    - name: placement-aws
-      namespace: default
-```
-
-```yaml
-apiVersion: cluster.open-cluster-management.io/v1beta1
-kind: Placement
-metadata:
-  name: placement-aws
-  namespace: default
-spec:
-  predicates:
-    - requiredClusterSelector:
-        claimSelector:
-          matchExpressions:
-            - key: platform.open-cluster-management.io
-              operator: In
-              values:
-                - aws
-```
-
-2. Rollout strategy
-
-With the rollout strategy defined in the `ClusterManagementAddOn` API, users can
-control the upgrade behavior of the add-on when there are changes in the [supported configurations](#add-your-add-on-agent-supported-configurations).
-
-For example, if the add-on user updates the "deploy-config" and wants to apply
-the change to the add-ons to a "canary" [decision group](https://open-cluster-management.io/concepts/placement/#decision-strategy) first.
-If all the add-on upgrade successfully, then upgrade the rest of clusters progressively per cluster
-at a rate of 25%. The rollout strategy can be defined as follows:
-
-```yaml
-apiVersion: addon.open-cluster-management.io/v1alpha1
-kind: ClusterManagementAddOn
-metadata:
-  name: helloworld
-  annotations:
-    addon.open-cluster-management.io/lifecycle: "addon-manager"
-spec:
-  addOnMeta:
-    displayName: helloworld
-  installStrategy:
-    type: Placements
-    placements:
-    - name: placement-aws
-      namespace: default
-      configs:
-      - group: addon.open-cluster-management.io
-        resource: addondeploymentconfigs
-        name: deploy-config
-        namespace: open-cluster-management
-      rolloutStrategy:
-        type: Progressive
-        progressive:
-          mandatoryDecisionGroups:
-          - groupName: "canary"
-          maxConcurrency: 25%
-```
+More detailed usage of add-on install strategy and rollout strategy refer to the [Add-on lifecycle management](https://open-cluster-management.io/docs/getting-started/installation/addon-management/#add-on-lifecycle-management).
 
 Add-on developers can use addon-framework v0.9.3 and the above versions
 to support the scenarios mentioned above.
@@ -1505,3 +1428,7 @@ namespace, and mount the configmap to the addon agent deployments and daemonsets
 `CA_BUNDLE_FILE_PATH` to the file path of the mounted ca bundle. If the addon needs to support the `caBundle` for the
 `proxyConfig`, the **addon developer should get the ca bundle from the environment variable** `CA_BUNDLE_FILE_PATH`
 to make the agent work with the proxy.
+
+### Add-on template configurations
+
+[Add-on configurations](https://open-cluster-management.io/docs/getting-started/installation/addon-management/#add-on-configurations) provides examples of how to configure add-on templates for different use cases.
