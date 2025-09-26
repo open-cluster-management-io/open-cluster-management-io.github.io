@@ -67,7 +67,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             <a href="https://www.alibabacloud.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Alibaba Cloud</h5>
+                  <img src="/logos/alibaba.svg" alt="Alibaba Cloud" class="partner-logo" style="max-height: 60px; max-width: 120px;">
                 </div>
               </div>
             </a>
@@ -76,7 +76,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             <a href="https://www.antgroup.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Ant Group</h5>
+                  <img src="/logos/ant-group.svg" alt="Ant Group" class="partner-logo" style="max-height: 60px; max-width: 120px;">
                 </div>
               </div>
             </a>
@@ -85,16 +85,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             <a href="https://appscode.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">AppsCode Inc.</h5>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <a href="https://github.com/RamenDR/" target="_blank" class="text-decoration-none">
-              <div class="card h-100 partner-card">
-                <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">RamenDR</h5>
+                  <img src="/logos/appscode.svg" alt="AppsCode Inc." class="partner-logo" style="max-height: 60px; max-width: 120px;">
                 </div>
               </div>
             </a>
@@ -103,7 +94,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             <a href="https://www.redhat.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Red Hat</h5>
+                  <img src="/logos/redhat.svg" alt="Red Hat" class="partner-logo" style="max-height: 60px; max-width: 120px;">
                 </div>
               </div>
             </a>
@@ -112,7 +103,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             <a href="https://www.spectrocloud.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Spectro Cloud</h5>
+                  <img src="/logos/spectrocloud.svg" alt="Spectro Cloud" class="partner-logo" style="max-height: 60px; max-width: 120px;">
                 </div>
               </div>
             </a>
@@ -121,7 +112,7 @@ Policy and configuration management uses labels to help you deploy policies and 
             <a href="https://www.xiaohongshu.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Xiao Hong Shu</h5>
+                  <img src="/logos/xiaohongshu.svg" alt="Xiao Hong Shu" class="partner-logo" style="max-height: 60px; max-width: 120px;">
                 </div>
               </div>
             </a>
@@ -264,6 +255,15 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="https://docs.meshery.io/extensibility/integrations/open-cluster-management" target="_blank" class="text-decoration-none">
+              <div class="card h-100 ecosystem-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <h5 class="card-title">Meshery</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6">
             <a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/open-telemetry-addon" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
@@ -273,15 +273,15 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
-            <a href="https://docs.meshery.io/extensibility/integrations/open-cluster-management" target="_blank" class="text-decoration-none">
+            <a href="https://github.com/RamenDR/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
-                  <h5 class="card-title">Meshery</h5>
+                  <h5 class="card-title">RamenDR</h5>
                 </div>
               </div>
             </a>
           </div>
-          <div class="col-lg-3 col-md-4 col-sm-6 mx-auto">
+          <div class="col-lg-3 col-md-4 col-sm-6">
             <a href="https://github.com/stolostron/submariner-addon" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
