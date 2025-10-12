@@ -24,10 +24,10 @@ spec:
   placementRefs:
     - name: placement-rollout-all # Name of a created Placement
       rolloutStrategy:
-        rolloutType: All
+        type: All
     - name: placement-rollout-progressive # Name of a created Placement
       rolloutStrategy:
-        rolloutType: Progressive
+        type: Progressive
         progressive:
           minSuccessTime: 5m
           progressDeadline: 10m
@@ -37,7 +37,7 @@ spec:
           - groupName: "prod-canary-east"
     - name: placement-rollout-progressive-per-group # Name of a created Placement
       rolloutStrategy:
-        rolloutType: ProgressivePerGroup
+        type: ProgressivePerGroup
         progressivePerGroup:
           progressDeadline: 10m
           maxFailures: 2
