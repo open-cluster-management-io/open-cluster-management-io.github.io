@@ -837,6 +837,101 @@ After the `Jobs` are `Completed` or `Pods` are in the `Succeeded` phase, all the
 
 You can find the example from [here](https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld_helm).
 
+## Orphaning manifests on addon deletion
+
+By default, when a `ManagedClusterAddOn` is deleted, all the resources deployed by the addon will be automatically removed from the managed cluster. However, in some cases, you may want to preserve certain resources even after the addon is deleted. The addon-framework provides the `addon.open-cluster-management.io/deletion-orphan` annotation to support this use case.
+
+When you add this annotation to any resource in your addon manifests, that resource will be "orphaned" (left behind) when the addon is deleted, instead of being automatically cleaned up.
+
+### How to use the deletion-orphan annotation
+
+Add the `addon.open-cluster-management.io/deletion-orphan` annotation to any resources in your addon manifests that you want to preserve after addon deletion:
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: important-data
+  namespace: open-cluster-management-agent-addon
+  annotations:
+    addon.open-cluster-management.io/deletion-orphan: ""
+data:
+  key: value
+```
+
+When the `ManagedClusterAddOn` is deleted:
+
+1. Resources **without** the `deletion-orphan` annotation will be removed from the managed cluster
+2. Resources **with** the `deletion-orphan` annotation will remain on the managed cluster
+
+### Use cases
+
+Common scenarios where orphaning manifests is useful:
+
+* **Preserving data:** Keep ConfigMaps or Secrets containing important configuration or state data
+* **Avoiding disruption:** Leave certain resources running to prevent service interruption during addon reinstallation
+* **Manual cleanup:** Retain resources that need manual review or cleanup by administrators
+* **Shared resources:** Keep resources that might be used by other components or addons
+
+### Important notes
+
+* The annotation value can be empty (`""`) or any string - only the presence of the annotation key matters
+* Orphaned resources will not be managed by OCM after the addon is deleted. You'll need to clean them up manually if needed
+* This annotation works for any Kubernetes resource type in your addon manifests
+* You can combine this with the [pre-delete hook](#pre-delete-hook) to run cleanup jobs while preserving certain resources
+
+### Example: Orphaning a PersistentVolumeClaim
+
+Here's an example of an addon that deploys a stateful application and preserves the PersistentVolumeClaim when the addon is deleted:
+
+```yaml
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: stateful-app
+  namespace: open-cluster-management-agent-addon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stateful-app
+  template:
+    metadata:
+      labels:
+        app: stateful-app
+    spec:
+      containers:
+        - name: app
+          image: my-stateful-app:latest
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: app-data
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: app-data
+  namespace: open-cluster-management-agent-addon
+  annotations:
+    addon.open-cluster-management.io/deletion-orphan: ""
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```
+
+In this example, when the addon is deleted:
+
+* The Deployment will be removed
+* The PersistentVolumeClaim will be preserved with its data intact
+* You can reinstall the addon later and it will reconnect to the existing PVC
+
 ## What happened under the scene
 
 <div style="text-align: center; padding: 20px;">
@@ -937,7 +1032,7 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
 
 1. Create an `AddOnTemplate` object to define the addon:
    The `AddOnTemplate` API provides two parts of information to build an addon:
-    * `manifests`: what resources will be deployed to the managed cluster
+    * `manifests`: what resources will be deployed to the managed cluster. You can add the `addon.open-cluster-management.io/deletion-orphan` annotation to any resource to preserve it when the addon is deleted (see [Orphaning manifests on addon deletion](#orphaning-manifests-on-addon-deletion)).
     * `registration`: how to register the addon to the hub cluster
 
    For example, the following yaml file defines the `hello-template` addon, which will:
@@ -994,6 +1089,8 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
                metadata:
                  name: hello-template-agent-sa
                  namespace: open-cluster-management-agent-addon
+                 annotations:
+                   addon.open-cluster-management.io/deletion-orphan: "" # Optional: preserve this resource when addon is deleted
              - kind: ClusterRoleBinding
                apiVersion: rbac.authorization.k8s.io/v1
                metadata:
