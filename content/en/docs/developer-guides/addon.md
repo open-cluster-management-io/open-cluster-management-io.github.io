@@ -1344,6 +1344,32 @@ spec:
 
 This allows you to have different variable values for different clusters while using the same addon template.
 
+#### Namespace configuration with AddOnDeploymentConfig
+
+When using `AddOnDeploymentConfig` with addon templates, the addon agent installation namespace is determined as follows:
+
+* If `AddOnDeploymentConfig` is **not used**, the namespace of the manifest defined in the `AddOnTemplate` is used.
+* If `AddOnDeploymentConfig` is **used** but `agentInstallNamespace: ""` (empty string), the namespace from `AddOnTemplate` is used.
+* If `AddOnDeploymentConfig` is **used** but `agentInstallNamespace` is **not set**, the default namespace `open-cluster-management-agent-addon` is used.
+* If `agentInstallNamespace` is set to a specific namespace, that namespace is used.
+
+**Important:** To preserve a custom namespace from your `AddOnTemplate` when using `AddOnDeploymentConfig`, explicitly set `agentInstallNamespace: ""`.
+
+Example:
+
+```yaml
+apiVersion: addon.open-cluster-management.io/v1alpha1
+kind: AddOnDeploymentConfig
+metadata:
+  name: hello-template-deploy-config
+  namespace: open-cluster-management
+spec:
+  agentInstallNamespace: ""  # Use namespace from AddOnTemplate
+  customizedVariables:
+  - name: LOG_LEVEL
+    value: "2"
+```
+
 #### Variable naming and validation
 
 When defining customized variables in AddOnDeploymentConfig, please note:
