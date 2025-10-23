@@ -111,6 +111,12 @@ The `--hub-apiserver` URL in the generated command must be network-accessible fr
 
 For production deployments, it's recommended to use a hub cluster that provides a stable, network-accessible API server endpoint.
 
+## Alternative: Enable gRPC-based registration
+
+By default, OCM uses direct Kubernetes API connections for cluster registration. For enhanced security and isolation, you can optionally enable gRPC-based registration, where managed clusters connect through a gRPC server instead of directly to the hub API server.
+
+To enable gRPC-based registration, see [Register a cluster via gRPC]({{< ref "register-cluster-via-grpc.md" >}}) for detailed instructions on configuring the ClusterManager and exposing the gRPC server.
+
 ## Check out the running instances of the control plane
 
 ```shell
