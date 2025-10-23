@@ -25,7 +25,7 @@ For larger changes or when you want to preview your edits locally:
    cd open-cluster-management-io.github.io
    ```
 
-3. Install Hugo (version 0.110.0 or later recommended)
+3. Install Hugo (version 0.146.0 or later recommended)
 
 4. Start the local development server:
    ```bash
