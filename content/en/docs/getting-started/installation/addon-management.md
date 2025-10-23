@@ -207,6 +207,8 @@ spec:
     resource: addontemplates
 ```
 
+**Note on namespace configuration:** When using `AddOnDeploymentConfig` with addon templates, if you want to preserve the namespace defined in your `AddOnTemplate`, you must explicitly set `agentInstallNamespace: ""` in the `AddOnDeploymentConfig`. Otherwise, the default namespace `open-cluster-management-agent-addon` will be used. See [Namespace configuration with AddOnDeploymentConfig]({{< ref "docs/developer-guides/addon/#namespace-configuration-with-addondeploymentconfig" >}}) for details.
+
 ### Configurations per install strategy
 
 In `ClusterManagementAddOn`, `spec.installStrategy.placements[].configs` lists the
