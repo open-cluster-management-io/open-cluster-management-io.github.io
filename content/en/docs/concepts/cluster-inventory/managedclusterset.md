@@ -139,6 +139,8 @@ metadata:
 spec:
   clusterSelector:
     selectorType: ExclusiveClusterSetLabel
+  managedNamespaces:
+  - name: my-clusterset-ns1
 status:
   conditions:
   - lastTransitionTime: "2022-02-21T09:24:38Z"
@@ -147,6 +149,8 @@ status:
     status: "False"
     type: ClusterSetEmpty
 ```
+
+The `spec.managedNamespaces` field is used to specify a list of namespaces that will be automatically created on each member cluster. For a detailed explanation, see the "Setting Managed Namespaces for a ManagedClusterSet" section below.
 
 ```yaml
 apiVersion: cluster.open-cluster-management.io/v1beta2
@@ -187,6 +191,64 @@ status:
     status: "True"
     type: Bound
 ```
+
+### Setting Managed Namespaces for a ManagedClusterSet
+
+A ManagedClusterSet can define one or more managed namespaces. When specified, these namespaces are automatically created on every managed cluster that belongs to the set.
+
+Example: ManagedClusterSet with managed namespaces
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1beta2
+kind: ManagedClusterSet
+metadata:
+  name: my-clusterset
+spec:
+  clusterSelector:
+    selectorType: ExclusiveClusterSetLabel
+  managedNamespaces:
+  - name: my-clusterset-ns1
+  - name: my-clusterset-ns2
+```
+
+The managed namespaces are reflected in the status of each ManagedCluster that is part of the set.
+
+Example: ManagedCluster status with managed namespaces
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  labels:
+    cluster.open-cluster-management.io/clusterset: my-clusterset
+  name: cluster1
+status:
+  managedNamespaces:
+  - clusterSet: my-clusterset
+    conditions:
+    - lastTransitionTime: "2025-09-26T03:15:52Z"
+      message: Namespace successfully applied and managed
+      reason: NamespaceApplied
+      status: "True"
+      type: NamespaceAvailable
+    name: my-clusterset-ns1
+  - clusterSet: my-clusterset
+    conditions:
+    - lastTransitionTime: "2025-09-26T03:15:52Z"
+      message: Namespace successfully applied and managed
+      reason: NamespaceApplied
+      status: "True"
+      type: NamespaceAvailable
+    name: my-clusterset-ns2
+```
+
+The `NamespaceAvailable` condition shows whether the namespace is available on the managed cluster.
+
+Important: Namespaces created on managed clusters are never deleted, even in the following cases:
+
+    The namespace is removed from the ManagedClusterSet specification.
+    The managed cluster leaves the ManagedClusterSet.
+    The managed cluster is detached from the hub.
 
 ### Clusterset RBAC permission control
 
