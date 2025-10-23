@@ -10,9 +10,69 @@ aliases:
 
 ## What is `ManifestWorkReplicaSet`
 
-`ManifestWorkReplicaSet` is an aggregator API that uses [Manifestwork](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/manifestwork.md) and [Placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) to create manifestwork for the placement-selected clusters.
+`ManifestWorkReplicaSet` is an aggregator API that uses [ManifestWork](https://open-cluster-management.io/docs/concepts/work-distribution/manifestwork/) and [Placement](https://open-cluster-management.io/docs/concepts/content-placement/placement/) to automatically create `ManifestWork` resources for clusters selected by `Placement`. It simplifies multi-cluster workload distribution by eliminating the need to manually create individual ManifestWork resources for each target cluster.
 
-View an example of `ManifestWorkReplicaSet` to deploy a CronJob and Namespace for a group of clusters selected by placements.
+## Feature Enablement
+
+`ManifestWorkReplicaSet` is in **alpha release** and is not enabled by default. To enable this feature, you must configure the cluster-manager instance on the hub cluster.
+
+Edit the cluster-manager CR:
+
+```shell
+$ oc edit ClusterManager cluster-manager
+```
+
+Add the `workConfiguration` field to enable the ManifestWorkReplicaSet feature gate:
+
+```yaml
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+   ...
+  workConfiguration:
+    featureGates:
+    - feature: ManifestWorkReplicaSet
+      mode: Enable
+```
+
+Verify the feature is enabled successfully:
+
+```shell
+$ oc get ClusterManager cluster-manager -o yaml
+```
+
+Confirm that the `cluster-manager-work-controller` deployment appears in the status under `status.generations`:
+
+```yaml
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+   ...
+status:
+   ...
+  generations:
+    ...
+  - group: apps
+    lastGeneration: 2
+    name: cluster-manager-work-webhook
+    namespace: open-cluster-management-hub
+    resource: deployments
+    version: v1
+  - group: apps
+    lastGeneration: 1
+    name: cluster-manager-work-controller
+    namespace: open-cluster-management-hub
+    resource: deployments
+    version: v1
+```
+
+## Overview
+
+Here's a simple example to get started with `ManifestWorkReplicaSet`.
+
+This example deploys a `CronJob` and `Namespace` to a group of clusters selected by `Placement`.
 
 ```yaml
 apiVersion: work.open-cluster-management.io/v1alpha1
@@ -25,22 +85,6 @@ spec:
     - name: placement-rollout-all # Name of a created Placement
       rolloutStrategy:
         type: All
-    - name: placement-rollout-progressive # Name of a created Placement
-      rolloutStrategy:
-        type: Progressive
-        progressive:
-          minSuccessTime: 5m
-          progressDeadline: 10m
-          maxFailures: 5%
-          mandatoryDecisionGroups:
-          - groupName: "prod-canary-west"
-          - groupName: "prod-canary-east"
-    - name: placement-rollout-progressive-per-group # Name of a created Placement
-      rolloutStrategy:
-        type: ProgressivePerGroup
-        progressivePerGroup:
-          progressDeadline: 10m
-          maxFailures: 2
   manifestWorkTemplate:
     deleteOption:
       propagationPolicy: SelectivelyOrphan
@@ -91,13 +135,150 @@ spec:
                           - '-c'
                           - date; echo Hello from the Kubernetes cluster
 ```
-The **PlacementRefs** uses the Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) to apply the manifestWork to the selected clusters.
-In the example above; the placementRefs refers to three placements; placement-rollout-all, placement-rollout-progressive and placement-rollout-progressive-per-group. For more info regarding the rollout strategies check the Rollout Strategy section at the [placement](https://github.com/open-cluster-management-io/open-cluster-management-io.github.io/blob/main/content/en/concepts/placement.md) document.
-**Note:** The placement reference must be in the same namespace as the manifestWorkReplicaSet.
+The `placementRefs` field uses the Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) to control how `ManifestWork` resources are applied to the selected clusters.
+
+In the example above, the `placementRefs` references `placement-rollout-all` with a `rolloutStrategy` of `All`, which means the workload will be deployed to all selected clusters simultaneously.
+
+## Rollout Strategy
+
+`ManifestWorkReplicaSet` supports three rollout strategy types to control how workloads are distributed across clusters. For detailed rollout strategy documentation, see the [Placement rollout strategy section](https://open-cluster-management.io/docs/concepts/content-placement/placement/#rollout-strategy).
+
+**Note:** The placement reference must be in the same namespace as the `ManifestWorkReplicaSet`.
+
+1. **All**: Deploy to all selected clusters simultaneously
+```yaml
+  placementRefs:
+    - name: placement-rollout-all # Name of a created Placement
+      rolloutStrategy:
+        type: All
+```
+
+2. **Progressive**: Gradual rollout with configurable parameters
+```yaml
+  placementRefs:
+    - name: placement-rollout-progressive # Name of a created Placement
+      rolloutStrategy:
+        type: Progressive
+        progressive:
+          minSuccessTime: 5m
+          progressDeadline: 10m
+          maxFailures: 5%
+          mandatoryDecisionGroups:
+          - groupName: "prod-canary-west"
+          - groupName: "prod-canary-east"
+```
+
+3. **ProgressivePerGroup**: Progressive rollout per decision group
+```yaml
+  placementRefs:
+    - name: placement-rollout-progressive-per-group # Name of a created Placement
+      rolloutStrategy:
+        type: ProgressivePerGroup
+        progressivePerGroup:
+          progressDeadline: 10m
+          maxFailures: 2
+```
+
+## Rollout Mechanism
+
+The `ManifestWorkReplicaSet` rollout process is based on the `Progressing` and `Degraded` conditions of each `ManifestWork`. These conditions are not built-in but must be defined using [Custom CEL Expressions](https://open-cluster-management.io/docs/concepts/work-distribution/manifestwork/#custom-cel-expressions) in the `manifestConfigs` section.
+
+### Condition Requirements
+
+- **Progressing condition (required)**: Tracks whether the ManifestWork is currently being applied to the cluster. The rollout controller uses this condition to determine if a cluster deployment is in progress or completed.
+  - For rollout strategies `Progressive` and `ProgressivePerGroup`, this is a **required** condition to determine if the rollout can proceed to the next cluster.
+  - When the `Progressing` condition is `False`, the deployment is considered complete and succeeded, and the rollout will continue to the next cluster based on `minSuccessTime`.
+  - If this condition is not defined, the rollout will never proceed to the next cluster (it will remain stuck waiting for the condition).
+
+- **Degraded condition (optional)**: Indicates if the ManifestWork has failed or encountered issues. 
+  - This is an **optional** condition used only to determine failure states.
+  - If the `Degraded` condition status is `True`, the rollout may stop or count towards `maxFailures`.
+  - If this condition is not defined, the workload is assumed to never be degraded.
+
+**Rollout Status Determination:**
+
+The rollout controller determines the status of each ManifestWork based on the combination of `Progressing` and `Degraded` condition values:
+
+| Progressing | Degraded | Rollout Status | Description |
+|-------------|----------|----------------|-------------|
+| `True` | `True` | **Failed** | Work is progressing but degraded |
+| `True` | `False` or not set | **Progressing** | Work is being applied and is healthy |
+| `False` | `False` or not set | **Succeeded** | Work has been successfully applied |
+| Unknown/Not set | Any | **Progressing** | Conservative fallback: treat as still progressing |
+
+### Example: Progressive Rollout with Custom Conditions
+
+This example demonstrates a progressive rollout with custom CEL expressions that define `Progressing` and `Degraded` conditions for a Deployment:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1alpha1
+kind: ManifestWorkReplicaSet
+metadata:
+  name: mwrset
+  namespace: default
+spec:
+  placementRefs:
+    - name: placement-test # Name of a created Placement
+      rolloutStrategy:
+        type: Progressive
+        progressive:
+          minSuccessTime: 1m
+          progressDeadline: 10m
+          maxFailures: 5%
+          maxConcurrency: 1
+  manifestWorkTemplate:
+    workload:
+      manifests:
+        - apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: hello
+            namespace: default
+          spec:
+            selector:
+              matchLabels:
+                app: hello
+            template:
+              metadata:
+                labels:
+                  app: hello
+              spec:
+                containers:
+                  - name: hello
+                    image: busybox
+                    command:
+                      ["sh", "-c", 'echo "Hello, Kubernetes!" && sleep 36000']
+    manifestConfigs:
+      - resourceIdentifier:
+          group: apps
+          resource: deployments
+          namespace: default
+          name: hello
+        conditionRules:
+          - condition: Progressing
+            type: CEL
+            celExpressions:
+              - |
+                !(
+                  (object.metadata.generation == object.status.observedGeneration) &&
+                  has(object.status.conditions) &&
+                  object.status.conditions.exists(c, c.type == 'Progressing' && c.status == 'True' && c.reason == 'NewReplicaSetAvailable')
+                )
+            messageExpression: |
+              result ? "Applying" : "Completed"
+          - condition: Degraded
+            type: CEL
+            celExpressions:
+              - |
+                (object.metadata.generation == object.status.observedGeneration) &&
+                (has(object.status.readyReplicas) && has(object.status.replicas) && object.status.readyReplicas < object.status.replicas)
+            messageExpression: |
+              result ? "Degraded" : "Healthy"
+```
 
 ## Status tracking
 
-The ManifestWorkReplicaSet example above refers to three placements each one will have its placementSummary in ManifestWorkReplicaSet status. The PlacementSummary shows the number of manifestWorks applied to the placement's clusters based on the placementRef's rolloutStrategy and total number of clusters.
+The PlacementSummary shows the number of manifestWorks applied to the placement's clusters based on the placementRef's rolloutStrategy and total number of clusters.
 The manifestWorkReplicaSet Summary aggregate the placementSummaries showing the total number of applied manifestWorks to all clusters.
 
 The manifestWorkReplicaSet has three status conditions;
@@ -173,54 +354,4 @@ status:
    progressing: 0
    degraded: 0
    total: 45
-```
-## Release and Enable Feature
-
-ManifestWorkReplicaSet is in alpha release and it is not enabled by default. In order to enable the ManifestWorkReplicaSet feature, it has to be enabled in the cluster-manager instance in the hub. Use the following command to edit the cluster-manager CR (custom resource) in the hub cluster.
-
-```shell
-$ oc edit ClusterManager cluster-manager
-```
-Add the workConfiguration field to the cluster-manager CR as below and save.
-
-```yaml
-kind: ClusterManager
-metadata:
-  name: cluster-manager
-spec:
-   ...
-  workConfiguration:
-    featureGates:
-    - feature: ManifestWorkReplicaSet
-      mode: Enable
-```
-In order to ensure the ManifestWorkReplicaSet has been enabled successfully, check the cluster-manager using the command below
-
-```shell
-$ oc get ClusterManager cluster-manager -o yml
-```
-You should find under the status->generation the cluster-manager-work-controller deployment has been added as below
-
-```yaml
-kind: ClusterManager
-metadata:
-  name: cluster-manager
-spec:
-   ...
-status:
-   ...
-  generations:
-    ...
-  - group: apps
-    lastGeneration: 2
-    name: cluster-manager-work-webhook
-    namespace: open-cluster-management-hub
-    resource: deployments
-    version: v1
-  - group: apps
-    lastGeneration: 1
-    name: cluster-manager-work-controller
-    namespace: open-cluster-management-hub
-    resource: deployments
-    version: v1
 ```
