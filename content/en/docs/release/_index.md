@@ -3,8 +3,85 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.0.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.1.0`.
 Continue reading to view upcoming releases:
+
+## `1.1.0`, 23 October 2025
+
+The Open Cluster Management team is excited to announce the release of OCM v1.1.0! This release focuses on
+enhancing scalability and performance through gRPC integration, improving namespace management capabilities,
+and streamlining addon operations.
+
+### 🌟 Key Highlights
+
+**gRPC Integration:**
+- **gRPC Server Support**: New gRPC-based communication channel providing improved performance and scalability
+  for hub-spoke communication
+- **gRPC Registration Driver**: Enhanced cluster registration mechanism using gRPC protocol
+- **gRPC CSR Approval**: Support for certificate signing requests via gRPC in addon framework
+
+**Enhanced Namespace Management:**
+- **Managed Namespaces**: Ability to manage namespaces across clusters via ManagedClusterSet, enabling
+  centralized namespace lifecycle management
+
+**Cluster Management Improvements:**
+- **Cluster Import Config Secret**: Improved security for cluster import operations with dedicated configuration secrets
+- **Cluster Labels in Klusterlet**: Ability to set cluster labels directly in Klusterlet types for easier
+  cluster categorization
+
+**ManifestWork Improvements:**
+- **ManifestWork Completion & TTL**: Automatic cleanup of completed ManifestWorks after a specified time-to-live period,
+  reducing resource overhead which can be enabled with **CleanUpCompletedManifestwork** feature gate
+- **Deleting Condition**: New condition type to track ManifestWork deletion status for better observability
+- **Work Resource Labels**: Ability to add custom labels to resources created by the work controller
+- **ManifestWorkReplicaset Rollout**: The rollout process now relies on Progressing and Degraded conditions of each
+  ManifestWork, which are defined in condition rules by custom CEL expressions.
+
+**Addon Framework Enhancements:**
+- **Config File Support**: New `--config-file` flag for addon enable command allowing configuration via files
+- **Placement Reference**: `--placement-ref` flag for addon create command to directly reference placements
+- **Template-based Addon Handling**: Improved addon template processing preventing premature execution
+- **Explicit Default Namespace**: Better namespace defaulting for addon registration
+
+**Addons:**
+- **Kueue Addon**: This integration solution is delivered as an addon, supporting simplified MultiKueue setup,
+  centralized resource management, enhanced multicluster scheduling, and flexible installation options.
+- **Opentelemetry Addon**: is a pluggable addon that automates the deployment and management of OpenTelemetry collector
+  on managed clusters. It provides observability and metrics collection capabilities across your multi-cluster environment.
+- **FleetConfig controller**: is a lightweight wrapper around `clusteradm` that enables declarative lifecycle management
+  for OCM multi-clusters. It automates Hub initialization, Spoke registration, as well as Klusterlet/ClusterManager
+  upgrades and cleanup.
+
+### 🔧 Breaking Changes
+
+- **CRD apiextensions v1beta1 Removed**: The v1beta1 version of CustomResourceDefinitions is no longer supported.
+  All CRDs must use apiextensions v1. Users should ensure their manifests are updated to use the v1 API version.
+
+### 📊 Community Growth
+
+This release includes contributions from **17 contributors** across all repositories, with **3 new contributors**
+joining our community:
+
+**New Contributors:**
+- [@ramekris3163](https://github.com/ramekris3163) - Added cluster labels feature to klusterlet types
+- [@coleenquadros](https://github.com/coleenquadros) - Dependency updates and maintenance
+- [@augustrh](https://github.com/augustrh) - Updated adopters documentation with latest use cases
+
+We extend our gratitude to all contributors who made this release possible!
+
+### 📦 Core Components
+
+- **api** v1.1.0 [changelog](https://github.com/open-cluster-management-io/api/releases/tag/v1.1.0)
+- **ocm** v1.1.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.1.0)
+- **addon-framework** v1.1.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v1.1.0)
+- **clusteradm** v1.1.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.1.0)
+
+We hope this release helps you better manage your Kubernetes clusters with improved performance and enhanced features.
+If you have any questions, please don't hesitate to contact us in our community channels or log issues on our repositories.
+
+Thank you to all contributors for your hard work and to the community for your continued support!
+
+---
 
 ## `1.0.0`, 20 June 2025
 
