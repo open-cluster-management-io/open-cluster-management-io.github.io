@@ -97,6 +97,12 @@ clusteradm join \
 It's recommended to save the command somewhere secure for future use. If it's lost, you can use
 `clusteradm get token` to get the generated command again.
 
+## Alternative: Enable gRPC-based registration
+
+By default, OCM uses direct Kubernetes API connections for cluster registration. For enhanced security and isolation, you can optionally enable gRPC-based registration, where managed clusters connect through a gRPC server instead of directly to the hub API server.
+
+To enable gRPC-based registration, see [Register a cluster via gRPC]({{< ref "register-cluster-via-grpc.md" >}}) for detailed instructions on configuring the ClusterManager and exposing the gRPC server.
+
 ## Check out the running instances of the control plane
 
 ```shell
