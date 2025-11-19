@@ -15,14 +15,14 @@ Traditional Argo CD resource delivery primarily uses a push model,
 where resources are deployed from a centralized Argo CD instance to remote or managed clusters.
 
 <div style="text-align: center; padding: 20px;">
-    <img src="https://github.com/open-cluster-management-io/argocd-pull-integration/raw/main/assets/push.png" alt="Argo CD Push Model" style="margin: 0 auto; width: 80%">
+    <img src="https://github.com/open-cluster-management-io/ocm/raw/main/solutions/deploy-argocd-apps-pull/assets/push.png" alt="Argo CD Push Model" style="margin: 0 auto; width: 80%">
 </div>
 
 With the OCM Argo CD add-on, users can leverage a pull based resource delivery model,
 where managed clusters pull and apply application configurations.
 
 <div style="text-align: center; padding: 20px;">
-    <img src="https://github.com/open-cluster-management-io/argocd-pull-integration/raw/main/assets/pull.png" alt="Argo CD Pull Model" style="margin: 0 auto; width: 80%">
+    <img src="https://github.com/open-cluster-management-io/ocm/raw/main/solutions/deploy-argocd-apps-pull/assets/pull.png" alt="Argo CD Pull Model" style="margin: 0 auto; width: 80%">
 </div>
 
 For more details, visit the
