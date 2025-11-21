@@ -84,57 +84,34 @@ kubectl --context kind-hub apply -f https://github.com/cert-manager/cert-manager
 kubectl --context kind-hub wait --for=condition=ready pod -l app.kubernetes.io/instance=cert-manager -n cert-manager --timeout=300s
 ```
 
-Next, create the certificate resources:
+Next, create the certificate resources using the kind cluster's root CA. This approach allows all pods and services in the kind cluster to automatically trust the cluster-proxy certificates without requiring additional CA certificate mounting:
 
 ```shell
+# Create namespace and certificates using kind cluster's CA
+kubectl --context kind-hub create namespace open-cluster-management-addon
+CA_CRT=$(kubectl --context kind-hub config view --raw -o jsonpath='{.clusters[?(@.name=="kind-hub")].cluster.certificate-authority-data}')
+CA_KEY=$(docker exec hub-control-plane cat /etc/kubernetes/pki/ca.key | base64 -w 0)
+
 kubectl --context kind-hub apply -f - <<EOF
 apiVersion: v1
-kind: Namespace
+kind: Secret
 metadata:
-  name: open-cluster-management-addon
+  name: kind-cluster-ca
+  namespace: open-cluster-management-addon
+type: kubernetes.io/tls
+data:
+  tls.crt: ${CA_CRT}
+  tls.key: ${CA_KEY}
 ---
-# Self-signed Issuer for bootstrapping the CA certificate
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: selfsigned-issuer
-  namespace: open-cluster-management-addon
-spec:
-  selfSigned: {}
----
-# CA Certificate for cluster-proxy
-# This creates a self-signed CA that will be used to issue certificates for services
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: cluster-proxy-ca
-  namespace: open-cluster-management-addon
-spec:
-  isCA: true
-  commonName: cluster-proxy-ca
-  secretName: cluster-proxy-ca-secret
-  duration: 87600h  # 10 years
-  privateKey:
-    algorithm: RSA
-    size: 4096
-  issuerRef:
-    name: selfsigned-issuer
-    kind: Issuer
-
----
-# Issuer that uses the CA certificate to issue certificates
-# Changed from ClusterIssuer to Issuer to allow accessing secret in the same namespace
-apiVersion: cert-manager.io/v1
-kind: Issuer
-metadata:
-  name: cluster-proxy-ca-issuer
+  name: kind-ca-issuer
   namespace: open-cluster-management-addon
 spec:
   ca:
-    secretName: cluster-proxy-ca-secret
+    secretName: kind-cluster-ca
 ---
-# Certificate for cluster-proxy-user-server
-# This creates a TLS certificate for the user server
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -154,7 +131,7 @@ spec:
     algorithm: RSA
     size: 2048
   issuerRef:
-    name: cluster-proxy-ca-issuer
+    name: kind-ca-issuer
     kind: Issuer
 EOF
 ```
@@ -174,7 +151,7 @@ Now install the cluster-proxy addon with the necessary configuration:
 # This is the Docker gateway IP that allows the Kind cluster to communicate with services
 # running on the host machine. The managed cluster will use this address to connect
 # to the proxy server running in the hub cluster.
-GATEWAY_IP="172.17.0.1"
+GATEWAY_IP=$(docker inspect hub-control-plane --format '{{.NetworkSettings.Networks.kind.IPAddress}}')
 
 kubectl config use-context kind-hub
 helm install -n open-cluster-management-addon --create-namespace \
