@@ -77,22 +77,30 @@ these clusters.&lt;/p&gt;
 corresponding &lt;code&gt;PlacementDecision&lt;/code&gt; with the selected clusters listed in the
 status. As an end-user, you can parse the selected clusters and then operate on
 the target clusters. You can also integrate a high-level workload orchestrator
-with the &lt;code&gt;PlacementDecision&lt;/code&gt; to leverage its scheduling capabilities.&lt;/p&gt;</description></item><item><title>Monitoring OCM using Prometheus-Operator</title><link>https://open-cluster-management.io/docs/getting-started/administration/monitoring/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/monitoring/</guid><description>&lt;p&gt;In this page, we provide a way to monitor your OCM environment using Prometheus-Operator.&lt;/p&gt;
-&lt;h2 id="before-you-get-started"&gt;Before you get started&lt;/h2&gt;
-&lt;p&gt;You must have an OCM environment set up. You can also follow our recommended &lt;a href="https://open-cluster-management.io/docs/getting-started/quick-start/"&gt;quick start guide&lt;/a&gt; to set up a playground OCM environment.&lt;/p&gt;
-&lt;p&gt;And then please &lt;a href="https://prometheus-operator.dev/docs/prologue/quick-start/"&gt;install the Prometheus-Operator&lt;/a&gt; in your hub cluster. You can also run the following commands copied from the official doc:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/prometheus-operator/kube-prometheus.git
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#204a87"&gt;cd&lt;/span&gt; kube-prometheus
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8f5902;font-style:italic"&gt;# Create the namespace and CRDs, and then wait for them to be availble before creating the remaining resources&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl create -f manifests/setup
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#8f5902;font-style:italic"&gt;# Wait until the &amp;#34;servicemonitors&amp;#34; CRD is created. The message &amp;#34;No resources found&amp;#34; means success in this context.&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#204a87;font-weight:bold"&gt;until&lt;/span&gt; kubectl get servicemonitors --all-namespaces &lt;span style="color:#000;font-weight:bold"&gt;;&lt;/span&gt; &lt;span style="color:#204a87;font-weight:bold"&gt;do&lt;/span&gt; date&lt;span style="color:#000;font-weight:bold"&gt;;&lt;/span&gt; sleep 1&lt;span style="color:#000;font-weight:bold"&gt;;&lt;/span&gt; &lt;span style="color:#204a87"&gt;echo&lt;/span&gt; &lt;span style="color:#4e9a06"&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span style="color:#000;font-weight:bold"&gt;;&lt;/span&gt; &lt;span style="color:#204a87;font-weight:bold"&gt;done&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;kubectl create -f manifests/
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="monitoring-the-control-plane-resource-usage"&gt;Monitoring the control-plane resource usage.&lt;/h2&gt;
-&lt;p&gt;You can use &lt;code&gt;kubectl proxy&lt;/code&gt; to open prometheus UI in your browser on &lt;a href="http://localhost:9090/"&gt;localhost:9090&lt;/a&gt;:&lt;/p&gt;</description></item><item><title>Placement</title><link>https://open-cluster-management.io/docs/concepts/content-placement/placement/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/content-placement/placement/</guid><description>&lt;p&gt;&lt;strong&gt;CHANGE NOTE&lt;/strong&gt;:&lt;/p&gt;
+with the &lt;code&gt;PlacementDecision&lt;/code&gt; to leverage its scheduling capabilities.&lt;/p&gt;</description></item><item><title>Monitoring OCM using OpenTelemetry Collector Addon and Prometheus-Operator</title><link>https://open-cluster-management.io/docs/getting-started/administration/monitoring/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/monitoring/</guid><description>&lt;p&gt;In this page, we provide a way to monitor your OCM environment using OpenTelemetry Collector Addon and Prometheus-Operator.&lt;/p&gt;
+&lt;h2 id="overview"&gt;Overview&lt;/h2&gt;
+&lt;p&gt;The OpenTelemetry Collector Addon is a pluggable addon for Open Cluster Management (OCM) that automates the deployment and management of OpenTelemetry collector on managed clusters. Built on the addon-framework, it provides observability and metrics collection capabilities across your multi-cluster environment.&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;┌─────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+│ Hub Cluster │ │ Managed Cluster │ │ Managed Cluster │
+│ │ │ │ │ │
+│ ┌─────────────┐ │ │ ┌──────────────┐ │ │ ┌──────────────┐ │
+│ │ Prometheus │ │◄───┤ │ OTEL │ │ │ │ OTEL │ │
+│ │ (Remote │ │ │ │ Collector │ │ │ │ Collector │ │
+│ │ Write) │ │ │ │ │ │ │ │ │ │
+│ └─────────────┘ │ │ └──────────────┘ │ │ └──────────────┘ │
+│ │ │ │ │ │ │ │
+│ ┌─────────────┐ │ │ ┌──────▼──────┐ │ │ ┌──────▼──────┐ │
+│ │ OTEL Addon │ │ │ │ Node Metrics│ │ │ │ Node Metrics│ │
+│ │ Manager │ │ │ │ cAdvisor │ │ │ │ cAdvisor │ │
+│ └─────────────┘ │ │ └─────────────┘ │ │ └─────────────┘ │
+└─────────────────┘ └──────────────────┘ └──────────────────┘
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="before-you-get-started"&gt;Before you get started&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;You must have an OCM environment set up. You can also follow our recommended &lt;a href="https://open-cluster-management.io/docs/getting-started/quick-start/"&gt;quick start guide&lt;/a&gt; to set up a playground OCM environment.&lt;/li&gt;
+&lt;li&gt;You must have Helm 3.x installed.&lt;/li&gt;
+&lt;li&gt;You have kubectl configured to access your hub cluster.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;And then install the OpenTelemetry addon with automatic Prometheus stack and certificate generation:&lt;/p&gt;</description></item><item><title>Placement</title><link>https://open-cluster-management.io/docs/concepts/content-placement/placement/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/content-placement/placement/</guid><description>&lt;p&gt;&lt;strong&gt;CHANGE NOTE&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;The &lt;code&gt;Placement&lt;/code&gt; and &lt;code&gt;PlacementDecision&lt;/code&gt; API v1alpha1 version will no longer be served in OCM v0.9.0.&lt;/p&gt;
