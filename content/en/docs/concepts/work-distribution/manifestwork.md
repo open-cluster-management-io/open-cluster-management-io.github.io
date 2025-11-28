@@ -840,7 +840,7 @@ The executor subject feature(introduced in release `0.9.0`) provides a way to cl
 takes effect so that we can explicitly check whether the executor has sufficient permission in the managed cluster.
 
 The following example clarifies the owner "executor1" of the `ManifestWork`, so before the work-agent applies the
-"default/test" `ConfigMap` to the managed cluster, it will first check whether the `ServiceAccount` "default/executor"
+"default/test" `ConfigMap` to the managed cluster, it will first check whether the `ServiceAccount` "default/executor1"
 has the permission to apply this `ConfigMap`
 
 ```yaml
