@@ -181,30 +181,38 @@ In the example above, the `placementRefs` references `placement-rollout-all` wit
 
 ## Rollout Mechanism
 
-The `ManifestWorkReplicaSet` rollout process is based on the `Progressing` and `Degraded` conditions of each `ManifestWork`. These conditions are not built-in but must be defined using [Custom CEL Expressions](https://open-cluster-management.io/docs/concepts/work-distribution/manifestwork/#custom-cel-expressions) in the `manifestConfigs` section.
+The `ManifestWorkReplicaSet` rollout process is based on the `Applied`, `Progressing` and `Degraded` conditions of each `ManifestWork`. `Progressing` and `Degraded` conditions are not built-in but must be defined using [Custom CEL Expressions](https://open-cluster-management.io/docs/concepts/work-distribution/manifestwork/#custom-cel-expressions) in the `manifestConfigs` section.
 
 ### Condition Requirements
 
+- **Applied condition (required)**: Indicates whether the ManifestWork has been successfully applied to the managed cluster by the work agent.
+  - This is a **built-in condition** that is automatically set by the work agent.
+  - The rollout controller checks this condition **first** to ensure the work has been properly applied before evaluating other conditions.
+  - If the `Applied` condition is missing, has Status=False/Unknown, or has a stale ObservedGeneration, it will never proceed to the next cluster.
+  - This ensures that rollout decisions are based on current status information, not stale data from previous generations.
+
 - **Progressing condition (required)**: Tracks whether the ManifestWork is currently being applied to the cluster. The rollout controller uses this condition to determine if a cluster deployment is in progress or completed.
   - For rollout strategies `Progressive` and `ProgressivePerGroup`, this is a **required** condition to determine if the rollout can proceed to the next cluster.
-  - When the `Progressing` condition is `False`, the deployment is considered complete and succeeded, and the rollout will continue to the next cluster based on `minSuccessTime`.
-  - If this condition is not defined, the rollout will never proceed to the next cluster (it will remain stuck waiting for the condition).
+  - When the `Progressing` condition is `False` (and `Applied` is ready), the deployment is considered complete and succeeded, and the rollout will continue to the next cluster based on `minSuccessTime`.
+  - If this condition is not defined or has a stale ObservedGeneration, the rollout will never proceed to the next cluster.
 
-- **Degraded condition (optional)**: Indicates if the ManifestWork has failed or encountered issues. 
+- **Degraded condition (optional)**: Indicates if the ManifestWork has failed or encountered issues.
   - This is an **optional** condition used only to determine failure states.
   - If the `Degraded` condition status is `True`, the rollout may stop or count towards `maxFailures`.
   - If this condition is not defined, the workload is assumed to never be degraded.
+  - If this condition exists but has a stale ObservedGeneration, the rollout will wait for it to catch up to avoid using stale status information.
 
 **Rollout Status Determination:**
 
-The rollout controller determines the status of each ManifestWork based on the combination of `Progressing` and `Degraded` condition values:
+The rollout controller determines the status of each ManifestWork based on the combination of `Applied`, `Progressing` and `Degraded` condition values:
 
-| Progressing | Degraded | Rollout Status | Description |
-|-------------|----------|----------------|-------------|
-| `True` | `True` | **Failed** | Work is progressing but degraded |
-| `True` | `False` or not set | **Progressing** | Work is being applied and is healthy |
-| `False` | `False` or not set | **Succeeded** | Work has been successfully applied |
-| Unknown/Not set | Any | **Progressing** | Conservative fallback: treat as still progressing |
+| Applied | Progressing | Degraded | Rollout Status | Description |
+|---------|-------------|----------|----------------|-------------|
+| `False` | Any | Any | **ToApply** | Work has not been applied or condition is stale |
+| `True`  | `True`  | `True` | **Failed** | Work is progressing but degraded |
+| `True`  | `True`  | `False` or not set | **Progressing** | Work is being applied and is healthy |
+| `True`  | `False` | `False` or not set | **Succeeded** | Work has been successfully applied |
+| `True`  | Unknown/Not set | Any | **Progressing** | Conservative fallback: treat as still progressing |
 
 ### Example: Progressive Rollout with Custom Conditions
 
