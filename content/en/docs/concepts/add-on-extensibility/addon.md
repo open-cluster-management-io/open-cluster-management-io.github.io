@@ -12,8 +12,11 @@ aliases:
 
 Open-cluster-management has a built-in mechanism named [addon-framework](https://github.com/open-cluster-management-io/addon-framework)
 to help developers to develop an extension based on the foundation components
-for the purpose of working with multiple clusters in custom cases. A typical
-addon should consist of two kinds of components:
+for the purpose of working with multiple clusters in custom cases.
+
+**API Version Note**: OCM addon APIs support both `v1alpha1` (stored version) and `v1beta1`. Both versions are automatically converted by Kubernetes. This documentation uses `v1alpha1`. For API version details, see [Enhancement: Addon API v1beta1](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/158-addon-v1beta1).
+
+A typical addon should consist of two kinds of components:
 
 - __Addon Agent__: A Kubernetes controller *in the managed cluster* that manages
   the managed cluster for the hub admins. A typical addon agent is expected to
