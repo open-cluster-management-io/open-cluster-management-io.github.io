@@ -4,11 +4,12 @@ approvers:
 - mikeshng
 - gurnben
 - dhaiducek
-- mprahl
 
 reviewers:
 - xuezhaojun
 - qiujian16
 - mikeshng
 - dhaiducek
+
+emeritus_approvers:
 - mprahl
