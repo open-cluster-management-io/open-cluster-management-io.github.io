@@ -443,14 +443,19 @@ In most cases, the add-ons have requirements to access the hub cluster or other 
 For example, an add-on agent needs to get a resource in its cluster namespace of the hub cluster, or the add-on agent
 needs to access the exposed service on the hub cluster.
 
-The addon-framework supports a solution that the addon can access the `kube-apiserver` with a kube style API or
-other endpoints on the hub cluster with client certificate authentication after it is registered using `CSR`.
+The addon-framework supports two authentication methods for add-on registration:
+- **CSR-based authentication**: Uses client certificates issued through Kubernetes CertificateSigningRequest (CSR) API
+- **Token-based authentication**: Uses Kubernetes ServiceAccount tokens (see [Token-based authentication](#token-based-authentication-alternative-to-csr) section)
+
+This section describes CSR-based authentication. For token-based authentication, see the dedicated section below.
+
+#### CSR-based registration
 
 The addon-framework provides an interface to help add-on manager to save the add-on configuration information to
 its corresponding `ManagedClusterAddOns`.
 
 On the managed cluster, the registration agent watches `ManagedClusterAddOns` on the hub cluster.
-The registration agent follows next steps to register an add-on:
+For CSR-based authentication, the registration agent follows these steps to register an add-on:
 
 1. The registration agent creates a `CSR` request with its own hub kubeConfig to register the add-on to the hub cluster.
 2. On the hub cluster, the add-on manager approves the `CSR` request. The addon-framework also provides
@@ -478,6 +483,8 @@ func NewRegistrationOption(kubeConfig *rest.Config, addonName, agentName string)
     }
 }
 ```
+
+> **Note**: This example shows CSR-based authentication with static RBAC bindings. For new add-ons, it's recommended to use the dynamic RBAC binding approach shown in the [Token-based authentication](#token-based-authentication-alternative-to-csr) section, which supports both CSR and token authentication.
 
 `CSRConfigurations` returns a list of `CSR` configuration for the addd-on agent in a managed cluster. The `CSR` will
 be created from the managed cluster for add-on agent with each `CSRConfiguration`.
@@ -516,7 +523,7 @@ The `utils.DefaultCSRApprover` is implemented to auto-approve all the `CSRs`. A 
 
 If the function is not set, the registration and certificate renewal of the add-on agent needs to be approved manually on the hub cluster.
 
-`PermissionConfig` defines a function for an add-on to set up RBAC permissions on the hub cluster after the `CSR` is approved.
+`PermissionConfig` defines a function for an add-on to set up RBAC permissions on the hub cluster.
 In this example, it will create a role in the managed cluster namespace with *get/list/watch* configmaps permissions,
 and bind the role to the group defined in `CSRConfigurations`.
 
@@ -531,7 +538,7 @@ agentAddon, err := addonfactory.NewAgentAddonFactory(helloworld.AddonName, hello
 
 ```
 
-After deploying the example add-on, you can find the registration configuration in the `ManagedClusterAddOn` status.
+After deploying the example add-on with CSR authentication, you can find the registration configuration in the `ManagedClusterAddOn` status.
 
 ```yaml
 apiVersion: addon.open-cluster-management.io/v1alpha1
@@ -621,6 +628,75 @@ $ kubectl get secret -n default
 NAME                              TYPE                                  DATA   AGE
 helloworld-hub-kubeconfig         Opaque                                3      9m52s
 ```
+
+> **Note**: The secret name `<addon-name>-hub-kubeconfig` is the same for both CSR and token authentication. The difference is in the secret contents: CSR auth stores client certificates, while token auth stores the ServiceAccount token.
+
+### Token-based authentication (Alternative to CSR)
+
+Starting from OCM v1.2.0, add-ons support token-based authentication as an alternative to CSR-based authentication. Token authentication uses Kubernetes ServiceAccount tokens with automatic rotation.
+
+**Primary use case:** Support platforms without a default CSR signer for `kubernetes.io/kube-apiserver-client` (e.g., EKS).
+
+**Note:** Token authentication only works with kubeClient type registrations. For customSigner type registrations, CSR-based authentication is required.
+
+#### How to support token authentication in your add-on
+
+Update your `PermissionConfig` to use dynamic RBAC binding:
+
+```go
+func NewRegistrationOption(kubeConfig *rest.Config, addonName, agentName string) (*agent.RegistrationOption, error) {
+    kubeclient, err := kubernetes.NewForConfig(kubeConfig)
+    if err != nil {
+        return nil, err
+    }
+
+    return &agent.RegistrationOption{
+        CSRConfigurations: agent.KubeClientSignerConfigurations(addonName, agentName),
+        // CSRApproveCheck is only needed for CSR authentication
+        CSRApproveCheck:   utils.DefaultCSRApprover(agentName),
+        // Use BindKubeClientRole - works with both CSR and token authentication
+        PermissionConfig: utils.NewRBACPermissionConfigBuilder(kubeclient).
+            BindKubeClientRole(&rbacv1.Role{
+                ObjectMeta: metav1.ObjectMeta{
+                    Name: "open-cluster-management:helloworld:agent",
+                },
+                Rules: []rbacv1.PolicyRule{
+                    {Verbs: []string{"get", "list", "watch"}, Resources: []string{"configmaps"}, APIGroups: []string{""}},
+                    {Verbs: []string{"get", "list", "watch"}, Resources: []string{"managedclusteraddons"}, APIGroups: []string{"addon.open-cluster-management.io"}},
+                },
+            }).
+            Build(),
+    }, nil
+}
+```
+
+**Key changes:**
+- Use `BindKubeClientRole(role)` or `BindKubeClientClusterRole(clusterRole)` instead of static `BindRoleToGroup()` or `BindRoleToUser()`
+- These methods automatically extract the subject from `addon.Status.Registrations` (predefined for CSR auth, set by agent for token auth)
+- Your addon manager needs `create` and `update` permissions on `RoleBinding` or `ClusterRoleBinding`
+
+**Why keep CSRConfigurations and CSRApproveCheck?** `CSRConfigurations` defines the kubeClient registration (including signer name), which is needed regardless of authentication type. `CSRApproveCheck` is only used for CSR authentication and ignored for token authentication.
+
+#### How authentication is configured
+
+The authentication method is configured at the **Klusterlet level** (not in your addon code). Cluster administrators set this:
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: Klusterlet
+metadata:
+  name: klusterlet
+spec:
+  registrationConfiguration:
+    addOnKubeClientRegistrationDriver:
+      authType: token  # or "csr" (default)
+```
+
+Your add-on code remains the same - it automatically adapts based on the Klusterlet configuration:
+
+- **Token auth**: Hub creates ServiceAccount and token infrastructure. Agent obtains token and stores it in `<addon-name>-hub-kubeconfig` secret. Auto-refreshed at 80% of lifetime.
+- **CSR auth**: Registration agent creates CSR, addon manager approves it, certificate stored in the same secret.
+- **Add-on agent**: Mounts the `<addon-name>-hub-kubeconfig` secret regardless of authentication type.
 
 ### Add your add-on agent supported configurations
 
