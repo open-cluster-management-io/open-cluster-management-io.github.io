@@ -136,6 +136,44 @@ it by setting `--status-sync-interval` on your work agent. Too short period can
 cause excessive burden to the control plane of the managed cluster, so generally
 a recommended lower bound for the interval is 5 second.
 
+### Feedback scrape types
+
+By default, the work agent uses a polling mechanism to periodically scrape feedback values from resources.
+You can configure the feedback collection mode using the `feedbackScrapeType` field in `manifestConfigs`.
+There are two available modes:
+
+- `Poll` (default): Periodically scrapes resource status at the interval specified by `--status-sync-interval` (default 30 seconds). This mode has lower overhead but provides delayed updates.
+- `Watch`: Uses Kubernetes watch API with dynamic informer registration to get real-time status updates whenever the resource changes. This mode provides immediate feedback but requires more resources on the managed cluster.
+
+Here is an example configuring watch-based feedback for a deployment:
+
+```yaml
+apiVersion: work.open-cluster-management.io/v1
+kind: ManifestWork
+metadata: ...
+spec:
+  workload: ...
+  manifestConfigs:
+    - resourceIdentifier:
+        group: apps
+        resource: deployments
+        namespace: default
+        name: hello
+      feedbackScrapeType: Watch
+      feedbackRules:
+        - type: WellKnownStatus
+```
+
+**Important considerations for Watch mode:**
+
+- Watch mode creates informers for each watched resource, which consumes more memory and API server connections on the managed cluster
+- The work agent has a configurable limit on the maximum number of concurrent watches (controlled by the `--max-feedback-watch` flag)
+- If the watch limit is reached, additional resources will automatically fall back to Poll mode
+- Watch mode is recommended for resources that change frequently and require real-time status updates
+- Poll mode is recommended for resources that change infrequently or when managing a large number of resources
+
+When a `ManifestWork` is deleted or when `feedbackScrapeType` changes from Watch to Poll, the work agent automatically cleans up the associated informers to free resources.
+
 In the end, the scraped values from feedback rules will be shown in the status:
 
 ```yaml
