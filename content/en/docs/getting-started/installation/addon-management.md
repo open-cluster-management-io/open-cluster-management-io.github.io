@@ -3,6 +3,8 @@ title: Add-on management
 weight: 3
 ---
 
+**API Version Note**: OCM addon APIs support both `v1alpha1` (stored version) and `v1beta1`. Both versions are automatically converted by Kubernetes. This documentation uses `v1alpha1`. For API version details, see [Enhancement: Addon API v1beta1](https://github.com/open-cluster-management-io/enhancements/tree/main/enhancements/sig-architecture/158-addon-v1beta1).
+
 ## Add-on enablement
 
 From a user's perspective, to install the addon to the hub cluster the hub admin
