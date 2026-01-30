@@ -51,16 +51,27 @@ export CTX_MANAGED_CLUSTER=<your managed cluster context>
 ```
 
 Copy the previously generated command -- `clusteradm join`, and add the arguments respectively based
-on the different distribution.
+on your deployment scenario.
 
 **NOTE**: If there is no configmap `kube-root-ca.crt` in kube-public namespace of the hub cluster,
 the flag --ca-file should be set to provide a valid hub ca file to help set
 up the external client.
 
+### Understanding deployment scenarios
+
+Before running the `clusteradm join` command, understand your deployment scenario:
+
+- **Both hub and managed clusters are local (e.g., kind)**: Use `--force-internal-endpoint-lookup` flag. Both clusters must be able to reach each other over the network (typically when running on the same machine).
+
+- **Managed cluster is on a cloud provider (GKE, AKS, etc.)**: The `--hub-apiserver` URL must be a network-accessible endpoint that the cloud-hosted managed cluster can reach. A localhost URL (e.g., `https://127.0.0.1:xxxxx`) from a local kind hub cluster **will not work**. Your hub cluster must be network-accessible from the cloud environment.
+
+- **EKS clusters**: AWS EKS requires special handling with registration drivers (grpc or awsirsa) because EKS doesn't support CSR API by default. See the [Running on EKS]({{< ref "/docs/getting-started/installation/running-on-eks" >}}) guide.
+
 {{< tabpane text=true >}}
-{{% tab header="kind"  %}}
+{{% tab header="kind (local testing)"  %}}
   ```shell
-  # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+  # Both hub and managed clusters running locally (e.g., two kind clusters on the same machine)
+  # Use --force-internal-endpoint-lookup to allow internal endpoint resolution
   clusteradm join \
       --hub-token <your token data> \
       --hub-apiserver <your hub cluster endpoint> \
@@ -69,6 +80,30 @@ up the external client.
       --force-internal-endpoint-lookup \
       --context ${CTX_MANAGED_CLUSTER}
   ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers"  %}}
+  ```shell
+  # Managed cluster on GKE, AKS, or other standard Kubernetes cloud provider
+  # Hub cluster must have a network-accessible API server endpoint
+  # Do NOT use --force-internal-endpoint-lookup
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \   # Must be accessible from the cloud
+      --wait \
+      --cluster-name "cluster1" \   # Or other arbitrary unique name
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+
+  **Important**: If your hub cluster is a local kind cluster, the managed cluster will not be able to reach
+  the localhost API server URL. You must use a hub cluster that is network-accessible from your cloud
+  environment, or set up appropriate networking (load balancer, VPN, ingress, etc.) to expose your hub API server.
+{{% /tab %}}
+{{% tab header="EKS"  %}}
+  AWS EKS clusters require special registration drivers (grpc or awsirsa) because EKS doesn't support
+  the CSR API by default.
+
+  Please follow the [Running on EKS]({{< ref "/docs/getting-started/installation/running-on-eks" >}}) guide
+  for detailed instructions on registering EKS clusters.
 {{% /tab %}}
 {{% tab header="k3s, openshift 4.X"  %}}
   ```shell
@@ -87,7 +122,7 @@ up the external client.
 You can configure CPU and memory resources for the klusterlet agent components by adding resource flags to the `clusteradm join` command. These flags indicate that all components in the klusterlet agent will use the same resource requirement or limit:
 
 {{< tabpane text=true >}}
-{{% tab header="kind"  %}}
+{{% tab header="kind (local testing)"  %}}
   ```shell
   # Configure resource requests and limits for klusterlet components
   clusteradm join \
@@ -99,6 +134,20 @@ You can configure CPU and memory resources for the klusterlet agent components b
       --resource-limits cpu=800m,memory=800Mi \
       --resource-requests cpu=400m,memory=400Mi \
       --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers"  %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=800m,memory=800Mi \
+      --resource-requests cpu=400m,memory=400Mi \
       --context ${CTX_MANAGED_CLUSTER}
   ```
 {{% /tab %}}
@@ -138,9 +187,9 @@ In hosted mode, the cluster where the klusterlet is running is called the hostin
 to the hosting cluster to register the managed cluster to the hub.
 
 {{< tabpane text=true >}}
-{{% tab header="kind"  %}}
+{{% tab header="kind (local testing)"  %}}
   ```shell
-  # NOTE for KinD clusters:
+  # NOTE for KinD clusters (both hub and managed are kind on the same machine):
   #  1. hub is KinD, use the parameter: --force-internal-endpoint-lookup
   #  2. managed is Kind, --managed-cluster-kubeconfig should be internal: `kind get kubeconfig --name managed --internal`
   clusteradm join \
@@ -153,6 +202,24 @@ to the hosting cluster to register the managed cluster to the hub.
       --force-internal-endpoint-lookup \
       --context <your hosting cluster context>
   ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers" %}}
+  ```shell
+  # For cloud-hosted managed clusters
+  # Hub cluster must have a network-accessible API server endpoint
+  # Do NOT use --force-internal-endpoint-lookup
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \   # Must be accessible from the cloud
+      --wait \
+      --cluster-name "cluster1" \    # Or other arbitrary unique name
+      --mode hosted \
+      --managed-cluster-kubeconfig <your managed cluster kubeconfig> \
+      --context <your hosting cluster context>
+  ```
+{{% /tab %}}
+{{% tab header="EKS" %}}
+  AWS EKS clusters require special registration drivers. See the [Running on EKS]({{< ref "/docs/getting-started/installation/running-on-eks" >}}) guide.
 {{% /tab %}}
 {{% tab header="k3s, openshift 4.X" %}}
   ```shell
@@ -173,7 +240,7 @@ to the hosting cluster to register the managed cluster to the hub.
 You can also configure CPU and memory resources when using hosted mode by adding the same resource flags:
 
 {{< tabpane text=true >}}
-{{% tab header="kind"  %}}
+{{% tab header="kind (local testing)"  %}}
   ```shell
   # Configure resource requests and limits for klusterlet components in hosted mode
   clusteradm join \
@@ -187,6 +254,22 @@ You can also configure CPU and memory resources when using hosted mode by adding
       --resource-limits cpu=800m,memory=800Mi \
       --resource-requests cpu=400m,memory=400Mi \
       --force-internal-endpoint-lookup \
+      --context <your hosting cluster context>
+  ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers" %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components in hosted mode
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --mode hosted \
+      --managed-cluster-kubeconfig <your managed cluster kubeconfig> \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=800m,memory=800Mi \
+      --resource-requests cpu=400m,memory=400Mi \
       --context <your hosting cluster context>
   ```
 {{% /tab %}}
@@ -218,9 +301,10 @@ cluster.
 `v0.12.0`
 
 {{< tabpane text=true >}}
-{{% tab header="kind" %}}
+{{% tab header="kind (local testing)" %}}
   ```shell
-  # NOTE: For KinD clusters use the parameter: --force-internal-endpoint-lookup
+  # Both hub and managed clusters running locally
+  # Use --force-internal-endpoint-lookup
   clusteradm join \
       --hub-token <your token data> \
       --hub-apiserver <your hub cluster endpoint> \
@@ -228,6 +312,19 @@ cluster.
       --cluster-name "cluster1" \    # Or other arbitrary unique name
       --singleton \
       --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers" %}}
+  ```shell
+  # Managed cluster on cloud provider
+  # Hub must be network-accessible, do NOT use --force-internal-endpoint-lookup
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \   # Or other arbitrary unique name
+      --singleton \
       --context ${CTX_MANAGED_CLUSTER}
   ```
 {{% /tab %}}
@@ -249,7 +346,7 @@ cluster.
 You can also configure CPU and memory resources when using singleton mode:
 
 {{< tabpane text=true >}}
-{{% tab header="kind" %}}
+{{% tab header="kind (local testing)" %}}
   ```shell
   # Configure resource requests and limits for klusterlet components in singleton mode
   clusteradm join \
@@ -262,6 +359,21 @@ You can also configure CPU and memory resources when using singleton mode:
       --resource-limits cpu=600m,memory=600Mi \
       --resource-requests cpu=300m,memory=300Mi \
       --force-internal-endpoint-lookup \
+      --context ${CTX_MANAGED_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers" %}}
+  ```shell
+  # Configure resource requests and limits for klusterlet components in singleton mode
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "cluster1" \
+      --singleton \
+      --resource-qos-class ResourceRequirement \
+      --resource-limits cpu=600m,memory=600Mi \
+      --resource-requests cpu=300m,memory=300Mi \
       --context ${CTX_MANAGED_CLUSTER}
   ```
 {{% /tab %}}
