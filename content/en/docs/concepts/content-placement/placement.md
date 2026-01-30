@@ -526,6 +526,12 @@ metadata:
 ...
 ```
 
+#### Topology-aware spreading with decision groups
+
+Decision groups can be used to distribute workloads across failure domains (zones, regions, cloud providers) for disaster tolerance and high availability. By defining decision groups based on topology labels, you can control how clusters are distributed across your infrastructure.
+
+For detailed examples and use cases of topology-aware workload spreading, see [Spread workload across failure domains]({{< ref "docs/scenarios/spread-workload-across-topology" >}}).
+
 ### Rollout Strategy
 
 Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, [Addon](../add-on-extensibility/addon/#rollout-strategy) and [ManifestWorkReplicaSet](../work-distribution/manifestworkreplicaset/) to apply workloads.
