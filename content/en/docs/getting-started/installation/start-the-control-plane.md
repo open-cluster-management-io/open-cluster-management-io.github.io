@@ -97,6 +97,20 @@ clusteradm join \
 It's recommended to save the command somewhere secure for future use. If it's lost, you can use
 `clusteradm get token` to get the generated command again.
 
+**Important Note on Network Accessibility:**
+
+The `--hub-apiserver` URL in the generated command must be network-accessible from your managed clusters. Consider the following scenarios:
+
+- **Local hub cluster (kind, minikube, etc.)**: The generated URL will typically be a localhost address (e.g., `https://127.0.0.1:xxxxx`). This URL is only accessible from your local machine and **will not work** for remote managed clusters hosted on cloud providers (GKE, EKS, AKS, etc.).
+
+- **Cloud-hosted managed clusters**: If you plan to register managed clusters running on cloud providers (GKE, EKS, AKS, etc.), your hub cluster must be network-accessible from those cloud environments. This means:
+  - Use a cloud-hosted hub cluster, or
+  - Set up proper networking (load balancer, VPN, ingress, etc.) to expose your hub API server with a publicly accessible endpoint
+
+- **Local testing (both hub and managed on the same machine)**: For testing with multiple local clusters (e.g., two kind clusters on the same machine), the localhost URL works when using the `--force-internal-endpoint-lookup` flag. See the [Register a cluster]({{< ref "/docs/getting-started/installation/register-a-cluster" >}}) documentation for details.
+
+For production deployments, it's recommended to use a hub cluster that provides a stable, network-accessible API server endpoint.
+
 ## Check out the running instances of the control plane
 
 ```shell
