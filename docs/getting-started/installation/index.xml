@@ -3,7 +3,8 @@
 &lt;li&gt;The hub cluster should be &lt;code&gt;v1.19+&lt;/code&gt;.
 (To run on hub cluster version between [&lt;code&gt;v1.16&lt;/code&gt;, &lt;code&gt;v1.18&lt;/code&gt;],
 please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rdquo;).&lt;/li&gt;
-&lt;li&gt;Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like &lt;a href="https://github.com/aws/containers-roadmap/issues/1856"&gt;EKS&lt;/a&gt;) don&amp;rsquo;t support it, you can:
+&lt;li&gt;Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions(like &lt;a href="https://github.com/aws/containers-roadmap/issues/1856"&gt;EKS&lt;/a&gt;)
+don&amp;rsquo;t support it, you can:
 &lt;ul&gt;
 &lt;li&gt;follow &lt;a href="https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/"&gt;this&lt;/a&gt; article to run OCM natively on EKS&lt;/li&gt;
 &lt;li&gt;or choose the &lt;a href="https://github.com/open-cluster-management-io/multicluster-controlplane"&gt;multicluster-controlplane&lt;/a&gt; as the hub controlplane&lt;/li&gt;
@@ -45,7 +46,9 @@ please manually enable feature gate &amp;ldquo;V1beta1CSRAPICompatibility&amp;rd
 &lt;p&gt;From a user&amp;rsquo;s perspective, to install the addon to the hub cluster the hub admin
 should register a globally-unique &lt;code&gt;ClusterManagementAddon&lt;/code&gt; resource as a singleton
 placeholder in the hub cluster. For instance, the &lt;a href="https://github.com/open-cluster-management-io/addon-framework/tree/main/examples/helloworld"&gt;helloworld&lt;/a&gt;
-add-on can be registered to the hub cluster by creating:&lt;/p&gt;</description></item><item><title>Running on EKS</title><link>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</guid><description>&lt;p&gt;Use this solution to use AWS EKS cluster as a hub. This solution uses AWS IAM roles for authentication,
+add-on can be registered to the hub cluster by creating:&lt;/p&gt;</description></item><item><title>Register a cluster via gRPC</title><link>https://open-cluster-management.io/docs/getting-started/installation/register-cluster-via-grpc/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/register-cluster-via-grpc/</guid><description>&lt;p&gt;gRPC-based registration provides an alternative connection mechanism for managed clusters to register with the hub cluster. Instead of each klusterlet agent connecting directly to the hub&amp;rsquo;s Kubernetes API server, agents communicate through a gRPC server deployed on the hub. This approach offers better isolation and reduces the exposure of the hub API server to managed clusters.&lt;/p&gt;
+&lt;h2 id="overview"&gt;Overview&lt;/h2&gt;
+&lt;p&gt;In the traditional registration model, each managed cluster&amp;rsquo;s klusterlet agent requires a hub-kubeconfig with limited permissions to connect directly to the hub API server. The gRPC-based registration introduces a gRPC server on the hub that acts as an intermediary, providing the same registration process while changing only the connection mechanism.&lt;/p&gt;</description></item><item><title>Running on EKS</title><link>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/</guid><description>&lt;p&gt;Use this solution to use AWS EKS cluster as a hub. This solution uses AWS IAM roles for authentication,
 hence only Managed Clusters running on EKS will be able to use this solution.&lt;/p&gt;
 &lt;p&gt;Refer &lt;a href="https://github.com/open-cluster-management-io/ocm/tree/main/solutions/joining-hub-and-spoke-with-aws-auth"&gt;this&lt;/a&gt;
 article for detailed registration instructions.&lt;/p&gt;</description></item></channel></rss>
