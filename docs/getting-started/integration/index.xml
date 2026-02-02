@@ -9,8 +9,8 @@ where resources are deployed from a centralized Argo CD instance to remote or ma
 &lt;div style="text-align: center; padding: 20px;"&gt;
  &lt;img src="https://github.com/open-cluster-management-io/ocm/raw/main/solutions/deploy-argocd-apps-pull/assets/push.png" alt="Argo CD Push Model" style="margin: 0 auto; width: 80%"&gt;
 &lt;/div&gt;
-&lt;p&gt;With the OCM Argo CD add-on, users can leverage a pull based resource delivery model,
-where managed clusters pull and apply application configurations.&lt;/p&gt;</description></item><item><title>Cluster proxy</title><link>https://open-cluster-management.io/docs/getting-started/integration/cluster-proxy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/cluster-proxy/</guid><description>&lt;p&gt;&lt;a href="https://github.com/open-cluster-management-io/cluster-proxy"&gt;Cluster proxy&lt;/a&gt;
+&lt;p&gt;With the OCM Argo CD add-ons, users can leverage a pull based resource delivery model,
+where managed clusters pull and apply application configurations. OCM provides two pull model options:&lt;/p&gt;</description></item><item><title>Cluster proxy</title><link>https://open-cluster-management.io/docs/getting-started/integration/cluster-proxy/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/integration/cluster-proxy/</guid><description>&lt;p&gt;&lt;a href="https://github.com/open-cluster-management-io/cluster-proxy"&gt;Cluster proxy&lt;/a&gt;
 is an OCM addon providing L4 network connectivity from hub cluster to
 the managed clusters without &lt;strong&gt;any additional requirement&lt;/strong&gt; to the managed
 cluster&amp;rsquo;s network infrastructure by leveraging the Kubernetes official SIG
