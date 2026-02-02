@@ -43,6 +43,17 @@ operations more flexible and powerful.
 - **Managed Namespaces**: Ability to configure managed namespaces during cluster join operations
 - **Custom Registration Driver**: Support for specifying custom addon registration drivers via CLI
 
+**ClusterProfile Integration:**
+- **ClusterProfile API Upgrade**: Enhanced ClusterProfile API with streamlined spec and improved status fields for
+  better cluster management configuration and status tracking, adopting the Kubernetes cluster-inventory-api from
+  sig-multicluster
+- **ManagedClusterSet-Based Synchronization**: Refactored ClusterProfile controller to automatically sync clusters
+  to ClusterProfiles based on ManagedClusterSet and ManagedClusterSetBinding relationships, replacing hardcoded
+  namespace logic with dynamic cluster-set membership
+- **ClusterProfile Plugin Support**: Added ClusterProfile-based access and credential provider plugins in cluster-proxy
+  and managed-serviceaccount addons, enabling label-based filtering and credential management based on ClusterProfile
+  membership
+
 **Addons:**
 - **Dynamic Scoring Framework v0.1.0**: New addon providing dynamic cluster scoring capabilities based on custom
   metrics, enabling advanced placement decisions and workload optimization
@@ -75,9 +86,13 @@ We extend our gratitude to all contributors who made this release possible!
 - **addon-framework** v1.2.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v1.2.0)
 - **clusteradm** v1.2.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.2.0)
 
-### 📦 Featured Addon
+### 📦 Addons
 
 - **dynamic-scoring-framework** v0.1.0 [changelog](https://github.com/open-cluster-management-io/addon-contrib/releases/tag/dynamic-scoring-framework%2Fv0.1.0)
+- **cluster-proxy** v0.10.0 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.10.0)
+- **managed-serviceaccount** v0.10.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.10.0)
+- **governance-policy** v0.18.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.18.0)
+- **argocd-pull-integration** v0.27.0 [changelog](https://github.com/open-cluster-management-io/argocd-pull-integration/releases/tag/v0.27.0)
 
 We hope this release helps you better manage your Kubernetes clusters with enhanced authentication options and improved
 addon capabilities. If you have any questions, please don't hesitate to contact us in our community channels or log
