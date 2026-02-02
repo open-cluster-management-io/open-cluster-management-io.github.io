@@ -117,6 +117,51 @@ Before running the `clusteradm join` command, understand your deployment scenari
 {{% /tab %}}
 {{< /tabpane >}}
 
+### Bootstrap the hub cluster as a klusterlet (Optional)
+
+In addition to registering external clusters, the hub cluster can register itself as a managed cluster by installing the klusterlet components (registration agent and work agent) on the hub. This allows the hub to be managed like any other cluster in your OCM environment.
+
+To bootstrap the hub cluster as a klusterlet, run the following `clusteradm join` command with hub as context:
+
+{{< tabpane text=true >}}
+{{% tab header="kind (local testing)"  %}}
+  ```shell
+  # Register the hub cluster as its own managed cluster
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \
+      --wait \
+      --cluster-name "local-cluster" \    # Common name for hub as klusterlet
+      --force-internal-endpoint-lookup \
+      --context ${CTX_HUB_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="GKE, AKS, other cloud providers"  %}}
+  ```shell
+  # Register the hub cluster as its own managed cluster
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \   # Must be accessible from the cloud
+      --wait \
+      --cluster-name "local-cluster" \    # Common name for hub as klusterlet
+      --context ${CTX_HUB_CLUSTER}
+  ```
+{{% /tab %}}
+{{% tab header="k3s, openshift 4.X"  %}}
+  ```shell
+  # Register the hub cluster as its own managed cluster
+  clusteradm join \
+      --hub-token <your token data> \
+      --hub-apiserver <your hub cluster endpoint> \ 
+      --wait \
+      --cluster-name "local-cluster" \    # Common name for hub as klusterlet
+      --context ${CTX_HUB_CLUSTER}
+  ```
+{{% /tab %}}
+{{< /tabpane >}}
+
+**Note**: The klusterlet components will run alongside the hub components in the same cluster. Ensure your hub cluster has sufficient resources to accommodate both hub and agent workloads.
+
 ### Configure CPU and memory resources
 
 You can configure CPU and memory resources for the klusterlet agent components by adding resource flags to the `clusteradm join` command. These flags indicate that all components in the klusterlet agent will use the same resource requirement or limit:
