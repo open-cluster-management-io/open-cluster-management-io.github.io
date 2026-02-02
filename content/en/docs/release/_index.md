@@ -14,7 +14,7 @@ operations more flexible and powerful.
 
 ### 🌟 Key Highlights
 
-**Token-Based Authentication:**
+**Token-Based Addon Registration:**
 - **Token Driver for Addon Registration**: New token-based authentication driver enabling addons to authenticate
   without certificate-based mechanisms, simplifying addon deployment in restricted environments
 - **Token Infrastructure**: Complete token request service and controller infrastructure supporting secure
@@ -34,14 +34,9 @@ operations more flexible and powerful.
 - **Watch-Based Feedback**: Dynamic informer lifecycle management with watch-based feedback for real-time status updates,
   significantly improving performance for large-scale status monitoring
 - **ManifestWorkReplicaSet Status Fields**: Enhanced MWRS API with additional status fields for better rollout tracking
-- **Feedback Scrape Type**: New `feedbackScrapeType` field enabling granular control over status feedback collection strategy
-- **Import-Renderers Configuration**: Support for custom import renderers, extending ManifestWork templating capabilities
-- **Duplicate Manifest Detection**: Webhook validation to prevent duplicate manifests in ManifestWork, improving reliability
 
 **gRPC Enhancements:**
 - **Cluster Join via gRPC**: Full support for joining clusters using gRPC protocol in clusteradm
-- **LoadBalancer Support**: gRPC endpoint type now supports LoadBalancer service configuration
-- **Enhanced gRPC Registration**: Improved cluster registration mechanism using gRPC for better scalability
 
 **CLI & Developer Experience:**
 - **ArgoCD Agent Support**: New clusteradm commands for simplified ArgoCD pull model addon deployment
