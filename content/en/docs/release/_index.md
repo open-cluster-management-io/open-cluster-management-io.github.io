@@ -3,8 +3,89 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.1.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.2.0`.
 Continue reading to view upcoming releases:
+
+## `1.2.0`, 2 February 2026
+
+The Open Cluster Management team is excited to announce the release of OCM v1.2.0! This release brings significant
+enhancements in authentication mechanisms, addon management, and observability capabilities, making multi-cluster
+operations more flexible and powerful.
+
+### 🌟 Key Highlights
+
+**Token-Based Addon Registration:**
+- **Token Driver for Addon Registration**: New token-based authentication driver enabling addons to authenticate
+  without certificate-based mechanisms, simplifying addon deployment in restricted environments
+- **Token Infrastructure**: Complete token request service and controller infrastructure supporting secure
+  token-based authentication flows
+- **Template Addon Token Support**: Template-based addons now support token authentication, providing more
+  flexible deployment options
+
+**Enhanced Addon Framework:**
+- **v1beta1 API Graduation**: Addon APIs (`ManagedClusterAddon` and `AddOnDeploymentConfig`) graduated to v1beta1,
+  providing a stable interface for addon management
+- **Addon API Conversion Webhook**: Automatic conversion between v1alpha1 and v1beta1 APIs ensuring smooth migration
+  and backward compatibility
+- **Addon Registration Support**: Enhanced addon registration capabilities with driver selection in addon status
+- **Image Override Utilities**: New utilities for managed cluster annotations enabling flexible image override patterns
+
+**ManifestWork Improvements:**
+- **Watch-Based Feedback**: Dynamic informer lifecycle management with watch-based feedback for real-time status updates,
+  significantly improving performance for large-scale status monitoring
+- **ManifestWorkReplicaSet Status Fields**: Enhanced MWRS API with additional status fields for better rollout tracking
+
+**gRPC Enhancements:**
+- **Cluster Join via gRPC**: Full support for joining clusters using gRPC protocol in clusteradm
+
+**CLI & Developer Experience:**
+- **ArgoCD Agent Support**: New clusteradm commands for simplified ArgoCD pull model addon deployment
+- **Managed Namespaces**: Ability to configure managed namespaces during cluster join operations
+- **Custom Registration Driver**: Support for specifying custom addon registration drivers via CLI
+
+**Addons:**
+- **Dynamic Scoring Framework v0.1.0**: New addon providing dynamic cluster scoring capabilities based on custom
+  metrics, enabling advanced placement decisions and workload optimization
+
+### 🔧 Breaking Changes
+
+- **Duplicate Manifest Detection**: ManifestWork webhook validation now rejects manifests with duplicate resource
+  identifiers. Users should ensure their ManifestWork objects don't contain duplicate manifests before upgrading.
+
+### 📊 Community Growth
+
+This release includes contributions from **numerous contributors** across all repositories, with **6 new contributors**
+joining our community:
+
+**New Contributors:**
+- [@annelaucg](https://github.com/annelaucg) - ManifestWorkReplicaSet status fields and transition time updates
+- [@guilhem](https://github.com/guilhem) - Import-renderers configuration implementation
+- [@ccardenosa](https://github.com/ccardenosa) - Fixed race condition for CA bundle ConfigMap
+- [@ericogr](https://github.com/ericogr) - Work rolebinding cleanup improvements
+- [@ConradKash](https://github.com/ConradKash) - Managed namespaces feature
+- [@KA-Takeuchi](https://github.com/KA-Takeuchi) - Dynamic scoring framework addon
+- [@aspanner](https://github.com/aspanner) - Documentation improvements
+
+We extend our gratitude to all contributors who made this release possible!
+
+### 📦 Core Components
+
+- **api** v1.2.0 [changelog](https://github.com/open-cluster-management-io/api/releases/tag/v1.2.0)
+- **ocm** v1.2.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.2.0)
+- **addon-framework** v1.2.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v1.2.0)
+- **clusteradm** v1.2.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.2.0)
+
+### 📦 Featured Addon
+
+- **dynamic-scoring-framework** v0.1.0 [changelog](https://github.com/open-cluster-management-io/addon-contrib/releases/tag/dynamic-scoring-framework%2Fv0.1.0)
+
+We hope this release helps you better manage your Kubernetes clusters with enhanced authentication options and improved
+addon capabilities. If you have any questions, please don't hesitate to contact us in our community channels or log
+issues on our repositories.
+
+Thank you to all contributors for your hard work and to the community for your continued support!
+
+---
 
 ## `1.1.0`, 23 October 2025
 
