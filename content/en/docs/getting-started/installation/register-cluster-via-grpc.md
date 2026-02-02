@@ -279,7 +279,7 @@ cluster1   true           https://hub-grpc.example.com   True     True        2m
 Check the klusterlet status on the managed cluster:
 
 ```shell
-kubectl get klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
+kubectl get klusterlet klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
 ```
 
 The klusterlet should show the gRPC registration driver in use:
