@@ -238,7 +238,7 @@ clusteradm join \
 If you used Option A above, skip this step. If you used Option B, configure the klusterlet to use the gRPC registration driver:
 
 ```shell
-kubectl edit klusterlet  klusterlet --context ${CTX_MANAGED_CLUSTER}
+kubectl edit klusterlet klusterlet --context ${CTX_MANAGED_CLUSTER}
 ```
 
 Update the klusterlet configuration:
@@ -418,7 +418,7 @@ If the managed cluster cannot connect to the gRPC server:
 
 3. Verify the klusterlet configuration:
    ```shell
-   kubectl get klusterlet  klusterlet -o jsonpath='{.spec.registrationConfiguration.registrationDriver.authType}' --context ${CTX_MANAGED_CLUSTER}
+   kubectl get klusterlet klusterlet -o jsonpath='{.spec.registrationConfiguration.registrationDriver.authType}' --context ${CTX_MANAGED_CLUSTER}
    ```
 
    Expected output: `grpc`
@@ -464,7 +464,7 @@ Expected output: `grpc`
 
 If the driver is not set or incorrect:
 ```shell
-kubectl edit klusterlet  klusterlet --context ${CTX_MANAGED_CLUSTER}
+kubectl edit klusterlet klusterlet --context ${CTX_MANAGED_CLUSTER}
 ```
 
 And ensure:
