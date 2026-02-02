@@ -1,0 +1,493 @@
+---
+title: Register a cluster via gRPC
+weight: 3
+---
+
+gRPC-based registration provides an alternative connection mechanism for managed clusters to register with the hub cluster. Instead of each klusterlet agent connecting directly to the hub's Kubernetes API server, agents communicate through a gRPC server deployed on the hub. This approach offers better isolation and reduces the exposure of the hub API server to managed clusters.
+
+## Overview
+
+In the traditional registration model, each managed cluster's klusterlet agent requires a hub-kubeconfig with limited permissions to connect directly to the hub API server. The gRPC-based registration introduces a gRPC server on the hub that acts as an intermediary, providing the same registration process while changing only the connection mechanism.
+
+### Benefits
+
+- **Better isolation**: Managed cluster agents do not connect directly to the hub API server
+- **Reduced hub API server exposure**: Only the gRPC server needs to be accessible to managed clusters
+- **Maintained compatibility**: Uses the same underlying APIs (ManagedCluster, ManifestWork, etc.)
+- **Enhanced security**: Provides an additional layer of abstraction between managed clusters and the hub control plane
+
+## Architecture
+
+The gRPC-based registration consists of:
+
+1. **gRPC Server**: Deployed on the hub cluster, exposes gRPC endpoints for cluster registration
+2. **gRPC Driver**: Implemented in both the klusterlet agent and hub components to handle gRPC communication
+3. **CloudEvents Protocol**: Used for resource management operations (ManagedCluster, ManifestWork, CSR, Lease, Events, ManagedClusterAddOn)
+
+## Prerequisites
+
+- **OCM v1.2.0 or later** (when gRPC support was introduced)
+- Hub cluster with cluster manager installed
+- Network connectivity from managed clusters to the hub's gRPC server endpoint
+- Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl), [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/), and [clusteradm](https://open-cluster-management.io/getting-started/installation/start-the-control-plane/#install-clusteradm-cli-tool) are installed
+- A method to expose the gRPC server (using LoadBalancer service)
+
+### Network requirements
+
+Configure your network settings for the managed clusters to allow the following connections:
+
+| Direction | Endpoint                          | Protocol | Purpose                                | Used by                            |
+|-----------|-----------------------------------|----------|----------------------------------------|------------------------------------|
+| Outbound  | https://{hub-grpc-server-url}     | TCP      | gRPC server endpoint on the hub cluster | OCM agents on the managed clusters |
+
+## Deploy the gRPC server on the hub
+
+### Step 1: Configure the ClusterManager with gRPC support
+
+You can configure the ClusterManager with gRPC support using either `clusteradm` or by directly editing the ClusterManager resource.
+
+#### Option 1: Using clusteradm (recommended)
+
+Initialize the hub cluster with gRPC support using clusteradm:
+
+```shell
+clusteradm init --registration-drivers="csr,grpc" --grpc-endpoint-type loadBalancer --bundle-version=latest --context ${CTX_HUB_CLUSTER}
+```
+
+This command will:
+- Configure the ClusterManager with both CSR and gRPC registration drivers
+- Set up the gRPC server with LoadBalancer endpoint type
+- Automatically create and configure the LoadBalancer service
+
+After initialization, you can skip to [Step 3: Verify the gRPC server deployment](#step-3-verify-the-grpc-server-deployment).
+
+#### Option 2: Manual ClusterManager configuration
+
+To enable gRPC-based registration manually, you need to configure the ClusterManager resource with the following:
+
+1. Add `grpc` to the `registrationDrivers` field under `registrationConfiguration`
+2. Configure the `serverConfiguration` section with endpoint exposure
+
+Here's a complete example ClusterManager configuration using LoadBalancer type:
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+  # Registration configuration with gRPC driver
+  registrationConfiguration:
+    # Add gRPC to the list of registration drivers
+    registrationDrivers:
+      - authType: grpc
+        grpc:
+          # Optional: list of auto-approved identities
+          autoApprovedIdentities: []
+
+  # Server configuration for the gRPC server
+  serverConfiguration:
+    # Optional: specify custom image for the server
+    # imagePullSpec: quay.io/open-cluster-management/registration:latest
+
+    # Endpoint exposure configuration
+    # This section configures how the gRPC server endpoint is exposed to managed clusters
+    endpointsExposure:
+      - protocol: grpc
+        # Usage indicates this endpoint is for agent to hub communication
+        usage: agentToHub
+        grpc:
+          type: loadBalancer
+          # Note: When using loadBalancer type, the cluster-manager operator
+          # will automatically create and manage the LoadBalancer service
+          # Note: Custom CA bundle is not currently supported
+          # Certificates are automatically generated by the cluster manager
+```
+
+Apply the configuration:
+
+```shell
+kubectl apply -f clustermanager.yaml --context ${CTX_HUB_CLUSTER}
+```
+
+### Step 2: Get the LoadBalancer endpoint
+
+When using `type: loadBalancer` in the gRPC configuration, the cluster-manager operator automatically creates and manages a LoadBalancer service named `cluster-manager-grpc-server`. You don't need to create it manually.
+
+Get the external IP or hostname of the automatically created LoadBalancer:
+
+```shell
+# For most cloud providers (GCP, Azure, etc.)
+kubectl get svc cluster-manager-grpc-server -n open-cluster-management-hub -o jsonpath='{.status.loadBalancer.ingress[0].ip}' --context ${CTX_HUB_CLUSTER}
+
+# For AWS EKS (returns hostname instead of IP)
+kubectl get svc cluster-manager-grpc-server -n open-cluster-management-hub -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' --context ${CTX_HUB_CLUSTER}
+```
+
+Make note of this IP or hostname - you'll use it when registering managed clusters.
+
+### Step 3: Verify the gRPC server deployment
+
+Check that the gRPC server is running on the hub cluster:
+
+```shell
+kubectl get pods -n open-cluster-management-hub --context ${CTX_HUB_CLUSTER}
+```
+
+You should see a pod named similar to `cluster-manager-grpc-server-*` in running state.
+
+Check the gRPC server service:
+
+```shell
+kubectl get svc -n open-cluster-management-hub cluster-manager-grpc-server --context ${CTX_HUB_CLUSTER}
+```
+
+Verify the LoadBalancer is created and has an external IP:
+
+```shell
+kubectl get svc cluster-manager-grpc-server -n open-cluster-management-hub --context ${CTX_HUB_CLUSTER}
+```
+
+Test connectivity to the gRPC endpoint:
+
+```shell
+# Test DNS resolution and HTTPS connectivity
+curl -v -k https://hub-grpc.example.com
+```
+
+## Register a managed cluster using gRPC
+
+### Step 1: Generate the join token
+
+Generate the join token on the hub cluster:
+
+```shell
+clusteradm get token --context ${CTX_HUB_CLUSTER}
+```
+
+This will output a command similar to:
+
+```shell
+clusteradm join --hub-token <token> --hub-apiserver <hub-api-url> --cluster-name <cluster-name>
+```
+
+### Step 2: Bootstrap the klusterlet
+
+You can bootstrap the klusterlet using one of two approaches:
+
+#### Option A: Using clusteradm with gRPC flags (recommended)
+
+This approach configures gRPC during the initial join, eliminating the need for manual klusterlet configuration.
+
+First, get the gRPC server endpoint and CA certificate from the hub:
+
+```shell
+# Get the LoadBalancer hostname/IP
+# For GCP, use: .status.loadBalancer.ingress[0].ip
+grpc_svr=$(kubectl get svc cluster-manager-grpc-server -n open-cluster-management-hub -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' --context ${CTX_HUB_CLUSTER})
+
+# Extract the CA certificate
+kubectl -n open-cluster-management-hub get configmaps ca-bundle-configmap -ojsonpath='{.data.ca-bundle\.crt}' --context ${CTX_HUB_CLUSTER} > grpc-svr-ca.pem
+```
+
+Then join the cluster with gRPC configuration:
+
+```shell
+clusteradm join \
+    --hub-token <your token data> \
+    --hub-apiserver <your hub-kube-api-url> \
+    --cluster-name "cluster1" \
+    --registration-auth grpc \
+    --grpc-server ${grpc_svr} \
+    --grpc-ca-file grpc-svr-ca.pem \
+    --context ${CTX_MANAGED_CLUSTER}
+```
+
+When using this approach, you can skip Step 3 below and proceed directly to [Step 4: Accept the join request](#step-4-accept-the-join-request).
+
+#### Option B: Bootstrap first, configure gRPC later
+
+Bootstrap the klusterlet without gRPC configuration, then manually configure it afterwards:
+
+{{< tabpane text=true >}}
+{{% tab header="kind" %}}
+```shell
+clusteradm join \
+    --hub-token <your token data> \
+    --hub-apiserver https://hub-grpc.example.com \
+    --cluster-name "cluster1" \
+    --wait \
+    --force-internal-endpoint-lookup \
+    --context ${CTX_MANAGED_CLUSTER}
+```
+{{% /tab %}}
+{{% tab header="k3s, openshift 4.X" %}}
+```shell
+clusteradm join \
+    --hub-token <your token data> \
+    --hub-apiserver https://hub-grpc.example.com \
+    --cluster-name "cluster1" \
+    --wait \
+    --context ${CTX_MANAGED_CLUSTER}
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+### Step 3: Configure the klusterlet to use gRPC driver (Option B only)
+
+If you used Option A above, skip this step. If you used Option B, configure the klusterlet to use the gRPC registration driver:
+
+```shell
+kubectl edit klusterlet klusterlet --context ${CTX_MANAGED_CLUSTER}
+```
+
+Update the klusterlet configuration:
+
+```yaml
+spec:
+  registrationConfiguration:
+    # Specify the gRPC registration driver
+    registrationDriver:
+      authType: grpc
+```
+
+The klusterlet will automatically restart and re-register using the gRPC connection.
+
+### Step 4: Accept the join request
+
+On the hub cluster, accept the cluster registration request:
+
+```shell
+clusteradm accept --clusters cluster1 --context ${CTX_HUB_CLUSTER}
+```
+
+### Step 5: Verify the registration
+
+Verify that the managed cluster is registered successfully:
+
+```shell
+kubectl get managedcluster cluster1 --context ${CTX_HUB_CLUSTER}
+```
+
+You should see output similar to:
+
+```shell
+NAME       HUB ACCEPTED   MANAGED CLUSTER URLS           JOINED   AVAILABLE   AGE
+cluster1   true           https://hub-grpc.example.com   True     True        2m
+```
+
+Check the klusterlet status on the managed cluster:
+
+```shell
+kubectl get klusterlet klusterlet -o yaml --context ${CTX_MANAGED_CLUSTER}
+```
+
+The klusterlet should show the gRPC registration driver in use:
+
+```yaml
+spec:
+  registrationConfiguration:
+    registrationDriver:
+      authType: grpc
+```
+
+Check the klusterlet registration agent logs to verify gRPC connection:
+
+```shell
+kubectl logs -n open-cluster-management-agent deployment/klusterlet-registration-agent --context ${CTX_MANAGED_CLUSTER}
+```
+
+You should see log entries indicating successful gRPC connection to the hub.
+
+## Important limitations
+
+**Add-on compatibility**: Currently, add-ons are **not able to use the gRPC endpoint**. Add-ons will continue to connect directly to the hub cluster's Kubernetes API server even when the klusterlet is using gRPC-based registration. This means:
+
+- You must ensure that add-ons can still reach the hub cluster's Kubernetes API server
+- The network requirements for add-ons remain unchanged from the standard registration model
+- This limitation may be addressed in future versions of OCM
+
+## Configuration examples
+
+### Complete ClusterManager configuration with both CSR and gRPC drivers
+
+Here's an example that supports both traditional CSR-based and gRPC-based registration:
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+  registrationConfiguration:
+    # Support both CSR (traditional) and gRPC registration
+    registrationDrivers:
+      # Keep CSR for backward compatibility
+      - authType: csr
+      # Add gRPC driver
+      - authType: grpc
+        grpc:
+          # Optional: auto-approve specific identities
+          autoApprovedIdentities:
+            - system:serviceaccount:open-cluster-management:cluster-bootstrap
+
+  serverConfiguration:
+    # Optionally specify a custom image
+    imagePullSpec: quay.io/open-cluster-management/registration:v0.15.0
+
+    endpointsExposure:
+      - protocol: grpc
+        usage: agentToHub
+        grpc:
+          type: loadBalancer
+```
+
+### Klusterlet configuration
+
+The klusterlet configuration is simple - just specify the gRPC auth type:
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: Klusterlet
+metadata:
+  name: klusterlet
+spec:
+  clusterName: cluster1
+  registrationConfiguration:
+    registrationDriver:
+      authType: grpc
+```
+
+The gRPC endpoint information is automatically provided through the bootstrap secret - no additional endpoint configuration is needed in the Klusterlet spec.
+
+## Troubleshooting
+
+### gRPC server not running
+
+If the gRPC server pod is not running on the hub:
+
+```shell
+# Check pod status
+kubectl get pods -n open-cluster-management-hub --context ${CTX_HUB_CLUSTER}
+
+# Check pod logs
+kubectl logs -n open-cluster-management-hub deployment/cluster-manager-grpc-server --context ${CTX_HUB_CLUSTER}
+
+# Verify ClusterManager configuration
+kubectl get clustermanager cluster-manager -o yaml --context ${CTX_HUB_CLUSTER}
+```
+
+Common issues:
+- Missing `registrationDrivers` field with `grpc` authType in `registrationConfiguration`
+- Missing `serverConfiguration` section
+- Missing or incorrect `endpointsExposure` configuration
+- Ensure the `protocol` field is set to `grpc` in `endpointsExposure`
+
+### LoadBalancer not working
+
+If the automatically created LoadBalancer is not working:
+
+```shell
+# Check LoadBalancer service (automatically created by cluster-manager operator)
+kubectl describe svc cluster-manager-grpc-server -n open-cluster-management-hub --context ${CTX_HUB_CLUSTER}
+
+# Verify the gRPC server service exists
+kubectl get svc cluster-manager-grpc-server -n open-cluster-management-hub --context ${CTX_HUB_CLUSTER}
+```
+
+Verify that:
+- The LoadBalancer service was automatically created by the cluster-manager operator (if not, check that `type: loadBalancer` is set in the ClusterManager grpc configuration)
+- Your cloud provider supports LoadBalancer services and has allocated an external IP
+- TLS certificates are valid and properly configured
+- Network policies and firewalls allow traffic on port 443
+
+### Connection issues from managed cluster
+
+If the managed cluster cannot connect to the gRPC server:
+
+1. Verify network connectivity from the managed cluster:
+   ```shell
+   # From a pod in the managed cluster or from a node
+   curl -v -k https://hub-grpc.example.com
+   ```
+
+2. Check klusterlet registration agent logs:
+   ```shell
+   kubectl logs -n open-cluster-management-agent deployment/klusterlet-registration-agent --context ${CTX_MANAGED_CLUSTER}
+   ```
+
+3. Verify the klusterlet configuration:
+   ```shell
+   kubectl get klusterlet klusterlet -o jsonpath='{.spec.registrationConfiguration.registrationDriver.authType}' --context ${CTX_MANAGED_CLUSTER}
+   ```
+
+   Expected output: `grpc`
+
+4. Check the bootstrap secret for gRPC configuration:
+   ```shell
+   kubectl get secret bootstrap-hub-kubeconfig -n open-cluster-management-agent -o yaml --context ${CTX_MANAGED_CLUSTER}
+   ```
+
+### TLS certificate issues
+
+If you encounter TLS certificate validation errors:
+
+1. The cluster manager automatically generates TLS certificates. You can view them with:
+   ```shell
+   kubectl -n open-cluster-management-hub get cm ca-bundle-configmap -ojsonpath='{.data.ca-bundle\.crt}'
+   kubectl -n open-cluster-management-hub get secrets signer-secret -ojsonpath="{.data.tls\.crt}"
+   kubectl -n open-cluster-management-hub get secrets signer-secret -ojsonpath="{.data.tls\.key}"
+   ```
+
+   Note: Custom CA bundles are not currently supported.
+
+2. Check certificate validity:
+   ```shell
+   echo | openssl s_client -connect hub-grpc.example.com:443 2>/dev/null | openssl x509 -noout -dates
+   ```
+
+3. Verify the certificate matches the hostname:
+   ```shell
+   echo | openssl s_client -connect hub-grpc.example.com:443 2>/dev/null | openssl x509 -noout -text | grep DNS
+   ```
+
+### Registration driver mismatch
+
+If you see errors related to registration driver:
+
+```shell
+# Verify the registration driver is set to grpc
+kubectl get klusterlet klusterlet -o jsonpath='{.spec.registrationConfiguration.registrationDriver.authType}' --context ${CTX_MANAGED_CLUSTER}
+```
+
+Expected output: `grpc`
+
+If the driver is not set or incorrect:
+```shell
+kubectl edit klusterlet klusterlet --context ${CTX_MANAGED_CLUSTER}
+```
+
+And ensure:
+```yaml
+spec:
+  registrationConfiguration:
+    registrationDriver:
+      authType: grpc
+```
+
+### Add-on connection issues
+
+Remember that **add-ons cannot use the gRPC endpoint** in the current version. If you experience add-on connection issues:
+
+1. Ensure that add-ons can still reach the hub cluster's Kubernetes API server directly
+2. Verify network policies allow add-on traffic to the hub API server
+3. Check add-on agent logs for connection errors:
+   ```shell
+   kubectl logs -n open-cluster-management-agent-addon <addon-pod-name> --context ${CTX_MANAGED_CLUSTER}
+   ```
+
+## Next steps
+
+- Learn about [add-on management]({{< ref "addon-management.md" >}})
+- Explore [ManifestWork]({{< ref "docs/concepts/work-distribution/manifestwork.md" >}}) for deploying resources to managed clusters
+- Review the [register a cluster]({{< ref "register-a-cluster.md" >}}) documentation for standard API-based registration

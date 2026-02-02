@@ -10,7 +10,8 @@ weight: 1
 - The hub cluster should be `v1.19+`.
   (To run on hub cluster version between \[`v1.16`, `v1.18`\],
   please manually enable feature gate "V1beta1CSRAPICompatibility").
-- Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions (like [EKS](https://github.com/aws/containers-roadmap/issues/1856)) don't support it, you can:
+- Currently the bootstrap process relies on client authentication via CSR. Therefore, if your Kubernetes distributions(like [EKS](https://github.com/aws/containers-roadmap/issues/1856))
+  don't support it, you can:
   - follow [this](https://open-cluster-management.io/docs/getting-started/installation/running-on-eks/) article to run OCM natively on EKS
   - or choose the [multicluster-controlplane](https://github.com/open-cluster-management-io/multicluster-controlplane) as the hub controlplane
 - Ensure [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/) are installed.
@@ -62,7 +63,9 @@ Call `clusteradm init`:
 
 ### Configure CPU and memory resources
 
-You can configure CPU and memory resources for the cluster manager components by adding resource flags to the `clusteradm init` command. These flags indicate that all components in the hub controller will use the same resource requirement or limit:
+You can configure CPU and memory resources for the cluster manager components by adding resource flags to the
+`clusteradm init` command. These flags indicate that all components in the hub controller will use the same resource
+requirement or limit:
 
 ```shell
 # Configure resource requests and limits for cluster manager components
@@ -101,15 +104,27 @@ It's recommended to save the command somewhere secure for future use. If it's lo
 
 The `--hub-apiserver` URL in the generated command must be network-accessible from your managed clusters. Consider the following scenarios:
 
-- **Local hub cluster (kind, minikube, etc.)**: The generated URL will typically be a localhost address (e.g., `https://127.0.0.1:xxxxx`). This URL is only accessible from your local machine and **will not work** for remote managed clusters hosted on cloud providers (GKE, EKS, AKS, etc.).
+- **Local hub cluster (kind, minikube, etc.)**: The generated URL will typically be a localhost address (e.g., `https://127.0.0.1:xxxxx`).
+  This URL is only accessible from your local machine and **will not work** for remote managed clusters hosted on cloud providers (GKE, EKS, AKS, etc.).
 
-- **Cloud-hosted managed clusters**: If you plan to register managed clusters running on cloud providers (GKE, EKS, AKS, etc.), your hub cluster must be network-accessible from those cloud environments. This means:
+- **Cloud-hosted managed clusters**: If you plan to register managed clusters running on cloud providers (GKE, EKS, AKS, etc.),
+  your hub cluster must be network-accessible from those cloud environments. This means:
   - Use a cloud-hosted hub cluster, or
   - Set up proper networking (load balancer, VPN, ingress, etc.) to expose your hub API server with a publicly accessible endpoint
 
-- **Local testing (both hub and managed on the same machine)**: For testing with multiple local clusters (e.g., two kind clusters on the same machine), the localhost URL works when using the `--force-internal-endpoint-lookup` flag. See the [Register a cluster]({{< ref "/docs/getting-started/installation/register-a-cluster" >}}) documentation for details.
+- **Local testing (both hub and managed on the same machine)**: For testing with multiple local clusters (e.g., two kind
+  clusters on the same machine), the localhost URL works when using the `--force-internal-endpoint-lookup` flag. See the
+  [Register a cluster]({{< ref "/docs/getting-started/installation/register-a-cluster" >}}) documentation for details.
 
 For production deployments, it's recommended to use a hub cluster that provides a stable, network-accessible API server endpoint.
+
+## Alternative: Enable gRPC-based registration
+
+By default, OCM uses direct Kubernetes API connections for cluster registration. For enhanced security and isolation,
+you can optionally enable gRPC-based registration, where managed clusters connect through a gRPC server instead of directly to the hub API server.
+
+To enable gRPC-based registration, see [Register a cluster via gRPC]({{< ref "register-cluster-via-grpc.md" >}}) for
+detailed instructions on configuring the ClusterManager and exposing the gRPC server.
 
 ## Check out the running instances of the control plane
 
