@@ -35,8 +35,8 @@ The work API that enables resources to be applied to managed clusters from a hub
 Dynamic placement of content and behavior across multiple clusters.
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-cloud" title="Vendor Neutral APIs" %}}
-Avoid vendor lock-in by using APIs that are not tied to any cloud providers or proprietary platforms.
+{{% blocks/feature icon="fa-brain" title="AI Workload Management" url="docs/ai-workloads/fleet-intelligent-scheduling/" %}}
+Run AI workloads across clusters with security and efficiency
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fa-rocket" title="Launch Apps Everywhere" url="docs/getting-started/integration/app-lifecycle/" %}}
