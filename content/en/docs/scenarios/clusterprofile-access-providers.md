@@ -229,7 +229,32 @@ Verify that ClusterProfile objects contain the access provider configuration:
 kubectl -n my-app get clusterprofile <cluster-name> -o yaml
 ```
 
-Look for the `accessProviders` section with provider name `open-cluster-management`.
+Look for the `accessProviders` section with provider name `open-cluster-management`, an example of clusterprofile would be like:
+
+```yaml
+apiVersion: multicluster.x-k8s.io/v1alpha1
+kind: ClusterProfile
+metadata:
+  labels:
+    multicluster.x-k8s.io/clusterset: default
+    open-cluster-management.io/cluster-name: cluster1
+    x-k8s.io/cluster-manager: open-cluster-management
+  name: cluster1
+spec:
+  clusterManager:
+    name: open-cluster-management
+  displayName: cluster1
+status:
+  accessProviders:
+  - cluster:
+      certificate-authority-data: <ENCODED_CA_DATA>
+      extensions:
+      - extension:
+          clusterName: cluster1
+        name: client.authentication.k8s.io/exec
+      server: https://cluster-proxy-addon-user.open-cluster-management-addon:9092/cluster1
+    name: open-cluster-management
+```
 
 ## Example: MultiKueue Integration
 
