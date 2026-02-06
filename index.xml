@@ -16,9 +16,8 @@ control plane is modeled as a &amp;ldquo;Hub&amp;rdquo; and on the other hand ea
 being managed by the &amp;ldquo;Hub&amp;rdquo; will be a &amp;ldquo;Klusterlet&amp;rdquo; which is obviously inspired
 from the original name of &amp;ldquo;kubelet&amp;rdquo;. Here&amp;rsquo;s a more detailed clarification of
 the two models we will be frequently using throughout the world of OCM:&lt;/p&gt;</description></item><item><title>ClusterClaim</title><link>https://open-cluster-management.io/docs/concepts/cluster-inventory/clusterclaim/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/concepts/cluster-inventory/clusterclaim/</guid><description>&lt;h2 id="what-is-clusterclaim"&gt;What is ClusterClaim?&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;ClusterClaim&lt;/code&gt; is a cluster-scoped API available to users on a managed cluster.
-The &lt;code&gt;ClusterClaim&lt;/code&gt; objects are collected from the managed cluster and saved into
-the status of the corresponding &lt;code&gt;ManagedCluster&lt;/code&gt; object on the hub.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ClusterClaim&lt;/code&gt; is a cluster-scoped API available to users on a managed cluster it allows users to define key-value metadata on managed clusters.
+These objects are collected by the klusterlet agent and synchronized to the &lt;code&gt;status.clusterClaims&lt;/code&gt; field of the corresponding &lt;code&gt;ManagedCluster&lt;/code&gt; object on the hub cluster. This mechanism enables centralized inventory management and property-based cluster filtering across your fleet.&lt;/p&gt;
 &lt;h2 id="usage"&gt;Usage&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;ClusterClaim&lt;/code&gt; is used to specify additional properties of the managed cluster like
 the clusterID, version, vendor and cloud provider. We defined some reserved &lt;code&gt;ClusterClaims&lt;/code&gt;
