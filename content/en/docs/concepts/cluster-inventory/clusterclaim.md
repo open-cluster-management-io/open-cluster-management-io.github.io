@@ -61,7 +61,7 @@ spec:
 
 - `maxCustomClusterClaims` (integer, default: 20) controls the maximum number of custom ClusterClaims synchronized to the hub. Increase this value if your environment requires reporting more than 20 custom attributes per cluster.
 
-- `reservedClusterClaimSuffixes` (array of strings) appends custom suffixes to reserved claim names. This helps avoid naming conflicts in multi-tenant environments by transforming names like id.k8s.io to id.k8s.io.mycompany.com.
+- `reservedClusterClaimSuffixes` (array of strings) specifies custom suffixes to identify additional reserved claims. Claims matching these suffixes are treated as reserved claims. For example, if `reservedClusterClaimSuffixes` is set to `mycompany.com`, claims like `id.mycompany.com`, `name.mycompany.com`, and `anything.mycompany.com` will be treated as reserved.
 
 ## Example
 
@@ -109,7 +109,49 @@ spec:
   value: "custom-claim-3"
 ```
 
-### 4. Viewing ClusterClaims on the Hub
+### 4. Using Custom Reserved ClusterClaim Suffixes
+
+You can configure custom suffixes to treat specific ClusterClaims as reserved. This is useful when you want to define organization-specific reserved claims.
+
+First, configure the Klusterlet with your custom suffix:
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: Klusterlet
+spec:
+  clusterClaimConfiguration:
+    reservedClusterClaimSuffixes:
+      - "mycompany.com"
+```
+
+Then create ClusterClaims using your custom suffix:
+
+```yaml
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: id.mycompany.com
+spec:
+  value: id
+---
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: name.mycompany.com
+spec:
+  value: name
+---
+apiVersion: cluster.open-cluster-management.io/v1alpha1
+kind: ClusterClaim
+metadata:
+  name: region.mycompany.com
+spec:
+  value: region
+```
+
+These claims will be treated as reserved claims and will not count against the `maxCustomClusterClaims` limit.
+
+### 5. Viewing ClusterClaims on the Hub
 
 After applying the `ClusterClaim` above to any managed cluster, the value of the `ClusterClaim`
 is reflected in the `ManagedCluster` on the hub cluster:
@@ -127,6 +169,12 @@ status:
       value: custom-claim-1
     - name: claim-2
       value: custom-claim-2
+    - name: id.mycompany.com #Treated as a reserved claim
+      value: id
+    - name: name.mycompany.com #Treated as a reserved claim
+      value: name
+    - name: region.mycompany.com #Treated as a reserved claim
+      value: region
 ```
 
 ## About-API Support in Open Cluster Management
