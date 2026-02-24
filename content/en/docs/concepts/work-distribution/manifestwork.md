@@ -653,8 +653,8 @@ spec:
         name: some-configmap
       updateStrategy:
         type: ServerSideApply
-        force: true
         serverSideApply:
+          force: true
           ignoreFields:
             - condition: OnSpokePresent
               jsonPaths:
