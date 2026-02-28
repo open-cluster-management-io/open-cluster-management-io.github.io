@@ -170,7 +170,7 @@ spec:
     spec:
       initContainers:
       - name: install-cp-creds
-        image: quay.io/open-cluster-management/managed-serviceaccount:latest
+        image: quay.io/open-cluster-management/cp-creds:latest
         command: ["cp", "/cp-creds", "/plugins/cp-creds"]
         volumeMounts:
         - name: clusterprofile-plugins
@@ -206,7 +206,7 @@ spec:
       volumes:
       - name: clusterprofile-plugins
         image:
-          reference: quay.io/open-cluster-management/managed-serviceaccount:latest
+          reference: quay.io/open-cluster-management/cp-creds:latest
           pullPolicy: IfNotPresent
 ```
 
@@ -350,7 +350,7 @@ kubectl patch deploy kueue-controller-manager -n kueue-system --type='json' -p='
     "value": {
       "name": "clusterprofile-plugins",
       "image": {
-        "reference": "quay.io/open-cluster-management/managed-serviceaccount:latest",
+        "reference": "quay.io/open-cluster-management/cp-creds:latest",
         "pullPolicy": "IfNotPresent"
       }
     }
