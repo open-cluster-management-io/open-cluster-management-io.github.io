@@ -192,6 +192,15 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="https://github.com/open-cluster-management-io/addon-contrib/tree/main/flower-addon" target="_blank" class="text-decoration-none">
+              <div class="card h-100 ecosystem-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <h5 class="card-title">Flower</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6">
             <a href="https://v0-16.open-cluster-management.io/docs/getting-started/integration/app-lifecycle/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
