@@ -6,7 +6,7 @@ authors:
 toc_hide: true
 ---
 
-Installing Open Cluster Management (OCM) involves multiple steps — adding Helm repos, installing the control plane, registering managed clusters, and verifying everything works. [KubeStellar Console](https://console.kubestellar.io) now includes a guided install mission that walks you through the entire process step-by-step, with built-in validation and troubleshooting.
+Installing Open Cluster Management (OCM) involves multiple steps — adding Helm repos, installing the control plane, registering managed clusters, and verifying everything works. [KubeStellar Console](https://console.kubestellar.io?utm_source=ocm-blog&utm_medium=blog&utm_campaign=cncf_outreach&utm_term=open-cluster-management) now includes a guided install mission that walks you through the entire process step-by-step, with built-in validation and troubleshooting.
 
 ## What is KubeStellar Console?
 
@@ -16,7 +16,7 @@ KubeStellar Console is a standalone, open-source Kubernetes dashboard with 30+ d
 
 ## The OCM Install Mission
 
-The [OCM install mission](https://console.kubestellar.io/missions/install-open-cluster-management) runs against your live cluster. Each step includes:
+The [OCM install mission](https://console.kubestellar.io/missions/install-open-cluster-management?utm_source=ocm-blog&utm_medium=blog&utm_campaign=cncf_outreach&utm_term=open-cluster-management) runs against your live cluster. Each step includes:
 
 - **Pre-flight checks** — verifies prerequisites (Kubernetes >=1.24, Helm, kubectl)
 - **Exact commands** — shows the `helm install` and `kubectl apply` commands with flags explained. Copy-paste or run directly from the console
@@ -32,7 +32,7 @@ It also works as read-only documentation — no cluster connection required to b
 
 Open the mission directly at:
 
-**[console.kubestellar.io/missions/install-open-cluster-management](https://console.kubestellar.io/missions/install-open-cluster-management)**
+**[console.kubestellar.io/missions/install-open-cluster-management](https://console.kubestellar.io/missions/install-open-cluster-management?utm_source=ocm-blog&utm_medium=blog&utm_campaign=cncf_outreach&utm_term=open-cluster-management)**
 
 ### Option 2: Run Locally
 
