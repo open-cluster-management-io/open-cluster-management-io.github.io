@@ -42,4 +42,18 @@ other components on ease.&lt;/p&gt;</description></item><item><title>Feature Gat
 &lt;li&gt;&lt;strong&gt;Hub Components&lt;/strong&gt;: Features running on the hub cluster&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Spoke Components&lt;/strong&gt;: Features running on managed clusters&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Feature gates follow a standard lifecycle:&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;Feature gates follow a standard lifecycle:&lt;/p&gt;</description></item><item><title>Configuring TLS Profile</title><link>https://open-cluster-management.io/docs/getting-started/administration/tls-profile/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://open-cluster-management.io/docs/getting-started/administration/tls-profile/</guid><description>&lt;p&gt;This guide describes how to configure the TLS profile (minimum TLS version and cipher suites) for OCM components
+on both the hub and spoke (managed) clusters.&lt;/p&gt;
+&lt;h2 id="overview"&gt;Overview&lt;/h2&gt;
+&lt;p&gt;OCM provides a standard mechanism for configuring TLS profiles across all components. This is useful for enforcing
+security policies that require a specific minimum TLS version or a restricted set of cipher suites.&lt;/p&gt;
+&lt;p&gt;TLS configuration follows a &lt;strong&gt;two-tier architecture&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tier 1 (Operators):&lt;/strong&gt; The &lt;code&gt;cluster-manager&lt;/code&gt; operator (hub) and &lt;code&gt;klusterlet&lt;/code&gt; operator (spoke) watch a ConfigMap
+named &lt;code&gt;ocm-tls-profile&lt;/code&gt; in their namespace. When the ConfigMap changes, the operator restarts to pick up the new
+settings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tier 2 (Components):&lt;/strong&gt; Operators inject the TLS settings as command-line flags (&lt;code&gt;--tls-min-version&lt;/code&gt;,
+&lt;code&gt;--tls-cipher-suites&lt;/code&gt;) into the deployments they manage. Components themselves do not watch ConfigMaps.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="configmap-format"&gt;ConfigMap Format&lt;/h2&gt;
+&lt;p&gt;Create or update the &lt;code&gt;ocm-tls-profile&lt;/code&gt; ConfigMap in the operator&amp;rsquo;s namespace.&lt;/p&gt;</description></item></channel></rss>
