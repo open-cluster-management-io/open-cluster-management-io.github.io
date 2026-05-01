@@ -34,3 +34,9 @@ View the following sections to learn more about the Policy Add-on:
     Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
     policies that are run with the Open Policy Agent (OPA). Gatekeeper `ConstraintTemplates` and constraints can be
     provided in an OCM `Policy` to sync to managed clusters that have Gatekeeper installed on them.
+
+  - #### [Operator policy]({{< ref "docs/getting-started/integration/policy-controllers/operator-policy" >}})
+
+    The `OperatorPolicy` is provided by OCM and defines a desired state for operators managed by Operator Lifecycle Manager (OLM)
+    on managed clusters. It enables automated installation, configuration, and lifecycle management of operators across your
+    cluster fleet using the same policy framework as `ConfigurationPolicy`.
