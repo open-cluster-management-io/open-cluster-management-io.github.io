@@ -35,7 +35,7 @@ Ensure `clusteradm` CLI is installed and is newer than v0.3.0. Download and extr
 
    ```Shell
    # Deploy the configuration policy controller
-   clusteradm addon enable addon --names config-policy-controller --clusters <cluster_name> --context ${CTX_HUB_CLUSTER}
+   clusteradm addon enable --names config-policy-controller --clusters <cluster_name> --context ${CTX_HUB_CLUSTER}
    ```
 
 2. Ensure the pod is running on the managed cluster with the following command:
