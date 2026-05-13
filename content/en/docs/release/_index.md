@@ -3,8 +3,91 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.2.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.3.0`.
 Continue reading to view upcoming releases:
+
+## `1.3.0`, 9 May 2026
+
+The Open Cluster Management team is excited to announce the release of OCM v1.3.0! This release brings improvements
+in ManifestWork resource ordering, placement debugging, addon webhook support, and continued API maturation with
+addon v1beta1 migration and security hardening.
+
+### 🌟 Key Highlights
+
+**Ordered ManifestWork Resource Application:**
+- **Kind-Based Ordering**: Resources in ManifestWork are now applied in order based on their kind (e.g., Namespaces
+  before Deployments), ensuring proper dependency resolution during deployment and reducing transient errors from
+  missing prerequisites
+
+**Placement Enhancements:**
+- **Placement Debug Server**: The placement debug controller has been split out as a standalone service with proper
+  validation, enabled via the `PlacementDebugServer` feature gate, providing better observability into placement
+  decisions
+- **Placement Score Visibility**: New fields for placement score visibility, enabling users to understand how
+  clusters are ranked during scheduling
+- **PlacementConfiguration Feature Gate**: New `PlacementConfiguration` feature gate for advanced placement
+  configuration capabilities
+
+**Enhanced ManifestWork SSA Ignore Fields:**
+- **Ignore Field Selector Options**: New options for the Server-Side Apply update strategy in ManifestWork,
+  including field selector options and error reason reporting, allowing more granular control over which fields
+  are managed during updates
+
+**Addon Webhook Configuration:**
+- **Webhook Support for Addons**: Support for configuring validation and mutation webhooks for addon resources,
+  enabling addon developers to enforce custom policies and transformations on addon-related objects
+
+**Addon API v1beta1 Migration:**
+- **Registration API Migration**: Addon registration API moved to v1beta1 in the registration component
+- **Addon Manager v1beta1**: Addon manager's API fully migrated to v1beta1, continuing the API maturation
+  started in v1.2.0
+- **Addon Framework v1beta1 Support**: The addon-framework now supports v1beta1 addon API
+
+**TLS & Security Enhancements:**
+- **TLS Profile Compliance for gRPC**: gRPC server now enforces TLS profile compliance for secure communication
+- **TLS ConfigMap Watch & Restart**: Cluster-manager operator and klusterlet operator now watch TLS ConfigMaps
+  and automatically restart when TLS configuration changes, ensuring certificate rotations take effect without
+  manual intervention
+- **Hosted Addon via InstallStrategy**: Support for installing hosted addons via install strategy
+
+### 🔧 Breaking Changes
+
+- **RBAC Security Fix**: `system:authenticated` has been removed from default groups in the addon-framework.
+  Addons that relied on this implicit group membership must explicitly configure their required subjects.
+  This change affects `BuildSubjectsFromRegistration` which no longer includes `system:authenticated` by default.
+- **Singleton Flag Deprecated**: The `--singleton` flag in `clusteradm init` is deprecated and will be removed
+  in a future release.
+
+### 📊 Community Growth
+
+This release includes contributions from numerous contributors across all repositories, with several new contributors
+joining our community:
+
+**New Contributors:**
+- [@ncr38](https://github.com/ncr38) - Ignore field selector options and error reason in API
+- [@thibaultmg](https://github.com/thibaultmg) - Cluster and CSR name in addon approval logs
+- [@yanmxa](https://github.com/yanmxa) - Flower federated learning addon ecosystem documentation
+- [@clubanderson](https://github.com/clubanderson) - KubeStellar Console adopter documentation
+- [@rokej](https://github.com/rokej) - TLS server name fix for external-managed-kubeconfig
+- [@kahirokunn](https://github.com/kahirokunn) - Local development setup improvements
+- [@TylerGillson](https://github.com/TylerGillson) - Helm values overrides and CLI improvements
+
+We extend our gratitude to all contributors who made this release possible!
+
+### 📦 Core Components
+
+- **api** v1.3.0 [changelog](https://github.com/open-cluster-management-io/api/releases/tag/v1.3.0)
+- **ocm** v1.3.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.3.0)
+- **addon-framework** v1.3.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v1.3.0)
+- **clusteradm** v1.3.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.3.0)
+
+We hope this release helps you better manage your Kubernetes clusters with improved resource ordering, enhanced
+placement debugging, and stronger security defaults. If you have any questions, please don't hesitate to contact
+us in our community channels or log issues on our repositories.
+
+Thank you to all contributors for your hard work and to the community for your continued support!
+
+---
 
 ## `1.2.0`, 2 February 2026
 
