@@ -69,10 +69,10 @@ menu:
       name: ""
       url: "/"
       pre: '<img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=94243eae-daeb-494c-a300-099ab02c56f5" />'
-    - identifier: v1.3.0-released
+    - identifier: v1.3.1-released
       weight: 2
-      name: "🎉 v1.3.0 Released!"
-      url: "/docs/release/#130-9-may-2026"
+      name: "🎉 v1.3.1 Released!"
+      url: "/docs/release/#131-19-may-2026"
     - identifier: Github
       weight: 100
       name: GitHub
