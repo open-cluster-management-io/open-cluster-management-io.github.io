@@ -187,6 +187,13 @@ controller on the managed cluster. The policy framework supports delivering the 
   the page on [Configuration Policy]({{< ref "docs/getting-started/integration/policy-controllers/configuration-policy" >}}) for more
   information.
 
+- Operator policy
+
+  The `OperatorPolicy` is provided by OCM and defines a desired state for operators managed by Operator Lifecycle Manager (OLM)
+  on managed clusters. It enables declarative lifecycle management of operators, including installation, configuration, upgrades,
+  and removal across your cluster fleet. See the page on [Operator Policy]({{< ref "docs/getting-started/integration/policy-controllers/operator-policy" >}}) for more
+  information.
+
 - Open Policy Agent Gatekeeper
 
   Gatekeeper is a validating webhook with auditing capabilities that can enforce custom resource definition-based
