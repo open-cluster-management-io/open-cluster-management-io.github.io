@@ -3,8 +3,27 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.3.0`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.3.1`.
 Continue reading to view upcoming releases:
+
+## `1.3.1`, 19 May 2026
+
+OCM v1.3.1 is a patch release addressing a critical bug fix for addon v1beta1 API conversion.
+
+### 🐛 Bug Fixes
+
+- **v1beta1 ManagedClusterAddon Conversion Fix**: Fixed an issue where ClusterManagementAddons converted from v1alpha1
+  to v1beta1 could leak the `ReservedNoDefaultConfigName` sentinel value into `DefaultConfigReferences` and
+  `InstallProgressions` status fields. This caused addons using older addon-framework versions to fail when a v1alpha1
+  CMA had `supportedConfigs` but no `defaultConfig`. ([#1528](https://github.com/open-cluster-management-io/ocm/pull/1528),
+  fixes [#1526](https://github.com/open-cluster-management-io/ocm/issues/1526))
+
+### 📦 Core Components
+
+- **ocm** v1.3.1 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.3.1)
+- **clusteradm** v1.3.1 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.3.1)
+
+---
 
 ## `1.3.0`, 9 May 2026
 
