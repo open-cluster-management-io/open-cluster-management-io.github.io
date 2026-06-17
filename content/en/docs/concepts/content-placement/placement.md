@@ -624,31 +624,151 @@ The placement controller will give a score to each filtered `ManagedCluster` and
 changes, a new event will be generated. You can check the score of each cluster in the `Placement` events, to know why some clusters with lower score are not selected.
 
 ### Debug
-If you want to know more details of how clusters are selected in each step, you can follow the steps below to access the debug endpoint.
 
-Create clusterrole "debugger" to access debug path and bind this to anonymous user.
+#### Enable the debug server feature
+
+The debug server runs as a sidecar container alongside the placement controller. To enable the debug server, update your ClusterManager configuration:
+
+```yaml
+apiVersion: operator.open-cluster-management.io/v1
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+  placementConfiguration:
+    featureGates:
+    - feature: PlacementDebugServer
+      mode: Enable
+```
+
+Wait for the placement controller pods to be recreated with the debug-server sidecar container:
 
 ```bash
-kubectl create clusterrole "debugger" --verb=get --non-resource-url="/debug/*"
-kubectl create clusterrolebinding debugger --clusterrole=debugger --user=system:anonymous
+kubectl get pods -n open-cluster-management-hub -l app=clustermanager-placement-controller
 ```
 
-Export placement 8443 port to local.
+You should see the pods have 2 containers (placement-controller and debug-server).
 
 ```bash
-kubectl port-forward -n open-cluster-management-hub deploy/cluster-manager-placement-controller 8443:8443
+NAME                                                    READY   STATUS    RESTARTS   AGE
+cluster-manager-placement-controller-7dc465f584-jfjcr   2/2     Running   0          43h
 ```
 
-Curl below url to debug one specific placement.
-```
-curl -k  https://127.0.0.1:8443/debug/placements/<namespace>/<name>
-```
+#### Export placement 9443 port to local.
 
-For example, the environment has a `Placement` named placement1 in default namespace, which selects 2 `ManagedClusters`, the output would be like:
+Export the debug server port to local:
 
 ```bash
-$ curl -k  https://127.0.0.1:8443/debug/placements/default/placement1
-{"filteredPiplieResults":[{"name":"Predicate","filteredClusters":["cluster1","cluster2"]},{"name":"Predicate,TaintToleration","filteredClusters":["cluster1","cluster2"]}],"prioritizeResults":[{"name":"Balance","weight":1,"scores":{"cluster1":100,"cluster2":100}},{"name":"Steady","weight":1,"scores":{"cluster1":100,"cluster2":100}}]}
+kubectl port-forward -n open-cluster-management-hub svc/cluster-manager-placement 9443:9443
+```
+
+#### Setup access permissions
+
+To access the debug endpoint, you need to configure the following permissions:
+
+```bash
+# Create clusterrole to access debug path
+kubectl create clusterrole debugger \
+  --verb=get,post \
+  --non-resource-url="/debug/placements/*"
+
+kubectl create clusterrolebinding debugger \
+  --clusterrole=debugger \
+  --user=system:anonymous
+
+# Grant permission to create placements in the target namespace
+# Replace <namespace> with your placement namespace
+kubectl create role placement-debugger \
+  --verb=create,get \
+  --resource=placements.cluster.open-cluster-management.io \
+  -n <namespace>
+
+kubectl create rolebinding placement-debugger \
+  --role=placement-debugger \
+  --user=system:anonymous \
+  -n <namespace>
+```
+
+#### Debug an existing Placement
+
+Access the debug endpoint for a specific placement:
+
+```bash
+curl -k https://127.0.0.1:9443/debug/placements/<namespace>/<name>
+```
+
+#### Simulate a Placement
+
+You can also submit a custom Placement JSON to simulate the scheduling without creating an actual Placement resource:
+
+```bash
+cat <<EOF | curl -sk -X POST \
+  -H "Content-Type: application/json" \
+  -d @- https://127.0.0.1:9443/debug/placements/
+{
+  "apiVersion": "cluster.open-cluster-management.io/v1beta1",
+  "kind": "Placement",
+  "metadata": {
+    "name": "test-placement",
+    "namespace": "<namespace>"
+  },
+  "spec": {
+    "numberOfClusters": 2
+  }
+}
+EOF
+```
+
+**Note**: The namespace in the Placement JSON must match a namespace where you have configured the placement permissions.
+
+#### Example output
+
+For example, the environment has a `Placement` named placement1 in default namespace, which selects 2 `ManagedClusters`:
+
+```bash
+curl -k https://127.0.0.1:9443/debug/placements/default/placement1
+```
+
+```json
+{
+  "placement": {
+    "kind": "Placement",
+    "apiVersion": "cluster.open-cluster-management.io/v1beta1",
+    "metadata": {
+      "name": "placement1",
+      "namespace": "default"
+    },
+    "spec": {
+      "numberOfClusters": 2
+    }
+  },
+  "filteredPipelineResults": [
+    {
+      "name": "Predicate",
+      "filteredClusters": ["cluster1", "cluster2"]
+    },
+    {
+      "name": "Predicate,TaintToleration",
+      "filteredClusters": ["cluster1", "cluster2"]
+    }
+  ],
+  "prioritizeResults": [
+    {
+      "name": "Balance",
+      "weight": 1,
+      "scores": {"cluster1": 100, "cluster2": 100}
+    },
+    {
+      "name": "Steady",
+      "weight": 1,
+      "scores": {"cluster1": 100, "cluster2": 100}
+    }
+  ],
+  "aggregatedScores": [
+    {"clusterName": "cluster1", "score": 200},
+    {"clusterName": "cluster2", "score": 200}
+  ]
+}
 ```
 
 ## Future work
