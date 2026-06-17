@@ -126,6 +126,15 @@ Policy and configuration management uses labels to help you deploy policies and 
               </div>
             </a>
           </div>
+          <div class="col-md-4 col-sm-6">
+            <a href="https://groww.in/" target="_blank" class="text-decoration-none">
+              <div class="card h-100 partner-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <img src="/logos/groww.svg" alt="Groww" class="partner-logo" style="max-height: 60px; max-width: 120px;">
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
