@@ -255,6 +255,15 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-lg-3 col-md-4 col-sm-6">
+            <a href="https://github.com/krkn-chaos/krkn-operator/actions/workflows/ocm-setup.yml" target="_blank" class="text-decoration-none">
+              <div class="card h-100 ecosystem-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <h5 class="card-title">Krkn</h5>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-4 col-sm-6">
             <a href="https://docs.kubestellar.io/latest/direct/start-from-ocm/" target="_blank" class="text-decoration-none">
               <div class="card h-100 ecosystem-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
