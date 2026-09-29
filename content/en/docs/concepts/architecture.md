@@ -108,11 +108,9 @@ Practically the hub cluster and the managed cluster can be owned/maintained
 by different admins, so in OCM we clearly separated the roles and make the
 cluster registration require approval from the both sides defending from unwelcome
 requests. In terms of terminating the registration, the hub admin can kick
-out a registered cluster by denying the rotation of hub cluster's certificate,
-on the other hand from the perspective of a managed cluster's admin, he can
-either brutally deleting the agent instances or revoking the granted RBAC
-permissions for the agents. Note that the hub controller will be automatically
-preparing the environment for the newly registered cluster and cleaning up neatly
+out a registered cluster by denying the rotation of hub cluster's certificate or, from the perspective of a managed cluster's admin, he can either brutally delete the agent instances or revoke the granted RBAC
+permissions for the agents. Note that the hub controller will automatically
+prepare the environment for the newly registered cluster and clean up neatly
 upon kicking a managed cluster.
 
 <div style="text-align: center; padding: 20px;">
