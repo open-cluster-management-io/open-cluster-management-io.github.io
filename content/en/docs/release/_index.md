@@ -23,6 +23,17 @@ OCM v1.3.1 is a patch release addressing a critical bug fix for addon v1beta1 AP
 - **ocm** v1.3.1 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.3.1)
 - **clusteradm** v1.3.1 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.3.1)
 
+### 🧩 Add-on Components
+
+**NOTE:** Add-ons release independently from OCM core.
+
+**Policy add-on v0.19.0, 03 Jun 2026:**
+- **config-policy-controller** v0.19.0 [changelog](https://github.com/open-cluster-management-io/config-policy-controller/releases/tag/v0.19.0). Bugfixes, updated dependencies, and [detecting a updated operator channels with OperatorPolicy](https://github.com/open-cluster-management-io/config-policy-controller/pull/456)
+- **governance-policy-framework-addon** v0.19.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.19.0). Bugfixes and updated dependencies.
+- **governance-policy-propagator** v0.19.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-propagator/releases/tag/v0.19.0). Bugfixes and updated dependencies.
+- **governance-policy-addon-controller** v0.19.0 [changelog](https://github.com/open-cluster-management-io/governance-policy-addon-controller/releases/tag/v0.19.0). Bugfixes, updated dependencies, [enabling OperatorPolicy by default](https://github.com/open-cluster-management-io/governance-policy-addon-controller/pull/283) and a [new option to orphan the cluster namespace on the spoke](https://github.com/open-cluster-management-io/governance-policy-addon-controller/pull/284). 
+- **policy-generator-plugin** v0.19.0 [changelog](https://github.com/open-cluster-management-io/policy-generator-plugin/releases/tag/v0.19.0). Bugfixes, updated dependencies, and [expanders for new Kyverno policy types](https://github.com/open-cluster-management-io/policy-generator-plugin/pull/251).
+
 ---
 
 ## `1.3.0`, 9 May 2026
