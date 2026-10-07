@@ -3,8 +3,151 @@ title: Releases
 weight: 6
 ---
 
-Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.3.1`.
+Open Cluster Management has approximately a three to four month release cycle. The current release is `v1.4.0`.
 Continue reading to view upcoming releases:
+
+## `1.4.0`, 9 October 2026
+
+The Open Cluster Management team is excited to announce the release of OCM v1.4.0! This release brings hosted addon
+auto-discovery, deeper ManifestWork observability, alignment with the SIG Multicluster PlacementDecision API, and a
+broad set of security hardening across the hub and the agents.
+
+### 🌟 Key Highlights
+
+**Hosted Addon Auto-Discovery (KEP-188):**
+- **Klusterlet Hosting-Cluster Self-Report**: A new opt-in `reportHostingCluster` setting in the Klusterlet deploy
+  option lets a klusterlet report where its controllers actually run through a reserved
+  `hosting-cluster.open-cluster-management.io` ClusterClaim, so the hub knows which cluster hosts a managed cluster
+- **Automatic Hosting Cluster Resolution**: The addon-framework now resolves the hosting cluster for Hosted
+  install-mode addons automatically, validates it against the klusterlet self-report, and derives the hosting cluster
+  annotation when a `ManagedClusterAddOn` is created, removing the need to annotate every hosted addon by hand
+
+**AddOnTemplate v1beta1:**
+- **API Promotion**: `AddOnTemplate` graduates to v1beta1 across the api, sdk-go, and addon-manager, completing the
+  move of the addon APIs to v1beta1 that began in v1.2.0
+- **Template Hardening**: Template rendering now coerces `spec.replicas` values supplied as strings and normalizes
+  Helm values before rendering
+
+**ManifestWork Observability:**
+- **Apply Logs**: New `ManifestWorkApplyLogs` feature gate (alpha) makes the work agent emit structured logs for every
+  ManifestWork reconcile and each applied resource
+- **Apply Metrics**: New `ManifestWorkApplyMetrics` feature gate (alpha) exposes metrics for ManifestWork resource
+  apply results
+- **Hub Cluster Name in Agents**: Klusterlet agents learn the hub cluster name and include it in work apply logs,
+  which helps correlate events in multi-hub environments
+- **More Accurate ManifestWorkReplicaSet Status**: Failed applies are reported as `NotAsExpected` instead of
+  `PlacementDecisionEmpty`, invalid owner labels are surfaced in status, and a hash-based owner label removes the
+  63-character limit on `namespace.name` owner keys
+
+**SIG Multicluster Alignment:**
+- **PlacementDecision Sync**: New `SIGPlacementDecision` feature gate (alpha) syncs OCM `PlacementDecision` objects to
+  the SIG Multicluster cluster-inventory-api `PlacementDecision`, building on the ClusterProfile integration
+  delivered in v1.2.0
+
+**Security Hardening:**
+- **NetworkPolicies**: New opt-in `NetworkPolicies` feature gate on `ClusterManager` and `Klusterlet` deploys
+  default-deny NetworkPolicies plus the required allow rules for the hub and agent namespaces
+- **TLS Profiles Everywhere**: TLS profile configuration is now applied to the operator and agent serving endpoints and
+  can be configured for spoke cluster agents, completing the TLS profile work started in v1.3.0
+- **gRPC Identity Binding**: The gRPC server binds status updates and CloudEvents publishing to the authenticated
+  cluster identity and rejects events with invalid attributes, so one agent can no longer act on behalf of another
+  cluster
+- **Smaller Images**: The placement and addon-manager images moved to the `ubi-micro` base to reduce attack surface
+
+**Registration & Klusterlet:**
+- **Cluster Labels at Join**: `clusterLabels` in the Klusterlet registration configuration are applied to the
+  `ManagedCluster` when it is created
+- **AWS IRSA Improvements**: AWS GovCloud ARNs are accepted and the CSR informer is started correctly in the
+  `awsirsa` registration driver
+- **Operational Knobs**: An annotation to skip the managed cluster clock sync check, a flag to configure spoke agent
+  controller workers, and `imagePullSecrets`, `extraVolumes`, and `extraVolumeMounts` support in the cluster-manager
+  and klusterlet Helm charts
+
+**Addon Framework & SDK:**
+- **Addon Lifecycle Fixes**: Pre-delete hooks that fail terminally are retried, the default hook syncer no longer
+  wedges `ManagedClusterAddOn` deletion, and addon config reference ordering is preserved
+- **MQTT Resilience**: Buffered messages are preserved across reconnects, subscriptions are idempotent, and the
+  transport exposes readiness
+- **gRPC Dial Options**: `GRPCDialer` accepts `ExtraDialOpts` for custom dial configuration
+
+**CLI (clusteradm):**
+- **Cancellation Support**: A parent context is propagated through all commands so interrupting a long-running
+  operation cancels it cleanly
+- **Raw Token Output**: `clusteradm get token -o raw` prints the bare token for scripting
+- **Helm Flag Propagation**: Global `clusteradm` flags are propagated into Helm-based installs, and
+  `clusteradm proxy kubectl` rejects unsupported `--clusters` usage instead of silently ignoring it
+
+### 🔧 Breaking Changes
+
+- **Legacy Addon Lifecycle Shim Removed**: The addon-framework no longer carries the `cmamanagedby` migration shim.
+  Addons built with addon-framework v0.9.3 or older that rely on the deprecated `WithInstallStrategy()` and the
+  `addon.open-cluster-management.io/lifecycle: self` annotation must be upgraded before moving to this release.
+- **Addon Metrics and pprof Disabled by Default**: Addon managers built with the addon-framework command factory no
+  longer serve `/metrics` and `/debug/pprof/` unless explicitly enabled.
+
+### 📊 Community Growth
+
+This release includes contributions from **numerous contributors** across all repositories, with **27 new
+contributors** joining our community:
+
+**New Contributors:**
+- [@pvsh1804](https://github.com/pvsh1804) - ManifestWork apply metrics and feature gate
+- [@payjain](https://github.com/payjain) - Klusterlet cluster labels and hash-based ManifestWorkReplicaSet owner label
+- [@Arunamanivannan](https://github.com/Arunamanivannan) - Hub cluster name in klusterlet agents
+- [@amancse](https://github.com/amancse) - Hub namespace NetworkPolicies and AddOnTemplate replicas coercion
+- [@mihirlele](https://github.com/mihirlele) - Agent namespace NetworkPolicies
+- [@shivansh-source](https://github.com/shivansh-source) - TLS profile configuration for spoke cluster agents
+- [@Randy424](https://github.com/Randy424) - PlacementDebugServer TLS certificate rotation and SANs
+- [@raviranjan6020](https://github.com/raviranjan6020) - Accurate ManifestWorkReplicaSet failure reporting
+- [@krishnankm](https://github.com/krishnankm) - Invalid ManifestWork owner label surfaced on MWRS status
+- [@gauravshinde1729](https://github.com/gauravshinde1729) - Clock sync check skip annotation and test deflaking
+- [@Vaishnav88sk](https://github.com/Vaishnav88sk) - Configurable spoke agent controller workers
+- [@blueprismo](https://github.com/blueprismo) - imagePullSecrets support in the cluster-manager Helm chart
+- [@digvijay-y](https://github.com/digvijay-y) - extraVolumes and extraVolumeMounts in the klusterlet Helm chart
+- [@minmul117](https://github.com/minmul117) - CSR informer fix in the awsirsa driver and VESSL AI adopter entry
+- [@darylsmit-rgb](https://github.com/darylsmit-rgb) - Registration and work image base fix for the AWS CLI plugin
+- [@stevekuznetsov](https://github.com/stevekuznetsov) - JobFailed status feedback surfaced in work
+- [@KevinFCormier](https://github.com/KevinFCormier) - Addon config reference ordering fixes
+- [@holysoles](https://github.com/holysoles) - defaultHookSyncer ManagedClusterAddOn deletion fix
+- [@kuudori](https://github.com/kuudori) - ExtraDialOpts for the sdk-go GRPCDialer
+- [@rafabene](https://github.com/rafabene) - MQTT buffered message preservation across reconnects
+- [@magic-peach](https://github.com/magic-peach) - Test coverage across ocm, addon-framework, and clusteradm
+- [@bot69dude](https://github.com/bot69dude) - e2e cleanup and addon conversion test fixes
+- [@kushg17](https://github.com/kushg17) - Helm Operator solution integration and documentation fixes
+- [@vaibhav8a](https://github.com/vaibhav8a) - Documentation fixes
+- [@jan-law](https://github.com/jan-law) - Operator policy guide
+- [@jsell-rh](https://github.com/jsell-rh) - Cluster registration termination documentation
+- [@sudeshmu](https://github.com/sudeshmu) - OCM at IndiaFOSS 2026 recap
+
+We extend our gratitude to all contributors who made this release possible!
+
+### 📦 Core Components
+
+- **api** v1.4.0 [changelog](https://github.com/open-cluster-management-io/api/releases/tag/v1.4.0)
+- **ocm** v1.4.0 [changelog](https://github.com/open-cluster-management-io/ocm/releases/tag/v1.4.0)
+- **addon-framework** v1.4.0 [changelog](https://github.com/open-cluster-management-io/addon-framework/releases/tag/v1.4.0)
+- **clusteradm** v1.4.0 [changelog](https://github.com/open-cluster-management-io/clusteradm/releases/tag/v1.4.0)
+
+### 📦 Addons
+
+- **cluster-proxy** v0.13.0 [changelog](https://github.com/open-cluster-management-io/cluster-proxy/releases/tag/v0.13.0)
+- **managed-serviceaccount** v0.12.0 [changelog](https://github.com/open-cluster-management-io/managed-serviceaccount/releases/tag/v0.12.0)
+- **argocd-pull-integration** v0.30.0 [changelog](https://github.com/open-cluster-management-io/argocd-pull-integration/releases/tag/v0.30.0)
+- **governance-policy** v0.20.1 [changelog](https://github.com/open-cluster-management-io/governance-policy-framework-addon/releases/tag/v0.20.1)
+- **cluster-permission** v0.17.0 [changelog](https://github.com/open-cluster-management-io/cluster-permission/releases/tag/v0.17.0)
+
+### 📦 Extensions
+
+- **fleetconfig-controller** v0.3.6 [changelog](https://github.com/open-cluster-management-io/lab/releases/tag/fleetconfig-controller%2Fv0.3.6)
+- **multicluster-controlplane** v0.8.0 [changelog](https://github.com/open-cluster-management-io/multicluster-controlplane/releases/tag/v0.8.0)
+
+We hope this release helps you better manage your Kubernetes clusters with simpler hosted addon operations, richer
+ManifestWork observability, and stronger security defaults. If you have any questions, please don't hesitate to
+contact us in our community channels or log issues on our repositories.
+
+Thank you to all contributors for your hard work and to the community for your continued support!
+
+---
 
 ## `1.3.1`, 19 May 2026
 
