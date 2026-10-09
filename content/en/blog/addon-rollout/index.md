@@ -27,12 +27,12 @@ At this stage, there are some add-ons in the OCM community:
 - [Managed service account](https://open-cluster-management.io/getting-started/integration/managed-serviceaccount/) enables a hub cluster admin to manage service account across multiple clusters on ease.
 - [Cluster proxy](https://open-cluster-management.io/getting-started/integration/cluster-proxy/) provides L4 network connectivity from hub cluster to the managed clusters.
 
-**For more information about add-on, please refer to [Add-on concept](https://open-cluster-management.io/concepts/addon/) and [Add-on Developer Guide](https://open-cluster-management.io/developer-guides/addon/).**
+**For more information about add-on, please refer to [Add-on concept](https://open-cluster-management.io/concepts/addon/) and [Add-on Developer Guide](https://open-cluster-management.io/docs/developer-guides/addon/).**
 
 OCM provides two ways to help developers develop their own add-ons:
 
-- Hard mode: Using the built-in mechanism of [addon-framework](https://github.com/open-cluster-management-io/addon-framework), you can follow the [Add-on Development Guide](https://open-cluster-management.io/developer-guides/addon/) to develop the addon manager and addon agent.
-- Easy mode: OCM provides a new development model, which can use [AddOnTemplate](https://open-cluster-management.io/developer-guides/addon/#build-an-addon-with-addon-template) to build add-on. In this model, developers do not need to develop the addon manager, but only need to prepare the addon agent's image and `AddOnTemplate`. `AddOnTemplate` describes how to deploy the addon agent and how to register the add-on.
+- Hard mode: Using the built-in mechanism of [addon-framework](https://github.com/open-cluster-management-io/addon-framework), you can follow the [Add-on Development Guide](https://open-cluster-management.io/docs/developer-guides/addon/) to develop the addon manager and addon agent.
+- Easy mode: OCM provides a new development model, which can use [AddOnTemplate](https://open-cluster-management.io/docs/developer-guides/addon/#build-an-addon-with-addon-template) to build add-on. In this model, developers do not need to develop the addon manager, but only need to prepare the addon agent's image and `AddOnTemplate`. `AddOnTemplate` describes how to deploy the addon agent and how to register the add-on.
 
 Below is the `ClusterManagementAddOn` and `AddOnTemplate` of a sample add-on. `AddOnTemplate` is treated as an add-on configuration file, defined in `supportedConfigs`. The `AddOnTemplate` resource contains the manifest required to deploy the add-on and the add-on registration method.
 
@@ -233,7 +233,7 @@ spec:
 
 The OCM component addon-manager-controller under the open-cluster-management-hub namespace is a more general addon manager. It will watch the following two types of add-on and be responsible for maintaining the lifecycle of such add-on. Includes installation and upgrades. When the name or spec content of the configuration file changes, this component will upgrade the add-on according to the upgrade strategy defined by rolloutStrategy.
 
-- Hard mode: Using the add-on developed by the latest [addon-framework](https://github.com/open-cluster-management-io/addon-framework), you need to delete the `WithInstallStrategy()` method in the code and add annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"` in `ClusterManagementAddOn`. For details, refer to [Add-on Development Guide](https://open-cluster-management.io/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager).
+- Hard mode: Using the add-on developed by the latest [addon-framework](https://github.com/open-cluster-management-io/addon-framework), you need to delete the `WithInstallStrategy()` method in the code and add annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"` in `ClusterManagementAddOn`. For details, refer to [Add-on Development Guide](https://open-cluster-management.io/docs/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager).
 - Easy mode: add-on developed using `AddOnTemplate` mode.
 
 ```bash

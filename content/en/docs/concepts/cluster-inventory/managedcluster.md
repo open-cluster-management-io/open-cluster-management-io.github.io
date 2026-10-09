@@ -199,7 +199,7 @@ ManagedCluster when it is not reachable. To be specific,
 
 Tolerations are applied to Placements, and allow Placements to select
 ManagedClusters with matching taints. Refer to [Placement
-Taints/Tolerations](../content-placement/placement/#taintstolerations) to see how it is used for
+Taints/Tolerations](../../content-placement/placement/#taintstolerations) to see how it is used for
 cluster selection.
 
 ### Cluster removal

@@ -43,7 +43,7 @@ spec:
 
 ### Enable the add-on automatically
 If the addon is developed with [automatic installation]({{< ref "docs/developer-guides/addon/#automatic-installation" >}}),
-which support [auto-install by cluster discovery]({{< ref "docs/concepts/add-on-extensibility/addon/#auto-install-by-cluster-discovery" >}}),
+which support [auto-install by cluster discovery]({{< ref "docs/concepts/add-on-extensibility/addon/#install-strategy" >}}),
 then the `ManagedClusterAddOn` will be created for all managed cluster namespaces
 automatically, or be created for the selected managed cluster namespaces automatically.
 

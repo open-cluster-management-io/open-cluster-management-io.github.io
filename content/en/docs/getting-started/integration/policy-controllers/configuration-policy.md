@@ -51,7 +51,7 @@ Ensure `clusteradm` CLI is installed and is newer than v0.3.0. Download and extr
 After a successful deployment, test the policy framework and configuration policy controller with a sample policy.
 
 For more information on how to use a `ConfigurationPolicy`, read the
-[`Policy` API concept section]({{< ref "docs/getting-started/integration/policy-controllers/policy-framework#policy" >}}).
+[`Policy` API concept section]({{< ref "docs/getting-started/integration/policy-controllers/policy#policy" >}}).
 
 1. Run the following command to create a policy on the hub that uses `Placement`:
 
@@ -72,7 +72,7 @@ For more information on how to use a `ConfigurationPolicy`, read the
 
 3. Make sure the `default` namespace has a `ManagedClusterSetBinding` for a `ManagedClusterSet` with at least one
    managed cluster resource in the `ManagedClusterSet`. See
-   [Bind ManagedClusterSet to a namespace]({{< ref "docs/concepts/cluster-inventory/managedclusterset#bind-managedclusterset-to-a-namespace" >}}) for more
+   [Bind ManagedClusterSet to a namespace]({{< ref "docs/concepts/cluster-inventory/managedclusterset#binding-the-managedclusterset-to-a-workspace-namespace" >}}) for more
    information on this.
 
 4. To confirm that the managed cluster is selected by the `Placement`, run the following command:

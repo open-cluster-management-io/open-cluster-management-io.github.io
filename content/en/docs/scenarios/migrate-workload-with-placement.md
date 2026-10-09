@@ -16,7 +16,7 @@ with the `PlacementDecision` to leverage its scheduling capabilities.
 For example, with OCM addon [policy]({{< ref "docs/getting-started/integration/policy-controllers" >}})
 installed, a `Policy` that includes a `Placement` mapping can distribute the
 `Policy` to the managed clusters.
-For details see this [example]({{< ref "docs/getting-started/integration/policy-controllers/configuration-policy/#placement-api" >}}).
+For details see this [example]({{< ref "docs/getting-started/integration/policy-controllers/configuration-policy/#sample-configuration-policy" >}}).
 
 Some popular open source projects also integrate with the `Placement` API. For
 example [Argo CD](https://github.com/argoproj/argo-cd), it can leverage the
@@ -35,11 +35,11 @@ application disaster recovery or application migration during cluster maintenanc
 
 Before starting with the following steps, we recommend that you familiarize yourself with the content below.
 
-- [Taints of ManagedClusters](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters):
+- [Taints of ManagedClusters](https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters):
 Taints are properties of `ManagedClusters`, they allow a `Placement` to repel
 a set of `ManagedClusters`.
 
-- [Tolerations of Placement](https://open-cluster-management.io/concepts/placement/#taintstolerations):
+- [Tolerations of Placement](https://open-cluster-management.io/docs/concepts/content-placement/placement/#taintstolerations):
 Tolerations are applied to `Placements`, and allow `Placements` to select
 `ManagedClusters` with matching taints.
 
@@ -136,7 +136,7 @@ cluster2-guestbook-app   Synced        Healthy
 
 ## What happens behind the scene
 
-Refer to [Taints of ManagedClusters](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters),
+Refer to [Taints of ManagedClusters](https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters),
 when pausing cluster1, the status of condition `ManagedClusterConditionAvailable`
 becomes `Unknown`. The taint `cluster.open-cluster-management.io/unreachable` is automatically
 added to cluster1, with the effect NoSelect and an empty value.
@@ -163,7 +163,7 @@ Since the `Placement` guestbook-app-placement doesn't define any toleration to m
 cluster1 will be filtered from the decision. In the demo environment, once cluster1 is down,
 placement will select one cluster from the rest clusters, which is cluster2.
 
-[Taints of ManagedClusters](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters)
+[Taints of ManagedClusters](https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters)
 also describes other scenarios where taints are automatically added. In some scenarios you may not want to
 migrate the application immediately when a taint is added, with placement `TolerationSeconds` defined, it could tolerates the taint
 for a period of time before repelling it. In above example, the `TolerationSeconds` could be defined as below:
@@ -236,4 +236,4 @@ In the following example, suppose you are going to maintain cluster2, and want t
 
 In this article, we use the ArgoCD pull model in OCM as an example, showing you how to migrate the ArgoCD applications automatically or manually when the cluster is down or during the cluster maintenance time.
 
-The concept of [Taints](https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters) and [Tolerations](https://open-cluster-management.io/concepts/placement/#taintstolerations) can be used for any components that consume OCM `Placement`, such as [add-ons](https://open-cluster-management.io/concepts/addon/) and [ManifestworkReplicaSet](https://open-cluster-management.io/concepts/manifestworkreplicaset/). If you have any questions, feel free to raise them in our [slack channel](https://kubernetes.slack.com/channels/open-cluster-mgmt).
+The concept of [Taints](https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters) and [Tolerations](https://open-cluster-management.io/docs/concepts/content-placement/placement/#taintstolerations) can be used for any components that consume OCM `Placement`, such as [add-ons](https://open-cluster-management.io/concepts/addon/) and [ManifestworkReplicaSet](https://open-cluster-management.io/concepts/manifestworkreplicaset/). If you have any questions, feel free to raise them in our [slack channel](https://kubernetes.slack.com/channels/open-cluster-mgmt).

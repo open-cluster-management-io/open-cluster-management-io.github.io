@@ -71,7 +71,7 @@ Ensure `clusteradm` CLI is installed and is newer than v0.3.0. Download and extr
 
 After a successful deployment, test the policy framework and operator policy controller with a sample policy.
 
-For more information on how to use an `OperatorPolicy`, read the [Policy API concept section]({{< ref "docs/getting-started/integration/policy-controllers/policy-framework#policy" >}}).
+For more information on how to use an `OperatorPolicy`, read the [Policy API concept section]({{< ref "docs/getting-started/integration/policy-controllers/policy#policy" >}}).
 
 ### Example: Deploy an external secrets operator
 
@@ -152,7 +152,7 @@ The following example deploys an external secrets operator to a managed cluster 
    placement.cluster.open-cluster-management.io/placement-policy-eso created
    ```
 
-3. Ensure the `default` namespace has a `ManagedClusterSetBinding` for a `ManagedClusterSet` with at least one managed cluster resource. See [Bind ManagedClusterSet to a namespace]({{< ref "docs/concepts/cluster-inventory/managedclusterset#bind-managedclusterset-to-a-namespace" >}}) for more information.
+3. Ensure the `default` namespace has a `ManagedClusterSetBinding` for a `ManagedClusterSet` with at least one managed cluster resource. See [Bind ManagedClusterSet to a namespace]({{< ref "docs/concepts/cluster-inventory/managedclusterset#binding-the-managedclusterset-to-a-workspace-namespace" >}}) for more information.
 
 4. Verify the managed cluster is selected by the `Placement`:
 

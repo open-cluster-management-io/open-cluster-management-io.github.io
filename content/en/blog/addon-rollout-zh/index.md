@@ -35,8 +35,8 @@ OCM（open-cluster-management）是一个专注于 Kubernetes 应用跨多集群
 
 OCM 提供了两种方式帮助开发者开发自己的 add-on：
 
-- Hard 模式：使用[addon-framework](https://github.com/open-cluster-management-io/addon-framework)的内置机制，可根据[Add-on 开发指南](https://open-cluster-management.io/developer-guides/addon/)来开发 add-on 插件的 addon manager 和 addon agent。
-- Easy 模式：OCM 提供了一个新的插件开发模型，可使用[AddOnTemplate](https://open-cluster-management.io/developer-guides/addon/#build-an-addon-with-addon-template)来构建 add-on。在此模型中开发者无需开发 addon manager，只需准备 addon agent 的 image 和 AddOnTemplate，AddOnTemplate 描述了如何部署 addon agent 以及如何注册 addon。
+- Hard 模式：使用[addon-framework](https://github.com/open-cluster-management-io/addon-framework)的内置机制，可根据[Add-on 开发指南](https://open-cluster-management.io/docs/developer-guides/addon/)来开发 add-on 插件的 addon manager 和 addon agent。
+- Easy 模式：OCM 提供了一个新的插件开发模型，可使用[AddOnTemplate](https://open-cluster-management.io/docs/developer-guides/addon/#build-an-addon-with-addon-template)来构建 add-on。在此模型中开发者无需开发 addon manager，只需准备 addon agent 的 image 和 AddOnTemplate，AddOnTemplate 描述了如何部署 addon agent 以及如何注册 addon。
 
 如下是一个样例 add-on 的 ClusterManagementAddOn 和 AddOnTemplate。AddOnTemplate 被视为 add-on 一个配置文件，定义在 supportedConfigs 中。AddOnTemplate 资源中则包含了部署 add-on 所需的 manifest 以及 add-on 的注册方式。
 
@@ -237,7 +237,7 @@ spec:
 
 OCM 在 open-cluster-management-hub 命名空间下的组件 addon-manager-controller 是一个更通用的 addon manager，它会 watch 以下两种类型的 add-on 并负责维护此类 add-on 的生命周期，包括安装与升级。当配置文件的名称或者 spec 内容变化时，此组件会按照 rolloutStrategy 所定义的升级策略来升级 add-on。
 
-- Hard 模式：使用最新[addon-framework](https://github.com/open-cluster-management-io/addon-framework)开发的 add-on，需要删除代码中的`WithInstallStrategy()`方法并在`ClusterManagementAddOn`添加 annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"`。详细内容参考[Add-on 开发指南](https://open-cluster-management.io/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager)。
+- Hard 模式：使用最新[addon-framework](https://github.com/open-cluster-management-io/addon-framework)开发的 add-on，需要删除代码中的`WithInstallStrategy()`方法并在`ClusterManagementAddOn`添加 annotation `addon.open-cluster-management.io/lifecycle: "addon-manager"`。详细内容参考[Add-on 开发指南](https://open-cluster-management.io/docs/developer-guides/addon/#managing-the-add-on-agent-lifecycle-by-addon-manager)。
 - Easy 模式：使用 AddOnTemplate 模式开发的 add-on。
 
 ```bash
