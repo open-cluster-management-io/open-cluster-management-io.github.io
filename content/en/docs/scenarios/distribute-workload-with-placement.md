@@ -16,7 +16,7 @@ with the `PlacementDecision` to leverage its scheduling capabilities.
 For example, with OCM addon [policy]({{< ref "docs/getting-started/integration/policy-controllers" >}})
 installed, a `Policy` that includes a `Placement` mapping can distribute the
 `Policy` to the managed clusters.
-For details see this [example]({{< ref "docs/getting-started/integration/policy-controllers/configuration-policy/#placement-api" >}}).
+For details see this [example]({{< ref "docs/getting-started/integration/policy-controllers/configuration-policy/#sample-configuration-policy" >}}).
 
 Some popular open source projects also integrate with the `Placement` API. For
 example [Argo CD](https://github.com/argoproj/argo-cd), it can leverage the
@@ -85,7 +85,7 @@ to prepare an environment.
     default   default            2 ManagedClusters selected
     ```
 
-    Note: click [here](https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm)
+    Note: click [here](https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/#operating-managedclusterset-using-clusteradm)
     to see more details about how to operate `ManagedClusterSet` using `clusteradm`.
 
 4) Create a `Placement` placement1 to select the two clusters in default `ManagedClusterSet`.

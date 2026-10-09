@@ -150,7 +150,7 @@ spec:
            - "3600"
 ```
 
-Then you can follow next section to [deploy the add-on manager on your hub cluster](##deploy-the-add-on-manager-on-your-hub-cluster). The add-on manager will watch the `ManagedClusterAddOn`, and deploy the add-on agent manifests to the targeted managed cluster via `ManifestWork`.
+Then you can follow next section to [deploy the add-on manager on your hub cluster](#deploy-the-add-on-manager-on-your-hub-cluster). The add-on manager will watch the `ManagedClusterAddOn`, and deploy the add-on agent manifests to the targeted managed cluster via `ManifestWork`.
 
 ### Deploy the add-on manager on your hub cluster
 
@@ -1225,7 +1225,7 @@ volumes, health probe for daemonsets) from OCM v0.14.0.
    * The permission related resources(i.e. `RoleBinding` `ClusterRoleBinding`) for *the addon agent access the local
      managed cluster* defined in the `addonTemplate.agentSpec.workload.manifests` will be created on the managed cluster
      by the work-agent, but the work-agent may not have permission to create these resources, users should refer to
-     [permission-setting-for-work-agent](https://open-cluster-management.io/concepts/manifestwork/#permission-setting-for-work-agent)
+     [permission-setting-for-work-agent](https://open-cluster-management.io/docs/concepts/work-distribution/manifestwork/#permission-setting-for-work-agent)
      to grant the work-agnet permissions to address the permission issue on the managed cluster side.
    * Permissions for *the addon agent access the hub cluster* defined in
      `addonTemplate.registration[*].kubeClient.hubPermissions`, users should ensure:

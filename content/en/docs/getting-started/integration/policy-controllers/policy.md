@@ -13,7 +13,7 @@ The policy framework has the following API concepts:
 
 - [_Policy Templates_](#managed-cluster-policy-controllers) are the policies that perform a desired check or action on a managed cluster. For
   example,
-  [ConfigurationPolicy](  {{< ref "docs/getting-started/integration/policy-controllers#install-the-configuration-policy-controller" >}})
+  [ConfigurationPolicy](  {{< ref "docs/getting-started/integration/policy-controllers/configuration-policy#installing-the-configuration-policy-controller" >}})
   objects are embedded in `Policy` objects under the `policy-templates` array.
 - A [`Policy`](#policy) is a grouping mechanism for _Policy Templates_ and is the smallest deployable unit on the hub
   cluster. Embedded _Policy Templates_ are distributed to applicable managed clusters and acted upon by the appropriate
@@ -216,7 +216,7 @@ runtime.
 
 Template functions, such as resource-specific and generic `lookup` template functions, are available for referencing
 Kubernetes resources on the hub cluster (using the `{{hub ... hub}}` delimiters), or managed cluster (using the
-`{{ ... }}` delimiters). See the [Hub cluster templates section](#hub-cluster-templates) for more details. The
+`{{ ... }}` delimiters). See the [Hub cluster templates section](#hub-cluster-templating-in-configuration-policies) for more details. The
 resource-specific functions are used for convenience and makes content of the resources more accessible. If you use the
 generic function, `lookup`, which is more advanced, it is best to be familiar with the YAML structure of the resource
 that is being looked up. In addition to these functions, utility functions like `base64encode`, `base64decode`,

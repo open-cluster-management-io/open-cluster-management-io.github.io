@@ -140,7 +140,7 @@ cluster.
 In OCM, Taints and Tolerations work together to allow users to control the
 selection of managed clusters more flexibly.
 
-[Taints](../cluster-inventory/managedcluster/#cluster-taints-and-tolerations) are properties of
+[Taints](../../cluster-inventory/managedcluster/#cluster-taints-and-tolerations) are properties of
 ManagedClusters, they allow a Placement to repel a set of ManagedClusters in
 predicates stage.
 
@@ -534,7 +534,7 @@ For detailed examples and use cases of topology-aware workload spreading, see [S
 
 ### Rollout Strategy
 
-Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, [Addon](../add-on-extensibility/addon/#rollout-strategy) and [ManifestWorkReplicaSet](../work-distribution/manifestworkreplicaset/) to apply workloads.
+Rollout Strategy [API](https://github.com/open-cluster-management-io/api/blob/main/cluster/v1alpha1/types_rolloutstrategy.go) facilitate the use of placement decision strategy with OCM workload applier APIs such as Policy, [Addon](../../add-on-extensibility/addon/#rollout-strategy) and [ManifestWorkReplicaSet](../work-distribution/manifestworkreplicaset/) to apply workloads.
 
 ```yaml
     placements:
