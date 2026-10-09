@@ -194,7 +194,7 @@ introduction of how the cluster registration lifecycle works under the hood:&lt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#managed-cluster-policy-controllers"&gt;&lt;em&gt;Policy Templates&lt;/em&gt;&lt;/a&gt; are the policies that perform a desired check or action on a managed cluster. For
 example,
-&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/#install-the-configuration-policy-controller"&gt;ConfigurationPolicy&lt;/a&gt;
+&lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#installing-the-configuration-policy-controller"&gt;ConfigurationPolicy&lt;/a&gt;
 objects are embedded in &lt;code&gt;Policy&lt;/code&gt; objects under the &lt;code&gt;policy-templates&lt;/code&gt; array.&lt;/li&gt;
 &lt;li&gt;A &lt;a href="https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/policy/#policy"&gt;&lt;code&gt;Policy&lt;/code&gt;&lt;/a&gt; is a grouping mechanism for &lt;em&gt;Policy Templates&lt;/em&gt; and is the smallest deployable unit on the hub
 cluster. Embedded &lt;em&gt;Policy Templates&lt;/em&gt; are distributed to applicable managed clusters and acted upon by the appropriate

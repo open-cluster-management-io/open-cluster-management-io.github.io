@@ -77,7 +77,7 @@ the target clusters. You can also integrate a high-level workload orchestrator
 with the <code>PlacementDecision</code> to leverage its scheduling capabilities.</p><p>For example, with OCM addon <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/>policy</a>
 installed, a <code>Policy</code> that includes a <code>Placement</code> mapping can distribute the
 <code>Policy</code> to the managed clusters.
-For details see this <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#placement-api>example</a>.</p><p>Some popular open source projects also integrate with the <code>Placement</code> API. For
+For details see this <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#sample-configuration-policy>example</a>.</p><p>Some popular open source projects also integrate with the <code>Placement</code> API. For
 example <a href=https://github.com/argoproj/argo-cd>Argo CD</a>, it can leverage the
 generated <code>PlacementDecision</code> to drive the assignment of Argo CD Applications to a
 desired set of clusters, details see this <a href=https://github.com/argoproj/argo-cd/tree/master/applicationset/examples/clusterDecisionResource>example</a>.
@@ -110,7 +110,7 @@ to prepare an environment.</p><div class=highlight><pre tabindex=0 style=backgro
 </span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ clusteradm get clustersets
 </span></span><span style=display:flex><span>NAME      BOUND NAMESPACES   STATUS
 </span></span><span style=display:flex><span>default   default            <span style=color:#0000cf;font-weight:700>2</span> ManagedClusters selected
-</span></span></code></pre></div><p>Note: click <a href=https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm>here</a>
+</span></span></code></pre></div><p>Note: click <a href=https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/#operating-managedclusterset-using-clusteradm>here</a>
 to see more details about how to operate <code>ManagedClusterSet</code> using <code>clusteradm</code>.</p></li><li><p>Create a <code>Placement</code> placement1 to select the two clusters in default <code>ManagedClusterSet</code>.</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat <span style=color:#4e9a06>&lt;&lt; EOF | kubectl apply -f -
 </span></span></span><span style=display:flex><span><span style=color:#4e9a06>apiVersion: cluster.open-cluster-management.io/v1beta1
 </span></span></span><span style=display:flex><span><span style=color:#4e9a06>kind: Placement

@@ -425,7 +425,7 @@ the target clusters. You can also integrate a high-level workload orchestrator
 with the <code>PlacementDecision</code> to leverage its scheduling capabilities.</p><p>For example, with OCM addon <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/>policy</a>
 installed, a <code>Policy</code> that includes a <code>Placement</code> mapping can distribute the
 <code>Policy</code> to the managed clusters.
-For details see this <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#placement-api>example</a>.</p><p>Some popular open source projects also integrate with the <code>Placement</code> API. For
+For details see this <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#sample-configuration-policy>example</a>.</p><p>Some popular open source projects also integrate with the <code>Placement</code> API. For
 example <a href=https://github.com/argoproj/argo-cd>Argo CD</a>, it can leverage the
 generated <code>PlacementDecision</code> to drive the assignment of Argo CD Applications to a
 desired set of clusters, details see this <a href=https://github.com/argoproj/argo-cd/tree/master/applicationset/examples/clusterDecisionResource>example</a>.
@@ -458,7 +458,7 @@ to prepare an environment.</p><div class=highlight><pre tabindex=0 style=backgro
 </span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ clusteradm get clustersets
 </span></span><span style=display:flex><span>NAME      BOUND NAMESPACES   STATUS
 </span></span><span style=display:flex><span>default   default            <span style=color:#0000cf;font-weight:700>2</span> ManagedClusters selected
-</span></span></code></pre></div><p>Note: click <a href=https://open-cluster-management.io/concepts/managedclusterset/#operates-managedclusterset-using-clusteradm>here</a>
+</span></span></code></pre></div><p>Note: click <a href=https://open-cluster-management.io/docs/concepts/cluster-inventory/managedclusterset/#operating-managedclusterset-using-clusteradm>here</a>
 to see more details about how to operate <code>ManagedClusterSet</code> using <code>clusteradm</code>.</p></li><li><p>Create a <code>Placement</code> placement1 to select the two clusters in default <code>ManagedClusterSet</code>.</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>cat <span style=color:#4e9a06>&lt;&lt; EOF | kubectl apply -f -
 </span></span></span><span style=display:flex><span><span style=color:#4e9a06>apiVersion: cluster.open-cluster-management.io/v1beta1
 </span></span></span><span style=display:flex><span><span style=color:#4e9a06>kind: Placement
@@ -834,7 +834,7 @@ the target clusters. You can also integrate a high-level workload orchestrator
 with the <code>PlacementDecision</code> to leverage its scheduling capabilities.</p><p>For example, with OCM addon <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/>policy</a>
 installed, a <code>Policy</code> that includes a <code>Placement</code> mapping can distribute the
 <code>Policy</code> to the managed clusters.
-For details see this <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#placement-api>example</a>.</p><p>Some popular open source projects also integrate with the <code>Placement</code> API. For
+For details see this <a href=https://open-cluster-management.io/docs/getting-started/integration/policy-controllers/configuration-policy/#sample-configuration-policy>example</a>.</p><p>Some popular open source projects also integrate with the <code>Placement</code> API. For
 example <a href=https://github.com/argoproj/argo-cd>Argo CD</a>, it can leverage the
 generated <code>PlacementDecision</code> to drive the assignment of Argo CD Applications to a
 desired set of clusters, details see this <a href=https://github.com/argoproj/argo-cd/tree/master/applicationset/examples/clusterDecisionResource>example</a>.
@@ -843,9 +843,9 @@ the open application model, also will take advantage of the <code>Placement</cod
 workload scheduling.</p><p>In this article, we use <a href=https://github.com/open-cluster-management-io/ocm/tree/main/solutions/deploy-argocd-apps-pull>ArgoCD pull model</a>
 as an example to demonstrate how, with the integration of OCM, you can migrate
 ArgoCD Applications among clusters. This is useful for scenarios such as
-application disaster recovery or application migration during cluster maintenance.</p><h2 id=prerequisites>Prerequisites</h2><p>Before starting with the following steps, we recommend that you familiarize yourself with the content below.</p><ul><li><p><a href=https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters>Taints of ManagedClusters</a>:
+application disaster recovery or application migration during cluster maintenance.</p><h2 id=prerequisites>Prerequisites</h2><p>Before starting with the following steps, we recommend that you familiarize yourself with the content below.</p><ul><li><p><a href=https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters>Taints of ManagedClusters</a>:
 Taints are properties of <code>ManagedClusters</code>, they allow a <code>Placement</code> to repel
-a set of <code>ManagedClusters</code>.</p></li><li><p><a href=https://open-cluster-management.io/concepts/placement/#taintstolerations>Tolerations of Placement</a>:
+a set of <code>ManagedClusters</code>.</p></li><li><p><a href=https://open-cluster-management.io/docs/concepts/content-placement/placement/#taintstolerations>Tolerations of Placement</a>:
 Tolerations are applied to <code>Placements</code>, and allow <code>Placements</code> to select
 <code>ManagedClusters</code> with matching taints.</p></li><li><p><a href=https://github.com/open-cluster-management-io/ocm/tree/main/solutions/deploy-argocd-apps-pull>ArgoCD Pull Model Integration</a>:
 The ArgoCD application controller uses the hub-spoke pattern or pull model mechanism
@@ -881,7 +881,7 @@ to set up an environment with OCM and ArgoCD pull model installed.</p><p>If the 
 </span></span></code></pre></div></li><li><p>Confirm the application is now deployed to cluster2.</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ kubectl -n argocd get app
 </span></span><span style=display:flex><span>NAME                     SYNC STATUS   HEALTH STATUS
 </span></span><span style=display:flex><span>cluster2-guestbook-app   Synced        Healthy
-</span></span></code></pre></div></li></ol><h2 id=what-happens-behind-the-scene>What happens behind the scene</h2><p>Refer to <a href=https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters>Taints of ManagedClusters</a>,
+</span></span></code></pre></div></li></ol><h2 id=what-happens-behind-the-scene>What happens behind the scene</h2><p>Refer to <a href=https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters>Taints of ManagedClusters</a>,
 when pausing cluster1, the status of condition <code>ManagedClusterConditionAvailable</code>
 becomes <code>Unknown</code>. The taint <code>cluster.open-cluster-management.io/unreachable</code> is automatically
 added to cluster1, with the effect NoSelect and an empty value.</p><pre><code>```shell
@@ -903,7 +903,7 @@ status:
 ```
 </code></pre><p>Since the <code>Placement</code> guestbook-app-placement doesn&rsquo;t define any toleration to match the taint,
 cluster1 will be filtered from the decision. In the demo environment, once cluster1 is down,
-placement will select one cluster from the rest clusters, which is cluster2.</p><p><a href=https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters>Taints of ManagedClusters</a>
+placement will select one cluster from the rest clusters, which is cluster2.</p><p><a href=https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters>Taints of ManagedClusters</a>
 also describes other scenarios where taints are automatically added. In some scenarios you may not want to
 migrate the application immediately when a taint is added, with placement <code>TolerationSeconds</code> defined, it could tolerates the taint
 for a period of time before repelling it. In above example, the <code>TolerationSeconds</code> could be defined as below:</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#204a87;font-weight:700>apiVersion</span><span style=color:#000;font-weight:700>:</span><span style=color:#f8f8f8;text-decoration:underline> </span><span style=color:#000>cluster.open-cluster-management.io/v1beta1</span><span style=color:#f8f8f8;text-decoration:underline>
@@ -932,7 +932,7 @@ You can also choose to add a taint manually and repel the application to other c
 </span></span></code></pre></div></li><li><p>Confirm the application is now deployed to cluster1.</p><div class=highlight><pre tabindex=0 style=background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>$ kubectl -n argocd get app
 </span></span><span style=display:flex><span>NAME                     SYNC STATUS   HEALTH STATUS
 </span></span><span style=display:flex><span>cluster1-guestbook-app   Synced        Healthy
-</span></span></code></pre></div></li></ol><h2 id=summary>Summary</h2><p>In this article, we use the ArgoCD pull model in OCM as an example, showing you how to migrate the ArgoCD applications automatically or manually when the cluster is down or during the cluster maintenance time.</p><p>The concept of <a href=https://open-cluster-management.io/concepts/managedcluster/#taints-of-managedclusters>Taints</a> and <a href=https://open-cluster-management.io/concepts/placement/#taintstolerations>Tolerations</a> can be used for any components that consume OCM <code>Placement</code>, such as <a href=https://open-cluster-management.io/concepts/addon/>add-ons</a> and <a href=https://open-cluster-management.io/concepts/manifestworkreplicaset/>ManifestworkReplicaSet</a>. If you have any questions, feel free to raise them in our <a href=https://kubernetes.slack.com/channels/open-cluster-mgmt>slack channel</a>.</p></div><div class=td-content style=page-break-before:always><h1 id=pg-7ca5dd580066fc69d90bf611a2fff868>9 - Pushing Kubernetes API requests to the managed clusters</h1><p>By following the instructions in this document, an OCM hub admin will be able
+</span></span></code></pre></div></li></ol><h2 id=summary>Summary</h2><p>In this article, we use the ArgoCD pull model in OCM as an example, showing you how to migrate the ArgoCD applications automatically or manually when the cluster is down or during the cluster maintenance time.</p><p>The concept of <a href=https://open-cluster-management.io/docs/concepts/cluster-inventory/managedcluster/#taints-of-managedclusters>Taints</a> and <a href=https://open-cluster-management.io/docs/concepts/content-placement/placement/#taintstolerations>Tolerations</a> can be used for any components that consume OCM <code>Placement</code>, such as <a href=https://open-cluster-management.io/concepts/addon/>add-ons</a> and <a href=https://open-cluster-management.io/concepts/manifestworkreplicaset/>ManifestworkReplicaSet</a>. If you have any questions, feel free to raise them in our <a href=https://kubernetes.slack.com/channels/open-cluster-mgmt>slack channel</a>.</p></div><div class=td-content style=page-break-before:always><h1 id=pg-7ca5dd580066fc69d90bf611a2fff868>9 - Pushing Kubernetes API requests to the managed clusters</h1><p>By following the instructions in this document, an OCM hub admin will be able
 to &ldquo;push&rdquo; Kubernetes API requests to the managed clusters. The benefit of using
 this method for &ldquo;pushing&rdquo; requests in OCM is that we don&rsquo;t need to explicitly
 configure any API endpoint for the managed clusters or provide any client
