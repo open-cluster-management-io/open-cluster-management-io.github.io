@@ -402,3 +402,8 @@ kubectl get multikueuecluster
 # Verify a specific MultiKueueCluster is active
 kubectl get multikueuecluster cluster1 -o jsonpath='{.status.conditions}'
 ```
+
+## Example: Headlamp
+
+[Headlamp](https://headlamp.dev/) uses the same ClusterProfile access providers to show every
+managed cluster in one web UI. See [Browse your fleet with Headlamp]({{< ref "docs/scenarios/browse-fleet-with-headlamp" >}}).
