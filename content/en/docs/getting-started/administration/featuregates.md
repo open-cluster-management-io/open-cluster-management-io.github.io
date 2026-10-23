@@ -13,7 +13,7 @@ OCM uses Kubernetes' feature gate mechanism to control the availability of featu
 - **Spoke Components**: Features running on managed clusters
 
 Feature gates follow a standard lifecycle:
-- **Alpha** (disabled by default): Experimental features that may change or be removed
+- **Alpha**: Experimental features that may change or be removed
 - **Beta** (enabled by default): Well-tested features that are expected to be promoted to GA
 - **GA** (always enabled): Stable features that are part of the core functionality
 
@@ -49,7 +49,7 @@ Feature gates follow a standard lifecycle:
 | Feature Gate | Default | Stage | Description |
 |--------------|---------|-------|-------------|
 | `NilExecutorValidating` | `false` | Alpha | When it is enabled, it will make the work-webhook to validate ManifestWork even when executor is nil, checking execute-as permissions with default executor. |
-| `ManifestWorkReplicaSet` | `false` | Alpha | When it is enabled, it will start new controller in the Hub that can be used to deploy manifestWorks to group of clusters selected by a placement. |
+| `ManifestWorkReplicaSet` | `true` | Alpha | When it is enabled, it will start new controller in the Hub that can be used to deploy manifestWorks to group of clusters selected by a placement. |
 | `CloudEventsDrivers` | `false` | Alpha | When it is enabled, it will enable the cloud events drivers (mqtt or grpc) for the hub controller, so that the controller can deliver manifestworks to the managed clusters via cloud events. |
 
 #### Spoke Work Features
@@ -102,7 +102,7 @@ spec:
       mode: Enable
   workConfiguration:
     featureGates:
-    - feature: ManifestWorkReplicaSet
+    - feature: NilExecutorValidating
       mode: Enable
   addOnManagerConfiguration:
     featureGates:

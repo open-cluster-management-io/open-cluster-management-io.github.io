@@ -14,29 +14,11 @@ aliases:
 
 ## Feature Enablement
 
-`ManifestWorkReplicaSet` is in **alpha release** and is not enabled by default. To enable this feature, you must configure the cluster-manager instance on the hub cluster.
+`ManifestWorkReplicaSet` is an **alpha** feature. When you install the hub with the latest `clusteradm init`, it is enabled by default and the cluster-manager deploys the `cluster-manager-work-controller` on the hub cluster.
 
-Edit the cluster-manager CR:
+> **Note:** In OCM v1.4.x and earlier, or when the hub is installed another way (for example, with an older `clusteradm` or the Helm chart), `ManifestWorkReplicaSet` may be disabled. See [Enable ManifestWorkReplicaSet on OCM v1.4.x and earlier](#enable-manifestworkreplicaset-on-ocm-v14x-and-earlier).
 
-```shell
-$ oc edit ClusterManager cluster-manager
-```
-
-Add the `workConfiguration` field to enable the ManifestWorkReplicaSet feature gate:
-
-```yaml
-kind: ClusterManager
-metadata:
-  name: cluster-manager
-spec:
-   ...
-  workConfiguration:
-    featureGates:
-    - feature: ManifestWorkReplicaSet
-      mode: Enable
-```
-
-Verify the feature is enabled successfully:
+Verify that ManifestWorkReplicaSet is deployed:
 
 ```shell
 $ oc get ClusterManager cluster-manager -o yaml
@@ -67,6 +49,55 @@ status:
     resource: deployments
     version: v1
 ```
+
+### Enable ManifestWorkReplicaSet on OCM v1.4.x and earlier
+
+Edit the cluster-manager CR:
+
+```shell
+$ oc edit ClusterManager cluster-manager
+```
+
+Set the `ManifestWorkReplicaSet` feature gate to `Enable` in the `workConfiguration` field:
+
+```yaml
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+   ...
+  workConfiguration:
+    featureGates:
+    - feature: ManifestWorkReplicaSet
+      mode: Enable
+```
+
+Then verify that `cluster-manager-work-controller` appears under `status.generations`. See [Feature Enablement](#feature-enablement).
+
+### Disable ManifestWorkReplicaSet on OCM v1.4.x and earlier
+
+Edit the cluster-manager CR and set the `ManifestWorkReplicaSet` feature gate to `Disable`:
+
+```yaml
+kind: ClusterManager
+metadata:
+  name: cluster-manager
+spec:
+   ...
+  workConfiguration:
+    featureGates:
+    - feature: ManifestWorkReplicaSet
+      mode: Disable
+```
+
+Verify the feature is disabled: `cluster-manager-work-controller` no longer appears under `status.generations`, and the deployment is removed from the `open-cluster-management-hub` namespace:
+
+```shell
+$ oc get deployment cluster-manager-work-controller -n open-cluster-management-hub
+Error from server (NotFound): deployments.apps "cluster-manager-work-controller" not found
+```
+
+When the feature is disabled, existing `ManifestWorkReplicaSet` resources are no longer reconciled, but the `ManifestWorkReplicaSet` objects and the `ManifestWork` objects they created remain on the cluster.
 
 ## Overview
 
