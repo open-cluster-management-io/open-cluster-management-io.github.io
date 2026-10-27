@@ -232,7 +232,7 @@ kubectl -n my-app get clusterprofile <cluster-name> -o yaml
 Look for the `accessProviders` section with provider name `open-cluster-management`, an example of clusterprofile would be like:
 
 ```yaml
-apiVersion: multicluster.x-k8s.io/v1alpha1
+apiVersion: multicluster.x-k8s.io/v1alpha2
 kind: ClusterProfile
 metadata:
   labels:
