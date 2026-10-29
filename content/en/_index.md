@@ -39,13 +39,36 @@ Dynamic placement of content and behavior across multiple clusters.
 Run AI workloads across clusters with security and efficiency
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-rocket" title="Launch Apps Everywhere" url="docs/getting-started/integration/app-lifecycle/" %}}
-Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes.
+{{% blocks/feature icon="fa-puzzle-piece" title="Add-on Framework" url="docs/concepts/add-on-extensibility/addon/"%}}
+Extend Open Cluster Management with modular add-ons that deliver new capabilities across managed Kubernetes clusters without modifying the core platform.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fa-cog" title="Configure, Secure, and Manage Your Resources" url="docs/getting-started/integration/policy-controllers" %}}
 Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage your quota and cost.
 {{% /blocks/feature %}}
+{{% /blocks/section %}}
+
+{{% blocks/section color="secondary" %}}
+
+<div class="col-12 text-center">
+  <h2>Extend OCM with Add-ons</h2>
+
+  <p class="lead">
+    Build and deploy modular capabilities across your
+    Kubernetes clusters using the Open Cluster Management
+    Add-on Framework.
+  </p>
+
+  <a href="/docs/concepts/add-on-extensibility/addon/" class="btn btn-lg btn-primary me-3 mb-3">
+    Explore the Add-on Framework
+  </a>
+
+  <a href="https://github.com/open-cluster-management-io/lab/tree/main/ai-assistance"
+     class="btn btn-lg btn-outline-primary mb-3">
+    Explore AI-Assisted Resources
+  </a>
+</div>
+
 {{% /blocks/section %}}
 
 {{% blocks/section color="secondary" %}}
