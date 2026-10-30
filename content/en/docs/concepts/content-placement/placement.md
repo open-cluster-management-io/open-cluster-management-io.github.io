@@ -236,7 +236,7 @@ match all taint effects. When specified, allowed values are `NoSelect`,
 `PreferNoSelect` and `NoSelectIfNew`. (`PreferNoSelect` is not implemented yet,
 currently clusters with effect `PreferNoSelect` will always be selected.)
 - __TolerationSeconds__ (optional). TolerationSeconds represents the period of
-time the toleration (which must be of effect `NoSelect`/`PreferNoSelect`,
+time the toleration (which must be of effect `NoSelect`/`NoSelectIfNew`,
 otherwise this field is ignored) tolerates the taint. The default value is nil,
 which indicates it tolerates the taint forever. The start time of counting the
 TolerationSeconds should be the `TimeAdded` in Taint, not the cluster scheduled
