@@ -40,36 +40,37 @@ Run AI workloads across clusters with security and efficiency
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fa-puzzle-piece" title="Add-on Framework" url="docs/concepts/add-on-extensibility/addon/"%}}
-Extend Open Cluster Management with modular add-ons that deliver new capabilities across managed Kubernetes clusters without modifying the core platform.
+Build and deliver your own custom solutions across your Kubernetes fleet using Open Cluster Management's extensible Add-on Framework.
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-cog" title="Configure, Secure, and Manage Your Resources" url="docs/getting-started/integration/policy-controllers" %}}
-Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage your quota and cost.
+{{% blocks/feature icon="fa-robot" title="AI-Assisted Development" url="https://github.com/open-cluster-management-io/lab/tree/main/ai-assistance" %}}
+Build, validate, and extend OCM capabilities with AI-assisted guides and workflows.
 {{% /blocks/feature %}}
-{{% /blocks/section %}}
 
-{{% blocks/section color="secondary" %}}
 
-<div class="col-12 text-center">
-  <h2>Extend OCM with Add-ons</h2>
 
-  <p class="lead">
-    Build and deploy modular capabilities across your
-    Kubernetes clusters using the Open Cluster Management
-    Add-on Framework.
-  </p>
-
-  <a href="/docs/concepts/add-on-extensibility/addon/" class="btn btn-lg btn-primary me-3 mb-3">
-    Explore the Add-on Framework
-  </a>
-
-  <a href="https://github.com/open-cluster-management-io/lab/tree/main/ai-assistance"
-     class="btn btn-lg btn-outline-primary mb-3">
-    Explore AI-Assisted Resources
-  </a>
+<div class="col-12 mt-4 mb-3">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-9 text-center">
+      <i class="fas fa-cog fa-2x mb-3" aria-hidden="true"></i>
+      <h2>Policy & Resource Management</h2>
+      <p>
+        Secure your Kubernetes fleet, enforce policies, and manage
+        configuration consistently across clusters.
+      </p>
+      <a href="/docs/getting-started/integration/policy-controllers">
+        Explore Policy Management
+      </a>
+    </div>
+  </div>
+</div>
 </div>
 
 {{% /blocks/section %}}
+
+
+
 
 {{% blocks/section color="secondary" %}}
 
@@ -416,3 +417,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+
+<style>
+/* Center the final feature tile on desktop */
+
+</style>
