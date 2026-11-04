@@ -63,6 +63,7 @@ documentation, answered a question on Slack, or showed up to a community meeting
 [Dominique Vernier](https://github.com/itdove),
 [Paul Morie](https://github.com/pmorie),
 [DangPeng Liu](https://github.com/ldpliu),
+[Payal Jain](https://github.com/payjain),
 and everyone else in the community who filed issues, reviewed pull requests, wrote
 documentation, and showed up — this milestone is yours too.
 
