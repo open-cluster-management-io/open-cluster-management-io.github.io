@@ -76,7 +76,7 @@ In the meantime, the best way to get involved is to join the community:
 
 - **Slack**: [#open-cluster-mgmt](https://kubernetes.slack.com/channels/open-cluster-mgmt)
   on the Kubernetes workspace
-  ([invite link](https://communityinviter.com/apps/kubernetes/community))
+  ([invite link](https://slack.k8s.io))
 - **Community meetings**: details in the
   [community repository](https://github.com/open-cluster-management-io/community)
 - **Getting started**: [open-cluster-management.io/docs](https://open-cluster-management.io/docs/)
