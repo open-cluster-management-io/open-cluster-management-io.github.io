@@ -1,7 +1,7 @@
 ---
 title: "Open Cluster Management is now a CNCF Incubating Project"
 date: 2026-11-04
-author: Open Cluster Management Community
+author: Sushilkumar Deshmukh
 toc_hide: true
 ---
 
@@ -48,31 +48,50 @@ details are in the project's
 
 ## Thank you
 
-This milestone belongs to everyone who filed an issue, reviewed a pull request, wrote
-documentation, answered a question on Slack, or showed up to a community meeting. A special thank you to everyone who made this milestone possible:
+This milestone belongs to everyone who contributed code, filed an issue, reviewed a pull request, wrote documentation, answered a question on Slack, or showed up to a community meeting. A special thank you to everyone who made this milestone possible:
 
 [Mike Ng](https://github.com/mikeshng),
-[August](https://github.com/augustrh),
-[Qiu Jian](https://github.com/qiujian16),
+[August Simonelli](https://github.com/augustrh),
+[Jian Qiu](https://github.com/qiujian16),
+[David Eads](https://github.com/deads2k),
+[Dale Haiducek](https://github.com/dhaiducek),
 [Wei Liu](https://github.com/skeeey),
 [Zhiwei Yin](https://github.com/zhiweiyin318),
 [Yang Le](https://github.com/elgnay),
-[Zhujian](https://github.com/zhujian7),
+[Jian Zhu](https://github.com/zhujian7),
+[Zhao Xue](https://github.com/xuezhaojun),
+[Tesshu Flower](https://github.com/tesshuflower),
+[Joshua Packer](https://github.com/jnpacker),
+[Meng Yan](https://github.com/yanmxa),
+[Morven Cao](https://github.com/morvencao),
+[Chunlin Yang](https://github.com/clyang82),
+[Feng Xiang](https://github.com/fxiang1),
+[Philip Wu](https://github.com/philipwu08),
+[Yi Rae Kim](https://github.com/yiraeChristineKim),
+[Janelle Law](https://github.com/jan-law),
+[Roke Jung](https://github.com/rokej),
+[Xiangjing Li](https://github.com/xiangjingli),
+[Ben Perry](https://github.com/bhperry),
 [Qing Hao](https://github.com/haoqing0110),
-[Xue Zhao](https://github.com/xuezhaojun),
+[Kahiro Okina](https://github.com/kahirokunn),
+[Tyler Gillson](https://github.com/TylerGillson),
+[Tamal Saha](https://github.com/tamalsaha),
+[Amrutha Harikumar](https://github.com/amrcoder),
+[Gaurav Jaswal](https://github.com/jaswalkiranavtar),
+[Jeffrey Wong](https://github.com/jeffw17),
+[Suvaansh Kumar](https://github.com/suvaanshkumar),
+[Ramesh Krishna](https://github.com/ramekris3163),
 [Dominique Vernier](https://github.com/itdove),
 [Paul Morie](https://github.com/pmorie),
 [DangPeng Liu](https://github.com/ldpliu),
 [Payal Jain](https://github.com/payjain),
-and everyone else in the community who filed issues, reviewed pull requests, wrote
-documentation, and showed up — this milestone is yours too.
+and everyone else in the community — this milestone is yours too.
 
 ## What comes next
 
-Incubating status unlocks additional CNCF resources and brings greater visibility to the
-project. The maintainers will be following up with CNCF staff on next steps.
+The CNCF Incubating status unlocks greater visibility for the project and is a significant recognition of its maturity and growing adoption. The OCM community is excited to continue growing and to complete requirements to move toward the Graduated CNCF project status.
 
-In the meantime, the best way to get involved is to join the community:
+To find out more, deploy Open Cluster Management, and get involved, join our community:
 
 - **Slack**: [#open-cluster-mgmt](https://kubernetes.slack.com/channels/open-cluster-mgmt)
   on the Kubernetes workspace
