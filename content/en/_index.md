@@ -47,30 +47,11 @@ Build and deliver your own custom solutions across your Kubernetes fleet using O
 Build, validate, and extend OCM capabilities with AI-assisted guides and workflows.
 {{% /blocks/feature %}}
 
-
-
-<div class="col-12 mt-4 mb-3">
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-lg-9 text-center">
-      <i class="fas fa-cog fa-2x mb-3" aria-hidden="true"></i>
-      <h2>Policy & Resource Management</h2>
-      <p>
-        Secure your Kubernetes fleet, enforce policies, and manage
-        configuration consistently across clusters.
-      </p>
-      <a href="/docs/getting-started/integration/policy-controllers">
-        Explore Policy Management
-      </a>
-    </div>
-  </div>
-</div>
-</div>
+{{% blocks/feature icon="fa-cog" title="Policy & Resource Management" url="docs/getting-started/integration/policy-controllers" %}}
+Secure your Kubernetes fleet, enforce policies, and manage configuration consistently across clusters.
+{{% /blocks/feature %}}
 
 {{% /blocks/section %}}
-
-
-
 
 {{% blocks/section color="secondary" %}}
 
@@ -417,8 +398,3 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-
-<style>
-/* Center the final feature tile on desktop */
-
-</style>
