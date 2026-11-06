@@ -39,13 +39,18 @@ Dynamic placement of content and behavior across multiple clusters.
 Run AI workloads across clusters with security and efficiency
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-rocket" title="Launch Apps Everywhere" url="docs/getting-started/integration/app-lifecycle/" %}}
-Use application lifecycle to create your application and deliver hybrid apps across one or more clusters, while you keep up with changes.
+{{% blocks/feature icon="fa-puzzle-piece" title="Add-on Framework" url="docs/concepts/add-on-extensibility/addon/"%}}
+Build and deliver your own custom solutions across your Kubernetes fleet using Open Cluster Management's extensible Add-on Framework.
 {{% /blocks/feature %}}
 
-{{% blocks/feature icon="fa-cog" title="Configure, Secure, and Manage Your Resources" url="docs/getting-started/integration/policy-controllers" %}}
-Policy and configuration management uses labels to help you deploy policies and control consistently across your resources. Keep your resources secure by using access control and manage your quota and cost.
+{{% blocks/feature icon="fa-robot" title="AI-Assisted Development" url="https://github.com/open-cluster-management-io/lab/tree/main/ai-assistance" %}}
+Build, validate, and extend OCM capabilities with AI-assisted guides and workflows.
 {{% /blocks/feature %}}
+
+{{% blocks/feature icon="fa-cog" title="Policy & Resource Management" url="docs/getting-started/integration/policy-controllers" %}}
+Secure your Kubernetes fleet, enforce policies, and manage configuration consistently across clusters.
+{{% /blocks/feature %}}
+
 {{% /blocks/section %}}
 
 {{% blocks/section color="secondary" %}}
