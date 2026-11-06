@@ -100,6 +100,15 @@ Policy and configuration management uses labels to help you deploy policies and 
             </a>
           </div>
           <div class="col-md-4 col-sm-6">
+            <a href="https://www.guidewire.com/" target="_blank" class="text-decoration-none">
+              <div class="card h-100 partner-card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                  <img src="/logos/guidewire.svg" alt="Guidewire Software, Inc." class="partner-logo" style="max-height: 60px; max-width: 120px;">
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-4 col-sm-6">
             <a href="https://www.redhat.com/" target="_blank" class="text-decoration-none">
               <div class="card h-100 partner-card">
                 <div class="card-body d-flex align-items-center justify-content-center">
