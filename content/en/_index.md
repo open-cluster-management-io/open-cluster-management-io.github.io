@@ -344,7 +344,7 @@ Policy and configuration management uses labels to help you deploy policies and 
 {{% /blocks/section %}}
 
 {{% blocks/section color="primary" %}}
-Open Cluster Management is a Cloud Native Computing Foundation sandbox project
+Open Cluster Management is a Cloud Native Computing Foundation incubating project
 {.h3 .text-center}
 
 <div class="text-center">
