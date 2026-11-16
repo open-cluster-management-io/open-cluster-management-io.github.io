@@ -69,10 +69,10 @@ menu:
       name: ""
       url: "/"
       pre: '<img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=94243eae-daeb-494c-a300-099ab02c56f5" />'
-    - identifier: v1.4.0-released
+    - identifier: cncf-incubation
       weight: 2
-      name: "🎉 v1.4.0 Released!"
-      url: "/docs/release/#140-9-october-2026"
+      name: "🎉 CNCF Incubation Achieved!"
+      url: "https://www.cncf.io/blog/2026/11/10/open-cluster-management-ocm-becomes-a-cncf-incubating-project/"
     - identifier: Github
       weight: 100
       name: GitHub
