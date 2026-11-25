@@ -93,7 +93,7 @@ If any of the above sounds like your problem — or your weekend project — her
   the Kubernetes Slack is the busiest channel (grab an invite at
   [slack.k8s.io](https://slack.k8s.io) first).
 - **Community meetings:** the schedule is on the
-  [community calendar](https://calendar.google.com/calendar/u/0/embed?src=openclustermanagement@gmail.com),
+  [community calendar](https://zoom-lfx.platform.linuxfoundation.org/meetings/openclustermanagement?view=list),
   with [agenda and notes](https://docs.google.com/document/d/1CPXPOEybBwFbJx9F03QytSzsFQImQxeEtm8UjhqYPNg)
   open to everyone. Recordings go up on
   [YouTube](https://www.youtube.com/c/OpenClusterManagement).

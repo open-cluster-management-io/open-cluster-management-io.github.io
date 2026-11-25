@@ -176,7 +176,7 @@ params:
         icon: fab fa-youtube
         desc: Check latest videos and tutorials here!
       - name: Calendar
-        url: https://calendar.google.com/calendar/u/0/embed?src=openclustermanagement@gmail.com
+        url: https://zoom-lfx.platform.linuxfoundation.org/meetings/openclustermanagement?view=list
         icon: fa fa-calendar
         desc: Check the latest events and meetings here!
     # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
